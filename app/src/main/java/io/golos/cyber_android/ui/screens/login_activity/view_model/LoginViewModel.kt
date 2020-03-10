@@ -4,10 +4,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.login_activity.dto.*
 import io.golos.cyber_android.ui.screens.login_activity.model.LoginModel
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.HideNoConnectionDialogCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToMainScreenCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowNoConnectionDialogCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -37,6 +34,11 @@ constructor(
                 return@launch
             } else {
                 _command.value = HideNoConnectionDialogCommand()
+            }
+
+            if(model.isOutdated()) {
+                _command.value = ShowUpdateAppDialogCommand()
+                return@launch
             }
 
             if(!model.hasAuthState()) {

@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.shared.popups
+package io.golos.cyber_android.ui.shared.popups.no_connection
 
 import android.view.Gravity
 import android.view.View
@@ -27,10 +27,14 @@ class NoConnectionPopup(
                 return
             }
 
-            val view = NoConnectionWidget(context = root.context)
+            val view =
+                NoConnectionWidget(context = root.context)
             view.setOnReconnectClickListener(reconnectListener)
 
-            popups[parent] = NoConnectionPopup(view, parent)
+            popups[parent] = NoConnectionPopup(
+                view,
+                parent
+            )
                 .apply {
                     showAtLocation(root, Gravity.CENTER, 0, 0)
                     parent.lifecycle.addObserver(this)

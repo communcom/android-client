@@ -64,3 +64,5 @@ class ShowPostRewardDialogCommand(@StringRes val titleResId: Int, @StringRes val
 
 class ShowNoConnectionDialogCommand() : ViewCommand
 class HideNoConnectionDialogCommand() : ViewCommand
+
+class ShowUpdateAppDialogCommand() : ViewCommand

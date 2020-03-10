@@ -479,7 +479,7 @@
         <item name="android:textSize">16sp</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">@color/blue</item>
-        <item name="android:background">@drawable/bcg_white_round_corners_button</item>
+        <item name="android:background">@drawable/bcg_white_round_corners_button_18</item>
         <item name="android:textStyle">bold</item>
         <item name="android:gravity">center</item>
         <item name="android:paddingStart">@dimen/margin_default</item>
@@ -627,6 +627,22 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="BlueWhite.RoundCorners.Toggle" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/text_color_toggle_black_while</item>
+        <item name="android:background">@drawable/bcg_toggle_profile_followers</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="BlueWhite.RoundCorners.Toggle.Follow" parent="BlueWhite.RoundCorners.Toggle">
+        <item name="android:textColor">@color/text_color_toggle_blue_while</item>
+        <item name="android:background">@drawable/bcg_toggle_blue_gray</item>
+        <item name="android:textOn">@string/following</item>
+        <item name="android:textOff">@string/follow</item>
+        <item name="android:layout_width">@dimen/follow_following_button_width</item>
+        <item name="android:layout_height">@dimen/follow_following_button_height</item>
+    </style>
+
     <style name="BlueWhite.RoundCorners.Button.Bold" parent="BlueWhite.RoundCorners.Button">
         <item name="android:textStyle">bold</item>
     </style>
@@ -645,20 +661,8 @@
         <item name="android:background">@drawable/bcg_edit_bio_button</item>
     </style>
 
-    <style name="BlueWhite.RoundCorners.Toggle" parent="Widget.AppCompat.Button.Borderless">
-        <item name="android:textAllCaps">false</item>
-        <item name="android:textColor">@color/text_color_toggle_black_while</item>
-        <item name="android:background">@drawable/bcg_toggle_profile_followers</item>
-        <item name="android:textSize">15sp</item>
-    </style>
-
-    <style name="BlueWhite.RoundCorners.Toggle.Follow" parent="BlueWhite.RoundCorners.Toggle">
-        <item name="android:textColor">@color/text_color_toggle_blue_while</item>
-        <item name="android:background">@drawable/bcg_toggle_blue_gray</item>
-        <item name="android:textOn">@string/following</item>
-        <item name="android:textOff">@string/follow</item>
-        <item name="android:layout_width">@dimen/follow_following_button_width</item>
-        <item name="android:layout_height">@dimen/follow_following_button_height</item>
+    <style name="WhiteBlue.RoundCorners.Button.Bold" parent="GrayBlue.RoundCorners.Button.Bold">
+        <item name="android:background">@drawable/bcg_white_round_corners_button</item>
     </style>
 
     <style name="Post.Reward.Button" parent="BlueWhite.RoundCorners.Toggle">
@@ -705,6 +709,10 @@
 
     <style name="Text15.White.Bold.SingleLine" parent="Text12.White.Bold.SingleLine">
         <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="Text15.White.SingleLine" parent="Text15.White.Bold.SingleLine">
+        <item name="android:textStyle">normal</item>
     </style>
 
     <style name="Text17.Black.Bold.SingleLine" parent="Text12.Black.Bold.SingleLine">

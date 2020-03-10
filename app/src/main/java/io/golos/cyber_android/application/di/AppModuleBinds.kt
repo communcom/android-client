@@ -53,12 +53,14 @@ import io.golos.data.persistence.key_value_storage.storages.in_memory.InMemorySt
 import io.golos.data.persistence.key_value_storage.storages.shared_preferences.SharedPreferencesStorage
 import io.golos.data.persistence.user_keys_store.UserKeyStoreImpl
 import io.golos.data.repositories.*
-import io.golos.data.repositories.current_user_repository.CurrentUserRepositoryImpl
+import io.golos.data.repositories.current_user.CurrentUserRepositoryImpl
 import io.golos.data.repositories.discussion.DiscussionRepositoryImpl
 import io.golos.data.repositories.discussion.live_data.DiscussionCreationRepositoryLiveData
 import io.golos.data.repositories.images_uploading.ImageUploadRepository
 import io.golos.data.repositories.images_uploading.ImageUploadRepositoryImpl
 import io.golos.data.repositories.images_uploading.ImageUploadRepositoryLiveData
+import io.golos.data.repositories.settings.SettingsRepository
+import io.golos.data.repositories.settings.SettingsRepositoryImpl
 import io.golos.data.repositories.users.UsersRepositoryImpl
 import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.data.repositories.wallet.WalletRepositoryImpl
@@ -286,6 +288,9 @@ abstract class AppModuleBinds {
 
     @Binds
     abstract fun provideWalletRepository(repository: WalletRepositoryImpl): WalletRepository
+
+    @Binds
+    abstract fun provideSettingsRepository(repository: SettingsRepositoryImpl): SettingsRepository
 
     @Binds
     abstract fun provideAuthRepository(repository: AuthRepositoryImpl): AuthRepository

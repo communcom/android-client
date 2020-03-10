@@ -12,4 +12,7 @@ interface LoginActivityFragmentsDataPass {
 
     fun putPhone(phone: String)
     fun getPhonePhone(): String?
+
+    fun putFtueCommunityBonus(bonus: Int)
+    fun getFtueCommunityBonus(): Int?
 }

@@ -1,7 +1,9 @@
 package io.golos.cyber_android.ui.screens.login_activity.model
 
+import io.golos.cyber_android.ui.screens.login_activity.shared.fragments_data_pass.LoginActivityFragmentsDataPass
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.data.network_state.NetworkStateChecker
+import io.golos.data.repositories.settings.SettingsRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.UserKeyStore
@@ -23,7 +25,9 @@ constructor(
     private val userKeyStore: UserKeyStore,
     private val keyValueStorage: KeyValueStorageFacade,
     private val networkStateChecker: NetworkStateChecker,
-    private val currentUserRepository: CurrentUserRepository
+    private val currentUserRepository: CurrentUserRepository,
+    private val loginDataPass: LoginActivityFragmentsDataPass,
+    private val settingsRepository: SettingsRepository
 ) : ModelBaseImpl(),
     LoginModel {
 
@@ -69,4 +73,14 @@ constructor(
             Timber.e(ex)
             false
         }
+
+    override suspend fun isOutdated(): Boolean {
+        val config = settingsRepository.getConfig()
+        return if(config.isNeedAppUpdate) {
+            true
+        } else {
+            loginDataPass.putFtueCommunityBonus(config.ftueCommunityBonus)
+            false
+        }
+    }
 }

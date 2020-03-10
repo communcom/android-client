@@ -562,4 +562,9 @@
     <string name="pdf_save_dialog_device">Device</string>
     <string name="pdf_save_dialog_google">Google Drive</string>
     <string name="pdf_save_completed">The document has been saved successfully</string>
+
+    <string name="update_app">Update the app</string>
+    <string name="update_app_out_of_date">This version of the application is out of date</string>
+    <string name="update_app_continue">Please update it to continue using the app</string>
+    <string name="update_app_update">Update</string>
 </resources>

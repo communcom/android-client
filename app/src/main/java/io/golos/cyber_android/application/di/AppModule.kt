@@ -7,6 +7,7 @@ import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import io.golos.commun4j.sharedmodel.Commun4jConfig
+import io.golos.commun4j.sharedmodel.SocketOpenQueryParams
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.application.shared.logger.CrashlyticsTimberTreeDebug
 import io.golos.cyber_android.application.shared.logger.CrashlyticsTimberTreeRelease
@@ -16,10 +17,7 @@ import io.golos.data.ServerMessageReceiver
 import io.golos.data.api.ServerMessageReceiverImpl
 import io.golos.data.encryption.aes.EncryptorAES
 import io.golos.data.encryption.aes.EncryptorAESOldApi
-import io.golos.domain.CrashlyticsFacade
-import io.golos.domain.DispatchersProvider
-import io.golos.domain.Encryptor
-import io.golos.domain.KeyValueStorageFacade
+import io.golos.domain.*
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import kotlinx.coroutines.CoroutineDispatcher
@@ -33,11 +31,21 @@ class AppModule(private val appContext: Context) {
     private val cyber4jConfigs = mapOf(
         "dev" to Commun4jConfig(
             blockChainHttpApiUrl = "http://116.202.4.46:8888/",
-            servicesUrl = "wss://dev-gate.commun.com"
+            servicesUrl = "wss://dev-gate.commun.com",
+            socketOpenQueryParams = SocketOpenQueryParams(
+                version = BuildConfig.VERSION_NAME,
+                deviceType = GlobalConstants.DEVICE_TYPE,
+                platform = GlobalConstants.PLATFORM,
+                clientType = GlobalConstants.CLIENT_TYPE )
         ),
         "prod" to Commun4jConfig(
             blockChainHttpApiUrl = "https://node.commun.com/",
-            servicesUrl = "wss://gate.commun.com/"
+            servicesUrl = "wss://gate.commun.com/",
+            socketOpenQueryParams = SocketOpenQueryParams(
+                version = BuildConfig.VERSION_NAME,
+                deviceType = GlobalConstants.DEVICE_TYPE,
+                platform = GlobalConstants.PLATFORM,
+                clientType = GlobalConstants.CLIENT_TYPE )
         )
     )
 

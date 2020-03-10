@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.shared.popups
+package io.golos.cyber_android.ui.shared.popups.no_connection
 
 import android.content.Context
 import android.util.AttributeSet

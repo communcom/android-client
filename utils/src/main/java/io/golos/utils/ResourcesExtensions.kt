@@ -22,6 +22,8 @@ fun Resources.getFormattedString(string: String, vararg args: Any): String = Mes
 
 fun Resources.getDrawableRes(@DrawableRes id: Int) = getDrawable(id, null)
 
+//val versionName = appContext.packageManager.getPackageInfo(appContext.packageName, 0).versionName
+
 /**
  * @return in pixels
  */

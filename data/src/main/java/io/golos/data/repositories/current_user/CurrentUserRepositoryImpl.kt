@@ -1,4 +1,4 @@
-package io.golos.data.repositories.current_user_repository
+package io.golos.data.repositories.current_user
 
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.dto.AuthStateDomain
