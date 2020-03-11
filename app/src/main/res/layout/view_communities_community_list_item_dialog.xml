@@ -64,6 +64,8 @@
         />
 
     <View
+        android:id="@+id/separator"
+
         android:layout_width="0dp"
         android:layout_height="@dimen/stroke_normal"
 

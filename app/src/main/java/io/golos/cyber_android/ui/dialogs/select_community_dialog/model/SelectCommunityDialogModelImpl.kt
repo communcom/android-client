@@ -19,7 +19,7 @@ constructor(
     communitiesRepository: CommunitiesRepository
 ) : CommunitiesListModelImpl(
     currentUserRepository.userId,
-    true,
+    false,
     communitiesRepository,
     dispatchersProvider
 ), SelectCommunityDialogModel {

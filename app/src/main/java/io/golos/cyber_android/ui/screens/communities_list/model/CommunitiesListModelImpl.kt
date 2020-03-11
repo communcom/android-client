@@ -180,7 +180,20 @@ constructor(
 
     private fun addLoadedData(data: List<CommunityListItem>) = updateData {
         loadedItems.removeAt(loadedItems.lastIndex)
-        loadedItems.addAll(data)
+
+        if(loadedItems.isNotEmpty()) {
+            val lastItem = loadedItems.last()
+            if(lastItem is CommunityListItem) {
+                loadedItems[loadedItems.lastIndex] = lastItem.copy(isLastItem = false)
+            }
+        }
+
+        if(data.isNotEmpty()) {
+            val updatableData = data.toMutableList()
+            val lastItem = updatableData.last()
+            updatableData[updatableData.lastIndex] = lastItem.copy(isLastItem = true)
+            loadedItems.addAll(updatableData)
+        }
     }
 
     private fun setCommunityInProgress(communityId: String) =

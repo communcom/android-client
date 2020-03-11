@@ -30,7 +30,7 @@ fun String?.toUri(): Uri?{
     }
 }
 
-fun String.capitalize(locale: Locale): String {
+fun String.capitalize(locale: Locale = Locale.getDefault()): String {
     if (isNotEmpty()) {
         val firstChar = this[0]
         if (firstChar.isLowerCase()) {
