@@ -37,6 +37,7 @@
         style="@style/PostVoteCountersTextStyle"
 
         android:layout_gravity="center"
+        android:gravity="center"
 
         android:layout_marginStart="@dimen/post_controls_vote_text_margin"
         android:layout_marginEnd="@dimen/post_controls_vote_text_margin"

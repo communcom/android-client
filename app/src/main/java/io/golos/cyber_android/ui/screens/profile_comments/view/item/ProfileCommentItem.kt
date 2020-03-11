@@ -244,8 +244,9 @@ class ProfileCommentItem(
             voting.setDownVoteButtonSelected(votes.hasDownVote)
 
             if(!listItem.comment.isMyComment){
-                itemView.voting.upvoteButton.visibility = View.VISIBLE
-                itemView.voting.downvoteButton.visibility = View.VISIBLE
+                itemView.voting.upvoteButton.isEnabled = true
+                itemView.voting.downvoteButton.isEnabled = true
+
                 voting.setOnUpVoteButtonClickListener {
                     if (!listItem.comment.votes.hasUpVote) {
                         listItemEventsProcessor.onCommentUpVoteClick(listItem.comment.contentId)
@@ -257,8 +258,8 @@ class ProfileCommentItem(
                     }
                 }
             } else{
-                itemView.voting.upvoteButton.visibility = View.INVISIBLE
-                itemView.voting.downvoteButton.visibility = View.INVISIBLE
+                itemView.voting.upvoteButton.isEnabled = false
+                itemView.voting.downvoteButton.isEnabled = false
             }
 
         }

@@ -207,8 +207,9 @@ class PostItem(
 
     private fun setUpVotesButton(view: View, isMyPost: Boolean) {
         if (!isMyPost) {
-            view.votesArea.upvoteButton.visibility = View.VISIBLE
-            view.votesArea.downvoteButton.visibility = View.VISIBLE
+            view.votesArea.upvoteButton.isEnabled = true
+            view.votesArea.downvoteButton.isEnabled = true
+
             view.votesArea.setOnUpVoteButtonClickListener {
                 listener.onUpVoteClicked(post.contentId)
             }
@@ -216,8 +217,8 @@ class PostItem(
                 listener.onDownVoteClicked(post.contentId)
             }
         } else {
-            view.votesArea.upvoteButton.visibility = View.INVISIBLE
-            view.votesArea.downvoteButton.visibility = View.INVISIBLE
+            view.votesArea.upvoteButton.isEnabled = false
+            view.votesArea.downvoteButton.isEnabled = false
         }
     }
 
