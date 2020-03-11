@@ -123,12 +123,16 @@ dependencies {
     implementation deps.googleServices.playServicesVision
 
     // GoogleDrive
-    implementation deps.googleServices.playServicesAuth
+    implementation (deps.googleServices.playServicesAuth) {
+        exclude group: 'org.apache.httpcomponents'
+    }
     implementation (deps.googleServices.googleDriveApi) {
         exclude group: 'org.apache.httpcomponents'
     }
     implementation (deps.googleServices.googleApiClient) {
         exclude group: 'org.apache.httpcomponents'
     }
-    implementation deps.googleServices.googleGsonClient
+    implementation (deps.googleServices.googleGsonClient) {
+        exclude group: 'org.apache.httpcomponents'
+    }
 }

@@ -57,9 +57,9 @@ ext.versions = [
         googleMapsUtils       : '0.5',
         playServicesVision    : '18.0.0',
         playServicesAuth      : '17.0.0',
-        googleDriveApi        : 'v3-rev136-1.25.0',
-        googleApiClient       : '1.26.0',
-        googleGsonClient      : '1.26.0',
+        googleDriveApi        : 'v3-rev195-1.25.0',
+        googleApiClient       : '1.30.9',
+        googleGsonClient      : '1.34.2',
 
         //Firebase
         firebaseMessaging     : '19.0.1',
