@@ -8,16 +8,16 @@ import io.golos.utils.helpers.toAbsoluteUrl
 
 fun CyberDiscussionRaw.mapToPostDomain(isMyPost: Boolean, reward: RewardPostDomain?): PostDomain {
     return PostDomain(
-        this.author.mapToAuthorDomain(),
-        this.community.mapToCommunityDomain(),
-        this.contentId.mapToContentIdDomain(),
-        this.document?.let { JsonToDtoMapper().map(it) },
-        this.meta.mapToMetaDomain(),
-        null,
-        null,
-        this.url.toAbsoluteUrl(),
-        this.votes.mapToVotesDomain(),
-        isMyPost,
+        author = this.author.mapToAuthorDomain(),
+        community = this.community.mapToCommunityDomain(),
+        contentId = this.contentId.mapToContentIdDomain(),
+        body = this.document?.let { JsonToDtoMapper().map(it) },
+        meta = this.meta.mapToMetaDomain(),
+        stats = this.stats?.mapToStatsDomain(),
+        type = this.type,
+        shareUrl = this.url.toAbsoluteUrl(),
+        votes = this.votes.mapToVotesDomain(),
+        isMyPost = isMyPost,
         reward = reward
     )
 }
