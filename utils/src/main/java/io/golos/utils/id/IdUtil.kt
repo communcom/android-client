@@ -2,6 +2,7 @@ package io.golos.utils.id
 
 import java.nio.ByteBuffer
 import java.util.*
+import kotlin.math.absoluteValue
 
 object IdUtil {
     /** */
@@ -17,7 +18,7 @@ object IdUtil {
         val buffer = ByteBuffer.wrap(ByteArray(Long.SIZE_BYTES*2))
         buffer.putLong(id.leastSignificantBits)
         buffer.putLong(id.mostSignificantBits)
-        return MurmurHash.hash64(buffer.array())
+        return MurmurHash.hash64(buffer.array()).absoluteValue
     }
 
     /** */
@@ -30,7 +31,7 @@ object IdUtil {
             intBuffer.put(longBuffer[i*2])
         }
 
-        return intBuffer.getInt(0)
+        return intBuffer.getInt(0).absoluteValue
     }
 }
 
