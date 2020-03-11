@@ -78,6 +78,8 @@
                             android:layout_marginTop="40dp"
                             android:layout_gravity="end|top"
 
+                            android:layout_marginEnd="@dimen/profile_update_cover_button_margin_end"
+
                             app:imageButton_icon="@drawable/ic_menu_options"
                             app:imageButton_iconInscribeSize="@dimen/profile_menu_button_icon_size"
                             app:imageButton_tint="@color/white"
