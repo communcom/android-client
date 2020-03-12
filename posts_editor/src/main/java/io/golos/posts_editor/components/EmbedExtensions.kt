@@ -100,11 +100,11 @@ class EmbedExtensions(private val editorCore: EditorCore) : EditorComponent<Embe
         var embedIndex = editorCore.determineIndex(EditorType.EMBED)
 
         // Remove a prior paragraph if the paragraph is empty
-        val priorView = editorCore.parentView.getChildAt(embedIndex-1)
-        if(priorView is CustomEditText && priorView.text.isNullOrEmpty()) {
-            editorCore.parentView.removeViewAt(embedIndex-1)
-            embedIndex--
-        }
+//        val priorView = editorCore.parentView.getChildAt(embedIndex-1)
+//        if(priorView is CustomEditText && priorView.text.isNullOrEmpty()) {
+//            editorCore.parentView.removeViewAt(embedIndex-1)
+//            embedIndex--
+//        }
 
         // Insert the embed
         showNextInputHint(embedIndex)
