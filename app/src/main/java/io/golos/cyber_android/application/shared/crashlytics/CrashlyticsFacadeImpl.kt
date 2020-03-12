@@ -18,7 +18,7 @@ constructor(
     deviceInfoProvider: DeviceInfoProvider
 ): CrashlyticsFacade {
 
-    private val enabled = isCrashlyticsEnabled(appContext)
+    private val enabled = BuildConfig.CRASH_REPORTS_ENABLED
 
     init {
         doCall {
@@ -83,17 +83,6 @@ constructor(
             Crashlytics.logException(CrashlyticsReportException(text))
         }
 
-
-    private fun isCrashlyticsEnabled(appContext: Context): Boolean =
-        try {
-            appContext
-                .packageManager
-                .getApplicationInfo(appContext.packageName, PackageManager.GET_META_DATA)
-                .metaData
-                .get("firebase_crashlytics_collection_enabled") as Boolean
-        } catch (ex: PackageManager.NameNotFoundException) {
-            false
-        }
 
     private fun doCall(call: () -> Unit) {
         if (enabled) {

@@ -17,6 +17,8 @@ import io.golos.cyber_android.ui.shared.clipboard.ClipboardUtilsImpl
 import io.golos.cyber_android.ui.shared.utils.FromSpannedToHtmlTransformerImpl
 import io.golos.cyber_android.ui.shared.utils.HtmlToSpannableTransformerImpl
 import io.golos.cyber_android.ui.shared.utils.ImageCompressorImpl
+import io.golos.data.ServerMessageReceiver
+import io.golos.data.api.ServerMessageReceiverImpl
 import io.golos.data.api.auth.AuthApiImpl
 import io.golos.data.api.communities.CommunitiesApi
 import io.golos.data.api.communities.CommunitiesApiImpl
@@ -327,4 +329,9 @@ abstract class AppModuleBinds {
 
     @Binds
     abstract fun provideNetworkStateChecker(checker: NetworkStateCheckerImpl): NetworkStateChecker
+
+    @Binds
+    @ApplicationScope
+    abstract fun provideServerMessageReceiver(receiver: ServerMessageReceiverImpl): ServerMessageReceiver
+
 }

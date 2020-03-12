@@ -21,7 +21,6 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 
-        manifestPlaceholders = [crashlyticsEnabled: "false"]
         signingConfig signingConfigs.debug
 
         javaCompileOptions {
@@ -34,7 +33,6 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            manifestPlaceholders = [crashlyticsEnabled: "true"]
         }
     }
 
@@ -43,13 +41,21 @@ android {
         prod {
             dimension "cyber4j-config-type"
             resValue "string", "app_name", "Commun"
+
             buildConfigField "String", 'BASE_URL', "\"https://commun.com\""
+            buildConfigField "String", 'AMPLITUDE_API_KEY', "\"38406204507945e0941d552f088204fb\""
+            buildConfigField "Boolean", 'ANALYTICS_ENABLED', "true"
+            buildConfigField "Boolean", 'CRASH_REPORTS_ENABLED', "true"
         }
         dev {
             dimension "cyber4j-config-type"
             resValue "string", "app_name", "Commun-dev"
             applicationIdSuffix ".dev"
+
             buildConfigField "String", 'BASE_URL', "\"https://commun.com\""
+            buildConfigField "String", 'AMPLITUDE_API_KEY', "\"d4c86feb8c760822a71751a2b894a99e\""
+            buildConfigField "Boolean", 'ANALYTICS_ENABLED', "true"
+            buildConfigField "Boolean", 'CRASH_REPORTS_ENABLED', "false"
         }
     }
 
@@ -119,6 +125,7 @@ dependencies {
     implementation deps.utils.timber
     implementation deps.utils.fabric
     implementation deps.utils.protobuf
+    implementation deps.utils.amplitude
 
     implementation deps.googleServices.playServicesVision
 

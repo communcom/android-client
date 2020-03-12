@@ -15,7 +15,13 @@ import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 @ApplicationScope
-class ServerMessageReceiverImpl @Inject constructor(dispatchersProvider: DispatchersProvider): RpcServerMessageCallback, ServerMessageReceiver, CoroutineScope {
+class ServerMessageReceiverImpl
+@Inject
+constructor(
+    dispatchersProvider: DispatchersProvider
+) : RpcServerMessageCallback,
+    ServerMessageReceiver,
+    CoroutineScope {
 
     override val coroutineContext: CoroutineContext = dispatchersProvider.ioDispatcher
 

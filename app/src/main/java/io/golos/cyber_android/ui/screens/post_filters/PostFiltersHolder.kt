@@ -5,9 +5,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import javax.inject.Inject
 
-class PostFiltersHolder @Inject constructor() {
-
-
+class PostFiltersHolder
+@Inject constructor() {
     private val feedFiltersChannel: ConflatedBroadcastChannel<FeedFilters>
 
     private val openFeedTypeChannel: ConflatedBroadcastChannel<CurrentOpenTypeFeed>

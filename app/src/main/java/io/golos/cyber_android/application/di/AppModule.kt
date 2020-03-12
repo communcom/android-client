@@ -1,6 +1,6 @@
 package io.golos.cyber_android.application.di
 
-import android.app.backup.BackupManager
+import android.app.Application
 import android.content.Context
 import android.os.Build
 import com.squareup.moshi.Moshi
@@ -9,12 +9,15 @@ import dagger.Provides
 import io.golos.commun4j.sharedmodel.Commun4jConfig
 import io.golos.commun4j.sharedmodel.SocketOpenQueryParams
 import io.golos.cyber_android.BuildConfig
+import io.golos.cyber_android.application.shared.analytics.AnalyticsFacade
+import io.golos.cyber_android.application.shared.analytics.AnalyticsFacadeImpl
+import io.golos.cyber_android.application.shared.analytics.modules.AnalyticsModule
+import io.golos.cyber_android.application.shared.analytics.modules.amplitude.AmplitudeAnalyticsModule
+import io.golos.cyber_android.application.shared.analytics.modules.debug.DebugAnalyticsModule
 import io.golos.cyber_android.application.shared.logger.CrashlyticsTimberTreeDebug
 import io.golos.cyber_android.application.shared.logger.CrashlyticsTimberTreeRelease
 import io.golos.cyber_android.application.shared.logger.Cyber4JLogger
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
-import io.golos.data.ServerMessageReceiver
-import io.golos.data.api.ServerMessageReceiverImpl
 import io.golos.data.encryption.aes.EncryptorAES
 import io.golos.data.encryption.aes.EncryptorAESOldApi
 import io.golos.domain.*
@@ -27,7 +30,9 @@ import javax.inject.Named
 
 /** Application level module - global objects are created here   */
 @Module
-class AppModule(private val appContext: Context) {
+class AppModule(
+    private val app: Application
+) {
     private val cyber4jConfigs = mapOf(
         "dev" to Commun4jConfig(
             blockChainHttpApiUrl = "http://116.202.4.46:8888/",
@@ -51,7 +56,11 @@ class AppModule(private val appContext: Context) {
 
     @Provides
     @ApplicationScope
-    internal fun provideContext(): Context = appContext
+    internal fun provideApplication(): Application = app
+
+    @Provides
+    @ApplicationScope
+    internal fun provideContext(): Context = app.applicationContext
 
     @Provides
     @ApplicationScope
@@ -91,9 +100,6 @@ class AppModule(private val appContext: Context) {
     internal fun provideMoshi(): Moshi = Moshi.Builder().build()
 
     @Provides
-    internal fun provideBackupManager(appContext: Context): BackupManager = BackupManager(appContext)
-
-    @Provides
     internal fun provideTimberTree(crashlytics: CrashlyticsFacade): Timber.Tree =
         if(BuildConfig.DEBUG) {
             CrashlyticsTimberTreeDebug()
@@ -107,5 +113,17 @@ class AppModule(private val appContext: Context) {
 
     @Provides
     @ApplicationScope
-    internal fun provideServerMessageReceiver(dispatchersProvider: DispatchersProvider): ServerMessageReceiver = ServerMessageReceiverImpl(dispatchersProvider)
+    internal fun provideAnalyticsFacade(app: Application): AnalyticsFacade {
+        val modules = mutableListOf<AnalyticsModule>()
+
+        if(BuildConfig.ANALYTICS_ENABLED) {
+            modules.add(AmplitudeAnalyticsModule())
+
+            if(BuildConfig.DEBUG) {
+                modules.add(DebugAnalyticsModule())
+            }
+        }
+
+        return AnalyticsFacadeImpl(app, modules)
+    }
 }

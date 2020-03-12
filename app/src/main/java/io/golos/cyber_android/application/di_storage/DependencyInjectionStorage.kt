@@ -1,5 +1,6 @@
 package io.golos.cyber_android.application.di_storage
 
+import android.app.Application
 import android.content.Context
 import io.golos.cyber_android.application.di.AppComponent
 import io.golos.cyber_android.application.di.AppModule
@@ -93,7 +94,7 @@ import io.golos.utils.id.IdUtil
 import kotlin.reflect.KClass
 
 /** Storage for Dagger components on application level  */
-class DependencyInjectionStorage(private val appContext: Context) {
+class DependencyInjectionStorage(private val app: Application) {
 
     private val components = mutableMapOf<KClass<*>, MutableMap<String, Any>>()
 
@@ -152,7 +153,7 @@ class DependencyInjectionStorage(private val appContext: Context) {
     private fun <T> provideComponent(type: KClass<*>, args: Array<out Any?>): T {
         @Suppress("EXPERIMENTAL_API_USAGE")
         return when (type) {
-            AppComponent::class -> DaggerAppComponent.builder().appModule(AppModule(appContext)).build()
+            AppComponent::class -> DaggerAppComponent.builder().appModule(AppModule(app)).build()
 
             UIComponent::class -> getBase<AppComponent>().ui.build()
 

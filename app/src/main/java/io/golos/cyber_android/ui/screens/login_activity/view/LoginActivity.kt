@@ -9,7 +9,10 @@ import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.screens.login_activity.di.LoginActivityComponent
-import io.golos.cyber_android.ui.screens.login_activity.dto.*
+import io.golos.cyber_android.ui.screens.login_activity.dto.HideSplashAnimationCommand
+import io.golos.cyber_android.ui.screens.login_activity.dto.NavigateToContinueSetupScreenCommand
+import io.golos.cyber_android.ui.screens.login_activity.dto.NavigateToWelcomeScreenCommand
+import io.golos.cyber_android.ui.screens.login_activity.dto.ShowSplashAnimationCommand
 import io.golos.cyber_android.ui.screens.login_activity.view.animation.SplashAnimator
 import io.golos.cyber_android.ui.screens.login_activity.view.animation.SplashAnimatorTarget
 import io.golos.cyber_android.ui.screens.login_activity.view_model.LoginViewModel
