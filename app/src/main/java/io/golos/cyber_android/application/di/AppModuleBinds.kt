@@ -22,8 +22,6 @@ import io.golos.data.api.communities.CommunitiesApi
 import io.golos.data.api.communities.CommunitiesApiImpl
 import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.data.api.discussions.DiscussionsApiImpl
-import io.golos.data.api.embed.EmbedApi
-import io.golos.data.api.embed.EmbedApiImpl
 import io.golos.data.api.events.EventsApi
 import io.golos.data.api.events.EventsApiImpl
 import io.golos.data.api.image_upload.ImageUploadApi
@@ -169,9 +167,6 @@ abstract class AppModuleBinds {
 
     @Binds
     abstract fun provideDiscussionsApi(api: DiscussionsApiImpl): DiscussionsApi
-
-    @Binds
-    abstract fun provideEmbedApi(api: EmbedApiImpl): EmbedApi
 
     @Binds
     abstract fun provideEventsApi(api: EventsApiImpl): EventsApi

@@ -13,7 +13,6 @@ import io.golos.cyber_android.ui.screens.post_edit.fragment.dto.ExternalLinkType
 import io.golos.cyber_android.ui.screens.post_edit.fragment.dto.ValidationResult
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.shared.utils.localSize
-import io.golos.data.api.embed.EmbedApi
 import io.golos.data.errors.CyberServicesError
 import io.golos.data.mappers.mapToBlockEntity
 import io.golos.data.repositories.embed.EmbedRepository
