@@ -56,6 +56,8 @@ import io.golos.data.repositories.*
 import io.golos.data.repositories.current_user.CurrentUserRepositoryImpl
 import io.golos.data.repositories.discussion.DiscussionRepositoryImpl
 import io.golos.data.repositories.discussion.live_data.DiscussionCreationRepositoryLiveData
+import io.golos.data.repositories.embed.EmbedRepository
+import io.golos.data.repositories.embed.EmbedRepositoryImpl
 import io.golos.data.repositories.images_uploading.ImageUploadRepository
 import io.golos.data.repositories.images_uploading.ImageUploadRepositoryImpl
 import io.golos.data.repositories.images_uploading.ImageUploadRepositoryLiveData
@@ -288,6 +290,9 @@ abstract class AppModuleBinds {
 
     @Binds
     abstract fun provideWalletRepository(repository: WalletRepositoryImpl): WalletRepository
+
+    @Binds
+    abstract fun provideEmbedRepository(repository: EmbedRepositoryImpl): EmbedRepository
 
     @Binds
     abstract fun provideSettingsRepository(repository: SettingsRepositoryImpl): SettingsRepository

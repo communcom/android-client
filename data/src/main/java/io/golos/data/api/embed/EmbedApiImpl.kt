@@ -15,14 +15,10 @@ constructor(
 ) : Commun4jApiBase(commun4j, currentUserRepository), EmbedApi {
 
     override fun getIframelyEmbed(url: String): IFramelyEmbedResult {
-        //TODO kv 01/11/2019 Выпилили метод, аналога нету
-        //commun4j.getEmbedIframely(url).getOrThrow()
-        return IFramelyEmbedResult()
+        return commun4j.getIframelyEmbed(url).getOrThrow()
     }
 
     override fun getOEmbedEmbed(url: String): OEmbedResult?{
-        //TODO kv 01/11/2019 Выпилили метод, аналога нету
-        //commun4j.getEmbedOembed(url).getOrThrow()
-        return null
+        return commun4j.getOEmdedEmbed(url).getOrThrow()
     }
 }

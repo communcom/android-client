@@ -16,6 +16,7 @@ import io.golos.cyber_android.ui.shared.utils.localSize
 import io.golos.data.api.embed.EmbedApi
 import io.golos.data.errors.CyberServicesError
 import io.golos.data.mappers.mapToBlockEntity
+import io.golos.data.repositories.embed.EmbedRepository
 import io.golos.data.repositories.images_uploading.ImageUploadRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.CommunityId
@@ -46,7 +47,7 @@ class EditorPageModelImpl
 @Inject
 constructor(
     private val dispatchersProvider: DispatchersProvider,
-    private val embedApi: EmbedApi,
+    private val embedRepository: EmbedRepository,
     private val imageUploadRepository: ImageUploadRepository,
     private val discussionRepository: DiscussionRepository,
     private val currentUserRepository: CurrentUserRepositoryRead,
@@ -56,7 +57,7 @@ constructor(
     override suspend fun getExternalLinkInfo(uri: String): Either<ExternalLinkInfo, ExternalLinkError> =
         withContext(dispatchersProvider.ioDispatcher) {
             try {
-                val linkInfo = mapExternalLinkInfo(embedApi.getOEmbedEmbed(uri)!!, uri)
+                val linkInfo = mapExternalLinkInfo(embedRepository.getOEmbedEmbed(uri)!!, uri)
                 if (linkInfo == null) {
                     Either.Failure<ExternalLinkInfo, ExternalLinkError>(ExternalLinkError.TYPE_IS_NOT_SUPPORTED)
                 } else {
@@ -185,7 +186,10 @@ constructor(
     private fun mapExternalLinkInfo(serverLinkInfo: OEmbedResult, sourceUrl: String): ExternalLinkInfo? {
         val type = when (serverLinkInfo.type) {
             "link" -> ExternalLinkType.WEBSITE
+
+            "image",
             "photo" -> ExternalLinkType.IMAGE
+
             "video" -> ExternalLinkType.VIDEO
             else -> {
                 Timber.e(UnsupportedOperationException("This resource type is not supported: ${serverLinkInfo.type}"))
