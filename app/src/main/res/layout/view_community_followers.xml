@@ -10,7 +10,7 @@
         android:id="@+id/clFollower2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dimen_48">
+        android:layout_marginStart="48dp">
 
         <ImageView
             android:id="@+id/ivFollower2"
@@ -40,7 +40,7 @@
         android:id="@+id/clFollower1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dimen_24">
+        android:layout_marginStart="24dp">
 
         <ImageView
             android:id="@+id/ivFollower1"

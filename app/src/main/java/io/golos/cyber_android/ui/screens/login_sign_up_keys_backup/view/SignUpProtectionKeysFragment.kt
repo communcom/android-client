@@ -2,17 +2,19 @@ package io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentSignUpProtectionKeysBinding
 import io.golos.cyber_android.ui.dialogs.KeysBackupWarningDialog
+import io.golos.cyber_android.ui.dialogs.SavePdfActionDialog
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.di.SignUpProtectionKeysFragmentComponent
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto.ShowBackupWarningDialogCommand
+import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto.ShowSaveDialogCommand
+import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto.StartExportToGoogleDriveCommand
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.view_model.SignUpProtectionKeysViewModel
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity
-import io.golos.cyber_android.ui.shared.keys_to_pdf.PdfKeysExporter
-import io.golos.cyber_android.ui.shared.keys_to_pdf.StartExportingCommand
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToMainScreenCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
@@ -20,7 +22,8 @@ import kotlinx.android.synthetic.main.fragment_sign_up_protection_keys.*
 
 
 class SignUpProtectionKeysFragment : FragmentBaseMVVM<FragmentSignUpProtectionKeysBinding, SignUpProtectionKeysViewModel>() {
-    private val keysExporter by lazy { PdfKeysExporter(this) }
+    private val keysToLocalDriveExporter by lazy { KeysToLocalDriveExporter(this) }
+    private val keysToGoogleDriveExporter by lazy { KeysToGoogleDriveExporter(this) }
 
     override fun provideViewModelType(): Class<SignUpProtectionKeysViewModel> = SignUpProtectionKeysViewModel::class.java
 
@@ -39,13 +42,21 @@ class SignUpProtectionKeysFragment : FragmentBaseMVVM<FragmentSignUpProtectionKe
 
         explanationLabel.text = this.resources.getText(R.string.need_password)
 
-        backup.setOnClickListener { keysExporter.startExport() }
-        keysExporter.setOnExportCompletedListener { viewModel.onBackupCompleted() }
-        keysExporter.setOnExportPathSelectedListener { viewModel.onExportPathSelected() }
-        keysExporter.setOnExportErrorListener { uiHelper.showMessage(R.string.export_general_error) }
+        backup.setOnClickListener { viewModel.onBackupClick() }
+        keysToLocalDriveExporter.setOnExportPathSelectedListener { viewModel.onExportPathSelected(it) }
+        keysToLocalDriveExporter.setOnExportErrorListener { uiHelper.showMessage(R.string.export_general_error) }
+
+        keysToGoogleDriveExporter.setOnExportStateListener {
+            when(it) {
+                KeysToGoogleDriveExporter.ExportState.STARTED -> { viewModel.onExportToGoogleDriveStarted() }
+                KeysToGoogleDriveExporter.ExportState.SUCCESS -> { viewModel.onExportToGoogleDriveSuccess() }
+                KeysToGoogleDriveExporter.ExportState.FAIL -> { viewModel.onExportToGoogleDriveFail() }
+            }
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        Log.d("UPLOAD", "onActivityResult(requestCode: $requestCode; resultCode: $resultCode)")
         super.onActivityResult(requestCode, resultCode, data)
 
         if(requestCode == KeysBackupWarningDialog.REQUEST) {
@@ -53,20 +64,21 @@ class SignUpProtectionKeysFragment : FragmentBaseMVVM<FragmentSignUpProtectionKe
                 KeysBackupWarningDialog.RESULT_CONTINUE -> viewModel.onWarningContinueClick()
             }
         } else {
-            keysExporter.processViewPdfResult(requestCode)
+            keysToGoogleDriveExporter.processSignInResult(requestCode, resultCode, data)
         }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        keysExporter.processRequestPermissionsResult(requestCode, grantResults)
+        keysToLocalDriveExporter.processRequestPermissionsResult(requestCode, grantResults)
     }
 
     override fun processViewCommand(command: ViewCommand) {
         when(command) {
             is NavigateToMainScreenCommand -> navigateToMainScreen()
-            is StartExportingCommand -> keysExporter.processDataToExport(command.userName, command.userId, command.keys)
             is ShowBackupWarningDialogCommand -> showBackupWarningCommand()
+            is ShowSaveDialogCommand -> showSaveDialog()
+            is StartExportToGoogleDriveCommand -> keysToGoogleDriveExporter.startExport(command.fileToExport)
             else -> throw UnsupportedOperationException("This command is not supported")
         }
     }
@@ -79,6 +91,15 @@ class SignUpProtectionKeysFragment : FragmentBaseMVVM<FragmentSignUpProtectionKe
         if (!requireActivity().isFinishing) {
             requireActivity().finish()
             startActivity(Intent(requireContext(), MainActivity::class.java))
+        }
+    }
+
+    private fun showSaveDialog() {
+        SavePdfActionDialog.show(this) {
+            when(it) {
+                SavePdfActionDialog.Result.Device -> keysToLocalDriveExporter.startExport()
+                SavePdfActionDialog.Result.GoogleDrive -> { viewModel.onExportToGoogleDriveSelected() }
+            }
         }
     }
 }

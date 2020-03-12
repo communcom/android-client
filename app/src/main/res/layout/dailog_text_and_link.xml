@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:background="@drawable/bg_login_input_state"
+        android:background="@drawable/bcg_login_input_state"
         android:paddingStart="@dimen/margin_default"
         android:paddingEnd="@dimen/margin_default"
 
@@ -37,13 +37,13 @@
 
             android:layout_gravity="bottom"
 
-            android:textSize="@dimen/text_size_16_sp"
+            android:textSize="16sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:background="@drawable/bg_login_input_state"
+        android:background="@drawable/bcg_login_input_state"
         android:paddingStart="@dimen/margin_default"
         android:paddingEnd="@dimen/margin_default"
 
@@ -73,7 +73,7 @@
 
             android:layout_gravity="bottom"
 
-            android:textSize="@dimen/text_size_16_sp"
+            android:textSize="16sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </com.google.android.material.textfield.TextInputLayout>

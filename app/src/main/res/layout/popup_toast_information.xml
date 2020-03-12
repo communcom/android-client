@@ -13,10 +13,10 @@
         android:orientation="horizontal"
         android:background="@drawable/bcg_toast_message"
         android:alpha="0.9"
-        android:padding="@dimen/dimen_10"
-        android:layout_marginBottom="@dimen/dimen_80"
-        android:layout_marginStart="@dimen/dimen_15"
-        android:layout_marginEnd="@dimen/dimen_15"
+        android:padding="10dp"
+        android:layout_marginBottom="80dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
         tools:ignore="UselessParent">
 
         <ImageView
@@ -44,11 +44,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
-                android:layout_marginStart="@dimen/dimen_10"
-                android:layout_marginBottom="@dimen/dimen_2"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="2dp"
 
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_15_sp"
+                android:textSize="15sp"
                 android:textStyle="bold"
 
                 android:text="@string/take_a_look"
@@ -61,11 +61,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
-                android:layout_marginStart="@dimen/dimen_10"
-                android:layout_marginTop="@dimen/dimen_2"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="2dp"
 
                 android:textColor="@color/lightGray"
-                android:textSize="@dimen/text_size_12_sp"
+                android:textSize="12sp"
 
                 tools:text = "Not that Belladonna Took ever had any adventures after she became Mrs. Bungo Baggins."
                 android:layout_gravity="center_vertical"

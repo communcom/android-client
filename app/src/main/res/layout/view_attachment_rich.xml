@@ -8,7 +8,7 @@
     android:layout_marginTop="15dp"
     android:layout_marginEnd="15dp"
     android:layout_marginBottom="6dp"
-    android:background="@drawable/bg_post_divider"
+    android:background="@drawable/bcg_post_divider"
     app:bottomLeftCornerRadius="10dp"
     app:bottomRightCornerRadius="10dp"
     app:topLeftCornerRadius="10dp"

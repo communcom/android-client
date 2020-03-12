@@ -90,11 +90,11 @@
                     android:maxLength="16"
 
                     android:maxLines="1"
-                    android:padding="@dimen/dimen_10"
+                    android:padding="10dp"
 
                     android:textColor="@color/black"
                     android:textColorHint="@color/dark_gray"
-                    android:textSize="@dimen/text_size_15_sp"
+                    android:textSize="15sp"
 
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -133,7 +133,7 @@
 
                     android:tag="FOLLOWERS"
 
-                    android:layout_marginStart="@dimen/dimen_10"
+                    android:layout_marginStart="10dp"
 
                     android:textOff="@string/followers"
 
@@ -152,7 +152,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/profile_followers_filters_button_height"
 
-                    android:layout_marginStart="@dimen/dimen_10"
+                    android:layout_marginStart="10dp"
 
                     android:tag="FOLLOWINGS"
 
@@ -211,17 +211,6 @@
 
                 app:listItems="@{viewModel.followingsItems}"
                 android:visibility="@{viewModel.followingsVisibility}"
-            />
-
-            <io.golos.cyber_android.ui.shared.widgets.lists.NoDataStub
-                android:id="@+id/noDataStub"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/profile_followers_no_data_height"
-
-                tools:visibility = "invisible"
-                android:visibility="@{viewModel.noDataStubVisibility}"
-                app:noDataTitle="@{viewModel.noDataStubText}"
-                app:noDataExplanation="@{viewModel.noDataStubExplanation}"
             />
         </FrameLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

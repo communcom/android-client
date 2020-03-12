@@ -17,16 +17,16 @@ import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileComm
 import io.golos.cyber_android.ui.screens.profile_comments.view_model.ProfileCommentsModelEventProcessor
 import io.golos.cyber_android.ui.shared.base.adapter.BaseRecyclerItem
 import io.golos.cyber_android.ui.shared.base.adapter.RecyclerAdapter
-import io.golos.cyber_android.ui.shared.formatters.time_estimation.TimeEstimationFormatter
+import io.golos.utils.format.TimeEstimationFormatter
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.widgets.post_comments.items.*
-import io.golos.domain.extensions.appendText
-import io.golos.domain.extensions.setSpan
+import io.golos.utils.helpers.appendText
+import io.golos.utils.helpers.setSpan
 import io.golos.domain.use_cases.post.post_dto.*
-import io.golos.domain.utils.IdUtil
-import io.golos.utils.SPACE
-import io.golos.utils.positiveValue
+import io.golos.utils.id.IdUtil
+import io.golos.utils.helpers.SPACE
+import io.golos.utils.helpers.positiveValue
 import kotlinx.android.synthetic.main.item_comment.view.*
 import kotlinx.android.synthetic.main.view_post_voting.view.*
 
@@ -60,7 +60,7 @@ class ProfileCommentItem(
     }
 
     private fun setupCommentTime(meta: Meta) {
-        val time = TimeEstimationFormatter(itemView.context).format(meta.creationTime)
+        val time = TimeEstimationFormatter.format(meta.creationTime, itemView.context)
         itemView.replyAndTimeText.text = time
     }
 
@@ -244,8 +244,9 @@ class ProfileCommentItem(
             voting.setDownVoteButtonSelected(votes.hasDownVote)
 
             if(!listItem.comment.isMyComment){
-                itemView.voting.upvoteButton.visibility = View.VISIBLE
-                itemView.voting.downvoteButton.visibility = View.VISIBLE
+                itemView.voting.upvoteButton.isEnabled = true
+                itemView.voting.downvoteButton.isEnabled = true
+
                 voting.setOnUpVoteButtonClickListener {
                     if (!listItem.comment.votes.hasUpVote) {
                         listItemEventsProcessor.onCommentUpVoteClick(listItem.comment.contentId)
@@ -257,8 +258,8 @@ class ProfileCommentItem(
                     }
                 }
             } else{
-                itemView.voting.upvoteButton.visibility = View.INVISIBLE
-                itemView.voting.downvoteButton.visibility = View.INVISIBLE
+                itemView.voting.upvoteButton.isEnabled = false
+                itemView.voting.downvoteButton.isEnabled = false
             }
 
         }

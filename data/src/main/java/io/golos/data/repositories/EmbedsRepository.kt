@@ -2,7 +2,7 @@ package io.golos.data.repositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.data.api.embed.EmbedApi
+import io.golos.data.repositories.embed.EmbedRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.repositories.Repository
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
@@ -26,7 +26,7 @@ import javax.inject.Inject
 class EmbedsRepository
 @Inject
 constructor(
-    private val embedApi: EmbedApi,
+    private val embedRepository: EmbedRepository,
     private val dispatchersProvider: DispatchersProvider
 ) : Repository<ProcessedLinksEntity, EmbedRequest> {
 
@@ -55,7 +55,7 @@ constructor(
             var result: LinkEmbedResult? = null
             try {
                 result = withContext(dispatchersProvider.calculationsDispatcher) {
-                    val iframelyData = embedApi.getIframelyEmbed(params.url)
+                    val iframelyData = embedRepository.getIframelyEmbed(params.url)
                     IfremlyEmbedMapper.map(IFramelyEmbedResultRelatedData(iframelyData, params.url))
                 }
             } catch (e: Exception) {
@@ -63,7 +63,7 @@ constructor(
 
                 try {
                     result = withContext(dispatchersProvider.calculationsDispatcher) {
-                        val oembedData = embedApi.getOEmbedEmbed(params.url)
+                        val oembedData = embedRepository.getOEmbedEmbed(params.url)
                         OembedMapper.map(OembedResultRelatedData(oembedData, params.url))
                     }
                 } catch (e: java.lang.Exception) {

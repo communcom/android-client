@@ -8,6 +8,7 @@ import io.golos.commun4j.model.ClientAuthRequest
 import io.golos.commun4j.model.FeedTimeFrame
 import io.golos.commun4j.model.FeedType
 import io.golos.commun4j.services.model.CommentsSortBy
+import io.golos.commun4j.services.model.UserAndPermlinkPair
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.sharedmodel.CyberSymbolCode
 import io.golos.data.api.discussions.DiscussionsApi
@@ -29,8 +30,8 @@ import io.golos.domain.requestmodel.DeleteDiscussionRequestEntity
 import io.golos.domain.requestmodel.DiscussionCreationRequestEntity
 import io.golos.domain.use_cases.model.PostModel
 import io.golos.domain.use_cases.post.post_dto.ContentBlock
-import io.golos.utils.fromServerFormat
-import io.golos.utils.toServerFormat
+import io.golos.utils.format.DatesServerFormatter
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.util.*
 import javax.inject.Inject
@@ -38,7 +39,7 @@ import javax.inject.Inject
 class DiscussionRepositoryImpl
 @Inject
 constructor(
-    dispatchersProvider: DispatchersProvider,
+    private val dispatchersProvider: DispatchersProvider,
     networkStateChecker: NetworkStateChecker,
     private val discussionsApi: DiscussionsApi,
     private val postToEntityMapper: CyberPostToEntityMapper,
@@ -65,7 +66,7 @@ constructor(
                 header = "",
                 body = body,
                 tags = tags,
-                metadata = postDomain.meta.creationTime.toServerFormat(),
+                metadata = DatesServerFormatter.formatToServer(postDomain.meta.creationTime),
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
                 author = currentUserRepository.userId.userId.toCyberName(),
@@ -82,7 +83,7 @@ constructor(
                 header = "",
                 body = body,
                 tags = listOf(),
-                metadata = Date().toServerFormat(),
+                metadata = DatesServerFormatter.formatToServer(Date()),
                 weight = null,
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
@@ -114,7 +115,8 @@ constructor(
     ): List<PostDomain> {
         val type = getFeedType(postsConfigurationDomain.typeFeed, typeObject)
         val timeFrame = getFeedTimeFrame(postsConfigurationDomain.timeFrame, postsConfigurationDomain.typeFeed)
-        return apiCall {
+
+        val posts = apiCall {
             commun4j.getPostsRaw(
                 if (typeObject != TypeObjectDomain.COMMUNITY) postsConfigurationDomain.userId.toCyberName() else null,
                 postsConfigurationDomain.communityId,
@@ -125,11 +127,27 @@ constructor(
                 timeFrame,
                 postsConfigurationDomain.limit,
                 postsConfigurationDomain.offset
-
             )
-        }.items.map {
-            val userId = it.author.userId.name
-            it.mapToPostDomain(userId == currentUserRepository.userId.userId)
+        }
+
+        return if(posts.isNotEmpty()) {
+            val contentIds = posts.map { UserAndPermlinkPair(it.contentId.userId, it.contentId.permlink) }
+
+            val rewards = apiCall {
+                commun4j.getStateBulk(contentIds) }
+                .flatMap { it.value }
+                .map { it.mapToRewardPostDomain() }
+
+            return withContext(dispatchersProvider.calculationsDispatcher) {
+                posts.items.map { post ->
+                    val userId = post.author.userId.name
+                    val reward = rewards.firstOrNull { it.contentId.userId == post.contentId.userId.name && it.contentId.permlink == post.contentId.permlink }
+                    post.mapToPostDomain(userId == currentUserRepository.userId.userId, reward )
+                }
+            }
+
+        } else {
+            listOf()
         }
     }
 
@@ -247,7 +265,7 @@ constructor(
                 header = "",
                 body = jsonBody,
                 tags = listOf(),
-                metadata = commentDomain.meta.creationTime.toServerFormat(),
+                metadata = DatesServerFormatter.formatToServer(commentDomain.meta.creationTime),
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
                 author = commentDomain.author.userId.toCyberName(),
@@ -305,9 +323,17 @@ constructor(
         createOrUpdateDiscussion(params)
 
     override suspend fun getPost(user: CyberName, communityId: String, permlink: String): PostDomain {
-        return apiCall {
-            commun4j.getPostRaw(user, communityId, permlink)
-        }.mapToPostDomain(user.name)
+        val post = apiCall { commun4j.getPostRaw(user, communityId, permlink) }
+
+        val contentIds = listOf(UserAndPermlinkPair(post.contentId.userId, post.contentId.permlink))
+
+        val rewards = apiCall {
+            commun4j.getStateBulk(contentIds) }
+            .flatMap { it.value }
+            .map { it.mapToRewardPostDomain()
+        }
+
+        return post.mapToPostDomain(user.name, rewards.firstOrNull())
     }
 
     override fun getPost(user: CyberName, permlink: Permlink): PostModel {
@@ -328,7 +354,7 @@ constructor(
         val jsonBody = adapter.toJson(contentEntity)
         val author = currentUserRepository.userId.mapToCyberName()
         val response = apiCallChain {
-            val metadata = Date().toServerFormat()
+            val metadata = DatesServerFormatter.formatToServer(Date())
             commun4j.createComment(
                 parentMssgId = MssgidCGalleryStruct(postIdDomain.userId.toCyberName(), postIdDomain.permlink),
                 communCode = CyberSymbolCode(postIdDomain.communityId),
@@ -349,8 +375,8 @@ constructor(
             votes = VotesDomain(0, 0, false, false),
             body = content,
             childCommentsCount = 0,
-            community = PostDomain.CommunityDomain(null, postIdDomain.communityId, null, null, false),
-            meta = MetaDomain(response!!.metadata.fromServerFormat()),
+            community = CommunityDomain(postIdDomain.communityId, null, "", null, null, 0, 0, false),
+            meta = MetaDomain(DatesServerFormatter.formatFromServer(response.metadata)),
             parent = ParentCommentDomain(null, postIdDomain),
             type = "comment",
             isDeleted = false,
@@ -367,7 +393,7 @@ constructor(
         val author = currentUserRepository.userId.mapToCyberName()
         val communityId = parentCommentId.communityId
         val response = apiCallChain {
-            val metadata = Date().toServerFormat()
+            val metadata = DatesServerFormatter.formatToServer(Date())
             commun4j.createComment(
                 parentMssgId = MssgidCGalleryStruct(parentCommentId.userId.toCyberName(), parentCommentId.permlink),
                 communCode = CyberSymbolCode(communityId),
@@ -388,8 +414,8 @@ constructor(
             votes = VotesDomain(0, 0, false, false),
             body = content,
             childCommentsCount = 0,
-            community = PostDomain.CommunityDomain(null, communityId, null, null, false),
-            meta = MetaDomain(response!!.metadata.fromServerFormat()),
+            community = CommunityDomain(communityId, null, "", null, null, 0, 0, false),
+            meta = MetaDomain(DatesServerFormatter.formatFromServer(response.metadata)),
             parent = ParentCommentDomain(parentCommentId, null),
             type = "comment",
             isDeleted = false,

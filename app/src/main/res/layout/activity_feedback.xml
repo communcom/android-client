@@ -14,10 +14,10 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/feedback_height"
 
-            android:background="@drawable/bg_common_thin_dark_frame"
+            android:background="@drawable/bcg_common_thin_dark_frame"
 
             android:inputType="text"
-            android:textSize="@dimen/text_size_16_sp"
+            android:textSize="16sp"
 
             android:hint="@string/feedback_request"
             android:gravity="top|start"

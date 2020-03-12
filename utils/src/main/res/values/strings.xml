@@ -1,0 +1,26 @@
+<resources>
+    <!--Currency formatting - start-->
+    <string name="currency_kilo">K</string>
+    <string name="currency_mega">M</string>
+    <string name="currency_giga">G</string>
+    <!--Currency formatting - end-->
+
+    <!--Time formatting - start-->
+    <string name="date_time_format_just_now">a moment ago</string>
+    <string name="date_time_format_minutes_ago">{0}m ago</string>
+    <string name="date_time_format_hours_ago">{0}h ago</string>
+    <string name="date_time_format_days_ago">{0}d ago</string>
+    <string name="date_time_format_weeks_ago">{0} weeks ago</string>
+    <!--Time formatting - end-->
+
+    <string name="formatter_files_none">B</string>
+    <string name="formatter_files_kilo">Kb</string>
+    <string name="formatter_files_mega">Mb</string>
+    <string name="formatter_files_giga">Gb</string>
+    <string name="formatter_files_formatted">{0} {1}</string>
+
+    <string name="formatter_plurals_none"> </string>
+    <string name="formatter_plurals_kilo">k</string>
+    <string name="formatter_plurals_mega">m</string>
+    <string name="formatter_plurals_giga">g</string>
+</resources>

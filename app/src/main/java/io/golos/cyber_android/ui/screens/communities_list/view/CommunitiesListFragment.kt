@@ -97,5 +97,5 @@ open class CommunitiesListFragment : FragmentBaseMVVM<FragmentCommunitiesBinding
     }
 
     private fun moveToCommunityPage(communityId: String) =
-        getDashboardFragment(this)?.showFragment(CommunityPageFragment.newInstance(communityId))
+        getDashboardFragment(this)?.navigateToFragment(CommunityPageFragment.newInstance(communityId))
 }

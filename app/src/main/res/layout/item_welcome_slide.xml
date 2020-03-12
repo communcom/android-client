@@ -44,7 +44,7 @@
             android:layout_marginStart="21dp"
             android:layout_marginTop="25dp"
             android:layout_marginEnd="21dp"
-            android:layout_marginBottom="@dimen/dimen_56"
+            android:layout_marginBottom="56dp"
             android:lineSpacingExtra="6sp"
             android:textStyle="bold"
             tools:text="@string/welcome_slides_sub_text_1" />

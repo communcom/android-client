@@ -6,6 +6,9 @@ import io.golos.domain.dto.UserDomain
 data class UserListItem(
     override val id: Long,
     override val version: Long,
+    override val isFirstItem: Boolean,
+    override val isLastItem: Boolean,
+
     val user: UserDomain,
 
     /**

@@ -14,7 +14,7 @@ import io.golos.cyber_android.ui.screens.in_app_auth_activity.navigation.Navigat
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.dto.AppUnlockWay
-import io.golos.domain.utils.IdUtil
+import io.golos.utils.id.IdUtil
 import kotlinx.coroutines.*
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
@@ -43,7 +43,7 @@ class InAppAuthActivity : ActivityBase(), CoroutineScope {
         const val REQUEST_CODE = 4263
 
         const val PIN_CODE_HEADER_ID = "PIN_CODE_HEADER_ID"
-        const val FINGERPRINT_HEADER_ID = "PIN_CODE_HEADER_ID"
+        const val FINGERPRINT_HEADER_ID = "FINGERPRINT_CODE_HEADER_ID"
         const val PIN_CODE_UNLOCK_ENABLED = "PIN_CODE_UNLOCK_ENABLED"
 
         fun start(activity: ActivityBase,

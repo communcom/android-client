@@ -3,7 +3,6 @@ package io.golos.domain.dto
 import io.golos.domain.use_cases.post.post_dto.ContentBlock
 
 data class PostDomain(
-
     val author: AuthorDomain,
     val community: CommunityDomain,
     val contentId: ContentIdDomain,
@@ -13,14 +12,6 @@ data class PostDomain(
     val type: String?,
     val shareUrl: String?,
     val votes: VotesDomain,
-    val isMyPost: Boolean
-) {
-
-    data class CommunityDomain(
-        val alias: String?,
-        val communityId: String,
-        val name: String?,
-        val avatarUrl: String?,
-        val isSubscribed: Boolean
-    )
-}
+    val isMyPost: Boolean,
+    val reward: RewardPostDomain?
+)

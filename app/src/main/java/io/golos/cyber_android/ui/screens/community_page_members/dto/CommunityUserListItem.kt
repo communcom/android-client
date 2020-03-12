@@ -6,12 +6,12 @@ import io.golos.domain.dto.UserDomain
 data class CommunityUserListItem(
     override val id: Long,
     override val version: Long,
+    override val isFirstItem: Boolean = false,
+    override val isLastItem: Boolean = false,
 
     val user: UserDomain,
 
     override val isFollowing: Boolean,
-
-    override val isLastItem: Boolean,
 
     val canFollow: Boolean,
 

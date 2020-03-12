@@ -1,11 +1,12 @@
 package io.golos.cyber_android.ui.dialogs.select_community_dialog.view
 
 import android.annotation.SuppressLint
+import android.view.View
 import android.view.ViewGroup
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.characters.SpecialChars
 import io.golos.cyber_android.ui.shared.glide.loadCommunity
-import io.golos.cyber_android.ui.shared.formatters.size.PluralSizeFormatter
+import io.golos.utils.format.size.PluralSizeFormatter
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.CommunityListItem
@@ -44,6 +45,8 @@ class CommunityListItemViewHolderDialog(
         itemView.setOnClickListener { listItemEventsProcessor.onItemClick(listItem.community) }
 
         itemView.ivLogo.loadCommunity(listItem.community.avatarUrl)
+
+        itemView.separator.visibility = if(listItem.isLastItem) View.INVISIBLE else View.VISIBLE
     }
 
     override fun release() {

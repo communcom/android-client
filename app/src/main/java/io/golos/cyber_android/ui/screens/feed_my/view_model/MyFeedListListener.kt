@@ -15,7 +15,8 @@ interface MyFeedListListener :
     PostVotesListener,
     PostShareListener,
     MenuListener,
-    BlockBodyListener
+    BlockBodyListener,
+    RewardListener
 
 interface PostCommentsListener {
 

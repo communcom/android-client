@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:background="@drawable/bcg_white_round_rect_15"
+
+    android:padding="15dp"
+
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
+
+    android:layout_width="@dimen/wallet_my_points_item_width"
+    android:layout_height="match_parent"
+    tools:layout_height="190dp">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="@dimen/wallet_my_points_icon_size"
+        android:layout_height="@dimen/wallet_my_points_icon_size"
+
+        tools:srcCompat="@drawable/img_example_flag"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/Wallet.MyPoints.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text=""
+        tools:text="The Middle Earth"
+
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@+id/logo"
+        />
+
+    <TextView
+        android:id="@+id/onHoldLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text=""
+        tools:text="300 on hold"
+
+        android:layout_marginTop="5dp"
+
+        style="@style/Wallet.MyPoints.Second"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
+
+    <TextView
+        android:id="@+id/pointsLabel"
+        style="@style/Wallet.MyPoints.Second"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/points"
+
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="2dp"
+
+        app:layout_constraintBottom_toBottomOf="@+id/pointsValue"
+
+        app:layout_constraintStart_toEndOf="@+id/pointsValue"
+         />
+
+    <TextView
+        android:id="@+id/pointsValue"
+        style="@style/Wallet.MyPoints.Value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginBottom="4dp"
+
+
+        android:text=""
+        app:layout_constraintBottom_toTopOf="@+id/communsLabel"
+
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="21 000" />
+
+    <TextView
+        android:id="@+id/communsLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text=""
+        tools:text="= 150 Commun"
+
+        style="@style/Wallet.MyPoints.Second"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

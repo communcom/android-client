@@ -5,6 +5,9 @@ import io.golos.domain.dto.CommunityDomain
 data class CommunityListItem(
     override val id: Long,
     override val version: Long,
+    override val isFirstItem: Boolean,
+    override val isLastItem: Boolean,
+
     val community: CommunityDomain,
 
     /**

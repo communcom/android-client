@@ -7,5 +7,7 @@ dependencies {
     implementation project(':utils')
     deps.groups.tests dependencies
     deps.groups.architectureComponents dependencies
+    deps.groups.kotlinCoroutines
+    deps.groups.kotlin dependencies
     implementation("io.golos.commun4j:commun4j:$versions.commun4jVersion")
 }

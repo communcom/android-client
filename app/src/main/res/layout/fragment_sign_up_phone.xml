@@ -11,7 +11,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/actionBar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_44"
+        android:layout_height="44dp"
         android:background="@color/white"
         android:theme="@style/AppTheme.AppBarOverlay"
         app:liftOnScroll="true">
@@ -54,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/sign_up_field_height"
 
-            android:layout_marginTop="@dimen/dimen_48"
+            android:layout_marginTop="48dp"
 
             style="@style/SignUp.InputField"
 
@@ -81,23 +81,24 @@
             android:id="@+id/signUpDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dimen_42"
-            android:layout_marginTop="@dimen/dimen_30"
-            android:layout_marginEnd="@dimen/dimen_42"
+            android:layout_marginStart="42dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="42dp"
             android:gravity="center"
             android:lineSpacingExtra="2dp"
-            android:textSize="@dimen/text_size_10_sp"
+            android:textFontWeight="500"
+            android:textSize="10sp"
             tools:text="@string/sign_up_description" />
 
         <TextView
             android:id="@+id/signUp"
             style="@style/SignUpButtonStyle"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_56"
+            android:layout_height="56dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginStart="@dimen/dimen_42"
+            android:layout_marginStart="42dp"
             android:layout_marginTop="@dimen/margin_default"
-            android:layout_marginEnd="@dimen/dimen_42"
+            android:layout_marginEnd="42dp"
             android:enabled="false"
             android:text="@string/next" />
 
@@ -125,7 +126,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/margin_small"
-
+                android:textFontWeight="600"
                 style="@style/SignIn.Query.Link"
 
                 android:text="@string/sign_in"

@@ -12,6 +12,7 @@ import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToUserProfileCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
+import io.golos.domain.GlobalConstants
 import io.golos.domain.dto.UserIdDomain
 import kotlinx.android.synthetic.main.fragment_community_page_members.*
 
@@ -35,7 +36,7 @@ open class CommunityPageMembersFragment : FragmentBaseMVVM<FragmentCommunityPage
         .get<CommunityPageMembersComponent>(
             key,
             arguments!!.getString(COMMUNITY_ID)!!,
-            25              // Page size
+            GlobalConstants.PAGE_SIZE
         )
         .inject(this)
 
@@ -59,6 +60,6 @@ open class CommunityPageMembersFragment : FragmentBaseMVVM<FragmentCommunityPage
     }
 
     private fun navigateToUserProfile(userId: UserIdDomain) {
-        getDashboardFragment(this)?.showFragment(ProfileExternalUserFragment.newInstance(userId))
+        getDashboardFragment(this)?.navigateToFragment(ProfileExternalUserFragment.newInstance(userId))
     }
 }

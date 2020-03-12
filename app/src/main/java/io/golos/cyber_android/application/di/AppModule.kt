@@ -7,19 +7,19 @@ import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import io.golos.commun4j.sharedmodel.Commun4jConfig
+import io.golos.commun4j.sharedmodel.SocketOpenQueryParams
 import io.golos.cyber_android.BuildConfig
-import io.golos.domain.dependency_injection.scopes.ApplicationScope
-import io.golos.data.encryption.aes.EncryptorAES
-import io.golos.data.encryption.aes.EncryptorAESOldApi
 import io.golos.cyber_android.application.shared.logger.CrashlyticsTimberTreeDebug
 import io.golos.cyber_android.application.shared.logger.CrashlyticsTimberTreeRelease
 import io.golos.cyber_android.application.shared.logger.Cyber4JLogger
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
-import io.golos.cyber_android.ui.shared.countries.CountriesRepository
-import io.golos.cyber_android.ui.shared.countries.CountriesRepositoryImpl
-import io.golos.domain.KeyValueStorageFacade
+import io.golos.data.ServerMessageReceiver
+import io.golos.data.api.ServerMessageReceiverImpl
+import io.golos.data.encryption.aes.EncryptorAES
+import io.golos.data.encryption.aes.EncryptorAESOldApi
 import io.golos.domain.*
 import io.golos.domain.dependency_injection.Clarification
+import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import timber.log.Timber
@@ -31,11 +31,21 @@ class AppModule(private val appContext: Context) {
     private val cyber4jConfigs = mapOf(
         "dev" to Commun4jConfig(
             blockChainHttpApiUrl = "http://116.202.4.46:8888/",
-            servicesUrl = "wss://dev-gate.commun.com"
+            servicesUrl = "wss://dev-gate.commun.com",
+            socketOpenQueryParams = SocketOpenQueryParams(
+                version = BuildConfig.VERSION_NAME,
+                deviceType = GlobalConstants.DEVICE_TYPE,
+                platform = GlobalConstants.PLATFORM,
+                clientType = GlobalConstants.CLIENT_TYPE )
         ),
         "prod" to Commun4jConfig(
             blockChainHttpApiUrl = "https://node.commun.com/",
-            servicesUrl = "wss://gate.commun.com/"
+            servicesUrl = "wss://gate.commun.com/",
+            socketOpenQueryParams = SocketOpenQueryParams(
+                version = BuildConfig.VERSION_NAME,
+                deviceType = GlobalConstants.DEVICE_TYPE,
+                platform = GlobalConstants.PLATFORM,
+                clientType = GlobalConstants.CLIENT_TYPE )
         )
     )
 
@@ -94,4 +104,8 @@ class AppModule(private val appContext: Context) {
     @Provides
     @ApplicationScope
     internal fun providePostFilters(): PostFiltersHolder = PostFiltersHolder()
+
+    @Provides
+    @ApplicationScope
+    internal fun provideServerMessageReceiver(dispatchersProvider: DispatchersProvider): ServerMessageReceiver = ServerMessageReceiverImpl(dispatchersProvider)
 }

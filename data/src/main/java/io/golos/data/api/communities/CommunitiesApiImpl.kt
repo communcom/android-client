@@ -10,7 +10,7 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.dto.CommunityPageDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
-import io.golos.domain.utils.MurmurHash
+import io.golos.utils.id.MurmurHash
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import timber.log.Timber

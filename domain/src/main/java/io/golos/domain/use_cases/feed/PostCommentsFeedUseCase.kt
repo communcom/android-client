@@ -18,12 +18,10 @@ import io.golos.domain.mappers.EntityToModelMapper
 open class PostCommentsFeedUseCase(
     protected val postId: DiscussionIdModel,
     commentsFeedRepository: DiscussionsFeedRepository<CommentEntity, CommentFeedUpdateRequest>,
-    voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>,
     feedMapper: EntityToModelMapper<FeedRelatedEntities<CommentEntity>, DiscussionsFeed<CommentModel>>,
     dispatchersProvider: DispatchersProvider
 ) : AbstractFeedUseCase<CommentFeedUpdateRequest, CommentEntity, CommentModel>(
     commentsFeedRepository,
-    voteRepository,
     feedMapper,
     dispatchersProvider
 ) {

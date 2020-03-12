@@ -9,14 +9,12 @@ import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
 import io.golos.cyber_android.ui.screens.post_view.dto.SortingType
 import io.golos.cyber_android.ui.screens.post_view.model.comments_processing.CommentsProcessingFacade
 import io.golos.cyber_android.ui.screens.post_view.model.post_list_data_source.PostListDataSource
-import io.golos.cyber_android.ui.screens.post_view.model.voting.VotingMachine
+import io.golos.cyber_android.ui.screens.post_view.model.voting.post.PostPageVotingUseCase
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.api.AuthApi
-import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.PostDomain
-import io.golos.domain.dto.VotesDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
@@ -28,8 +26,10 @@ import io.golos.domain.use_cases.post.post_dto.Block
 import io.golos.domain.use_cases.post.post_dto.PostMetadata
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
+import io.golos.use_cases.reward.*
 
 class PostPageModelImpl
 @Inject
@@ -40,7 +40,7 @@ constructor(
     private val currentUserRepository: CurrentUserRepositoryRead,
     private val authApi: Lazy<AuthApi>,
     private val postListDataSource: PostListDataSource,
-    private val postVoting: Lazy<VotingMachine>,
+    private val postPageVotingUseCase: Lazy<PostPageVotingUseCase>,
     private val commentsProcessing: CommentsProcessingFacade,
     private val subscribeToCommunityUseCase: SubscribeToCommunityUseCase,
     private val unsubscribeToCommunityUseCase: UnsubscribeToCommunityUseCase,
@@ -63,13 +63,17 @@ constructor(
         get() = commentsProcessing.pageSize
 
     override suspend fun loadPost() {
-        withContext(dispatchersProvider.ioDispatcher) {
-            postDomain = discussionRepository.getPost(
-                contentId?.userId.orEmpty().toCyberName(),
-                contentId?.communityId.orEmpty(),
-                contentId?.permlink.orEmpty()
-            )
-            postListDataSource.createOrUpdatePostData(postDomain)
+        try {
+            withContext(dispatchersProvider.ioDispatcher) {
+                postDomain = discussionRepository.getPost(
+                    contentId?.userId.orEmpty().toCyberName(),
+                    contentId?.communityId.orEmpty(),
+                    contentId?.permlink.orEmpty()
+                )
+                postListDataSource.createOrUpdatePostData(postDomain)
+            }
+        } catch (e: Exception){
+            Timber.e(e)
         }
     }
 
@@ -93,8 +97,8 @@ constructor(
         )
     }
 
-    override fun getPostHeader(): PostHeader =
-        PostHeader(
+    override fun getPostHeader(): PostHeader {
+        return PostHeader(
             postDomain.community.name,
             postDomain.community.avatarUrl,
             postDomain.community.communityId,
@@ -106,8 +110,10 @@ constructor(
             canJoinToCommunity = false,
             isJoinedToCommunity = postDomain.community.isSubscribed,
             isBackFeatureEnabled = true,
-            isJoinFeatureEnabled = false
+            isRewarded = postDomain.reward.isRewarded(),
+            rewardValue = postDomain.reward.getRewardValue()
         )
+    }
 
     override suspend fun addToFavorite(permlink: String) {
         delay(100)
@@ -133,21 +139,15 @@ constructor(
     }
 
     override suspend fun upVote(communityId: String, userId: String, permlink: String) {
-        withContext(dispatchersProvider.ioDispatcher) {
-            discussionRepository.upVote(ContentIdDomain(communityId = communityId, permlink = permlink, userId = userId))
-            updateUpVote()
-        }
+        postDomain = postPageVotingUseCase.get().upVote(postDomain, communityId, userId, permlink)
     }
 
     override suspend fun downVote(communityId: String, userId: String, permlink: String) {
-        withContext(dispatchersProvider.ioDispatcher) {
-            discussionRepository.downVote(ContentIdDomain(communityId = communityId, permlink = permlink, userId = userId))
-            updateDownVote()
-        }
+        postDomain = postPageVotingUseCase.get().downVote(postDomain, communityId, userId, permlink)
     }
 
-    override suspend fun voteForComment(commentId: DiscussionIdModel, isUpVote: Boolean) =
-        commentsProcessing.vote(commentId, isUpVote)
+    override suspend fun voteForComment(communityId: String, commentId: DiscussionIdModel, isUpVote: Boolean) =
+        commentsProcessing.vote(communityId, commentId, isUpVote)
 
     override suspend fun updateCommentsSorting(sortingType: SortingType) = postListDataSource.updateCommentsSorting(sortingType)
 
@@ -213,33 +213,5 @@ constructor(
     override suspend fun replyToComment(repliedCommentId: DiscussionIdModel, content: List<Block>, attachments: AttachmentsBlock?) =
         commentsProcessing.replyToComment(repliedCommentId, content, attachments)
 
-    private suspend fun updateUpVote() {
-        val votes = postDomain.votes
-        if (!votes.hasUpVote) {
-            postDomain = postDomain.copy(
-                votes = VotesDomain(
-                    downCount = votes.downCount,
-                    upCount = votes.upCount + 1,
-                    hasDownVote = false,
-                    hasUpVote = true
-                )
-            )
-        }
-        postListDataSource.createOrUpdatePostData(postDomain)
-    }
-
-    private suspend fun updateDownVote() {
-        val votes = postDomain.votes
-        if (!votes.hasDownVote) {
-            postDomain = postDomain.copy(
-                votes = VotesDomain(
-                    downCount = votes.downCount + 1,
-                    upCount = votes.upCount,
-                    hasDownVote = true,
-                    hasUpVote = false
-                )
-            )
-        }
-        postListDataSource.createOrUpdatePostData(postDomain)
-    }
+    override fun isTopReward(): Boolean? = postDomain.reward.isTopReward()
 }

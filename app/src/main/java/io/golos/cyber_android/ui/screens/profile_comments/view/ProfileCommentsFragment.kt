@@ -12,7 +12,6 @@ import io.golos.cyber_android.databinding.FragmentProfileCommentsBinding
 import io.golos.cyber_android.ui.dto.Comment
 import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.mappers.mapToCommentMenu
-import io.golos.cyber_android.ui.screens.comment_page_menu.model.CommentMenu
 import io.golos.cyber_android.ui.screens.comment_page_menu.view.CommentPageMenuDialog
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
 import io.golos.cyber_android.ui.screens.profile_comments.di.ProfileCommentsFragmentComponent
@@ -21,7 +20,6 @@ import io.golos.cyber_android.ui.screens.profile_comments.view.list.ProfileComme
 import io.golos.cyber_android.ui.screens.profile_comments.view.view_commands.NavigateToEditComment
 import io.golos.cyber_android.ui.screens.profile_comments.view_model.ProfileCommentsViewModel
 import io.golos.cyber_android.ui.screens.profile_photos.view.ProfilePhotosFragment
-import io.golos.cyber_android.ui.shared.Tags
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.paginator.Paginator
@@ -118,7 +116,7 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
 
     private fun openSelectPhotoView(imageUrl: String?) {
         getDashboardFragment(this)
-            ?.showFragment(
+            ?.navigateToFragment(
                 ProfilePhotosFragment.newInstance(
                     ProfileItem.COMMENT,
                     imageUrl,
@@ -128,7 +126,7 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
     }
 
     private fun openCommunityPage(communityId: String) {
-        getDashboardFragment(this)?.showFragment(
+        getDashboardFragment(this)?.navigateToFragment(
             CommunityPageFragment.newInstance(communityId)
         )
     }
@@ -136,27 +134,6 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            CommentPageMenuDialog.REQUEST -> {
-                when (resultCode) {
-                    CommentPageMenuDialog.RESULT_EDIT -> {
-                        val commentMenu: CommentMenu? = data?.extras?.getParcelable(Tags.COMMENT_MENU)
-                        commentMenu?.let { comment ->
-                            comment.contentId?.let {
-                                viewModel.editComment(it)
-                            }
-                        }
-                    }
-                    CommentPageMenuDialog.RESULT_DELETE -> {
-                        val commentMenu: CommentMenu? = data?.extras?.getParcelable(Tags.COMMENT_MENU)
-                        commentMenu?.let { comment ->
-                            viewModel.deleteComment(
-                                comment.permlink,
-                                comment.communityId
-                            )
-                        }
-                    }
-                }
-            }
             ProfilePhotosFragment.REQUEST -> {
                 val result = data?.extras?.getParcelable<ProfilePhotosFragment.Result>(ProfilePhotosFragment.RESULT)
                 commentWidget.updateImageAttachment(result?.photoFilePath)
@@ -165,13 +142,13 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
     }
 
 
-    private fun openProfileCommentMenu(comment: Comment) {
-        CommentPageMenuDialog.newInstance(
-            comment.mapToCommentMenu()
-        ).apply {
-            setTargetFragment(this@ProfileCommentsFragment, CommentPageMenuDialog.REQUEST)
-        }.show(requireFragmentManager(), "show")
-    }
+    private fun openProfileCommentMenu(comment: Comment) =
+        CommentPageMenuDialog.show(this@ProfileCommentsFragment, comment.mapToCommentMenu()) {
+            when(it) {
+                is CommentPageMenuDialog.Result.Edit -> it.commentMenu.contentId?.let { viewModel.editComment(it) }
+                is CommentPageMenuDialog.Result.Delete -> viewModel.deleteComment(it.commentMenu.permlink, it.commentMenu.communityId)
+            }
+        }
 
     private fun observeViewModel() {
         viewModel.commentListState.observe(viewLifecycleOwner, Observer { state ->

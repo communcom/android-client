@@ -5,7 +5,7 @@ import android.view.View
 import androidx.annotation.StringRes
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.shared.extensions.getColorRes
+import io.golos.utils.getColorRes
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.widgets.pin.Digit
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.pin_code.model.PinCodeAuthModel
@@ -68,5 +68,10 @@ constructor(
 
             else -> {}
         }
+    }
+
+    fun onClearKeyPressed() {
+        model.reset()
+        _command.value = ResetPinCommand()
     }
 }

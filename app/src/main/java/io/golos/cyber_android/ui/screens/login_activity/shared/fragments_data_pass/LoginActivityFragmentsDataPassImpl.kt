@@ -16,6 +16,8 @@ constructor():
     private companion object {
         private const val QR_CODE_KEY = 22822231
         private const val SELECTED_COUNTRY_KEY = 907080
+        private const val PHONE_KEY = 169548324
+        private const val FTUE_BONUS_KEY = 17816978
     }
 
     override fun putQrCode(qrCode: QrCodeContent) = put(QR_CODE_KEY, qrCode)
@@ -25,4 +27,12 @@ constructor():
     override fun putSelectedCountry(country: CountryDomain) = put(SELECTED_COUNTRY_KEY, country)
 
     override fun getSelectedCountry(): CountryDomain? = get(SELECTED_COUNTRY_KEY) as CountryDomain?
+
+    override fun putPhone(phone: String) = put(PHONE_KEY, phone)
+
+    override fun getPhonePhone(): String? = get(PHONE_KEY) as String?
+
+    override fun putFtueCommunityBonus(bonus: Int) = put(FTUE_BONUS_KEY, bonus)
+
+    override fun getFtueCommunityBonus(): Int? = get(FTUE_BONUS_KEY) as Int?
 }

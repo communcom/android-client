@@ -24,7 +24,7 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommentDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.post.post_dto.*
-import io.golos.domain.utils.IdUtil
+import io.golos.utils.id.IdUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -78,9 +78,14 @@ class ProfileCommentsViewModel @Inject constructor(
                 }
             }
         }
-        paginator.render = { state ->
-            _commentListState.value = state
-            _noDataStubVisibility.value = if (state == Paginator.State.Empty) View.VISIBLE else View.GONE
+        paginator.render = { newState, oldState ->
+            _commentListState.value = newState
+            _noDataStubVisibility.value = if (newState == Paginator.State.Empty && oldState == Paginator.State.EmptyProgress) {
+                View.VISIBLE
+            }
+            else {
+                View.GONE
+            }
         }
 
         loadInitialComments()
@@ -176,14 +181,11 @@ class ProfileCommentsViewModel @Inject constructor(
     override fun onCommentUpVoteClick(commentId: ContentId) {
         launch {
             try {
-                _command.value = SetLoadingVisibilityCommand(true)
-                model.commentUpVote(commentId.mapToContentIdDomain())
                 _commentListState.value = updateUpVoteCountOfVotes(_commentListState.value, commentId)
-                _command.value = SetLoadingVisibilityCommand(false)
+                model.commentUpVote(commentId.mapToContentIdDomain())
             } catch (e: Exception) {
                 Timber.e(e)
                 _command.value = ShowMessageResCommand(R.string.unknown_error)
-                _command.value = SetLoadingVisibilityCommand(false)
             }
         }
     }
@@ -191,14 +193,11 @@ class ProfileCommentsViewModel @Inject constructor(
     override fun onCommentDownVoteClick(commentId: ContentId) {
         launch {
             try {
-                _command.value = SetLoadingVisibilityCommand(true)
-                model.commentDownVote(commentId.mapToContentIdDomain())
                 _commentListState.value = updateDownVoteCountOfVotes(_commentListState.value, commentId)
-                _command.value = SetLoadingVisibilityCommand(false)
+                model.commentDownVote(commentId.mapToContentIdDomain())
             } catch (e: Exception) {
                 Timber.e(e)
                 _command.value = ShowMessageResCommand(R.string.unknown_error)
-                _command.value = SetLoadingVisibilityCommand(false)
             }
         }
     }

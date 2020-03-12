@@ -3,6 +3,8 @@ package io.golos.cyber_android.ui.di
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import io.golos.cyber_android.ui.screens.wallet_shared.balance_calculator.BalanceCalculator
+import io.golos.cyber_android.ui.screens.wallet_shared.balance_calculator.BalanceCalculatorImpl
 import io.golos.cyber_android.ui.shared.bitmaps.BitmapsUtilsImpl
 import io.golos.cyber_android.ui.shared.camera.CameraHelper
 import io.golos.cyber_android.ui.shared.camera.CameraHelperImpl
@@ -13,6 +15,8 @@ import io.golos.cyber_android.ui.shared.countries.CountriesRepository
 import io.golos.cyber_android.ui.shared.countries.CountriesRepositoryImpl
 import io.golos.cyber_android.ui.shared.helper.UIHelper
 import io.golos.cyber_android.ui.shared.helper.UIHelperImpl
+import io.golos.cyber_android.ui.shared.keyboard.KeyboardVisibilityListener
+import io.golos.cyber_android.ui.shared.keyboard.KeyboardVisibilityListenerImpl
 import io.golos.domain.BitmapsUtils
 import io.golos.domain.FileSystemHelper
 import io.golos.domain.dependency_injection.scopes.UIScope
@@ -62,4 +66,11 @@ abstract class UIModuleBinds {
     @Binds
     @UIScope
     abstract fun provideCountriesRepository(repository: CountriesRepositoryImpl): CountriesRepository
+
+    @Binds
+    @UIScope
+    abstract fun provideKeyboardVisibilityListener(listener: KeyboardVisibilityListenerImpl): KeyboardVisibilityListener
+
+    @Binds
+    abstract fun provideBalanceCalculator(calculator: BalanceCalculatorImpl): BalanceCalculator
 }

@@ -3,7 +3,7 @@ package io.golos.cyber_android
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import io.golos.cyber_android.application.shared.resources.AppResourcesProviderImpl
-import io.golos.cyber_android.ui.shared.formatters.time_estimation.TimeEstimationFormatter
+import io.golos.utils.format.TimeEstimationFormatter
 import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.runner.RunWith

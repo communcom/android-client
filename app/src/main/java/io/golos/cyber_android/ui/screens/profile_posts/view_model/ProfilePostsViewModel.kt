@@ -1,7 +1,6 @@
 package io.golos.cyber_android.ui.screens.profile_posts.view_model
 
 import android.net.Uri
-import android.opengl.Visibility
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,7 +14,10 @@ import io.golos.cyber_android.ui.screens.feed_my.model.MyFeedModel
 import io.golos.cyber_android.ui.screens.feed_my.view_model.MyFeedListListener
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
-import io.golos.cyber_android.ui.screens.profile_posts.view_commands.*
+import io.golos.cyber_android.ui.screens.profile_posts.view_commands.EditPostCommand
+import io.golos.cyber_android.ui.screens.profile_posts.view_commands.NavigationToPostMenuViewCommand
+import io.golos.cyber_android.ui.screens.profile_posts.view_commands.ReportPostCommand
+import io.golos.cyber_android.ui.screens.profile_posts.view_commands.SharePostCommand
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.paginator.Paginator
@@ -24,10 +26,12 @@ import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.PostsConfigurationDomain
+import io.golos.domain.dto.RewardPostDomain
 import io.golos.domain.dto.TypeObjectDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.model.DiscussionIdModel
+import io.golos.use_cases.reward.isTopReward
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -80,9 +84,14 @@ constructor(
                 }
             }
         }
-        paginator.render = {
-            _postsListState.value = it
-            _noDataStubVisibility.value = if (it == Paginator.State.Empty) View.VISIBLE else View.GONE
+        paginator.render = { newState, oldState ->
+            _postsListState.value = newState
+            _noDataStubVisibility.value = if (newState == Paginator.State.Empty && oldState == Paginator.State.EmptyProgress) {
+                View.VISIBLE
+            }
+            else {
+                View.GONE
+            }
         }
     }
 
@@ -93,13 +102,10 @@ constructor(
     override fun onUpVoteClicked(contentId: ContentId) {
         launch {
             try {
-                _command.value = SetLoadingVisibilityCommand(true)
-                model.upVote(contentId.communityId, contentId.userId, contentId.permlink)
                 _postsListState.value = updateUpVoteCountOfVotes(_postsListState.value, contentId)
+                model.upVote(contentId.communityId, contentId.userId, contentId.permlink)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
-            } finally {
-                _command.value = SetLoadingVisibilityCommand(false)
             }
         }
     }
@@ -107,13 +113,10 @@ constructor(
     override fun onDownVoteClicked(contentId: ContentId) {
         launch {
             try {
-                _command.value = SetLoadingVisibilityCommand(true)
-                model.downVote(contentId.communityId, contentId.userId, contentId.permlink)
                 _postsListState.value = updateDownVoteCountOfVotes(_postsListState.value, contentId)
+                model.downVote(contentId.communityId, contentId.userId, contentId.permlink)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
-            } finally {
-                _command.value = SetLoadingVisibilityCommand(false)
             }
         }
     }
@@ -150,6 +153,14 @@ constructor(
         _command.value = NavigationToPostMenuViewCommand(postMenu)
     }
 
+    override fun onRewardClick(reward: RewardPostDomain?) {
+        reward.isTopReward()?.let {
+            val title = if(it) R.string.post_reward_top_title else R.string.post_reward_not_top_title
+            val text = if(it) R.string.post_reward_top_text else R.string.post_reward_not_top_text
+            _command.value = ShowPostRewardDialogCommand(title, text)
+        }
+    }
+
     override fun onCommentsClicked(postContentId: ContentId) {
         openPost(postContentId)
     }
@@ -161,8 +172,7 @@ constructor(
     private fun openPost(postContentId: ContentId?){
         postContentId?.let {
             val discussionIdModel = DiscussionIdModel(it.userId, Permlink(it.permlink))
-            _command.value =
-                io.golos.cyber_android.ui.screens.feed_my.view.view_commands.NavigateToPostCommand(discussionIdModel, it)
+            _command.value = NavigateToPostCommand(discussionIdModel, it)
         }
     }
 

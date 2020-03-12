@@ -8,6 +8,8 @@ import io.golos.domain.use_cases.post.post_dto.ContentBlock
 data class SecondLevelCommentListItem(
     override val id: Long,
     override val version: Long,
+    override val isFirstItem: Boolean,
+    override val isLastItem: Boolean,
 
     override val externalId: DiscussionIdModel,          // Id of an entity on the backend
 

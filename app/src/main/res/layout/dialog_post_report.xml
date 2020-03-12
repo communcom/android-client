@@ -26,7 +26,7 @@
                 android:gravity="center"
                 android:text="@string/report_title"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_size_15_sp"
+                android:textSize="15sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -94,7 +94,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/report_spam"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/text_size_15_sp"
+                                android:textSize="15sp"
                                 android:textStyle="bold" />
 
                             <CheckBox
@@ -107,7 +107,7 @@
 
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/dimen_2"
+                            android:layout_height="2dp"
                             android:background="@color/bottom_sheet_dialog_bcg" />
                         <!--SPAM END-->
 
@@ -125,7 +125,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/report_harassment"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/text_size_15_sp"
+                                android:textSize="15sp"
                                 android:textStyle="bold" />
 
                             <CheckBox
@@ -138,7 +138,7 @@
 
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/dimen_2"
+                            android:layout_height="2dp"
                             android:background="@color/bottom_sheet_dialog_bcg" />
                         <!--HARASSMENT END-->
 
@@ -156,7 +156,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/report_niguty"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/text_size_15_sp"
+                                android:textSize="15sp"
                                 android:textStyle="bold" />
 
                             <CheckBox
@@ -169,7 +169,7 @@
 
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/dimen_2"
+                            android:layout_height="2dp"
                             android:background="@color/bottom_sheet_dialog_bcg" />
                         <!--NIGUTY END-->
 
@@ -187,7 +187,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/report_violence"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/text_size_15_sp"
+                                android:textSize="15sp"
                                 android:textStyle="bold" />
 
                             <CheckBox
@@ -200,7 +200,7 @@
 
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/dimen_2"
+                            android:layout_height="2dp"
                             android:background="@color/bottom_sheet_dialog_bcg" />
                         <!--VIOLENCE END-->
 
@@ -218,7 +218,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/report_false_news"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/text_size_15_sp"
+                                android:textSize="15sp"
                                 android:textStyle="bold" />
 
                             <CheckBox
@@ -231,7 +231,7 @@
 
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/dimen_2"
+                            android:layout_height="2dp"
                             android:background="@color/bottom_sheet_dialog_bcg" />
                         <!--FALSE NEWS END-->
 
@@ -249,7 +249,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/report_terrorism"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/text_size_15_sp"
+                                android:textSize="15sp"
                                 android:textStyle="bold" />
 
                             <CheckBox
@@ -262,7 +262,7 @@
 
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/dimen_2"
+                            android:layout_height="2dp"
                             android:background="@color/bottom_sheet_dialog_bcg" />
                         <!--TERRORISM END-->
 
@@ -280,7 +280,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/report_hate_speech"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/text_size_15_sp"
+                                android:textSize="15sp"
                                 android:textStyle="bold" />
 
                             <CheckBox
@@ -293,7 +293,7 @@
 
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/dimen_2"
+                            android:layout_height="2dp"
                             android:background="@color/bottom_sheet_dialog_bcg" />
                         <!--HATE SPEECH END-->
 
@@ -311,7 +311,7 @@
                                 android:gravity="center_vertical"
                                 android:text="@string/report_unauthorized_sales"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/text_size_15_sp"
+                                android:textSize="15sp"
                                 android:textStyle="bold" />
 
                             <CheckBox
@@ -324,7 +324,7 @@
 
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/dimen_2"
+                            android:layout_height="2dp"
                             android:background="@color/bottom_sheet_dialog_bcg" />
                         <!--UNAUTHORIZED SALES END-->
 
@@ -357,7 +357,7 @@
                     android:paddingEnd="20dp"
                     android:text="@string/report_message"
                     android:textColor="@color/grey"
-                    android:textSize="@dimen/text_size_12_sp" />
+                    android:textSize="12sp" />
 
             </androidx.cardview.widget.CardView>
 
@@ -365,12 +365,12 @@
                 android:id="@+id/btnSend"
                 style="@style/BaseButton"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_50"
+                android:layout_height="50dp"
                 android:layout_marginStart="@dimen/margin_default"
-                android:layout_marginTop="@dimen/dimen_20"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="@dimen/margin_default"
-                android:layout_marginBottom="@dimen/dimen_45"
-                android:background="@drawable/bg_blue_button_round"
+                android:layout_marginBottom="45dp"
+                android:background="@drawable/bcg_blue_button_round"
                 android:text="@string/report_send"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

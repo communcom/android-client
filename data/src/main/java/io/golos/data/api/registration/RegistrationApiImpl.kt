@@ -31,7 +31,6 @@ constructor(
         owner: String,
         active: String
     ): WriteToBlockChainStepResult {
-
         return commun4j.writeUserToBlockChain(phone, userId, userName, owner, active).getOrThrow()
     }
 

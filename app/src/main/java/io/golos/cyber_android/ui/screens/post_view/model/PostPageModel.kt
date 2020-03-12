@@ -56,7 +56,7 @@ interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToC
         reason: String
     )
 
-    suspend fun voteForComment(commentId: DiscussionIdModel, isUpVote: Boolean)
+    suspend fun voteForComment(communityId: String, commentId: DiscussionIdModel, isUpVote: Boolean)
 
     suspend fun updateCommentsSorting(sortingType: SortingType)
 
@@ -85,4 +85,6 @@ interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToC
     suspend fun replyToComment(repliedCommentId: DiscussionIdModel, content: List<Block>, attachments: AttachmentsBlock?)
 
     suspend fun uploadAttachmentContent(file: File): String
+
+    fun isTopReward(): Boolean?
 }

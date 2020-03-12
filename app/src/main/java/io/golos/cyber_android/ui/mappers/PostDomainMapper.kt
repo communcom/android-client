@@ -5,15 +5,16 @@ import io.golos.domain.dto.PostDomain
 
 fun PostDomain.mapToPost(): Post {
     return Post(
-        this.author.mapToAuthor(),
-        this.community.mapToCommunity(),
-        this.contentId.mapToContentId(),
-        this.body,
-        this.meta.mapToMeta(),
-        null,
-        null,
-        this.shareUrl,
-        this.votes.mapToVotes(),
-        this.isMyPost
+        author = this.author.mapToAuthor(),
+        community = this.community.mapToPostCommunity(),
+        contentId = this.contentId.mapToContentId(),
+        body = this.body,
+        meta = this.meta.mapToMeta(),
+        stats = this.stats?.mapToStats(),
+        type = this.type,
+        shareUrl = this.shareUrl,
+        votes = this.votes.mapToVotes(),
+        isMyPost = this.isMyPost,
+        reward = this.reward
     )
 }

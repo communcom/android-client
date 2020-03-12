@@ -35,6 +35,7 @@ import io.golos.cyber_android.ui.screens.post_edit.fragment.view_commands.Update
 import io.golos.cyber_android.ui.screens.post_edit.fragment.view_model.EditorPageViewModel
 import io.golos.cyber_android.ui.screens.post_edit.shared.EditorPageBridgeFragment
 import io.golos.cyber_android.ui.shared.Tags
+import io.golos.cyber_android.ui.shared.keyboard.KeyboardUtils
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToMainScreenCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
@@ -42,7 +43,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.shared.utils.TextWatcherBase
 import io.golos.domain.use_cases.post.TextStyle
 import io.golos.domain.use_cases.post.editor_output.EmbedType
-import io.golos.domain.utils.IdUtil
+import io.golos.utils.id.IdUtil
 import io.golos.posts_editor.dialogs.selectColor.SelectColorDialog
 import io.golos.posts_editor.dto.EditorAction
 import io.golos.posts_editor.utilities.MaterialColor
@@ -133,15 +134,26 @@ class EditorPageFragment : ImagePickerFragmentBase() {
 
         // Show followers selection dialog
         postCommunity.setOnShowCommunitiesClickListener {
-            SelectCommunityDialog.newInstance(uiHelper, postCommunity) { community ->
-                community?.let { viewModel.setCommunity(it) }
-            }.show(requireFragmentManager(), "followers")
+            showDialog {
+                SelectCommunityDialog.show(this) { community ->
+                    community?.let { viewModel.setCommunity(it) }
+                }
+            }
         }
 
         leaderName.setRawInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
         leaderName.filters = arrayOf(InputFilter.LengthFilter(io.golos.utils.PostConstants.MAX_POST_TITLE_LENGTH))
 
         setupEditorToolButtons()
+    }
+
+    private fun showDialog(showDialogAction: () -> Unit) {
+        if(KeyboardUtils.isKeyboardVisible(leaderName)) {
+            KeyboardUtils.hideKeyboard(leaderName)
+            leaderName.postDelayed({ showDialogAction() }, 300)
+        } else {
+            showDialogAction()
+        }
     }
 
     private fun setupEditorToolButtons() {
@@ -233,10 +245,12 @@ class EditorPageFragment : ImagePickerFragmentBase() {
                 EditorAction.LOCAL_IMAGE -> {
                     photoButton.visibility = View.VISIBLE
                     photoButton.setOnClickListener {
-                        ImagePickerDialog.newInstance(ImagePickerDialog.Target.EDITOR_PAGE).apply {
-                            setTargetFragment(this@EditorPageFragment, GALLERY_REQUEST)
+                        ImagePickerDialog.show(this) {
+                            when(it) {
+                                ImagePickerDialog.Result.Camera -> takeCameraPhoto()
+                                ImagePickerDialog.Result.Gallery -> pickGalleryPhoto()
+                            }
                         }
-                            .show(requireFragmentManager(), "cover")
                     }
                 }
             }
@@ -340,12 +354,6 @@ class EditorPageFragment : ImagePickerFragmentBase() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when(requestCode) {
-            GALLERY_REQUEST -> {
-                when (resultCode) {
-                    ImagePickerDialog.RESULT_GALLERY -> pickGalleryPhoto()
-                    ImagePickerDialog.RESULT_CAMERA -> takeCameraPhoto()
-                }
-            }
             ConfirmationDialog.REQUEST -> {
                 if (resultCode == ConfirmationDialog.RESULT_OK) {
                     viewModel.close()

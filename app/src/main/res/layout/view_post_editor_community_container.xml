@@ -13,7 +13,7 @@
 
         android:layout_marginStart="@dimen/margin_size_editor_common"
 
-        android:src="@drawable/bg_circle_blue"
+        android:src="@drawable/bcg_circle_blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -74,8 +74,8 @@
         android:id="@+id/showCommunitiesButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/dimen_10"
-        android:layout_marginEnd="@dimen/dimen_5"
+        android:padding="10dp"
+        android:layout_marginEnd="5dp"
         android:src="@drawable/ic_editor_arrow"
         android:background="?selectableItemBackgroundBorderless"
         app:layout_constraintBottom_toBottomOf="parent"

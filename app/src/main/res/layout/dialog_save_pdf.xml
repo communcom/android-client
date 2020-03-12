@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:background="@drawable/bcg_bottom_sheet_dialog_round_corners"
+
+    android:paddingTop="@dimen/bottom_sheet_dialog_padding_header_top"
+    android:paddingBottom="@dimen/bottom_sheet_dialog_padding_bottom">
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/BottomSheetMenuTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+
+        android:text="@string/pdf_save_dialog_title"
+
+        app:layout_constraintEnd_toStartOf="@+id/buttonClose"
+
+        app:layout_constraintStart_toStartOf="@+id/device"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/buttonClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_close_white"
+
+        app:layout_constraintTop_toTopOf="@+id/title"
+        app:layout_constraintBottom_toBottomOf="@+id/title"
+
+        app:layout_constraintEnd_toEndOf="@+id/device"
+        tools:ignore="ContentDescription" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/device"
+
+        style="@style/BottomSheetMenuItem"
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="20dp"
+
+        android:text="@string/pdf_save_dialog_device"
+
+        app:drawableEndCompat="@drawable/ic_smartphone"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/googleDrive"
+
+        style="@style/BottomSheetMenuItem"
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+
+        android:text="@string/pdf_save_dialog_google"
+
+        app:drawableEndCompat="@drawable/ic_cloud_upload"
+
+        app:layout_constraintEnd_toEndOf="@+id/device"
+        app:layout_constraintStart_toStartOf="@+id/device"
+        app:layout_constraintTop_toBottomOf="@+id/device" />
+</androidx.constraintlayout.widget.ConstraintLayout>

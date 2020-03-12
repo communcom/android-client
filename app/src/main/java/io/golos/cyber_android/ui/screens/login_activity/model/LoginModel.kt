@@ -12,4 +12,6 @@ interface LoginModel: ModelBase {
     fun closeApp()
 
     suspend fun login(): Boolean
+
+    suspend fun isOutdated(): Boolean
 }

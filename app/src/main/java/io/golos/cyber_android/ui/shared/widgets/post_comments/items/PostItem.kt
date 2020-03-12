@@ -14,10 +14,12 @@ import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
 import io.golos.cyber_android.ui.shared.base.adapter.BaseRecyclerItem
 import io.golos.cyber_android.ui.shared.base.adapter.RecyclerAdapter
 import io.golos.cyber_android.ui.shared.base.adapter.RecyclerItem
-import io.golos.cyber_android.ui.shared.formatters.counts.KiloCounterFormatter
+import io.golos.utils.format.KiloCounterFormatter
 import io.golos.cyber_android.ui.shared.widgets.post_comments.VotingWidget
 import io.golos.domain.use_cases.post.post_dto.*
-import io.golos.utils.positiveValue
+import io.golos.use_cases.reward.getRewardValue
+import io.golos.use_cases.reward.isRewarded
+import io.golos.utils.helpers.positiveValue
 import kotlinx.android.synthetic.main.item_feed_content.view.*
 import kotlinx.android.synthetic.main.item_post_content.view.*
 import kotlinx.android.synthetic.main.item_post_controls.view.*
@@ -77,6 +79,9 @@ class PostItem(
                 listener.onShareClicked(it)
             }
         }
+        view.setOnClickListener {
+            listener.onBodyClicked(post.contentId)
+        }
     }
 
     private fun setUpViewCount(view: View, count: Int?, isNeedToShow: Boolean) {
@@ -92,6 +97,7 @@ class PostItem(
 
     private fun setUpFeedContent(view: View, postBlock: ContentBlock?) {
         view.feedContent.adapter = feedAdapter
+
         val contentList : ArrayList<Block> = postBlock?.content as? ArrayList<Block> ?: arrayListOf()
         val newContentList = ArrayList<Block>(contentList)
         ((postBlock?.attachments) as? Block)?.let {
@@ -147,8 +153,10 @@ class PostItem(
             author.userId,
             canJoinToCommunity = false,
             isBackFeatureEnabled = false,
-            isJoinFeatureEnabled = false
+            isRewarded = post.reward.isRewarded(),
+            rewardValue = post.reward.getRewardValue()
         )
+
         view.postHeader.setHeader(postHeader)
         view.postHeader.setOnUserClickListener {
             listener.onUserClicked(it)
@@ -180,6 +188,7 @@ class PostItem(
         view.postHeader.setOnClickListener{
             listener.onBodyClicked(post.contentId)
         }
+        view.postHeader.setOnRewardButtonClickListener { listener.onRewardClick(post.reward) }
     }
 
     override fun onViewRecycled(view: View) {
@@ -198,8 +207,9 @@ class PostItem(
 
     private fun setUpVotesButton(view: View, isMyPost: Boolean) {
         if (!isMyPost) {
-            view.votesArea.upvoteButton.visibility = View.VISIBLE
-            view.votesArea.downvoteButton.visibility = View.VISIBLE
+            view.votesArea.upvoteButton.isEnabled = true
+            view.votesArea.downvoteButton.isEnabled = true
+
             view.votesArea.setOnUpVoteButtonClickListener {
                 listener.onUpVoteClicked(post.contentId)
             }
@@ -207,8 +217,8 @@ class PostItem(
                 listener.onDownVoteClicked(post.contentId)
             }
         } else {
-            view.votesArea.upvoteButton.visibility = View.INVISIBLE
-            view.votesArea.downvoteButton.visibility = View.INVISIBLE
+            view.votesArea.upvoteButton.isEnabled = false
+            view.votesArea.downvoteButton.isEnabled = false
         }
     }
 

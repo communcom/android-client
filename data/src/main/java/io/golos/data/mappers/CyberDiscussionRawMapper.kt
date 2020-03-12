@@ -2,24 +2,26 @@ package io.golos.data.mappers
 
 import io.golos.commun4j.model.CyberDiscussionRaw
 import io.golos.domain.dto.PostDomain
+import io.golos.domain.dto.RewardPostDomain
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.JsonToDtoMapper
-import io.golos.utils.toAbsoluteUrl
+import io.golos.utils.helpers.toAbsoluteUrl
 
-fun CyberDiscussionRaw.mapToPostDomain(isMyPost: Boolean): PostDomain {
+fun CyberDiscussionRaw.mapToPostDomain(isMyPost: Boolean, reward: RewardPostDomain?): PostDomain {
     return PostDomain(
-        this.author.mapToAuthorDomain(),
-        this.community.mapToCommunityDomain(),
-        this.contentId.mapToContentIdDomain(),
-        this.document?.let { JsonToDtoMapper().map(it) },
-        this.meta.mapToMetaDomain(),
-        null,
-        null,
-        this.url.toAbsoluteUrl(),
-        this.votes.mapToVotesDomain(),
-        isMyPost
+        author = this.author.mapToAuthorDomain(),
+        community = this.community.mapToCommunityDomain(),
+        contentId = this.contentId.mapToContentIdDomain(),
+        body = this.document?.let { JsonToDtoMapper().map(it) },
+        meta = this.meta.mapToMetaDomain(),
+        stats = this.stats?.mapToStatsDomain(),
+        type = this.type,
+        shareUrl = this.url.toAbsoluteUrl(),
+        votes = this.votes.mapToVotesDomain(),
+        isMyPost = isMyPost,
+        reward = reward
     )
 }
 
-fun CyberDiscussionRaw.mapToPostDomain(user: String): PostDomain {
-    return mapToPostDomain(user == this.author.userId.name)
+fun CyberDiscussionRaw.mapToPostDomain(user: String, reward: RewardPostDomain?): PostDomain {
+    return mapToPostDomain(user == this.author.userId.name, reward)
 }

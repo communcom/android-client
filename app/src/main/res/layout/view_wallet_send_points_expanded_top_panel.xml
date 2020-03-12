@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/primaryPanel"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:background="@color/blue"
+
+    android:visibility="visible"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+        android:id="@+id/backButton"
+
+        android:layout_width="@dimen/size_image_button"
+        android:layout_height="@dimen/size_image_button"
+
+        android:layout_marginStart="@dimen/wallet_top_button_side_margin"
+        android:layout_marginTop="@dimen/wallet_top_button_top_margin"
+        android:background="@null"
+
+        app:imageButton_icon="@drawable/ic_left_arrow"
+
+        app:imageButton_iconInscribeSize="@dimen/size_back_icon"
+        app:imageButton_tint="@color/white"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+        android:id="@+id/selectCommunityButton"
+
+        android:layout_width="@dimen/size_image_button"
+        android:layout_height="@dimen/size_image_button"
+
+        android:layout_marginTop="@dimen/wallet_top_button_top_margin"
+        android:layout_marginEnd="@dimen/wallet_top_button_side_margin"
+        android:background="@null"
+
+        app:imageButton_icon="@drawable/ic_list"
+
+        app:imageButton_iconInscribeSize="@dimen/size_back_icon"
+        app:imageButton_tint="@color/white"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/Text15.White.Bold.SingleLine"
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:text="@string/send_points"
+        app:layout_constraintBottom_toBottomOf="@+id/backButton"
+        app:layout_constraintEnd_toStartOf="@+id/selectCommunityButton"
+        app:layout_constraintStart_toEndOf="@+id/backButton"
+        app:layout_constraintTop_toTopOf="@+id/backButton" />
+
+    <io.golos.cyber_android.ui.screens.wallet_shared.carousel.CarouselRecyclerView
+        android:id="@+id/carousel"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/wallet_send_points_carousel_height"
+
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="20dp"
+
+        android:clipToPadding="false"
+
+        android:overScrollMode="never"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        tools:background="@color/green" />
+
+    <ImageView
+        android:id="@+id/communSymbol"
+
+        android:layout_width="@dimen/wallet_send_points_carousel_height"
+        android:layout_height="@dimen/wallet_send_points_carousel_height"
+
+        android:alpha="0.85"
+        android:background="@drawable/bcg_circle_white"
+        android:padding="2dp"
+
+        android:layout_marginTop="20dp"
+
+        android:src="@drawable/ic_commun"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        tools:ignore="ContentDescription"
+
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/name"
+
+        style="@style/Text17.White.Bold.SingleLine"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="20dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/carousel"
+        tools:text="Owerwatch" />
+
+    <TextView
+        android:id="@+id/amount"
+
+        style="@style/Text30.White.Bold.SingleLine"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="5dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name"
+        tools:text="201000.56" />
+</androidx.constraintlayout.widget.ConstraintLayout>

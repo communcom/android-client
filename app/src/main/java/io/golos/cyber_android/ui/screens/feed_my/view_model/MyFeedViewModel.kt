@@ -23,10 +23,12 @@ import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.PostsConfigurationDomain
+import io.golos.domain.dto.RewardPostDomain
 import io.golos.domain.dto.TypeObjectDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.model.DiscussionIdModel
+import io.golos.use_cases.reward.isTopReward
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
@@ -54,12 +56,13 @@ class MyFeedViewModel @Inject constructor(
     private lateinit var postsConfigurationDomain: PostsConfigurationDomain
 
     private val _loadUserProgressVisibility: MutableLiveData<Boolean> = MutableLiveData(false)
-
     val loadUserProgressVisibility = _loadUserProgressVisibility.toLiveData()
 
     private val _loadUserErrorVisibility: MutableLiveData<Boolean> = MutableLiveData(false)
-
     val loadUserErrorVisibility = _loadUserErrorVisibility.toLiveData()
+
+    private val _swipeRefreshing = MutableLiveData<Boolean>(false)
+    val swipeRefreshing get() = _swipeRefreshing.toLiveData()
 
     private var loadPostsJob: Job? = null
 
@@ -75,23 +78,10 @@ class MyFeedViewModel @Inject constructor(
                 }
             }
         }
-        paginator.render = {
-            _postsListState.value = it
+        paginator.render = { newState, _ ->
+            _postsListState.value = newState
         }
         applyAvatarChangeListener()
-    }
-
-    private fun applyAvatarChangeListener(){
-        launch {
-            try {
-                model.userAvatarFlow.collect{
-                    val userUpdated = _user.value?.copy(avatarUrl = it)
-                    userUpdated?.let {_user.value = it}
-                }
-            } catch (e: Exception){
-                Timber.e(e)
-            }
-        }
     }
 
     override fun onShareClicked(shareUrl: String) {
@@ -102,17 +92,18 @@ class MyFeedViewModel @Inject constructor(
         openPost(postContentId)
     }
 
+    fun onPostClicked(postContentId: ContentId?) {
+        openPost(postContentId)
+    }
+
     override fun onUpVoteClicked(contentId: ContentId) {
         launch {
             try {
-                _command.value = SetLoadingVisibilityCommand(true)
-                model.upVote(contentId.communityId, contentId.userId, contentId.permlink)
                 _postsListState.value = updateUpVoteCountOfVotes(_postsListState.value, contentId)
+                model.upVote(contentId.communityId, contentId.userId, contentId.permlink)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
                 _command.value = ShowMessageResCommand(R.string.unknown_error)
-            } finally {
-                _command.value = SetLoadingVisibilityCommand(false)
             }
         }
     }
@@ -120,14 +111,11 @@ class MyFeedViewModel @Inject constructor(
     override fun onDownVoteClicked(contentId: ContentId) {
         launch {
             try {
-                _command.value = SetLoadingVisibilityCommand(true)
+                _postsListState.value = updateUpVoteCountOfVotes(_postsListState.value, contentId)
                 model.downVote(contentId.communityId, contentId.userId, contentId.permlink)
-                _postsListState.value = updateDownVoteCountOfVotes(_postsListState.value, contentId)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
                 _command.value = ShowMessageResCommand(R.string.unknown_error)
-            } finally {
-                _command.value = SetLoadingVisibilityCommand(false)
             }
         }
     }
@@ -162,6 +150,14 @@ class MyFeedViewModel @Inject constructor(
 
     override fun onMenuClicked(postMenu: PostMenu) {
         _command.value = NavigationToPostMenuViewCommand(postMenu)
+    }
+
+    override fun onRewardClick(reward: RewardPostDomain?) {
+        reward.isTopReward()?.let {
+            val title = if(it) R.string.post_reward_top_title else R.string.post_reward_not_top_title
+            val text = if(it) R.string.post_reward_top_text else R.string.post_reward_not_top_text
+            _command.value = ShowPostRewardDialogCommand(title, text)
+        }
     }
 
     override fun onCommentsClicked(postContentId: ContentId) {
@@ -259,6 +255,28 @@ class MyFeedViewModel @Inject constructor(
         val post = getPostFromPostsListState(permlink)
         post?.let {
             _command.value = ReportPostCommand(post)
+        }
+    }
+
+    fun onSwipeRefresh() {
+        launch {
+            paginator.initState(Paginator.State.Empty)
+            restartLoadPosts()
+
+            _swipeRefreshing.value = false
+        }
+    }
+
+    private fun applyAvatarChangeListener(){
+        launch {
+            try {
+                model.userAvatarFlow.collect{
+                    val userUpdated = _user.value?.copy(avatarUrl = it)
+                    userUpdated?.let {_user.value = it}
+                }
+            } catch (e: Exception){
+                Timber.e(e)
+            }
         }
     }
 
@@ -571,5 +589,9 @@ class MyFeedViewModel @Inject constructor(
     override fun onCleared() {
         loadPostsJob?.cancel()
         super.onCleared()
+    }
+
+    fun onCreatePostClicked() {
+        _command.value = CreatePostCommand()
     }
 }

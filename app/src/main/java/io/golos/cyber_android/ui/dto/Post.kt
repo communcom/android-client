@@ -1,9 +1,9 @@
 package io.golos.cyber_android.ui.dto
 
+import io.golos.domain.dto.RewardPostDomain
 import io.golos.domain.use_cases.post.post_dto.ContentBlock
 
 data class Post(
-
     val author: Author,
     val community: Community,
     val contentId: ContentId,
@@ -13,7 +13,8 @@ data class Post(
     val type: String?,
     val shareUrl: String?,
     var votes: Votes,
-    val isMyPost: Boolean
+    val isMyPost: Boolean,
+    val reward: RewardPostDomain?
 ) {
 
     data class Community(

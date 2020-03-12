@@ -7,17 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentStatePagerAdapter
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentProfileNewBinding
-import io.golos.cyber_android.ui.shared.Tags
-import io.golos.cyber_android.ui.shared.extensions.getColorRes
-import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowConfirmationDialog
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
-import io.golos.cyber_android.ui.shared.widgets.TabLineDrawable
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
 import io.golos.cyber_android.ui.dialogs.ProfileExternalUserSettingsDialog
 import io.golos.cyber_android.ui.dialogs.ProfileMenuDialog
@@ -37,8 +30,17 @@ import io.golos.cyber_android.ui.screens.profile_communities.view.ProfileCommuni
 import io.golos.cyber_android.ui.screens.profile_followers.view.ProfileFollowersFragment
 import io.golos.cyber_android.ui.screens.profile_liked.ProfileLikedFragment
 import io.golos.cyber_android.ui.screens.profile_photos.view.ProfilePhotosFragment
+import io.golos.cyber_android.ui.screens.wallet.view.WalletFragment
+import io.golos.cyber_android.ui.shared.Tags
+import io.golos.utils.getColorRes
+import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowConfirmationDialog
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
+import io.golos.cyber_android.ui.shared.widgets.TabLineDrawable
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import kotlinx.android.synthetic.main.fragment_profile_new.*
 import java.io.File
 
@@ -67,10 +69,15 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
         with(viewModel) {
             communities.observe({ viewLifecycleOwner.lifecycle }) {
                 it?.let {
-                    childFragmentManager
-                        .beginTransaction()
-                        .add(R.id.communitiesContainer, provideCommunitiesFragment(it))
-                        .commit()
+                    val fragmentTag = "COMMUNITIES_FRAGMENT"
+                    val oldFragment = childFragmentManager.findFragmentByTag(fragmentTag)
+
+                    val transaction = childFragmentManager.beginTransaction()
+
+                    oldFragment?.let { transaction.remove(it) }
+
+                    transaction.add(R.id.communitiesContainer, provideCommunitiesFragment(it), fragmentTag)
+                    transaction.commit()
                 }
             }
         }
@@ -79,9 +86,6 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        initPages()
-        noConnection.setOnReconnectClickListener { viewModel.onRetryClick() }
         viewModel.start()
     }
 
@@ -89,16 +93,18 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
         when (command) {
             is ShowSelectPhotoDialogCommand -> showPhotoDialog(command.place)
             is ShowEditBioDialogCommand -> showEditBioDialog()
-            is MoveToSelectPhotoPageCommand -> moveToSelectPhotoPage(command.place, command.imageUrl)
-            is MoveToBioPageCommand -> moveToBioPage(command.text)
-            is MoveToFollowersPageCommand -> moveToFollowersPage(command.filter, command.mutualUsers)
+            is NavigateToSelectPhotoPageCommand -> moveToSelectPhotoPage(command.place, command.imageUrl)
+            is NavigateToBioPageCommand -> moveToBioPage(command.text)
+            is NavigateToFollowersPageCommand -> moveToFollowersPage(command.filter, command.mutualUsers)
             is ShowSettingsDialogCommand -> showSettingsDialog()
             is ShowExternalUserSettingsDialogCommand -> showExternalUserSettingsDialog(command.isBlocked)
             is ShowConfirmationDialog -> showConfirmationDialog(command.textRes)
-            is MoveToLikedPageCommand -> moveToLikedPage()
-            is MoveToBlackListPageCommand -> moveToBlackListPage()
+            is NavigateToLikedPageCommand -> moveToLikedPage()
+            is NavigateToBlackListPageCommand -> moveToBlackListPage()
             is NavigateBackwardCommand -> requireActivity().onBackPressed()
             is RestartAppCommand -> restartApp()
+            is LoadPostsAndCommentsCommand -> initPages()
+            is NavigateToWalletCommand -> moveToWallet(command.balance)
         }
     }
 
@@ -107,35 +113,12 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
         super.onActivityResult(requestCode, resultCode, data)
 
         when (requestCode) {
-            ProfileMenuDialog.REQUEST -> {
-                val item = ProfileItem.create(data!!.extras.getInt(ProfileMenuDialog.ITEM))
-                when (resultCode) {
-                    ProfileMenuDialog.RESULT_SELECT -> {
-                        viewModel.onSelectMenuChosen(item)
-                    }
-                    ProfileMenuDialog.RESULT_DELETE -> {
-                        viewModel.onDeleteMenuChosen(item)
-                    }
-                }
-            }
             ProfilePhotosFragment.REQUEST -> {
                 val result = data!!.extras.getParcelable<ProfilePhotosFragment.Result>(ProfilePhotosFragment.RESULT)
                 viewModel.updatePhoto(File(result.photoFilePath), result.place)
             }
             ProfileBioFragment.REQUEST -> {
                 viewModel.updateBio(data!!.extras.getString(ProfileBioFragment.RESULT)!!)
-            }
-            ProfileSettingsDialog.REQUEST -> {
-                when (resultCode) {
-                    ProfileSettingsDialog.RESULT_LOGOUT -> viewModel.onLogoutSelected()
-                    ProfileSettingsDialog.RESULT_LIKED -> viewModel.onLikedSelected()
-                    ProfileSettingsDialog.RESULT_BLACK_LIST -> viewModel.onBlackListSelected()
-                }
-            }
-            ProfileExternalUserSettingsDialog.REQUEST -> {
-                when (resultCode) {
-                    ProfileExternalUserSettingsDialog.RESULT_BLACK_LIST -> viewModel.onMoveToBlackListSelected()
-                }
             }
             ConfirmationDialog.REQUEST -> {
                 if (resultCode == ConfirmationDialog.RESULT_OK) {
@@ -151,7 +134,7 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
     protected open fun provideFollowersFragment(filter: FollowersFilter, mutualUsers: List<UserDomain>): Fragment =
         ProfileFollowersFragment.newInstance(filter, mutualUsers)
 
-    protected open fun providePagesAdapter(): FragmentPagerAdapter = ProfilePagesAdapter(
+    protected open fun providePagesAdapter(): FragmentStatePagerAdapter = ProfilePagesAdapter(
         context!!.applicationContext,
         getDashboardFragment(this)?.childFragmentManager!!,
         arguments?.getParcelable(Tags.USER_ID)!!) { appbar.setExpanded(false, true) }
@@ -170,23 +153,37 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
     }
 
     private fun showPhotoDialog(place: ProfileItem) =
-        ProfileMenuDialog.newInstance(place, this@ProfileFragment).show(requireFragmentManager(), "menu")
+        ProfileMenuDialog.show(this@ProfileFragment, place) {
+            when(it) {
+                is ProfileMenuDialog.Result.Select -> viewModel.onSelectMenuChosen(it.place)
+                is ProfileMenuDialog.Result.Delete -> viewModel.onDeleteMenuChosen(it.place)
+            }
+        }
 
-    private fun showEditBioDialog() =
-        ProfileMenuDialog.newInstance(ProfileItem.BIO, this@ProfileFragment).show(requireFragmentManager(), "menu")
+    private fun showEditBioDialog() = showPhotoDialog(ProfileItem.BIO)
 
     private fun showSettingsDialog() =
-        ProfileSettingsDialog.newInstance(this@ProfileFragment).show(requireFragmentManager(), "menu")
+        ProfileSettingsDialog.show(this@ProfileFragment) {
+            when(it) {
+                is ProfileSettingsDialog.Result.Logout -> viewModel.onLogoutSelected()
+                is ProfileSettingsDialog.Result.Liked -> viewModel.onLikedSelected()
+                is ProfileSettingsDialog.Result.BlackList -> viewModel.onBlackListSelected()
+            }
+        }
 
     private fun showExternalUserSettingsDialog(isBlocked: Boolean) =
-        ProfileExternalUserSettingsDialog.newInstance(this@ProfileFragment, isBlocked).show(requireFragmentManager(), "menu")
+        ProfileExternalUserSettingsDialog.show(this@ProfileFragment, isBlocked) {
+            when(it) {
+                is ProfileExternalUserSettingsDialog.Result.BlackList -> viewModel.onMoveToBlackListSelected()
+            }
+        }
 
     private fun showConfirmationDialog(@StringRes textResId: Int) =
         ConfirmationDialog.newInstance(textResId, this@ProfileFragment).show(requireFragmentManager(), "menu")
 
     private fun moveToSelectPhotoPage(place: ProfileItem, imageUrl: String?) =
         getDashboardFragment(this)
-            ?.showFragment(
+            ?.navigateToFragment(
                 ProfilePhotosFragment.newInstance(
                     place,
                     imageUrl,
@@ -195,20 +192,23 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
             )
 
     private fun moveToBioPage(text: String?) =
-        getDashboardFragment(this)?.showFragment(ProfileBioFragment.newInstance(text, this@ProfileFragment))
+        getDashboardFragment(this)?.navigateToFragment(ProfileBioFragment.newInstance(text, this@ProfileFragment))
 
     private fun moveToFollowersPage(filter: FollowersFilter, mutualUsers: List<UserDomain>) {
-        getDashboardFragment(this)?.showFragment(provideFollowersFragment(filter, mutualUsers))
+        getDashboardFragment(this)?.navigateToFragment(provideFollowersFragment(filter, mutualUsers))
     }
 
-    private fun moveToLikedPage() = getDashboardFragment(this)?.showFragment(ProfileLikedFragment.newInstance())
+    private fun moveToLikedPage() = getDashboardFragment(this)?.navigateToFragment(ProfileLikedFragment.newInstance())
 
     private fun moveToBlackListPage() =
-        getDashboardFragment(this)?.showFragment(ProfileBlackListFragment.newInstance(BlackListFilter.USERS))
+        getDashboardFragment(this)?.navigateToFragment(ProfileBlackListFragment.newInstance(BlackListFilter.USERS))
 
     private fun restartApp() {
         val loginIntent = Intent(requireContext(), LoginActivity::class.java)
         startActivity(loginIntent)
         activity!!.finish()
     }
+
+    private fun moveToWallet(balance: List<WalletCommunityBalanceRecordDomain>) =
+        getDashboardFragment(this)?.navigateToFragment(WalletFragment.newInstance(balance), tag = WalletFragment.tag)
 }

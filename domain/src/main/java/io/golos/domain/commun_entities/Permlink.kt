@@ -1,7 +1,7 @@
 package io.golos.domain.commun_entities
 
 import android.os.Parcelable
-import io.golos.domain.utils.IdUtil
+import io.golos.utils.id.IdUtil
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize

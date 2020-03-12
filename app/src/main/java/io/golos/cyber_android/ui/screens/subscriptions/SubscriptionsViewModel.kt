@@ -11,6 +11,7 @@ import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.screens.subscriptions.mappers.CommunityDomainListToCommunityListMapper
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
+import io.golos.utils.helpers.EMPTY
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -58,7 +59,7 @@ class SubscriptionsViewModel @Inject constructor(
 
     val searchProgressVisibilityLiveData = _searchProgressVisibilityLiveData.toLiveData()
 
-    private var communitySearchQuery: String = io.golos.utils.EMPTY
+    private var communitySearchQuery: String = EMPTY
 
     private var getCommunitiesJob: Job? = null
 
@@ -71,9 +72,9 @@ class SubscriptionsViewModel @Inject constructor(
                 }
             }
         }
-        paginatorSubscriptions.render = {
-            _subscriptionsListStateLiveData.value = it
-            _searchProgressVisibilityLiveData.value = it is Paginator.State.SearchProgress<*>
+        paginatorSubscriptions.render = { newState, _ ->
+            _subscriptionsListStateLiveData.value = newState
+            _searchProgressVisibilityLiveData.value = newState is Paginator.State.SearchProgress<*>
         }
 
         paginatorRecommendedCommunities.sideEffectListener = {
@@ -81,8 +82,8 @@ class SubscriptionsViewModel @Inject constructor(
                 is Paginator.SideEffect.LoadPage -> loadRecommendedCommunities(it.pageCount)
             }
         }
-        paginatorRecommendedCommunities.render = {
-            _recommendedSubscriptionsListStateLiveData.value = it
+        paginatorRecommendedCommunities.render = { newState, _ ->
+            _recommendedSubscriptionsListStateLiveData.value = newState
         }
     }
 

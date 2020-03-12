@@ -5,16 +5,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowConfirmationDialog
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.dto.ProfileCommunities
 import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.mappers.mapToCommunity
 import io.golos.cyber_android.ui.screens.profile.dto.*
 import io.golos.cyber_android.ui.screens.profile.model.ProfileModel
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.launch
@@ -76,6 +73,14 @@ constructor(
     private val _followButtonState = MutableLiveData<Boolean>()
     val followButtonState get() = _followButtonState.toLiveData()
 
+    private val _swipeRefreshing = MutableLiveData<Boolean>(false)
+    val swipeRefreshing get() = _swipeRefreshing.toLiveData()
+
+    val walletVisibility = if(model.isBalanceVisible) View.VISIBLE else View.GONE
+
+    private val _walletValue = MutableLiveData<Double>(0.0)
+    val walletValue: LiveData<Double> get() = _walletValue
+
     private var bioUpdateInProgress = false
 
     init {
@@ -108,9 +113,9 @@ constructor(
 
     fun onSelectMenuChosen(item: ProfileItem) {
         _command.value = when(item) {
-            ProfileItem.AVATAR -> MoveToSelectPhotoPageCommand(item, model.avatarUrl)
-            ProfileItem.COVER -> MoveToSelectPhotoPageCommand(item, model.coverUrl)
-            ProfileItem.BIO -> MoveToBioPageCommand(_bio.value)
+            ProfileItem.AVATAR -> NavigateToSelectPhotoPageCommand(item, model.avatarUrl)
+            ProfileItem.COVER -> NavigateToSelectPhotoPageCommand(item, model.coverUrl)
+            ProfileItem.BIO -> NavigateToBioPageCommand(_bio.value)
             else -> return
         }
     }
@@ -127,7 +132,7 @@ constructor(
     }
 
     fun onAddBioClick() {
-        _command.value = MoveToBioPageCommand(null)
+        _command.value = NavigateToBioPageCommand(null)
     }
 
     fun updatePhoto(imageFile: File, item: ProfileItem) {
@@ -169,11 +174,11 @@ constructor(
     }
 
     fun onFollowersClick() {
-        _command.value = MoveToFollowersPageCommand(FollowersFilter.FOLLOWERS, model.mutualUsers)
+        _command.value = NavigateToFollowersPageCommand(FollowersFilter.FOLLOWERS, model.mutualUsers)
     }
 
     fun onFollowingsClick() {
-        _command.value = MoveToFollowersPageCommand(FollowersFilter.FOLLOWINGS, model.mutualUsers)
+        _command.value = NavigateToFollowersPageCommand(FollowersFilter.FOLLOWINGS, model.mutualUsers)
     }
 
     fun onSettingsClick() {
@@ -189,11 +194,11 @@ constructor(
     }
 
     fun onLikedSelected() {
-        _command.value = MoveToLikedPageCommand()
+        _command.value = NavigateToLikedPageCommand()
     }
 
     fun onBlackListSelected() {
-        _command.value = MoveToBlackListPageCommand()
+        _command.value = NavigateToBlackListPageCommand()
     }
 
     fun onMoveToBlackListSelected() {
@@ -241,39 +246,62 @@ constructor(
         }
     }
 
+    fun onSwipeRefresh() {
+        launch {
+            _loadingProgressVisibility.value = View.VISIBLE
+            loadPageInternal()
+
+            _swipeRefreshing.value = false
+        }
+    }
+
     private fun loadPage() {
         launch {
-            try {
-                with(model.loadProfileInfo()) {
-                    _coverUrl.value = coverUrl
-                    _avatarUrl.value = avatarUrl
-                    _name.value = name
-                    _joinDate.value = joinDate
-                    _bio.value = bio
-                    _followersCount.value = followersCount
-                    _followingsCount.value = followingsCount
-
-                    val highlightCommunities = model.getHighlightCommunities()
-                    if(highlightCommunities.isNotEmpty()) {
-                        _communities.value = ProfileCommunities(communitiesSubscribedCount, highlightCommunities.map { it.mapToCommunity() })
-                    }
-
-                    _followButtonState.value = isSubscribed
-                }
-
-                _pageContentVisibility.value = View.VISIBLE
-
-            } catch (ex: Exception) {
-                Timber.e(ex)
-                _retryButtonVisibility.value = View.VISIBLE
-            } finally {
-                _loadingProgressVisibility.value = View.INVISIBLE
-            }
+            loadPageInternal()
         }
     }
 
     fun onBackButtonClick() {
         _command.value = NavigateBackwardCommand()
+    }
+
+    fun onWalletButtonClick() {
+        _command.value = NavigateToWalletCommand(model.balanceData)
+    }
+
+    private suspend fun loadPageInternal() {
+        try {
+            with(model.loadProfileInfo()) {
+                _command.value = LoadPostsAndCommentsCommand()
+
+                _coverUrl.value = coverUrl
+                _avatarUrl.value = avatarUrl
+                _name.value = name
+                _joinDate.value = joinDate
+                _bio.value = bio
+                _followersCount.value = followersCount
+                _followingsCount.value = followingsCount
+
+                val highlightCommunities = model.getHighlightCommunities()
+                if(highlightCommunities.isNotEmpty()) {
+                    _communities.value = ProfileCommunities(communitiesSubscribedCount, highlightCommunities.map { it.mapToCommunity() })
+                }
+
+                _followButtonState.value = isSubscribed
+            }
+
+            _pageContentVisibility.value = View.VISIBLE
+
+            if (model.isBalanceVisible) {
+                _walletValue.value = model.getTotalBalance()
+            }
+
+        } catch (ex: Exception) {
+            Timber.e(ex)
+            _retryButtonVisibility.value = View.VISIBLE
+        } finally {
+            _loadingProgressVisibility.value = View.INVISIBLE
+        }
     }
 
     private suspend fun updateAvatar(avatarFile: File) {

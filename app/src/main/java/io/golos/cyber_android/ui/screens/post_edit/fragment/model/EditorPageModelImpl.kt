@@ -13,15 +13,13 @@ import io.golos.cyber_android.ui.screens.post_edit.fragment.dto.ExternalLinkType
 import io.golos.cyber_android.ui.screens.post_edit.fragment.dto.ValidationResult
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.shared.utils.localSize
-import io.golos.data.api.embed.EmbedApi
 import io.golos.data.errors.CyberServicesError
 import io.golos.data.mappers.mapToBlockEntity
+import io.golos.data.repositories.embed.EmbedRepository
 import io.golos.data.repositories.images_uploading.ImageUploadRepository
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.commun_entities.Permlink
-import io.golos.domain.dto.CommunityPageDomain
 import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.PostDomain
 import io.golos.domain.dto.UploadedImageEntity
@@ -32,11 +30,10 @@ import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.requestmodel.CompressionParams
 import io.golos.domain.requestmodel.ImageUploadRequest
-import io.golos.domain.use_cases.community.CommunitiesRepository
 import io.golos.domain.use_cases.model.PostModel
 import io.golos.domain.use_cases.post.editor_output.*
 import io.golos.domain.use_cases.post.post_dto.ImageBlock
-import io.golos.domain.utils.IdUtil
+import io.golos.utils.id.IdUtil
 import io.golos.posts_editor.utilities.post.PostStubs
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -49,11 +46,9 @@ class EditorPageModelImpl
 @Inject
 constructor(
     private val dispatchersProvider: DispatchersProvider,
-    private val embedApi: EmbedApi,
-    private val communitiesRepository: CommunitiesRepository,
+    private val embedRepository: EmbedRepository,
     private val imageUploadRepository: ImageUploadRepository,
     private val discussionRepository: DiscussionRepository,
-    private val keyValueStorage: KeyValueStorageFacade,
     private val currentUserRepository: CurrentUserRepositoryRead,
     private val moshi: Moshi
 ) : ModelBaseImpl(), EditorPageModel {
@@ -61,7 +56,7 @@ constructor(
     override suspend fun getExternalLinkInfo(uri: String): Either<ExternalLinkInfo, ExternalLinkError> =
         withContext(dispatchersProvider.ioDispatcher) {
             try {
-                val linkInfo = mapExternalLinkInfo(embedApi.getOEmbedEmbed(uri)!!, uri)
+                val linkInfo = mapExternalLinkInfo(embedRepository.getOEmbedEmbed(uri)!!, uri)
                 if (linkInfo == null) {
                     Either.Failure<ExternalLinkInfo, ExternalLinkError>(ExternalLinkError.TYPE_IS_NOT_SUPPORTED)
                 } else {
@@ -169,19 +164,6 @@ constructor(
         return discussionRepository.updatePost(contentIdDomain, body, tags)
     }
 
-    override suspend fun getLastUsedCommunity(): CommunityPageDomain? =
-        withContext(dispatchersProvider.ioDispatcher) {
-            keyValueStorage.getLastUsedCommunityId()?.let {
-                communitiesRepository.getCommunityPageById(it)
-            }
-        }
-
-    override suspend fun saveLastUsedCommunity(communityId: String) {
-        withContext(dispatchersProvider.ioDispatcher) {
-            keyValueStorage.saveLastUsedCommunityId(communityId)
-        }
-    }
-
     override suspend fun getPostToEdit(permlink: Permlink): PostModel =
         withContext(dispatchersProvider.ioDispatcher) {
             delay(500)
@@ -203,7 +185,10 @@ constructor(
     private fun mapExternalLinkInfo(serverLinkInfo: OEmbedResult, sourceUrl: String): ExternalLinkInfo? {
         val type = when (serverLinkInfo.type) {
             "link" -> ExternalLinkType.WEBSITE
+
+            "image",
             "photo" -> ExternalLinkType.IMAGE
+
             "video" -> ExternalLinkType.VIDEO
             else -> {
                 Timber.e(UnsupportedOperationException("This resource type is not supported: ${serverLinkInfo.type}"))

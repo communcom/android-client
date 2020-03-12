@@ -4,8 +4,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.login_activity.dto.*
 import io.golos.cyber_android.ui.screens.login_activity.model.LoginModel
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToMainScreenCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -24,15 +23,21 @@ constructor(
 
     val splashAnimationDuration = 500L // ms
 
-    private fun processLogin() {
+    fun processLogin() {
         launch {
             _command.value = ShowSplashAnimationCommand()
 
             if(!model.hasNetworkConnection) {
+                delay(2000)
                 hideSplashAnimation()
-                _command.value = ShowMessageResCommand(R.string.check_connection)
-                delay(3000)
-                model.closeApp()
+                _command.value = ShowNoConnectionDialogCommand()
+                return@launch
+            } else {
+                _command.value = HideNoConnectionDialogCommand()
+            }
+
+            if(model.isOutdated()) {
+                _command.value = ShowUpdateAppDialogCommand()
                 return@launch
             }
 

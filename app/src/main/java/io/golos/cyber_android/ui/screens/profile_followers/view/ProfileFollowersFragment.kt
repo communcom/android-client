@@ -11,6 +11,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardComma
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.screens.profile_followers.view_model.ProfileFollowersViewModel
+import io.golos.domain.GlobalConstants
 import io.golos.domain.dto.UserDomain
 import kotlinx.android.synthetic.main.fragment_profile_followers.*
 
@@ -36,7 +37,7 @@ open class ProfileFollowersFragment : FragmentBaseMVVM<FragmentProfileFollowersB
             .get<ProfileFollowersFragmentComponent>(
                 key,
                 FollowersFilter.create(arguments!!.getInt(FILTER)),
-                25,         // Page size
+                GlobalConstants.PAGE_SIZE,
                 arguments!!.getParcelableArray(MUTUAL_USERS)!!.toList())
             .inject(this)
 

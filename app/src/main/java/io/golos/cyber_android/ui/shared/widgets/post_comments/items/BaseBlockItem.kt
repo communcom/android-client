@@ -13,8 +13,7 @@ abstract class BaseBlockItem<POST_BLOCK : Block, WIDGET_LISTENER : BasePostBlock
     private val postBlock: POST_BLOCK,
     private val widgetListener: WIDGET_LISTENER? = null,
     private val onLongClickLister: View.OnLongClickListener? = null
-) :
-    BaseRecyclerItem() {
+) : BaseRecyclerItem() {
 
     override fun getLayoutId(): Int = R.layout.item_post_block
 
@@ -29,8 +28,28 @@ abstract class BaseBlockItem<POST_BLOCK : Block, WIDGET_LISTENER : BasePostBlock
         widget.setOnClickProcessor(widgetListener)
         val widgetView = widget as View
         widgetView.id = widgetViewId
+        //Handle long click all widgets except [io.golos.cyber_android.ui.shared.widgets.post_comments.ParagraphWidget]
         widget.setOnLongClickListener(onLongClickLister)
-        view.postWidgetContainer.addView(widgetView)
+        //only work on [io.golos.cyber_android.ui.shared.widgets.post_comments.ParagraphWidget]
+        val postWidgetContainer = view.postWidgetContainer
+        postWidgetContainer.setOnLongClickListener(onLongClickLister)
+        postWidgetContainer.addView(widgetView)
+
+        if(adapterPosition == 0){
+            postWidgetContainer.setPadding(
+                postWidgetContainer.paddingLeft,
+                0,
+                postWidgetContainer.paddingRight,
+                postWidgetContainer.paddingBottom
+            )
+        } else{
+            postWidgetContainer.setPadding(
+                postWidgetContainer.paddingLeft,
+                postWidgetContainer.context.resources.getDimension(R.dimen.post_widget_padding_top).toInt(),
+                postWidgetContainer.paddingRight,
+                postWidgetContainer.paddingBottom
+            )
+        }
     }
 
     override fun renderView(context: Context, view: View) {

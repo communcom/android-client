@@ -9,4 +9,10 @@ interface LoginActivityFragmentsDataPass {
 
     fun putSelectedCountry(country: CountryDomain)
     fun getSelectedCountry(): CountryDomain?
+
+    fun putPhone(phone: String)
+    fun getPhonePhone(): String?
+
+    fun putFtueCommunityBonus(bonus: Int)
+    fun getFtueCommunityBonus(): Int?
 }

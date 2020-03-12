@@ -9,12 +9,13 @@ import io.golos.cyber_android.ui.shared.recycler_view.versioned.CommunityListIte
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.LoadingListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.RetryListItem
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.GlobalConstants
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.community.CommunitiesRepository
-import io.golos.domain.utils.IdUtil
-import io.golos.domain.utils.MurmurHash
+import io.golos.utils.id.IdUtil
+import io.golos.utils.id.MurmurHash
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
@@ -44,11 +45,9 @@ constructor(
     private var loadedItems: MutableList<VersionedListItem> = mutableListOf()
 
     private val _items = MutableLiveData<List<VersionedListItem>>(listOf())
+    override val items: LiveData<List<VersionedListItem>> get() = _items
 
-    override val items: LiveData<List<VersionedListItem>>
-        get() = _items
-
-    override val pageSize = 25
+    override val pageSize = GlobalConstants.PAGE_SIZE
 
     override suspend fun loadPage() {
         when(currentLoadingState) {
@@ -58,6 +57,16 @@ constructor(
             LoadingState.IN_ERROR,
             LoadingState.ALL_DATA_LOADED -> { /* do nothing */ }
         }
+    }
+
+    override fun clear(): Boolean {
+        if(currentLoadingState == LoadingState.LOADING || currentLoadingState == LoadingState.IN_ERROR) {
+            return false
+        }
+
+        loadedItems.clear()
+
+        return true
     }
 
     override suspend fun retry() {
@@ -106,9 +115,11 @@ constructor(
         CommunityListItem(
             MurmurHash.hash64(this.communityId),
             0,
-            this,
-            this.isSubscribed,
-            false
+            isFirstItem = false,
+            isLastItem = false,
+            community = this,
+            isInPositiveState = this.isSubscribed,
+            isProgress = false
         )
 
     private suspend fun loadData(isRetry: Boolean) {
@@ -169,7 +180,20 @@ constructor(
 
     private fun addLoadedData(data: List<CommunityListItem>) = updateData {
         loadedItems.removeAt(loadedItems.lastIndex)
-        loadedItems.addAll(data)
+
+        if(loadedItems.isNotEmpty()) {
+            val lastItem = loadedItems.last()
+            if(lastItem is CommunityListItem) {
+                loadedItems[loadedItems.lastIndex] = lastItem.copy(isLastItem = false)
+            }
+        }
+
+        if(data.isNotEmpty()) {
+            val updatableData = data.toMutableList()
+            val lastItem = updatableData.last()
+            updatableData[updatableData.lastIndex] = lastItem.copy(isLastItem = true)
+            loadedItems.addAll(updatableData)
+        }
     }
 
     private fun setCommunityInProgress(communityId: String) =

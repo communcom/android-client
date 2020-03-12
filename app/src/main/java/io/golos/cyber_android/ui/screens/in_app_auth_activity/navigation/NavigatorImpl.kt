@@ -42,6 +42,10 @@ class NavigatorImpl @Inject constructor() : NavigatorBaseImpl(R.id.authNavHost),
                     InAppAuthActivity.FINGERPRINT_HEADER_ID,
                     fragment.requireActivity().intent.extras!!.getInt(InAppAuthActivity.FINGERPRINT_HEADER_ID)
                 )
+                putBoolean(
+                    InAppAuthActivity.PIN_CODE_UNLOCK_ENABLED,
+                    fragment.requireActivity().intent.extras!!.getBoolean(InAppAuthActivity.PIN_CODE_UNLOCK_ENABLED)
+                )
             }
             .let {
                 getNavigationController(fragment.requireActivity())

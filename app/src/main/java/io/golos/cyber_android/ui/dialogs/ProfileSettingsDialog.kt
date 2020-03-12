@@ -1,33 +1,34 @@
 package io.golos.cyber_android.ui.dialogs
 
-import android.app.Activity
+import android.view.View
 import androidx.fragment.app.Fragment
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dialogs.base.BottomSheetDialogFragmentBase
 import kotlinx.android.synthetic.main.dialog_profile_settings.*
 
-class ProfileSettingsDialog : BottomSheetDialogFragmentBase() {
-    companion object {
-        const val REQUEST = 4053
-
-        const val RESULT_LIKED = Activity.RESULT_FIRST_USER + 1
-        const val RESULT_BLACK_LIST = Activity.RESULT_FIRST_USER + 2
-        const val RESULT_LOGOUT = Activity.RESULT_FIRST_USER + 3
-        const val RESULT_CANCEL = Activity.RESULT_FIRST_USER + 4
-
-        fun newInstance(target: Fragment): ProfileSettingsDialog {
-            return ProfileSettingsDialog().apply {
-                setTargetFragment(target, REQUEST)
-            }
-        }
+class ProfileSettingsDialog : BottomSheetDialogFragmentBase<ProfileSettingsDialog.Result>() {
+    sealed class Result {
+        object Liked: Result()
+        object BlackList: Result()
+        object Logout: Result()
     }
 
-    override fun provideLayout(): Int = R.layout.dialog_profile_settings
+    companion object {
+        fun show(parent: Fragment, closeAction: (Result?) -> Unit) =
+            ProfileSettingsDialog()
+                .apply { closeActionListener = closeAction }
+                .show(parent.parentFragmentManager, "PROFILE_SETTINGS_DIALOG")
+    }
+
+    override val closeButton: View?
+        get() = buttonClose
+
+    override val layout: Int
+        get() = R.layout.dialog_profile_settings
 
     override fun setupView() {
-        liked.setSelectAction(RESULT_LIKED)
-        blacklist.setSelectAction(RESULT_BLACK_LIST)
-        logout.setSelectAction(RESULT_LOGOUT)
-        closeButton.setSelectAction(RESULT_CANCEL)
+        liked.setOnClickListener { closeOnItemSelected(Result.Liked) }
+        blacklist.setOnClickListener { closeOnItemSelected(Result.BlackList) }
+        logout.setOnClickListener { closeOnItemSelected(Result.Logout) }
     }
 }

@@ -5,7 +5,7 @@ import io.golos.cyber_android.ui.dto.Post
 import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.dto.PostDomain
 
-fun PostDomain.CommunityDomain.mapToCommunity(): Post.Community {
+fun CommunityDomain.mapToPostCommunity(): Post.Community {
     return Post.Community(
         this.alias,
         this.communityId,

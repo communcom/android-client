@@ -1,7 +1,9 @@
 package io.golos.cyber_android.ui.shared.glide
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import com.bumptech.glide.Glide
@@ -18,6 +20,10 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.glide.transformations.GradientTransformation
 import io.golos.cyber_android.ui.shared.glide.transformations.PercentageRoundVectorFrameTransformation
 import io.golos.cyber_android.ui.shared.glide.transformations.RoundFrameTransformation
+import io.golos.cyber_android.ui.shared.glide.transformations.TopRoundedCornersTransformation
+import kotlinx.android.synthetic.main.view_post_embed_website.view.*
+
+typealias GlideTarget = Target<*>
 
 enum class ImageProgressLoadState{
     START,
@@ -25,7 +31,11 @@ enum class ImageProgressLoadState{
     ERROR
 }
 
-fun ImageView.loadAvatar(avatarUrl: String?) = this.load(avatarUrl, R.drawable.ic_empty_user)
+fun ImageView.loadAvatar(avatarUrl: String?, @DrawableRes defaultRes: Int = R.drawable.ic_avatar) =
+    this.load(avatarUrl, defaultRes)
+
+fun ImageView.loadAvatar(avatarUri: Uri?, @DrawableRes defaultRes: Int = R.drawable.ic_avatar) =
+    this.load(avatarUri, defaultRes)
 
 fun ImageView.loadCommunity(communityUrl: String?) = this.load(communityUrl, R.drawable.ic_group_temporary)
 
@@ -43,8 +53,8 @@ fun ImageView.loadLeader(url: String?, percentage: Float) =
                 R.drawable.ic_avatar_frame
             )
         )
-        .fallback(R.drawable.ic_empty_user)
-        .error(R.drawable.ic_empty_user)
+        .fallback(R.drawable.ic_avatar)
+        .error(R.drawable.ic_avatar)
         .into(this)
 
 fun ImageView.loadCover(url: String?) {
@@ -65,7 +75,7 @@ fun ImageView.loadCover(url: String?) {
         .into(this)
 }
 
-fun ImageView.load(url: String?, @DrawableRes defaultRes: Int) {
+fun ImageView.load(url: String?, @DrawableRes defaultRes: Int): GlideTarget =
     Glide
         .with(this)
         .load(url)
@@ -74,7 +84,16 @@ fun ImageView.load(url: String?, @DrawableRes defaultRes: Int) {
         .error(defaultRes)
         .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
         .into(this)
-}
+
+fun ImageView.load(uri: Uri?, @DrawableRes defaultRes: Int): GlideTarget =
+    Glide
+        .with(this)
+        .load(uri)
+        .apply(RequestOptions.circleCropTransform())
+        .fallback(defaultRes)
+        .error(defaultRes)
+        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+        .into(this)
 
 fun ImageView.loadCommentAttachment(url: String?, cornerRadiusInPixels: Int = 0) {
     Glide.with(context)
@@ -120,7 +139,31 @@ fun ImageView.loadContentAttachment(url: String?, loadStatus: ((ImageProgressLoa
         .into(this)
 }
 
-fun ImageView.loadCommunityItemCover(url: String?): Target<*> =
+fun ImageView.loadWebsiteContent(url: String?){
+    val radius = context.resources.getDimension(R.dimen.radius_corner_embed_website)
+    Glide
+        .with(this)
+        .load(url)
+        .transform(CenterCrop(),
+            TopRoundedCornersTransformation(radius)
+        )
+        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+        .error(R.drawable.widget_epmty_place_holder)
+        .placeholder(R.drawable.widget_epmty_place_holder)
+        .into(image)
+}
+
+fun ImageView.loadVideoContent(url: String?){
+    Glide
+        .with(this)
+        .load(url)
+        .centerCrop()
+        .error(R.drawable.widget_epmty_place_holder)
+        .placeholder(R.drawable.widget_epmty_place_holder)
+        .into(image)
+}
+
+fun ImageView.loadCommunityItemCover(url: String?): GlideTarget =
     Glide
         .with(this.context.applicationContext)
         .load(if (url.isNullOrEmpty()) "file:///android_asset/bcg_blue.webp" else url)
@@ -131,7 +174,7 @@ fun ImageView.loadCommunityItemCover(url: String?): Target<*> =
         .placeholder(R.drawable.bcg_community_item_loading_background)
         .into(this)
 
-fun ImageView.loadCommunityItemAvatar(url: String?): Target<*> =
+fun ImageView.loadCommunityItemAvatar(url: String?): GlideTarget =
     Glide
         .with(this.context.applicationContext)
         .load(if (url.isNullOrEmpty()) "file:///android_asset/bcg_blue.webp" else url)
@@ -146,7 +189,21 @@ fun ImageView.loadCommunityItemAvatar(url: String?): Target<*> =
         .override(100, 100)
         .into(this)
 
+fun ImageView.loadNotificationImageContent(url: String?){
+    val roundSize = context.resources.getDimension(R.dimen.notification_content_image_round_size).toInt()
+    Glide.with(context)
+        .load(url.orEmpty())
+        .transform(CenterCrop(), RoundedCorners(roundSize))
+        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+        .into(this)
+}
 
-fun ImageView.clear() = Glide.with(this).clear(this)
+fun ImageView.clear(){
+    val viewContext = context
+    if(viewContext is Activity && viewContext.isDestroyed){
+        return
+    }
+    Glide.with(this).clear(this)
+}
 
-fun Target<*>.clear(context: Context) = Glide.with(context).clear(this)
+fun GlideTarget.clear(context: Context) = Glide.with(context).clear(this)

@@ -4,24 +4,33 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.domain.dto.UserDomain
+import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 
 class ShowSelectPhotoDialogCommand(val place: ProfileItem): ViewCommand
 
 class ShowEditBioDialogCommand : ViewCommand
 
-class MoveToSelectPhotoPageCommand(val place: ProfileItem, val imageUrl: String?): ViewCommand
+class NavigateToSelectPhotoPageCommand(val place: ProfileItem, val imageUrl: String?): ViewCommand
 
-class MoveToBioPageCommand(val text: String?): ViewCommand
+class NavigateToBioPageCommand(val text: String?): ViewCommand
 
-class MoveToFollowersPageCommand(val filter: FollowersFilter, val mutualUsers: List<UserDomain>): ViewCommand
+class NavigateToFollowersPageCommand(val filter: FollowersFilter, val mutualUsers: List<UserDomain>): ViewCommand
 
-class MoveToLikedPageCommand : ViewCommand
+class NavigateToLikedPageCommand : ViewCommand
 
-class MoveToBlackListPageCommand : ViewCommand
+class NavigateToBlackListPageCommand : ViewCommand
 
 class ShowSettingsDialogCommand : ViewCommand
 
 class ShowExternalUserSettingsDialogCommand(val isBlocked: Boolean) : ViewCommand
 
 class RestartAppCommand : ViewCommand
+
+class LoadPostsAndCommentsCommand : ViewCommand
+
+class NavigateToWalletCommand(val balance: List<WalletCommunityBalanceRecordDomain>) : ViewCommand
+
+class NavigateToWalletBackCommand() : ViewCommand
+
+class NavigateToHomeBackCommand() : ViewCommand
 

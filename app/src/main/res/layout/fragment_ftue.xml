@@ -22,9 +22,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:layout_marginStart="@dimen/dimen_14"
+            android:layout_marginStart="14dp"
 
-            android:textSize="@dimen/text_size_19_sp"
+            android:textSize="19sp"
             android:textStyle="bold"
             android:textColor="@color/black"
 
@@ -35,13 +35,13 @@
             tools:text="commun" />
         
         <ImageView
-            android:layout_width="@dimen/dimen_8"
-            android:layout_height="@dimen/dimen_23"
+            android:layout_width="8dp"
+            android:layout_height="23dp"
 
             android:src="@drawable/ic_splash_icon"
             android:tint="@color/blue"
 
-            android:layout_marginStart="@dimen/dimen_5"
+            android:layout_marginStart="5dp"
 
             app:layout_constraintStart_toEndOf="@+id/tvCommunUrl"
             app:layout_constraintTop_toTopOf="@+id/tvCommunUrl"
@@ -56,10 +56,10 @@
             app:dotsColor="@color/middle_gray_5"
             app:dotsCornerRadius="8dp"
             app:dotsSize="6dp"
-            app:dotsSpacing="@dimen/dimen_4"
+            app:dotsSpacing="4dp"
             app:dotsWidthFactor="4.0"
 
-            android:layout_marginTop="@dimen/dimen_28"
+            android:layout_marginTop="28dp"
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -89,7 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
 
-            android:layout_marginTop="@dimen/dimen_10"
+            android:layout_marginTop="10dp"
 
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

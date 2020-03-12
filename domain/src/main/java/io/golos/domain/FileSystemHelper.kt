@@ -1,7 +1,6 @@
 package io.golos.domain
 
 import android.net.Uri
-import io.golos.domain.utils.IdUtil
 import java.io.File
 
 interface FileSystemHelper {

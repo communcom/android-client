@@ -11,5 +11,6 @@ data class CommunityLeaderDomain(
     val ratingPercent: Double,
     val url: String,
     val username: String,
-    val votesCount: Int
+    val votesCount: Int,
+    val isTop: Boolean
 )

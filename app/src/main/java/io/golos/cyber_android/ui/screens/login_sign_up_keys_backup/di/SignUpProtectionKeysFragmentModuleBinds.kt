@@ -9,6 +9,8 @@ import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactoryI
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelKey
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.model.SignUpProtectionKeysModel
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.model.SignUpProtectionKeysModelImpl
+import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.model.page_renderer.PageRenderer
+import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.model.page_renderer.PageRendererImpl
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.view_model.SignUpProtectionKeysViewModel
 
 @Module
@@ -23,4 +25,7 @@ abstract class SignUpProtectionKeysFragmentModuleBinds {
 
     @Binds
     abstract fun provideModel(model: SignUpProtectionKeysModelImpl): SignUpProtectionKeysModel
+
+    @Binds
+    abstract fun providePageRenderer(renderer: PageRendererImpl): PageRenderer
 }

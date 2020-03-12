@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import io.golos.commun4j.sharedmodel.Either
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.mappers.mapToContentId
 import io.golos.cyber_android.ui.mappers.mapToContentIdDomain
@@ -16,9 +15,15 @@ import io.golos.cyber_android.ui.screens.post_edit.fragment.dto.ExternalLinkInfo
 import io.golos.cyber_android.ui.screens.post_edit.fragment.dto.ShowCloseConfirmationDialogCommand
 import io.golos.cyber_android.ui.screens.post_edit.fragment.dto.ValidationResult
 import io.golos.cyber_android.ui.screens.post_edit.fragment.model.EditorPageModel
-import io.golos.cyber_android.ui.screens.post_edit.fragment.view_commands.*
-import io.golos.cyber_android.ui.screens.post_edit.shared.EditorPageBridgeFragment
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
+import io.golos.cyber_android.ui.screens.post_edit.fragment.view_commands.InsertExternalLinkViewCommand
+import io.golos.cyber_android.ui.screens.post_edit.fragment.view_commands.PastedLinkIsValidViewCommand
+import io.golos.cyber_android.ui.screens.post_edit.fragment.view_commands.PostCreatedViewCommand
+import io.golos.cyber_android.ui.screens.post_edit.fragment.view_commands.UpdateLinkInTextViewCommand
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToMainScreenCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.data.errors.AppError
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.CommunityId
@@ -176,8 +181,6 @@ constructor(
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
 
-                model.saveLastUsedCommunity(community.value!!.communityId)
-
                 var uploadResult: UploadedImageEntity? = null
                 try {
                     uploadResult = model.uploadLocalImage(content)
@@ -329,24 +332,7 @@ constructor(
                 _command.value = SetLoadingVisibilityCommand(true)
                 isSelectCommunityEnabled.value = !isInEditMode
 
-                if (contentId == null) {
-                    // New post
-                    val lastUsedCommunity = model.getLastUsedCommunity()
-                    community.value = lastUsedCommunity?.let {
-                        CommunityDomain(
-                            communityId = it.communityId,
-                            alias = it.alias,
-                            name = it.name,
-                            avatarUrl = it.avatarUrl,
-                            coverUrl = it.coverUrl,
-                            subscribersCount = 0,
-                            postsCount = 0,
-                            isSubscribed = it.isSubscribed
-                        )
-                    }
-
-                    isPostEnabled.value = lastUsedCommunity != null
-                } else {
+                if (contentId != null) {
                     // Updated post
                     val postToEditCall = async { model.getPostToEdit(contentId) }
 

@@ -1,17 +1,11 @@
 package io.golos.cyber_android.ui.screens.community_page_leaders_list.view.list
 
 import android.view.ViewGroup
+import io.golos.cyber_android.ui.screens.community_page_leaders_list.dto.*
+import io.golos.cyber_android.ui.screens.community_page_leaders_list.view.list.view_holders.*
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListAdapterBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.screens.community_page_leaders_list.dto.EmptyListItem
-import io.golos.cyber_android.ui.screens.community_page_leaders_list.dto.LeaderListItem
-import io.golos.cyber_android.ui.screens.community_page_leaders_list.dto.LoadingListItem
-import io.golos.cyber_android.ui.screens.community_page_leaders_list.dto.RetryListItem
-import io.golos.cyber_android.ui.screens.community_page_leaders_list.view.list.view_holders.EmptyListItemViewHolder
-import io.golos.cyber_android.ui.screens.community_page_leaders_list.view.list.view_holders.LeadersListItemViewHolder
-import io.golos.cyber_android.ui.screens.community_page_leaders_list.view.list.view_holders.LoadingListItemViewHolder
-import io.golos.cyber_android.ui.screens.community_page_leaders_list.view.list.view_holders.RetryListItemViewHolder
 
 open class LeadsListListAdapter(
     listItemEventsProcessor: LeadsListItemEventsProcessor
@@ -22,6 +16,8 @@ open class LeadsListListAdapter(
         const val LOADING = 1
         const val RETRY = 2
         const val EMPTY = 3
+        const val LEADER_HEADER = 4
+        const val NOMINEES_HEADER = 5
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderBase<LeadsListItemEventsProcessor, VersionedListItem> =
@@ -30,6 +26,8 @@ open class LeadsListListAdapter(
             LOADING -> LoadingListItemViewHolder(parent)
             RETRY -> RetryListItemViewHolder(parent)
             EMPTY -> EmptyListItemViewHolder(parent)
+            LEADER_HEADER -> LeadersHeaderListItemViewHolder(parent)
+            NOMINEES_HEADER -> NomineesHeaderListItemViewHolder(parent)
             else -> throw UnsupportedOperationException("This type of item is not supported")
         }
 
@@ -39,6 +37,8 @@ open class LeadsListListAdapter(
             is LoadingListItem -> LOADING
             is RetryListItem -> RETRY
             is EmptyListItem -> EMPTY
+            is LeadersHeaderItem -> LEADER_HEADER
+            is NomineesHeaderItem -> NOMINEES_HEADER
             else -> throw UnsupportedOperationException("This type of item is not supported")
         }
 }

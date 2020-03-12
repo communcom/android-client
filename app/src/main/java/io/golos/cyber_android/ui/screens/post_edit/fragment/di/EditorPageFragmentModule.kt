@@ -46,7 +46,6 @@ class EditorPageFragmentModule(private val contentId: ContentId?) {
         postFeedRepository: DiscussionsFeedRepository<PostEntity, PostFeedUpdateRequest>,
         postEntityToModelMapper: PostEntitiesToModelMapper,
         commentsRepository: DiscussionsFeedRepository<CommentEntity, CommentFeedUpdateRequest>,
-        voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>,
         commentFeeEntityToModelMapper: CommentsFeedEntityToModelMapper,
         dispatchersProvider: DispatchersProvider,
         model: EditorPageModel
@@ -57,7 +56,6 @@ class EditorPageFragmentModule(private val contentId: ContentId?) {
                 postFeedRepository,
                 postEntityToModelMapper,
                 commentsRepository,
-                voteRepository,
                 commentFeeEntityToModelMapper,
                 dispatchersProvider
             )
@@ -81,7 +79,6 @@ class EditorPageFragmentModule(private val contentId: ContentId?) {
         postFeedRepository: DiscussionsFeedRepository<PostEntity, PostFeedUpdateRequest>,
         postEntityToModelMapper: PostEntitiesToModelMapper,
         commentsRepository: DiscussionsFeedRepository<CommentEntity, CommentFeedUpdateRequest>,
-        voteRepository: Repository<VoteRequestEntity, VoteRequestEntity>,
         commentFeeEntityToModelMapper: CommentsFeedEntityToModelMapper,
         dispatchersProvider: DispatchersProvider
     ): PostWithCommentUseCaseImpl =
@@ -90,7 +87,6 @@ class EditorPageFragmentModule(private val contentId: ContentId?) {
             postFeedRepository,
             postEntityToModelMapper,
             commentsRepository,
-            voteRepository,
             commentFeeEntityToModelMapper,
             dispatchersProvider
         )

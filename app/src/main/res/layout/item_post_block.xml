@@ -12,10 +12,13 @@
         android:text=""
         tools:text="Some error" />
 
+    <!--Clickable area for post content it postWidgetContainer. Need all paddings setup in this container!-->
     <LinearLayout
         android:id="@+id/postWidgetContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" />
+        android:orientation="vertical"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"/>
 
 </FrameLayout>

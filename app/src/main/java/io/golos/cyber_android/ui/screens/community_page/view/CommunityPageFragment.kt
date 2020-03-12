@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.lifecycle.Observer
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
@@ -19,15 +19,17 @@ import io.golos.cyber_android.ui.screens.community_page_leaders_list.view.LeadsL
 import io.golos.cyber_android.ui.screens.community_page_members.view.CommunityPageMembersFragment
 import io.golos.cyber_android.ui.screens.community_page_post.view.CommunityPostFragment
 import io.golos.cyber_android.ui.screens.community_page_rules.CommunityPageRulesFragment
-import io.golos.cyber_android.ui.shared.formatters.counts.KiloCounterFormatter
+import io.golos.utils.format.KiloCounterFormatter
 import io.golos.cyber_android.ui.shared.glide.loadCommunity
 import io.golos.cyber_android.ui.shared.glide.loadCover
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
+import io.golos.cyber_android.ui.shared.popups.no_connection.NoConnectionPopup
 import io.golos.cyber_android.ui.shared.utils.toMMMM_DD_YYYY_Format
 import io.golos.cyber_android.ui.shared.widgets.TabLineDrawable
-import io.golos.utils.toPluralInt
+import io.golos.utils.helpers.EMPTY
+import io.golos.utils.helpers.toPluralInt
 import kotlinx.android.synthetic.main.fragment_community_page.*
 import kotlinx.android.synthetic.main.layout_community_header_members.*
 
@@ -48,24 +50,10 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
 
     override fun layoutResId(): Int = R.layout.fragment_community_page
 
-    private var fragmentPagesList: List<Fragment> = ArrayList()
+    private var fragmentPagesList: MutableList<Fragment> = ArrayList()
 
     private val tabTitles by lazy {
         requireContext().resources.getStringArray(R.array.community_page_tab_titles)
-    }
-    private val communityPagerTabAdapter by lazy {
-
-        object : FragmentPagerAdapter(childFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
-
-            override fun getPageTitle(position: Int): CharSequence? {
-                return tabTitles.getOrNull(position)
-            }
-
-            override fun getItem(position: Int): Fragment = fragmentPagesList[position]
-
-            override fun getCount(): Int = fragmentPagesList.size
-
-        }
     }
 
     override fun provideViewModelType(): Class<CommunityPageViewModel> = CommunityPageViewModel::class.java
@@ -80,14 +68,10 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initTabLayout()
         observeViewModel()
 
         ivBack.setOnClickListener {
             viewModel.onBackPressed()
-        }
-        noConnection.setOnReconnectClickListener {
-            viewModel.loadCommunityPage()
         }
 
         viewModel.start(getCommunityId())
@@ -156,9 +140,9 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
 
         viewModel.communityPageIsErrorLiveData.observe(viewLifecycleOwner, Observer {
             if (it) {
-                noConnection.visibility = View.VISIBLE
+                NoConnectionPopup.show(this, root) { viewModel.loadCommunityPage() }
             } else {
-                noConnection.visibility = View.INVISIBLE
+                NoConnectionPopup.hide(this)
             }
         })
 
@@ -183,18 +167,36 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
         ctvJoin.isChecked = isSubscribed
     }
 
-    private fun initTabLayout() {
+    override fun onDestroyView() {
+        communityViewPagerRelease()
+        super.onDestroyView()
+    }
+
+    private fun communityViewPagerRelease(){
+        fragmentPagesList.clear()
+        vpContent.adapter = null
+    }
+
+    private fun initViewPager(communityPage: CommunityPage) {
         tabLayout.apply {
             setupWithViewPager(vpContent)
             setSelectedTabIndicator(TabLineDrawable(requireContext()))
             setSelectedTabIndicatorColor(ContextCompat.getColor(requireContext(), R.color.blue))
         }
-    }
 
-    private fun initViewPager(communityPage: CommunityPage) {
         fragmentPagesList = createPageFragmentsList(communityPage)
-        vpContent.adapter = communityPagerTabAdapter
-        vpContent.offscreenPageLimit = 4
+        vpContent.adapter = object : FragmentStatePagerAdapter(childFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+
+            override fun getPageTitle(position: Int): CharSequence? {
+                return tabTitles.getOrNull(position)
+            }
+
+            override fun getItem(position: Int): Fragment = fragmentPagesList[position]
+
+            override fun getCount(): Int = fragmentPagesList.size
+
+        }
+        vpContent.offscreenPageLimit = fragmentPagesList.size
     }
 
     private fun createPageFragmentsList(communityPage: CommunityPage): MutableList<Fragment> {
@@ -203,7 +205,7 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
             CommunityPostFragment.newInstance(communityPage.communityId, communityPage.alias)
         )
         fragmentPagesList.add(
-            LeadsListFragment.newInstance(arguments!!.getString(ARG_COMMUNITY_ID, io.golos.utils.EMPTY))
+            LeadsListFragment.newInstance(arguments!!.getString(ARG_COMMUNITY_ID, EMPTY))
         )
         fragmentPagesList.add(
             CommunityPageAboutFragment.newInstance(communityPage.description)
@@ -214,13 +216,13 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
         return fragmentPagesList
     }
 
-    private fun getCommunityId() = arguments!!.getString(ARG_COMMUNITY_ID, io.golos.utils.EMPTY)
+    private fun getCommunityId() = arguments!!.getString(ARG_COMMUNITY_ID, EMPTY)
 
     private fun switchToTab(tabIndex: Int) = tabLayout.getTabAt(tabIndex)!!.select()
 
     private fun navigateToMembers(communityId: String) =
-        getDashboardFragment(this)?.showFragment(CommunityPageMembersFragment.newInstance(communityId), true, null)
+        getDashboardFragment(this)?.navigateToFragment(CommunityPageMembersFragment.newInstance(communityId), true, null)
 
     private fun navigateToFriends(friends: List<CommunityFriend>) =
-        getDashboardFragment(this)?.showFragment(CommunityPageFriendsFragment.newInstance(friends), true, null)
+        getDashboardFragment(this)?.navigateToFragment(CommunityPageFriendsFragment.newInstance(friends), true, null)
 }

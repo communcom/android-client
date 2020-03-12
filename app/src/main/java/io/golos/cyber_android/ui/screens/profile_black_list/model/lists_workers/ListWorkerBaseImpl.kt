@@ -6,7 +6,7 @@ import io.golos.cyber_android.ui.shared.recycler_view.versioned.LoadingListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.RetryListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.repositories.CurrentUserRepository
-import io.golos.domain.utils.IdUtil
+import io.golos.utils.id.IdUtil
 import timber.log.Timber
 
 /**

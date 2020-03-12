@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
 
     <application
             android:name=".application.App"
@@ -41,7 +42,7 @@
                 android:name=".ui.screens.login_activity.view.LoginActivity"
                 android:screenOrientation="portrait"
                 android:theme="@style/AppTheme.Login"
-                android:windowSoftInputMode="adjustResize">
+                android:windowSoftInputMode="adjustUnspecified">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

@@ -4,6 +4,7 @@ import dagger.Subcomponent
 import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentComponent
 import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentTabComponent
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity
+import io.golos.cyber_android.ui.screens.wallet.di.WalletFragmentComponent
 import io.golos.domain.dependency_injection.scopes.ActivityScope
 
 @Subcomponent(
@@ -21,6 +22,7 @@ interface MainActivityComponent {
 
     val communitiesFragmentComponent: CommunitiesListFragmentComponent.Builder
     val communitiesFragmentTabComponent: CommunitiesListFragmentTabComponent.Builder
+    val walletFragmentComponent: WalletFragmentComponent.Builder
 
     fun inject(activity: MainActivity)
 }

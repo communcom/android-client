@@ -6,7 +6,7 @@ import io.golos.cyber_android.application.di_storage.DependencyInjectionStorage
 import io.golos.cyber_android.application.di.AppComponent
 import io.golos.cyber_android.application.shared.ui_monitor.UIMonitor
 import io.golos.domain.LogTags
-import io.golos.domain.utils.IdUtil
+import io.golos.utils.id.IdUtil
 import timber.log.Timber
 import javax.inject.Inject
 

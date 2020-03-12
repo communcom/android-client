@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import io.golos.cyber_android.R
-import kotlinx.android.synthetic.main.view_profile_followers_no_data_stub.view.*
+import kotlinx.android.synthetic.main.view_no_data_stub.view.*
 
 class NoDataStub
 @JvmOverloads
@@ -16,7 +16,7 @@ constructor(
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
     init {
-        inflate(getContext(), R.layout.view_profile_followers_no_data_stub, this)
+        inflate(getContext(), R.layout.view_no_data_stub, this)
     }
 
     fun setTitle(@StringRes titleResId: Int) {

@@ -11,13 +11,14 @@ import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
 import io.golos.cyber_android.ui.shared.characters.SpecialChars
+import io.golos.utils.format.RewardFormatter
+import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
-import io.golos.cyber_android.ui.shared.spans.MovementMethod
+import io.golos.cyber_android.ui.shared.utils.adjustSpannableClicks
 import io.golos.cyber_android.ui.shared.utils.toTimeEstimateFormat
-import io.golos.domain.extensions.appendText
-import io.golos.domain.extensions.setSpan
+import io.golos.utils.helpers.appendText
+import io.golos.utils.helpers.setSpan
 import kotlinx.android.synthetic.main.view_post_viewer_header.view.*
-import timber.log.Timber
 
 /**
  * Header with post info
@@ -31,30 +32,25 @@ constructor(
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
     private var onBackButtonClickListener: (() -> Unit)? = null
-    private var onJoinToCommunityButtonClickListener: (() -> Unit)? = null
     private var onMenuButtonClickListener: (() -> Unit)? = null
     private var onUserClickListener: ((String) -> Unit)? = null   // UserId as param
     private var onCommunityClickListener: ((String) -> Unit)? = null //CommunityId as param
+    private var onRewardClickListener: (() -> Unit)? = null     //CommunityId as param
 
     private lateinit var userId: String
 
     init {
         inflate(getContext(), R.layout.view_post_viewer_header, this)
         backButton.setOnClickListener { onBackButtonClickListener?.invoke() }
-        joinToCommunityButton.setOnClickListener { onJoinToCommunityButtonClickListener?.invoke() }
-        menuButton.setOnClickListener { onMenuButtonClickListener?.invoke() }
 
+        rewardButton.setOnClickListener { onRewardClickListener?.invoke() }
+
+        menuButton.setOnClickListener { onMenuButtonClickListener?.invoke() }
     }
 
     fun setHeader(postHeader: PostHeader) {
         userId = postHeader.userId
-        communityTitle.movementMethod = object: MovementMethod(){
-
-            override fun onEmptyClicked(): Boolean {
-                callOnClick()
-                return super.onEmptyClicked()
-            }
-        }
+        communityTitle.adjustSpannableClicks()
         val builder = SpannableStringBuilder()
         postHeader.communityName?.let {
             val textInterval = builder.appendText(it)
@@ -73,19 +69,13 @@ constructor(
 
         communityTitle.text = builder
 
-        authorAndTime.movementMethod = object: MovementMethod(){
-
-            override fun onEmptyClicked(): Boolean {
-                callOnClick()
-                return super.onEmptyClicked()
-            }
-        }
+        authorAndTime.adjustSpannableClicks()
 
         authorAndTime.text = getTimeAndAuthor(postHeader)
 
         postHeader.communityAvatarUrl
             ?.let {
-                Glide.with(this)
+                Glide.with(communityAvatar)
                     .load(it)
                     .apply(RequestOptions.circleCropTransform())
                     .into(communityAvatar)
@@ -97,13 +87,13 @@ constructor(
             }
         }
 
-        if (postHeader.isJoinFeatureEnabled) {
-            joinToCommunityButton.visibility = View.VISIBLE
-            joinToCommunityButton.isEnabled = postHeader.canJoinToCommunity
-            joinToCommunityButton.isChecked = postHeader.isJoinedToCommunity
+        if (postHeader.isRewarded) {
+            rewardButton.visibility = View.VISIBLE
+            rewardButton.text = postHeader.rewardValue?.let { RewardFormatter.format(it) } ?: context.getString(R.string.post_reward_top)
         } else {
-            joinToCommunityButton.visibility = View.GONE
+            rewardButton.visibility = View.GONE
         }
+
         if (postHeader.isBackFeatureEnabled) {
             backButton.visibility = View.VISIBLE
         } else {
@@ -119,8 +109,8 @@ constructor(
         onBackButtonClickListener = listener
     }
 
-    fun setOnJoinToCommunityButtonClickListener(listener: (() -> Unit)?) {
-        onJoinToCommunityButtonClickListener = listener
+    fun setOnRewardButtonClickListener(listener: (() -> Unit)?) {
+        onRewardClickListener = listener
     }
 
     fun setOnMenuButtonClickListener(listener: (() -> Unit)?) {
@@ -141,14 +131,9 @@ constructor(
     fun release(){
         setOnUserClickListener(null)
         setOnMenuButtonClickListener(null)
-        setOnJoinToCommunityButtonClickListener(null)
+        setOnRewardButtonClickListener(null)
         setOnBackButtonClickListener(null)
-        try {
-            Glide.with(this)
-                .clear(communityAvatar)
-        } catch (e: Exception){
-            Timber.e(e)
-        }
+        communityAvatar.clear()
     }
 
     private fun getTimeAndAuthor(postHeader: PostHeader): SpannableStringBuilder {

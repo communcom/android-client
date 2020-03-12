@@ -104,6 +104,7 @@ dependencies {
     implementation project(':use_cases')
     implementation project(':posts_editor')
     implementation project(':utils')
+    implementation project(':pdf_renderer')
 
     deps.groups.kotlin dependencies
     deps.groups.ui dependencies
@@ -118,5 +119,20 @@ dependencies {
     implementation deps.utils.timber
     implementation deps.utils.fabric
     implementation deps.utils.protobuf
+
     implementation deps.googleServices.playServicesVision
+
+    // GoogleDrive
+    implementation (deps.googleServices.playServicesAuth) {
+        exclude group: 'org.apache.httpcomponents'
+    }
+    implementation (deps.googleServices.googleDriveApi) {
+        exclude group: 'org.apache.httpcomponents'
+    }
+    implementation (deps.googleServices.googleApiClient) {
+        exclude group: 'org.apache.httpcomponents'
+    }
+    implementation (deps.googleServices.googleGsonClient) {
+        exclude group: 'org.apache.httpcomponents'
+    }
 }

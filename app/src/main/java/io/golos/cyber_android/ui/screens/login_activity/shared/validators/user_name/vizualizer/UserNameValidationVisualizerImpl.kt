@@ -2,7 +2,7 @@ package io.golos.cyber_android.ui.screens.login_activity.shared.validators.user_
 
 import android.content.Context
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.shared.extensions.getFormattedString
+import io.golos.utils.getFormattedString
 import io.golos.cyber_android.ui.screens.login_activity.shared.validators.user_name.validator.UserNameValidationResult
 import io.golos.cyber_android.ui.screens.login_activity.shared.validators.user_name.validator.UserNameValidator
 import java.lang.UnsupportedOperationException
@@ -17,35 +17,32 @@ constructor(
 
     override fun toSting(validationResult: UserNameValidationResult) : String =
         when(validationResult) {
-            UserNameValidationResult.LEN_IS_TOO_SHORT ->
-                appContext.resources.getFormattedString(R.string.user_name_short_new, validator.minLen)
-
-            UserNameValidationResult.LEN_IS_TOO_LONG ->
-                appContext.resources.getFormattedString(R.string.user_name_long_new, validator.maxLen)
-
-            UserNameValidationResult.CANT_START_WITH_DOT ->
-                appContext.resources.getString(R.string.user_name_begin_not_correct_dot)
-
-            UserNameValidationResult.CANT_END_WITH_DOT ->
-                appContext.resources.getString(R.string.user_name_end_not_correct_dot)
-
-            UserNameValidationResult.CANT_CONTAIN_TWO_DOT_IN_ROW ->
-                appContext.resources.getString(R.string.user_name_two_dot)
-
-            UserNameValidationResult.CANT_START_WITH_DASH ->
-                appContext.resources.getString(R.string.user_name_begin_not_correct)
-
-            UserNameValidationResult.CANT_END_WITH_DASH ->
-                appContext.resources.getString(R.string.user_name_end_not_correct)
-
-            UserNameValidationResult.CANT_CONTAIN_TWO_DASH_IN_ROW ->
-                appContext.resources.getString(R.string.user_name_two_dash)
-
-            UserNameValidationResult.CANT_CONTAIN_DASH_DOT_IN_ROW ->
-                appContext.resources.getString(R.string.user_name_two_dash_dot)
+            UserNameValidationResult.IS_EMPTY ->
+                appContext.resources.getString(R.string.username_validation_is_empty)
 
             UserNameValidationResult.INVALID_CHARACTER ->
-                appContext.resources.getString(R.string.user_name_contain_characters)
+                appContext.resources.getString(R.string.username_validation_invalid_character)
+
+            UserNameValidationResult.START_WITH_LETTER ->
+                appContext.resources.getString(R.string.username_validation_start_with_letter)
+
+            UserNameValidationResult.IS_TOO_SHORT ->
+                appContext.resources.getFormattedString(R.string.username_validation_is_too_short, validator.minLen)
+
+            UserNameValidationResult.IS_TOO_LONG ->
+                appContext.resources.getFormattedString(R.string.username_validation_is_too_long, validator.maxLen)
+
+            UserNameValidationResult.TWO_DASH_IN_ROW ->
+                appContext.resources.getString(R.string.username_validation_two_dash_in_row)
+
+            UserNameValidationResult.TWO_DOT_IN_ROW ->
+                appContext.resources.getString(R.string.username_validation_two_dot_in_row)
+
+            UserNameValidationResult.DASH_DOT_IN_ROW ->
+                appContext.resources.getString(R.string.username_validation_dash_dot_in_row)
+
+            UserNameValidationResult.END_WITH_LETTER_OR_DIGIT ->
+                appContext.resources.getString(R.string.username_validation_end_with_letter_or_digit)
 
             else -> throw UnsupportedOperationException("This value is not supported: $validationResult")
         }

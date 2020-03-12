@@ -87,6 +87,9 @@
                     android:layout_marginBottom="@dimen/margin_default"
                     android:enabled="false"
                     android:text="@string/next"
+
+                    android:layout_marginTop="40dp"
+
                     android:layout_gravity="center_horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>

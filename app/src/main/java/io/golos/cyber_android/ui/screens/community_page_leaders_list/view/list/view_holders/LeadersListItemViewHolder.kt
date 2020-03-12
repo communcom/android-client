@@ -7,15 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.characters.SpecialChars
-import io.golos.cyber_android.ui.shared.extensions.getColorRes
+import io.golos.utils.getColorRes
 import io.golos.cyber_android.ui.shared.glide.loadLeader
-import io.golos.cyber_android.ui.shared.formatters.percent.PercentFormatter
-import io.golos.cyber_android.ui.shared.formatters.size.PluralSizeFormatter
+import io.golos.utils.format.PercentFormatter
+import io.golos.utils.format.size.PluralSizeFormatter
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.community_page_leaders_list.dto.LeaderListItem
 import io.golos.cyber_android.ui.screens.community_page_leaders_list.view.list.LeadsListItemEventsProcessor
-import io.golos.domain.extensions.appendSpannedText
+import io.golos.utils.helpers.appendSpannedText
 import kotlinx.android.synthetic.main.view_leaders_list_item.view.*
 
 class LeadersListItemViewHolder(

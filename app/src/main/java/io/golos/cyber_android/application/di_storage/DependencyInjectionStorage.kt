@@ -42,6 +42,7 @@ import io.golos.cyber_android.ui.screens.login_sign_in_username.di.SignInUserNam
 import io.golos.cyber_android.ui.screens.login_sign_up_countries.di.SignUpCountryComponent
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.di.SignUpProtectionKeysFragmentComponent
 import io.golos.cyber_android.ui.screens.main_activity.di.MainActivityComponent
+import io.golos.cyber_android.ui.screens.notifications.di.NotificationsFragmentComponent
 import io.golos.cyber_android.ui.screens.post_edit.activity.di.EditorPageActivityComponent
 import io.golos.cyber_android.ui.screens.post_edit.fragment.di.EditorPageFragmentComponent
 import io.golos.cyber_android.ui.screens.post_edit.fragment.di.EditorPageFragmentModule
@@ -74,11 +75,21 @@ import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentCo
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentModule
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsLikedFragmentComponent
 import io.golos.cyber_android.ui.screens.subscriptions.di.SubscriptionsFragmentComponent
+import io.golos.cyber_android.ui.screens.wallet.di.WalletFragmentComponent
+import io.golos.cyber_android.ui.screens.wallet.di.WalletFragmentModule
+import io.golos.cyber_android.ui.screens.wallet_convert.di.WalletConvertFragmentComponent
+import io.golos.cyber_android.ui.screens.wallet_convert.di.WalletConvertFragmentModule
+import io.golos.cyber_android.ui.screens.wallet_dialogs.choose_friend_dialog.di.WalletChooseFriendDialogComponent
+import io.golos.cyber_android.ui.screens.wallet_point.di.WalletPointFragmentComponent
+import io.golos.cyber_android.ui.screens.wallet_point.di.WalletPointFragmentModule
+import io.golos.cyber_android.ui.screens.wallet_send_points.di.WalletSendPointsFragmentComponent
+import io.golos.cyber_android.ui.screens.wallet_send_points.di.WalletSendPointsFragmentModule
 import io.golos.domain.dto.PostsConfigurationDomain
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
-import io.golos.domain.utils.IdUtil
+import io.golos.utils.id.IdUtil
 import kotlin.reflect.KClass
 
 /** Storage for Dagger components on application level  */
@@ -273,6 +284,43 @@ class DependencyInjectionStorage(private val appContext: Context) {
                     .init(CommunitiesListFragmentModule(args[0] as Boolean, args[1] as UserIdDomain, args[2] as Boolean))
                     .build()
 
+            WalletFragmentComponent::class ->
+                getBase<MainActivityComponent>()
+                    .walletFragmentComponent
+                    .init(WalletFragmentModule(args[0] as Int, args[1] as List<WalletCommunityBalanceRecordDomain>))
+                    .build()
+
+            WalletPointFragmentComponent::class ->
+                getBase<WalletFragmentComponent>()
+                    .pointFragment
+                    .init(WalletPointFragmentModule(
+                        communityId = args[0] as String,
+                        balance = args[1] as List<WalletCommunityBalanceRecordDomain>))
+                    .build()
+
+            WalletSendPointsFragmentComponent::class ->
+                getBase<WalletFragmentComponent>()
+                    .sendPointsFragment
+                    .init(
+                        WalletSendPointsFragmentModule(
+                        communityId = args[0] as String,
+                        sendToUser = args[1] as UserDomain?,
+                        balance = args[2] as List<WalletCommunityBalanceRecordDomain>)
+                    )
+                    .build()
+
+            WalletConvertFragmentComponent::class ->
+                getBase<WalletFragmentComponent>()
+                    .convertFragment
+                    .init(
+                        WalletConvertFragmentModule(
+                            communityId = args[0] as String,
+                            balance = args[1] as List<WalletCommunityBalanceRecordDomain>)
+                    )
+                    .build()
+
+            WalletChooseFriendDialogComponent::class -> getBase<WalletFragmentComponent>().chooseFriendDialog.build()
+
             FeedbackActivityComponent::class -> getBase<UIComponent>().feedbackActivity.build()
 
             SelectCommunityDialogComponent::class -> getBase<UIComponent>().selectCommunityDialog.build()
@@ -383,6 +431,11 @@ class DependencyInjectionStorage(private val appContext: Context) {
                 getBase<UIComponent>()
                     .profileCommentsFragmentComponent
                     .init(ProfileCommentsModule(args[0] as UserIdDomain))
+                    .build()
+
+            NotificationsFragmentComponent::class ->
+                getBase<UIComponent>()
+                    .notificationsFragmentComponent
                     .build()
 
             else -> throw UnsupportedOperationException("This component is not supported: ${type.simpleName}")

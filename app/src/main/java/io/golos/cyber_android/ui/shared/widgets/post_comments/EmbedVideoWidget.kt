@@ -4,13 +4,12 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
-import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.ContentId
+import io.golos.cyber_android.ui.shared.glide.loadVideoContent
 import io.golos.cyber_android.ui.shared.utils.prefetchScreenSize
 import io.golos.domain.use_cases.post.post_dto.VideoBlock
-import io.golos.posts_editor.utilities.post.PostStubs
 import kotlinx.android.synthetic.main.view_post_embed_video.view.*
 
 class EmbedVideoWidget
@@ -88,14 +87,7 @@ constructor(
                 providerName.visibility = View.GONE
             }
             val thumbnailUri = block.thumbnailUrl?.prefetchScreenSize(context)
-            val emptyPlaceHolder = ContextCompat.getDrawable(context, R.drawable.video_widget_epmty_place_holder)
-            Glide
-                .with(this)
-                .load(thumbnailUri?.toString() ?: PostStubs.video)
-                .centerCrop()
-                .error(emptyPlaceHolder)
-                .placeholder(emptyPlaceHolder)
-                .into(image)
+            image.loadVideoContent(thumbnailUri?.toString())
         }
     }
 

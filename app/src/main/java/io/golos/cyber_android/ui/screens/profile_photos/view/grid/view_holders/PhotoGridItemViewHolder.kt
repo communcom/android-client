@@ -3,13 +3,13 @@ package io.golos.cyber_android.ui.screens.profile_photos.view.grid.view_holders
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.Target
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.profile_photos.dto.PhotoGridItem
 import io.golos.cyber_android.ui.screens.profile_photos.view.grid.GalleryGridItemEventsProcessor
+import io.golos.cyber_android.ui.shared.glide.GlideTarget
 import kotlinx.android.synthetic.main.view_profile_photo_grid_photo.view.*
 
 class PhotoGridItemViewHolder(
@@ -18,7 +18,7 @@ class PhotoGridItemViewHolder(
     parentView,
     R.layout.view_profile_photo_grid_photo
 ) {
-    private var imageTarget: Target<*>? = null
+    private var imageTarget: GlideTarget? = null
 
     override fun init(listItem: VersionedListItem, listItemEventsProcessor: GalleryGridItemEventsProcessor) {
         if(listItem !is PhotoGridItem) {

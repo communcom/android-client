@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/wallet_history_transfer_height">
+
+    <ImageView
+        android:id="@+id/mainIcon"
+        android:layout_width="@dimen/wallet_history_transfer_icon_size"
+        android:layout_height="@dimen/wallet_history_transfer_icon_size"
+        android:layout_marginStart="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/img_example_avatar"
+        tools:ignore="ContentDescription" />
+
+    <ImageView
+        android:id="@+id/smallIcon"
+        android:layout_width="@dimen/wallet_history_transfer_small_icon_size"
+        android:layout_height="@dimen/wallet_history_transfer_small_icon_size"
+        android:background="@drawable/bcg_circle_white"
+
+        android:padding="2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/mainIcon"
+
+        app:layout_constraintEnd_toEndOf="@+id/mainIcon"
+        app:srcCompat="@drawable/img_example_flag"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="10dp"
+        android:text=""
+
+        style="@style/Text15.Black.Bold.SingleLine"
+
+        app:layout_constraintBottom_toTopOf="@+id/operation"
+
+        android:layout_marginTop="8dp"
+
+        app:layout_constraintStart_toEndOf="@+id/mainIcon"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Norman Brown" />
+
+    <TextView
+        android:id="@+id/operation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text=""
+        tools:text="Convert"
+
+        style="@style/Text12.Grey.Bold.SingleLine"
+
+        android:layout_marginBottom="8dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/name"
+        app:layout_constraintTop_toBottomOf="@+id/name"
+        />
+
+    <TextView
+        android:id="@+id/amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+
+        android:text=""
+        tools:text="500 Commun"
+
+        style="@style/Text15.Black.Bold.SingleLine"
+
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="8dp"
+
+        app:layout_constraintBottom_toTopOf="@+id/dateTime"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/dateTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text=""
+        tools:text="On hold"
+
+        android:layout_marginBottom="8dp"
+
+        style="@style/Text12.Grey.Bold.SingleLine"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/amount"
+        app:layout_constraintTop_toBottomOf="@+id/amount" />
+</androidx.constraintlayout.widget.ConstraintLayout>

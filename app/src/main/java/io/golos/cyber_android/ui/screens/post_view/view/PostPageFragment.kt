@@ -1,11 +1,14 @@
 package io.golos.cyber_android.ui.screens.post_view.view
 
+import android.animation.AnimatorInflater
+import android.animation.StateListAnimator
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
+import androidx.annotation.StringRes
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +18,7 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentPostBinding
 import io.golos.cyber_android.ui.dialogs.CommentsActionsDialog
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
+import io.golos.cyber_android.ui.dialogs.PostRewardBottomSheetDialog
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
@@ -24,8 +28,8 @@ import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
 import io.golos.cyber_android.ui.screens.post_view.di.PostPageFragmentComponent
+import io.golos.cyber_android.ui.screens.post_view.dto.*
 import io.golos.cyber_android.ui.screens.post_view.view.list.PostPageAdapter
-import io.golos.cyber_android.ui.screens.post_view.view_commands.*
 import io.golos.cyber_android.ui.screens.post_view.view_model.PostPageViewModel
 import io.golos.cyber_android.ui.screens.profile.view.ProfileExternalUserFragment
 import io.golos.cyber_android.ui.screens.profile_photos.view.ProfilePhotosFragment
@@ -49,9 +53,7 @@ import kotlinx.android.synthetic.main.fragment_post.*
  * Fragment for single [PostModel] presentation
  */
 class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel>() {
-
     companion object {
-
         private const val REQUEST_FOR_RESULT_FROM_EDIT = 41242
 
         const val UPDATED_REQUEST_CODE = 41245
@@ -73,6 +75,11 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
         val scrollToComments: Boolean = false
     ) : Parcelable
 
+    private val topShadow: StateListAnimator by lazy { AnimatorInflater.loadStateListAnimator(context, R.animator.appbar_elevation) }
+    private var isTopShadowSet = false
+    private val topShadowThreshold by lazy { context!!.resources.getDimension(R.dimen.post_top_shadow_threshold) }
+    private var oldStateListAnimator: StateListAnimator? = null
+
     override fun provideViewModelType(): Class<PostPageViewModel> = PostPageViewModel::class.java
 
     override fun layoutResId(): Int = R.layout.fragment_post
@@ -93,6 +100,8 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        oldStateListAnimator = actionBar.stateListAnimator
+
         viewModel.post.observe(viewLifecycleOwner, Observer {
             (postView.adapter as PostPageAdapter).update(it)
         })
@@ -101,6 +110,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
 
         postHeader.setOnBackButtonClickListener { back() }
         postHeader.setOnMenuButtonClickListener { viewModel.onPostMenuClick() }
+        postHeader.setOnRewardButtonClickListener { viewModel.onPostRewardClick() }
         postHeader.setOnUserClickListener { viewModel.onUserInHeaderClick(it) }
         postHeader.setOnCommunityClickListener { communityId -> viewModel.onCommunityClicked(communityId) }
 
@@ -120,6 +130,26 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
         val postListLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         postView.layoutManager = postListLayoutManager
         (postView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+
+        postView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val scrollOffset = postView.computeVerticalScrollOffset()
+
+                if(scrollOffset < topShadowThreshold) {
+                    if(isTopShadowSet) {
+                        actionBar.stateListAnimator = oldStateListAnimator      // Remove shadow
+                        isTopShadowSet = false
+                    }
+                } else {
+                    if(!isTopShadowSet) {
+                        actionBar.stateListAnimator = topShadow                 // Add shadow
+                        isTopShadowSet = true
+                    }
+                }
+            }
+        })
     }
 
     override fun onResume() {
@@ -165,6 +195,8 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
 
             is NavigateToReplyCommentViewCommand -> commentWidget.setCommentForReply(command.contentId, command.body)
 
+            is ShowPostRewardDialogCommand -> showPostRewardDialog(command.titleResId, command.textResId)
+
             else -> throw UnsupportedOperationException("This command is not supported")
         }
     }
@@ -176,7 +208,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
 
     private fun openSelectPhotoView(imageUrl: String?) {
         getDashboardFragment(this)
-            ?.showFragment(
+            ?.navigateToFragment(
                 ProfilePhotosFragment.newInstance(
                     ProfileItem.COMMENT,
                     imageUrl,
@@ -186,13 +218,13 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
     }
 
     private fun openUserProfile(userId: UserIdDomain) {
-        getDashboardFragment(this)?.showFragment(
+        getDashboardFragment(this)?.navigateToFragment(
             ProfileExternalUserFragment.newInstance(userId)
         )
     }
 
     private fun openCommunityPage(communityId: String) {
-        getDashboardFragment(this)?.showFragment(
+        getDashboardFragment(this)?.navigateToFragment(
             CommunityPageFragment.newInstance(communityId)
         )
     }
@@ -200,80 +232,12 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            PostPageMenuDialog.REQUEST -> {
-                when (resultCode) {
-                    PostPageMenuDialog.RESULT_ADD_FAVORITE -> {
-                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
-                        postMenu?.let {
-                            viewModel.addToFavorite(it.permlink)
-                        }
-                    }
-                    PostPageMenuDialog.RESULT_REMOVE_FAVORITE -> {
-                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
-                        postMenu?.let {
-                            viewModel.removeFromFavorite(it.permlink)
-                        }
-                    }
-                    PostPageMenuDialog.RESULT_SHARE -> {
-                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
-                        val shareUrl = postMenu?.shareUrl
-                        shareUrl?.let {
-                            viewModel.onShareClicked(it)
-                        }
-                    }
-                    PostPageMenuDialog.RESULT_EDIT -> {
-                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
-                        postMenu?.let { menu ->
-                            menu.contentId?.let { contentId ->
-                                viewModel.editPost(contentId)
-                            }
-                        }
-                    }
-                    PostPageMenuDialog.RESULT_DELETE -> {
-                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
-                        postMenu?.let {
-                            viewModel.deletePost()
-                        }
-                    }
-                    PostPageMenuDialog.RESULT_SUBSCRIBE -> {
-                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
-                        val communityId = postMenu?.communityId
-                        communityId?.let {
-                            viewModel.subscribeToCommunity(it)
-                        }
-                    }
-                    PostPageMenuDialog.RESULT_UNSUBSCRIBE -> {
-                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
-                        postMenu?.communityId?.let {
-                            viewModel.unsubscribeToCommunity(it)
-                        }
-                    }
-                    PostPageMenuDialog.RESULT_REPORT -> {
-                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
-                        postMenu?.let { menu ->
-                            menu.contentId?.let { contentId ->
-                                viewModel.reportPost(contentId)
-                            }
-                        }
-                    }
-                }
-
-            }
-
             ProfilePhotosFragment.REQUEST -> {
                 val result =
                     data?.extras?.getParcelable<ProfilePhotosFragment.Result>(ProfilePhotosFragment.RESULT)
                 commentWidget.updateImageAttachment(result?.photoFilePath)
             }
 
-            CommentsActionsDialog.REQUEST -> {
-                when (resultCode) {
-                    CommentsActionsDialog.RESULT_EDIT ->
-                        viewModel.startEditComment(data!!.getParcelableExtra(CommentsActionsDialog.COMMENT_ID))
-                    CommentsActionsDialog.RESULT_DELETE ->
-                        viewModel.deleteComment(data!!.getParcelableExtra(CommentsActionsDialog.COMMENT_ID))
-                }
-            }
             ConfirmationDialog.REQUEST -> {
                 if (resultCode == ConfirmationDialog.RESULT_OK) {
                     viewModel.deletePost()
@@ -309,14 +273,14 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
         discussionIdModel: DiscussionIdModel,
         contentId: ContentId
     ) {
-        getDashboardFragment(this)?.showFragment(
+        getDashboardFragment(this)?.navigateToFragment(
             newInstance(
                 Args(
                     discussionIdModel,
                     contentId
                 )
             ),
-            tagFragment = contentId.permlink
+            tag = contentId.permlink
         )
     }
 
@@ -336,7 +300,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
             .show(requireFragmentManager(), "menu")
 
     private fun moveToUserProfile(userId: String) =
-        getDashboardFragment(this)?.showFragment(ProfileExternalUserFragment.newInstance(UserIdDomain(userId)))
+        getDashboardFragment(this)?.navigateToFragment(ProfileExternalUserFragment.newInstance(UserIdDomain(userId)))
 
     private fun moveToImageView(imageUri: Uri) =
         startActivity(ImageViewerActivity.getIntent(requireContext(), imageUri.toString()))
@@ -363,14 +327,29 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
     }
 
     private fun openPostMenuDialog(postMenu: PostMenu) {
-        PostPageMenuDialog.newInstance(postMenu).apply {
-            setTargetFragment(this@PostPageFragment, PostPageMenuDialog.REQUEST)
-        }.show(requireFragmentManager(), "show")
+        PostPageMenuDialog.show(this, postMenu) {
+            when (it) {
+                is PostPageMenuDialog.Result.AddFavorite -> viewModel.addToFavorite(it.postMenu.permlink)
+                is PostPageMenuDialog.Result.RemoveFavorite -> viewModel.removeFromFavorite(it.postMenu.permlink)
+                is PostPageMenuDialog.Result.Share -> it.postMenu.shareUrl?.let { viewModel.onShareClicked(it) }
+                is PostPageMenuDialog.Result.Edit -> it.postMenu.contentId?.let { viewModel.editPost(it) }
+                is PostPageMenuDialog.Result.Delete -> viewModel.deletePost()
+                is PostPageMenuDialog.Result.Subscribe -> viewModel.subscribeToCommunity(it.postMenu.communityId)
+                is PostPageMenuDialog.Result.Unsubscribe -> viewModel.unsubscribeToCommunity(it.postMenu.communityId)
+                is PostPageMenuDialog.Result.Report -> it.postMenu.contentId?.let { viewModel.reportPost(it) }
+            }
+        }
     }
 
     private fun showCommentMenu(commentId: DiscussionIdModel) {
-        CommentsActionsDialog.newInstance(commentId).apply {
-            setTargetFragment(this@PostPageFragment, CommentsActionsDialog.REQUEST)
-        }.show(requireFragmentManager(), "menu")
+        CommentsActionsDialog.show(this@PostPageFragment, commentId) {
+            when(it) {
+                is CommentsActionsDialog.Result.Edit -> viewModel.startEditComment(it.commentId)
+                is CommentsActionsDialog.Result.Delete -> viewModel.deleteComment(it.commentId)
+            }
+        }
     }
+
+    private fun showPostRewardDialog(@StringRes titleResId: Int, @StringRes textResId: Int) =
+        PostRewardBottomSheetDialog.show(this@PostPageFragment, titleResId, textResId) {}
 }

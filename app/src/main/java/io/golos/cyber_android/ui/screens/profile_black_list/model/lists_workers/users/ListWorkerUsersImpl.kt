@@ -7,7 +7,7 @@ import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.UsersRepository
-import io.golos.domain.utils.MurmurHash
+import io.golos.utils.id.MurmurHash
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -57,6 +57,8 @@ constructor(
         UserListItem(
             id = MurmurHash.hash64(this.userId.userId),
             version = 0,
+            isFirstItem = false,
+            isLastItem = false,
             user = this,
             isInPositiveState = true,
             isProgress = false

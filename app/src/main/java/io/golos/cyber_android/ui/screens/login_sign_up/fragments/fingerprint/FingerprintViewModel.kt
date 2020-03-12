@@ -51,7 +51,7 @@ constructor(
                             if(appUnlockWay == AppUnlockWay.PIN_CODE){
                                 NavigateToKeysCommand()
                             } else{
-                                NavigateToInAppAuthScreenCommand()
+                                NavigateToInAppAuthScreenCommand(false)
                             }
                         }
                         AuthType.SIGN_IN -> {

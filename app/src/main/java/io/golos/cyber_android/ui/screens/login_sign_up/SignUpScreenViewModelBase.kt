@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.login_sign_up
 
+import androidx.annotation.CallSuper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -27,7 +28,8 @@ abstract class SignUpScreenViewModelBase: ViewModel() {
     /**
      * Saves username into this ViewModel and validates it
      */
-    fun onFieldChanged(field: String) {
+    @CallSuper
+    open fun onFieldChanged(field: String) {
         this.field = field.trim()
         validnessLiveData.postValue(validate(this.field))
     }

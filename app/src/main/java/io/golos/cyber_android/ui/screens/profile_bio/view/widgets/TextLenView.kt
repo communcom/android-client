@@ -7,8 +7,8 @@ import android.util.TypedValue
 import android.view.Gravity
 import android.widget.TextView
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.shared.extensions.getColorRes
-import io.golos.domain.extensions.appendColorText
+import io.golos.utils.getColorRes
+import io.golos.utils.helpers.appendColorText
 
 class TextLenView
 @JvmOverloads

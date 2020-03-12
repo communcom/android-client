@@ -48,5 +48,4 @@ constructor(
         onUpVoteButtonClickListener = null
         onDownVoteButtonClickListener = null
     }
-
 }

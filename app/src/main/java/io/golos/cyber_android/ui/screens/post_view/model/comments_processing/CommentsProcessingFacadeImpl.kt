@@ -11,10 +11,8 @@ import io.golos.cyber_android.ui.screens.post_view.model.comments_processing.loa
 import io.golos.cyber_android.ui.screens.post_view.model.comments_processing.loaders.second_level.SecondLevelLoader
 import io.golos.cyber_android.ui.screens.post_view.model.comments_processing.loaders.second_level.SecondLevelLoaderImpl
 import io.golos.cyber_android.ui.screens.post_view.model.post_list_data_source.PostListDataSourceComments
-import io.golos.cyber_android.ui.screens.post_view.model.voting.CommentVotingMachineImpl
-import io.golos.cyber_android.ui.screens.post_view.model.voting.VotingEvent
-import io.golos.cyber_android.ui.screens.post_view.model.voting.VotingMachine
-import io.golos.data.repositories.vote.VoteRepository
+import io.golos.cyber_android.ui.screens.post_view.model.voting.comment.CommentVotingUseCase
+import io.golos.cyber_android.ui.screens.post_view.model.voting.comment.CommentVotingUseCaseImpl
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.*
@@ -27,7 +25,7 @@ import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.use_cases.model.CommentModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.post.post_dto.*
-import io.golos.domain.utils.IdUtil
+import io.golos.utils.id.IdUtil
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
@@ -42,8 +40,7 @@ constructor(
     private val commentToModelMapper: CommentToModelMapper,
     private val commentsStorage: Lazy<CommentsStorage>,
     private val currentUserRepository: CurrentUserRepository,
-    private val commentTextRenderer: CommentTextRenderer,
-    private val voteRepository: VoteRepository
+    private val commentTextRenderer: CommentTextRenderer
 ): CommentsProcessingFacade {
 
     override val pageSize: Int
@@ -64,7 +61,7 @@ constructor(
         )
     }
 
-    private val voteMachines = mutableMapOf<DiscussionIdModel, VotingMachine>()
+    private val voteMachines = mutableMapOf<DiscussionIdModel, CommentVotingUseCase>()
 
     override suspend fun loadStartFirstLevelPage() = firstLevelCommentsLoader.loadStartPage()
 
@@ -170,7 +167,7 @@ constructor(
             votes = votesDomain,
             body = contentBlock,
             childCommentsCount = oldComment.childTotal.toInt(),
-            community = PostDomain.CommunityDomain(null, postContentId.communityId, null, null, false),
+            community = CommunityDomain(postContentId.communityId, null, "", null, null, 0, 0, false),
             meta = MetaDomain(oldComment.meta.time),
             parent = parentCommentDomain,
             type = "comment",
@@ -229,11 +226,18 @@ constructor(
         }
     }
 
-    override suspend fun vote(commentId: DiscussionIdModel, isUpVote: Boolean) {
-        val comment = commentsStorage.get().getComment(commentId)!!
-        val oldVotes = comment.votes
-        val newVotes = getVoteMachine(commentId).processEvent(if(isUpVote) VotingEvent.UP_VOTE else VotingEvent.DOWN_VOTE, oldVotes)
-        commentsStorage.get().updateComment(comment.copy(votes = newVotes))
+    override suspend fun vote(communityId: String, commentId: DiscussionIdModel, isUpVote: Boolean) {
+        val oldComment = commentsStorage.get().getComment(commentId)!!
+
+        val votingUseCase = getVoteUseCase(commentId)
+
+        val newComment = if(isUpVote) {
+            votingUseCase.upVote(oldComment, communityId, commentId.userId, commentId.permlink.value)
+        } else {
+            votingUseCase.downVote(oldComment, communityId, commentId.userId, commentId.permlink.value)
+        }
+
+        commentsStorage.get().updateComment(oldComment.copy(votes = newComment.votes))
     }
 
     private fun getSecondLevelLoader(parentCommentId: DiscussionIdModel): SecondLevelLoader {
@@ -253,12 +257,11 @@ constructor(
             }
     }
 
-    private fun getVoteMachine(commentId: DiscussionIdModel) : VotingMachine {
+    private fun getVoteUseCase(commentId: DiscussionIdModel) : CommentVotingUseCase {
         return voteMachines[commentId]
-            ?: CommentVotingMachineImpl(
+            ?: CommentVotingUseCaseImpl(
                 dispatchersProvider,
-                voteRepository,
-                postListDataSource,
-                commentId)
+                discussionRepository,
+                postListDataSource)
     }
 }

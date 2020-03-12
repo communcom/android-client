@@ -10,7 +10,7 @@ fun CommentDomain.mapToComment(): Comment {
         votes = this.votes.mapToVotes(),
         body = this.body,
         childCommentsCount = this.childCommentsCount,
-        community = this.community.mapToCommunity(),
+        community = this.community.mapToPostCommunity(),
         meta = this.meta.mapToMeta(),
         parent = this.parent.mapToParentComment(),
         type = this.type,

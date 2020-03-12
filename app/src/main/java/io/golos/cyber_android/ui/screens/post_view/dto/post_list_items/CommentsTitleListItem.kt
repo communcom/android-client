@@ -7,6 +7,8 @@ import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListIte
 data class CommentsTitleListItem(
     override val id: Long,
     override val version: Long,
+    override val isFirstItem: Boolean,
+    override val isLastItem: Boolean,
     val soring: SortingType,
     override val groupId: Int = 3
 ) : GroupListItem, VersionedListItem

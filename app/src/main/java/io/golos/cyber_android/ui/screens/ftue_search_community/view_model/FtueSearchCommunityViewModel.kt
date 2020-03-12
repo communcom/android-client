@@ -21,7 +21,7 @@ import io.golos.cyber_android.ui.shared.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.FtueBoardStageDomain
-import io.golos.domain.utils.IdUtil
+import io.golos.utils.id.IdUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -70,8 +70,8 @@ class FtueSearchCommunityViewModel @Inject constructor(
                 }
             }
         }
-        paginator.render = { state ->
-            _communityListState.value = state
+        paginator.render = { newState, _ ->
+            _communityListState.value = newState
         }
 
         loadCommunitySubscriptions()
@@ -114,7 +114,11 @@ class FtueSearchCommunityViewModel @Inject constructor(
                 model.onUnFollowFromCommunity(community.communityId)
                 val updatedCommunity = community.copy(isSubscribed = false)
                 changeFollowingStatus(updatedCommunity)
-                removeCommunityFromCollection(community)
+
+                val communityForDelete = communitySubscriptions.find { it.communityId == community.communityId }
+                communitySubscriptions.remove(communityForDelete)
+                updateCommunityCollection(communitySubscriptions)
+
             } catch (e: Exception) {
                 Timber.e(e)
                 _command.value = ShowMessageResCommand(R.string.loading_error)
@@ -174,11 +178,7 @@ class FtueSearchCommunityViewModel @Inject constructor(
         loadInitialCommunities()
     }
 
-    override fun removeCommunityFromCollection(community: Community) {
-        val communityForDelete = communitySubscriptions.find { it.communityId == community.communityId }
-        communitySubscriptions.remove(communityForDelete)
-        updateCommunityCollection(communitySubscriptions)
-    }
+    override fun removeCommunityFromCollection(community: Community) = onUnFollowFromCommunity(community)
 
     fun loadMoreCommunities() {
         paginator.proceed(Paginator.Action.LoadMore)

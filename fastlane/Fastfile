@@ -36,7 +36,13 @@ platform :android do
       properties: {
         "versionCode" => build_number,
       },
-      task: "clean assembleRelease"
+      task: "clean assembleRelease",
+      properties: {
+        "android.injected.signing.store.file" => ENV['BITRISEIO_ANDROID_KEYSTORE_URL'],
+        "android.injected.signing.store.password" => ENV['BITRISEIO_ANDROID_KEYSTORE_PASSWORD'],
+        "android.injected.signing.key.alias" => ENV['BITRISEIO_ANDROID_KEYSTORE_ALIAS'],
+        "android.injected.signing.key.password" => ENV['BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD'],
+      }
     )
 
     firebase_app_distribution(
@@ -45,6 +51,15 @@ platform :android do
         firebase_cli_token: "1//0cXk-dcR_3jrUCgYIARAAGAwSNwF-L9IrhXqwxufqsZXEHSU2NVA-hQJYM_qAmltWyGKWdeQzf7wvyUZTHI2KiFivklmhk78BuYI",
         groups: "commun-android"
     )
+
+    appcenter_upload(
+      api_token: "5544f8df69750ae5a545f4b1bb8f9c5a4040c8f5",
+      owner_name: "antihype",
+      owner_type: "user",
+      app_name: "commun-android",
+      file: build_path,
+      notify_testers: true
+    ) 
 
     slack_upload(
         slack_api_token: SLACK_API_TOKEN,

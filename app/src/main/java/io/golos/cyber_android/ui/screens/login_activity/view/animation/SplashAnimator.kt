@@ -7,7 +7,7 @@ import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.ScaleAnimation
 import androidx.core.content.ContextCompat
-import io.golos.cyber_android.ui.shared.utils.AnimationListenerBase
+import io.golos.cyber_android.ui.shared.animation.AnimationListenerBase
 import android.view.animation.AnimationSet
 import io.golos.cyber_android.R
 

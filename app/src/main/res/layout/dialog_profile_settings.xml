@@ -18,13 +18,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/profile_settings"
-        app:layout_constraintEnd_toStartOf="@+id/closeButton"
+        app:layout_constraintEnd_toStartOf="@+id/buttonClose"
 
         app:layout_constraintStart_toStartOf="@+id/liked"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/closeButton"
+        android:id="@+id/buttonClose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="?selectableItemBackgroundBorderless"
@@ -42,7 +42,7 @@
         style="@style/BottomSheetMenuItem"
 
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_55"
+        android:layout_height="55dp"
 
         android:layout_marginTop="20dp"
 
@@ -61,7 +61,7 @@
 
         style="@style/BottomSheetMenuItem"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_55"
+        android:layout_height="55dp"
 
         android:text="@string/blacklist"
 
@@ -75,7 +75,7 @@
 
         style="@style/BottomSheetMenuItem.Dangerous"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_55"
+        android:layout_height="55dp"
 
         android:text="@string/log_out"
 

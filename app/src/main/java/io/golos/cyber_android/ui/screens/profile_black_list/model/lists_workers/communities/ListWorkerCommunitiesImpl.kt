@@ -6,7 +6,7 @@ import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.use_cases.community.CommunitiesRepository
-import io.golos.domain.utils.MurmurHash
+import io.golos.utils.id.MurmurHash
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -58,6 +58,8 @@ constructor(
         CommunityListItem(
             id = MurmurHash.hash64(this.communityId),
             version = 0,
+            isFirstItem = false,
+            isLastItem = false,
             community = this,
             isInPositiveState = true,
             isProgress = false

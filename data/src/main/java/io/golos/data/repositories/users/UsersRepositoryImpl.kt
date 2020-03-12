@@ -4,7 +4,9 @@ import io.golos.commun4j.Commun4j
 import io.golos.commun4j.model.BandWidthRequest
 import io.golos.commun4j.model.ClientAuthRequest
 import io.golos.commun4j.sharedmodel.CyberName
+import io.golos.commun4j.sharedmodel.CyberTimeStampSeconds
 import io.golos.data.api.user.UsersApi
+import io.golos.data.exceptions.ApiResponseErrorException
 import io.golos.data.mappers.*
 import io.golos.data.network_state.NetworkStateChecker
 import io.golos.data.repositories.RepositoryBase
@@ -16,6 +18,8 @@ import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.UsersRepository
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.lang.UnsupportedOperationException
+import java.util.*
 import javax.inject.Inject
 
 class UsersRepositoryImpl
@@ -79,10 +83,26 @@ class UsersRepositoryImpl
     }
 
     override suspend fun getUserProfile(userId: UserIdDomain): UserProfileDomain =
-        apiCall { commun4j.getUserProfile(CyberName(userId.userId), null) }.mapToUserProfileDomain()
+        try {
+            apiCall { commun4j.getUserProfile(CyberName(userId.userId), null) }.mapToUserProfileDomain()
+        } catch (ex: ApiResponseErrorException) {
+            if(ex.errorInfo.code == 404L) {
+                apiCall { commun4j.getUserProfile(null, userId.userId) }.mapToUserProfileDomain()
+            } else {
+                throw  ex
+            }
+        }
 
     override suspend fun getUserProfile(userName: String): UserProfileDomain =
-        apiCall { commun4j.getUserProfile(null, userName) }.mapToUserProfileDomain()
+        try {
+            apiCall { commun4j.getUserProfile(null, userName) }.mapToUserProfileDomain()
+        } catch (ex: ApiResponseErrorException) {
+            if(ex.errorInfo.code == 404L) {
+                apiCall { commun4j.getUserProfile(CyberName(userName), null) }.mapToUserProfileDomain()
+            } else {
+                throw  ex
+            }
+        }
 
     override suspend fun getUserFollowers(userId: UserIdDomain, offset: Int, pageSizeLimit: Int): List<FollowingUserDomain> {
         return apiCall {
@@ -200,6 +220,16 @@ class UsersRepositoryImpl
                         telegram = it.telegram,
                         whatsapp = it.whatsapp,
                         wechat = it.wechat,
+                        firstName = null,
+                        lastName = null,
+                        country = null,
+                        city = null,
+                        birth_date = CyberTimeStampSeconds(Date().time),
+                        instagram = null,
+                        linkedin = null,
+                        twitter = null,
+                        github = null,
+                        websiteUrl = null,
                         bandWidthRequest = it.bandWidthRequest,
                         clientAuthRequest = it.clientAuthRequest,
                         user = it.user,

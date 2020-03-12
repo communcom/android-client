@@ -3,8 +3,8 @@ package io.golos.cyber_android.ui.shared.widgets
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.LinearLayout
-import com.bumptech.glide.Glide
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.cyber_android.ui.shared.widgets.EditorWidget.Listener
 import kotlinx.android.synthetic.main.view_editor_widget.view.*
@@ -54,8 +54,7 @@ class EditorWidget : LinearLayout {
      * Clear user avatar
      */
     fun clearUserAvatar(){
-        Glide.with(this)
-            .clear(this)
+        avatar.clear()
     }
 
     interface Listener {

@@ -11,6 +11,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/domain" />
+            <option value="$PROJECT_DIR$/pdf_renderer" />
             <option value="$PROJECT_DIR$/posts_editor" />
             <option value="$PROJECT_DIR$/use_cases" />
             <option value="$PROJECT_DIR$/utils" />

@@ -105,7 +105,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimen_2"
+                    android:layout_height="2dp"
                     android:background="@color/bottom_sheet_dialog_bcg" />
 
                 <LinearLayout
@@ -133,7 +133,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimen_2"
+                    android:layout_height="2dp"
                     android:background="@color/bottom_sheet_dialog_bcg" />
 
                 <LinearLayout
@@ -209,7 +209,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimen_2"
+                    android:layout_height="2dp"
                     android:background="@color/bottom_sheet_dialog_bcg" />
 
                 <LinearLayout
@@ -237,7 +237,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimen_2"
+                    android:layout_height="2dp"
                     android:background="@color/bottom_sheet_dialog_bcg" />
 
                 <LinearLayout
@@ -265,7 +265,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimen_2"
+                    android:layout_height="2dp"
                     android:background="@color/bottom_sheet_dialog_bcg" />
 
                 <LinearLayout
@@ -299,12 +299,12 @@
             android:id="@+id/btnNext"
             style="@style/BaseButton"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_50"
+            android:layout_height="50dp"
             android:layout_marginStart="@dimen/margin_default"
-            android:layout_marginTop="@dimen/dimen_20"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="@dimen/margin_default"
-            android:layout_marginBottom="@dimen/dimen_45"
-            android:background="@drawable/bg_blue_button_round"
+            android:layout_marginBottom="45dp"
+            android:background="@drawable/bcg_blue_button_round"
             android:text="@string/next"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

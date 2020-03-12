@@ -39,4 +39,19 @@
     <declare-styleable name="SelectCommunityDialogList">
         <attr name="has_paging" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="CollapsedPanelCoordinatorLayout">
+        <attr name="toolbar" format="reference" />
+        <attr name="toolbar_content" format="reference" />
+        <attr name="collapsing_toolbar" format="reference" />
+        <attr name="appbar" format="reference" />
+        <attr name="toolbar_height" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="AvailableHoldView">
+        <attr name="outer_color" format="color" />
+        <attr name="inner_color_start" format="color" />
+        <attr name="inner_color_end" format="color" />
+        <attr name="stroke_width" format="dimension"/>
+    </declare-styleable>
 </resources>

@@ -3,7 +3,10 @@ package io.golos.cyber_android.ui.screens.login_sign_up
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.golos.cyber_android.ui.screens.login_sign_up.fragments.UserNameValidator
+import io.golos.cyber_android.ui.screens.login_activity.shared.fragments_data_pass.LoginActivityFragmentsDataPass
+import io.golos.cyber_android.ui.screens.login_activity.shared.validators.user_name.validator.UserNameValidationResult
+import io.golos.cyber_android.ui.screens.login_activity.shared.validators.user_name.validator.UserNameValidator
+import io.golos.cyber_android.ui.screens.login_activity.shared.validators.user_name.vizualizer.UserNameValidationVisualizer
 import io.golos.cyber_android.ui.shared.utils.asEvent
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dependency_injection.scopes.ActivityScope
@@ -26,7 +29,10 @@ class SignUpViewModel
 @Inject
 constructor(
     private val signUpUseCase: SignUpUseCase,
-    private val dispatchersProvider: DispatchersProvider
+    private val dispatchersProvider: DispatchersProvider,
+    private val dataPass: LoginActivityFragmentsDataPass,
+    private val userNameValidator: UserNameValidator,
+    private val userNameValidationVisualizer: UserNameValidationVisualizer
 ) : ViewModel(), CoroutineScope {
 
     private val scopeJob: Job = SupervisorJob()
@@ -58,7 +64,7 @@ constructor(
 
     private val selectedPhoneLiveData = MutableLiveData("")
 
-    private val validateUserNameErrorLiveData = MutableLiveData<Int>()
+    private val validateUserNameErrorLiveData = MutableLiveData<String>()
 
     private val validateUserNameSuccessLiveData = MutableLiveData<Any>()
 
@@ -72,7 +78,7 @@ constructor(
      */
     val getSelectedPhoneLiveData = selectedPhoneLiveData as LiveData<String>
 
-    val getValidateUserNameErrorLivaData = validateUserNameErrorLiveData as LiveData<Int>
+    val getValidateUserNameErrorLivaData = validateUserNameErrorLiveData as LiveData<String>
 
     val getValidateUserNameSuccessLiveData = validateUserNameSuccessLiveData as LiveData<Any>
 
@@ -152,6 +158,7 @@ constructor(
         selectedPhoneLiveData.postValue(phone)
 
         currentPhone = getNormalizedPhone(phone)
+        dataPass.putPhone(currentPhone)
 
         launch {
             signUpUseCase.userName = currentName
@@ -168,12 +175,12 @@ constructor(
      * @param userName user name
      */
     fun validateUserName(userName: String) {
-        val userNameValidator = UserNameValidator()
-        if(userNameValidator.isValid(userName)){
+        val validationResult = userNameValidator.validate(userName)
+        if(validationResult == UserNameValidationResult.SUCCESS) {
             currentName = userName
             validateUserNameSuccessLiveData.postValue(userName)
-        } else{
-            validateUserNameErrorLiveData.postValue(userNameValidator.getValidateErrorMessage())
+        } else {
+            validateUserNameErrorLiveData.postValue(userNameValidationVisualizer.toSting(validationResult))
         }
     }
 

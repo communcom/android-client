@@ -1,22 +1,14 @@
 package io.golos.cyber_android.ui.dialogs
 
 import android.Manifest
-import android.app.Activity
 import android.content.pm.PackageManager
-import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.dialogs.ImagePickerDialog.Companion.RESULT_CAMERA
-import io.golos.cyber_android.ui.dialogs.ImagePickerDialog.Companion.RESULT_DELETE
-import io.golos.cyber_android.ui.dialogs.ImagePickerDialog.Companion.RESULT_GALLERY
+import io.golos.cyber_android.ui.dialogs.base.BottomSheetDialogFragmentBase
 import kotlinx.android.synthetic.main.dialog_image_picker.*
-
-const val REQUEST_CAMERA_PERMISSIONS = 200
 
 /**
  * [BottomSheetDialogFragment] that provides possibility to pick the way to obtain some picture.
@@ -25,94 +17,65 @@ const val REQUEST_CAMERA_PERMISSIONS = 200
  * This dialog checks all permission by itself. If calling site received one of the above result codes then app already has
  * all required permissions.
  */
-class ImagePickerDialog : BottomSheetDialogFragment() {
-
-    enum class Target(@StringRes val removeMsg: Int) {
-        COVER(R.string.delete_current_cover),
-        AVATAR(R.string.delete_current_photo),
-        ONBOARDING(0),
-        EDITOR_PAGE(0),
-        PROFILE_COMMENTS(0)
+class ImagePickerDialog : BottomSheetDialogFragmentBase<ImagePickerDialog.Result>() {
+    sealed class Result {
+        object Gallery: Result()
+        object Camera: Result()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(
-            R.layout.dialog_image_picker,
-            container,
-            false
-        )
+    companion object {
+        private const val REQUEST_CAMERA_PERMISSIONS = 4056
+        private const val REQUEST_STORAGE_PERMISSIONS = 9071
+
+        fun show(parent: Fragment, closeAction: (Result?) -> Unit) =
+            ImagePickerDialog()
+                .apply { closeActionListener = closeAction }
+                .show(parent.parentFragmentManager, "IMAGE_PICKER_DIALOG")
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        val target = arguments?.getSerializable("target") as Target
+    override val closeButton: View?
+        get() = buttonClose
 
-        if (target != Target.EDITOR_PAGE && target != Target.ONBOARDING)
-            remove.setText(target.removeMsg)
-        else remove.visibility = View.GONE
+    override val layout: Int
+        get() = R.layout.dialog_image_picker
 
-        fromGallery.setOnClickListener {
-            targetFragment?.onActivityResult(targetRequestCode, RESULT_GALLERY, null)
-            dismiss()
-        }
-
-        fromCamera.setOnClickListener {
-            if (!checkCameraPermissions()) {
-                requestPermissions(
-                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA),
-                    REQUEST_CAMERA_PERMISSIONS
-                )
+    override fun setupView() {
+        gallery.setOnClickListener {
+            if(checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                closeOnItemSelected(Result.Gallery)
             } else {
-                targetFragment?.onActivityResult(targetRequestCode, RESULT_CAMERA, null)
-                dismiss()
+                requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, REQUEST_STORAGE_PERMISSIONS)
             }
         }
 
-        remove.setOnClickListener {
-            targetFragment?.onActivityResult(targetRequestCode, RESULT_DELETE, null)
-            dismiss()
+        photo.setOnClickListener {
+            if(checkPermission(Manifest.permission.CAMERA)) {
+                closeOnItemSelected(Result.Gallery)
+            } else {
+                requestPermission(Manifest.permission.CAMERA, REQUEST_CAMERA_PERMISSIONS)
+            }
         }
-
-    }
-
-    private fun checkCameraPermissions(): Boolean {
-        return (ContextCompat.checkSelfPermission(
-            requireContext(),
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        ) == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(
-                    requireContext(),
-                    Manifest.permission.CAMERA
-                ) == PackageManager.PERMISSION_GRANTED)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_CAMERA_PERMISSIONS) {
-            if ((grantResults.size > 1
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED
-                        && grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
-                targetFragment?.onActivityResult(targetRequestCode, RESULT_CAMERA, null)
-                dismiss()
+
+        when(requestCode) {
+            REQUEST_CAMERA_PERMISSIONS -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    closeOnItemSelected(Result.Camera)
+                }
             }
-        }
-    }
-
-    companion object {
-        const val RESULT_GALLERY = Activity.RESULT_FIRST_USER + 1
-        const val RESULT_CAMERA = Activity.RESULT_FIRST_USER + 2
-        const val RESULT_DELETE = Activity.RESULT_FIRST_USER + 3
-
-        fun newInstance(target: Target): ImagePickerDialog {
-            return ImagePickerDialog().apply {
-                arguments = Bundle().apply {
-                    putSerializable("target", target)
+            REQUEST_STORAGE_PERMISSIONS -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    closeOnItemSelected(Result.Gallery)
                 }
             }
         }
     }
+
+    private fun checkPermission(permission: String): Boolean =
+        ContextCompat.checkSelfPermission(requireContext(), permission) == PackageManager.PERMISSION_GRANTED
+
+    private fun requestPermission(permission: String, requestCode: Int) = requestPermissions(arrayOf(permission), requestCode)
 }

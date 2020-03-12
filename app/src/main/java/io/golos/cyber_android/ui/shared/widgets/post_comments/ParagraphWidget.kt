@@ -20,11 +20,10 @@ import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
-import io.golos.cyber_android.ui.shared.spans.LinkClickableSpan
-import io.golos.cyber_android.ui.shared.spans.MovementMethod
-import io.golos.domain.extensions.appendSpannable
-import io.golos.domain.extensions.appendText
-import io.golos.domain.extensions.setSpan
+import io.golos.cyber_android.ui.shared.utils.adjustSpannableClicks
+import io.golos.utils.helpers.appendSpannable
+import io.golos.utils.helpers.appendText
+import io.golos.utils.helpers.setSpan
 import io.golos.domain.use_cases.post.post_dto.*
 import io.golos.domain.use_cases.post.toTypeface
 
@@ -41,8 +40,10 @@ constructor(
     private var onClickProcessor: ParagraphWidgetListener? = null
     private var isSeeMoreEnabled: Boolean = false
     private var contentId: ContentId? = null
-    private var topPadding: Int = context.resources.getDimension(R.dimen.content_block_default_margin).toInt()
+    private var topPadding = context.resources.getDimension(R.dimen.content_block_default_margin).toInt()
     private var bottomPadding = context.resources.getDimension(R.dimen.content_block_default_margin).toInt()
+    private var startPadding = context.resources.getDimension(R.dimen.post_content_border_horizontal).toInt()
+    private var endPadding = context.resources.getDimension(R.dimen.post_content_border_horizontal).toInt()
 
     @ColorInt
     private val spansColor: Int = ContextCompat.getColor(context, R.color.default_clickable_span_color)
@@ -73,26 +74,16 @@ constructor(
         val spacing = context.resources.getDimension(R.dimen.text_size_post_spacing)
         setLineSpacing(spacing, 0f)
         setTextSize(TypedValue.COMPLEX_UNIT_PX, context.resources.getDimension(R.dimen.text_size_post_normal))
-        context.resources.getDimension(R.dimen.post_content_border_horizontal).toInt().also {
-            setPadding(it, topPadding, it, bottomPadding)
-        }
-
-        movementMethod = object : MovementMethod(){
-
-            override fun onEmptyClicked(): Boolean {
-                onClickProcessor?.onBodyClicked(contentId)
-                return true
-            }
-        }
-        setOnClickListener {
-            onClickProcessor?.onBodyClicked(contentId)
-        }
+        setPadding(startPadding, topPadding, endPadding, bottomPadding)
+        adjustSpannableClicks()
     }
 
     override fun setPadding(left: Int, top: Int, right: Int, bottom: Int) {
         val params = this.layoutParams as? ViewGroup.MarginLayoutParams
         topPadding = top
         bottomPadding = bottom
+        startPadding = left
+        endPadding = right
         params?.let {
             super.setPadding(left, top, right, bottom)
         }
@@ -180,9 +171,9 @@ constructor(
 
         // Click on the link
 
-        builder.setSpan(object : LinkClickableSpan(block.url, spansColor, underlineShow = false) {
-            override fun onClick(spanData: Uri) {
-                onClickProcessor?.onLinkClicked(spanData)
+        builder.setSpan(object : ColorTextClickableSpan(block.content, spansColor) {
+            override fun onClick(spanData: String) {
+                onClickProcessor?.onLinkClicked(Uri.parse(spanData))
             }
         }, textInterval)
     }

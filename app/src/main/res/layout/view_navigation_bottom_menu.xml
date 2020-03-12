@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:layout_width="match_parent"
+<LinearLayout android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_horizontal"
     android:orientation="horizontal"
     android:background="@drawable/navigation_bottom_menu_background"
@@ -13,7 +13,7 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/navigation_bottom_menu_height"
         android:src="@drawable/selector_home_menu"
-        android:padding="@dimen/dimen_8"
+        android:padding="8dp"
         android:layout_weight="1"
         android:scaleType="center"
         tools:ignore="ContentDescription" />
@@ -22,39 +22,64 @@
         android:id="@+id/communityMenu"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:padding="@dimen/dimen_8"
+        android:padding="8dp"
         android:layout_weight="1"
         android:src="@drawable/selector_community_menu"
         android:scaleType="center"
         tools:ignore="ContentDescription" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/createPostMenu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="42dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="42dp"
-        android:layout_marginBottom="8dp"
-        android:layout_gravity="center_vertical"
-        android:src="@drawable/ic_union"/>
-
-    <ImageView
-        android:id="@+id/notificationMenu"
+    <FrameLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:padding="@dimen/dimen_8"
-        android:layout_weight="1"
-        android:src="@drawable/selector_followers_menu"
-        android:scaleType="center"
-        tools:ignore="ContentDescription" />
+        android:layout_weight="1">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/createPostMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_union"
+            app:maxImageSize="@dimen/navigation_bottom_menu_fab_icon_size"
+            app:fabCustomSize="@dimen/navigation_bottom_menu_fab_size"/>
+    </FrameLayout>
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/flNotificationMenu"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/notificationMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/selector_notification_menu"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/ivBadge"
+            android:layout_width="9dp"
+            android:layout_height="9dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="14dp"
+            android:src="@drawable/ic_badge"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/notificationMenu"
+            app:layout_constraintStart_toStartOf="@+id/notificationMenu" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
         android:id="@+id/profileMenu"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:src="@drawable/selector_profile_menu"
-        android:padding="@dimen/dimen_8"
+        android:padding="8dp"
         android:layout_weight="1"
         android:scaleType="center"
         tools:ignore="ContentDescription" />

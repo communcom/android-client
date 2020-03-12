@@ -24,10 +24,12 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.PostsConfigurationDomain
+import io.golos.domain.dto.RewardPostDomain
 import io.golos.domain.dto.TypeObjectDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.model.DiscussionIdModel
+import io.golos.use_cases.reward.isTopReward
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -69,8 +71,8 @@ class CommunityPostViewModel @Inject constructor(
                 }
             }
         }
-        paginator.render = {
-            _postsListState.value = it
+        paginator.render = { newState, _ ->
+            _postsListState.value = newState
         }
 
         updateFilterAndLoadPosts()
@@ -110,6 +112,14 @@ class CommunityPostViewModel @Inject constructor(
 
     override fun onMenuClicked(postMenu: PostMenu) {
         _command.value = NavigationToPostMenuViewCommand(postMenu)
+    }
+
+    override fun onRewardClick(reward: RewardPostDomain?) {
+        reward.isTopReward()?.let {
+            val title = if(it) R.string.post_reward_top_title else R.string.post_reward_not_top_title
+            val text = if(it) R.string.post_reward_top_text else R.string.post_reward_not_top_text
+            _command.value = ShowPostRewardDialogCommand(title, text)
+        }
     }
 
     override fun onLinkClicked(linkUri: Uri) {
@@ -160,14 +170,11 @@ class CommunityPostViewModel @Inject constructor(
     override fun onUpVoteClicked(contentId: ContentId) {
         launch {
             try {
-                _command.value = SetLoadingVisibilityCommand(true)
-                model.upVote(contentId.communityId, contentId.userId, contentId.permlink)
                 _postsListState.value = updateUpVoteCountOfVotes(_postsListState.value, contentId)
+                model.upVote(contentId.communityId, contentId.userId, contentId.permlink)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
                 _command.value = ShowMessageResCommand(R.string.unknown_error)
-            } finally {
-                _command.value = SetLoadingVisibilityCommand(false)
             }
         }
     }
@@ -175,14 +182,11 @@ class CommunityPostViewModel @Inject constructor(
     override fun onDownVoteClicked(contentId: ContentId) {
         launch {
             try {
-                _command.value = SetLoadingVisibilityCommand(true)
-                model.downVote(contentId.communityId, contentId.userId, contentId.permlink)
                 _postsListState.value = updateDownVoteCountOfVotes(_postsListState.value, contentId)
+                model.downVote(contentId.communityId, contentId.userId, contentId.permlink)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
                 _command.value = ShowMessageResCommand(R.string.unknown_error)
-            } finally {
-                _command.value = SetLoadingVisibilityCommand(false)
             }
         }
     }

@@ -111,7 +111,7 @@
 
             android:gravity="start|top"
             android:maxLength="@{viewModel.maxTextLen}"
-            android:textSize="@dimen/text_size_17_sp"
+            android:textSize="17sp"
             android:background="@null"
 
             app:layout_constraintBottom_toTopOf="@+id/footer"

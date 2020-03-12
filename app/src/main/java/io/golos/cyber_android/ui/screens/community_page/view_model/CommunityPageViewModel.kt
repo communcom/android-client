@@ -14,6 +14,7 @@ import io.golos.cyber_android.ui.screens.community_page.mappers.CommunityPageDom
 import io.golos.cyber_android.ui.screens.community_page.model.CommunityPageModel
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
+import io.golos.utils.helpers.EMPTY
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -35,7 +36,10 @@ class CommunityPageViewModel @Inject constructor(
 
     val communityPageIsLoadProgressLiveData = communityPageIsLoadProgressMutableLiveData.toLiveData()
 
-    private var communityId: String = io.golos.utils.EMPTY
+    private val _swipeRefreshing = MutableLiveData<Boolean>(false)
+    val swipeRefreshing get() = _swipeRefreshing.toLiveData()
+
+    private var communityId: String = EMPTY
 
     fun start(communityId: String) {
         this.communityId = communityId
@@ -98,6 +102,13 @@ class CommunityPageViewModel @Inject constructor(
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }
+        }
+    }
+
+    fun onSwipeRefresh() {
+        launch {
+            loadCommunityPage()
+            _swipeRefreshing.value = false
         }
     }
 }

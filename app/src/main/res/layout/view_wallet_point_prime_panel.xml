@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/wallet_points_prime_panel_height"
+    android:background="@drawable/bcg_wallet_primary_panel">
+
+    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+        android:id="@+id/backButton"
+
+        android:layout_width="@dimen/size_image_button"
+        android:layout_height="@dimen/size_image_button"
+
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="15dp"
+        android:background="@null"
+
+        app:imageButton_icon="@drawable/ic_left_arrow"
+
+        app:imageButton_iconInscribeSize="@dimen/size_back_icon"
+        app:imageButton_tint="@color/white"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <io.golos.cyber_android.ui.screens.wallet_shared.carousel.CarouselRecyclerView
+        android:id="@+id/carousel"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="65dp"
+
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+
+        app:layout_constraintBottom_toBottomOf="@+id/backButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/backButton"
+        app:layout_constraintTop_toTopOf="@+id/backButton"
+        />
+
+    <TextView
+        android:id="@+id/titleValue"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        tools:text="@string/profile_wallet_title"
+
+        style="@style/Text15.White.Bold.SingleLine"
+
+        android:layout_marginTop="15dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/carousel"
+        />
+
+    <TextView
+        android:id="@+id/textValue"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text=""
+        tools:text="167 500.23"
+
+        style="@style/Text30.White.Bold.SingleLine"
+
+        android:layout_marginTop="5dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleValue"
+        />
+
+    <TextView
+        android:id="@+id/textValueInCommuns"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text=""
+        tools:text="= 150 Commun"
+
+        style="@style/Text12.White.Bold.SingleLine"
+
+        android:layout_marginTop="5dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textValue" />
+
+    <io.golos.cyber_android.ui.screens.wallet_point.view.available_hold.AvailableHoldView
+        android:id="@+id/availableHoldView"
+        android:layout_width="match_parent"
+
+        android:layout_height="10dp"
+        android:layout_marginStart="20dp"
+
+        android:layout_marginEnd="20dp"
+        app:inner_color_end="#4EDBB0"
+        app:inner_color_start="#B1F4E0"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        android:layout_marginTop="20dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textValueInCommuns"
+        app:outer_color="#1AFFFFFF"
+        app:stroke_width="2dp" />
+
+    <io.golos.cyber_android.ui.screens.wallet_shared.WalletPrimePanelBottomArea
+        android:id="@+id/bottomArea"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/wallet_prime_panel_bottom_area_height"
+
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="25dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:background="@drawable/bcg_wallet_prime_panel_bottom_area" />
+
+    <TextView
+        android:id="@+id/availableLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="@string/available"
+
+        android:layout_marginTop="10dp"
+
+        style="@style/Text12.White.Bold.SingleLine"
+
+        app:layout_constraintStart_toStartOf="@+id/availableHoldView"
+        app:layout_constraintTop_toBottomOf="@+id/availableHoldView" />
+
+    <TextView
+        android:id="@+id/holdLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="@string/hold_value_point"
+
+        style="@style/Text12.White.Bold.SingleLine"
+        android:alpha="0.6"
+
+        app:layout_constraintBottom_toBottomOf="@+id/availableLabel"
+        app:layout_constraintStart_toEndOf="@+id/availableLabel"
+        app:layout_constraintTop_toTopOf="@+id/availableLabel" />
+
+    <TextView
+        android:id="@+id/availableValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text=""
+        tools:text = "25000"
+
+        style="@style/Text12.White.Bold.SingleLine"
+
+        app:layout_constraintBottom_toBottomOf="@+id/availableLabel"
+        app:layout_constraintEnd_toStartOf="@+id/holdValue"
+        app:layout_constraintTop_toTopOf="@+id/availableLabel" />
+
+    <TextView
+        android:id="@+id/holdValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text=""
+        tools:text = "\u00A0/\u00A05000"
+
+        style="@style/Text12.White.Bold.SingleLine"
+        android:alpha="0.6"
+
+        app:layout_constraintBottom_toBottomOf="@+id/availableLabel"
+        app:layout_constraintEnd_toEndOf="@+id/availableHoldView"
+        app:layout_constraintTop_toTopOf="@+id/availableLabel" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

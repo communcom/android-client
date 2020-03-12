@@ -11,6 +11,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.dto.BlackListFilter
 import io.golos.cyber_android.ui.screens.profile_black_list.di.ProfileBlackListFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_black_list.view_model.ProfileBlackListViewModel
+import io.golos.domain.GlobalConstants
 import kotlinx.android.synthetic.main.fragment_profile_black_list.*
 
 class ProfileBlackListFragment : FragmentBaseMVVM<FragmentProfileBlackListBinding, ProfileBlackListViewModel>() {
@@ -33,7 +34,7 @@ class ProfileBlackListFragment : FragmentBaseMVVM<FragmentProfileBlackListBindin
             .get<ProfileBlackListFragmentComponent>(
                 key,
                 BlackListFilter.create(arguments!!.getInt(FILTER)),
-                25)         // Page size
+                GlobalConstants.PAGE_SIZE)
             .inject(this)
 
     override fun releaseInjection(key: String) = App.injections.release<ProfileBlackListFragmentComponent>(key)

@@ -11,6 +11,8 @@ interface CommunitiesListModel: ModelBase {
 
     suspend fun loadPage()
 
+    fun clear(): Boolean
+
     suspend fun retry()
 
     /**

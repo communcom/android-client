@@ -6,7 +6,7 @@ import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.SecondLev
 import io.golos.domain.use_cases.model.CommentModel
 import io.golos.domain.use_cases.model.DiscussionAuthorModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
-import io.golos.domain.utils.IdUtil
+import io.golos.utils.id.IdUtil
 
 object CommentsMapper {
     fun mapToFirstLevel(model: CommentModel, currentUserId: String): FirstLevelCommentListItem {
@@ -17,6 +17,8 @@ object CommentsMapper {
         return FirstLevelCommentListItem(
             id = IdUtil.generateLongId(),
             version = 0,
+            isFirstItem = false,
+            isLastItem = false,
             externalId = model.contentId,
             author = model.author,
             currentUserId = currentUserId,
@@ -56,6 +58,8 @@ object CommentsMapper {
         return SecondLevelCommentListItem(
             id = IdUtil.generateLongId(),
             version = 0,
+            isFirstItem = false,
+            isLastItem = false,
             externalId = model.contentId,
             author = model.author,
             repliedAuthor = repliedAuthor,

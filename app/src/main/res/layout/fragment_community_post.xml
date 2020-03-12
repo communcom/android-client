@@ -44,7 +44,7 @@
                     android:layout_marginEnd="5dp"
                     android:text="@string/sort"
                     android:textColor="@color/grey"
-                    android:textSize="@dimen/text_size_15_sp"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -52,9 +52,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableEnd="@drawable/ic_drop_down"
-                    android:drawablePadding="@dimen/text_size_15_sp"
+                    android:drawablePadding="15sp"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_15_sp"
+                    android:textSize="15sp"
                     android:textStyle="bold"
                     tools:text="Popular" />
 

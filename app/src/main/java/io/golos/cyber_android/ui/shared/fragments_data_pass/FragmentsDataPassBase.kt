@@ -11,7 +11,12 @@ abstract class FragmentsDataPassBase {
     }
 
     /**
-     * Gets data item from the storage end remove the item
+     * Gets data item from the storage
      */
-    protected fun get(key: Int): Any? = dataStorage.remove(key)
+    protected fun get(key: Int): Any? = dataStorage[key]
+
+    /**
+     * Gets data item from the storage and remove the item
+     */
+    protected fun remove(key: Int): Any? = dataStorage.remove(key)
 }

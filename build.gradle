@@ -1,4 +1,4 @@
-buildscript { 
+buildscript {
     ext.kotlin_version = '1.3.61'
 
     apply from: "$rootDir/dependencies.gradle"
@@ -13,18 +13,19 @@ buildscript {
     }
 
     ext {
-        appVesrionCode = 28
-        appVersionName = "1.0"
+        appVesrionCode = 30
+        appVersionName = "1.0.0"
 
         archCoreTesting = "2.0.0"
     }
 
     dependencies {
-        classpath gradlePlugins.android
+        classpath "com.android.tools.build:gradle:${versions.androidGradlePlugin}"
         classpath gradlePlugins.kotlin
         classpath gradlePlugins.googleServices
         classpath gradlePlugins.fabric
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version" }
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
 }
 
 allprojects {
