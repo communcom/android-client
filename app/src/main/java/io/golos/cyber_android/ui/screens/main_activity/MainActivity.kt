@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.main_activity
 
+import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.fragment.app.Fragment
@@ -23,6 +24,10 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainViewModel>() {
     override fun layoutResId(): Int = R.layout.activity_main
 
     override fun inject(key: String) = App.injections.get<MainActivityComponent>(key).inject(this)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
 
     override fun releaseInjection(key: String) {
         App.injections.release<MainActivityComponent>(key)
@@ -53,28 +58,6 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainViewModel>() {
         return when (item.itemId) {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    // note[AS] remove in a future
-    fun showFragment(fragment: Fragment, isAddToBackStack: Boolean = true) {
-        val tag = fragment::class.simpleName
-        if (supportFragmentManager.findFragmentByTag(tag) == null) {
-            val beginTransaction = supportFragmentManager.beginTransaction()
-            if (isAddToBackStack) {
-                beginTransaction.addToBackStack(tag)
-            }
-
-            beginTransaction.setCustomAnimations(
-                R.anim.nav_slide_in_right,
-                R.anim.nav_slide_out_left,
-                R.anim.nav_slide_in_left,
-                R.anim.nav_slide_out_right
-            )
-
-            beginTransaction
-                .add(R.id.rootContainer, fragment, tag)
-                .commit()
         }
     }
 }

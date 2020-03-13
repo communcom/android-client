@@ -6,6 +6,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import dagger.Lazy
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.screens.login_activity.di.LoginActivityComponent
@@ -13,6 +14,7 @@ import io.golos.cyber_android.ui.screens.login_activity.dto.HideSplashAnimationC
 import io.golos.cyber_android.ui.screens.login_activity.dto.NavigateToContinueSetupScreenCommand
 import io.golos.cyber_android.ui.screens.login_activity.dto.NavigateToWelcomeScreenCommand
 import io.golos.cyber_android.ui.screens.login_activity.dto.ShowSplashAnimationCommand
+import io.golos.cyber_android.ui.screens.login_activity.shared.fragments_data_pass.LoginActivityFragmentsDataPass
 import io.golos.cyber_android.ui.screens.login_activity.view.animation.SplashAnimator
 import io.golos.cyber_android.ui.screens.login_activity.view.animation.SplashAnimatorTarget
 import io.golos.cyber_android.ui.screens.login_activity.view_model.LoginViewModel
@@ -107,7 +109,16 @@ class LoginActivity : ActivityBase(), SplashAnimatorTarget {
     }
 
     private fun navigateToMainScreen() {
-        startActivity(Intent(this, MainActivity::class.java))
+        val startMainScreenIntent = Intent(this, MainActivity::class.java)
+            .also {
+                // Has deep link
+                if(intent.action == Intent.ACTION_VIEW) {
+                    it.action = Intent.ACTION_VIEW
+                    it.data = intent.data
+                }
+            }
+
+        startActivity(startMainScreenIntent)
         finish()
     }
 }

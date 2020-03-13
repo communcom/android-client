@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.login_activity.shared.fragments_data_pass
 
+import android.net.Uri
 import io.golos.cyber_android.ui.dto.QrCodeContent
 import io.golos.domain.dto.CountryDomain
 
