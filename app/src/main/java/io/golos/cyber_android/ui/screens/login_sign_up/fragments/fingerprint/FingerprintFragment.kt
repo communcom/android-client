@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
+import io.golos.cyber_android.application.shared.analytics.AnalyticsFacade
 import io.golos.cyber_android.ui.screens.login_activity.di.LoginActivityComponent
 import io.golos.cyber_android.ui.shared.base.FragmentBase
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ActivityViewModelFactory
@@ -29,6 +30,9 @@ class FingerprintFragment : FragmentBase() {
 
     @Inject
     internal lateinit var viewModelFactory: ActivityViewModelFactory
+
+    @Inject
+    internal lateinit var analyticsFacade: AnalyticsFacade
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +54,7 @@ class FingerprintFragment : FragmentBase() {
         }
 
         unlockPasscodeButton.setOnClickListener {
+            analyticsFacade.faceIDTouchIDActivated(false)
             viewModel.onUnlockViaPinCodeClick()
         }
     }
@@ -57,6 +62,7 @@ class FingerprintFragment : FragmentBase() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == RESULT_OK && requestCode == InAppAuthActivity.REQUEST_CODE){
+            analyticsFacade.faceIDTouchIDActivated(true)
             navigateToSignUpProtectionKeysScreen()
         }
     }

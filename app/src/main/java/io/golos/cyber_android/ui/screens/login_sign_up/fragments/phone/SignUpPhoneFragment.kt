@@ -22,6 +22,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
+import io.golos.cyber_android.application.shared.analytics.AnalyticsFacade
 import io.golos.cyber_android.ui.shared.extensions.moveCursorToTheEnd
 import io.golos.cyber_android.ui.shared.extensions.safeNavigate
 import io.golos.cyber_android.ui.screens.login_activity.di.LoginActivityComponent
@@ -113,6 +114,11 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(SignU
         } else {
             launch {
                 val currentCountry = countriesRepository.getCurrentCountry()
+
+                currentCountry?.let {
+                    analyticsFacade.countrySelected(it.available, it.code.toString())
+                }
+
                 if(currentCountry != null && currentCountry.available) {
                     dataPass.putSelectedCountry(currentCountry)
                     onCountrySelected(currentCountry)

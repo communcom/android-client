@@ -8,6 +8,7 @@ import android.widget.EditText
 import androidx.annotation.CallSuper
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import io.golos.cyber_android.application.shared.analytics.AnalyticsFacade
 import io.golos.cyber_android.ui.shared.base.FragmentBase
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.shared.utils.TextWatcherBase
@@ -25,6 +26,9 @@ abstract class SignUpScreenFragmentBase<VM: SignUpScreenViewModelBase>(private v
 
     @Inject
     protected lateinit var viewModelFactory: ActivityViewModelFactory
+
+    @Inject
+    internal lateinit var analyticsFacade: AnalyticsFacade
 
     /**
      * [EditText] which text is suppose to be validated. Can be null. If so, fragment class should
@@ -67,6 +71,10 @@ abstract class SignUpScreenFragmentBase<VM: SignUpScreenViewModelBase>(private v
     @CallSuper
     protected open fun observeViewModel() {
         viewModel.getValidnessLiveData.observe(viewLifecycleOwner, Observer {
+            if(it) {
+                analyticsFacade.phoneNumberEntered()
+            }
+
             continueButton.isEnabled = it
         })
     }

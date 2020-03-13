@@ -15,16 +15,25 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import io.golos.cyber_android.R
+import io.golos.cyber_android.application.App
+import io.golos.cyber_android.application.shared.analytics.AnalyticsFacade
+import io.golos.cyber_android.ui.screens.login_activity.di.LoginActivityComponent
 import io.golos.cyber_android.ui.shared.base.FragmentBase
 import io.golos.cyber_android.ui.shared.utils.ViewUtils
 import kotlinx.android.synthetic.main.fragment_welcome.*
+import javax.inject.Inject
 
 class WelcomeFragment : FragmentBase() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    @Inject
+    internal lateinit var analyticsFacade: AnalyticsFacade
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        App.injections.getBase<LoginActivityComponent>().inject(this)
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,  savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_welcome, container, false)
     }
 
@@ -62,6 +71,7 @@ class WelcomeFragment : FragmentBase() {
             findNavController().navigate(R.id.action_welcomeFragment_to_signInFragment)
         }
         signUp.setOnClickListener {
+            analyticsFacade.clickGetStarted031()
             findNavController().navigate(R.id.action_welcomeFragment_to_signUpPhoneFragment)
         }
         nextSlide.setOnClickListener {
@@ -76,6 +86,13 @@ class WelcomeFragment : FragmentBase() {
         slidesPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
+
+                when(position) {
+                    0 -> analyticsFacade.openScreen011()
+                    1 -> analyticsFacade.openScreen012()
+                    2 -> analyticsFacade.openScreen013()
+                }
+
                 val lastItem = slides.size - 1
                 if (lastItem == position) {
                     signIn.visibility = View.VISIBLE

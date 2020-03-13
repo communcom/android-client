@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.ftue_search_community.view_model
 
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
+import io.golos.cyber_android.application.shared.analytics.AnalyticsFacade
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
@@ -31,7 +32,8 @@ import javax.inject.Inject
 class FtueSearchCommunityViewModel @Inject constructor(
     dispatchersProvider: DispatchersProvider,
     model: FtueSearchCommunityModel,
-    private val paginator: Paginator.Store<Community>
+    private val paginator: Paginator.Store<Community>,
+    private val analyticsFacade: AnalyticsFacade
 ) : ViewModelBase<FtueSearchCommunityModel>(dispatchersProvider, model), FtueItemListModelEventProcessor {
 
     private var loadCommunitiesJob: Job? = null
@@ -266,6 +268,8 @@ class FtueSearchCommunityViewModel @Inject constructor(
             val communityIds = _collectionListState.value!!
                 .filter { it.collection.community != null }
                 .map { it.collection.community?.communityId }
+
+            analyticsFacade.bountySubscribe(communityIds.size)
             try {
                 _command.value = NavigationToFtueFinishFragment()
                 model.sendCommunitiesCollection(communityIds as List<String>)

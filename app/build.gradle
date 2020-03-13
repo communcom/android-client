@@ -54,7 +54,7 @@ android {
 
             buildConfigField "String", 'BASE_URL', "\"https://commun.com\""
             buildConfigField "String", 'AMPLITUDE_API_KEY', "\"d4c86feb8c760822a71751a2b894a99e\""
-            buildConfigField "Boolean", 'ANALYTICS_ENABLED', "true"
+            buildConfigField "Boolean", 'ANALYTICS_ENABLED', "false"
             buildConfigField "Boolean", 'CRASH_REPORTS_ENABLED', "false"
         }
     }

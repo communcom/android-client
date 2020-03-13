@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.golos.cyber_android.R
+import io.golos.cyber_android.application.shared.analytics.AnalyticsFacade
 import io.golos.cyber_android.ui.screens.login_activity.shared.fragments_data_pass.LoginActivityFragmentsDataPass
 import io.golos.cyber_android.ui.screens.login_sign_up_countries.model.SignUpCountryModel
 import io.golos.cyber_android.ui.shared.mvvm.SingleLiveData
@@ -24,7 +25,8 @@ class SignUpCountryViewModel
 constructor(
     dispatchersProvider: DispatchersProvider,
     model: SignUpCountryModel,
-    private val dataPass: LoginActivityFragmentsDataPass
+    private val dataPass: LoginActivityFragmentsDataPass,
+    private val analyticsFacade: AnalyticsFacade
 ) : ViewModelBase<SignUpCountryModel>(dispatchersProvider, model) {
 
     private val _countries = MutableLiveData<List<CountryDomain>>(listOf())
@@ -32,6 +34,8 @@ constructor(
 
     init {
         launch {
+            analyticsFacade.openScreen111()
+
             _command.value = SetLoadingVisibilityCommand(true)
 
             try {
@@ -55,6 +59,7 @@ constructor(
     }
 
     fun onCountrySelected(country: CountryDomain) {
+        analyticsFacade.countrySelected(country.available, country.code.toString())
         if(country.available) {
             dataPass.putSelectedCountry(country)
             _command.value = NavigateBackwardCommand()

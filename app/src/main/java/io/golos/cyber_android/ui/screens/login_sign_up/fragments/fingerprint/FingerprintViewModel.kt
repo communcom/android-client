@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.login_sign_up.fragments.fingerprint
 
 import androidx.lifecycle.ViewModel
 import io.golos.cyber_android.R
+import io.golos.cyber_android.application.shared.analytics.AnalyticsFacade
 import io.golos.cyber_android.ui.shared.mvvm.SingleLiveData
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToInAppAuthScreenCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
@@ -23,7 +24,8 @@ class FingerprintViewModel
 @Inject
 constructor(
     private val dispatchersProvider: DispatchersProvider,
-    private val model: FingerprintModel
+    private val model: FingerprintModel,
+    private val analyticsFacade: AnalyticsFacade
 ) : ViewModel(), CoroutineScope {
 
     private val scopeJob: Job = SupervisorJob()
@@ -36,6 +38,10 @@ constructor(
     fun onUnlockViaPinCodeClick() = saveUnlockWay(AppUnlockWay.PIN_CODE)
 
     fun onUnlockViaFingerprintClick()  = saveUnlockWay(AppUnlockWay.FINGERPRINT)
+
+    init {
+        analyticsFacade.openScreen116()
+    }
 
     override fun onCleared() {
         scopeJob.takeIf { it.isActive }?.cancel()

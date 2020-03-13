@@ -2,7 +2,6 @@ package io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
@@ -56,12 +55,12 @@ class SignUpProtectionKeysFragment : FragmentBaseMVVM<FragmentSignUpProtectionKe
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        Log.d("UPLOAD", "onActivityResult(requestCode: $requestCode; resultCode: $resultCode)")
         super.onActivityResult(requestCode, resultCode, data)
 
         if(requestCode == KeysBackupWarningDialog.REQUEST) {
             when (resultCode) {
                 KeysBackupWarningDialog.RESULT_CONTINUE -> viewModel.onWarningContinueClick()
+                KeysBackupWarningDialog.RESULT_CANCEL -> viewModel.onWarningCancelClick()
             }
         } else {
             keysToGoogleDriveExporter.processSignInResult(requestCode, resultCode, data)

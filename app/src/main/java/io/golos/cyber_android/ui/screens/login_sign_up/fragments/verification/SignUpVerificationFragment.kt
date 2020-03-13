@@ -1,6 +1,5 @@
 package io.golos.cyber_android.ui.screens.login_sign_up.fragments.verification
 
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,14 +9,15 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
+import io.golos.cyber_android.application.shared.analytics.dto.SmsCodeEntered
 import io.golos.cyber_android.ui.screens.login_activity.di.LoginActivityComponent
-import io.golos.cyber_android.ui.shared.extensions.safeNavigate
 import io.golos.cyber_android.ui.screens.login_sign_up.SignUpScreenFragmentBase
+import io.golos.cyber_android.ui.shared.extensions.safeNavigate
 import io.golos.data.errors.AppError
+import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.use_cases.model.NextRegistrationStepRequestModel
 import io.golos.domain.use_cases.model.ResendSmsVerificationCodeModel
 import io.golos.domain.use_cases.model.SendVerificationCodeRequestModel
-import io.golos.domain.requestmodel.QueryResult
 import kotlinx.android.synthetic.main.fragment_sign_up_verification.*
 
 class SignUpVerificationFragment : SignUpScreenFragmentBase<SignUpVerificationViewModel>(
@@ -93,6 +93,8 @@ class SignUpVerificationFragment : SignUpScreenFragmentBase<SignUpVerificationVi
     }
 
     private fun onSuccess() {
+        analyticsFacade.smsCodeEntered(SmsCodeEntered.RIGHT)
+
         hideLoading()
         findNavController().safeNavigate(
             R.id.signUpVerificationFragment,
@@ -101,6 +103,8 @@ class SignUpVerificationFragment : SignUpScreenFragmentBase<SignUpVerificationVi
     }
 
     private fun onError(errorResult: QueryResult.Error<NextRegistrationStepRequestModel>) {
+        analyticsFacade.smsCodeEntered(SmsCodeEntered.ERROR)
+
         hideLoading()
         val errorMsg = when(errorResult.error) {
             is AppError.ForbiddenError -> R.string.wrong_verification_code
@@ -118,6 +122,8 @@ class SignUpVerificationFragment : SignUpScreenFragmentBase<SignUpVerificationVi
     }
 
     private fun onResendSuccess() {
+        analyticsFacade.smsCodeEntered(SmsCodeEntered.RESEND)
+
         hideLoading()
         Toast.makeText(requireContext(), "Resend success", Toast.LENGTH_SHORT).show()
         smsCode.clearCode()
@@ -125,6 +131,8 @@ class SignUpVerificationFragment : SignUpScreenFragmentBase<SignUpVerificationVi
     }
 
     private fun onResendError() {
+        analyticsFacade.smsCodeEntered(SmsCodeEntered.ERROR)
+
         hideLoading()
         Toast.makeText(requireContext(), R.string.unknown_error, Toast.LENGTH_SHORT).show()
     }

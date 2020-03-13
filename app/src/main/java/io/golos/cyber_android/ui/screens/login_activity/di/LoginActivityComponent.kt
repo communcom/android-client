@@ -11,6 +11,7 @@ import io.golos.cyber_android.ui.screens.login_sign_up.fragments.verification.Si
 import io.golos.cyber_android.ui.screens.login_sign_up_countries.di.SignUpCountryComponent
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.di.SignUpProtectionKeysFragmentComponent
 import io.golos.cyber_android.ui.screens.login_sign_up_pin.PinCodeFragment
+import io.golos.cyber_android.ui.screens.login_welcome.WelcomeFragment
 import io.golos.domain.dependency_injection.scopes.ActivityScope
 
 @Subcomponent(modules = [
@@ -35,4 +36,5 @@ interface LoginActivityComponent {
     fun inject(fragment: SignUpVerificationFragment)
     fun inject(fragment: FingerprintFragment)
     fun inject(fragment: PinCodeFragment)
+    fun inject(fragment: WelcomeFragment)
 }

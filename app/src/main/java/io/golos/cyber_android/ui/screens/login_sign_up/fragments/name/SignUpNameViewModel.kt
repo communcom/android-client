@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
+import io.golos.cyber_android.application.shared.analytics.AnalyticsFacade
 import io.golos.cyber_android.ui.screens.login_activity.shared.validators.user_name.validator.UserNameValidationResult
 import io.golos.cyber_android.ui.screens.login_activity.shared.validators.user_name.validator.UserNameValidatorImpl
 import io.golos.cyber_android.ui.screens.login_activity.shared.validators.user_name.vizualizer.UserNameValidationVisualizer
@@ -14,8 +15,8 @@ import javax.inject.Inject
 class SignUpNameViewModel
 @Inject
 constructor(
-    private val appContext: Context,
-    private val userNameValidationVisualizer: UserNameValidationVisualizer
+    private val userNameValidationVisualizer: UserNameValidationVisualizer,
+    private val analyticsFacade: AnalyticsFacade
 ) : SignUpScreenViewModelBase() {
 
     private val userNameValidator by lazy { UserNameValidatorImpl() }       // Use injection here, after refactoring!!!
@@ -24,6 +25,10 @@ constructor(
 
     private val _validationResult = MutableLiveData<ValidationResult>(ValidationResult(true, null))
     val validationResult: LiveData<ValidationResult> = _validationResult
+
+    init {
+        analyticsFacade.openScreen114()
+    }
 
     override fun validate(field: String): Boolean = userNameValidator.validate(field) == UserNameValidationResult.SUCCESS
 

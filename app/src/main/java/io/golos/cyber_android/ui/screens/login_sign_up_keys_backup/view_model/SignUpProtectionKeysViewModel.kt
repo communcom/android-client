@@ -3,6 +3,8 @@ package io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.view_model
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
+import io.golos.cyber_android.application.shared.analytics.AnalyticsFacade
+import io.golos.cyber_android.application.shared.analytics.dto.PasswordBackup
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
@@ -24,8 +26,8 @@ class SignUpProtectionKeysViewModel
 constructor(
     dispatchersProvider: DispatchersProvider,
     model: SignUpProtectionKeysModel,
-    private val keyValueStorage: KeyValueStorageFacade,
-    private val clipboardUtils: ClipboardUtils
+    private val clipboardUtils: ClipboardUtils,
+    private val analyticsFacade: AnalyticsFacade
 ) : ViewModelBase<SignUpProtectionKeysModel>(dispatchersProvider, model) {
 
     private val _masterKey = MutableLiveData<String>()
@@ -33,6 +35,8 @@ constructor(
 
     init {
         launch {
+            analyticsFacade.openScreen115()
+
             model.loadKeys()
             _masterKey.value = model.allKeys.first { it.keyType == UserKeyType.MASTER }.key
         }
@@ -49,12 +53,18 @@ constructor(
     fun onWarningContinueClick() {
         launch {
             try {
+                analyticsFacade.passwordNotBackuped(true)
+
                 model.saveKeysExported()
                 _command.value = NavigateToMainScreenCommand()
             } catch (ex: Exception) {
                 _command.value = ShowMessageResCommand(R.string.common_general_error)
             }
         }
+    }
+
+    fun onWarningCancelClick() {
+        analyticsFacade.passwordNotBackuped(false)
     }
 
     fun onExportPathSelected(exportPath: String) {
@@ -66,6 +76,8 @@ constructor(
                 model.copyExportedDocumentTo(exportPath)
 
                 model.saveKeysExported()
+
+                analyticsFacade.passwordBackuped(PasswordBackup.PDF)
 
                 _command.value = ShowMessageResCommand(R.string.pdf_save_completed, isError = false)
 
@@ -97,6 +109,8 @@ constructor(
     fun onExportToGoogleDriveSuccess() {
         launch {
             model.saveKeysExported()
+
+            analyticsFacade.passwordBackuped(PasswordBackup.CLOUD)
 
             _command.value = SetLoadingVisibilityCommand(false)
 
