@@ -12,6 +12,7 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.CommunityDomain
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.community.CommunitiesRepository
 import io.golos.utils.id.IdUtil
@@ -79,23 +80,23 @@ constructor(
         }
     }
 
-    override suspend fun subscribeUnsubscribe(communityId: String): Boolean {
+    override suspend fun subscribeUnsubscribe(communityCode: String): Boolean {
         if(subscribingInProgress) {
             return true
         }
 
         subscribingInProgress = true
 
-        val community = loadedItems[getCommunityIndex(communityId)] as CommunityListItem
+        val community = loadedItems[getCommunityIndex(communityCode)] as CommunityListItem
 
-        setCommunityInProgress(communityId)
+        setCommunityInProgress(communityCode)
 
         val isSuccess = withContext(dispatchersProvider.ioDispatcher) {
             try {
                 if(community.isInPositiveState) {
-                    communitiesRepository.unsubscribeToCommunity(communityId)
+                    communitiesRepository.unsubscribeToCommunity(CommunityIdDomain(communityCode, null))
                 } else {
-                    communitiesRepository.subscribeToCommunity(communityId)
+                    communitiesRepository.subscribeToCommunity(CommunityIdDomain(communityCode, null))
                 }
                 true
             } catch (ex: Exception) {
@@ -104,7 +105,7 @@ constructor(
             }
         }
 
-        completeCommunityInProgress(communityId, isSuccess)
+        completeCommunityInProgress(communityCode, isSuccess)
 
         subscribingInProgress = false
 

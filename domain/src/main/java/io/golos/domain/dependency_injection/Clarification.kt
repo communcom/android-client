@@ -7,8 +7,9 @@ object Clarification {
     const val PERSISTENT = "PERSISTENT"
     const val CACHE = "CACHE"
 
-    const val COMMUNITY_ID = "COMMUNITY_ID"
+    const val COMMUNITY_CODE = "COMMUNITY_CODE"
     const val COMMUNITY_ALIAS = "COMMUNITY_ALIAS"
+    const val COMMUNITY_ID = "COMMUNITY_ID"
 
     const val FILTER_GLOBAL = "FILTER_GLOBAL"
     const val FILTER_TIME = "FILTER_TIME"

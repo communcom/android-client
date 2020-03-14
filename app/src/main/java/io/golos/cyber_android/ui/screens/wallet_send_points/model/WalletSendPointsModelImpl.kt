@@ -24,7 +24,7 @@ class WalletSendPointsModelImpl
 constructor(
     private val appContext: Context,
     override var sendToUser: UserDomain?,
-    @Named(Clarification.COMMUNITY_ID)
+    @Named(Clarification.COMMUNITY_CODE)
     private var currentCommunityId: String,
     @Named(Clarification.WALLET_POINT_BALANCE)
     override var balance: List<WalletCommunityBalanceRecordDomain>,

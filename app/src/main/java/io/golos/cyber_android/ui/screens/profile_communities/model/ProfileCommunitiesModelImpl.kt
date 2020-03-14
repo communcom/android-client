@@ -8,6 +8,7 @@ import io.golos.cyber_android.ui.dto.Community
 import io.golos.cyber_android.ui.dto.ProfileCommunities
 import io.golos.cyber_android.ui.screens.profile_communities.dto.CommunityListItem
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.use_cases.community.CommunitiesRepository
 import io.golos.utils.id.IdUtil
 import kotlinx.coroutines.withContext
@@ -37,23 +38,23 @@ constructor(
     /**
      * @return true in case of success
      */
-    override suspend fun subscribeUnsubscribe(communityId: String): Boolean {
+    override suspend fun subscribeUnsubscribe(communityCode: String): Boolean {
         if(subscribingInProgress) {
             return true
         }
 
         subscribingInProgress = true
 
-        val community = loadedItems[getCommunityIndex(communityId)] as CommunityListItem
+        val community = loadedItems[getCommunityIndex(communityCode)] as CommunityListItem
 
-        setCommunityInProgress(communityId)
+        setCommunityInProgress(communityCode)
 
         val isSuccess = withContext(dispatchersProvider.ioDispatcher) {
             try {
                 if(community.isJoined) {
-                    communitiesRepository.unsubscribeToCommunity(communityId)
+                    communitiesRepository.unsubscribeToCommunity(CommunityIdDomain(communityCode, null))
                 } else {
-                    communitiesRepository.subscribeToCommunity(communityId)
+                    communitiesRepository.subscribeToCommunity(CommunityIdDomain(communityCode, null))
                 }
                 true
             } catch (ex: Exception) {
@@ -62,7 +63,7 @@ constructor(
             }
         }
 
-        completeCommunityInProgress(communityId, isSuccess)
+        completeCommunityInProgress(communityCode, isSuccess)
 
         subscribingInProgress = false
 

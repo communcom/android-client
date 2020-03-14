@@ -16,6 +16,7 @@ import io.golos.cyber_android.ui.shared.utils.localSize
 import io.golos.cyber_android.ui.shared.widgets.CommentWidget
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.model.DiscussionIdModel
@@ -121,8 +122,8 @@ constructor(
         }
     }
 
-    override fun onCommunityClicked(communityId: String) {
-        _command.value = NavigateToCommunityPageCommand(communityId)
+    override fun onCommunityClicked(communityCode: String) {
+        _command.value = NavigateToCommunityPageCommand(CommunityIdDomain(communityCode, null))
     }
 
     override fun onUpVoteClick() {
@@ -237,11 +238,11 @@ constructor(
         }
     }
 
-    fun subscribeToCommunity(communityId: String) {
+    fun subscribeToCommunity(communityCode: String) {
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
-                model.subscribeToCommunity(communityId)
+                model.subscribeToCommunity(CommunityIdDomain(communityCode, null))
                 _postHeader.value = _postHeader.value?.copy(
                     isJoinedToCommunity = true
                 )
@@ -253,11 +254,11 @@ constructor(
         }
     }
 
-    fun unsubscribeToCommunity(communityId: String) {
+    fun unsubscribeToCommunity(communityCode: String) {
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
-                model.unsubscribeToCommunity(communityId)
+                model.unsubscribeToCommunity(CommunityIdDomain(communityCode, null))
                 _postHeader.value = _postHeader.value?.copy(
                     isJoinedToCommunity = false
                 )

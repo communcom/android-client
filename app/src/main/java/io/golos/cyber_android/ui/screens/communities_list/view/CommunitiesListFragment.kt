@@ -18,6 +18,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToCommunityPa
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.shared.utils.CommunitiesListDividerDecoration
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserIdDomain
 import kotlinx.android.synthetic.main.fragment_communities.*
 
@@ -96,6 +97,6 @@ open class CommunitiesListFragment : FragmentBaseMVVM<FragmentCommunitiesBinding
         communitiesListAdapter.update(data)
     }
 
-    private fun moveToCommunityPage(communityId: String) =
+    private fun moveToCommunityPage(communityId: CommunityIdDomain) =
         getDashboardFragment(this)?.navigateToFragment(CommunityPageFragment.newInstance(communityId))
 }

@@ -8,6 +8,6 @@ import javax.inject.Named
 @Module
 class CommunityPageLeadsListModule(private val communityId: String) {
     @Provides
-    @Named(Clarification.COMMUNITY_ID)
+    @Named(Clarification.COMMUNITY_CODE)
     internal fun provideCommunityId(): String = communityId
 }

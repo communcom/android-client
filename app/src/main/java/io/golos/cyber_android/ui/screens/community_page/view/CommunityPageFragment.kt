@@ -28,6 +28,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.shared.popups.no_connection.NoConnectionPopup
 import io.golos.cyber_android.ui.shared.utils.toMMMM_DD_YYYY_Format
 import io.golos.cyber_android.ui.shared.widgets.TabLineDrawable
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.utils.helpers.EMPTY
 import io.golos.utils.helpers.toPluralInt
 import kotlinx.android.synthetic.main.fragment_community_page.*
@@ -37,10 +38,10 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
     companion object {
         private const val ARG_COMMUNITY_ID = "ARG_COMMUNITY_ID"
 
-        fun newInstance(communityId: String): CommunityPageFragment {
+        fun newInstance(communityId: CommunityIdDomain): CommunityPageFragment {
             val communityPageFragment = CommunityPageFragment()
             val bundle = Bundle()
-            bundle.putString(ARG_COMMUNITY_ID, communityId)
+            bundle.putParcelable(ARG_COMMUNITY_ID, communityId)
             communityPageFragment.arguments = bundle
             return communityPageFragment
         }
@@ -58,7 +59,8 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
 
     override fun provideViewModelType(): Class<CommunityPageViewModel> = CommunityPageViewModel::class.java
 
-    override fun inject(key: String) = App.injections.get<CommunityPageFragmentComponent>(key).inject(this)
+    override fun inject(key: String) = App.injections.get<CommunityPageFragmentComponent>(
+        key, arguments!!.getParcelable<CommunityIdDomain>(ARG_COMMUNITY_ID)).inject(this)
 
     override fun releaseInjection(key: String) = App.injections.release<CommunityPageFragmentComponent>(key)
 
@@ -74,7 +76,7 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
             viewModel.onBackPressed()
         }
 
-        viewModel.start(getCommunityId())
+        viewModel.start()
     }
 
     override fun processViewCommand(command: ViewCommand) {
@@ -216,11 +218,9 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
         return fragmentPagesList
     }
 
-    private fun getCommunityId() = arguments!!.getString(ARG_COMMUNITY_ID, EMPTY)
-
     private fun switchToTab(tabIndex: Int) = tabLayout.getTabAt(tabIndex)!!.select()
 
-    private fun navigateToMembers(communityId: String) =
+    private fun navigateToMembers(communityId: CommunityIdDomain) =
         getDashboardFragment(this)?.navigateToFragment(CommunityPageMembersFragment.newInstance(communityId), true, null)
 
     private fun navigateToFriends(friends: List<CommunityFriend>) =

@@ -1,13 +1,19 @@
 package io.golos.cyber_android.ui.screens.dashboard.view_model
 
+import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import io.golos.cyber_android.ui.screens.dashboard.dto.DeepLinkInfo
 import io.golos.cyber_android.ui.screens.dashboard.model.DashboardModel
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToCommunityPageCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToUserProfileCommand
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.cyber_android.ui.shared.widgets.NavigationBottomMenuWidget
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import kotlinx.coroutines.flow.collect
@@ -69,10 +75,6 @@ constructor(
 
     override fun onProfileClick(tab: NavigationBottomMenuWidget.Tab) = onTabSelected(tab)
 
-    private fun onTabSelected(tab: NavigationBottomMenuWidget.Tab) {
-        _currentTabLiveData.postValue(tab)
-    }
-
     override fun onCleared() {
         super.onCleared()
         mediator.removeObserver(observer)
@@ -86,5 +88,28 @@ constructor(
                 Timber.e(e)
             }
         }
+    }
+
+    fun processDeepLink(uri: Uri) {
+        launch {
+            model.parseDeepLinkUri(uri)
+                ?.let { linkInfo ->
+                    when(linkInfo) {
+                        is DeepLinkInfo.ProfileDeepLink -> {
+                            _command.value = NavigateToUserProfileCommand(linkInfo.userId)
+                        }
+                        is DeepLinkInfo.CommunityDeepLink -> {
+                            _command.value = NavigateToCommunityPageCommand(CommunityIdDomain(null, linkInfo.communityAlias))
+                        }
+                        is DeepLinkInfo.PostDeepLink -> {
+                            Log.d("DEEP_LINK", linkInfo.toString())
+                        }
+                    }
+                }
+        }
+    }
+
+    private fun onTabSelected(tab: NavigationBottomMenuWidget.Tab) {
+        _currentTabLiveData.postValue(tab)
     }
 }

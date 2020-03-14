@@ -25,10 +25,7 @@ import io.golos.cyber_android.ui.shared.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
-import io.golos.domain.dto.PostsConfigurationDomain
-import io.golos.domain.dto.RewardPostDomain
-import io.golos.domain.dto.TypeObjectDomain
-import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.dto.*
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.use_cases.reward.isTopReward
@@ -135,8 +132,8 @@ constructor(
         }
     }
 
-    override fun onCommunityClicked(communityId: String) {
-        _command.value = NavigateToCommunityPageCommand(communityId)
+    override fun onCommunityClicked(communityCode: String) {
+        _command.value = NavigateToCommunityPageCommand(CommunityIdDomain(communityCode, null))
     }
 
     override fun onSeeMoreClicked(contentId: ContentId) {
@@ -230,12 +227,12 @@ constructor(
         _postsListState.value = deletePostInState(_postsListState.value, permlink)
     }
 
-    fun subscribeToCommunity(communityId: String) {
+    fun subscribeToCommunity(communityCode: String) {
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
-                model.subscribeToCommunity(communityId)
-                _postsListState.value = changeCommunitySubscriptionStatusInState(_postsListState.value, communityId, true)
+                model.subscribeToCommunity(CommunityIdDomain(communityCode, null))
+                _postsListState.value = changeCommunitySubscriptionStatusInState(_postsListState.value, communityCode, true)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
             } finally {
@@ -244,12 +241,12 @@ constructor(
         }
     }
 
-    fun unsubscribeToCommunity(communityId: String) {
+    fun unsubscribeToCommunity(communityCode: String) {
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
-                model.unsubscribeToCommunity(communityId)
-                _postsListState.value = changeCommunitySubscriptionStatusInState(_postsListState.value, communityId, false)
+                model.unsubscribeToCommunity(CommunityIdDomain(communityCode, null))
+                _postsListState.value = changeCommunitySubscriptionStatusInState(_postsListState.value, communityCode, false)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
             } finally {

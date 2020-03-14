@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.ftue_search_community.model
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityDomain
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.FtueBoardStageDomain
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.use_cases.community.CommunitiesRepository
@@ -28,9 +29,9 @@ class FtueSearchCommunityModelImpl
         usersRepository.setFtueBoardStage(stage)
     }
 
-    override suspend fun sendCommunitiesCollection(communityIds: List<String>) {
+    override suspend fun sendCommunitiesCollection(communityCodes: List<String>) {
         withContext(dispatchersProvider.ioDispatcher) {
-            repository.sendCommunitiesCollection(communityIds)
+            repository.sendCommunitiesCollection(communityCodes)
         }
     }
 
@@ -40,15 +41,15 @@ class FtueSearchCommunityModelImpl
         }
     }
 
-    override suspend fun onFollowToCommunity(communityId: String) {
+    override suspend fun onFollowToCommunity(communityCode: String) {
         withContext(dispatchersProvider.ioDispatcher) {
-            repository.subscribeToCommunity(communityId)
+            repository.subscribeToCommunity(CommunityIdDomain(communityCode, null))
         }
     }
 
-    override suspend fun onUnFollowFromCommunity(communityId: String) {
+    override suspend fun onUnFollowFromCommunity(communityCode: String) {
         withContext(dispatchersProvider.ioDispatcher) {
-            repository.unsubscribeToCommunity(communityId)
+            repository.unsubscribeToCommunity(CommunityIdDomain(communityCode, null))
         }
     }
 }

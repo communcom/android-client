@@ -8,11 +8,11 @@ interface FtueSearchCommunityModel : ModelBase {
 
     suspend fun getCommunities(query: String?, offset: Int, pageSize: Int): List<CommunityDomain>
 
-    suspend fun onFollowToCommunity(communityId: String)
+    suspend fun onFollowToCommunity(communityCode: String)
 
-    suspend fun onUnFollowFromCommunity(communityId: String)
+    suspend fun onUnFollowFromCommunity(communityCode: String)
 
-    suspend fun sendCommunitiesCollection(communityIds: List<String>)
+    suspend fun sendCommunitiesCollection(communityCodes: List<String>)
 
     suspend fun setFtueBoardStage(stage: FtueBoardStageDomain)
 

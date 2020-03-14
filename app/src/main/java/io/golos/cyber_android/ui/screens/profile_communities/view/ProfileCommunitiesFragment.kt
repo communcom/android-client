@@ -19,6 +19,7 @@ import io.golos.cyber_android.ui.screens.communities_list.view.CommunitiesListFr
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
 import io.golos.cyber_android.ui.screens.profile_communities.view.list.CommunityListAdapter
 import io.golos.cyber_android.ui.screens.profile_communities.view_model.ProfileCommunitiesViewModel
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserIdDomain
 import kotlinx.android.synthetic.main.fragment_profile_communities.*
 
@@ -89,7 +90,7 @@ open class ProfileCommunitiesFragment : FragmentBaseMVVM<FragmentProfileCommunit
         communitiesListAdapter.update(data)
     }
 
-    private fun moveToCommunity(communityId: String) =
+    private fun moveToCommunity(communityId: CommunityIdDomain) =
         getDashboardFragment(this)?.navigateToFragment(CommunityPageFragment.newInstance(communityId))
 
     private fun moveToCommunitiesList(userId: UserIdDomain) =

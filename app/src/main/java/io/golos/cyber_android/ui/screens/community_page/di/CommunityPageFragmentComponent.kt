@@ -7,11 +7,15 @@ import io.golos.cyber_android.ui.screens.community_page_friends.di.CommunityPage
 import io.golos.cyber_android.ui.screens.community_page_members.di.CommunityPageMembersComponent
 import io.golos.domain.dependency_injection.scopes.FragmentScope
 
-@Subcomponent(modules = [CommunityPageFragmentModuleBinds::class, CommunityPageFragmentModuleChild::class])
+@Subcomponent(modules = [
+    CommunityPageFragmentModuleBinds::class,
+    CommunityPageFragmentModule::class,
+    CommunityPageFragmentModuleChild::class])
 @FragmentScope
 interface CommunityPageFragmentComponent {
     @Subcomponent.Builder
     interface Builder {
+        fun init(module: CommunityPageFragmentModule): Builder
         fun build(): CommunityPageFragmentComponent
     }
 

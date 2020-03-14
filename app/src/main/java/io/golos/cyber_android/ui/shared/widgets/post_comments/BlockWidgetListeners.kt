@@ -48,7 +48,7 @@ interface ParagraphWidgetListener : BasePostBlockWidgetListener,
 
     fun onUserClicked(userId: String)
 
-    fun onCommunityClicked(communityId: String)
+    fun onCommunityClicked(communityCode: String)
 }
 
 interface MenuListener {

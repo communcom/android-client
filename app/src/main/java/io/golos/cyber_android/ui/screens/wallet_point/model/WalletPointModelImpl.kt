@@ -19,7 +19,7 @@ class WalletPointModelImpl
 constructor(
     @Named(Clarification.PAGE_SIZE)
     override val pageSize: Int,
-    @Named(Clarification.COMMUNITY_ID)
+    @Named(Clarification.COMMUNITY_CODE)
     private var currentCommunityId: String,
     @Named(Clarification.WALLET_POINT_BALANCE)
     override var sourceBalance: List<WalletCommunityBalanceRecordDomain>,

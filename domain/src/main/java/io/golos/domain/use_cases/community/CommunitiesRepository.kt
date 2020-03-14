@@ -7,11 +7,11 @@ interface CommunitiesRepository {
 
     suspend fun getRecommendedCommunities(offset: Int, pageLimitSize: Int): List<CommunityDomain>
 
-    suspend fun subscribeToCommunity(communityId: String)
+    suspend fun subscribeToCommunity(communityId: CommunityIdDomain)
 
-    suspend fun unsubscribeToCommunity(communityId: String)
+    suspend fun unsubscribeToCommunity(communityId: CommunityIdDomain)
 
-    suspend fun getCommunityPageById(communityId: String): CommunityPageDomain
+    suspend fun getCommunityPageById(communityId: CommunityIdDomain): CommunityPageDomain
 
     suspend fun getCommunitiesList(
         userId: UserIdDomain,
@@ -37,7 +37,7 @@ interface CommunitiesRepository {
 
     suspend fun unvoteForLeader(communityId: String, leader: UserIdDomain)
 
-    suspend fun getSubscribers(communityId: String, offset: Int, pageSizeLimit: Int): List<UserDomain>
+    suspend fun getSubscribers(communityId: CommunityIdDomain, offset: Int, pageSizeLimit: Int): List<UserDomain>
 
     suspend fun getUserCommunities(userIdDomain: UserIdDomain, offset: Int, pageSizeLimit: Int): List<CommunityDomain>
 }

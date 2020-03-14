@@ -14,6 +14,7 @@ import io.golos.cyber_android.ui.screens.community_page.mappers.CommunityPageDom
 import io.golos.cyber_android.ui.screens.community_page.model.CommunityPageModel
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.utils.helpers.EMPTY
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -21,7 +22,8 @@ import javax.inject.Inject
 
 class CommunityPageViewModel @Inject constructor(
     dispatchersProvider: DispatchersProvider,
-    model: CommunityPageModel
+    model: CommunityPageModel,
+    private var communityId: CommunityIdDomain
 ) : ViewModelBase<CommunityPageModel>(dispatchersProvider, model) {
 
     private val communityPageMutableLiveData = MutableLiveData<CommunityPage>()
@@ -39,10 +41,7 @@ class CommunityPageViewModel @Inject constructor(
     private val _swipeRefreshing = MutableLiveData<Boolean>(false)
     val swipeRefreshing get() = _swipeRefreshing.toLiveData()
 
-    private var communityId: String = EMPTY
-
-    fun start(communityId: String) {
-        this.communityId = communityId
+    fun start() {
         loadCommunityPage()
     }
 
@@ -51,7 +50,11 @@ class CommunityPageViewModel @Inject constructor(
             try{
                 communityPageIsErrorMutableLiveData.value = false
                 communityPageIsLoadProgressMutableLiveData.value = true
+
                 val communityPageDomain = model.getCommunityPageById(communityId)
+
+                communityId = CommunityIdDomain(communityPageDomain.communityId, communityPageDomain.alias)
+
                 val communityPage = CommunityPageDomainToCommunityPageMapper().invoke(communityPageDomain)
                 communityPageMutableLiveData.value = communityPage
                 communityPageIsErrorMutableLiveData.value = false

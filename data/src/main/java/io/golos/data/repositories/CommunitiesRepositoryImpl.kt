@@ -47,16 +47,23 @@ constructor(
         }
     }
 
-    override suspend fun getCommunityPageById(communityId: String): CommunityPageDomain {
-        val community = apiCall { commun4j.getCommunity(communityId) }
-        val leads = apiCall { commun4j.getLeaders(communityId, 50, 0) }.items.map { it.userId }
+    override suspend fun getCommunityPageById(communityId: CommunityIdDomain): CommunityPageDomain {
+        val community = apiCall {
+            if(communityId.code!=null) {
+                commun4j.getCommunity(communityId.code!!)
+            } else {
+                commun4j.getCommunity("CAT")            // FOR DEBUG PURPOSE ONLY (TASK #388)
+            }
+        }
+
+        val leads = apiCall { commun4j.getLeaders(community.communityId, 50, 0) }.items.map { it.userId }
         return community.mapToCommunityPageDomain(leads)
     }
 
-    override suspend fun subscribeToCommunity(communityId: String) {
+    override suspend fun subscribeToCommunity(communityId: CommunityIdDomain) {
         apiCallChain {
             commun4j.followCommunity(
-                communityCode = CyberSymbolCode(communityId),
+                communityCode = CyberSymbolCode(communityId.code!!),
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
                 follower = CyberName(currentUserRepository.authState!!.user.userId),
@@ -65,10 +72,10 @@ constructor(
         }
     }
 
-    override suspend fun unsubscribeToCommunity(communityId: String) {
+    override suspend fun unsubscribeToCommunity(communityId: CommunityIdDomain) {
         apiCallChain {
             commun4j.unFollowCommunity(
-                communityCode = CyberSymbolCode(communityId),
+                communityCode = CyberSymbolCode(communityId.code!!),
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
                 follower = CyberName(currentUserRepository.authState!!.user.userId),
@@ -163,11 +170,11 @@ constructor(
         }
     }
 
-    override suspend fun getSubscribers(communityId: String, offset: Int, pageSizeLimit: Int): List<UserDomain> {
+    override suspend fun getSubscribers(communityId: CommunityIdDomain, offset: Int, pageSizeLimit: Int): List<UserDomain> {
         return apiCall {
             commun4j.getSubscribers(
                 null,
-                communityId,
+                communityId.code!!,
                 pageSizeLimit,
                 offset
             )

@@ -22,6 +22,7 @@ import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.cyber_android.ui.shared.widgets.CommentWidget
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommentDomain
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.post.post_dto.*
 import io.golos.utils.id.IdUtil
@@ -53,8 +54,8 @@ class ProfileCommentsViewModel @Inject constructor(
         _command.value = NavigateToUserProfileCommand(UserIdDomain(userId))
     }
 
-    override fun onCommunityClicked(communityId: String) {
-        _command.value = NavigateToCommunityPageCommand(communityId)
+    override fun onCommunityClicked(communityCode: String) {
+        _command.value = NavigateToCommunityPageCommand(CommunityIdDomain(communityCode, null))
     }
 
     override fun onSeeMoreClicked(contentId: ContentId) {}

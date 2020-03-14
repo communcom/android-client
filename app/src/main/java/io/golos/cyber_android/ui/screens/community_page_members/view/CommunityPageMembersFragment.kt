@@ -13,6 +13,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardComma
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToUserProfileCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.domain.GlobalConstants
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserIdDomain
 import kotlinx.android.synthetic.main.fragment_community_page_members.*
 
@@ -20,10 +21,10 @@ open class CommunityPageMembersFragment : FragmentBaseMVVM<FragmentCommunityPage
     companion object {
         private const val COMMUNITY_ID = "COMMUNITY_ID"
 
-        fun newInstance(communityId: String) =
+        fun newInstance(communityId: CommunityIdDomain) =
             CommunityPageMembersFragment().apply {
                 arguments = Bundle().apply {
-                    putString(COMMUNITY_ID, communityId)
+                    putParcelable(COMMUNITY_ID, communityId)
                 }
             }
     }
@@ -35,7 +36,7 @@ open class CommunityPageMembersFragment : FragmentBaseMVVM<FragmentCommunityPage
     override fun inject(key: String) = App.injections
         .get<CommunityPageMembersComponent>(
             key,
-            arguments!!.getString(COMMUNITY_ID)!!,
+            arguments!!.getParcelable<CommunityIdDomain>(COMMUNITY_ID),
             GlobalConstants.PAGE_SIZE
         )
         .inject(this)

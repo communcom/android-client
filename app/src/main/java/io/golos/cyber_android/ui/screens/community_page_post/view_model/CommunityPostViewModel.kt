@@ -23,10 +23,7 @@ import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dependency_injection.Clarification
-import io.golos.domain.dto.PostsConfigurationDomain
-import io.golos.domain.dto.RewardPostDomain
-import io.golos.domain.dto.TypeObjectDomain
-import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.dto.*
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.use_cases.reward.isTopReward
@@ -42,7 +39,7 @@ class CommunityPostViewModel @Inject constructor(
     dispatchersProvider: DispatchersProvider,
     model: CommunityPostModel,
     private val currentUserRepository: CurrentUserRepositoryRead,
-    @Named(Clarification.COMMUNITY_ID) private val communityId: String,
+    @Named(Clarification.COMMUNITY_CODE) private val communityId: String,
     @Named(Clarification.COMMUNITY_ALIAS) private val communityAlias: String?,
     private val paginator: Paginator.Store<Post>
 ) : ViewModelBase<CommunityPostModel>(dispatchersProvider, model), MyFeedListListener {
@@ -146,7 +143,7 @@ class CommunityPostViewModel @Inject constructor(
         }
     }
 
-    override fun onCommunityClicked(communityId: String) {}
+    override fun onCommunityClicked(communityCode: String) {}
 
     override fun onCommentsClicked(postContentId: ContentId) {
         openPost(postContentId)
@@ -253,12 +250,12 @@ class CommunityPostViewModel @Inject constructor(
         _postsListState.value = deletePostInState(_postsListState.value, permlink)
     }
 
-    fun subscribeToCommunity(communityId: String) {
+    fun subscribeToCommunity(communityCode: String) {
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
-                model.subscribeToCommunity(communityId)
-                _postsListState.value = changeCommunitySubscriptionStatusInState(_postsListState.value, communityId, true)
+                model.subscribeToCommunity(CommunityIdDomain(communityCode, null))
+                _postsListState.value = changeCommunitySubscriptionStatusInState(_postsListState.value, communityCode, true)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
             } finally {
@@ -267,12 +264,12 @@ class CommunityPostViewModel @Inject constructor(
         }
     }
 
-    fun unsubscribeToCommunity(communityId: String) {
+    fun unsubscribeToCommunity(communityCode: String) {
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
-                model.unsubscribeToCommunity(communityId)
-                _postsListState.value = changeCommunitySubscriptionStatusInState(_postsListState.value, communityId, false)
+                model.unsubscribeToCommunity(CommunityIdDomain(communityCode, null))
+                _postsListState.value = changeCommunitySubscriptionStatusInState(_postsListState.value, communityCode, false)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
             } finally {

@@ -15,6 +15,7 @@ import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.CommunityDomain
+import io.golos.domain.dto.CommunityIdDomain
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Named
@@ -42,7 +43,7 @@ constructor(
     fun onViewCreated() = loadPage()
 
     override fun onItemClick(community: CommunityDomain) {
-        _command.value = NavigateToCommunityPageCommand(community.communityId)
+        _command.value = NavigateToCommunityPageCommand(CommunityIdDomain(community.communityId, community.alias))
     }
 
     override fun onNextPageReached() = loadPage()

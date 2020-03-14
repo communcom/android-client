@@ -36,6 +36,7 @@ import io.golos.cyber_android.ui.shared.utils.openLinkView
 import io.golos.cyber_android.ui.shared.utils.shareMessage
 import io.golos.cyber_android.ui.shared.widgets.post_comments.items.PostItem
 import io.golos.domain.commun_entities.Permlink
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.PostsConfigurationDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
@@ -103,7 +104,7 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
         )
     }
 
-    private fun openCommunityPage(communityId: String) {
+    private fun openCommunityPage(communityId: CommunityIdDomain) {
         getDashboardFragment(this)?.navigateToFragment(
             CommunityPageFragment.newInstance(communityId)
         )

@@ -15,7 +15,6 @@ import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
-import java.lang.UnsupportedOperationException
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
@@ -24,7 +23,7 @@ class WalletConvertModelImpl
 @Inject
 constructor(
     private val appContext: Context,
-    @Named(Clarification.COMMUNITY_ID)
+    @Named(Clarification.COMMUNITY_CODE)
     private var currentCommunityId: String,
     @Named(Clarification.WALLET_POINT_BALANCE)
     override var balance: List<WalletCommunityBalanceRecordDomain>,

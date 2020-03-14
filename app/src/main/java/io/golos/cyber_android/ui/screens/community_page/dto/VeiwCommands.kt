@@ -1,9 +1,10 @@
 package io.golos.cyber_android.ui.screens.community_page.dto
 
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
+import io.golos.domain.dto.CommunityIdDomain
 
 class SwitchToLeadsTabCommand: ViewCommand
 
-class NavigateToMembersCommand(val communityId: String): ViewCommand
+class NavigateToMembersCommand(val communityId: CommunityIdDomain): ViewCommand
 
 class NavigateToFriendsCommand(val friends: List<CommunityFriend>): ViewCommand

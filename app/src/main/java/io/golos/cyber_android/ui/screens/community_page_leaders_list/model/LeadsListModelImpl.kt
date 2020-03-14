@@ -17,7 +17,7 @@ import javax.inject.Named
 class LeadsListModelImpl
 @Inject
 constructor(
-    @Named(Clarification.COMMUNITY_ID)
+    @Named(Clarification.COMMUNITY_CODE)
     private val communityId: String,
     private val communitiesRepository: CommunitiesRepository
 ) : ModelBaseImpl(),

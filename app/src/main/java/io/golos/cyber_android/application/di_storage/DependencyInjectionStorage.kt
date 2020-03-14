@@ -12,6 +12,7 @@ import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFrag
 import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentModule
 import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentTabComponent
 import io.golos.cyber_android.ui.screens.community_page.di.CommunityPageFragmentComponent
+import io.golos.cyber_android.ui.screens.community_page.di.CommunityPageFragmentModule
 import io.golos.cyber_android.ui.screens.community_page.dto.CommunityFriend
 import io.golos.cyber_android.ui.screens.community_page_about.di.CommunityPageAboutFragmentComponent
 import io.golos.cyber_android.ui.screens.community_page_about.di.CommunityPageAboutFragmentModule
@@ -85,10 +86,7 @@ import io.golos.cyber_android.ui.screens.wallet_point.di.WalletPointFragmentComp
 import io.golos.cyber_android.ui.screens.wallet_point.di.WalletPointFragmentModule
 import io.golos.cyber_android.ui.screens.wallet_send_points.di.WalletSendPointsFragmentComponent
 import io.golos.cyber_android.ui.screens.wallet_send_points.di.WalletSendPointsFragmentModule
-import io.golos.domain.dto.PostsConfigurationDomain
-import io.golos.domain.dto.UserDomain
-import io.golos.domain.dto.UserIdDomain
-import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
+import io.golos.domain.dto.*
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.utils.id.IdUtil
 import kotlin.reflect.KClass
@@ -328,7 +326,10 @@ class DependencyInjectionStorage(private val app: Application) {
 
             SubscriptionsFragmentComponent::class -> getBase<UIComponent>().subscriptionsFragment.build()
 
-            CommunityPageFragmentComponent::class -> getBase<UIComponent>().communityPageFragment.build()
+            CommunityPageFragmentComponent::class ->
+                getBase<UIComponent>().communityPageFragment
+                    .init(CommunityPageFragmentModule(args[0] as CommunityIdDomain))
+                    .build()
 
             CommunityPageAboutFragmentComponent::class ->
                 getBase<UIComponent>()
@@ -357,7 +358,7 @@ class DependencyInjectionStorage(private val app: Application) {
             CommunityPageMembersComponent::class ->
                 getBase<CommunityPageFragmentComponent>()
                     .membersFragment
-                    .init(CommunityPageMembersModule(args[0] as String, args[1] as Int))
+                    .init(CommunityPageMembersModule(args[0] as CommunityIdDomain, args[1] as Int))
                     .build()
 
             CommunityPageFriendsComponent::class ->

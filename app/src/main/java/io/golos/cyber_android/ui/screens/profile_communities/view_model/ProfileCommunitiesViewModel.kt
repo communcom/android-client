@@ -13,6 +13,7 @@ import io.golos.cyber_android.ui.screens.profile_communities.dto.CommunitiesCoun
 import io.golos.cyber_android.ui.screens.profile_communities.model.ProfileCommunitiesModel
 import io.golos.cyber_android.ui.screens.profile_communities.view.list.CommunityListItemEventsProcessor
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserIdDomain
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -39,14 +40,14 @@ constructor(
         _command.value = NavigateToCommunitiesListPageCommand(userId)
     }
 
-    override fun onItemClick(communityId: String) {
-        _command.value = NavigateToCommunityPageCommand(communityId)
+    override fun onItemClick(communityCode: String) {
+        _command.value = NavigateToCommunityPageCommand(CommunityIdDomain(communityCode, null))
     }
 
-    override fun onFolllowUnfollowClick(communityId: String) {
+    override fun onFolllowUnfollowClick(communityCode: String) {
         launch {
             try {
-                if(!model.subscribeUnsubscribe(communityId)) {
+                if(!model.subscribeUnsubscribe(communityCode)) {
                     _command.value = ShowMessageResCommand(R.string.common_general_error)
                 }
             } catch (ex: Exception) {

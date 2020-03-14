@@ -12,6 +12,7 @@ import io.golos.domain.use_cases.community.CommunitiesRepository
 import io.golos.utils.id.MurmurHash
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.LoadingListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.RetryListItem
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.utils.id.IdUtil
 import javax.inject.Inject
 import javax.inject.Named
@@ -22,7 +23,7 @@ constructor(
     @Named(Clarification.PAGE_SIZE)
     private val pageSize: Int,
     @Named(Clarification.COMMUNITY_ID)
-    private val communityId: String,
+    private val communityId: CommunityIdDomain,
     userRepository: UsersRepository,
     private val communitiesRepository: CommunitiesRepository
 ) : UsersListWorkerBase<CommunityUserListItem>(

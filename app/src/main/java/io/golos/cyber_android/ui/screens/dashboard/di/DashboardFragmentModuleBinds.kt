@@ -9,6 +9,8 @@ import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactoryI
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelKey
 import io.golos.cyber_android.ui.screens.dashboard.model.DashboardModel
 import io.golos.cyber_android.ui.screens.dashboard.model.DashboardModelImpl
+import io.golos.cyber_android.ui.screens.dashboard.model.deep_links.DeepLinksParser
+import io.golos.cyber_android.ui.screens.dashboard.model.deep_links.DeepLinksParserImpl
 import io.golos.cyber_android.ui.screens.dashboard.view_model.DashboardViewModel
 import io.golos.domain.dependency_injection.scopes.FragmentScope
 
@@ -28,4 +30,6 @@ interface DashboardFragmentModuleBinds {
     @FragmentScope
     fun bindModel(model: DashboardModelImpl): DashboardModel
 
+    @Binds
+    fun bindDeepLinksParser(parser: DeepLinksParserImpl): DeepLinksParser
 }

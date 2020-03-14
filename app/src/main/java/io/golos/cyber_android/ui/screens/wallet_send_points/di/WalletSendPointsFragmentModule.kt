@@ -14,7 +14,7 @@ class WalletSendPointsFragmentModule(
     private val balance: List<WalletCommunityBalanceRecordDomain>) {
 
     @Provides
-    @Named(Clarification.COMMUNITY_ID)
+    @Named(Clarification.COMMUNITY_CODE)
     fun provideCommunityId(): String = communityId
 
     @Provides

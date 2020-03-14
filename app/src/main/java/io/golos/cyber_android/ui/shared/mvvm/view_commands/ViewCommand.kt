@@ -6,6 +6,7 @@ import androidx.annotation.NavigationRes
 import androidx.annotation.StringRes
 import io.golos.cyber_android.ui.dto.Comment
 import io.golos.cyber_android.ui.dto.ContentId
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 
@@ -14,7 +15,7 @@ interface ViewCommand
 class NavigateBackwardCommand: ViewCommand
 class NavigateForwardCommand: ViewCommand
 
-data class NavigateToCommunityPageCommand(val communityId: String) : ViewCommand
+data class NavigateToCommunityPageCommand(val communityId: CommunityIdDomain) : ViewCommand
 
 class NavigateToCommunitiesListPageCommand(val userId: UserIdDomain) : ViewCommand
 
@@ -41,11 +42,18 @@ class ShowConfirmationDialog(@StringRes val textRes: Int) : ViewCommand
 
 class HideSoftKeyboardCommand: ViewCommand
 
-class NavigationCommand(
+open class NavigationCommand(
     @IdRes val navigationId: Int?,
     @IdRes val startDestination: Int? = null,
     @NavigationRes val graphId: Int? = null
 ) : ViewCommand
+
+class NavigationToDashboardCommand(
+    @IdRes navigationId: Int?,
+    @IdRes startDestination: Int? = null,
+    @NavigationRes graphId: Int? = null,
+    val deepLinkUri: Uri?
+) : NavigationCommand(navigationId, startDestination, graphId)
 
 class NavigateToImageViewCommand(val imageUri: Uri) : ViewCommand
 

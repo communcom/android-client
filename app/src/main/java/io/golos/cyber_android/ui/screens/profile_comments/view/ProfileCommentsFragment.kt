@@ -25,6 +25,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.shared.utils.openImageView
 import io.golos.cyber_android.ui.shared.utils.openLinkView
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserIdDomain
 import kotlinx.android.synthetic.main.fragment_profile_comments.*
 
@@ -125,7 +126,7 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
             )
     }
 
-    private fun openCommunityPage(communityId: String) {
+    private fun openCommunityPage(communityId: CommunityIdDomain) {
         getDashboardFragment(this)?.navigateToFragment(
             CommunityPageFragment.newInstance(communityId)
         )

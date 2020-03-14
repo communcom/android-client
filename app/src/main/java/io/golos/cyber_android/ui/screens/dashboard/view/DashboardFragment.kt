@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.dashboard.view
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -14,15 +15,20 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentDashboardBinding
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.communities_list.view.CommunitiesListFragmentTab
+import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
 import io.golos.cyber_android.ui.screens.dashboard.di.DashboardFragmentComponent
 import io.golos.cyber_android.ui.screens.dashboard.view_model.DashboardViewModel
 import io.golos.cyber_android.ui.screens.feed.FeedFragment
 import io.golos.cyber_android.ui.screens.notifications.view.NotificationsFragment
 import io.golos.cyber_android.ui.screens.post_edit.activity.EditorPageActivity
 import io.golos.cyber_android.ui.screens.post_view.view.PostPageFragment
+import io.golos.cyber_android.ui.screens.profile.view.ProfileExternalUserFragment
 import io.golos.cyber_android.ui.screens.profile.view.ProfileFragment
 import io.golos.cyber_android.ui.shared.Tags
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToCommunityPageCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToUserProfileCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.shared.utils.setStatusBarColor
 import io.golos.cyber_android.ui.shared.widgets.NavigationBottomMenuWidget
 import io.golos.domain.commun_entities.Permlink
@@ -31,9 +37,9 @@ import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 
 class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardViewModel>() {
-
-    private companion object {
+    companion object {
         private const val REQUEST_FOR_RESULT_FROM_EDIT = 41522
+        const val DEEP_LINK_URI_KEY = "DEEP_LINK_URI"
     }
 
     private val viewPagerFragmentsList = mutableListOf<Fragment>()
@@ -53,6 +59,12 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Navigate to deep[ link
+        arguments?.let {
+            it.getParcelable<Uri?>(DEEP_LINK_URI_KEY)?.let { viewModel.processDeepLink(it) }
+        }
+
         viewModel.updateUnreadNotificationsCounter()
         childFragmentManager.addOnBackStackChangedListener {
             val backStackEntryCount = childFragmentManager.backStackEntryCount
@@ -103,6 +115,13 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
                     }
                 }
             }
+        }
+    }
+
+    override fun processViewCommand(command: ViewCommand) {
+        when(command) {
+            is NavigateToUserProfileCommand -> navigateToFragment(ProfileExternalUserFragment.newInstance(command.userId))
+            is NavigateToCommunityPageCommand -> navigateToFragment(CommunityPageFragment.newInstance(command.communityId))
         }
     }
 

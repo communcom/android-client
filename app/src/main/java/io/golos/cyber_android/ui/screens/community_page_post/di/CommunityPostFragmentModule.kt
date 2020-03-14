@@ -9,7 +9,7 @@ import javax.inject.Named
 class CommunityPostFragmentModule(private val communityId: String, private val communityAlias: String?) {
 
     @Provides
-    @Named(value = Clarification.COMMUNITY_ID)
+    @Named(value = Clarification.COMMUNITY_CODE)
     internal fun provideCommunityId(): String = communityId
 
     @Provides
