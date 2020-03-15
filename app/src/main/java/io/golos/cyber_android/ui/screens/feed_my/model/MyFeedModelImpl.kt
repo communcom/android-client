@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.feed_my.model
 
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.DiscussionRepository
@@ -33,7 +34,7 @@ class MyFeedModelImpl @Inject constructor(
 
     override val userAvatarFlow: Flow<String?> = currentUserRepository.userAvatarFlow
 
-    override suspend fun deletePost(permlink: String, communityId: String) {
+    override suspend fun deletePost(permlink: String, communityId: CommunityIdDomain) {
         withContext(dispatchersProvider.ioDispatcher) {
             discussionRepository.deletePost(permlink, communityId)
         }
@@ -47,19 +48,19 @@ class MyFeedModelImpl @Inject constructor(
         delay(1000)
     }
 
-    override suspend fun upVote(communityId: String, userId: String, permlink: String) {
+    override suspend fun upVote(communityId: CommunityIdDomain, userId: String, permlink: String) {
         withContext(dispatchersProvider.ioDispatcher) {
             discussionRepository.upVote(ContentIdDomain(communityId = communityId, permlink = permlink, userId = userId))
         }
     }
 
-    override suspend fun downVote(communityId: String, userId: String, permlink: String) {
+    override suspend fun downVote(communityId: CommunityIdDomain, userId: String, permlink: String) {
         withContext(dispatchersProvider.ioDispatcher) {
             discussionRepository.downVote(ContentIdDomain(communityId = communityId, permlink = permlink, userId = userId))
         }
     }
 
-    override suspend fun reportPost(authorPostId: String, communityId: String, permlink: String, reason: String) {
+    override suspend fun reportPost(authorPostId: String, communityId: CommunityIdDomain, permlink: String, reason: String) {
         withContext(dispatchersProvider.ioDispatcher) {
             discussionRepository.reportPost(communityId, authorPostId, permlink, reason)
         }

@@ -3,7 +3,7 @@ package io.golos.domain.dto
 import java.util.*
 
 data class CommunityPageDomain(
-    val communityId: String,
+    val communityId: CommunityIdDomain,
     val name: String,
     val avatarUrl: String?,
     val coverUrl: String?,

@@ -5,6 +5,7 @@ import io.golos.cyber_android.ui.screens.wallet_convert.model.amount_calculator.
 import io.golos.cyber_android.ui.screens.wallet_dialogs.convert_completed.ConversionCompletedInfo
 import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 
 interface WalletConvertModel : ModelBase {
@@ -25,7 +26,7 @@ interface WalletConvertModel : ModelBase {
     /**
      * @return Index of the community in the balance list
      */
-    fun updateCurrentCommunity(communityId: String): Int?
+    fun updateCurrentCommunity(communityId: CommunityIdDomain): Int?
 
     fun swipeSellMode()
 

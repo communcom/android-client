@@ -18,8 +18,8 @@ import io.golos.data.mappers.mapToBlockEntity
 import io.golos.data.repositories.embed.EmbedRepository
 import io.golos.data.repositories.images_uploading.ImageUploadRepository
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.commun_entities.Permlink
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.PostDomain
 import io.golos.domain.dto.UploadedImageEntity
@@ -33,8 +33,8 @@ import io.golos.domain.requestmodel.ImageUploadRequest
 import io.golos.domain.use_cases.model.PostModel
 import io.golos.domain.use_cases.post.editor_output.*
 import io.golos.domain.use_cases.post.post_dto.ImageBlock
-import io.golos.utils.id.IdUtil
 import io.golos.posts_editor.utilities.post.PostStubs
+import io.golos.utils.id.IdUtil
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -114,7 +114,7 @@ constructor(
     override suspend fun createPost(
         content: List<ControlMetadata>,
         adultOnly: Boolean,
-        communityId: CommunityId,
+        communityId: CommunityIdDomain,
         localImagesUri: List<String>
     ): ContentIdDomain {
         var body = EditorOutputToJsonMapper.map(content, localImagesUri)
@@ -136,7 +136,7 @@ constructor(
             body = adapter.toJson(listContentBlockEntity)
         }
         val tags = extractTags(content, adultOnly)
-        return discussionRepository.createPost(communityId.id, body, tags.toList())
+        return discussionRepository.createPost(communityId, body, tags.toList())
     }
 
     override suspend fun updatePost(

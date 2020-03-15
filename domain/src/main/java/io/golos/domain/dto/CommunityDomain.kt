@@ -1,7 +1,7 @@
 package io.golos.domain.dto
 
 data class CommunityDomain (
-    val communityId: String,
+    val communityId: CommunityIdDomain,
     val alias: String?,
     val name: String,
     val avatarUrl: String?,

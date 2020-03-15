@@ -15,6 +15,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardComma
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserDomain
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -72,7 +73,7 @@ constructor(
         _command.value = NavigateBackwardCommand()
     }
 
-    fun onCommunitySelected(communityId: String) {
+    fun onCommunitySelected(communityId: CommunityIdDomain) {
         if(model.switchBalanceRecord(communityId)) {
             updateHeaders(false)
 

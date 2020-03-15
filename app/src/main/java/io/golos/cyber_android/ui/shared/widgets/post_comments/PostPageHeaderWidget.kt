@@ -16,6 +16,7 @@ import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
 import io.golos.cyber_android.ui.shared.utils.adjustSpannableClicks
 import io.golos.cyber_android.ui.shared.utils.toTimeEstimateFormat
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.utils.helpers.appendText
 import io.golos.utils.helpers.setSpan
 import kotlinx.android.synthetic.main.view_post_viewer_header.view.*
@@ -34,7 +35,7 @@ constructor(
     private var onBackButtonClickListener: (() -> Unit)? = null
     private var onMenuButtonClickListener: (() -> Unit)? = null
     private var onUserClickListener: ((String) -> Unit)? = null   // UserId as param
-    private var onCommunityClickListener: ((String) -> Unit)? = null //CommunityId as param
+    private var onCommunityClickListener: ((CommunityIdDomain) -> Unit)? = null //CommunityId as param
     private var onRewardClickListener: (() -> Unit)? = null     //CommunityId as param
 
     private lateinit var userId: String
@@ -124,7 +125,7 @@ constructor(
         onUserClickListener = listener
     }
 
-    fun setOnCommunityClickListener(listener: ((String) -> Unit)?) {
+    fun setOnCommunityClickListener(listener: ((CommunityIdDomain) -> Unit)?) {
         onCommunityClickListener = listener
     }
 

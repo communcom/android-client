@@ -10,6 +10,7 @@ import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListIte
 import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dependency_injection.Clarification
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import javax.inject.Inject
 import javax.inject.Named
@@ -19,8 +20,7 @@ class WalletPointModelImpl
 constructor(
     @Named(Clarification.PAGE_SIZE)
     override val pageSize: Int,
-    @Named(Clarification.COMMUNITY_CODE)
-    private var currentCommunityId: String,
+    private var currentCommunityId: CommunityIdDomain,
     @Named(Clarification.WALLET_POINT_BALANCE)
     override var sourceBalance: List<WalletCommunityBalanceRecordDomain>,
     private val walletRepository: WalletRepository,
@@ -59,7 +59,7 @@ constructor(
             sourceBalance = walletRepository.getBalance()
         }
 
-        balance = sourceBalance.filter { it.communityId != GlobalConstants.COMMUN_CODE }
+        balance = sourceBalance.filter { it.communityId.code != GlobalConstants.COMMUN_CODE }
         currentBalanceRecord = balance.first { it.communityId == currentCommunityId }
     }
 
@@ -69,7 +69,7 @@ constructor(
             items = balance.map { CarouselListItem(id = it.communityId, iconUrl = it.communityLogoUrl) }
         )
 
-    override fun switchBalanceRecord(communityId: String): Boolean =
+    override fun switchBalanceRecord(communityId: CommunityIdDomain): Boolean =
         if(communityId == currentCommunityId) {
             false
         } else {

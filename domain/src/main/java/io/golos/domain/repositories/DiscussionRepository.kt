@@ -19,7 +19,7 @@ interface DiscussionRepository {
         commentType: CommentDomain.CommentTypeDomain,
         userId: UserIdDomain,
         permlink: String? = null,
-        communityId: String? = null,
+        communityId: CommunityIdDomain? = null,
         communityAlias: String? = null,
         parentComment: ParentCommentIdentifierDomain? = null
     ): List<CommentDomain>
@@ -28,13 +28,13 @@ interface DiscussionRepository {
 
     suspend fun downVote(contentIdDomain: ContentIdDomain)
 
-    suspend fun reportPost(communityId: String, authorId: String, permlink: String, reason: String)
+    suspend fun reportPost(communityId: CommunityIdDomain, authorId: String, permlink: String, reason: String)
 
-    suspend fun getPost(user: CyberName, communityId: String, permlink: String): PostDomain
+    suspend fun getPost(user: CyberName, communityId: CommunityIdDomain, permlink: String): PostDomain
 
-    suspend fun deletePost(permlink: String, communityId: String)
+    suspend fun deletePost(permlink: String, communityId: CommunityIdDomain)
 
-    suspend fun deleteComment(permlink: String, communityId: String)
+    suspend fun deleteComment(permlink: String, communityId: CommunityIdDomain)
 
     suspend fun updateComment(commentDomain: CommentDomain)
 
@@ -50,7 +50,7 @@ interface DiscussionRepository {
 
     suspend fun uploadContentAttachment(file: File): String
 
-    suspend fun createPost(communityId: String, body: String, tags: List<String>): ContentIdDomain
+    suspend fun createPost(communityId: CommunityIdDomain, body: String, tags: List<String>): ContentIdDomain
 
     suspend fun updatePost(contentIdDomain: ContentIdDomain, body: String, tags: List<String>): ContentIdDomain
 

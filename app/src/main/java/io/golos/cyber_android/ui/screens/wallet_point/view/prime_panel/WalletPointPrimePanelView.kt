@@ -9,6 +9,7 @@ import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
 import io.golos.cyber_android.ui.screens.wallet_shared.carousel.CarouselAdapter
 import io.golos.utils.format.CurrencyFormatter
 import io.golos.cyber_android.ui.shared.utils.getFormattedString
+import io.golos.domain.dto.CommunityIdDomain
 import kotlinx.android.synthetic.main.view_wallet_point_prime_panel.view.*
 
 class WalletPointPrimePanelView
@@ -19,7 +20,7 @@ constructor(
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
-    private var onItemSelectedListener: ((String) -> Unit)? = null
+    private var onItemSelectedListener: ((CommunityIdDomain) -> Unit)? = null
     private var onBackButtonClickListener: (() -> Unit)? = null
 
     init {
@@ -56,14 +57,14 @@ constructor(
         val adapter = CarouselAdapter(R.layout.view_wallet_carousel)
         carousel.addAdapter(adapter)
         adapter.setItems(data.items)
-        carousel.setUp(data.startIndex) { onItemSelectedListener?.invoke(it) }
+        carousel.setUp(data.startIndex) { onItemSelectedListener?.invoke(CommunityIdDomain(it)) }
     }
 
     fun setOnBackButtonClickListener(listener: (() -> Unit)?) {
         onBackButtonClickListener = listener
     }
 
-    fun setOnItemSelectedListener(listener: ((String) -> Unit)?) {
+    fun setOnItemSelectedListener(listener: ((CommunityIdDomain) -> Unit)?) {
         onItemSelectedListener = listener
     }
 

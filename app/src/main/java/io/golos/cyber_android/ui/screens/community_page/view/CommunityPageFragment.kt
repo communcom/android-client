@@ -85,7 +85,7 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
         when(command) {
             is NavigateBackwardCommand -> requireFragmentManager().popBackStack()
             is SwitchToLeadsTabCommand -> switchToTab(1)
-            is NavigateToMembersCommand -> navigateToMembers(command.communityId)
+            is NavigateToMembersCommand -> navigateToMembers()
             is NavigateToFriendsCommand -> navigateToFriends(command.friends)
         }
     }
@@ -204,10 +204,10 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
     private fun createPageFragmentsList(communityPage: CommunityPage): MutableList<Fragment> {
         val fragmentPagesList = ArrayList<Fragment>()
         fragmentPagesList.add(
-            CommunityPostFragment.newInstance(communityPage.communityId, communityPage.alias)
+            CommunityPostFragment.newInstance(communityPage.communityId)
         )
         fragmentPagesList.add(
-            LeadsListFragment.newInstance(arguments!!.getString(ARG_COMMUNITY_ID, EMPTY))
+            LeadsListFragment.newInstance(arguments!!.getParcelable(ARG_COMMUNITY_ID)!!)
         )
         fragmentPagesList.add(
             CommunityPageAboutFragment.newInstance(communityPage.description)
@@ -220,8 +220,8 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
 
     private fun switchToTab(tabIndex: Int) = tabLayout.getTabAt(tabIndex)!!.select()
 
-    private fun navigateToMembers(communityId: CommunityIdDomain) =
-        getDashboardFragment(this)?.navigateToFragment(CommunityPageMembersFragment.newInstance(communityId), true, null)
+    private fun navigateToMembers() =
+        getDashboardFragment(this)?.navigateToFragment(CommunityPageMembersFragment.newInstance(), true, null)
 
     private fun navigateToFriends(friends: List<CommunityFriend>) =
         getDashboardFragment(this)?.navigateToFragment(CommunityPageFriendsFragment.newInstance(friends), true, null)

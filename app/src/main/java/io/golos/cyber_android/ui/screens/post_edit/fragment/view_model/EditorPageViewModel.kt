@@ -199,7 +199,7 @@ constructor(
                         model.createPost(
                             content,
                             adultOnly,
-                            CommunityId(community.value!!.communityId),
+                            community.value!!.communityId,
                             images
                         )
                     } else {

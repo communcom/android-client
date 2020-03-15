@@ -2,6 +2,7 @@ package io.golos.data.mappers
 
 import io.golos.domain.dto.CommunityEntity
 import io.golos.domain.dto.CommunityDomain
+import io.golos.domain.dto.CommunityIdDomain
 
 fun List<CommunityEntity>.mapToCommunityDomainList(): List<CommunityDomain> = map { community ->
     community.mapToCommunityDomain()
@@ -9,7 +10,7 @@ fun List<CommunityEntity>.mapToCommunityDomainList(): List<CommunityDomain> = ma
 
 fun CommunityEntity.mapToCommunityDomain() =
     CommunityDomain(
-        communityId = communityId,
+        communityId = CommunityIdDomain(communityId),
         alias = alias,
         name = name,
         avatarUrl = avatarUrl,

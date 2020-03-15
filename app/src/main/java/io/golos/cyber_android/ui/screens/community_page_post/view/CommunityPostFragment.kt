@@ -39,6 +39,7 @@ import io.golos.cyber_android.ui.shared.utils.openLinkView
 import io.golos.cyber_android.ui.shared.utils.shareMessage
 import io.golos.cyber_android.ui.shared.widgets.post_comments.items.PostItem
 import io.golos.domain.commun_entities.Permlink
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.android.synthetic.main.fragment_community_post.*
 import kotlinx.android.synthetic.main.fragment_community_post.btnRetry
@@ -48,6 +49,18 @@ import kotlinx.android.synthetic.main.view_search_bar.*
 
 class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, CommunityPostViewModel>() {
 
+    companion object {
+        private const val COMMUNITY_ID_EXTRA = "community_id"
+
+        private const val REQUEST_FOR_RESULT_FROM_EDIT = 41522
+
+        fun newInstance(communityId: CommunityIdDomain): CommunityPostFragment = CommunityPostFragment().apply {
+            arguments = Bundle().apply {
+                putParcelable(COMMUNITY_ID_EXTRA, communityId)
+            }
+        }
+    }
+
     override fun provideViewModelType(): Class<CommunityPostViewModel> = CommunityPostViewModel::class.java
 
     override fun layoutResId(): Int = R.layout.fragment_community_post
@@ -55,8 +68,7 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
     override fun inject(key: String) = App.injections
         .get<CommunityPostFragmentComponent>(
             key,
-            arguments!!.getString(COMMUNITY_ID_EXTRA),
-            arguments!!.getString(COMMUNITY_ALIAS_EXTRA)
+            arguments!!.getParcelable<CommunityIdDomain>(COMMUNITY_ID_EXTRA)
     ).inject(this)
 
     override fun releaseInjection(key: String) = App.injections.release<CommunityPostFragmentComponent>(key)
@@ -325,23 +337,4 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
 
     private fun showPostRewardDialog(@StringRes titleResId: Int, @StringRes textResId: Int) =
         PostRewardBottomSheetDialog.show(this, titleResId, textResId) { }
-
-    companion object {
-
-        private const val COMMUNITY_ID_EXTRA = "community_id"
-        private const val COMMUNITY_ALIAS_EXTRA = "community_alias"
-
-        private const val REQUEST_FOR_RESULT_FROM_EDIT = 41522
-
-        fun newInstance(
-            communityId: String,
-            alias: String?
-        ): CommunityPostFragment = CommunityPostFragment().apply {
-            arguments = Bundle().apply {
-                putString(COMMUNITY_ID_EXTRA, communityId)
-                putString(COMMUNITY_ALIAS_EXTRA, alias)
-            }
-        }
-
-    }
 }

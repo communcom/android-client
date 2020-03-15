@@ -7,6 +7,7 @@ import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
 import io.golos.cyber_android.ui.screens.post_view.dto.SortingType
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
 import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
 import io.golos.domain.use_cases.model.CommentModel
@@ -38,25 +39,25 @@ interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToC
     suspend fun deletePost(): String
 
     suspend fun upVote(
-        communityId: String,
+        communityId: CommunityIdDomain,
         userId: String,
         permlink: String
     )
 
     suspend fun downVote(
-        communityId: String,
+        communityId: CommunityIdDomain,
         userId: String,
         permlink: String
     )
 
     suspend fun reportPost(
         authorPostId: String,
-        communityId: String,
+        communityId: CommunityIdDomain,
         permlink: String,
         reason: String
     )
 
-    suspend fun voteForComment(communityId: String, commentId: DiscussionIdModel, isUpVote: Boolean)
+    suspend fun voteForComment(communityId: CommunityIdDomain, commentId: DiscussionIdModel, isUpVote: Boolean)
 
     suspend fun updateCommentsSorting(sortingType: SortingType)
 

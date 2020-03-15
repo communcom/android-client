@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.shared.widgets.post_comments
 import android.net.Uri
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.RewardPostDomain
 
 interface BasePostBlockWidgetListener
@@ -48,7 +49,7 @@ interface ParagraphWidgetListener : BasePostBlockWidgetListener,
 
     fun onUserClicked(userId: String)
 
-    fun onCommunityClicked(communityCode: String)
+    fun onCommunityClicked(communityId: CommunityIdDomain)
 }
 
 interface MenuListener {

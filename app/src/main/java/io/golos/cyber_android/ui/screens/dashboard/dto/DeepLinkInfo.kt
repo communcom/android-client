@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.dashboard.dto
 
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserIdDomain
 
 sealed class DeepLinkInfo {
@@ -8,12 +9,12 @@ sealed class DeepLinkInfo {
     ): DeepLinkInfo()
 
     data class CommunityDeepLink(
-        val communityAlias: String
+        val communityId: CommunityIdDomain
     ): DeepLinkInfo()
 
     data class PostDeepLink(
-        val communityAlias: String,
-        val userName: String,
+        val communityId: CommunityIdDomain,
+        val userId: UserIdDomain,
         val postId: String
     ): DeepLinkInfo()
 }

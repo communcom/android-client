@@ -41,15 +41,15 @@ class FtueSearchCommunityModelImpl
         }
     }
 
-    override suspend fun onFollowToCommunity(communityCode: String) {
+    override suspend fun onFollowToCommunity(communityId: CommunityIdDomain) {
         withContext(dispatchersProvider.ioDispatcher) {
-            repository.subscribeToCommunity(CommunityIdDomain(communityCode, null))
+            repository.subscribeToCommunity(communityId)
         }
     }
 
-    override suspend fun onUnFollowFromCommunity(communityCode: String) {
+    override suspend fun onUnFollowFromCommunity(communityId: CommunityIdDomain) {
         withContext(dispatchersProvider.ioDispatcher) {
-            repository.unsubscribeToCommunity(CommunityIdDomain(communityCode, null))
+            repository.unsubscribeToCommunity(communityId)
         }
     }
 }

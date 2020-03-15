@@ -13,6 +13,7 @@ import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.community_page_leaders_list.view.list.LeadsListListAdapter
 import io.golos.cyber_android.ui.screens.community_page_leaders_list.view_model.LeadsListViewModel
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.utils.helpers.EMPTY
 import kotlinx.android.synthetic.main.fragment_community_leads.*
 
@@ -20,10 +21,10 @@ class LeadsListFragment : FragmentBaseMVVM<FragmentCommunityLeadsBinding, LeadsL
     companion object {
         private const val ARG_COMMUNITY_ID = "ARG_COMMUNITY_ID"
 
-        fun newInstance(communityId: String): LeadsListFragment =
+        fun newInstance(communityId: CommunityIdDomain): LeadsListFragment =
             LeadsListFragment()
                 .apply {
-                    arguments = Bundle().apply { putString(ARG_COMMUNITY_ID, communityId) }
+                    arguments = Bundle().apply { putParcelable(ARG_COMMUNITY_ID, communityId) }
                 }
     }
 
@@ -34,11 +35,7 @@ class LeadsListFragment : FragmentBaseMVVM<FragmentCommunityLeadsBinding, LeadsL
 
     override fun layoutResId(): Int = R.layout.fragment_community_leads
 
-    override fun inject(key: String) = App.injections
-        .get<CommunityPageLeadsListComponent>(key, arguments!!.getString(ARG_COMMUNITY_ID,
-            EMPTY
-        ))
-        .inject(this)
+    override fun inject(key: String) = App.injections.get<CommunityPageLeadsListComponent>(key).inject(this)
 
     override fun releaseInjection(key: String) = App.injections.release<CommunityPageLeadsListComponent>(key)
 

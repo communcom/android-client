@@ -12,6 +12,7 @@ import io.golos.cyber_android.ui.shared.utils.toTimeShort
 import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dependency_injection.Clarification
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.WalletTransferHistoryRecordDomain
 import io.golos.utils.id.toLongId
 import io.golos.utils.dates_local_now_calculator.DateCommonBase
@@ -37,7 +38,7 @@ constructor(
     private var lastDateBase: DateCommonBase? = null
     private lateinit var lastSeparatorType: WalletHistorySeparatorType
 
-    override var communityId: String = GlobalConstants.ALL_COMMUNITIES_CODE
+    override var communityId: CommunityIdDomain = CommunityIdDomain(GlobalConstants.ALL_COMMUNITIES_CODE)
 
     override suspend fun getData(offset: Int): List<VersionedListItem>  {
         val serverData = walletRepository.getTransferHistory(offset, pageSize, communityId)

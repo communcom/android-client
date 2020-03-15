@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.post_view.model.voting.post
 import io.golos.cyber_android.ui.screens.post_view.model.post_list_data_source.PostListDataSource
 import io.golos.use_cases.voting.VotingUseCaseImplBase
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.PostDomain
 import io.golos.domain.dto.VotesDomain
 import io.golos.domain.repositories.DiscussionRepository
@@ -28,13 +29,13 @@ constructor(
         postListDataSource.createOrUpdatePostData(post)
     }
 
-    override suspend fun upVote(post: PostDomain, communityId: String, userId: String, permlink: String): PostDomain {
+    override suspend fun upVote(post: PostDomain, communityId: CommunityIdDomain, userId: String, permlink: String): PostDomain {
         this.post = post
         upVote(communityId, userId, permlink)
         return this.post
     }
 
-    override suspend fun downVote(post: PostDomain, communityId: String, userId: String, permlink: String): PostDomain {
+    override suspend fun downVote(post: PostDomain, communityId: CommunityIdDomain, userId: String, permlink: String): PostDomain {
         this.post = post
         downVote(communityId, userId, permlink)
         return this.post

@@ -11,7 +11,9 @@ interface CommunitiesRepository {
 
     suspend fun unsubscribeToCommunity(communityId: CommunityIdDomain)
 
-    suspend fun getCommunityPageById(communityId: CommunityIdDomain): CommunityPageDomain
+    suspend fun getCommunityById(communityId: CommunityIdDomain): CommunityPageDomain
+
+    suspend fun getCommunityIdByAlias(alias: String): CommunityIdDomain
 
     suspend fun getCommunitiesList(
         userId: UserIdDomain,
@@ -20,22 +22,22 @@ interface CommunitiesRepository {
         showAll: Boolean,
         searchQuery: String? = null): List<CommunityDomain>
 
-    suspend fun getCommunityLeads(communityId: String): List<CommunityLeaderDomain>
+    suspend fun getCommunityLeads(communityId: CommunityIdDomain): List<CommunityLeaderDomain>
 
     suspend fun getCommunitiesInBlackList(offset: Int, pageSize: Int, userId: UserIdDomain): List<CommunityDomain>
 
-    suspend fun moveCommunityToBlackList(communityId: String)
+    suspend fun moveCommunityToBlackList(communityId: CommunityIdDomain)
 
-    suspend fun moveCommunityFromBlackList(communityId: String)
+    suspend fun moveCommunityFromBlackList(communityId: CommunityIdDomain)
     suspend fun sendCommunitiesCollection(communityIds: List<String>)
 
     fun saveCommunitySubscriptions(communitySubscriptions: List<CommunityDomain>)
 
     suspend fun getCommunitySubscriptions(): List<CommunityDomain>
 
-    suspend fun voteForLeader(communityId: String, leader: UserIdDomain)
+    suspend fun voteForLeader(communityId: CommunityIdDomain, leader: UserIdDomain)
 
-    suspend fun unvoteForLeader(communityId: String, leader: UserIdDomain)
+    suspend fun unvoteForLeader(communityId: CommunityIdDomain, leader: UserIdDomain)
 
     suspend fun getSubscribers(communityId: CommunityIdDomain, offset: Int, pageSizeLimit: Int): List<UserDomain>
 

@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.screens.communities_list.view.list
 
 import io.golos.domain.dto.CommunityDomain
+import io.golos.domain.dto.CommunityIdDomain
 
 interface CommunityListItemEventsProcessor {
     fun onItemClick(community: CommunityDomain)
@@ -9,5 +10,5 @@ interface CommunityListItemEventsProcessor {
 
     fun retry()
 
-    fun onJoinClick(communityId: String) {}
+    fun onJoinClick(communityId: CommunityIdDomain) {}
 }

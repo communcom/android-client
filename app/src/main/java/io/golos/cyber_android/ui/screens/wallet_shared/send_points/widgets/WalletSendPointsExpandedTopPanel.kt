@@ -10,6 +10,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
 import io.golos.cyber_android.ui.screens.wallet_shared.carousel.CarouselAdapter
 import io.golos.cyber_android.ui.shared.animation.AnimationUtils
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.utils.format.CurrencyFormatter
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import kotlinx.android.synthetic.main.view_wallet_send_points_expanded_top_panel.view.*
@@ -24,7 +25,7 @@ constructor(
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
-    private var onItemSelectedListener: ((String) -> Unit)? = null
+    private var onItemSelectedListener: ((CommunityIdDomain) -> Unit)? = null
     private var onBackButtonClickListener: (() -> Unit)? = null
     private var onSelectCommunityButtonClickListener: (() -> Unit)? = null
 
@@ -54,7 +55,7 @@ constructor(
     }
 
     fun setData(data: WalletCommunityBalanceRecordDomain) {
-        name.text = data.communityName ?: data.communityId
+        name.text = data.communityName ?: data.communityId.code
         amount.text = CurrencyFormatter.format(data.points)
     }
 
@@ -62,7 +63,7 @@ constructor(
         val adapter = CarouselAdapter(R.layout.view_wallet_carousel)
         carousel.addAdapter(adapter)
         adapter.setItems(data.items)
-        carousel.setUp(data.startIndex) { onItemSelectedListener?.invoke(it) }
+        carousel.setUp(data.startIndex) { onItemSelectedListener?.invoke(CommunityIdDomain(it)) }
     }
 
     fun setTitle(@StringRes titleResId: Int) = title.setText(titleResId)
@@ -78,7 +79,7 @@ constructor(
 
     fun setCarouselPosition(position: Int) = carousel.scrollToPosition(position)
 
-    fun setOnItemSelectedListener(listener: ((String) -> Unit)?) {
+    fun setOnItemSelectedListener(listener: ((CommunityIdDomain) -> Unit)?) {
         onItemSelectedListener = listener
     }
 

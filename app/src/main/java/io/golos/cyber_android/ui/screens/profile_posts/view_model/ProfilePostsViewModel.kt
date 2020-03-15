@@ -132,8 +132,8 @@ constructor(
         }
     }
 
-    override fun onCommunityClicked(communityCode: String) {
-        _command.value = NavigateToCommunityPageCommand(CommunityIdDomain(communityCode, null))
+    override fun onCommunityClicked(communityId: CommunityIdDomain) {
+        _command.value = NavigateToCommunityPageCommand(communityId)
     }
 
     override fun onSeeMoreClicked(contentId: ContentId) {
@@ -208,7 +208,7 @@ constructor(
         }
     }
 
-    fun deletePost(permlink: String, communityId: String) {
+    fun deletePost(permlink: String, communityId: CommunityIdDomain) {
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
@@ -227,12 +227,12 @@ constructor(
         _postsListState.value = deletePostInState(_postsListState.value, permlink)
     }
 
-    fun subscribeToCommunity(communityCode: String) {
+    fun subscribeToCommunity(communityId: CommunityIdDomain) {
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
-                model.subscribeToCommunity(CommunityIdDomain(communityCode, null))
-                _postsListState.value = changeCommunitySubscriptionStatusInState(_postsListState.value, communityCode, true)
+                model.subscribeToCommunity(communityId)
+                _postsListState.value = changeCommunitySubscriptionStatusInState(_postsListState.value, communityId, true)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
             } finally {
@@ -241,12 +241,12 @@ constructor(
         }
     }
 
-    fun unsubscribeToCommunity(communityCode: String) {
+    fun unsubscribeToCommunity(communityId: CommunityIdDomain) {
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
-                model.unsubscribeToCommunity(CommunityIdDomain(communityCode, null))
-                _postsListState.value = changeCommunitySubscriptionStatusInState(_postsListState.value, communityCode, false)
+                model.unsubscribeToCommunity(communityId)
+                _postsListState.value = changeCommunitySubscriptionStatusInState(_postsListState.value, communityId, false)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
             } finally {
@@ -264,7 +264,7 @@ constructor(
 
     private fun changeCommunitySubscriptionStatusInState(
         state: Paginator.State?,
-        communityId: String,
+        communityId: CommunityIdDomain,
         isSubscribed: Boolean
     ): Paginator.State? {
         when (state) {
@@ -403,7 +403,6 @@ constructor(
                 postsConfigurationDomain = PostsConfigurationDomain(
                     userId = profileUserId.userId,
                     communityId = null,
-                    communityAlias = null,
                     limit = PAGINATION_PAGE_SIZE,
                     offset = 0,
                     sortBy = PostsConfigurationDomain.SortByDomain.TIME_DESC,

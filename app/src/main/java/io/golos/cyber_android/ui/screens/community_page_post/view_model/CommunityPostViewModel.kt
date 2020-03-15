@@ -22,7 +22,6 @@ import io.golos.cyber_android.ui.shared.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
-import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.*
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.model.DiscussionIdModel
@@ -33,14 +32,12 @@ import kotlinx.coroutines.launch
 import org.json.JSONArray
 import timber.log.Timber
 import javax.inject.Inject
-import javax.inject.Named
 
 class CommunityPostViewModel @Inject constructor(
     dispatchersProvider: DispatchersProvider,
     model: CommunityPostModel,
     private val currentUserRepository: CurrentUserRepositoryRead,
-    @Named(Clarification.COMMUNITY_CODE) private val communityId: String,
-    @Named(Clarification.COMMUNITY_ALIAS) private val communityAlias: String?,
+    private val communityId: CommunityIdDomain,
     private val paginator: Paginator.Store<Post>
 ) : ViewModelBase<CommunityPostModel>(dispatchersProvider, model), MyFeedListListener {
 
@@ -88,7 +85,6 @@ class CommunityPostViewModel @Inject constructor(
             postsConfigurationDomain = PostsConfigurationDomain(
                 currentUserRepository.userId.userId,
                 communityId,
-                communityAlias,
                 PostsConfigurationDomain.SortByDomain.TIME_DESC,
                 config.periodFilter.mapToTimeFrameDomain(),
                 PAGINATION_PAGE_SIZE,
@@ -143,7 +139,7 @@ class CommunityPostViewModel @Inject constructor(
         }
     }
 
-    override fun onCommunityClicked(communityCode: String) {}
+    override fun onCommunityClicked(communityId: CommunityIdDomain) {}
 
     override fun onCommentsClicked(postContentId: ContentId) {
         openPost(postContentId)
@@ -232,7 +228,7 @@ class CommunityPostViewModel @Inject constructor(
         }
     }
 
-    fun deletePost(permlink: String, communityId: String) {
+    fun deletePost(permlink: String, communityId: CommunityIdDomain) {
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
@@ -250,12 +246,12 @@ class CommunityPostViewModel @Inject constructor(
         _postsListState.value = deletePostInState(_postsListState.value, permlink)
     }
 
-    fun subscribeToCommunity(communityCode: String) {
+    fun subscribeToCommunity(communityId: CommunityIdDomain) {
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
-                model.subscribeToCommunity(CommunityIdDomain(communityCode, null))
-                _postsListState.value = changeCommunitySubscriptionStatusInState(_postsListState.value, communityCode, true)
+                model.subscribeToCommunity(communityId)
+                _postsListState.value = changeCommunitySubscriptionStatusInState(_postsListState.value, communityId, true)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
             } finally {
@@ -264,12 +260,12 @@ class CommunityPostViewModel @Inject constructor(
         }
     }
 
-    fun unsubscribeToCommunity(communityCode: String) {
+    fun unsubscribeToCommunity(communityId: CommunityIdDomain) {
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
-                model.unsubscribeToCommunity(CommunityIdDomain(communityCode, null))
-                _postsListState.value = changeCommunitySubscriptionStatusInState(_postsListState.value, communityCode, false)
+                model.unsubscribeToCommunity(communityId)
+                _postsListState.value = changeCommunitySubscriptionStatusInState(_postsListState.value, communityId, false)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
             } finally {
@@ -385,7 +381,7 @@ class CommunityPostViewModel @Inject constructor(
 
     private fun changeCommunitySubscriptionStatusInState(
         state: Paginator.State?,
-        communityId: String,
+        communityId: CommunityIdDomain,
         isSubscribed: Boolean
     ): Paginator.State? {
         when (state) {

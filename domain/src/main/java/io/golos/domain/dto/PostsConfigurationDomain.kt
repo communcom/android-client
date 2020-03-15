@@ -2,8 +2,7 @@ package io.golos.domain.dto
 
 data class PostsConfigurationDomain(
     val userId: String,
-    val communityId: String?,
-    val communityAlias: String?,
+    val communityId: CommunityIdDomain?,
     val sortBy: SortByDomain = SortByDomain.TIME_DESC,
     val timeFrame: TimeFrameDomain = TimeFrameDomain.ALL,
     val limit: Int,

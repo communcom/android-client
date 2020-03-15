@@ -22,7 +22,6 @@ class ListWorkerCommunityMembers
 constructor(
     @Named(Clarification.PAGE_SIZE)
     private val pageSize: Int,
-    @Named(Clarification.COMMUNITY_ID)
     private val communityId: CommunityIdDomain,
     userRepository: UsersRepository,
     private val communitiesRepository: CommunitiesRepository

@@ -1,7 +1,6 @@
 package io.golos.cyber_android.application.di_storage
 
 import android.app.Application
-import android.content.Context
 import io.golos.cyber_android.application.di.AppComponent
 import io.golos.cyber_android.application.di.AppModule
 import io.golos.cyber_android.application.di.DaggerAppComponent
@@ -19,7 +18,6 @@ import io.golos.cyber_android.ui.screens.community_page_about.di.CommunityPageAb
 import io.golos.cyber_android.ui.screens.community_page_friends.di.CommunityPageFriendsComponent
 import io.golos.cyber_android.ui.screens.community_page_friends.di.CommunityPageFriendsModule
 import io.golos.cyber_android.ui.screens.community_page_leaders_list.di.CommunityPageLeadsListComponent
-import io.golos.cyber_android.ui.screens.community_page_leaders_list.di.CommunityPageLeadsListModule
 import io.golos.cyber_android.ui.screens.community_page_members.di.CommunityPageMembersComponent
 import io.golos.cyber_android.ui.screens.community_page_members.di.CommunityPageMembersModule
 import io.golos.cyber_android.ui.screens.community_page_post.di.CommunityPostFragmentComponent
@@ -293,7 +291,7 @@ class DependencyInjectionStorage(private val app: Application) {
                 getBase<WalletFragmentComponent>()
                     .pointFragment
                     .init(WalletPointFragmentModule(
-                        communityId = args[0] as String,
+                        communityId = args[0] as CommunityIdDomain,
                         balance = args[1] as List<WalletCommunityBalanceRecordDomain>))
                     .build()
 
@@ -302,7 +300,7 @@ class DependencyInjectionStorage(private val app: Application) {
                     .sendPointsFragment
                     .init(
                         WalletSendPointsFragmentModule(
-                        communityId = args[0] as String,
+                        communityId = args[0] as CommunityIdDomain,
                         sendToUser = args[1] as UserDomain?,
                         balance = args[2] as List<WalletCommunityBalanceRecordDomain>)
                     )
@@ -313,7 +311,7 @@ class DependencyInjectionStorage(private val app: Application) {
                     .convertFragment
                     .init(
                         WalletConvertFragmentModule(
-                            communityId = args[0] as String,
+                            communityId = args[0] as CommunityIdDomain,
                             balance = args[1] as List<WalletCommunityBalanceRecordDomain>)
                     )
                     .build()
@@ -352,13 +350,12 @@ class DependencyInjectionStorage(private val app: Application) {
             CommunityPageLeadsListComponent::class ->
                 getBase<CommunityPageFragmentComponent>()
                     .leadsListFragment
-                    .init(CommunityPageLeadsListModule(args[0] as String))
                     .build()
 
             CommunityPageMembersComponent::class ->
                 getBase<CommunityPageFragmentComponent>()
                     .membersFragment
-                    .init(CommunityPageMembersModule(args[0] as CommunityIdDomain, args[1] as Int))
+                    .init(CommunityPageMembersModule(args[0] as Int))
                     .build()
 
             CommunityPageFriendsComponent::class ->
@@ -392,7 +389,7 @@ class DependencyInjectionStorage(private val app: Application) {
             CommunityPostFragmentComponent::class ->
                 getBase<UIComponent>()
                     .communityPostFragment
-                    .init(CommunityPostFragmentModule(args[0] as String, args[1] as String?))
+                    .init(CommunityPostFragmentModule(args[0] as CommunityIdDomain))
                     .build()
 
             ProfilePostsFragmentComponent::class ->

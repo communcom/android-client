@@ -23,7 +23,7 @@ import javax.inject.Inject
 class CommunityPageViewModel @Inject constructor(
     dispatchersProvider: DispatchersProvider,
     model: CommunityPageModel,
-    private var communityId: CommunityIdDomain
+    private val communityId: CommunityIdDomain
 ) : ViewModelBase<CommunityPageModel>(dispatchersProvider, model) {
 
     private val communityPageMutableLiveData = MutableLiveData<CommunityPage>()
@@ -52,8 +52,6 @@ class CommunityPageViewModel @Inject constructor(
                 communityPageIsLoadProgressMutableLiveData.value = true
 
                 val communityPageDomain = model.getCommunityPageById(communityId)
-
-                communityId = CommunityIdDomain(communityPageDomain.communityId, communityPageDomain.alias)
 
                 val communityPage = CommunityPageDomainToCommunityPageMapper().invoke(communityPageDomain)
                 communityPageMutableLiveData.value = communityPage

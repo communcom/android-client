@@ -1,9 +1,9 @@
 package io.golos.cyber_android.ui.screens.profile_communities.view.list
 
-import io.golos.cyber_android.ui.dto.Community
+import io.golos.domain.dto.CommunityIdDomain
 
 interface CommunityListItemEventsProcessor {
-    fun onItemClick(communityCode: String)
+    fun onItemClick(communityId: CommunityIdDomain)
 
-    fun onFolllowUnfollowClick(communityCode: String) {}
+    fun onFolllowUnfollowClick(communityId: CommunityIdDomain) {}
 }

@@ -32,6 +32,7 @@ import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
 import io.golos.cyber_android.ui.shared.widgets.post_comments.ParagraphWidgetListener
 import io.golos.cyber_android.ui.shared.widgets.post_comments.VotingWidget
 import io.golos.cyber_android.ui.shared.widgets.post_comments.items.*
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.utils.helpers.appendSpannedText
 import io.golos.utils.helpers.appendText
 import io.golos.utils.helpers.setSpan
@@ -145,7 +146,7 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
             addAuthorNameToContent(newContentList, author, listItemEventsProcessor)
         }
         val discussionId = listItem.externalId
-        val contentId = ContentId("", discussionId.permlink.value, discussionId.userId)
+        val contentId = ContentId(CommunityIdDomain(""), discussionId.permlink.value, discussionId.userId)
         val contentItems = newContentList
             .filter { createPostBodyItem(contentId, it, listItemEventsProcessor, longClickListener) != null }
             .map {

@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.screens.community_page_post.model
 
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
@@ -33,13 +34,13 @@ class CommunityPostModelImpl @Inject constructor(
         }
     }
 
-    override suspend fun deletePost(permlink: String, communityId: String) {
+    override suspend fun deletePost(permlink: String, communityId: CommunityIdDomain) {
         withContext(dispatchersProvider.ioDispatcher) {
             discussionRepository.deletePost(permlink, communityId)
         }
     }
 
-    override suspend fun upVote(communityId: String, userId: String, permlink: String) {
+    override suspend fun upVote(communityId: CommunityIdDomain, userId: String, permlink: String) {
         withContext(dispatchersProvider.ioDispatcher) {
             discussionRepository.upVote(
                 ContentIdDomain(
@@ -51,7 +52,7 @@ class CommunityPostModelImpl @Inject constructor(
         }
     }
 
-    override suspend fun downVote(communityId: String, userId: String, permlink: String) {
+    override suspend fun downVote(communityId: CommunityIdDomain, userId: String, permlink: String) {
         withContext(dispatchersProvider.ioDispatcher) {
             discussionRepository.downVote(
                 ContentIdDomain(
@@ -63,7 +64,7 @@ class CommunityPostModelImpl @Inject constructor(
         }
     }
 
-    override suspend fun reportPost(authorPostId: String, communityId: String, permlink: String, reason: String) {
+    override suspend fun reportPost(authorPostId: String, communityId: CommunityIdDomain, permlink: String, reason: String) {
         withContext(dispatchersProvider.ioDispatcher) {
             discussionRepository.reportPost(communityId, authorPostId, permlink, reason)
         }

@@ -122,8 +122,8 @@ constructor(
         }
     }
 
-    override fun onCommunityClicked(communityCode: String) {
-        _command.value = NavigateToCommunityPageCommand(CommunityIdDomain(communityCode, null))
+    override fun onCommunityClicked(communityId: CommunityIdDomain) {
+        _command.value = NavigateToCommunityPageCommand(communityId)
     }
 
     override fun onUpVoteClick() {
@@ -238,11 +238,11 @@ constructor(
         }
     }
 
-    fun subscribeToCommunity(communityCode: String) {
+    fun subscribeToCommunity(communityId: CommunityIdDomain) {
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
-                model.subscribeToCommunity(CommunityIdDomain(communityCode, null))
+                model.subscribeToCommunity(communityId)
                 _postHeader.value = _postHeader.value?.copy(
                     isJoinedToCommunity = true
                 )
@@ -254,11 +254,11 @@ constructor(
         }
     }
 
-    fun unsubscribeToCommunity(communityCode: String) {
+    fun unsubscribeToCommunity(communityId: CommunityIdDomain) {
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
-                model.unsubscribeToCommunity(CommunityIdDomain(communityCode, null))
+                model.unsubscribeToCommunity(communityId)
                 _postHeader.value = _postHeader.value?.copy(
                     isJoinedToCommunity = false
                 )

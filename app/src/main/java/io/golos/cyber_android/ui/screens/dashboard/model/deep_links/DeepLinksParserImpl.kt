@@ -4,6 +4,7 @@ import android.net.Uri
 import io.golos.cyber_android.ui.screens.dashboard.dto.DeepLinkInfo
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.repositories.UsersRepository
+import io.golos.domain.use_cases.community.CommunitiesRepository
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -11,7 +12,8 @@ class DeepLinksParserImpl
 @Inject
 constructor(
     private val dispatchersProvider: DispatchersProvider,
-    private val usersRepository: UsersRepository
+    private val usersRepository: UsersRepository,
+    private val communitiesRepository: CommunitiesRepository
 ): DeepLinksParser {
     override suspend fun parse(uri: Uri): DeepLinkInfo? =
         uri.pathSegments
@@ -21,13 +23,13 @@ constructor(
                         if(segments[0].startsWith("@")) {
                             DeepLinkInfo.ProfileDeepLink(getUserId(segments[0].replace("@", "")))
                         } else {
-                            DeepLinkInfo.CommunityDeepLink(segments[0])
+                            DeepLinkInfo.CommunityDeepLink(getCommunityId(segments[0]))
                         }
                     }
                     3 -> {
                         DeepLinkInfo.PostDeepLink(
-                            communityAlias =  segments[0],
-                            userName = segments[1].replace("@", ""),
+                            communityId = getCommunityId(segments[0]),
+                            userId = getUserId(segments[1].replace("@", "")),
                             postId = segments[2]
                         )
                     }
@@ -38,5 +40,10 @@ constructor(
     private suspend fun getUserId(userName: String) =
         withContext(dispatchersProvider.ioDispatcher) {
             usersRepository.getUserProfile(userName).userId
+        }
+
+    private suspend fun getCommunityId(alias: String) =
+        withContext(dispatchersProvider.ioDispatcher) {
+            communitiesRepository.getCommunityIdByAlias(alias)
         }
 }

@@ -21,6 +21,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityC
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.shared.utils.getFormattedString
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -88,9 +89,9 @@ constructor(
         _command.value = ShowSelectCommunityDialogCommand(model.balance)
     }
 
-    fun onCommunitySelected(communityId: String) = updateCurrentCommunity(communityId, updateCarousel = true)
+    fun onCommunitySelected(communityId: CommunityIdDomain) = updateCurrentCommunity(communityId, updateCarousel = true)
 
-    fun onCarouselItemSelected(communityId: String) = updateCurrentCommunity(communityId, updateCarousel = false)
+    fun onCarouselItemSelected(communityId: CommunityIdDomain) = updateCurrentCommunity(communityId, updateCarousel = false)
 
     fun onSwapClick() {
         model.swipeSellMode()
@@ -144,7 +145,7 @@ constructor(
         _command.value = NavigateToHomeBackCommand()
     }
 
-    private fun updateCurrentCommunity(communityId: String, updateCarousel: Boolean) {
+    private fun updateCurrentCommunity(communityId: CommunityIdDomain, updateCarousel: Boolean) {
         model.updateCurrentCommunity(communityId)
             ?.let {
                 _sellInputField.value = getSellAmount()

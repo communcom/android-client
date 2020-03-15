@@ -16,6 +16,7 @@ import io.golos.cyber_android.ui.screens.wallet_send_points.view.WalletSendPoint
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import kotlinx.android.synthetic.main.fragment_wallet_point.*
@@ -24,9 +25,9 @@ class WalletPointFragment : FragmentBaseMVVM<FragmentWalletPointBinding, WalletP
     companion object {
         private const val BALANCE = "BALANCE"
         private const val COMMUNITY_ID = "COMMUNITY_ID"
-        fun newInstance(communityId: String, balance: List<WalletCommunityBalanceRecordDomain>) = WalletPointFragment().apply {
+        fun newInstance(communityId: CommunityIdDomain, balance: List<WalletCommunityBalanceRecordDomain>) = WalletPointFragment().apply {
             arguments = Bundle().apply {
-                putString(COMMUNITY_ID, communityId)
+                putParcelable(COMMUNITY_ID, communityId)
                 putParcelableArray(BALANCE, balance.toTypedArray())
             }
         }
@@ -39,7 +40,7 @@ class WalletPointFragment : FragmentBaseMVVM<FragmentWalletPointBinding, WalletP
     override fun inject(key: String) =
         App.injections.get<WalletPointFragmentComponent>(
             key,
-            arguments!!.getString(COMMUNITY_ID),
+            arguments!!.getParcelable<CommunityIdDomain>(COMMUNITY_ID),
             arguments!!.getParcelableArray(BALANCE)!!.toList())
             .inject(this)
 
@@ -75,12 +76,12 @@ class WalletPointFragment : FragmentBaseMVVM<FragmentWalletPointBinding, WalletP
     }
 
     private fun moveToWalletSendPoints(
-        selectedCommunityId: String,
+        selectedCommunityId: CommunityIdDomain,
         sendToUser: UserDomain?,
         balance: List<WalletCommunityBalanceRecordDomain>) =
         getDashboardFragment(this)?.navigateToFragment(WalletSendPointsFragment.newInstance(selectedCommunityId, sendToUser, balance))
 
-    private fun moveToWalletConvert(selectedCommunityId: String, balance: List<WalletCommunityBalanceRecordDomain>) {
+    private fun moveToWalletConvert(selectedCommunityId: CommunityIdDomain, balance: List<WalletCommunityBalanceRecordDomain>) {
         getDashboardFragment(this)?.navigateToFragment(WalletConvertFragment.newInstance(selectedCommunityId, balance))
     }
 

@@ -2,15 +2,16 @@ package io.golos.cyber_android.ui.screens.ftue_search_community.model
 
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
 import io.golos.domain.dto.CommunityDomain
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.FtueBoardStageDomain
 
 interface FtueSearchCommunityModel : ModelBase {
 
     suspend fun getCommunities(query: String?, offset: Int, pageSize: Int): List<CommunityDomain>
 
-    suspend fun onFollowToCommunity(communityCode: String)
+    suspend fun onFollowToCommunity(communityId: CommunityIdDomain)
 
-    suspend fun onUnFollowFromCommunity(communityCode: String)
+    suspend fun onUnFollowFromCommunity(communityId: CommunityIdDomain)
 
     suspend fun sendCommunitiesCollection(communityCodes: List<String>)
 

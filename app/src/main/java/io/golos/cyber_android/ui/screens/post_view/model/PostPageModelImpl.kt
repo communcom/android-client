@@ -14,6 +14,7 @@ import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.api.AuthApi
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.PostDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.DiscussionRepository
@@ -67,8 +68,8 @@ constructor(
             withContext(dispatchersProvider.ioDispatcher) {
                 postDomain = discussionRepository.getPost(
                     contentId?.userId.orEmpty().toCyberName(),
-                    contentId?.communityId.orEmpty(),
-                    contentId?.permlink.orEmpty()
+                    contentId?.communityId!!,
+                    contentId.permlink
                 )
                 postListDataSource.createOrUpdatePostData(postDomain)
             }
@@ -138,15 +139,15 @@ constructor(
         return postDomain.contentId.permlink
     }
 
-    override suspend fun upVote(communityId: String, userId: String, permlink: String) {
+    override suspend fun upVote(communityId: CommunityIdDomain, userId: String, permlink: String) {
         postDomain = postPageVotingUseCase.get().upVote(postDomain, communityId, userId, permlink)
     }
 
-    override suspend fun downVote(communityId: String, userId: String, permlink: String) {
+    override suspend fun downVote(communityId: CommunityIdDomain, userId: String, permlink: String) {
         postDomain = postPageVotingUseCase.get().downVote(postDomain, communityId, userId, permlink)
     }
 
-    override suspend fun voteForComment(communityId: String, commentId: DiscussionIdModel, isUpVote: Boolean) =
+    override suspend fun voteForComment(communityId: CommunityIdDomain, commentId: DiscussionIdModel, isUpVote: Boolean) =
         commentsProcessing.vote(communityId, commentId, isUpVote)
 
     override suspend fun updateCommentsSorting(sortingType: SortingType) = postListDataSource.updateCommentsSorting(sortingType)
@@ -187,7 +188,7 @@ constructor(
 
     override suspend fun reportPost(
         authorPostId: String,
-        communityId: String,
+        communityId: CommunityIdDomain,
         permlink: String,
         reason: String
     ) {

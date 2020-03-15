@@ -20,7 +20,7 @@ class CarouselItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             itemView.listItemIcon.load(item.iconUrl, R.drawable.ic_commun)
         }
 
-        itemView.root.tag = CarouselItemTag(id = item.id, position = position)
+        itemView.root.tag = CarouselItemTag(id = item.id.code, position = position)
     }
 
     fun recycle() {

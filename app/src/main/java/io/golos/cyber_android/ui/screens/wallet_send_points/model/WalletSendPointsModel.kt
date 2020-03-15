@@ -4,6 +4,7 @@ import io.golos.cyber_android.ui.screens.wallet_dialogs.transfer_completed.Trans
 import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
 import io.golos.cyber_android.ui.screens.wallet_shared.dto.AmountValidationResult
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 
@@ -23,7 +24,7 @@ interface WalletSendPointsModel : ModelBase {
     /**
      * @return Index of the community in the balance list
      */
-    fun updateCurrentCommunity(communityId: String): Int?
+    fun updateCurrentCommunity(communityId: CommunityIdDomain): Int?
 
     fun validateAmount(): AmountValidationResult
 

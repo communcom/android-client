@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.screens.post_view.model.comments_processing
 
 import io.golos.cyber_android.ui.dto.ContentId
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.use_cases.model.CommentModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.post.post_dto.AttachmentsBlock
@@ -33,5 +34,5 @@ interface CommentsProcessingFacade {
 
     suspend fun replyToComment(repliedCommentId: DiscussionIdModel, content: List<Block>, attachments: AttachmentsBlock?)
 
-    suspend fun vote(communityId: String, commentId: DiscussionIdModel, isUpVote: Boolean)
+    suspend fun vote(communityId: CommunityIdDomain, commentId: DiscussionIdModel, isUpVote: Boolean)
 }

@@ -17,6 +17,7 @@ import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.domain.GlobalConstants
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import kotlinx.android.synthetic.main.fragment_wallet.*
@@ -79,16 +80,16 @@ class WalletFragment : FragmentBaseMVVM<FragmentWalletBinding, WalletViewModel>(
         }
     }
 
-    private fun moveToWalletPoint(selectedCommunityId: String, balance: List<WalletCommunityBalanceRecordDomain>) =
+    private fun moveToWalletPoint(selectedCommunityId: CommunityIdDomain, balance: List<WalletCommunityBalanceRecordDomain>) =
         getDashboardFragment(this)?.navigateToFragment(WalletPointFragment.newInstance(selectedCommunityId, balance))
 
     private fun moveToWalletSendPoints(
-        selectedCommunityId: String,
+        selectedCommunityId: CommunityIdDomain,
         sendToUser: UserDomain?,
         balance: List<WalletCommunityBalanceRecordDomain>) =
         getDashboardFragment(this)?.navigateToFragment(WalletSendPointsFragment.newInstance(selectedCommunityId, sendToUser, balance))
 
-    private fun moveToWalletConvert(selectedCommunityId: String, balance: List<WalletCommunityBalanceRecordDomain>) {
+    private fun moveToWalletConvert(selectedCommunityId: CommunityIdDomain, balance: List<WalletCommunityBalanceRecordDomain>) {
         getDashboardFragment(this)?.navigateToFragment(WalletConvertFragment.newInstance(selectedCommunityId, balance))
     }
 

@@ -13,7 +13,6 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToUserProfile
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.cyber_android.ui.shared.widgets.NavigationBottomMenuWidget
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import kotlinx.coroutines.flow.collect
@@ -99,7 +98,7 @@ constructor(
                             _command.value = NavigateToUserProfileCommand(linkInfo.userId)
                         }
                         is DeepLinkInfo.CommunityDeepLink -> {
-                            _command.value = NavigateToCommunityPageCommand(CommunityIdDomain(null, linkInfo.communityAlias))
+                            _command.value = NavigateToCommunityPageCommand(linkInfo.communityId)
                         }
                         is DeepLinkInfo.PostDeepLink -> {
                             Log.d("DEEP_LINK", linkInfo.toString())

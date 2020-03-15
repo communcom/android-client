@@ -16,6 +16,7 @@ import io.golos.domain.commun_entities.CommentDiscussionRaw
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.commun_entities.PostDiscussionRaw
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.model.DiscussionAuthorModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
@@ -100,7 +101,7 @@ constructor(
         // We can wait for Yury or get Max's implementation from here:
         // https://github.com/communcom/communTestKit/blob/master/src/main/java/commun_test/communHelpers.java
 
-        val community = communitiesApi.getCommunityById(communityId.id)
+        val community = communitiesApi.getCommunityById(CommunityIdDomain(communityId.id))
 
         val postPermlink = Permlink.generate()
 

@@ -2,11 +2,12 @@ package io.golos.data.mappers
 
 import io.golos.commun4j.services.model.CyberCommunity
 import io.golos.domain.dto.CommunityDomain
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.PostDomain
 
 fun CyberCommunity.mapToCommunityDomain(): CommunityDomain {
     return CommunityDomain(
-        communityId = this.communityId,
+        communityId = CommunityIdDomain(this.communityId),
         alias = this.alias,
         name = this.name ?: "",
         avatarUrl = this.avatarUrl,

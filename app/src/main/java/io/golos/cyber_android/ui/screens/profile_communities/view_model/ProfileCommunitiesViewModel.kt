@@ -40,14 +40,14 @@ constructor(
         _command.value = NavigateToCommunitiesListPageCommand(userId)
     }
 
-    override fun onItemClick(communityCode: String) {
-        _command.value = NavigateToCommunityPageCommand(CommunityIdDomain(communityCode, null))
+    override fun onItemClick(communityId: CommunityIdDomain) {
+        _command.value = NavigateToCommunityPageCommand(communityId)
     }
 
-    override fun onFolllowUnfollowClick(communityCode: String) {
+    override fun onFolllowUnfollowClick(communityId: CommunityIdDomain) {
         launch {
             try {
-                if(!model.subscribeUnsubscribe(communityCode)) {
+                if(!model.subscribeUnsubscribe(communityId)) {
                     _command.value = ShowMessageResCommand(R.string.common_general_error)
                 }
             } catch (ex: Exception) {

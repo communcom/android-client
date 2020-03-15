@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.post_view.model.voting.comment
 import io.golos.cyber_android.ui.screens.post_view.model.post_list_data_source.PostListDataSourceComments
 import io.golos.use_cases.voting.VotingUseCaseImplBase
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.VotesDomain
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.use_cases.model.CommentModel
@@ -41,13 +42,13 @@ constructor(
             (votes.upCount-votes.downCount)-(oldVotes.upCount-oldVotes.downCount))
     }
 
-    override suspend fun upVote(comment: CommentModel, communityId: String, userId: String, permlink: String): CommentModel {
+    override suspend fun upVote(comment: CommentModel, communityId: CommunityIdDomain, userId: String, permlink: String): CommentModel {
         this.comment = comment
         upVote(communityId, userId, permlink)
         return this.comment
     }
 
-    override suspend fun downVote(comment: CommentModel, communityId: String, userId: String, permlink: String): CommentModel {
+    override suspend fun downVote(comment: CommentModel, communityId: CommunityIdDomain, userId: String, permlink: String): CommentModel {
         this.comment = comment
         downVote(communityId, userId, permlink)
         return this.comment

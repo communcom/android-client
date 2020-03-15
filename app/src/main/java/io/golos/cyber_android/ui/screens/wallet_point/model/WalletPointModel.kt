@@ -3,6 +3,7 @@ import androidx.lifecycle.LiveData
 import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 
 interface WalletPointModel : ModelBase {
@@ -30,7 +31,7 @@ interface WalletPointModel : ModelBase {
 
     fun getCarouselStartData(): CarouselStartData
 
-    fun switchBalanceRecord(communityId: String): Boolean
+    fun switchBalanceRecord(communityId: CommunityIdDomain): Boolean
 
     suspend fun loadSendPointsPage()
 

@@ -3,12 +3,13 @@ package io.golos.data.mappers
 import io.golos.commun4j.services.model.GetCommunitiesItem
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.domain.dto.CommunityDomain
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.CommunityPageDomain
 import java.util.*
 
 fun GetCommunitiesItem.mapToCommunityDomain(): CommunityDomain =
     CommunityDomain(
-        communityId = communityId,
+        communityId = CommunityIdDomain(communityId),
         alias = alias,
         name = name,
         avatarUrl = avatarUrl,
@@ -20,7 +21,7 @@ fun GetCommunitiesItem.mapToCommunityDomain(): CommunityDomain =
 
 fun GetCommunitiesItem.mapToCommunityPageDomain(leaders: List<CyberName>): CommunityPageDomain =
     CommunityPageDomain(
-        communityId = communityId,
+        communityId = CommunityIdDomain(communityId),
         name = name,
         avatarUrl = avatarUrl,
         coverUrl = coverUrl,

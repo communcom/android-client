@@ -19,26 +19,14 @@ import kotlinx.android.synthetic.main.fragment_community_page_members.*
 
 open class CommunityPageMembersFragment : FragmentBaseMVVM<FragmentCommunityPageMembersBinding, CommunityPageMembersViewModel>() {
     companion object {
-        private const val COMMUNITY_ID = "COMMUNITY_ID"
-
-        fun newInstance(communityId: CommunityIdDomain) =
-            CommunityPageMembersFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelable(COMMUNITY_ID, communityId)
-                }
-            }
+        fun newInstance() = CommunityPageMembersFragment()
     }
 
     override fun provideViewModelType(): Class<CommunityPageMembersViewModel> = CommunityPageMembersViewModel::class.java
 
     override fun layoutResId(): Int = R.layout.fragment_community_page_members
 
-    override fun inject(key: String) = App.injections
-        .get<CommunityPageMembersComponent>(
-            key,
-            arguments!!.getParcelable<CommunityIdDomain>(COMMUNITY_ID),
-            GlobalConstants.PAGE_SIZE
-        )
+    override fun inject(key: String) = App.injections.get<CommunityPageMembersComponent>(key, GlobalConstants.PAGE_SIZE)
         .inject(this)
 
     override fun releaseInjection(key: String) = App.injections.release<CommunityPageMembersComponent>(key)

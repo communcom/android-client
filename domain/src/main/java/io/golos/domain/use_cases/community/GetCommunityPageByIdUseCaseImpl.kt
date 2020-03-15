@@ -8,6 +8,6 @@ class GetCommunityPageByIdUseCaseImpl @Inject constructor(private val communitie
     GetCommunityPageByIdUseCase {
 
     override suspend fun getCommunityPageById(communityId: CommunityIdDomain): CommunityPageDomain {
-        return communitiesRepository.getCommunityPageById(communityId)
+        return communitiesRepository.getCommunityById(communityId)
     }
 }

@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.screens.profile_black_list.view.list
 
 import io.golos.cyber_android.ui.dto.BlackListFilter
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserIdDomain
 
 interface BlackListListItemEventsProcessor {
@@ -10,5 +11,5 @@ interface BlackListListItemEventsProcessor {
 
     fun onHideUserClick(userId: UserIdDomain)
 
-    fun onHideCommunityClick(communityId: String)
+    fun onHideCommunityClick(communityId: CommunityIdDomain)
 }

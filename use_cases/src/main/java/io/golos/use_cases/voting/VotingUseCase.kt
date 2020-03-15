@@ -1,7 +1,9 @@
 package io.golos.use_cases.voting
 
-interface VotingUseCase {
-    suspend fun upVote(communityId: String, userId: String, permlink: String)
+import io.golos.domain.dto.CommunityIdDomain
 
-    suspend fun downVote(communityId: String, userId: String, permlink: String)
+interface VotingUseCase {
+    suspend fun upVote(communityId: CommunityIdDomain, userId: String, permlink: String)
+
+    suspend fun downVote(communityId: CommunityIdDomain, userId: String, permlink: String)
 }

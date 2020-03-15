@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.dto
 
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.RewardPostDomain
 import io.golos.domain.use_cases.post.post_dto.ContentBlock
 
@@ -19,7 +20,7 @@ data class Post(
 
     data class Community(
         val alias: String?,
-        val communityId: String,
+        val communityId: CommunityIdDomain,
         val name: String?,
         val avatarUrl: String?,
         var isSubscribed: Boolean

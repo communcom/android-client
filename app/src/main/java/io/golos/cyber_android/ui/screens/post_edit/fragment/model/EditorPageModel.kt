@@ -25,7 +25,7 @@ interface EditorPageModel : ModelBase {
     suspend fun createPost(
         content: List<ControlMetadata>,
         adultOnly: Boolean,
-        communityId: CommunityId,
+        communityId: CommunityIdDomain,
         localImagesUri: List<String> = emptyList()
     ): ContentIdDomain
 

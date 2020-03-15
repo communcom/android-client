@@ -9,14 +9,9 @@ import javax.inject.Named
 
 @Module
 class CommunityPageMembersModule(
-    private val communityId: CommunityIdDomain,
     private val pageSize: Int
 ) {
     @Provides
     @Named(Clarification.PAGE_SIZE)
     fun providePageSize(): Int = pageSize
-
-    @Provides
-    @Named(Clarification.COMMUNITY_ID)
-    fun provideCommunityId(): CommunityIdDomain = communityId
 }

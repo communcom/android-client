@@ -22,6 +22,7 @@ import io.golos.cyber_android.ui.shared.keyboard.KeyboardVisibilityListener
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import kotlinx.android.synthetic.main.fragment_wallet_convert.*
 import javax.inject.Inject
@@ -30,10 +31,10 @@ class WalletConvertFragment : FragmentBaseMVVM<FragmentWalletConvertBinding, Wal
     companion object {
         private const val COMMUNITY_ID = "COMMUNITY_ID"
         private const val BALANCE = "BALANCE"
-        fun newInstance(communityId: String, balance: List<WalletCommunityBalanceRecordDomain>) =
+        fun newInstance(communityId: CommunityIdDomain, balance: List<WalletCommunityBalanceRecordDomain>) =
             WalletConvertFragment().apply {
                 arguments = Bundle().apply {
-                    putString(COMMUNITY_ID, communityId)
+                    putParcelable(COMMUNITY_ID, communityId)
                     putParcelableArray(BALANCE, balance.toTypedArray())
                 }
             }
@@ -49,7 +50,7 @@ class WalletConvertFragment : FragmentBaseMVVM<FragmentWalletConvertBinding, Wal
     override fun inject(key: String) =
         App.injections.get<WalletConvertFragmentComponent>(
             key,
-            arguments!!.getString(COMMUNITY_ID),
+            arguments!!.getParcelable<CommunityIdDomain>(COMMUNITY_ID),
             arguments!!.getParcelableArray(BALANCE)!!.toList())
             .inject(this)
 

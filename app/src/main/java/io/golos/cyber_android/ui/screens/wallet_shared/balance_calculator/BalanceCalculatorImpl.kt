@@ -9,7 +9,7 @@ class BalanceCalculatorImpl
 constructor() : BalanceCalculator {
     override fun getTotalBalance(balance: List<WalletCommunityBalanceRecordDomain>): Double =
         balance.sumByDouble {
-            if(it.communityId == GlobalConstants.COMMUN_CODE) {
+            if(it.communityId.code == GlobalConstants.COMMUN_CODE) {
                 it.points
             } else {
                 it.communs ?: 0.0

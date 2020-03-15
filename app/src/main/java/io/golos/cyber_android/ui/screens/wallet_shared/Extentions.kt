@@ -9,8 +9,8 @@ import io.golos.utils.helpers.capitalize
 import java.util.*
 
 fun WalletCommunityBalanceRecordDomain.getDisplayName(context: Context): String =
-    if(communityId != GlobalConstants.COMMUN_CODE) {
-        communityName ?: communityId
+    if(communityId.code != GlobalConstants.COMMUN_CODE) {
+        communityName ?: communityId.code
     } else {
         context.getString(R.string.commun).capitalize(Locale.getDefault())
     }

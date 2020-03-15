@@ -18,6 +18,7 @@ import io.golos.cyber_android.ui.shared.recycler_view.versioned.NoDataListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.GlobalConstants
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserDomain
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -104,8 +105,8 @@ constructor(
         }
     }
 
-    override fun onMyPointItemClick(communityId: String) {
-        if(communityId == GlobalConstants.COMMUN_CODE) {
+    override fun onMyPointItemClick(communityId: CommunityIdDomain) {
+        if(communityId.code == GlobalConstants.COMMUN_CODE) {
             return
         }
 
@@ -121,7 +122,7 @@ constructor(
     fun onConvertClick() {
         model.balance.let { balance ->
             _command.value = NavigateToWalletConvertCommand(
-                balance.first { it.communityId != GlobalConstants.COMMUN_CODE}.communityId,
+                balance.first { it.communityId.code != GlobalConstants.COMMUN_CODE}.communityId,
                 balance)
         }
     }

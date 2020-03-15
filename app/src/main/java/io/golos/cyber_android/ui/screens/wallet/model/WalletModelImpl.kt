@@ -11,6 +11,7 @@ import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dependency_injection.Clarification
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.utils.id.IdUtil
 import kotlinx.coroutines.withContext
@@ -53,8 +54,8 @@ constructor(
 
     override suspend fun getMyPointsItems(): List<MyPointsListItem> =
         withContext(dispatchersProvider.calculationsDispatcher) {
-            val communItem = balance.firstOrNull { it.communityId == GlobalConstants.COMMUN_CODE }
-                ?: WalletCommunityBalanceRecordDomain(0.0, null, null, null, GlobalConstants.COMMUN_CODE, null, null)
+            val communItem = balance.firstOrNull { it.communityId.code == GlobalConstants.COMMUN_CODE }
+                ?: WalletCommunityBalanceRecordDomain(0.0, null, null, null, CommunityIdDomain(GlobalConstants.COMMUN_CODE), null, null)
 
             val result = mutableListOf<MyPointsListItem>()
 
@@ -62,7 +63,7 @@ constructor(
 
             result.addAll(
                 balance
-                    .filter { it.communityId != GlobalConstants.COMMUN_CODE }
+                    .filter { it.communityId.code != GlobalConstants.COMMUN_CODE }
                     .map { MyPointsListItem(IdUtil.generateLongId(), 0, false, false, false, it) }
             )
 

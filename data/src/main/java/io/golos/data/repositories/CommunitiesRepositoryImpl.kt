@@ -47,23 +47,21 @@ constructor(
         }
     }
 
-    override suspend fun getCommunityPageById(communityId: CommunityIdDomain): CommunityPageDomain {
-        val community = apiCall {
-            if(communityId.code!=null) {
-                commun4j.getCommunity(communityId.code!!)
-            } else {
-                commun4j.getCommunity("CAT")            // FOR DEBUG PURPOSE ONLY (TASK #388)
-            }
-        }
+    override suspend fun getCommunityById(communityId: CommunityIdDomain): CommunityPageDomain {
+        val community = apiCall { commun4j.getCommunity(communityId.code) }
 
         val leads = apiCall { commun4j.getLeaders(community.communityId, 50, 0) }.items.map { it.userId }
         return community.mapToCommunityPageDomain(leads)
     }
 
+    override suspend fun getCommunityIdByAlias(alias: String): CommunityIdDomain {
+        return CommunityIdDomain("CAT")         // TEMPORARY FOR DEBUG PURPOSE
+    }
+
     override suspend fun subscribeToCommunity(communityId: CommunityIdDomain) {
         apiCallChain {
             commun4j.followCommunity(
-                communityCode = CyberSymbolCode(communityId.code!!),
+                communityCode = CyberSymbolCode(communityId.code),
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
                 follower = CyberName(currentUserRepository.authState!!.user.userId),
@@ -75,7 +73,7 @@ constructor(
     override suspend fun unsubscribeToCommunity(communityId: CommunityIdDomain) {
         apiCallChain {
             commun4j.unFollowCommunity(
-                communityCode = CyberSymbolCode(communityId.code!!),
+                communityCode = CyberSymbolCode(communityId.code),
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
                 follower = CyberName(currentUserRepository.authState!!.user.userId),
@@ -115,18 +113,18 @@ constructor(
             .map { it.mapToCommunityDomain() }
     }
 
-    override suspend fun getCommunityLeads(communityId: String): List<CommunityLeaderDomain> =
-        apiCall { commun4j.getLeaders(communityId, 50, 0) }
+    override suspend fun getCommunityLeads(communityId: CommunityIdDomain): List<CommunityLeaderDomain> =
+        apiCall { commun4j.getLeaders(communityId.code, 50, 0) }
             .items
             .map { it.mapToCommunityLeaderDomain() }
 
     override suspend fun getCommunitiesInBlackList(offset: Int, pageSize: Int, userId: UserIdDomain): List<CommunityDomain> =
         apiCall { commun4j.getBlacklistedCommunities(CyberName(userId.userId)) }.items.map { it.mapToCommunityDomain() }
 
-    override suspend fun moveCommunityToBlackList(communityId: String) {
+    override suspend fun moveCommunityToBlackList(communityId: CommunityIdDomain) {
         apiCallChain {
             commun4j.hide(
-                communCode = CyberSymbolCode(communityId),
+                communCode = CyberSymbolCode(communityId.code),
                 user = CyberName(currentUserRepository.userId.userId),
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
@@ -134,10 +132,10 @@ constructor(
         }
     }
 
-    override suspend fun moveCommunityFromBlackList(communityId: String) {
+    override suspend fun moveCommunityFromBlackList(communityId: CommunityIdDomain) {
         apiCallChain {
             commun4j.unHide(
-                communCode = CyberSymbolCode(communityId),
+                communCode = CyberSymbolCode(communityId.code),
                 user = CyberName(currentUserRepository.userId.userId),
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
@@ -145,10 +143,10 @@ constructor(
         }
     }
 
-    override suspend fun voteForLeader(communityId: String, leader: UserIdDomain) {
+    override suspend fun voteForLeader(communityId: CommunityIdDomain, leader: UserIdDomain) {
         apiCallChain {
             commun4j.voteLeader(
-                communCode = CyberSymbolCode(communityId),
+                communCode = CyberSymbolCode(communityId.code),
                 leader = CyberName(leader.userId),
                 pct = null,
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
@@ -158,10 +156,10 @@ constructor(
         }
     }
 
-    override suspend fun unvoteForLeader(communityId: String, leader: UserIdDomain) {
+    override suspend fun unvoteForLeader(communityId: CommunityIdDomain, leader: UserIdDomain) {
         apiCallChain {
             commun4j.unVoteLeader(
-                communCode = CyberSymbolCode(communityId),
+                communCode = CyberSymbolCode(communityId.code),
                 leader = CyberName(leader.userId),
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 voter = CyberName(currentUserRepository.userId.userId),
@@ -174,7 +172,7 @@ constructor(
         return apiCall {
             commun4j.getSubscribers(
                 null,
-                communityId.code!!,
+                communityId.code,
                 pageSizeLimit,
                 offset
             )

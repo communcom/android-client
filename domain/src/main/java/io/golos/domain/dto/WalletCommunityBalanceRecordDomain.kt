@@ -10,7 +10,7 @@ data class WalletCommunityBalanceRecordDomain (
 
     val communityLogoUrl: String?,
     val communityName: String?,
-    val communityId: String,
+    val communityId: CommunityIdDomain,
 
     /**
      * How many points we can buy for one Commun

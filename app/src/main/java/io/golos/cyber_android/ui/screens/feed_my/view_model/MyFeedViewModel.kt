@@ -141,8 +141,8 @@ class MyFeedViewModel @Inject constructor(
         }
     }
 
-    override fun onCommunityClicked(communityCode: String) {
-        _command.value = NavigateToCommunityPageCommand(CommunityIdDomain(communityCode, null))
+    override fun onCommunityClicked(communityId: CommunityIdDomain) {
+        _command.value = NavigateToCommunityPageCommand(communityId)
     }
 
     override fun onMenuClicked(postMenu: PostMenu) {
@@ -202,7 +202,7 @@ class MyFeedViewModel @Inject constructor(
         }
     }
 
-    fun deletePost(permlink: String, communityId: String) {
+    fun deletePost(permlink: String, communityId: CommunityIdDomain) {
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
@@ -220,12 +220,12 @@ class MyFeedViewModel @Inject constructor(
         _postsListState.value = deletePostInState(_postsListState.value, permlink)
     }
 
-    fun subscribeToCommunity(communityCode: String) {
+    fun subscribeToCommunity(communityId: CommunityIdDomain) {
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
-                model.subscribeToCommunity(CommunityIdDomain(communityCode, null))
-                _postsListState.value = changeCommunitySubscriptionStatusInState(_postsListState.value, communityCode, true)
+                model.subscribeToCommunity(communityId)
+                _postsListState.value = changeCommunitySubscriptionStatusInState(_postsListState.value, communityId, true)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
             } finally {
@@ -234,12 +234,12 @@ class MyFeedViewModel @Inject constructor(
         }
     }
 
-    fun unsubscribeToCommunity(communityCode: String) {
+    fun unsubscribeToCommunity(communityId: CommunityIdDomain) {
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
-                model.unsubscribeToCommunity(CommunityIdDomain(communityCode, null))
-                _postsListState.value = changeCommunitySubscriptionStatusInState(_postsListState.value, communityCode, false)
+                model.unsubscribeToCommunity(communityId)
+                _postsListState.value = changeCommunitySubscriptionStatusInState(_postsListState.value, communityId, false)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
             } finally {
@@ -363,7 +363,7 @@ class MyFeedViewModel @Inject constructor(
 
     private fun changeCommunitySubscriptionStatusInState(
         state: Paginator.State?,
-        communityId: String,
+        communityId: CommunityIdDomain,
         isSubscribed: Boolean
     ): Paginator.State? {
         when (state) {
@@ -564,7 +564,6 @@ class MyFeedViewModel @Inject constructor(
                 val feedTimeFrame = feedFilters.periodTimeFilter.mapToTimeFrameDomain()
                 postsConfigurationDomain = PostsConfigurationDomain(
                     userProfile.id,
-                    null,
                     null,
                     PostsConfigurationDomain.SortByDomain.TIME_DESC,
                     feedTimeFrame,

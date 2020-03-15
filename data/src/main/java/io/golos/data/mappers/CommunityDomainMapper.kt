@@ -9,7 +9,7 @@ fun List<CommunityDomain>.mapToCommunityEntityList(): List<CommunityEntity> = ma
 
 fun CommunityDomain.mapToCommunityEntity() =
     CommunityEntity(
-        communityId = communityId,
+        communityId = communityId.code,
         alias = alias,
         name = name,
         avatarUrl = avatarUrl,

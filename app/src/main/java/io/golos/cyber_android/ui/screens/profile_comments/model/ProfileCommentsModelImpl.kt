@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.profile_comments.model
 
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.domain.dto.CommentDomain
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.DiscussionRepository
@@ -32,7 +33,7 @@ class ProfileCommentsModelImpl @Inject constructor(
         discussionRepository.downVote(commentId)
     }
 
-    override suspend fun deleteComment(permlink: String, communityId: String) {
+    override suspend fun deleteComment(permlink: String, communityId: CommunityIdDomain) {
         discussionRepository.deletePost(permlink, communityId)
     }
 

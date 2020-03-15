@@ -18,6 +18,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.shared.utils.getFormattedString
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.GlobalConstants
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.utils.helpers.capitalize
@@ -82,7 +83,7 @@ constructor(
         _sendButtonInfo.value = getSendButtonInfo(amountInputField.value)
     }
 
-    fun onCommunitySelected(communityId: String) {
+    fun onCommunitySelected(communityId: CommunityIdDomain) {
         model.updateCurrentCommunity(communityId)
             ?.let {
                 amountInputField.value = ""
@@ -92,7 +93,7 @@ constructor(
             }
     }
 
-    fun onCarouselItemSelected(communityId: String) {
+    fun onCarouselItemSelected(communityId: CommunityIdDomain) {
         model.updateCurrentCommunity(communityId)
             ?.let {
                 amountInputField.value = ""
@@ -143,7 +144,7 @@ constructor(
         )
 
     private fun getAmountFieldInfo() =
-        if(model.currentBalanceRecord.communityId != GlobalConstants.COMMUN_CODE) {
+        if(model.currentBalanceRecord.communityId.code != GlobalConstants.COMMUN_CODE) {
             AmountFieldInfo(hintResId = R.string.points_0, decimalPointsQuantity = 3)
         } else {
             AmountFieldInfo(hintResId = R.string.commun_0, decimalPointsQuantity = 4)
@@ -153,7 +154,7 @@ constructor(
         with(model.currentBalanceRecord) {
             val amount = if(amountString.isNullOrBlank()) "0" else amountString
 
-            val name = if(communityId != GlobalConstants.COMMUN_CODE) {
+            val name = if(communityId.code != GlobalConstants.COMMUN_CODE) {
                 communityName ?: communityId
             } else {
                 appContext.getString(R.string.commun).capitalize(Locale.getDefault())

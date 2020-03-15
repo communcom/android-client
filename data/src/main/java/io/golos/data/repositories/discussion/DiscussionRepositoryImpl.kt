@@ -62,7 +62,7 @@ constructor(
         apiCallChain {
             commun4j.updatePostOrComment(
                 messageId = MssgidCGalleryStruct(contentIdDomain.userId.toCyberName(), contentIdDomain.permlink),
-                communCode = CyberSymbolCode(contentIdDomain.communityId),
+                communCode = CyberSymbolCode(contentIdDomain.communityId.code),
                 header = "",
                 body = body,
                 tags = tags,
@@ -76,10 +76,10 @@ constructor(
         return contentIdDomain
     }
 
-    override suspend fun createPost(communityId: String, body: String, tags: List<String>): ContentIdDomain {
+    override suspend fun createPost(communityId: CommunityIdDomain, body: String, tags: List<String>): ContentIdDomain {
         val createPostResult = apiCallChain {
             commun4j.createPost(
-                communCode = CyberSymbolCode(communityId),
+                communCode = CyberSymbolCode(communityId.code),
                 header = "",
                 body = body,
                 tags = listOf(),
@@ -119,8 +119,8 @@ constructor(
         val posts = apiCall {
             commun4j.getPostsRaw(
                 if (typeObject != TypeObjectDomain.COMMUNITY) postsConfigurationDomain.userId.toCyberName() else null,
-                postsConfigurationDomain.communityId,
-                postsConfigurationDomain.communityAlias,
+                postsConfigurationDomain.communityId?.code,
+                null,
                 postsConfigurationDomain.allowNsfw,
                 type,
                 null,
@@ -205,7 +205,7 @@ constructor(
         commentType: CommentDomain.CommentTypeDomain,
         userId: UserIdDomain,
         postPermlink: String?,
-        communityId: String?,
+        communityId: CommunityIdDomain?,
         communityAlias: String?,
         parentComment: ParentCommentIdentifierDomain?
     ): List<CommentDomain> {
@@ -218,7 +218,7 @@ constructor(
                 type = commentType.mapToCommentSortType(),
                 userId = userId.mapToCyberName(),
                 permlink = postPermlink,
-                communityId = communityId,
+                communityId = communityId?.code,
                 communityAlias = communityAlias,
                 parentComment = parentComment?.mapToParentComment()
             )
@@ -226,11 +226,11 @@ constructor(
             .map { it.mapToCommentDomain(it.author.userId.name == currentUserId) }
     }
 
-    override suspend fun deletePost(permlink: String, communityId: String) {
+    override suspend fun deletePost(permlink: String, communityId: CommunityIdDomain) {
         apiCallChain {
             commun4j.deletePostOrComment(
                 messageId = MssgidCGalleryStruct(currentUserRepository.userId.mapToCyberName(), permlink),
-                communCode = CyberSymbolCode(communityId),
+                communCode = CyberSymbolCode(communityId.code),
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
                 author = currentUserRepository.userId.mapToCyberName(),
@@ -239,11 +239,11 @@ constructor(
         }
     }
 
-    override suspend fun deleteComment(permlink: String, communityId: String) {
+    override suspend fun deleteComment(permlink: String, communityId: CommunityIdDomain) {
         apiCallChain {
             commun4j.deletePostOrComment(
                 messageId = MssgidCGalleryStruct(currentUserRepository.userId.mapToCyberName(), permlink),
-                communCode = CyberSymbolCode(communityId),
+                communCode = CyberSymbolCode(communityId.code),
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
                 author = currentUserRepository.userId.mapToCyberName(),
@@ -261,7 +261,7 @@ constructor(
         apiCallChain {
             commun4j.updatePostOrComment(
                 messageId = MssgidCGalleryStruct(contentId.userId.toCyberName(), contentId.permlink),
-                communCode = CyberSymbolCode(contentId.communityId),
+                communCode = CyberSymbolCode(contentId.communityId.code),
                 header = "",
                 body = jsonBody,
                 tags = listOf(),
@@ -273,10 +273,10 @@ constructor(
         }
     }
 
-    override suspend fun reportPost(communityId: String, authorId: String, permlink: String, reason: String) {
+    override suspend fun reportPost(communityId: CommunityIdDomain, authorId: String, permlink: String, reason: String) {
         apiCallChain {
             commun4j.reportContent(
-                CyberSymbolCode(communityId),
+                CyberSymbolCode(communityId.code),
                 messageId = MssgidCGalleryStruct(authorId.toCyberName(), permlink),
                 reason = reason,
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
@@ -291,7 +291,7 @@ constructor(
         val currentUser = currentUserRepository.userId.userId.toCyberName()
         apiCallChain {
             commun4j.upVote(
-                communCode = CyberSymbolCode(contentIdDomain.communityId),
+                communCode = CyberSymbolCode(contentIdDomain.communityId.code),
                 messageId = MssgidCGalleryStruct(contentIdDomain.userId.toCyberName(), contentIdDomain.permlink),
                 weight = 0,
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
@@ -306,7 +306,7 @@ constructor(
         val currentUser = currentUserRepository.userId.userId.toCyberName()
         apiCallChain {
             commun4j.downVote(
-                communCode = CyberSymbolCode(contentIdDomain.communityId),
+                communCode = CyberSymbolCode(contentIdDomain.communityId.code),
                 messageId = MssgidCGalleryStruct(contentIdDomain.userId.toCyberName(), contentIdDomain.permlink),
                 weight = 0,
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
@@ -322,8 +322,8 @@ constructor(
     override fun createOrUpdate(params: DiscussionCreationRequestEntity): DiscussionCreationResultEntity =
         createOrUpdateDiscussion(params)
 
-    override suspend fun getPost(user: CyberName, communityId: String, permlink: String): PostDomain {
-        val post = apiCall { commun4j.getPostRaw(user, communityId, permlink) }
+    override suspend fun getPost(user: CyberName, communityId: CommunityIdDomain, permlink: String): PostDomain {
+        val post = apiCall { commun4j.getPostRaw(user, communityId.code, permlink) }
 
         val contentIds = listOf(UserAndPermlinkPair(post.contentId.userId, post.contentId.permlink))
 
@@ -357,7 +357,7 @@ constructor(
             val metadata = DatesServerFormatter.formatToServer(Date())
             commun4j.createComment(
                 parentMssgId = MssgidCGalleryStruct(postIdDomain.userId.toCyberName(), postIdDomain.permlink),
-                communCode = CyberSymbolCode(postIdDomain.communityId),
+                communCode = CyberSymbolCode(postIdDomain.communityId.code),
                 header = "",
                 body = jsonBody,
                 tags = listOf(),
@@ -396,7 +396,7 @@ constructor(
             val metadata = DatesServerFormatter.formatToServer(Date())
             commun4j.createComment(
                 parentMssgId = MssgidCGalleryStruct(parentCommentId.userId.toCyberName(), parentCommentId.permlink),
-                communCode = CyberSymbolCode(communityId),
+                communCode = CyberSymbolCode(communityId.code),
                 header = "",
                 body = jsonBody,
                 tags = listOf(),

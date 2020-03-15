@@ -8,6 +8,7 @@ import io.golos.data.R
 import io.golos.data.api.Commun4jApiBase
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityDomain
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.CommunityPageDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.utils.id.MurmurHash
@@ -37,7 +38,7 @@ constructor(
         val logoUrl: String
     )
 
-    override suspend fun getCommunityPageById(communityId: String): CommunityPageDomain {
+    override suspend fun getCommunityPageById(communityId: CommunityIdDomain): CommunityPageDomain {
         delay(1000)
         //randomException()
         val friends: MutableList<CommunityPageDomain.CommunityFriendDomain> = mutableListOf()
@@ -46,7 +47,8 @@ constructor(
 
         friends.add(CommunityPageDomain.CommunityFriendDomain(UUID.randomUUID().toString(), "test", "https://brandmark.io/logo-rank/random/pepsi.png", false))
 
-        return CommunityPageDomain(communityId,
+        return CommunityPageDomain(
+            communityId,
             "Binance",
             "https://images.fastcompany.net/image/upload/w_596,c_limit,q_auto:best,f_auto/fc/3034007-inline-i-applelogo.jpg",
             "https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823_960_720.jpg",
@@ -119,15 +121,15 @@ constructor(
             }
         }
 
-    override fun getCommunityById(communityId: String): CommunityDomain? =
+    override fun getCommunityById(communityId: CommunityIdDomain): CommunityDomain? =
             communities.firstOrNull { it.communityId == communityId }
 
-    override suspend fun unsubscribeToCommunity(communityId: String) {
+    override suspend fun unsubscribeToCommunity(communityId: CommunityIdDomain) {
         delay(2000)
         randomException()
     }
 
-    override suspend fun subscribeToCommunity(communityId: String) {
+    override suspend fun subscribeToCommunity(communityId: CommunityIdDomain) {
         delay(2000)
         randomException()
     }
@@ -167,7 +169,7 @@ constructor(
                     it.followersQuantity < 100 -> it.followersQuantity * random.nextInt(50)
                     else -> it.followersQuantity * random.nextInt(500)
                 }
-                CommunityDomain(it.id, null, it.name, it.logoUrl, null, followersQuantity, followersQuantity, Random.nextBoolean())
+                CommunityDomain(CommunityIdDomain(it.id), null, it.name, it.logoUrl, null, followersQuantity, followersQuantity, Random.nextBoolean())
             }
     }
 
@@ -207,7 +209,7 @@ constructor(
             val communityName = communityNamesArray[rand.nextInt(communityNamesArray.size - 1)]
             val communityLogo: String = communityLogoArray[rand.nextInt(communityLogoArray.size - 1)]
             val communityDomain = CommunityDomain(
-                UUID.randomUUID().toString(),
+                CommunityIdDomain(UUID.randomUUID().toString()),
                 null,
                 communityName,
                 communityLogo,

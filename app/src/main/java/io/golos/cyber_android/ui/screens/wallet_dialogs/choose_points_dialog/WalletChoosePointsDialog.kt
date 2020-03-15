@@ -7,14 +7,15 @@ import io.golos.cyber_android.ui.screens.wallet.dto.MyPointsListItem
 import io.golos.cyber_android.ui.screens.wallet_dialogs.WalletListDialogBase
 import io.golos.cyber_android.ui.screens.wallet_dialogs.choose_points_dialog.list.WalletChoosePointsDialogAdapter
 import io.golos.cyber_android.ui.screens.wallet_dialogs.choose_points_dialog.list.WalletChoosePointsDialogItemEventsProcessor
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.utils.id.IdUtil
 
-class WalletChoosePointsDialog : WalletListDialogBase<String, WalletChoosePointsDialogAdapter>(), WalletChoosePointsDialogItemEventsProcessor {
+class WalletChoosePointsDialog : WalletListDialogBase<CommunityIdDomain, WalletChoosePointsDialogAdapter>(), WalletChoosePointsDialogItemEventsProcessor {
     companion object {
         private const val BALANCE = "BALANCE"
 
-        fun show(parent: Fragment, balance: List<WalletCommunityBalanceRecordDomain>, closeAction: (String?) -> Unit) =
+        fun show(parent: Fragment, balance: List<WalletCommunityBalanceRecordDomain>, closeAction: (CommunityIdDomain?) -> Unit) =
             WalletChoosePointsDialog()
                 .apply {
                     closeActionListener = closeAction
@@ -34,7 +35,7 @@ class WalletChoosePointsDialog : WalletListDialogBase<String, WalletChoosePoints
     private fun updateList(balance: List<WalletCommunityBalanceRecordDomain>) =
         updateListData(balance.map { MyPointsListItem(IdUtil.generateLongId(), 0, false, false, false, it) })
 
-    override fun onItemClick(communityId: String) {
+    override fun onItemClick(communityId: CommunityIdDomain) {
         closeActionListener(communityId)
         isItemSelected = true
         dismiss()

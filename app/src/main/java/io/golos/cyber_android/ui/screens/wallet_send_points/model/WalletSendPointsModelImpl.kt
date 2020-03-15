@@ -11,6 +11,7 @@ import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dependency_injection.Clarification
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.utils.helpers.capitalize
@@ -24,8 +25,7 @@ class WalletSendPointsModelImpl
 constructor(
     private val appContext: Context,
     override var sendToUser: UserDomain?,
-    @Named(Clarification.COMMUNITY_CODE)
-    private var currentCommunityId: String,
+    private var currentCommunityId: CommunityIdDomain,
     @Named(Clarification.WALLET_POINT_BALANCE)
     override var balance: List<WalletCommunityBalanceRecordDomain>,
     private val walletRepository: WalletRepository,
@@ -40,11 +40,11 @@ constructor(
         // Move Commun community to the first
         balance =
             mutableListOf(
-                balance.first { it.communityId == GlobalConstants.COMMUN_CODE }
+                balance.first { it.communityId.code == GlobalConstants.COMMUN_CODE }
                     .copy(communityName = communName)
             )
             .also {
-                it.addAll(balance.filter { it.communityId != GlobalConstants.COMMUN_CODE })
+                it.addAll(balance.filter { it.communityId.code != GlobalConstants.COMMUN_CODE })
             }
     }
 
@@ -56,7 +56,7 @@ constructor(
     )
 
     override val hasFee: Boolean
-        get() = currentBalanceRecord.communityId != GlobalConstants.COMMUN_CODE
+        get() = currentBalanceRecord.communityId.code != GlobalConstants.COMMUN_CODE
 
     override fun updateAmount(amountAsString: String?): Boolean =
         try {
@@ -71,7 +71,7 @@ constructor(
     /**
      * @return Index of the community in the balance list
      */
-    override fun updateCurrentCommunity(communityId: String): Int? {
+    override fun updateCurrentCommunity(communityId: CommunityIdDomain): Int? {
         if(communityId == currentCommunityId) {
             return null
         }
@@ -89,8 +89,8 @@ constructor(
     override suspend fun makeTransfer() = walletRepository.sendToUser(sendToUser!!.userId, amount!!, currentCommunityId)
 
     override fun getTransferCompletedInfo(): TransferCompletedInfo {
-        val pointsName = if(currentCommunityId != GlobalConstants.COMMUN_CODE) {
-            currentBalanceRecord.communityName ?: currentBalanceRecord.communityId
+        val pointsName = if(currentCommunityId.code != GlobalConstants.COMMUN_CODE) {
+            currentBalanceRecord.communityName ?: currentBalanceRecord.communityId.code
         } else {
             communName
         }

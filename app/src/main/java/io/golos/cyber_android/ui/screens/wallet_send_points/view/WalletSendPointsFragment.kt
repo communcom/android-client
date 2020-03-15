@@ -23,6 +23,7 @@ import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToInAppAuthScreenCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import kotlinx.android.synthetic.main.fragment_wallet_send_points.*
@@ -33,10 +34,10 @@ class WalletSendPointsFragment : FragmentBaseMVVM<FragmentWalletSendPointsBindin
         private const val COMMUNITY_ID = "COMMUNITY_ID"
         private const val USER = "USER"
         private const val BALANCE = "BALANCE"
-        fun newInstance(communityId: String, sendToUser: UserDomain?, balance: List<WalletCommunityBalanceRecordDomain>) =
+        fun newInstance(communityId: CommunityIdDomain, sendToUser: UserDomain?, balance: List<WalletCommunityBalanceRecordDomain>) =
             WalletSendPointsFragment().apply {
                 arguments = Bundle().apply {
-                    putString(COMMUNITY_ID, communityId)
+                    putParcelable(COMMUNITY_ID, communityId)
                     putParcelable(USER, sendToUser)
                     putParcelableArray(BALANCE, balance.toTypedArray())
                 }
@@ -53,7 +54,7 @@ class WalletSendPointsFragment : FragmentBaseMVVM<FragmentWalletSendPointsBindin
     override fun inject(key: String) =
         App.injections.get<WalletSendPointsFragmentComponent>(
             key,
-            arguments!!.getString(COMMUNITY_ID),
+            arguments!!.getParcelable<CommunityIdDomain>(COMMUNITY_ID),
             arguments!!.getParcelable<UserDomain>(USER),
             arguments!!.getParcelableArray(BALANCE)!!.toList())
             .inject(this)

@@ -12,6 +12,7 @@ import io.golos.cyber_android.ui.dto.BlackListFilter
 import io.golos.cyber_android.ui.screens.profile_black_list.model.ProfileBlackListModel
 import io.golos.cyber_android.ui.screens.profile_black_list.view.list.BlackListListItemEventsProcessor
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserIdDomain
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -110,7 +111,7 @@ constructor(
         }
     }
 
-    override fun onHideCommunityClick(communityId: String) {
+    override fun onHideCommunityClick(communityId: CommunityIdDomain) {
         launch {
             if(!model.switchCommunityState(communityId)) {
                 _command.value = ShowMessageResCommand(R.string.common_general_error)

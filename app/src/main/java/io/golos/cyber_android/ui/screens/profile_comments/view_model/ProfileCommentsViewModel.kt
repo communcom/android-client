@@ -54,8 +54,8 @@ class ProfileCommentsViewModel @Inject constructor(
         _command.value = NavigateToUserProfileCommand(UserIdDomain(userId))
     }
 
-    override fun onCommunityClicked(communityCode: String) {
-        _command.value = NavigateToCommunityPageCommand(CommunityIdDomain(communityCode, null))
+    override fun onCommunityClicked(communityId: CommunityIdDomain) {
+        _command.value = NavigateToCommunityPageCommand(communityId)
     }
 
     override fun onSeeMoreClicked(contentId: ContentId) {}
@@ -153,7 +153,7 @@ class ProfileCommentsViewModel @Inject constructor(
         }
     }
 
-    fun deleteComment(permlink: String, communityId: String) {
+    fun deleteComment(permlink: String, communityId: CommunityIdDomain) {
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)

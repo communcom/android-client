@@ -60,8 +60,8 @@ internal object PostsDataFactory {
             body,
             DiscussionVotes(0, 0, false, false),
             DiscussionMetadata(Date()),
-            DiscussionId(CyberName(userId), community.communityId, Permlink.generate().value),
-            CyberCommunity(community.communityId, community.name, community.avatarUrl, "alias", true),
+            DiscussionId(CyberName(userId), community.communityId.code, Permlink.generate().value),
+            CyberCommunity(community.communityId.code, community.name, community.avatarUrl, "alias", true),
             DiscussionAuthor(CyberName(userId), "some user", "https://pickaface.net/gallery/avatar/centurypixel5229a9f0ae77f.png"),
             commentsCount,
             null

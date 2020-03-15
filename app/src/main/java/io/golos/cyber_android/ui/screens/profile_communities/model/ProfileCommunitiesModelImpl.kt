@@ -38,23 +38,23 @@ constructor(
     /**
      * @return true in case of success
      */
-    override suspend fun subscribeUnsubscribe(communityCode: String): Boolean {
+    override suspend fun subscribeUnsubscribe(communityId: CommunityIdDomain): Boolean {
         if(subscribingInProgress) {
             return true
         }
 
         subscribingInProgress = true
 
-        val community = loadedItems[getCommunityIndex(communityCode)] as CommunityListItem
+        val community = loadedItems[getCommunityIndex(communityId)] as CommunityListItem
 
-        setCommunityInProgress(communityCode)
+        setCommunityInProgress(communityId)
 
         val isSuccess = withContext(dispatchersProvider.ioDispatcher) {
             try {
                 if(community.isJoined) {
-                    communitiesRepository.unsubscribeToCommunity(CommunityIdDomain(communityCode, null))
+                    communitiesRepository.unsubscribeToCommunity(communityId)
                 } else {
-                    communitiesRepository.subscribeToCommunity(CommunityIdDomain(communityCode, null))
+                    communitiesRepository.subscribeToCommunity(communityId)
                 }
                 true
             } catch (ex: Exception) {
@@ -63,7 +63,7 @@ constructor(
             }
         }
 
-        completeCommunityInProgress(communityCode, isSuccess)
+        completeCommunityInProgress(communityId, isSuccess)
 
         subscribingInProgress = false
 
@@ -86,15 +86,15 @@ constructor(
             isProgress = false
     )
 
-    private fun getCommunityIndex(communityId: String) =
+    private fun getCommunityIndex(communityId: CommunityIdDomain) =
         loadedItems.indexOfFirst { it is CommunityListItem && it.community.communityId == communityId }
 
-    private fun updateCommunity(communityId: String, updateAction: (CommunityListItem) -> CommunityListItem) = updateData {
+    private fun updateCommunity(communityId: CommunityIdDomain, updateAction: (CommunityListItem) -> CommunityListItem) = updateData {
         val itemIndex = getCommunityIndex(communityId)
         loadedItems[itemIndex] = updateAction(loadedItems[itemIndex] as CommunityListItem)
     }
 
-    private fun setCommunityInProgress(communityId: String) =
+    private fun setCommunityInProgress(communityId: CommunityIdDomain) =
         updateCommunity(communityId) { oldCommunity ->
             oldCommunity.copy(
                 version = oldCommunity.version + 1,
@@ -102,7 +102,7 @@ constructor(
                 isJoined = !oldCommunity.isJoined)
         }
 
-    private fun completeCommunityInProgress(communityId: String, isSuccess: Boolean) =
+    private fun completeCommunityInProgress(communityId: CommunityIdDomain, isSuccess: Boolean) =
         updateCommunity(communityId) { oldCommunity ->
             oldCommunity.copy(
                 version = oldCommunity.version + 1,

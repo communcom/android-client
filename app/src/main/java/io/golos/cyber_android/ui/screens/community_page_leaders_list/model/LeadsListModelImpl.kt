@@ -6,6 +6,7 @@ import io.golos.cyber_android.ui.screens.community_page_leaders_list.dto.*
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.dependency_injection.Clarification
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.CommunityLeaderDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.community.CommunitiesRepository
@@ -17,8 +18,7 @@ import javax.inject.Named
 class LeadsListModelImpl
 @Inject
 constructor(
-    @Named(Clarification.COMMUNITY_CODE)
-    private val communityId: String,
+    private val communityId: CommunityIdDomain,
     private val communitiesRepository: CommunitiesRepository
 ) : ModelBaseImpl(),
     LeadsListModel {

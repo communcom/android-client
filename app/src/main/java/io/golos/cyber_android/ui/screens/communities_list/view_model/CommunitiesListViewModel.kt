@@ -43,7 +43,7 @@ constructor(
     fun onViewCreated() = loadPage()
 
     override fun onItemClick(community: CommunityDomain) {
-        _command.value = NavigateToCommunityPageCommand(CommunityIdDomain(community.communityId, community.alias))
+        _command.value = NavigateToCommunityPageCommand(community.communityId)
     }
 
     override fun onNextPageReached() = loadPage()
@@ -54,7 +54,7 @@ constructor(
         }
     }
 
-    override fun onJoinClick(communityId: String) {
+    override fun onJoinClick(communityId: CommunityIdDomain) {
         launch {
             if(!model.subscribeUnsubscribe(communityId)) {
                 _command.value = ShowMessageResCommand(R.string.common_general_error)

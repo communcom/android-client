@@ -80,23 +80,23 @@ constructor(
         }
     }
 
-    override suspend fun subscribeUnsubscribe(communityCode: String): Boolean {
+    override suspend fun subscribeUnsubscribe(communityId: CommunityIdDomain): Boolean {
         if(subscribingInProgress) {
             return true
         }
 
         subscribingInProgress = true
 
-        val community = loadedItems[getCommunityIndex(communityCode)] as CommunityListItem
+        val community = loadedItems[getCommunityIndex(communityId)] as CommunityListItem
 
-        setCommunityInProgress(communityCode)
+        setCommunityInProgress(communityId)
 
         val isSuccess = withContext(dispatchersProvider.ioDispatcher) {
             try {
                 if(community.isInPositiveState) {
-                    communitiesRepository.unsubscribeToCommunity(CommunityIdDomain(communityCode, null))
+                    communitiesRepository.unsubscribeToCommunity(communityId)
                 } else {
-                    communitiesRepository.subscribeToCommunity(CommunityIdDomain(communityCode, null))
+                    communitiesRepository.subscribeToCommunity(communityId)
                 }
                 true
             } catch (ex: Exception) {
@@ -105,7 +105,7 @@ constructor(
             }
         }
 
-        completeCommunityInProgress(communityCode, isSuccess)
+        completeCommunityInProgress(communityId, isSuccess)
 
         subscribingInProgress = false
 
@@ -114,7 +114,7 @@ constructor(
 
     protected fun CommunityDomain.map() =
         CommunityListItem(
-            MurmurHash.hash64(this.communityId),
+            MurmurHash.hash64(this.communityId.code),
             0,
             isFirstItem = false,
             isLastItem = false,
@@ -197,7 +197,7 @@ constructor(
         }
     }
 
-    private fun setCommunityInProgress(communityId: String) =
+    private fun setCommunityInProgress(communityId: CommunityIdDomain) =
         updateCommunity(communityId) { oldCommunity ->
             oldCommunity.copy(
                 version = oldCommunity.version + 1,
@@ -205,7 +205,7 @@ constructor(
                 isInPositiveState = !oldCommunity.isInPositiveState)
         }
 
-    private fun completeCommunityInProgress(communityId: String, isSuccess: Boolean) =
+    private fun completeCommunityInProgress(communityId: CommunityIdDomain, isSuccess: Boolean) =
         updateCommunity(communityId) { oldCommunity ->
             oldCommunity.copy(
                 version = oldCommunity.version + 1,
@@ -214,11 +214,11 @@ constructor(
             )
         }
 
-    private fun updateCommunity(communityId: String, updateAction: (CommunityListItem) -> CommunityListItem) = updateData {
+    private fun updateCommunity(communityId: CommunityIdDomain, updateAction: (CommunityListItem) -> CommunityListItem) = updateData {
         val itemIndex = getCommunityIndex(communityId)
         loadedItems[itemIndex] = updateAction(loadedItems[itemIndex] as CommunityListItem)
     }
 
-    private fun getCommunityIndex(communityId: String) =
+    private fun getCommunityIndex(communityId: CommunityIdDomain) =
         loadedItems.indexOfFirst { it is CommunityListItem && it.community.communityId == communityId }
 }

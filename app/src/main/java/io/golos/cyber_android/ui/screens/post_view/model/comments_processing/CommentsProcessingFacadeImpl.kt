@@ -226,7 +226,7 @@ constructor(
         }
     }
 
-    override suspend fun vote(communityId: String, commentId: DiscussionIdModel, isUpVote: Boolean) {
+    override suspend fun vote(communityId: CommunityIdDomain, commentId: DiscussionIdModel, isUpVote: Boolean) {
         val oldComment = commentsStorage.get().getComment(commentId)!!
 
         val votingUseCase = getVoteUseCase(commentId)

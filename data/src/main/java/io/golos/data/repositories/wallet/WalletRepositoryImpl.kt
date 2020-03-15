@@ -14,10 +14,7 @@ import io.golos.data.repositories.RepositoryBase
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.GlobalConstants
 import io.golos.domain.UserKeyStore
-import io.golos.domain.dto.UserIdDomain
-import io.golos.domain.dto.UserKeyType
-import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
-import io.golos.domain.dto.WalletTransferHistoryRecordDomain
+import io.golos.domain.dto.*
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.utils.format.DoubleFormatter
 import javax.inject.Inject
@@ -51,25 +48,25 @@ constructor(
         return callResult.balances.map { it.mapToWalletCommunityBalanceRecordDomain() }
     }
 
-    override suspend fun getTransferHistory(offset: Int, limit: Int, communityId: String): List<WalletTransferHistoryRecordDomain> =
+    override suspend fun getTransferHistory(offset: Int, limit: Int, communityId: CommunityIdDomain): List<WalletTransferHistoryRecordDomain> =
         apiCall {commun4j.getTransferHistory(
             userId = CyberName(currentUserRepository.userId.userId),
             direction = TransferHistoryDirection.ALL,
             transferType = TransferHistoryTransferType.ALL,
-            symbol = CyberSymbolCode(communityId),
+            symbol = CyberSymbolCode(communityId.code),
             rewards = "all",
             limit = limit,
             offset = offset
         )}
         .items.map { it.mapToWalletTransferHistoryRecordDomain() }
 
-    override suspend fun sendToUser(toUser: UserIdDomain, amount: Double, communityId: String) {
-        if(communityId != GlobalConstants.COMMUN_CODE) {
+    override suspend fun sendToUser(toUser: UserIdDomain, amount: Double, communityId: CommunityIdDomain) {
+        if(communityId.code != GlobalConstants.COMMUN_CODE) {
             apiCallChain {
                 commun4j.transfer(
                     to = CyberName(toUser.userId),
                     amount = DoubleFormatter.formatToServerPoints(amount),
-                    currency = communityId,
+                    currency = communityId.code,
                     memo = "",
                     bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                     key = userKeyStore.getKey(UserKeyType.ACTIVE),
@@ -84,7 +81,7 @@ constructor(
                 commun4j.exchange(
                     to = CyberName(toUser.userId),
                     amount = DoubleFormatter.formatToServerTokens(amount),
-                    currency = communityId,
+                    currency = communityId.code,
                     memo = "",
                     bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                     key = userKeyStore.getKey(UserKeyType.ACTIVE),
@@ -97,14 +94,14 @@ constructor(
         }
     }
 
-    override suspend fun convertPointsToCommun(amount: Double, communityId: String) {
+    override suspend fun convertPointsToCommun(amount: Double, communityId: CommunityIdDomain) {
         val amountAsString = DoubleFormatter.formatToServerPoints(amount)
 
         apiCallChain {
             commun4j.transfer(
                 to = CyberName(GlobalConstants.C_POINT_USER_ID),
                 amount = amountAsString,
-                currency = communityId,
+                currency = communityId.code,
                 memo = "$amountAsString $communityId",
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 key = userKeyStore.getKey(UserKeyType.ACTIVE),
@@ -116,13 +113,13 @@ constructor(
         }
     }
 
-    override suspend fun convertCommunToPoints(amount: Double, communityId: String) {
+    override suspend fun convertCommunToPoints(amount: Double, communityId: CommunityIdDomain) {
         apiCallChain {
             commun4j.exchange(
                 to = CyberName(GlobalConstants.C_POINT_USER_ID),
                 amount = DoubleFormatter.formatToServerTokens(amount),
                 currency = GlobalConstants.COMMUN_CODE,
-                memo = communityId,
+                memo = communityId.code,
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 key = userKeyStore.getKey(UserKeyType.ACTIVE),
                 from = CyberName(currentUserRepository.userId.userId)

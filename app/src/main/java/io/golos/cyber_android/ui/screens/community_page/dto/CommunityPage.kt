@@ -1,9 +1,10 @@
 package io.golos.cyber_android.ui.screens.community_page.dto
 
+import io.golos.domain.dto.CommunityIdDomain
 import java.util.*
 
 data class CommunityPage(
-    val communityId: String,
+    val communityId: CommunityIdDomain,
     val name: String,
     val avatarUrl: String?,
     val coverUrl: String?,
