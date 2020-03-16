@@ -19,13 +19,16 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@+id/welcomeFragment" />
         <action
-            android:id="@+id/action_welcomeFragment_to_signUpPhoneFragment"
-            app:destination="@id/signUpPhoneFragment"
+            android:id="@+id/action_welcomeFragment_to_signUpSelectMethod"
+            app:destination="@id/signUpSelectMethod"
             app:enterAnim="@anim/nav_slide_in_right"
             app:exitAnim="@anim/nav_slide_out_left"
             app:popEnterAnim="@anim/nav_slide_in_left"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@+id/welcomeFragment" />
+        <action
+            android:id="@+id/action_welcomeFragment_to_signUpCreatePasswordFragment"
+            app:destination="@id/signUpCreatePasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/signInFragment"
@@ -34,7 +37,7 @@
         tools:layout="@layout/fragment_sign_in_user_name">
         <action
             android:id="@+id/action_signInFragment_to_signUpPhoneFragment"
-            app:destination="@id/signUpPhoneFragment"
+            app:destination="@+id/signUpSelectMethod"
             app:enterAnim="@anim/nav_slide_in_right"
             app:exitAnim="@anim/nav_slide_out_left"
             app:popEnterAnim="@anim/nav_slide_in_left"
@@ -89,7 +92,8 @@
             app:enterAnim="@anim/nav_slide_in_right"
             app:exitAnim="@anim/nav_slide_out_left"
             app:popEnterAnim="@anim/nav_slide_in_left"
-            app:popExitAnim="@anim/nav_slide_out_right" />
+            app:popExitAnim="@anim/nav_slide_out_right"
+            app:popUpTo="@+id/welcomeFragment" />
     </fragment>
     <fragment
         android:id="@+id/signUpCountryFragment"
@@ -169,4 +173,28 @@
         android:id="@+id/signInQrCodeFragment"
         android:name="io.golos.cyber_android.ui.screens.login_sign_in_qr_code.view.SignInQrCodeFragment"
         android:label="SignInQrCodeFragment" />
+    <fragment
+        android:id="@+id/signUpSelectMethod"
+        android:name="io.golos.cyber_android.ui.screens.login_sign_up_select_method.SignUpSelectMethodFragment"
+        android:label="SignUpSelectMethod" >
+        <action
+            android:id="@+id/action_signUpSelectMethod_to_signInFragment"
+            app:destination="@id/signInFragment"
+            app:enterAnim="@anim/nav_slide_in_right"
+            app:exitAnim="@anim/nav_slide_out_left"
+            app:popEnterAnim="@anim/nav_slide_in_left"
+            app:popExitAnim="@anim/nav_slide_out_right"
+            app:popUpTo="@+id/welcomeFragment" />
+        <action
+            android:id="@+id/action_signUpSelectMethod_to_signUpPhoneFragment"
+            app:destination="@id/signUpPhoneFragment"
+            app:enterAnim="@anim/nav_slide_in_right"
+            app:exitAnim="@anim/nav_slide_out_left"
+            app:popEnterAnim="@anim/nav_slide_in_left"
+            app:popExitAnim="@anim/nav_slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpCreatePasswordFragment"
+        android:name="io.golos.cyber_android.ui.screens.login_sign_up_create_password.view.SignUpCreatePasswordFragment"
+        android:label="SignUpCreatePasswordFragment" />
 </navigation>

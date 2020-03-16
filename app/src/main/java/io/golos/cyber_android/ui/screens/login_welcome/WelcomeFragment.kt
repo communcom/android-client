@@ -72,7 +72,7 @@ class WelcomeFragment : FragmentBase() {
         }
         signUp.setOnClickListener {
             analyticsFacade.clickGetStarted031()
-            findNavController().navigate(R.id.action_welcomeFragment_to_signUpPhoneFragment)
+            findNavController().navigate(R.id.action_welcomeFragment_to_signUpSelectMethod)
         }
         nextSlide.setOnClickListener {
             slidesPager.setCurrentItem(slidesPager.currentItem + 1, true)

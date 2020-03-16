@@ -102,6 +102,9 @@
     <string name="welcome_slides_text_3">Owned</string>
     <string name="welcome_slides_text_3_1">by users</string>
     <string name="account_query">Don\'t have an account?</string>
+    <string name="continue_with_phone">Continue with Phone</string>
+    <string name="continue_with_google">Continue with Google</string>
+    <string name="continue_with_facebook">Continue with Facebook</string>
 
     <string name="welcome_slides_sub_text_1">Social platform based on blockchain\nand for the first time, it’s easy</string>
     <string name="welcome_slides_sub_text_2">Create, share, and evaluate content\nDecide yourself what deserves\nthe attention</string>

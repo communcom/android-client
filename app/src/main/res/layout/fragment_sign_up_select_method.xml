@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <io.golos.cyber_android.ui.screens.login_shared.HeaderWidget
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/white_header_height"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/sign_up" />
+
+    <Button
+        android:id="@+id/phoneButton"
+        style="@style/Login.SignUpMethod.Button.White"
+
+        android:layout_width="0dp"
+
+        android:layout_marginTop="46dp"
+        android:drawableStart="@drawable/ic_phone"
+
+        android:text="@string/continue_with_phone"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header" />
+
+    <Button
+        android:id="@+id/googleButton"
+        style="@style/Login.SignUpMethod.Button.White"
+
+        android:layout_width="0dp"
+
+        android:layout_marginTop="12dp"
+        android:drawableStart="@drawable/ic_google"
+
+        android:text="@string/continue_with_google"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/phoneButton" />
+
+    <Button
+        android:id="@+id/facebookButton"
+        style="@style/Login.SignUpMethod.Button.Facebook"
+
+        android:layout_width="0dp"
+
+        android:layout_marginTop="12dp"
+        android:drawableStart="@drawable/ic_facebook"
+
+        android:text="@string/continue_with_facebook"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@+id/googleButton" />
+
+    <TextView
+        android:id="@+id/textView6"
+        style="@style/SignIn.Query"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="5dp"
+
+        android:text="@string/do_you_have_account"
+
+        app:layout_constraintEnd_toStartOf="@+id/tvSignIn"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/facebookButton" />
+
+    <TextView
+        android:id="@+id/tvSignIn"
+        style="@style/SignIn.Query.Link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_in"
+
+        android:layout_marginStart="5dp"
+
+        android:textFontWeight="600"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/textView6"
+        app:layout_constraintTop_toTopOf="@+id/textView6" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

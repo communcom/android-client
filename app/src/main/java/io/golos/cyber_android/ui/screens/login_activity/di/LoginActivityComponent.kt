@@ -9,6 +9,7 @@ import io.golos.cyber_android.ui.screens.login_sign_up.fragments.name.SignUpName
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.phone.SignUpPhoneFragment
 import io.golos.cyber_android.ui.screens.login_sign_up.fragments.verification.SignUpVerificationFragment
 import io.golos.cyber_android.ui.screens.login_sign_up_countries.di.SignUpCountryComponent
+import io.golos.cyber_android.ui.screens.login_sign_up_create_password.di.SignUpCreatePasswordFragmentComponent
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.di.SignUpProtectionKeysFragmentComponent
 import io.golos.cyber_android.ui.screens.login_sign_up_pin.PinCodeFragment
 import io.golos.cyber_android.ui.screens.login_welcome.WelcomeFragment
@@ -28,6 +29,7 @@ interface LoginActivityComponent {
     val signInUserNameFragmentComponent: SignInUserNameFragmentComponent.Builder
     val signInQrCodeFragmentComponent: SignInQrCodeFragmentComponent.Builder
     val signUpProtectionKeysFragmentComponent: SignUpProtectionKeysFragmentComponent.Builder
+    val signUpCreatePasswordFragmentFragmentComponent: SignUpCreatePasswordFragmentComponent.Builder
     val signUpCountryComponent: SignUpCountryComponent.Builder
 
     fun inject(activity: LoginActivity)

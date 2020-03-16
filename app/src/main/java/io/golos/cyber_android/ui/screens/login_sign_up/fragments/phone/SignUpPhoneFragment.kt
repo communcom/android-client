@@ -34,6 +34,7 @@ import io.golos.domain.dto.CountryDomain
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.use_cases.model.*
 import kotlinx.android.synthetic.main.fragment_sign_up_phone.*
+import kotlinx.android.synthetic.main.layout_do_you_have_account.*
 import kotlinx.android.synthetic.main.view_login_header.*
 import kotlinx.coroutines.launch
 import ru.tinkoff.decoro.MaskImpl
