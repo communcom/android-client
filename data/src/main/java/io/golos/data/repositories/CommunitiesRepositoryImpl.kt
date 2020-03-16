@@ -48,19 +48,14 @@ constructor(
     }
 
     override suspend fun getCommunityById(communityId: CommunityIdDomain): CommunityPageDomain {
-        val community = apiCall { commun4j.getCommunity(communityId.code) }
+        val community = apiCall { commun4j.getCommunity(communityId.code, null) }
 
         val leads = apiCall { commun4j.getLeaders(community.communityId, 50, 0) }.items.map { it.userId }
         return community.mapToCommunityPageDomain(leads)
     }
 
-    override suspend fun getCommunityIdByAlias(alias: String): CommunityIdDomain {
-        return  when(alias) {
-            "cats" -> CommunityIdDomain("CAT")
-            "art" -> CommunityIdDomain("ART")
-            else -> CommunityIdDomain("CAT")        // TEMPORARY FOR DEBUG PURPOSE
-        }
-    }
+    override suspend fun getCommunityIdByAlias(alias: String): CommunityIdDomain =
+        CommunityIdDomain(apiCall { commun4j.getCommunity(null, alias) }.communityId)
 
     override suspend fun subscribeToCommunity(communityId: CommunityIdDomain) {
         apiCallChain {
