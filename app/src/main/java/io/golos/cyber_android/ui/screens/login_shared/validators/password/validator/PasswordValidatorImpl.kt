@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.login_activity.shared.validators.password.validator
+package io.golos.cyber_android.ui.screens.login_shared.validators.password.validator
 
 import java.util.regex.Pattern
 import javax.inject.Inject

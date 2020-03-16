@@ -22,23 +22,12 @@
             android:theme="@style/AppTheme.AppBarOverlay"
             app:liftOnScroll="true">
 
-            <FrameLayout
+            <io.golos.cyber_android.ui.screens.login_shared.HeaderWidget
+                android:id="@+id/header"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ImageButton
-                    android:id="@+id/ivBack"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start|center_vertical"
-                    android:background="?attr/selectableItemBackground"
-                    android:padding="@dimen/margin_default"
-                    app:srcCompat="@drawable/ic_left_arrow"
-                    tools:ignore="ContentDescription"
-                    android:onClick="@{() -> viewModel.onBackButtonClick()}"
-                    />
-            </FrameLayout>
-
+                android:layout_height="match_parent"
+                app:title = "@string/welcome"
+            />
         </com.google.android.material.appbar.AppBarLayout>
 
         <LinearLayout
@@ -46,20 +35,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:layout_gravity="center_horizontal"
-                android:layout_marginStart="@dimen/margin_default"
-                android:layout_marginTop="@dimen/margin_top_sign_in_caption"
-                android:layout_marginEnd="@dimen/margin_default"
-
-                android:text="@string/welcome"
-
-                style="@style/SignInCaptionTextStyle"
-                />
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/login"

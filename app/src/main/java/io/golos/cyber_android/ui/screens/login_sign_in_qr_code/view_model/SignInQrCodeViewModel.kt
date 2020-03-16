@@ -5,7 +5,7 @@ import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.dto.QrCodeContent
-import io.golos.cyber_android.ui.screens.login_activity.shared.fragments_data_pass.LoginActivityFragmentsDataPass
+import io.golos.cyber_android.ui.screens.login_shared.fragments_data_pass.LoginActivityFragmentsDataPass
 import io.golos.cyber_android.ui.screens.login_sign_in_qr_code.dto.QrCodeDetectorErrorCode
 import io.golos.cyber_android.ui.screens.login_sign_in_qr_code.model.SignInQrCodeModel
 import io.golos.domain.DispatchersProvider

@@ -22,39 +22,12 @@
             android:layout_width="match_parent"
             android:theme="@style/AppTheme.AppBarOverlay">
 
-            <FrameLayout
+            <io.golos.cyber_android.ui.screens.login_shared.HeaderWidget
+                android:id="@+id/header"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/white_header_height"
-                app:layout_scrollFlags="scroll|enterAlways|snap"
-                android:background="@color/white">
-
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:text="@string/select_country"
-
-                    style="@style/White.Header.TextStyle"
-
-                    android:layout_gravity="center" />
-
-                <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
-                    android:id="@+id/ivBack"
-
-                    android:layout_width="@dimen/size_image_button"
-                    android:layout_height="@dimen/size_image_button"
-
-                    app:imageButton_icon="@drawable/ic_left_arrow"
-                    app:imageButton_iconInscribeSize="@dimen/profile_back_button_icon_size"
-                    app:imageButton_tint="@color/black"
-                    android:background="@null"
-
-                    android:layout_gravity="center_vertical|start"
-
-                    tools:visibility="visible"
-                    />
-            </FrameLayout>
+                android:layout_height="match_parent"
+                app:title = "@string/select_country"
+            />
 
             <include
                 android:layout_height="@dimen/search_bar_height"

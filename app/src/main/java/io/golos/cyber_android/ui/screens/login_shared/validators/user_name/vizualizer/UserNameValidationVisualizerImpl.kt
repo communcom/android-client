@@ -1,10 +1,10 @@
-package io.golos.cyber_android.ui.screens.login_activity.shared.validators.user_name.vizualizer
+package io.golos.cyber_android.ui.screens.login_shared.validators.user_name.vizualizer
 
 import android.content.Context
 import io.golos.cyber_android.R
 import io.golos.utils.getFormattedString
-import io.golos.cyber_android.ui.screens.login_activity.shared.validators.user_name.validator.UserNameValidationResult
-import io.golos.cyber_android.ui.screens.login_activity.shared.validators.user_name.validator.UserNameValidator
+import io.golos.cyber_android.ui.screens.login_shared.validators.user_name.validator.UserNameValidationResult
+import io.golos.cyber_android.ui.screens.login_shared.validators.user_name.validator.UserNameValidator
 import java.lang.UnsupportedOperationException
 import javax.inject.Inject
 

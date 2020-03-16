@@ -44,6 +44,8 @@ class SignInUserNameFragment : FragmentBaseMVVM<FragmentSignInUserNameBinding, S
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        header.setOnBackButtonClickListener { viewModel.onBackButtonClick() }
+
         // Done action on a soft keyboard
         login.filters = arrayOf(
             InputFilter.LengthFilter(viewModel.maxUserNameLen),

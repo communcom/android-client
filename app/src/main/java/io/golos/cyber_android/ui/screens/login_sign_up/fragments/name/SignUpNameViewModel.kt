@@ -1,15 +1,12 @@
 package io.golos.cyber_android.ui.screens.login_sign_up.fragments.name
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber_android.R
 import io.golos.cyber_android.application.shared.analytics.AnalyticsFacade
-import io.golos.cyber_android.ui.screens.login_activity.shared.validators.user_name.validator.UserNameValidationResult
-import io.golos.cyber_android.ui.screens.login_activity.shared.validators.user_name.validator.UserNameValidatorImpl
-import io.golos.cyber_android.ui.screens.login_activity.shared.validators.user_name.vizualizer.UserNameValidationVisualizer
+import io.golos.cyber_android.ui.screens.login_shared.validators.user_name.validator.UserNameValidationResult
+import io.golos.cyber_android.ui.screens.login_shared.validators.user_name.validator.UserNameValidatorImpl
+import io.golos.cyber_android.ui.screens.login_shared.validators.user_name.vizualizer.UserNameValidationVisualizer
 import io.golos.cyber_android.ui.screens.login_sign_up.SignUpScreenViewModelBase
-import io.golos.cyber_android.ui.shared.utils.getFormattedString
 import javax.inject.Inject
 
 class SignUpNameViewModel

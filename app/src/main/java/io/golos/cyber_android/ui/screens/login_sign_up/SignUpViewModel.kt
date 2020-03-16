@@ -3,10 +3,10 @@ package io.golos.cyber_android.ui.screens.login_sign_up
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.golos.cyber_android.ui.screens.login_activity.shared.fragments_data_pass.LoginActivityFragmentsDataPass
-import io.golos.cyber_android.ui.screens.login_activity.shared.validators.user_name.validator.UserNameValidationResult
-import io.golos.cyber_android.ui.screens.login_activity.shared.validators.user_name.validator.UserNameValidator
-import io.golos.cyber_android.ui.screens.login_activity.shared.validators.user_name.vizualizer.UserNameValidationVisualizer
+import io.golos.cyber_android.ui.screens.login_shared.fragments_data_pass.LoginActivityFragmentsDataPass
+import io.golos.cyber_android.ui.screens.login_shared.validators.user_name.validator.UserNameValidationResult
+import io.golos.cyber_android.ui.screens.login_shared.validators.user_name.validator.UserNameValidator
+import io.golos.cyber_android.ui.screens.login_shared.validators.user_name.vizualizer.UserNameValidationVisualizer
 import io.golos.cyber_android.ui.shared.utils.asEvent
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dependency_injection.scopes.ActivityScope

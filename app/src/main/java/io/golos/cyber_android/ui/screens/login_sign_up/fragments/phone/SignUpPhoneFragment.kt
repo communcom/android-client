@@ -22,19 +22,19 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.application.shared.analytics.AnalyticsFacade
-import io.golos.cyber_android.ui.shared.extensions.moveCursorToTheEnd
-import io.golos.cyber_android.ui.shared.extensions.safeNavigate
 import io.golos.cyber_android.ui.screens.login_activity.di.LoginActivityComponent
-import io.golos.cyber_android.ui.screens.login_activity.shared.fragments_data_pass.LoginActivityFragmentsDataPass
+import io.golos.cyber_android.ui.screens.login_shared.fragments_data_pass.LoginActivityFragmentsDataPass
 import io.golos.cyber_android.ui.screens.login_sign_up.SignUpScreenFragmentBase
 import io.golos.cyber_android.ui.shared.countries.CountriesRepository
+import io.golos.cyber_android.ui.shared.extensions.moveCursorToTheEnd
+import io.golos.cyber_android.ui.shared.extensions.safeNavigate
 import io.golos.cyber_android.ui.shared.utils.ViewUtils
 import io.golos.cyber_android.ui.shared.utils.openWebPage
 import io.golos.domain.dto.CountryDomain
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.use_cases.model.*
 import kotlinx.android.synthetic.main.fragment_sign_up_phone.*
+import kotlinx.android.synthetic.main.view_login_header.*
 import kotlinx.coroutines.launch
 import ru.tinkoff.decoro.MaskImpl
 import ru.tinkoff.decoro.parser.UnderscoreDigitSlotsParser
@@ -66,9 +66,7 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(SignU
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        ivBack.setOnClickListener {
-            findNavController().navigateUp()
-        }
+        header.setOnBackButtonClickListener { findNavController().navigateUp() }
 
         signUp.setOnClickListener {
             val phone = viewModel.field

@@ -54,4 +54,8 @@
         <attr name="inner_color_end" format="color" />
         <attr name="stroke_width" format="dimension"/>
     </declare-styleable>
+
+    <declare-styleable name="HeaderWidget">
+        <attr name="title" format="string" />
+    </declare-styleable>
 </resources>

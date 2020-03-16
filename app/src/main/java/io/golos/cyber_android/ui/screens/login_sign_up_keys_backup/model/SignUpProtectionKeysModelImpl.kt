@@ -2,7 +2,7 @@ package io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.model
 
 import android.util.Base64
 import com.squareup.moshi.Moshi
-import io.golos.cyber_android.ui.screens.login_activity.shared.fragments_data_pass.LoginActivityFragmentsDataPass
+import io.golos.cyber_android.ui.screens.login_shared.fragments_data_pass.LoginActivityFragmentsDataPass
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto.PdfPageExportData
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.dto.QrCodeData
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.model.page_renderer.PageRenderer

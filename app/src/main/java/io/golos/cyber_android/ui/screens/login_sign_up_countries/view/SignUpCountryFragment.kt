@@ -45,7 +45,7 @@ class SignUpCountryFragment : FragmentBaseMVVM<FragmentSignUpCountryBinding, Sig
 
         searchTextWatcher = searchBar.setTextChangeListener { viewModel.makeSearch(it) }
 
-        ivBack.setOnClickListener { findNavController().navigateUp() }
+        header.setOnBackButtonClickListener { findNavController().navigateUp() }
 
         viewModel.countries.observe(viewLifecycleOwner, Observer {
             (countriesList.adapter as CountriesAdapter).submit(it)

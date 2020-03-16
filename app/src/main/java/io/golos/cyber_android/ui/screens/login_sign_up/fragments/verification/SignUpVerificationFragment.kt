@@ -19,6 +19,7 @@ import io.golos.domain.use_cases.model.NextRegistrationStepRequestModel
 import io.golos.domain.use_cases.model.ResendSmsVerificationCodeModel
 import io.golos.domain.use_cases.model.SendVerificationCodeRequestModel
 import kotlinx.android.synthetic.main.fragment_sign_up_verification.*
+import kotlinx.android.synthetic.main.view_login_header.*
 
 class SignUpVerificationFragment : SignUpScreenFragmentBase<SignUpVerificationViewModel>(
     SignUpVerificationViewModel::class.java) {
@@ -36,7 +37,7 @@ class SignUpVerificationFragment : SignUpScreenFragmentBase<SignUpVerificationVi
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        close.setOnClickListener { findNavController().navigateUp() }
+        header.setOnBackButtonClickListener { findNavController().navigateUp() }
 
         smsCode.setOnCodeChangedListener { viewModel.onFieldChanged(it) }
         smsCode.setOnDonePressedListener { next.performClick() }

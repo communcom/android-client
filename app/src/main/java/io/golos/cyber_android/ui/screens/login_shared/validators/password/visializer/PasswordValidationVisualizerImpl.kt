@@ -1,9 +1,9 @@
-package io.golos.cyber_android.ui.screens.login_activity.shared.validators.password.visializer
+package io.golos.cyber_android.ui.screens.login_shared.validators.password.visializer
 
 import android.content.Context
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.screens.login_activity.shared.validators.password.validator.PasswordValidationResult
-import io.golos.cyber_android.ui.screens.login_activity.shared.validators.password.validator.PasswordValidator
+import io.golos.cyber_android.ui.screens.login_shared.validators.password.validator.PasswordValidationResult
+import io.golos.cyber_android.ui.screens.login_shared.validators.password.validator.PasswordValidator
 import io.golos.cyber_android.ui.shared.utils.getFormattedString
 import javax.inject.Inject
 

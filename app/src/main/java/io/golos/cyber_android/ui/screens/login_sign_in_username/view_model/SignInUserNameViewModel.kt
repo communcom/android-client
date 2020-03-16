@@ -9,11 +9,11 @@ import io.golos.cyber_android.R
 import io.golos.utils.getFormattedString
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
-import io.golos.cyber_android.ui.screens.login_activity.shared.fragments_data_pass.LoginActivityFragmentsDataPass
-import io.golos.cyber_android.ui.screens.login_activity.shared.validators.password.validator.PasswordValidationResult
-import io.golos.cyber_android.ui.screens.login_activity.shared.validators.password.visializer.PasswordValidationVisualizer
-import io.golos.cyber_android.ui.screens.login_activity.shared.validators.user_name.validator.UserNameValidationResult
-import io.golos.cyber_android.ui.screens.login_activity.shared.validators.user_name.vizualizer.UserNameValidationVisualizer
+import io.golos.cyber_android.ui.screens.login_shared.fragments_data_pass.LoginActivityFragmentsDataPass
+import io.golos.cyber_android.ui.screens.login_shared.validators.password.validator.PasswordValidationResult
+import io.golos.cyber_android.ui.screens.login_shared.validators.password.visializer.PasswordValidationVisualizer
+import io.golos.cyber_android.ui.screens.login_shared.validators.user_name.validator.UserNameValidationResult
+import io.golos.cyber_android.ui.screens.login_shared.validators.user_name.vizualizer.UserNameValidationVisualizer
 import io.golos.cyber_android.ui.screens.login_sign_in_username.dto.NavigateToQrCodeCommand
 import io.golos.cyber_android.ui.screens.login_sign_in_username.dto.NavigateToSignUpCommand
 import io.golos.cyber_android.ui.screens.login_sign_in_username.dto.SetPasswordFocusCommand

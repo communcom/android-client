@@ -17,18 +17,12 @@
             app:liftOnScroll="true"
             android:theme="@style/AppTheme.AppBarOverlay">
 
-        <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            <ImageButton
-                    android:padding="@dimen/margin_default"
-                    android:id="@+id/ivBack"
-                    android:background="?attr/selectableItemBackground"
-                    android:layout_gravity="start|center_vertical"
-                    app:srcCompat="@drawable/ic_back"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-        </FrameLayout>
+        <io.golos.cyber_android.ui.screens.login_shared.HeaderWidget
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:title = "@string/sign_up"
+        />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -39,15 +33,6 @@
             android:layout_marginEnd="@dimen/margin_default"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-        <androidx.appcompat.widget.AppCompatTextView
-                style="@style/SignInCaptionTextStyle"
-                android:layout_marginTop="@dimen/margin_top_sign_in_caption"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/sign_up"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
 
         <androidx.appcompat.widget.AppCompatTextView
                 style="@style/PostCardCommunityTextStyle"

@@ -2,23 +2,18 @@ package io.golos.cyber_android.ui.screens.login_sign_up_countries.view_model
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.shared.analytics.AnalyticsFacade
-import io.golos.cyber_android.ui.screens.login_activity.shared.fragments_data_pass.LoginActivityFragmentsDataPass
+import io.golos.cyber_android.ui.screens.login_shared.fragments_data_pass.LoginActivityFragmentsDataPass
 import io.golos.cyber_android.ui.screens.login_sign_up_countries.model.SignUpCountryModel
-import io.golos.cyber_android.ui.shared.mvvm.SingleLiveData
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CountryDomain
-import io.golos.domain.extensions.fold
 import kotlinx.coroutines.*
 import javax.inject.Inject
-import kotlin.coroutines.CoroutineContext
 
 class SignUpCountryViewModel
 @Inject

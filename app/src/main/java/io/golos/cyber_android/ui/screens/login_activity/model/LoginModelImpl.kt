@@ -1,6 +1,6 @@
 package io.golos.cyber_android.ui.screens.login_activity.model
 
-import io.golos.cyber_android.ui.screens.login_activity.shared.fragments_data_pass.LoginActivityFragmentsDataPass
+import io.golos.cyber_android.ui.screens.login_shared.fragments_data_pass.LoginActivityFragmentsDataPass
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.data.network_state.NetworkStateChecker
 import io.golos.data.repositories.settings.SettingsRepository
