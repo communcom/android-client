@@ -5,16 +5,20 @@ import android.util.Log
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.dashboard.dto.DeepLinkInfo
 import io.golos.cyber_android.ui.screens.dashboard.model.DashboardModel
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToCommunityPageCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToPostCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToUserProfileCommand
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.cyber_android.ui.shared.widgets.NavigationBottomMenuWidget
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
+import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
@@ -93,15 +97,17 @@ constructor(
         launch {
             model.parseDeepLinkUri(uri)
                 ?.let { linkInfo ->
-                    when(linkInfo) {
+                    _command.value = when(linkInfo) {
                         is DeepLinkInfo.ProfileDeepLink -> {
-                            _command.value = NavigateToUserProfileCommand(linkInfo.userId)
+                            NavigateToUserProfileCommand(linkInfo.userId)
                         }
                         is DeepLinkInfo.CommunityDeepLink -> {
-                            _command.value = NavigateToCommunityPageCommand(linkInfo.communityId)
+                            NavigateToCommunityPageCommand(linkInfo.communityId)
                         }
                         is DeepLinkInfo.PostDeepLink -> {
-                            Log.d("DEEP_LINK", linkInfo.toString())
+                            val discussionId = DiscussionIdModel(linkInfo.userId.userId, Permlink(linkInfo.postId))
+                            val contentId = ContentId(linkInfo.communityId, linkInfo.postId, linkInfo.userId.userId)
+                            NavigateToPostCommand(discussionId, contentId)
                         }
                     }
                 }

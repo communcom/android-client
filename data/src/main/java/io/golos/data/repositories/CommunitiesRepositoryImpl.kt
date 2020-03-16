@@ -55,7 +55,11 @@ constructor(
     }
 
     override suspend fun getCommunityIdByAlias(alias: String): CommunityIdDomain {
-        return CommunityIdDomain("CAT")         // TEMPORARY FOR DEBUG PURPOSE
+        return  when(alias) {
+            "cats" -> CommunityIdDomain("CAT")
+            "art" -> CommunityIdDomain("ART")
+            else -> CommunityIdDomain("CAT")        // TEMPORARY FOR DEBUG PURPOSE
+        }
     }
 
     override suspend fun subscribeToCommunity(communityId: CommunityIdDomain) {

@@ -27,6 +27,7 @@ import io.golos.cyber_android.ui.screens.profile.view.ProfileFragment
 import io.golos.cyber_android.ui.shared.Tags
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToCommunityPageCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToPostCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToUserProfileCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.shared.utils.setStatusBarColor
@@ -122,6 +123,7 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
         when(command) {
             is NavigateToUserProfileCommand -> navigateToFragment(ProfileExternalUserFragment.newInstance(command.userId))
             is NavigateToCommunityPageCommand -> navigateToFragment(CommunityPageFragment.newInstance(command.communityId))
+            is NavigateToPostCommand -> openPost(command.discussionIdModel, command.contentId)
         }
     }
 

@@ -3,8 +3,12 @@ package io.golos.cyber_android.ui.screens.dashboard.model.deep_links
 import android.net.Uri
 import io.golos.cyber_android.ui.screens.dashboard.dto.DeepLinkInfo
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.UserProfileDomain
 import io.golos.domain.repositories.UsersRepository
 import io.golos.domain.use_cases.community.CommunitiesRepository
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -21,29 +25,26 @@ constructor(
                 when(segments.size) {
                     1 -> {
                         if(segments[0].startsWith("@")) {
-                            DeepLinkInfo.ProfileDeepLink(getUserId(segments[0].replace("@", "")))
+                            DeepLinkInfo.ProfileDeepLink(usersRepository.getUserProfile(segments[0].replace("@", "")).userId)
                         } else {
-                            DeepLinkInfo.CommunityDeepLink(getCommunityId(segments[0]))
+                            DeepLinkInfo.CommunityDeepLink(communitiesRepository.getCommunityIdByAlias(segments[0]))
                         }
                     }
                     3 -> {
+                        lateinit var communityId: Deferred<CommunityIdDomain>
+                        lateinit var userId: Deferred<UserProfileDomain>
+                        withContext(dispatchersProvider.ioDispatcher) {
+                            communityId = async { communitiesRepository.getCommunityIdByAlias(segments[0]) }
+                            userId = async { usersRepository.getUserProfile(segments[1].replace("@", "")) }
+                        }
+
                         DeepLinkInfo.PostDeepLink(
-                            communityId = getCommunityId(segments[0]),
-                            userId = getUserId(segments[1].replace("@", "")),
+                            communityId = communityId.await(),
+                            userId = userId.await().userId,
                             postId = segments[2]
                         )
                     }
                     else -> null
                 }
             }
-
-    private suspend fun getUserId(userName: String) =
-        withContext(dispatchersProvider.ioDispatcher) {
-            usersRepository.getUserProfile(userName).userId
-        }
-
-    private suspend fun getCommunityId(alias: String) =
-        withContext(dispatchersProvider.ioDispatcher) {
-            communitiesRepository.getCommunityIdByAlias(alias)
-        }
 }
