@@ -136,7 +136,7 @@ class CarouselRecyclerView(
     private fun getGaussianScale(childCenterX: Int, parentCenterX: Int): Float {
         val minScaleOffset = 1f
         val scaleFactor = 1f
-        val spreadFactor = 200.0
+        val spreadFactor = 150.0
 
         return (Math.E.pow(
             -(childCenterX - parentCenterX.toDouble()).pow(2.0) / (2 * spreadFactor.pow(2.0))
