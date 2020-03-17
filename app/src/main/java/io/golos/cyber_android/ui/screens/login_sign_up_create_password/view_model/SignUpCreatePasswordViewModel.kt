@@ -32,6 +32,9 @@ constructor(
     private val _isNextButtonEnabled = MutableLiveData<Boolean>(false)
     val isNextButtonEnabled: LiveData<Boolean> = _isNextButtonEnabled
 
+    val screenTitle: String = model.screenTitle
+    val passwordHint: String = model.passwordHint
+
     init {
         password.observeForever {
             val validationResult = model.passwordValidator.validate(it)

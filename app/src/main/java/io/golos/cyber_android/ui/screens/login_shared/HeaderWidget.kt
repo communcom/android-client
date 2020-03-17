@@ -26,6 +26,10 @@ constructor(
         onBackButtonClickListener = listener
     }
 
+    fun setTitle(titleText: String) {
+        title.text = titleText
+    }
+
     private fun retrieveAttributes(attrs: AttributeSet) {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.HeaderWidget)
 

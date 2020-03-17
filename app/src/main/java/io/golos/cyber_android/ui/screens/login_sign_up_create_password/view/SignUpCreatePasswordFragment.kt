@@ -12,7 +12,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.HideSoftKeyboardComma
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import kotlinx.android.synthetic.main.fragment_sign_up_create_password.*
 
-class SignUpCreatePasswordFragment : FragmentBaseMVVM<FragmentSignUpCreatePasswordBinding, SignUpCreatePasswordViewModel>() {
+open class SignUpCreatePasswordFragment : FragmentBaseMVVM<FragmentSignUpCreatePasswordBinding, SignUpCreatePasswordViewModel>() {
 
     override fun provideViewModelType(): Class<SignUpCreatePasswordViewModel> = SignUpCreatePasswordViewModel::class.java
 

@@ -6,5 +6,8 @@ import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
 interface SignUpCreatePasswordModel : ModelBase {
     val passwordValidator: PasswordValidator
 
+    val screenTitle: String
+    val passwordHint: String
+
     fun savePassword(password: String)
 }

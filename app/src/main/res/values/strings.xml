@@ -572,8 +572,10 @@
     <string name="update_app_update">Update</string>
 
     <string name="create_password">Create password</string>
-    <string name="password">Password</string>
     <string name="enter_your_password">Enter your password</string>
+
+    <string name="confirm_password">Confirm password</string>
+    <string name="reenter_your_password">Re-enter your password</string>
 
     <string name="password_validation_lower">a</string>
     <string name="password_validation_lower_hint">Lower case</string>
