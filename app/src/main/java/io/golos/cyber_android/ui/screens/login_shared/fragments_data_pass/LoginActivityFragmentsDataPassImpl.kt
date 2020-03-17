@@ -18,6 +18,7 @@ constructor():
         private const val SELECTED_COUNTRY_KEY = 907080
         private const val PHONE_KEY = 169548324
         private const val FTUE_BONUS_KEY = 17816978
+        private const val PASSWORD_KEY = 8490421
     }
 
     override fun putQrCode(qrCode: QrCodeContent) = put(QR_CODE_KEY, qrCode)
@@ -35,4 +36,8 @@ constructor():
     override fun putFtueCommunityBonus(bonus: Int) = put(FTUE_BONUS_KEY, bonus)
 
     override fun getFtueCommunityBonus(): Int? = get(FTUE_BONUS_KEY) as Int?
+
+    override fun putPassword(password: String) = put(PASSWORD_KEY, password)
+
+    override fun getPassword(): String? = get(PASSWORD_KEY) as String?
 }

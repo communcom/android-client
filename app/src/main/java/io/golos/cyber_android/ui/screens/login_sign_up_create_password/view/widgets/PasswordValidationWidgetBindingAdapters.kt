@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.login_sign_up_create_password.view
+package io.golos.cyber_android.ui.screens.login_sign_up_create_password.view.widgets
 
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
@@ -7,12 +7,8 @@ import io.golos.cyber_android.ui.screens.login_sign_up_create_password.dto.Passw
 import io.golos.cyber_android.ui.shared.extensions.parentActivity
 
 @BindingAdapter("password_validation_min_len")
-fun setMinLenBinding(view: PasswordValidationWidget, valueToBind: LiveData<Int>?) {
-    valueToBind?.let { liveValue ->
-        view.parentActivity?.let { activity ->
-            liveValue.observe(activity, Observer { view.minLen = it })
-        }
-    }
+fun setMinLenBinding(view: PasswordValidationWidget, valueToBind: Int) {
+    view.minLen = valueToBind
 }
 
 @BindingAdapter("password_validation_cases")
@@ -23,4 +19,3 @@ fun setCasesBinding(view: PasswordValidationWidget, valueToBind: LiveData<List<P
         }
     }
 }
-

@@ -6,6 +6,8 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 import io.golos.cyber_android.ui.screens.login_sign_up_create_password.model.SignUpCreatePasswordModel
 import io.golos.cyber_android.ui.screens.login_sign_up_create_password.model.SignUpCreatePasswordModelImpl
+import io.golos.cyber_android.ui.screens.login_sign_up_create_password.model.password_validator.PasswordValidator
+import io.golos.cyber_android.ui.screens.login_sign_up_create_password.model.password_validator.PasswordValidatorImpl
 import io.golos.cyber_android.ui.screens.login_sign_up_create_password.view_model.SignUpCreatePasswordViewModel
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactoryImpl
@@ -23,4 +25,7 @@ abstract class SignUpCreatePasswordFragmentModuleBinds {
 
     @Binds
     abstract fun provideModel(model: SignUpCreatePasswordModelImpl): SignUpCreatePasswordModel
+
+    @Binds
+    abstract fun providePasswordValidator(validator: PasswordValidatorImpl): PasswordValidator
 }

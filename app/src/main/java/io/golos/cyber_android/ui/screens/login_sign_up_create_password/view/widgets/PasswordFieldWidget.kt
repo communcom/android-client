@@ -1,6 +1,7 @@
-package io.golos.cyber_android.ui.screens.login_sign_up_create_password.view
+package io.golos.cyber_android.ui.screens.login_sign_up_create_password.view.widgets
 
 import android.content.Context
+import android.graphics.Typeface
 import android.text.InputType
 import android.util.AttributeSet
 import com.google.android.material.textfield.TextInputEditText
@@ -43,5 +44,7 @@ constructor(
         setCompoundDrawablesWithIntrinsicBounds(null, null, icon, null)
 
         inputType = if(isTextVisible) InputType.TYPE_CLASS_TEXT else InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+        typeface = Typeface.DEFAULT
+        setSelection(text!!.length)
     }
 }

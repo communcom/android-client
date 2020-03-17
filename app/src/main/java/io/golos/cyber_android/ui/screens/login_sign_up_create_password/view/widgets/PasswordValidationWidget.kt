@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.login_sign_up_create_password.view
+package io.golos.cyber_android.ui.screens.login_sign_up_create_password.view.widgets
 
 import android.content.Context
 import android.util.AttributeSet
@@ -36,8 +36,8 @@ constructor(
         upperLabel.setOnClickListener { onCaseClickListener?.invoke(PasswordValidationCase.UPPER) }
         upperHintLabel.setOnClickListener { onCaseClickListener?.invoke(PasswordValidationCase.UPPER) }
 
-        numberLabel.setOnClickListener { onCaseClickListener?.invoke(PasswordValidationCase.NUMBER) }
-        numberHintLabel.setOnClickListener { onCaseClickListener?.invoke(PasswordValidationCase.NUMBER) }
+        numberLabel.setOnClickListener { onCaseClickListener?.invoke(PasswordValidationCase.DIGIT) }
+        numberHintLabel.setOnClickListener { onCaseClickListener?.invoke(PasswordValidationCase.DIGIT) }
 
         minLenLabel.setOnClickListener { onCaseClickListener?.invoke(PasswordValidationCase.MIN_LEN) }
         minLenHintLabel.setOnClickListener { onCaseClickListener?.invoke(PasswordValidationCase.MIN_LEN) }
@@ -59,7 +59,7 @@ constructor(
                 upperHintLabel.setTextColor(it)
             }
 
-        (if(validCases.contains(PasswordValidationCase.NUMBER)) validColor else invalidColor)
+        (if(validCases.contains(PasswordValidationCase.DIGIT)) validColor else invalidColor)
             .let {
                 numberLabel.setTextColor(it)
                 numberHintLabel.setTextColor(it)

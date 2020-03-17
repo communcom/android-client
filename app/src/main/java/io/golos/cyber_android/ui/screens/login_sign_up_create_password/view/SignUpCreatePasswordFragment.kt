@@ -8,7 +8,9 @@ import io.golos.cyber_android.databinding.FragmentSignUpCreatePasswordBinding
 import io.golos.cyber_android.ui.screens.login_sign_up_create_password.di.SignUpCreatePasswordFragmentComponent
 import io.golos.cyber_android.ui.screens.login_sign_up_create_password.view_model.SignUpCreatePasswordViewModel
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.HideSoftKeyboardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
+import kotlinx.android.synthetic.main.fragment_sign_up_create_password.*
 
 class SignUpCreatePasswordFragment : FragmentBaseMVVM<FragmentSignUpCreatePasswordBinding, SignUpCreatePasswordViewModel>() {
 
@@ -27,15 +29,15 @@ class SignUpCreatePasswordFragment : FragmentBaseMVVM<FragmentSignUpCreatePasswo
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        password.setOnVisibilityButtonClickListener { viewModel.onVisibilityButtonClick() }
+        validationCases.setOnCaseClickListener { viewModel.onValidationCaseClick(it) }
+        next.setOnClickListener { viewModel.onNextButtonClick() }
     }
 
     override fun processViewCommand(command: ViewCommand) {
-//        when(command) {
-//            is NavigateToMainScreenCommand -> navigateToMainScreen()
-//            is ShowBackupWarningDialogCommand -> showBackupWarningCommand()
-//            is ShowSaveDialogCommand -> showSaveDialog()
-//            is StartExportToGoogleDriveCommand -> keysToGoogleDriveExporter.startExport(command.fileToExport)
-//            else -> throw UnsupportedOperationException("This command is not supported")
-//        }
+        when(command) {
+            is HideSoftKeyboardCommand -> uiHelper.setSoftKeyboardVisibility(password, false)
+            else -> throw UnsupportedOperationException("This command is not supported")
+        }
     }
 }

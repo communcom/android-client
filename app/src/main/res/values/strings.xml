@@ -577,10 +577,17 @@
 
     <string name="password_validation_lower">a</string>
     <string name="password_validation_lower_hint">Lower case</string>
+    <string name="password_validation_lower_explanation">A password must contain at least one lowercase letter</string>
+
     <string name="password_validation_upper">A</string>
     <string name="password_validation_upper_hint">Upper case</string>
+    <string name="password_validation_upper_explanation">A password must contain at least one uppercase letter</string>
+
     <string name="password_validation_number">1</string>
     <string name="password_validation_number_hint">Number</string>
+    <string name="password_validation_number_explanation">A password must contain at least one digit</string>
+
     <string name="password_validation_min_len">{0}+</string>
     <string name="password_validation_min_len_hint">Min length</string>
+    <string name="password_validation_min_len_explanation">The minimum password length must be {0} characters</string>
 </resources>

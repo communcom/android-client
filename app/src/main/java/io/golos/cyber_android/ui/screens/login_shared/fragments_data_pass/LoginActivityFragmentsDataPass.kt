@@ -15,4 +15,7 @@ interface LoginActivityFragmentsDataPass {
 
     fun putFtueCommunityBonus(bonus: Int)
     fun getFtueCommunityBonus(): Int?
+
+    fun putPassword(password: String)
+    fun getPassword(): String?
 }
