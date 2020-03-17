@@ -570,4 +570,17 @@
     <string name="update_app_out_of_date">This version of the application is out of date</string>
     <string name="update_app_continue">Please update it to continue using the app</string>
     <string name="update_app_update">Update</string>
+
+    <string name="create_password">Create password</string>
+    <string name="password">Password</string>
+    <string name="enter_your_password">Enter your password</string>
+
+    <string name="password_validation_lower">a</string>
+    <string name="password_validation_lower_hint">Lower case</string>
+    <string name="password_validation_upper">A</string>
+    <string name="password_validation_upper_hint">Upper case</string>
+    <string name="password_validation_number">1</string>
+    <string name="password_validation_number_hint">Number</string>
+    <string name="password_validation_min_len">{0}+</string>
+    <string name="password_validation_min_len_hint">Min length</string>
 </resources>

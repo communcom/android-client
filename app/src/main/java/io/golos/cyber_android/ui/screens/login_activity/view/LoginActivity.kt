@@ -74,13 +74,13 @@ class LoginActivity : ActivityBase(), SplashAnimatorTarget {
     override fun getRootView(): View = root
 
     private fun setupViewModel() {
+//-------------------------------------------------------- For debug only
         val controller = postNavHost.findNavController()
         val inflater = controller.navInflater
         val graph = inflater.inflate(R.navigation.graph_login)
         graph.startDestination = R.id.signUpCreatePasswordFragment
         controller.graph = graph
-        // For debug only
-//--------------------------------------------------------
+//-------------------------------------------------------- For debug only
 
 
 //        viewModel.command.observe(this, Observer {
