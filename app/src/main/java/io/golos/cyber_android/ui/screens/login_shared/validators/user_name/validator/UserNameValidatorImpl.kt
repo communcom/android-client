@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.login_shared.validators.user_name.validator
 
+import io.golos.utils.helpers.isMatch
 import java.util.regex.Pattern
 import javax.inject.Inject
 
@@ -34,6 +35,4 @@ constructor() : UserNameValidator {
 
             else -> UserNameValidationResult.SUCCESS
         }
-
-    private fun String.isMatch(s: String): Boolean = Pattern.compile(this).matcher(s).find()
 }

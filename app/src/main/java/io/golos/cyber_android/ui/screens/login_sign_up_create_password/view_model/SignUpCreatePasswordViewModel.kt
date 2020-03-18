@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.login_sign_up_create_password.view_model
 
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
@@ -30,6 +31,9 @@ constructor(
     private val _isPasswordVisible = MutableLiveData<Boolean>(true)
     val isPasswordVisible: LiveData<Boolean> = _isPasswordVisible
 
+    private val _isInvalidCharactersLabelVisible = MutableLiveData<Int>(View.INVISIBLE)
+    val isInvalidCharactersLabelVisible: LiveData<Int> = _isInvalidCharactersLabelVisible
+
     private val _isNextButtonEnabled = MutableLiveData<Boolean>(false)
     val isNextButtonEnabled: LiveData<Boolean> = _isNextButtonEnabled
 
@@ -41,7 +45,11 @@ constructor(
             val validationResult = model.passwordValidator.validate(it)
             _validationResult.value = validationResult
 
-            _isNextButtonEnabled.value = model.passwordValidator.getFirstInvalidCase(validationResult) == null
+            val hasInvalidCharacters = model.passwordValidator.hasInvalidCharacters(it)
+            val isPassValid = model.passwordValidator.getFirstInvalidCase(validationResult) == null && !hasInvalidCharacters
+
+            _isNextButtonEnabled.value = isPassValid
+            _isInvalidCharactersLabelVisible.value = if(hasInvalidCharacters) View.VISIBLE else View.INVISIBLE
         }
     }
 

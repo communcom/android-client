@@ -5,6 +5,7 @@ import io.golos.utils.BuildConfig
 import timber.log.Timber
 import java.lang.Exception
 import java.util.*
+import java.util.regex.Pattern
 
 /** Contain utils for work with [String]
  *
@@ -47,3 +48,5 @@ fun String.capitalize(locale: Locale = Locale.getDefault()): String {
     }
     return this
 }
+
+fun String.isMatch(s: String): Boolean = Pattern.compile(this).matcher(s).find()

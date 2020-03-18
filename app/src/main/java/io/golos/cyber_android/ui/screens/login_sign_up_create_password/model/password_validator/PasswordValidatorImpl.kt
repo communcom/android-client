@@ -4,6 +4,7 @@ import android.content.Context
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.login_sign_up_create_password.dto.PasswordValidationCase
 import io.golos.cyber_android.ui.shared.utils.getFormattedString
+import io.golos.utils.helpers.isMatch
 import javax.inject.Inject
 
 class PasswordValidatorImpl
@@ -65,4 +66,7 @@ constructor(
         PasswordValidationCase.values()
             .subtract(validCases)
             .firstOrNull()
+
+    override fun hasInvalidCharacters(pass: String): Boolean =
+        pass.isNotEmpty() && !"""^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>/'~`_+;=-]+$""".isMatch(pass)
 }

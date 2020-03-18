@@ -13,5 +13,7 @@ interface PasswordValidator {
 
     fun getExplanation(case: PasswordValidationCase): String
 
-fun getFirstInvalidCase(validCases: List<PasswordValidationCase>): PasswordValidationCase?
+    fun getFirstInvalidCase(validCases: List<PasswordValidationCase>): PasswordValidationCase?
+
+    fun hasInvalidCharacters(pass: String): Boolean
 }
