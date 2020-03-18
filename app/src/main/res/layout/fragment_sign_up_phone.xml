@@ -62,13 +62,13 @@
             android:id="@+id/signUpDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             android:layout_marginStart="42dp"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="42dp"
-            android:gravity="center"
-            android:lineSpacingExtra="2dp"
-            android:textFontWeight="500"
-            android:textSize="10sp"
+
+            style="@style/SignUp.TermsAndConditions"
+
             tools:text="@string/sign_up_description" />
 
         <TextView
