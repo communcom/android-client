@@ -77,22 +77,26 @@ constructor(
                                     registrationApi.setVerifiedUserName(params.userName, params.phone)
 
                                 is SetUserKeysRequest -> {
-                                    registrationApi.writeUserToBlockChain(
-                                        params.phone,
-                                        params.userId,
-                                        params.userName,
-                                        params.ownerPublicKey,
-                                        params.activePublicKey)
+//                                    registrationApi.writeUserToBlockChain(
+//                                        params.phone,
+//                                        params.userId,
+//                                        params.userName,
+//                                        params.ownerPublicKey,
+//                                        params.activePublicKey)
                                     delay(10000)
-                                    keyValueStorageFacade.saveFtueBoardStage(FtueBoardStageEntity.NEED_SHOW)
+//                                    keyValueStorageFacade.saveFtueBoardStage(FtueBoardStageEntity.NEED_SHOW)
                                 }
                                 is ResendSmsVerificationCode ->
                                     registrationApi.resendSmsCode(params.phone)
                             }
 
                         val regState =
-                            if (params !is SetUserKeysRequest) registrationApi.getRegistrationState(params.phone)
-                            else UserRegistrationStateResult(UserRegistrationState.REGISTERED, UserRegistrationStateResult.UserData(params.userId.toCyberName(), params.userName))
+                            if (params !is SetUserKeysRequest) {
+                                registrationApi.getRegistrationState(params.phone)
+                            }
+                            else {
+                                UserRegistrationStateResult(UserRegistrationState.REGISTERED, UserRegistrationStateResult.UserData(params.userId.toCyberName(), params.userName))
+                            }
 
                         UserRegistrationStateEntityMapper.map(
                             UserRegistrationStateRelatedData(

@@ -68,6 +68,8 @@ class NavigateToPostCommand(
     val contentId: ContentId
 ) : ViewCommand
 
+class NavigateToNextScreen() : ViewCommand
+
 class ShowPostRewardDialogCommand(@StringRes val titleResId: Int, @StringRes val textResId: Int) : ViewCommand
 
 class ShowNoConnectionDialogCommand() : ViewCommand

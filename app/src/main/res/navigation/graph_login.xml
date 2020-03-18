@@ -26,9 +26,6 @@
             app:popEnterAnim="@anim/nav_slide_in_left"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@+id/welcomeFragment" />
-        <action
-            android:id="@+id/action_welcomeFragment_to_signUpCreatePasswordFragment"
-            app:destination="@id/signUpCreatePasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/signInFragment"
@@ -120,8 +117,8 @@
         android:label="fragment_sign_up_name"
         tools:layout="@layout/fragment_sign_up_name">
         <action
-            android:id="@+id/action_signUpNameFragment_to_pinCodeFragment"
-            app:destination="@id/pinCodeFragment"
+            android:id="@+id/action_signUpNameFragment_to_signUpCreatePasswordFragment"
+            app:destination="@id/signUpCreatePasswordFragment"
             app:enterAnim="@anim/nav_slide_in_right"
             app:exitAnim="@anim/nav_slide_out_left"
             app:popEnterAnim="@anim/nav_slide_in_left"
@@ -146,29 +143,12 @@
             app:exitAnim="@anim/nav_slide_out_left"
             app:popEnterAnim="@anim/nav_slide_in_left"
             app:popExitAnim="@anim/nav_slide_out_right" />
-        <action
-            android:id="@+id/action_pinCodeFragment_to_signUpProtectionKeysFragment"
-            app:destination="@id/signUpProtectionKeysFragment"
-            app:enterAnim="@anim/nav_slide_in_right"
-            app:exitAnim="@anim/nav_slide_out_left"
-            app:popEnterAnim="@anim/nav_slide_in_left"
-            app:popExitAnim="@anim/nav_slide_out_right"
-            app:popUpTo="@+id/graph_login" />
     </fragment>
     <fragment
         android:id="@+id/fingerprintFragment"
         android:name="io.golos.cyber_android.ui.screens.login_sign_up.fragments.fingerprint.FingerprintFragment"
         android:label="fragment_fingerprint"
-        tools:layout="@layout/fragment_fingerprint">
-        <action
-            android:id="@+id/action_fingerprintFragment_to_signUpProtectionKeysFragment"
-            app:destination="@id/signUpProtectionKeysFragment"
-            app:enterAnim="@anim/nav_slide_in_right"
-            app:exitAnim="@anim/nav_slide_out_left"
-            app:popEnterAnim="@anim/nav_slide_in_left"
-            app:popExitAnim="@anim/nav_slide_out_right"
-            app:popUpTo="@+id/graph_login" />
-    </fragment>
+        tools:layout="@layout/fragment_fingerprint"/>
     <fragment
         android:id="@+id/signInQrCodeFragment"
         android:name="io.golos.cyber_android.ui.screens.login_sign_in_qr_code.view.SignInQrCodeFragment"
@@ -196,5 +176,27 @@
     <fragment
         android:id="@+id/signUpCreatePasswordFragment"
         android:name="io.golos.cyber_android.ui.screens.login_sign_up_create_password.view.SignUpCreatePasswordFragment"
-        android:label="SignUpCreatePasswordFragment" />
+        android:label="SignUpCreatePasswordFragment" >
+        <action
+            android:id="@+id/action_signUpCreatePasswordFragment_to_signUpConfirmPasswordFragment"
+            app:destination="@id/signUpConfirmPasswordFragment"
+            app:enterAnim="@anim/nav_slide_in_right"
+            app:exitAnim="@anim/nav_slide_out_left"
+            app:popEnterAnim="@anim/nav_slide_in_left"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpConfirmPasswordFragment"
+        android:name="io.golos.cyber_android.ui.screens.login_sign_up_confirm_password.view.SignUpConfirmPasswordFragment"
+        android:label="SignUpConfirmPasswordFragment" >
+        <action
+            android:id="@+id/action_signUpConfirmPasswordFragment_to_pinCodeFragment"
+            app:destination="@id/pinCodeFragment"
+            app:enterAnim="@anim/nav_slide_in_right"
+            app:exitAnim="@anim/nav_slide_out_left"
+            app:popEnterAnim="@anim/nav_slide_in_left"
+            app:popExitAnim="@anim/nav_slide_out_right"
+            app:popUpTo="@+id/graph_login"
+            app:popUpToInclusive="false" />
+    </fragment>
 </navigation>

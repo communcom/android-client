@@ -74,31 +74,22 @@ class LoginActivity : ActivityBase(), SplashAnimatorTarget {
     override fun getRootView(): View = root
 
     private fun setupViewModel() {
-//-------------------------------------------------------- For debug only
-        val controller = postNavHost.findNavController()
-        val inflater = controller.navInflater
-        val graph = inflater.inflate(R.navigation.graph_login)
-        graph.startDestination = R.id.signUpCreatePasswordFragment
-        controller.graph = graph
-//-------------------------------------------------------- For debug only
+        viewModel.command.observe(this, Observer {
+            when(it) {
+                is ShowMessageResCommand -> uiHelper.showMessage(it.textResId, it.isError)
 
+                is ShowSplashAnimationCommand -> splashAnimator.startAnimation(this)
+                is HideSplashAnimationCommand -> splashAnimator.completeAnimation()
 
-//        viewModel.command.observe(this, Observer {
-//            when(it) {
-//                is ShowMessageResCommand -> uiHelper.showMessage(it.textResId, it.isError)
-//
-//                is ShowSplashAnimationCommand -> splashAnimator.startAnimation(this)
-//                is HideSplashAnimationCommand -> splashAnimator.completeAnimation()
-//
-//                is NavigateToWelcomeScreenCommand -> initAuthFlow(AuthStage.WELCOME)
-//                is NavigateToContinueSetupScreenCommand -> initAuthFlow(AuthStage.CONTINUE)
-//                is NavigateToMainScreenCommand -> navigateToMainScreen()
-//                is ShowNoConnectionDialogCommand -> NoConnectionPopup.show(this, root) { viewModel.processLogin() }
-//                is HideNoConnectionDialogCommand -> NoConnectionPopup.hide(this)
-//
-//                is ShowUpdateAppDialogCommand -> AppUpdatePopup.show(this, root)
-//            }
-//        })
+                is NavigateToWelcomeScreenCommand -> initAuthFlow(AuthStage.WELCOME)
+                is NavigateToContinueSetupScreenCommand -> initAuthFlow(AuthStage.CONTINUE)
+                is NavigateToMainScreenCommand -> navigateToMainScreen()
+                is ShowNoConnectionDialogCommand -> NoConnectionPopup.show(this, root) { viewModel.processLogin() }
+                is HideNoConnectionDialogCommand -> NoConnectionPopup.hide(this)
+
+                is ShowUpdateAppDialogCommand -> AppUpdatePopup.show(this, root)
+            }
+        })
     }
 
     private fun initAuthFlow(stage: AuthStage) {

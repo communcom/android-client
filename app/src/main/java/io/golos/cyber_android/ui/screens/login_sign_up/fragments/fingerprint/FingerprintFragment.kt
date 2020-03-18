@@ -63,7 +63,7 @@ class FingerprintFragment : FragmentBase() {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == RESULT_OK && requestCode == InAppAuthActivity.REQUEST_CODE){
             analyticsFacade.faceIDTouchIDActivated(true)
-            navigateToSignUpProtectionKeysScreen()
+            navigateToMainScreen()
         }
     }
 
@@ -76,12 +76,8 @@ class FingerprintFragment : FragmentBase() {
             when (command) {
                 is ShowMessageResCommand -> uiHelper.showMessage(command.textResId, command.isError)
 
-                is NavigateToKeysCommand -> navigateToSignUpProtectionKeysScreen()
+                is NavigateToMainScreenCommand -> navigateToMainScreen()
 
-                is NavigateToMainScreenCommand -> {
-                    startActivity(Intent(requireContext(), MainActivity::class.java))
-                    requireActivity().finish()
-                }
                 is NavigateToInAppAuthScreenCommand -> {
                     InAppAuthActivity.start(this, false)
                 }
@@ -89,10 +85,10 @@ class FingerprintFragment : FragmentBase() {
         })
     }
 
-    /**
-     * Navigate to screen with sign up protection keys
-     */
-    private fun navigateToSignUpProtectionKeysScreen(){
-        findNavController().navigate(R.id.action_fingerprintFragment_to_signUpProtectionKeysFragment)
+    private fun navigateToMainScreen() {
+        if (!requireActivity().isFinishing) {
+            requireActivity().finish()
+            startActivity(Intent(requireContext(), MainActivity::class.java))
+        }
     }
 }

@@ -11,6 +11,7 @@ import io.golos.cyber_android.ui.shared.utils.asEvent
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dependency_injection.scopes.ActivityScope
 import io.golos.domain.dto.CountryDomain
+import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.extensions.map
 import io.golos.domain.use_cases.model.*
 import io.golos.domain.use_cases.reg.SignUpUseCase
@@ -137,6 +138,8 @@ constructor(
             signUpUseCase.makeRegistrationStep(
                 WriteUserToBlockChainRequestModel(currentPhone, currentName, userId)
             )
+            dataPass.putUserName(userName)
+            dataPass.putUserId(UserIdDomain(userId))
         }
     }
 

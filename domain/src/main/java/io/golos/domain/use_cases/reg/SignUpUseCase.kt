@@ -173,21 +173,36 @@ constructor(
                 is WriteUserToBlockChainRequestModel -> {
                     val userId = param.userId
                     // Keys are generated and sent to server (public parts only)
-                    val userKeys = userKeyStore.createKeys(UserIdDomain(userId), param.userName)
+//                    val userKeys = userKeyStore.createKeys(UserIdDomain(userId), param.userName)
+//                    SetUserKeysRequest(
+//                        param.phone,
+//                        userId,
+//                        userKeys.userName,
+//                        userKeys.masterPassword,
+//                        userKeys.ownerPublicKey,
+//                        userKeys.ownerPrivateKey,
+//                        userKeys.activePublicKey,
+//                        userKeys.activePrivateKey,
+//                        userKeys.postingPublicKey,
+//                        userKeys.postingPrivateKey,
+//                        userKeys.memoPublicKey,
+//                        userKeys.memoPrivateKey
+//                    )
                     SetUserKeysRequest(
                         param.phone,
                         userId,
-                        userKeys.userName,
-                        userKeys.masterPassword,
-                        userKeys.ownerPublicKey,
-                        userKeys.ownerPrivateKey,
-                        userKeys.activePublicKey,
-                        userKeys.activePrivateKey,
-                        userKeys.postingPublicKey,
-                        userKeys.postingPrivateKey,
-                        userKeys.memoPublicKey,
-                        userKeys.memoPrivateKey
+                        param.userName,
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        ""
                     )
+
                 }
                 is ResendSmsVerificationCodeModel -> ResendSmsVerificationCode(param.phone)
             }

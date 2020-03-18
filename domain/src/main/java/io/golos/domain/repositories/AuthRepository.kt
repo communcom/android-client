@@ -10,4 +10,6 @@ interface AuthRepository {
     suspend fun getAuthSecret(): String
 
     suspend fun getUserBlockChainProfile(userId: UserIdDomain): BCProfileDomain
+
+    suspend fun writeUserToBlockChain(phone: String, userId: String, userName: String, owner: String, active: String)
 }

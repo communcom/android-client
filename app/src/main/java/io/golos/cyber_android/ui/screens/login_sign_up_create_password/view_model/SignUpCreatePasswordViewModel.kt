@@ -2,13 +2,14 @@ package io.golos.cyber_android.ui.screens.login_sign_up_create_password.view_mod
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.screens.login_sign_up_create_password.dto.PasswordProcessingResult
 import io.golos.cyber_android.ui.screens.login_sign_up_create_password.dto.PasswordValidationCase
 import io.golos.cyber_android.ui.screens.login_sign_up_create_password.model.SignUpCreatePasswordModel
-import io.golos.cyber_android.ui.screens.wallet_send_points.dto.HideKeyboardCommand
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.HideSoftKeyboardCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageTextCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.domain.DispatchersProvider
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SignUpCreatePasswordViewModel
@@ -59,10 +60,23 @@ constructor(
                 if(firstInvalidCase != null) {
                     _command.value = ShowMessageTextCommand(model.passwordValidator.getExplanation(firstInvalidCase), false)
                 } else {
-                    model.savePassword(password.value!!)
-                    _command.value = HideSoftKeyboardCommand()
-                    // move next
+                    launch {
+                        val processingResult = model.processPassword(password.value!!)
+                        when(processingResult) {
+                            PasswordProcessingResult.SUCCESS -> {
+                                _command.value = HideSoftKeyboardCommand()
+                                _command.value = NavigateToNextScreen()
+                            }
+                            PasswordProcessingResult.PASSWORD_IS_NOT_CONFIRMED -> {
+                                _command.value = ShowMessageResCommand(R.string.password_not_match)
+                            }
+                        }
+                    }
                 }
             }
+    }
+
+    fun onBackButtonClick() {
+        _command.value = NavigateBackwardCommand()
     }
 }

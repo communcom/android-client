@@ -78,7 +78,7 @@ constructor(
                                     model.saveKeysExported()
                                     NavigateToMainScreenCommand()
                                 }
-                                AuthType.SIGN_UP -> NavigateToKeysCommand()
+                                AuthType.SIGN_UP -> NavigateToMainScreenCommand()
                                 else -> throw UnsupportedOperationException("This type is not supported")
                             }
                         }

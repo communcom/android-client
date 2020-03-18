@@ -1,6 +1,5 @@
 package io.golos.data.repositories
 
-import android.content.Context
 import io.golos.commun4j.Commun4j
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.data.mappers.mapToAuthResultDomain
@@ -28,4 +27,8 @@ class AuthRepositoryImpl
 
     override suspend fun getUserBlockChainProfile(userId: UserIdDomain): BCProfileDomain =
         apiCallChain { commun4j.getUserAccount(CyberName(userId.userId)) }.mapToBCProfileDomain()
+
+    override suspend fun writeUserToBlockChain(phone: String, userId: String, userName: String, owner: String, active: String) {
+        apiCall { commun4j.writeUserToBlockChain(phone, userId, userName, owner, active) }
+    }
 }

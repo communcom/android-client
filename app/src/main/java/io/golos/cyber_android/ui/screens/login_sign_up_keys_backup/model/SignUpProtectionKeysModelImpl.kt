@@ -78,7 +78,7 @@ constructor(
             userName = userName,
             userId = userId,
             createDate = Date(),
-            phoneNumber = dataPass.getPhonePhone() ?: "",
+            phoneNumber = dataPass.getPhone() ?: "",
             password = password,
             activeKey = allKeys.single { it.keyType == UserKeyType.ACTIVE }.key,
             ownerKey = allKeys.single { it.keyType == UserKeyType.OWNER }.key,

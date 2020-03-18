@@ -5,10 +5,9 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.shared.analytics.AnalyticsFacade
 import io.golos.cyber_android.ui.shared.mvvm.SingleLiveData
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToInAppAuthScreenCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToMainScreenCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
-import io.golos.cyber_android.ui.screens.login_sign_up.fragments.fingerprint.view_commands.NavigateToKeysCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToMainScreenCommand
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.AppUnlockWay
 import io.golos.domain.dto.AuthType
@@ -16,7 +15,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import java.lang.UnsupportedOperationException
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
@@ -55,7 +53,7 @@ constructor(
                     when(model.getAuthType()) {
                         AuthType.SIGN_UP -> {
                             if(appUnlockWay == AppUnlockWay.PIN_CODE){
-                                NavigateToKeysCommand()
+                                NavigateToMainScreenCommand()
                             } else{
                                 NavigateToInAppAuthScreenCommand(false)
                             }

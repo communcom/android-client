@@ -2,6 +2,8 @@ package io.golos.cyber_android.ui.screens.login_sign_up_create_password.view
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentSignUpCreatePasswordBinding
@@ -9,6 +11,8 @@ import io.golos.cyber_android.ui.screens.login_sign_up_create_password.di.SignUp
 import io.golos.cyber_android.ui.screens.login_sign_up_create_password.view_model.SignUpCreatePasswordViewModel
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.HideSoftKeyboardCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToNextScreen
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import kotlinx.android.synthetic.main.fragment_sign_up_create_password.*
 
@@ -31,12 +35,21 @@ open class SignUpCreatePasswordFragment : FragmentBaseMVVM<FragmentSignUpCreateP
 
         password.setOnVisibilityButtonClickListener { viewModel.onVisibilityButtonClick() }
         validationCases.setOnCaseClickListener { viewModel.onValidationCaseClick(it) }
-        next.setOnClickListener { viewModel.onNextButtonClick() }
+        next.setOnClickListener {
+            viewModel.onNextButtonClick()
+        }
+        header.setOnBackButtonClickListener { viewModel.onBackButtonClick() }
     }
 
     override fun processViewCommand(command: ViewCommand) {
         when(command) {
             is HideSoftKeyboardCommand -> uiHelper.setSoftKeyboardVisibility(password, false)
+
+            is NavigateToNextScreen ->
+                findNavController().navigate(R.id.action_signUpCreatePasswordFragment_to_signUpConfirmPasswordFragment)
+
+            is NavigateBackwardCommand -> findNavController().navigateUp()
+
             else -> throw UnsupportedOperationException("This command is not supported")
         }
     }

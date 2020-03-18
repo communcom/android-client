@@ -592,4 +592,6 @@
     <string name="password_validation_min_len">{0}+</string>
     <string name="password_validation_min_len_hint">Min length</string>
     <string name="password_validation_min_len_explanation">The minimum password length must be {0} characters</string>
+    <string name="password_not_match">The passwords do not match</string>
+
 </resources>

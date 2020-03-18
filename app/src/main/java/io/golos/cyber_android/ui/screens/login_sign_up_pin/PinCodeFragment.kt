@@ -85,8 +85,6 @@ class PinCodeFragment : FragmentBase() {
 
                 is NavigateToFingerprintCommand -> findNavController().navigate(R.id.action_pinCodeFragment_to_fingerprintFragment)
 
-                is NavigateToKeysCommand -> findNavController().navigate(R.id.action_pinCodeFragment_to_signUpProtectionKeysFragment)
-
                 is NavigateToMainScreenCommand -> {
                     startActivity(Intent(requireContext(), MainActivity::class.java))
                     requireActivity().finish()
