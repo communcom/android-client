@@ -12,10 +12,10 @@ import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelKey
 import io.golos.cyber_android.ui.screens.login_activity.view_model.LoginViewModel
 import io.golos.cyber_android.ui.screens.login_shared.fragments_data_pass.LoginActivityFragmentsDataPass
 import io.golos.cyber_android.ui.screens.login_shared.fragments_data_pass.LoginActivityFragmentsDataPassImpl
-import io.golos.cyber_android.ui.screens.login_shared.validators.password.validator.PasswordValidator
-import io.golos.cyber_android.ui.screens.login_shared.validators.password.validator.PasswordValidatorImpl
-import io.golos.cyber_android.ui.screens.login_shared.validators.password.visializer.PasswordValidationVisualizer
-import io.golos.cyber_android.ui.screens.login_shared.validators.password.visializer.PasswordValidationVisualizerImpl
+import io.golos.cyber_android.ui.screens.login_sign_in_username.model.password_validator.validator.PasswordValidator
+import io.golos.cyber_android.ui.screens.login_sign_in_username.model.password_validator.validator.PasswordValidatorImpl
+import io.golos.cyber_android.ui.screens.login_sign_in_username.model.password_validator.visializer.PasswordValidationVisualizer
+import io.golos.cyber_android.ui.screens.login_sign_in_username.model.password_validator.visializer.PasswordValidationVisualizerImpl
 import io.golos.cyber_android.ui.screens.login_shared.validators.user_name.validator.UserNameValidator
 import io.golos.cyber_android.ui.screens.login_shared.validators.user_name.validator.UserNameValidatorImpl
 import io.golos.cyber_android.ui.screens.login_shared.validators.user_name.vizualizer.UserNameValidationVisualizer

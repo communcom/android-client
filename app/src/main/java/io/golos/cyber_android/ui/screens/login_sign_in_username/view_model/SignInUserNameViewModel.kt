@@ -6,12 +6,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.Lazy
 import io.golos.cyber_android.R
-import io.golos.utils.getFormattedString
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.screens.login_shared.fragments_data_pass.LoginActivityFragmentsDataPass
-import io.golos.cyber_android.ui.screens.login_shared.validators.password.validator.PasswordValidationResult
-import io.golos.cyber_android.ui.screens.login_shared.validators.password.visializer.PasswordValidationVisualizer
+import io.golos.cyber_android.ui.screens.login_sign_in_username.model.password_validator.validator.PasswordValidationResult
+import io.golos.cyber_android.ui.screens.login_sign_in_username.model.password_validator.visializer.PasswordValidationVisualizer
 import io.golos.cyber_android.ui.screens.login_shared.validators.user_name.validator.UserNameValidationResult
 import io.golos.cyber_android.ui.screens.login_shared.validators.user_name.vizualizer.UserNameValidationVisualizer
 import io.golos.cyber_android.ui.screens.login_sign_in_username.dto.NavigateToQrCodeCommand
@@ -79,7 +78,7 @@ constructor(
         if(clipPassword != null) {
             password.value = clipPassword
         }
-        _pastePasswordVisibility.value = View.GONE
+        //_pastePasswordVisibility.value = View.GONE
     }
 
     fun onSignInClick() {
@@ -123,15 +122,15 @@ constructor(
     }
 
     private fun tryToGetPassFromClipboard() {
-        val clipPassword = model.getPasswordFromClipboard()
-
-        if(clipPassword != null) {
-            _pastePasswordVisibility.value = View.VISIBLE
-            _pastePasswordText.value = appContext.resources.getFormattedString(R.string.paste_something, clipPassword)
-        } else {
-            _pastePasswordVisibility.value = View.GONE
-            _pastePasswordText.value = ""
-        }
+//        val clipPassword = model.getPasswordFromClipboard()
+//
+//        if(clipPassword != null) {
+//            _pastePasswordVisibility.value = View.VISIBLE
+//            _pastePasswordText.value = appContext.resources.getFormattedString(R.string.paste_something, clipPassword)
+//        } else {
+//            _pastePasswordVisibility.value = View.GONE
+//            _pastePasswordText.value = ""
+//        }
     }
 
     private fun tryToGetQrCode() {

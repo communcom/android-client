@@ -64,6 +64,8 @@
                 android:maxLength="@{viewModel.maxPasswordLen}"
 
                 android:text="@={viewModel.password}"
+
+                android:inputType="textPassword"
                 />
 
             <TextView

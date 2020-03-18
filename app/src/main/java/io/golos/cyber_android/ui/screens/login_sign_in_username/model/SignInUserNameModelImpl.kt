@@ -3,8 +3,8 @@ package io.golos.cyber_android.ui.screens.login_sign_in_username.model
 import dagger.Lazy
 import io.golos.cyber_android.ui.shared.clipboard.ClipboardUtils
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
-import io.golos.cyber_android.ui.screens.login_shared.validators.password.validator.PasswordValidationResult
-import io.golos.cyber_android.ui.screens.login_shared.validators.password.validator.PasswordValidator
+import io.golos.cyber_android.ui.screens.login_sign_in_username.model.password_validator.validator.PasswordValidationResult
+import io.golos.cyber_android.ui.screens.login_sign_in_username.model.password_validator.validator.PasswordValidator
 import io.golos.cyber_android.ui.screens.login_shared.validators.user_name.validator.UserNameValidationResult
 import io.golos.cyber_android.ui.screens.login_shared.validators.user_name.validator.UserNameValidator
 import io.golos.use_cases.auth.AuthUseCase

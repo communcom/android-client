@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.login_shared.validators.password.validator
+package io.golos.cyber_android.ui.screens.login_sign_in_username.model.password_validator.validator
 
 import java.util.regex.Pattern
 import javax.inject.Inject
@@ -7,7 +7,7 @@ class PasswordValidatorImpl
 @Inject
 constructor() : PasswordValidator {
     override val minLen: Int
-        get() = 52
+        get() = 8
     override val maxLen: Int
         get() = 52
 
