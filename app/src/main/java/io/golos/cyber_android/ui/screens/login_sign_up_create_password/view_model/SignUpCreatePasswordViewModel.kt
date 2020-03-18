@@ -61,7 +61,9 @@ constructor(
                     _command.value = ShowMessageTextCommand(model.passwordValidator.getExplanation(firstInvalidCase), false)
                 } else {
                     launch {
+                        _command.value = SetLoadingVisibilityCommand(true)
                         val processingResult = model.processPassword(password.value!!)
+                        _command.value = SetLoadingVisibilityCommand(false)
                         when(processingResult) {
                             PasswordProcessingResult.SUCCESS -> {
                                 _command.value = HideSoftKeyboardCommand()

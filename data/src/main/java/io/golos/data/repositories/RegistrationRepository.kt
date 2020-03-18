@@ -83,7 +83,7 @@ constructor(
 //                                        params.userName,
 //                                        params.ownerPublicKey,
 //                                        params.activePublicKey)
-                                    delay(10000)
+//                                    delay(10000)
 //                                    keyValueStorageFacade.saveFtueBoardStage(FtueBoardStageEntity.NEED_SHOW)
                                 }
                                 is ResendSmsVerificationCode ->
