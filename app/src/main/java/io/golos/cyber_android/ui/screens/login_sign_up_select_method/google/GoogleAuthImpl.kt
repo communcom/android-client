@@ -2,7 +2,6 @@ package io.golos.cyber_android.ui.screens.login_sign_up_select_method.google
 
 import android.app.Activity
 import android.content.Intent
-import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import com.google.android.gms.auth.api.Auth
@@ -21,8 +20,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.io.Closeable
-import java.lang.Exception
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
@@ -80,13 +77,16 @@ constructor(
         if(result.isSuccess) {
             val account = result.signInAccount!!
             val authCode = account.serverAuthCode
+            Timber.tag("ACCESS_TOKEN").d("authCode: $authCode")
 
             launch {
                 _command.value = SetLoadingVisibilityCommand(true)
 
                 try {
                     val accessToken = signUpTokensRepository.getGoogleAccessToken(authCode!!)
-                    Log.d("ACCESS_TOKEN", accessToken)
+                    Timber.tag("ACCESS_TOKEN").d("accessToken: $accessToken")
+                    val identity = signUpTokensRepository.getGoogleIdentity(accessToken)
+                    Timber.tag("ACCESS_TOKEN").d("identity: $identity")
                 } catch (ex: Exception) {
                     Timber.e(ex)
                     _command.value = ShowMessageResCommand(R.string.common_general_error)
