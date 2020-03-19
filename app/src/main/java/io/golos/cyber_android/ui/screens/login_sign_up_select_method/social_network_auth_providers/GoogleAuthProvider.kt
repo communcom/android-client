@@ -1,49 +1,36 @@
-package io.golos.cyber_android.ui.screens.login_sign_up_select_method.google
+package io.golos.cyber_android.ui.screens.login_sign_up_select_method.social_network_auth_providers
 
 import android.app.Activity
 import android.content.Intent
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.shared.mvvm.SingleLiveData
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.data.repositories.sign_up_tokens.SignUpTokensRepository
 import io.golos.domain.DispatchersProvider
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
-import kotlin.coroutines.CoroutineContext
 
-class GoogleAuthImpl
+class GoogleAuthProvider
 @Inject
 constructor(
-    private val dispatchersProvider: DispatchersProvider,
-    private val signUpTokensRepository: SignUpTokensRepository
-) : GoogleAuth, CoroutineScope {
-
-    private val scopeJob: Job = SupervisorJob()
-
+    dispatchersProvider: DispatchersProvider,
+    signUpTokensRepository: SignUpTokensRepository
+) : AuthProviderBase(
+    dispatchersProvider,
+    signUpTokensRepository
+) {
     private val requestCode = 40955
-
-    override val coroutineContext: CoroutineContext
-        get() = scopeJob + dispatchersProvider.uiDispatcher
-
-    private val _command = SingleLiveData<ViewCommand>()
-    override val command: LiveData<ViewCommand> = _command
 
     override fun startAuth(fragment: Fragment) {
         val signInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
-            .requestServerAuthCode(BuildConfig.GOOGLE_ACCESS_TOKEN_CLIENT_ID)
+            .requestIdToken(BuildConfig.GOOGLE_ACCESS_TOKEN_CLIENT_ID)
             .build()
 
         val client = GoogleSignIn.getClient(fragment.requireActivity(), signInOptions)
@@ -61,31 +48,26 @@ constructor(
         if(resultCode == Activity.RESULT_OK) {
             processSignInResult(data!!)
         } else {
-            Timber.w("Can't sign in on Google")
-            _command.value = ShowMessageResCommand(R.string.common_general_error)
+            val status = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
+            Timber.w("Can't sign in on Google. The status is: ${status.status.statusMessage} [${status.status.statusCode}]")
+            _command.value = ShowMessageResCommand(R.string.common_error_operation_canceled)
         }
 
         return true
-    }
-
-    override fun close() {
-        scopeJob.takeIf { it.isActive }?.cancel()
     }
 
     private fun processSignInResult(data: Intent) {
         val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
         if(result.isSuccess) {
             val account = result.signInAccount!!
-            val authCode = account.serverAuthCode
-            Timber.tag("ACCESS_TOKEN").d("authCode: $authCode")
+            val idToken = account.idToken
 
             launch {
                 _command.value = SetLoadingVisibilityCommand(true)
 
                 try {
-                    val accessToken = signUpTokensRepository.getGoogleAccessToken(authCode!!)
-                    Timber.tag("ACCESS_TOKEN").d("accessToken: $accessToken")
-                    val identity = signUpTokensRepository.getGoogleIdentity(accessToken)
+                    Timber.tag("ACCESS_TOKEN").d("accessToken: $idToken")
+                    val identity = signUpTokensRepository.getGoogleIdentity(idToken!!)
                     Timber.tag("ACCESS_TOKEN").d("identity: $identity")
                 } catch (ex: Exception) {
                     Timber.e(ex)

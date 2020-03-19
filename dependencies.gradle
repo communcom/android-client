@@ -12,6 +12,7 @@ ext.versions = [
         annotation            : '1.1.0',
         legacySupport         : '1.0.0',
 
+        // Commun4j
         commun4jVersion     : '1.3.2',
 
         //Network
@@ -73,7 +74,11 @@ ext.versions = [
         //Serializers
         moshi                 : "1.8.0",
         moshiCodegen          : "1.9.1",
-        jsoup                 : "1.11.3"
+        jsoup                 : "1.11.3",
+
+        // Facebook
+        facebook              : "6.2.0"
+
 ]
 
 ext.gradlePlugins = [
@@ -178,7 +183,12 @@ ext.deps = [
                 moshi       : "com.squareup.moshi:moshi:$versions.moshi",
                 moshiCodegen: "com.squareup.moshi:moshi-kotlin-codegen:$versions.moshiCodegen",
                 jsoup       : "org.jsoup:jsoup:$versions.jsoup"
+        ],
+
+        'facebook'           : [
+                facebookLogin : "com.facebook.android:facebook-login:$versions.facebook"
         ]
+
 ]
 
 ext.deps.groups = [
@@ -281,5 +291,10 @@ ext.deps.groups = [
             implementation deps.serializers.moshi
             implementation deps.serializers.jsoup
             kapt deps.serializers.moshiCodegen
+        },
+
+        'facebook'           : { dependencyHandler ->
+            delegate = dependencyHandler
+            implementation deps.facebook.facebookLogin
         }
 ]

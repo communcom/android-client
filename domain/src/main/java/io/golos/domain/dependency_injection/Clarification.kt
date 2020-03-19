@@ -24,4 +24,7 @@ object Clarification {
 
     const val WALLET_BALANCE = "WALLET_BALANCE"
     const val WALLET_POINT_BALANCE = "WALLET_POINT_BALANCE"
+
+    const val GOOGLE = "GOOGLE"
+    const val FACEBOOK = "FACEBOOK"
 }

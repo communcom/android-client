@@ -6,27 +6,35 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import dagger.Lazy
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.screens.login_shared.SignUpDescriptionHelper
 import io.golos.cyber_android.ui.screens.login_sign_up_select_method.di.SignUpSelectMethodFragmentComponent
-import io.golos.cyber_android.ui.screens.login_sign_up_select_method.google.GoogleAuth
+import io.golos.cyber_android.ui.screens.login_sign_up_select_method.social_network_auth_providers.SocialNetworkAuthProvider
 import io.golos.cyber_android.ui.shared.base.FragmentBase
+import io.golos.domain.dependency_injection.Clarification
 import kotlinx.android.synthetic.main.fragment_sign_up_phone.header
 import kotlinx.android.synthetic.main.fragment_sign_up_select_method.*
 import kotlinx.android.synthetic.main.fragment_sign_up_select_method.signUpDescription
 import javax.inject.Inject
+import javax.inject.Named
+
 
 class SignUpSelectMethodFragment: FragmentBase() {
     @Inject
-    internal lateinit var googleAuth: Lazy<GoogleAuth>
+    @field:Named(Clarification.GOOGLE)
+    internal lateinit var googleAuth: SocialNetworkAuthProvider
+
+    @Inject
+    @field:Named(Clarification.FACEBOOK)
+    internal lateinit var facebookAuth: SocialNetworkAuthProvider
 
     override fun onDestroy() {
         super.onDestroy()
 
         if(isRemoving) {
-            googleAuth.get().close()
+            googleAuth.close()
+            facebookAuth.close()
         }
     }
 
@@ -45,14 +53,8 @@ class SignUpSelectMethodFragment: FragmentBase() {
 
         phoneButton.setOnClickListener { findNavController().navigate(R.id.action_signUpSelectMethod_to_signUpPhoneFragment) }
 
-        googleButton.setOnClickListener {
-            googleAuth.get().apply {
-               command.observe({viewLifecycleOwner.lifecycle}) { processViewCommandGeneral(it) }
-                startAuth(this@SignUpSelectMethodFragment)
-            }
-        }
-
-        facebookButton.setOnClickListener {  }
+        googleButton.setOnClickListener { startAuth(googleAuth) }
+        facebookButton.setOnClickListener { startAuth(facebookAuth) }
 
         tvSignIn.setOnClickListener { findNavController().navigate(R.id.action_signUpSelectMethod_to_signInFragment) }
 
@@ -62,6 +64,15 @@ class SignUpSelectMethodFragment: FragmentBase() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        googleAuth.get().processActivityResult(requestCode, resultCode, data)
+        if(!googleAuth.processActivityResult(requestCode, resultCode, data)) {
+            facebookAuth.processActivityResult(requestCode, resultCode, data)
+        }
+    }
+
+    private fun startAuth(provider: SocialNetworkAuthProvider) {
+        provider.apply {
+            command.observe({viewLifecycleOwner.lifecycle}) { processViewCommandGeneral(it) }
+            startAuth(this@SignUpSelectMethodFragment)
+        }
     }
 }

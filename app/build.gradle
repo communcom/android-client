@@ -40,7 +40,10 @@ android {
     productFlavors {
         prod {
             dimension "cyber4j-config-type"
+
             resValue "string", "app_name", "Commun"
+            resValue "string", "facebook_app_id", "150680096143077"
+            resValue "string", "fb_login_protocol_scheme", "fb150680096143077"
 
             buildConfigField "String",  'AMPLITUDE_API_KEY', "\"38406204507945e0941d552f088204fb\""
             buildConfigField "Boolean", 'ANALYTICS_ENABLED', "true"
@@ -51,13 +54,17 @@ android {
 
             buildConfigField "String",  'GOOGLE_ACCESS_TOKEN_CLIENT_ID', "\"537042616174-bl79mf0b039i8f6emh5bia6klm18nih3.apps.googleusercontent.com\""
             buildConfigField "String",  'GOOGLE_ACCESS_TOKEN_CLIENT_SECRET', "\"oqsP-cG2CWGUusiPGYVucjHB\""
-            buildConfigField "String",  'GOOGLE_ACCESS_TOKEN_URL', "\"https://www.googleapis.com/oauth2/v4/token\""
+            buildConfigField "String",  'GOOGLE_ACCESS_TOKEN_URL', "\"https://oauth2.googleapis.com/token\""
 
-            buildConfigField "String",  'ACCESS_TOKEN_BASE_URL', "\"http://116.203.108.214:3000/\""
+            buildConfigField "String",  'ACCESS_TOKEN_BASE_URL', "\"https://dev-3.commun.com/\""
         }
         dev {
             dimension "cyber4j-config-type"
+
             resValue "string", "app_name", "Commun-dev"
+            resValue "string", "facebook_app_id", "150680096143077"
+            resValue "string", "fb_login_protocol_scheme", "fb150680096143077"
+
             applicationIdSuffix ".dev"
 
             buildConfigField "String",  'AMPLITUDE_API_KEY', "\"d4c86feb8c760822a71751a2b894a99e\""
@@ -69,8 +76,8 @@ android {
 
             buildConfigField "String",  'GOOGLE_ACCESS_TOKEN_CLIENT_ID', "\"537042616174-jr6forf8aon2j7sj09flm39mgvg8ip0l.apps.googleusercontent.com\""
             buildConfigField "String",  'GOOGLE_ACCESS_TOKEN_CLIENT_SECRET', "\"nhixf339qq9uvrFxILWV4kvF\""
-
             buildConfigField "String",  'GOOGLE_ACCESS_TOKEN_URL', "\"https://oauth2.googleapis.com/token\""
+
             buildConfigField "String",  'ACCESS_TOKEN_BASE_URL', "\"https://dev-3.commun.com/\""
         }
     }
@@ -144,6 +151,8 @@ dependencies {
     implementation deps.utils.amplitude
 
     implementation deps.googleServices.playServicesVision
+
+    deps.groups.facebook dependencies
 
     // GoogleDrive
     implementation (deps.googleServices.playServicesAuth) {

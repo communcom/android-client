@@ -1,7 +1,7 @@
 package io.golos.data.repositories.sign_up_tokens
 
 interface SignUpTokensRepository {
-    suspend fun getGoogleAccessToken(authCode: String): String
-
     suspend fun getGoogleIdentity(accessToken: String): String
+
+    suspend fun getFacebookIdentity(accessToken: String): String
 }
