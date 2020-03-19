@@ -63,6 +63,8 @@ import io.golos.data.repositories.images_uploading.ImageUploadRepositoryImpl
 import io.golos.data.repositories.images_uploading.ImageUploadRepositoryLiveData
 import io.golos.data.repositories.settings.SettingsRepository
 import io.golos.data.repositories.settings.SettingsRepositoryImpl
+import io.golos.data.repositories.sign_up_tokens.SignUpTokensRepository
+import io.golos.data.repositories.sign_up_tokens.SignUpTokensRepositoryImpl
 import io.golos.data.repositories.users.UsersRepositoryImpl
 import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.data.repositories.wallet.WalletRepositoryImpl
@@ -323,6 +325,9 @@ abstract class AppModuleBinds {
     @Binds
     @ApplicationScope
     abstract fun provideNotificationsRepository(repository: NotificationsRepositoryImpl): NotificationsRepository
+
+    @Binds
+    abstract fun provideSignUpTokensRepository(repository: SignUpTokensRepositoryImpl): SignUpTokensRepository
 
     @Binds
     abstract fun provideClipboardUtils(utils: ClipboardUtilsImpl): ClipboardUtils

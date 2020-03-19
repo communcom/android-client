@@ -42,20 +42,36 @@ android {
             dimension "cyber4j-config-type"
             resValue "string", "app_name", "Commun"
 
-            buildConfigField "String", 'BASE_URL', "\"https://commun.com\""
-            buildConfigField "String", 'AMPLITUDE_API_KEY', "\"38406204507945e0941d552f088204fb\""
+            buildConfigField "String",  'AMPLITUDE_API_KEY', "\"38406204507945e0941d552f088204fb\""
             buildConfigField "Boolean", 'ANALYTICS_ENABLED', "true"
             buildConfigField "Boolean", 'CRASH_REPORTS_ENABLED', "true"
+
+            buildConfigField "String",  'BLOCK_CHAIN_HTTP_API_URL', "\"https://node.commun.com/\""
+            buildConfigField "String",  'SERVICES_URL', "\"wss://gate.commun.com/\""
+
+            buildConfigField "String",  'GOOGLE_ACCESS_TOKEN_CLIENT_ID', "\"932222524731-vj61d5kf17n25hml4aksijc05tf9sooc.apps.googleusercontent.com\""
+            buildConfigField "String",  'GOOGLE_ACCESS_TOKEN_CLIENT_SECRET', "\"oqsP-cG2CWGUusiPGYVucjHB\""
+            buildConfigField "String",  'GOOGLE_ACCESS_TOKEN_URL', "\"https://www.googleapis.com/oauth2/v4/token\""
+
+            buildConfigField "String",  'ACCESS_TOKEN_BASE_URL', "\"http://116.203.108.214:3000/\""
         }
         dev {
             dimension "cyber4j-config-type"
             resValue "string", "app_name", "Commun-dev"
             applicationIdSuffix ".dev"
 
-            buildConfigField "String", 'BASE_URL', "\"https://commun.com\""
-            buildConfigField "String", 'AMPLITUDE_API_KEY', "\"d4c86feb8c760822a71751a2b894a99e\""
+            buildConfigField "String",  'AMPLITUDE_API_KEY', "\"d4c86feb8c760822a71751a2b894a99e\""
             buildConfigField "Boolean", 'ANALYTICS_ENABLED', "false"
             buildConfigField "Boolean", 'CRASH_REPORTS_ENABLED', "false"
+
+            buildConfigField "String",  'BLOCK_CHAIN_HTTP_API_URL', "\"http://116.202.4.46:8888/\""
+            buildConfigField "String",  'SERVICES_URL', "\"wss://dev-gate.commun.com\""
+
+            buildConfigField "String",  'GOOGLE_ACCESS_TOKEN_CLIENT_ID', "\"932222524731-vj61d5kf17n25hml4aksijc05tf9sooc.apps.googleusercontent.com\""
+            buildConfigField "String",  'GOOGLE_ACCESS_TOKEN_CLIENT_SECRET', "\"oqsP-cG2CWGUusiPGYVucjHB\""
+            buildConfigField "String",  'GOOGLE_ACCESS_TOKEN_URL', "\"https://www.googleapis.com/oauth2/v4/token\""
+
+            buildConfigField "String",  'ACCESS_TOKEN_BASE_URL', "\"http://116.203.108.214:3000/\""
         }
     }
 

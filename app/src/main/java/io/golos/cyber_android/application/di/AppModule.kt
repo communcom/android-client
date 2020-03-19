@@ -20,6 +20,7 @@ import io.golos.cyber_android.application.shared.logger.Cyber4JLogger
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
 import io.golos.data.encryption.aes.EncryptorAES
 import io.golos.data.encryption.aes.EncryptorAESOldApi
+import io.golos.data.repositories.sign_up_tokens.SignUpTokensConfig
 import io.golos.domain.*
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
@@ -33,27 +34,6 @@ import javax.inject.Named
 class AppModule(
     private val app: Application
 ) {
-    private val cyber4jConfigs = mapOf(
-        "dev" to Commun4jConfig(
-            blockChainHttpApiUrl = "http://116.202.4.46:8888/",
-            servicesUrl = "wss://dev-gate.commun.com",
-            socketOpenQueryParams = SocketOpenQueryParams(
-                version = BuildConfig.VERSION_NAME,
-                deviceType = GlobalConstants.DEVICE_TYPE,
-                platform = GlobalConstants.PLATFORM,
-                clientType = GlobalConstants.CLIENT_TYPE )
-        ),
-        "prod" to Commun4jConfig(
-            blockChainHttpApiUrl = "https://node.commun.com/",
-            servicesUrl = "wss://gate.commun.com/",
-            socketOpenQueryParams = SocketOpenQueryParams(
-                version = BuildConfig.VERSION_NAME,
-                deviceType = GlobalConstants.DEVICE_TYPE,
-                platform = GlobalConstants.PLATFORM,
-                clientType = GlobalConstants.CLIENT_TYPE )
-        )
-    )
-
     @Provides
     @ApplicationScope
     internal fun provideApplication(): Application = app
@@ -79,12 +59,25 @@ class AppModule(
 
     @Provides
     @ApplicationScope
-    internal fun provideConfig(): Commun4jConfig =
-        (cyber4jConfigs[BuildConfig.FLAVOR])!!
-            .copy(
-                httpLogger = Cyber4JLogger(Cyber4JLogger.HTTP),
-                socketLogger = Cyber4JLogger(Cyber4JLogger.SOCKET)
-            )
+    internal fun provideCommun4JConfig(): Commun4jConfig =
+        Commun4jConfig(
+            blockChainHttpApiUrl = BuildConfig.BLOCK_CHAIN_HTTP_API_URL,
+            servicesUrl = BuildConfig.SERVICES_URL,
+            httpLogger = Cyber4JLogger(Cyber4JLogger.HTTP),
+            socketLogger = Cyber4JLogger(Cyber4JLogger.SOCKET),
+            socketOpenQueryParams = SocketOpenQueryParams(
+                version = BuildConfig.VERSION_NAME,
+                deviceType = GlobalConstants.DEVICE_TYPE,
+                platform = GlobalConstants.PLATFORM,
+                clientType = GlobalConstants.CLIENT_TYPE))
+
+    @Provides
+    internal fun provideSignUpTokensConfig(): SignUpTokensConfig =
+        SignUpTokensConfig(
+            googleAccessTokenClientId = BuildConfig.GOOGLE_ACCESS_TOKEN_CLIENT_ID,
+            googleAccessTokenClientSecret = BuildConfig.GOOGLE_ACCESS_TOKEN_CLIENT_SECRET,
+            googleAccessTokenUrl = BuildConfig.GOOGLE_ACCESS_TOKEN_URL,
+            accessTokenBaseUrl = BuildConfig.ACCESS_TOKEN_BASE_URL)
 
     @Provides
     internal fun provideDispatchersProvider(): DispatchersProvider = object : DispatchersProvider {
