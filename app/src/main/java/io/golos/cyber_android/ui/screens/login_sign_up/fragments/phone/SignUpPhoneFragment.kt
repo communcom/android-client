@@ -2,40 +2,31 @@ package io.golos.cyber_android.ui.screens.login_sign_up.fragments.phone
 
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.os.Bundle
-import android.text.SpannableStringBuilder
-import android.text.Spanned
-import android.text.TextPaint
 import android.text.TextUtils
-import android.text.method.LinkMovementMethod
-import android.text.style.ClickableSpan
-import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.IdRes
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.screens.login_activity.di.LoginActivityComponent
+import io.golos.cyber_android.ui.screens.login_shared.SignUpDescriptionHelper
 import io.golos.cyber_android.ui.screens.login_shared.fragments_data_pass.LoginActivityFragmentsDataPass
 import io.golos.cyber_android.ui.screens.login_sign_up.SignUpScreenFragmentBase
 import io.golos.cyber_android.ui.shared.countries.CountriesRepository
 import io.golos.cyber_android.ui.shared.extensions.moveCursorToTheEnd
 import io.golos.cyber_android.ui.shared.extensions.safeNavigate
 import io.golos.cyber_android.ui.shared.utils.ViewUtils
-import io.golos.cyber_android.ui.shared.utils.openWebPage
 import io.golos.domain.dto.CountryDomain
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.use_cases.model.*
 import kotlinx.android.synthetic.main.fragment_sign_up_phone.*
 import kotlinx.android.synthetic.main.layout_do_you_have_account.*
-import kotlinx.android.synthetic.main.view_login_header.*
 import kotlinx.coroutines.launch
 import ru.tinkoff.decoro.MaskImpl
 import ru.tinkoff.decoro.parser.UnderscoreDigitSlotsParser
@@ -92,8 +83,7 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(SignU
         tvSignIn.setOnClickListener {
             findNavController().navigate(R.id.action_signUpPhoneFragment_to_signInFragment)
         }
-
-        formSignUpDescription()
+        SignUpDescriptionHelper.formSignUpDescription(this, signUpDescription)
     }
 
     override fun onResume() {
@@ -206,84 +196,5 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(SignU
         val prefixPhoneNumber = getString(R.string.phone_prefix_format).format(countryModel.code)
         phone.prefix = prefixPhoneNumber
         ViewUtils.showKeyboard(phone)
-    }
-
-    private fun formSignUpDescription() {
-        val descriptionSpannable = SpannableStringBuilder(getString(R.string.sign_up_description))
-        val descriptionColor= ContextCompat.getColor(requireContext(), R.color.grey)
-        descriptionSpannable.setSpan(
-            ForegroundColorSpan(descriptionColor),
-            0,
-            descriptionSpannable.length,
-            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        val linkColor = ContextCompat.getColor(requireContext(), R.color.blue)
-
-        val privacyPolicySpannable = SpannableStringBuilder(getString(R.string.sign_up_description_1))
-        val privacyPolicyClick = object : ClickableSpan() {
-            override fun onClick(widget: View) {
-                openWebPage("https://commun.com/doc/privacy")
-            }
-
-            override fun updateDrawState(ds: TextPaint) {
-                ds.isUnderlineText = false
-            }
-        }
-        privacyPolicySpannable.setSpan(
-            privacyPolicyClick,
-            0,
-            privacyPolicySpannable.length,
-            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-        privacyPolicySpannable.setSpan(
-            ForegroundColorSpan(linkColor),
-            0,
-            privacyPolicySpannable.length,
-            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-
-        val andSpannable = SpannableStringBuilder(getString(R.string.sign_up_description_2))
-        andSpannable.setSpan(
-            ForegroundColorSpan(descriptionColor),
-            0,
-            andSpannable.length,
-            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-
-        val blockchainSpannable = SpannableStringBuilder(getString(R.string.sign_up_description_3))
-        val blockchainClick = object : ClickableSpan() {
-            override fun onClick(widget: View) {
-                openWebPage("https://commun.com/doc/agreement")
-            }
-
-            override fun updateDrawState(ds: TextPaint) {
-                ds.isUnderlineText = false
-            }
-        }
-        blockchainSpannable.setSpan(
-            blockchainClick,
-            0,
-            blockchainSpannable.length,
-            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-        blockchainSpannable.setSpan(
-            ForegroundColorSpan(linkColor),
-            0,
-            blockchainSpannable.length,
-            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-
-        signUpDescription.text = SpannableStringBuilder(
-            TextUtils.concat(
-                descriptionSpannable,
-                " ",
-                privacyPolicySpannable,
-                " ",
-                andSpannable,
-                " ",
-                blockchainSpannable
-            )
-        )
-        signUpDescription.movementMethod = LinkMovementMethod.getInstance()
-        signUpDescription.highlightColor = Color.TRANSPARENT
     }
 }

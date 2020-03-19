@@ -9,23 +9,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.shared.analytics.AnalyticsFacade
 import io.golos.cyber_android.ui.screens.login_activity.di.LoginActivityComponent
-import io.golos.cyber_android.ui.shared.base.FragmentBase
+import io.golos.cyber_android.ui.shared.base.FragmentBaseCoroutines
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToInAppAuthScreenCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToMainScreenCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.InAppAuthActivity
-import io.golos.cyber_android.ui.screens.login_sign_up.fragments.fingerprint.view_commands.NavigateToKeysCommand
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity
 import kotlinx.android.synthetic.main.fragment_fingerprint.*
 import javax.inject.Inject
 
-class FingerprintFragment : FragmentBase() {
+class FingerprintFragment : FragmentBaseCoroutines() {
     private lateinit var viewModel: FingerprintViewModel
 
     @Inject

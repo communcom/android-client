@@ -9,6 +9,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
 import org.json.JSONObject
+import java.net.SocketTimeoutException
 import javax.inject.Inject
 
 class SignUpTokensRepositoryImpl
@@ -19,7 +20,11 @@ constructor(
     private val config: SignUpTokensConfig
 ) : SignUpTokensRepository {
 
-    override suspend fun getGoogleAccessToken(authCode: String) {
+    override suspend fun getGoogleAccessToken(authCode: String): String {
+        if(!networkStateChecker.isConnected) {
+            throw SocketTimeoutException("No connection")
+        }
+
         val httpClient = OkHttpClient()
 
         val requestBody: RequestBody = FormBody.Builder()
@@ -35,7 +40,7 @@ constructor(
             .post(requestBody)
             .build()
 
-        withContext(dispatchersProvider.ioDispatcher) {
+        return withContext(dispatchersProvider.ioDispatcher) {
             val response = httpClient.newCall(request).await()
 
             @Suppress("BlockingMethodInNonBlockingContext")

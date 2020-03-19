@@ -9,7 +9,7 @@ import androidx.annotation.CallSuper
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import io.golos.cyber_android.application.shared.analytics.AnalyticsFacade
-import io.golos.cyber_android.ui.shared.base.FragmentBase
+import io.golos.cyber_android.ui.shared.base.FragmentBaseCoroutines
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.shared.utils.TextWatcherBase
 import io.golos.domain.dto.CountryDomain
@@ -19,7 +19,7 @@ import javax.inject.Inject
  * Base fragment for all sign up screens that contains only one [EditText] to validate (provided by [fieldToValidate]) and
  * one "continue" button (provided by [continueButton]).
  */
-abstract class SignUpScreenFragmentBase<VM: SignUpScreenViewModelBase>(private val clazz: Class<VM>): FragmentBase() {
+abstract class SignUpScreenFragmentBase<VM: SignUpScreenViewModelBase>(private val clazz: Class<VM>): FragmentBaseCoroutines() {
 
     protected lateinit var viewModel: VM
     protected lateinit var signUpViewModel: SignUpViewModel

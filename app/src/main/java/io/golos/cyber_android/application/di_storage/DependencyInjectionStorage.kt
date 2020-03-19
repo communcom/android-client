@@ -43,6 +43,7 @@ import io.golos.cyber_android.ui.screens.login_sign_up_confirm_password.di.SignU
 import io.golos.cyber_android.ui.screens.login_sign_up_countries.di.SignUpCountryComponent
 import io.golos.cyber_android.ui.screens.login_sign_up_create_password.di.SignUpCreatePasswordFragmentComponent
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.di.SignUpProtectionKeysFragmentComponent
+import io.golos.cyber_android.ui.screens.login_sign_up_select_method.di.SignUpSelectMethodFragmentComponent
 import io.golos.cyber_android.ui.screens.main_activity.di.MainActivityComponent
 import io.golos.cyber_android.ui.screens.notifications.di.NotificationsFragmentComponent
 import io.golos.cyber_android.ui.screens.post_edit.activity.di.EditorPageActivityComponent
@@ -436,6 +437,11 @@ class DependencyInjectionStorage(private val app: Application) {
             SignUpConfirmPasswordFragmentComponent::class ->
                 getBase<LoginActivityComponent>()
                     .signUpConfirmPasswordFragmentComponent
+                    .build()
+
+            SignUpSelectMethodFragmentComponent::class ->
+                getBase<LoginActivityComponent>()
+                    .signUpSelectMethodFragmentComponent
                     .build()
 
             ProfileCommentsFragmentComponent::class ->

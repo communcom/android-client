@@ -18,12 +18,12 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.shared.analytics.AnalyticsFacade
 import io.golos.cyber_android.ui.screens.login_activity.di.LoginActivityComponent
-import io.golos.cyber_android.ui.shared.base.FragmentBase
+import io.golos.cyber_android.ui.shared.base.FragmentBaseCoroutines
 import io.golos.cyber_android.ui.shared.utils.ViewUtils
 import kotlinx.android.synthetic.main.fragment_welcome.*
 import javax.inject.Inject
 
-class WelcomeFragment : FragmentBase() {
+class WelcomeFragment : FragmentBaseCoroutines() {
 
     @Inject
     internal lateinit var analyticsFacade: AnalyticsFacade

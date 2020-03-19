@@ -13,6 +13,7 @@ import io.golos.cyber_android.ui.screens.login_sign_up_countries.di.SignUpCountr
 import io.golos.cyber_android.ui.screens.login_sign_up_create_password.di.SignUpCreatePasswordFragmentComponent
 import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.di.SignUpProtectionKeysFragmentComponent
 import io.golos.cyber_android.ui.screens.login_sign_up_pin.PinCodeFragment
+import io.golos.cyber_android.ui.screens.login_sign_up_select_method.di.SignUpSelectMethodFragmentComponent
 import io.golos.cyber_android.ui.screens.login_welcome.WelcomeFragment
 import io.golos.domain.dependency_injection.scopes.ActivityScope
 
@@ -32,6 +33,7 @@ interface LoginActivityComponent {
     val signUpProtectionKeysFragmentComponent: SignUpProtectionKeysFragmentComponent.Builder
     val signUpCreatePasswordFragmentComponent: SignUpCreatePasswordFragmentComponent.Builder
     val signUpConfirmPasswordFragmentComponent: SignUpConfirmPasswordFragmentComponent.Builder
+    val signUpSelectMethodFragmentComponent: SignUpSelectMethodFragmentComponent.Builder
     val signUpCountryComponent: SignUpCountryComponent.Builder
 
     fun inject(activity: LoginActivity)

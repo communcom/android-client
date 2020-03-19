@@ -9,7 +9,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import androidx.core.content.FileProvider
 import io.golos.cyber_android.BuildConfig
-import io.golos.cyber_android.ui.shared.base.FragmentBase
+import io.golos.cyber_android.ui.shared.base.FragmentBaseCoroutines
 import io.golos.domain.FileSystemHelper
 import kotlinx.coroutines.launch
 import java.io.File
@@ -24,7 +24,7 @@ private const val REQUEST_GALLERY_IMAGE = 201
  * Child should only override [onImagePicked] method and use images and [getInitialImageSource] to provide source of
  * the image (like camera or gallery)
  */
-abstract class ImagePickerFragmentBase : FragmentBase() {
+abstract class ImagePickerFragmentBase : FragmentBaseCoroutines() {
     enum class ImageSource {
         CAMERA, GALLERY, NONE
     }
