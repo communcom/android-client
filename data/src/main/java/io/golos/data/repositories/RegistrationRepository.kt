@@ -4,16 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.commun4j.services.model.UserRegistrationState
 import io.golos.commun4j.services.model.UserRegistrationStateResult
-import io.golos.data.api.registration.RegistrationApi
 import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.data.toCyberName
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.commun_entities.UserRegistrationStateRelatedData
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
-import io.golos.domain.dto.FtueBoardStageEntity
 import io.golos.domain.dto.UserRegistrationStateEntity
 import io.golos.domain.mappers.UserRegistrationStateEntityMapper
+import io.golos.domain.repositories.AuthRepository
 import io.golos.domain.repositories.Repository
 import io.golos.domain.requestmodel.*
 import kotlinx.coroutines.*
@@ -28,10 +26,9 @@ import javax.inject.Inject
 class RegistrationRepository
 @Inject
 constructor(
-    private val registrationApi: RegistrationApi,
+    private val authRepository: AuthRepository,
     private val dispatchersProvider: DispatchersProvider,
-    private val toAppErrorMapper: CyberToAppErrorMapper,
-    private val keyValueStorageFacade: KeyValueStorageFacade
+    private val toAppErrorMapper: CyberToAppErrorMapper
 ) : Repository<UserRegistrationStateEntity, RegistrationStepRequest> {
 
     private val repositoryScope = CoroutineScope(dispatchersProvider.uiDispatcher + SupervisorJob())
@@ -69,12 +66,12 @@ constructor(
                             when (params) {
                                 is GetUserRegistrationStepRequest -> null
                                 is SendSmsForVerificationRequest ->
-                                    registrationApi.firstUserRegistrationStep(params.phone, params.testCode)
+                                    authRepository.firstUserRegistrationStep(params.phone, params.testCode)
                                 is SendVerificationCodeRequest ->
-                                    registrationApi.verifyPhoneForUserRegistration(params.phone, params.code)
+                                    authRepository.verifyPhoneForUserRegistration(params.phone, params.code)
 
                                 is SetUserNameRequest ->
-                                    registrationApi.setVerifiedUserName(params.userName, params.phone)
+                                    authRepository.setVerifiedUserName(params.userName, params.phone)
 
                                 is SetUserKeysRequest -> {
 //                                    registrationApi.writeUserToBlockChain(
@@ -87,12 +84,12 @@ constructor(
 //                                    keyValueStorageFacade.saveFtueBoardStage(FtueBoardStageEntity.NEED_SHOW)
                                 }
                                 is ResendSmsVerificationCode ->
-                                    registrationApi.resendSmsCode(params.phone)
+                                    authRepository.resendSmsCode(params.phone)
                             }
 
                         val regState =
                             if (params !is SetUserKeysRequest) {
-                                registrationApi.getRegistrationState(params.phone)
+                                authRepository.getRegistrationState(params.phone)
                             }
                             else {
                                 UserRegistrationStateResult(UserRegistrationState.REGISTERED, UserRegistrationStateResult.UserData(params.userId.toCyberName(), params.userName))

@@ -1,5 +1,6 @@
 package io.golos.domain.repositories
 
+import io.golos.commun4j.services.model.*
 import io.golos.domain.dto.AuthResultDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.dto.bc_profile.BCProfileDomain
@@ -12,4 +13,17 @@ interface AuthRepository {
     suspend fun getUserBlockChainProfile(userId: UserIdDomain): BCProfileDomain
 
     suspend fun writeUserToBlockChain(phone: String, userId: String, userName: String, owner: String, active: String)
+
+    suspend fun getRegistrationState(phone: String): UserRegistrationStateResult
+
+    suspend fun firstUserRegistrationStep(
+        phone: String,
+        testingPass: String?
+    ): FirstRegistrationStepResult
+
+    suspend fun verifyPhoneForUserRegistration(phone: String, code: Int): VerifyStepResult
+
+    suspend fun setVerifiedUserName(user: String, phone: String): SetUserNameStepResult
+
+    suspend fun resendSmsCode(phone: String): ResultOk
 }

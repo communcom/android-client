@@ -1,6 +1,7 @@
 package io.golos.data.repositories
 
 import io.golos.commun4j.Commun4j
+import io.golos.commun4j.services.model.*
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.data.mappers.mapToAuthResultDomain
 import io.golos.data.mappers.mapToBCProfileDomain
@@ -37,4 +38,19 @@ class AuthRepositoryImpl
             owner = owner,
             active = active) }
     }
+
+    override suspend fun getRegistrationState(phone: String): UserRegistrationStateResult =
+        apiCall { commun4j.getRegistrationState(phone = phone, identity = null) }
+
+    override suspend fun firstUserRegistrationStep(phone: String, testingPass: String?): FirstRegistrationStepResult =
+        apiCall { commun4j.firstUserRegistrationStep("", phone, testingPass) }
+
+    override suspend fun verifyPhoneForUserRegistration(phone: String, code: Int): VerifyStepResult =
+        apiCall { commun4j.verifyPhoneForUserRegistration(phone, code) }
+
+    override suspend fun setVerifiedUserName(user: String, phone: String): SetUserNameStepResult =
+        apiCall { commun4j.setVerifiedUserName(user = user, phone = phone, identity = null) }
+
+    override suspend fun resendSmsCode(phone: String): ResultOk =
+        apiCall { commun4j.resendSmsCode(phone) }
 }

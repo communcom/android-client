@@ -28,8 +28,6 @@ import io.golos.data.api.events.EventsApi
 import io.golos.data.api.events.EventsApiImpl
 import io.golos.data.api.image_upload.ImageUploadApi
 import io.golos.data.api.image_upload.ImageUploadApiImpl
-import io.golos.data.api.registration.RegistrationApi
-import io.golos.data.api.registration.RegistrationApiImpl
 import io.golos.data.api.transactions.TransactionsApi
 import io.golos.data.api.transactions.TransactionsApiImpl
 import io.golos.data.api.user.UsersApi
@@ -177,9 +175,6 @@ abstract class AppModuleBinds {
 
     @Binds
     abstract fun provideImageUploadApi(api: ImageUploadApiImpl): ImageUploadApi
-
-    @Binds
-    abstract fun provideRegistrationApi(api: RegistrationApiImpl): RegistrationApi
 
     @Binds
     abstract fun provideTransactionsApi(api: TransactionsApiImpl): TransactionsApi
