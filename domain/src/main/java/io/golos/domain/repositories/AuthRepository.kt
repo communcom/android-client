@@ -12,9 +12,15 @@ interface AuthRepository {
 
     suspend fun getUserBlockChainProfile(userId: UserIdDomain): BCProfileDomain
 
-    suspend fun writeUserToBlockChain(phone: String, userId: String, userName: String, owner: String, active: String)
+    suspend fun writeUserToBlockChain(
+        phone: String?,
+        identity: String?,
+        userId: String,
+        userName: String,
+        owner: String,
+        active: String)
 
-    suspend fun getRegistrationState(phone: String): UserRegistrationStateResult
+    suspend fun getRegistrationState(phone: String?, identity: String?): UserRegistrationStateResult
 
     suspend fun firstUserRegistrationStep(
         phone: String,
@@ -23,7 +29,7 @@ interface AuthRepository {
 
     suspend fun verifyPhoneForUserRegistration(phone: String, code: Int): VerifyStepResult
 
-    suspend fun setVerifiedUserName(user: String, phone: String): SetUserNameStepResult
+    suspend fun setVerifiedUserName(user: String, phone: String?, identity: String?): SetUserNameStepResult
 
     suspend fun resendSmsCode(phone: String): ResultOk
 }

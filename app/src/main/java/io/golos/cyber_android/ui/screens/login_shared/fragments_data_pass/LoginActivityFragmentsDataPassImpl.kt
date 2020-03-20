@@ -4,6 +4,7 @@ import io.golos.cyber_android.ui.shared.fragments_data_pass.FragmentsDataPassBas
 import io.golos.cyber_android.ui.dto.QrCodeContent
 import io.golos.domain.dependency_injection.scopes.ActivityScope
 import io.golos.domain.dto.CountryDomain
+import io.golos.domain.dto.SignUpIdentityDomain
 import io.golos.domain.dto.UserIdDomain
 import javax.inject.Inject
 
@@ -22,6 +23,7 @@ constructor():
         private const val PASSWORD_KEY = 8490421
         private const val USER_NAME_KEY = 37148304
         private const val USER_ID_KEY = 20028776
+        private const val IDENTITY_KEY = 96790846
     }
 
     override fun putQrCode(qrCode: QrCodeContent) = put(QR_CODE_KEY, qrCode)
@@ -51,4 +53,8 @@ constructor():
     override fun putPassword(password: String) = put(PASSWORD_KEY, password)
 
     override fun getPassword(): String? = get(PASSWORD_KEY) as String?
+
+    override fun putIdentity(identity: SignUpIdentityDomain) = put(IDENTITY_KEY, identity)
+
+    override fun getIdentity(): SignUpIdentityDomain? = get(IDENTITY_KEY) as SignUpIdentityDomain?
 }

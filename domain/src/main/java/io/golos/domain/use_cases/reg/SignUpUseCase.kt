@@ -13,6 +13,7 @@ import io.golos.domain.use_cases.UseCase
 import io.golos.domain.use_cases.model.*
 import io.golos.domain.extensions.map
 import io.golos.domain.repositories.AuthStateRepository
+import io.golos.domain.repositories.RegistrationRepository
 import io.golos.domain.requestmodel.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -25,7 +26,7 @@ import javax.inject.Inject
 class SignUpUseCase
 @Inject
 constructor(
-    private val registrationRepository: Repository<UserRegistrationStateEntity, RegistrationStepRequest>,
+    private val registrationRepository: RegistrationRepository,
     private val authRepository: AuthStateRepository,
     private val authApi: AuthApi,
     private val dispatchersProvider: DispatchersProvider,
@@ -105,22 +106,25 @@ constructor(
                         val originalQuery = myState.originalQuery
                         updatingState.value = myState.map(
                             when (originalQuery) {
-                                is GetUserRegistrationStepRequest -> GetUserRegistrationStepRequestModel(originalQuery.phone)
-                                is SendSmsForVerificationRequest -> SendSmsForVerificationRequestModel(originalQuery.phone)
+                                is GetUserRegistrationStepRequest -> GetUserRegistrationStepRequestModel(originalQuery.phone, originalQuery.identity)
+                                is SendSmsForVerificationRequest -> SendSmsForVerificationRequestModel(originalQuery.phone, originalQuery.identity)
                                 is SendVerificationCodeRequest -> SendVerificationCodeRequestModel(
                                     originalQuery.phone,
+                                    originalQuery.identity,
                                     originalQuery.code
                                 )
                                 is SetUserNameRequest -> SetUserNameRequestModel(
                                     originalQuery.phone,
+                                    originalQuery.identity,
                                     originalQuery.userName
                                 )
                                 is SetUserKeysRequest -> WriteUserToBlockChainRequestModel(
                                     originalQuery.phone,
+                                    originalQuery.identity,
                                     originalQuery.userName,
                                     originalQuery.userId
                                 )
-                                is ResendSmsVerificationCode -> ResendSmsVerificationCodeModel(originalQuery.phone)
+                                is ResendSmsVerificationCode -> ResendSmsVerificationCodeModel(originalQuery.phone, originalQuery.identity)
                             }
                         )
                     }
@@ -139,7 +143,7 @@ constructor(
         val lastRequestLocal = lastRequest
         if (lastRequestLocal != null) mediator.removeSource(
             registrationRepository.getAsLiveData(
-                GetUserRegistrationStepRequest(lastRequestLocal.phone)
+                GetUserRegistrationStepRequest(lastRequestLocal.phone, lastRequestLocal.identity)
             )
         )
     }
@@ -147,15 +151,15 @@ constructor(
     suspend fun makeRegistrationStep(param: NextRegistrationStepRequestModel) {
 
         val lastRequestLocal = lastRequest
-        if (lastRequestLocal?.phone != param.phone) {
+        if (lastRequestLocal?.phone != param.phone || (lastRequestLocal?.identity != param.identity)) {
 
             if (lastRequestLocal != null) mediator.removeSource(
                 registrationRepository.getAsLiveData(
-                    GetUserRegistrationStepRequest(lastRequestLocal.phone)
+                    GetUserRegistrationStepRequest(lastRequestLocal.phone, lastRequestLocal.identity)
                 )
             )
             mediator.addSource(
-                registrationRepository.getAsLiveData(GetUserRegistrationStepRequest(param.phone)),
+                registrationRepository.getAsLiveData(GetUserRegistrationStepRequest(param.phone, param.identity)),
                 registrationStepsObserver
             )
         }
@@ -163,13 +167,14 @@ constructor(
         lastRequest = param
         registrationRepository.makeAction(
             when (param) {
-                is GetUserRegistrationStepRequestModel -> GetUserRegistrationStepRequest(param.phone)
+                is GetUserRegistrationStepRequestModel -> GetUserRegistrationStepRequest(param.phone, param.identity)
                 is SendSmsForVerificationRequestModel -> SendSmsForVerificationRequest(
                     param.phone,
+                    param.identity,
                     testPassProvider.provide()
                 )
-                is SendVerificationCodeRequestModel -> SendVerificationCodeRequest(param.phone, param.code)
-                is SetUserNameRequestModel -> SetUserNameRequest(param.phone, param.userName)
+                is SendVerificationCodeRequestModel -> SendVerificationCodeRequest(param.phone, param.identity, param.code)
+                is SetUserNameRequestModel -> SetUserNameRequest(param.phone, param.identity, param.userName)
                 is WriteUserToBlockChainRequestModel -> {
                     val userId = param.userId
                     // Keys are generated and sent to server (public parts only)
@@ -190,6 +195,7 @@ constructor(
 //                    )
                     SetUserKeysRequest(
                         param.phone,
+                        param.identity,
                         userId,
                         param.userName,
                         "",
@@ -204,7 +210,7 @@ constructor(
                     )
 
                 }
-                is ResendSmsVerificationCodeModel -> ResendSmsVerificationCode(param.phone)
+                is ResendSmsVerificationCodeModel -> ResendSmsVerificationCode(param.phone, param.identity)
             }
         )
     }

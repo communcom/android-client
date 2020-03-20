@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.screens.login_sign_up_select_method.social_network_auth_providers
 
 import androidx.lifecycle.LiveData
+import io.golos.cyber_android.ui.screens.login_shared.fragments_data_pass.LoginActivityFragmentsDataPass
 import io.golos.cyber_android.ui.shared.mvvm.SingleLiveData
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.data.repositories.sign_up_tokens.SignUpTokensRepository

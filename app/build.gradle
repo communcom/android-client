@@ -51,9 +51,9 @@ android {
 
             buildConfigField "String",  'BLOCK_CHAIN_HTTP_API_URL', "\"https://node.commun.com/\""
             buildConfigField "String",  'SERVICES_URL', "\"wss://gate.commun.com/\""
+            buildConfigField "String",  'ACCESS_TOKEN_BASE_URL', "\"https://dev-3.commun.com/\""
 
             buildConfigField "String",  'GOOGLE_ACCESS_TOKEN_CLIENT_ID', "\"537042616174-bl79mf0b039i8f6emh5bia6klm18nih3.apps.googleusercontent.com\""
-            buildConfigField "String",  'ACCESS_TOKEN_BASE_URL', "\"https://dev-3.commun.com/\""
         }
         dev {
             dimension "cyber4j-config-type"
@@ -68,11 +68,11 @@ android {
             buildConfigField "Boolean", 'ANALYTICS_ENABLED', "false"
             buildConfigField "Boolean", 'CRASH_REPORTS_ENABLED', "false"
 
-            buildConfigField "String",  'BLOCK_CHAIN_HTTP_API_URL', "\"http://116.202.4.46:8888/\""
-            buildConfigField "String",  'SERVICES_URL', "\"wss://dev-gate.commun.com\""
+            buildConfigField "String",  'BLOCK_CHAIN_HTTP_API_URL', "\"https://dev-3-node.commun.com/\""
+            buildConfigField "String",  'SERVICES_URL', "\"wss://dev-3-gate.commun.com/\""
+            buildConfigField "String",  'ACCESS_TOKEN_BASE_URL', "\"https://dev-3.commun.com/\""
 
             buildConfigField "String",  'GOOGLE_ACCESS_TOKEN_CLIENT_ID', "\"537042616174-jr6forf8aon2j7sj09flm39mgvg8ip0l.apps.googleusercontent.com\""
-            buildConfigField "String",  'ACCESS_TOKEN_BASE_URL', "\"https://dev-3.commun.com/\""
         }
     }
 

@@ -54,13 +54,20 @@ constructor(
             try {
                 val userName = dataPass.getUserName()!!
                 val userId = dataPass.getUserId()!!
-                val phone = dataPass.getPhone()!!
+                val phone = dataPass.getPhone()
+                val identity = dataPass.getIdentity()?.identity
 
                 // The keys are generated and stored to a local drive here
                 val userKeys = userKeyStore.createKeys(userId, userName, password)
 
                 // Put users to block chain
-                authRepository.writeUserToBlockChain(phone, userId.userId, userName, userKeys.ownerPublicKey, userKeys.activePublicKey)
+                authRepository.writeUserToBlockChain(
+                    phone,
+                    identity,
+                    userId.userId,
+                    userName,
+                    userKeys.ownerPublicKey,
+                    userKeys.activePublicKey)
 
                 // Save auth state
                 val authState = AuthStateDomain(

@@ -11,6 +11,7 @@ import io.golos.cyber_android.ui.shared.utils.asEvent
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dependency_injection.scopes.ActivityScope
 import io.golos.domain.dto.CountryDomain
+import io.golos.domain.dto.SignUpIdentityDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.extensions.map
 import io.golos.domain.use_cases.model.*
@@ -89,7 +90,8 @@ constructor(
     fun onCountrySelected(countryModel: CountryDomain) = selectedCountryLiveData.postValue(countryModel)
 
 
-    private var currentPhone = ""
+    private var currentPhone: String? = null
+    private var currentIdentity: SignUpIdentityDomain? = null
     private var currentName = ""
 
     /**
@@ -100,7 +102,7 @@ constructor(
 
         currentPhone = getNormalizedPhone(phone)
         launch {
-            signUpUseCase.makeRegistrationStep(SendSmsForVerificationRequestModel(currentPhone))
+            signUpUseCase.makeRegistrationStep(SendSmsForVerificationRequestModel(currentPhone, dataPass.getIdentity()?.identity))
         }
     }
 
@@ -112,6 +114,7 @@ constructor(
             signUpUseCase.makeRegistrationStep(
                 SendVerificationCodeRequestModel(
                     currentPhone,
+                    dataPass.getIdentity()?.identity,
                     Integer.parseInt(code)
                 )
             )
@@ -125,7 +128,7 @@ constructor(
         currentName = name
         launch {
             signUpUseCase.makeRegistrationStep(
-                SetUserNameRequestModel(currentPhone, name)
+                SetUserNameRequestModel(currentPhone, dataPass.getIdentity()?.identity, name)
             )
         }
     }
@@ -136,7 +139,7 @@ constructor(
     fun writeToBlockchain(userName: String, userId: String) {
         launch {
             signUpUseCase.makeRegistrationStep(
-                WriteUserToBlockChainRequestModel(currentPhone, currentName, userId)
+                WriteUserToBlockChainRequestModel(currentPhone, dataPass.getIdentity()?.identity, currentName, userId)
             )
             dataPass.putUserName(userName)
             dataPass.putUserId(UserIdDomain(userId))
@@ -149,7 +152,7 @@ constructor(
     fun resendCode() {
         launch {
             signUpUseCase.makeRegistrationStep(
-                ResendSmsVerificationCodeModel(currentPhone)
+                ResendSmsVerificationCodeModel(currentPhone, dataPass.getIdentity()?.identity)
             )
         }
     }
@@ -157,16 +160,20 @@ constructor(
     /**
      * Requests update of the user registration state
      */
-    fun updateRegisterState(phone: String = currentPhone) {
+    fun updateRegisterState(phone: String? = currentPhone, identity: SignUpIdentityDomain? = null) {
         selectedPhoneLiveData.postValue(phone)
 
         currentPhone = getNormalizedPhone(phone)
-        dataPass.putPhone(currentPhone)
+        currentPhone?.let { dataPass.putPhone(it) }
+        identity?.let {
+            dataPass.putIdentity(it)
+            currentIdentity = it
+        }
 
         launch {
             signUpUseCase.userName = currentName
             signUpUseCase.makeRegistrationStep(
-                GetUserRegistrationStepRequestModel(currentPhone)
+                GetUserRegistrationStepRequestModel(currentPhone, currentIdentity?.identity)
             )
         }
     }
@@ -191,7 +198,10 @@ constructor(
         selectedCountryLiveData.value = null
     }
 
-    fun getNormalizedPhone(phone: String) = "+${phone.trim().replace("\\D+".toRegex(), "")}"
+    fun getNormalizedPhone(phone: String?): String? =
+        phone?.let {
+            "+${it.trim().replace("\\D+".toRegex(), "")}"
+        }
 
     init {
         signUpUseCase.subscribe()

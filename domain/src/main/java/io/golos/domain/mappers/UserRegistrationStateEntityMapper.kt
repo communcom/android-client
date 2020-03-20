@@ -5,6 +5,7 @@ import io.golos.commun4j.services.model.UserRegistrationState
 import io.golos.domain.commun_entities.UserRegistrationStateRelatedData
 import io.golos.domain.dto.*
 import io.golos.domain.requestmodel.SetUserKeysRequest
+import java.lang.UnsupportedOperationException
 import java.util.*
 
 object UserRegistrationStateEntityMapper {
@@ -33,8 +34,11 @@ object UserRegistrationStateEntityMapper {
                     UnverifiedUser(requestResult.nextSmsRetry, requestResult.code)
                 }
             }
+
             UserRegistrationState.SET_USER_NAME -> VerifiedUserWithoutUserName()
             UserRegistrationState.FIRST_STEP -> UnregisteredUser()
+
+            else -> throw UnsupportedOperationException("This state is not supported: ${communObject.stateRequestResult.currentState}")
         }
     }
 }

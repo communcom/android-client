@@ -11,6 +11,10 @@ import io.golos.domain.dto.AuthResultDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.dto.bc_profile.BCProfileDomain
 import io.golos.domain.repositories.AuthRepository
+import kotlinx.coroutines.delay
+import timber.log.Timber
+import java.lang.Exception
+import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
 class AuthRepositoryImpl
@@ -22,35 +26,67 @@ class AuthRepositoryImpl
     AuthRepository {
 
     override suspend fun auth(userName: String, secret: String, signedSecret: String): AuthResultDomain =
-        apiCall { commun4j.authWithSecret(userName, secret, signedSecret) }.mapToAuthResultDomain()
+        apiCall {
+            Timber.tag("NET_SOCKET").d("AuthRepositoryImpl::auth(userName = $userName, secret = $secret, signedSecret = $signedSecret)")
+            commun4j.authWithSecret(userName, secret, signedSecret)
+        }.mapToAuthResultDomain()
 
-    override suspend fun getAuthSecret(): String = apiCall { commun4j.getAuthSecret() }.secret
+    override suspend fun getAuthSecret(): String = apiCall {
+        Timber.tag("NET_SOCKET").d("AuthRepositoryImpl::getAuthSecret()")
+        commun4j.getAuthSecret()
+    }.secret
 
     override suspend fun getUserBlockChainProfile(userId: UserIdDomain): BCProfileDomain =
-        apiCallChain { commun4j.getUserAccount(CyberName(userId.userId)) }.mapToBCProfileDomain()
+        apiCallChain {
+            Timber.tag("NET_SOCKET").d("AuthRepositoryImpl::getUserBlockChainProfile(userId = $userId)")
+            commun4j.getUserAccount(CyberName(userId.userId))
+        }.mapToBCProfileDomain()
 
-    override suspend fun writeUserToBlockChain(phone: String, userId: String, userName: String, owner: String, active: String) {
-        apiCall { commun4j.writeUserToBlockChain(
-            phone = phone,
-            identity = null,
-            userName = userName,
-            userId = userId,
-            owner = owner,
-            active = active) }
+    override suspend fun writeUserToBlockChain(
+        phone: String?,
+        identity: String?,
+        userId: String,
+        userName: String,
+        owner: String,
+        active: String) {
+        apiCall {
+            Timber.tag("NET_SOCKET").d("AuthRepositoryImpl::writeUserToBlockChain(phone = $phone, identity = $identity, userId = $userId, userName = $userName, owner = $owner, active = $active)")
+            commun4j.writeUserToBlockChain(
+                phone = phone,
+                identity = identity,
+                userName = userName,
+                userId = userId,
+                owner = owner,
+                active = active) }
     }
 
-    override suspend fun getRegistrationState(phone: String): UserRegistrationStateResult =
-        apiCall { commun4j.getRegistrationState(phone = phone, identity = null) }
+    override suspend fun getRegistrationState(phone: String?, identity: String?): UserRegistrationStateResult =
+        apiCall {
+            Timber.tag("NET_SOCKET").d("AuthRepositoryImpl::getRegistrationState(phone = $phone, identity = $identity)")
+            commun4j.getRegistrationState(phone = phone, identity = identity)
+        }
 
     override suspend fun firstUserRegistrationStep(phone: String, testingPass: String?): FirstRegistrationStepResult =
-        apiCall { commun4j.firstUserRegistrationStep("", phone, testingPass) }
+        apiCall {
+            Timber.tag("NET_SOCKET").d("AuthRepositoryImpl::firstUserRegistrationStep(phone = $phone, testingPass = $testingPass)")
+            commun4j.firstUserRegistrationStep("", phone, testingPass)
+        }
 
     override suspend fun verifyPhoneForUserRegistration(phone: String, code: Int): VerifyStepResult =
-        apiCall { commun4j.verifyPhoneForUserRegistration(phone, code) }
+        apiCall {
+            Timber.tag("NET_SOCKET").d("AuthRepositoryImpl::verifyPhoneForUserRegistration(phone = $phone, code = $code)")
+            commun4j.verifyPhoneForUserRegistration(phone, code)
+        }
 
-    override suspend fun setVerifiedUserName(user: String, phone: String): SetUserNameStepResult =
-        apiCall { commun4j.setVerifiedUserName(user = user, phone = phone, identity = null) }
+    override suspend fun setVerifiedUserName(user: String, phone: String?, identity: String?): SetUserNameStepResult =
+        apiCall {
+            Timber.tag("NET_SOCKET").d("AuthRepositoryImpl::setVerifiedUserName(user = $user, phone = $phone, identity = $identity)")
+            commun4j.setVerifiedUserName(user = user, phone = phone, identity = identity)
+        }
 
     override suspend fun resendSmsCode(phone: String): ResultOk =
-        apiCall { commun4j.resendSmsCode(phone) }
+        apiCall {
+            Timber.tag("NET_SOCKET").d("AuthRepositoryImpl::resendSmsCode(phone = $phone)")
+            commun4j.resendSmsCode(phone)
+        }
 }

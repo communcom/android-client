@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.login_shared.fragments_data_pass
 
 import io.golos.cyber_android.ui.dto.QrCodeContent
 import io.golos.domain.dto.CountryDomain
+import io.golos.domain.dto.SignUpIdentityDomain
 import io.golos.domain.dto.UserIdDomain
 
 interface LoginActivityFragmentsDataPass {
@@ -25,4 +26,7 @@ interface LoginActivityFragmentsDataPass {
 
     fun putPassword(password: String)
     fun getPassword(): String?
+
+    fun putIdentity(identity: SignUpIdentityDomain)
+    fun getIdentity(): SignUpIdentityDomain?
 }

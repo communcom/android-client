@@ -3,7 +3,9 @@ package io.golos.domain.requestmodel
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-04-11.
  */
-sealed class RegistrationStepRequest(open val phone: String) : Identifiable {
+sealed class RegistrationStepRequest(
+    open val phone: String?,
+    open val identity: String?) : Identifiable {
     private val _id = Id()
 
     override val id: Identifiable.Id
@@ -11,7 +13,7 @@ sealed class RegistrationStepRequest(open val phone: String) : Identifiable {
 
 
     inner class Id : Identifiable.Id() {
-        val _phone = phone
+        val _phone = phone ?: identity
         override fun equals(other: Any?): Boolean {
             if (this === other) return true
             if (javaClass != other?.javaClass) return false
@@ -45,10 +47,10 @@ sealed class RegistrationStepRequest(open val phone: String) : Identifiable {
     }
 }
 
-class GetUserRegistrationStepRequest(phone: String) : RegistrationStepRequest(phone)
+class GetUserRegistrationStepRequest(phone: String?, identity: String?) : RegistrationStepRequest(phone, identity)
 
-class SendSmsForVerificationRequest(phone: String, val testCode: String?) :
-    RegistrationStepRequest(phone){
+class SendSmsForVerificationRequest(phone: String?, identity: String?, val testCode: String?) :
+    RegistrationStepRequest(phone, identity){
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -68,7 +70,7 @@ class SendSmsForVerificationRequest(phone: String, val testCode: String?) :
     }
 }
 
-class SendVerificationCodeRequest(phone: String, val code: Int) : RegistrationStepRequest(phone){
+class SendVerificationCodeRequest(phone: String?, identity: String?, val code: Int) : RegistrationStepRequest(phone, identity){
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -88,7 +90,7 @@ class SendVerificationCodeRequest(phone: String, val code: Int) : RegistrationSt
     }
 }
 
-class SetUserNameRequest(phone: String, val userName: String) : RegistrationStepRequest(phone){
+class SetUserNameRequest(phone: String?, identity: String?, val userName: String) : RegistrationStepRequest(phone, identity){
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -109,7 +111,8 @@ class SetUserNameRequest(phone: String, val userName: String) : RegistrationStep
 }
 
 class SetUserKeysRequest(
-    phone: String,
+    phone: String?,
+    identity: String?,
     val userId: String,
     val userName: String,
     val masterKey: String,
@@ -121,7 +124,7 @@ class SetUserKeysRequest(
     val postingPrivateKey: String,
     val memoPublicKey: String,
     val memoPrivateKey: String
-) : RegistrationStepRequest(phone){
+) : RegistrationStepRequest(phone, identity){
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -160,4 +163,4 @@ class SetUserKeysRequest(
     }
 }
 
-class ResendSmsVerificationCode(phone: String) : RegistrationStepRequest(phone)
+class ResendSmsVerificationCode(phone: String?, identity: String?) : RegistrationStepRequest(phone, identity)

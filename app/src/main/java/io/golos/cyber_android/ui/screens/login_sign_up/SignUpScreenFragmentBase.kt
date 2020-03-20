@@ -58,8 +58,10 @@ abstract class SignUpScreenFragmentBase<VM: SignUpScreenViewModelBase>(private v
                     val viewTag = fieldToValidate?.tag as? CountryDomain
                     viewTag?.let { tag ->
                         val phone = signUpViewModel.getNormalizedPhone(writenText)
-                        viewModel.field = writenText
-                        viewModel.onPhoneFieldChanged(phone, 11)
+                        if(phone != null) {
+                            viewModel.field = writenText
+                            viewModel.onPhoneFieldChanged(phone, 11)
+                        }
                     }
                 } else {
                     viewModel.onFieldChanged(writenText)

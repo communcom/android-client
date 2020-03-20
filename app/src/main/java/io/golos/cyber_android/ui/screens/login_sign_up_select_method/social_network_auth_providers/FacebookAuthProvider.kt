@@ -9,6 +9,7 @@ import com.facebook.FacebookException
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.screens.login_sign_up_select_method.dto.NavigateToUserNameStepCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.data.repositories.sign_up_tokens.SignUpTokensRepository
@@ -50,6 +51,8 @@ constructor(
                     _command.value = ShowMessageResCommand(R.string.common_general_error)
                 }
             })
+
+            LoginManager.getInstance().logInWithReadPermissions(fragment, listOf("public_profile"))
         }
     }
 
@@ -71,11 +74,14 @@ constructor(
             try {
                 val identity = signUpTokensRepository.getFacebookIdentity(token)
                 Timber.tag("ACCESS_TOKEN").d("identity: $identity")
+
+                _command.value = SetLoadingVisibilityCommand(false)
+                _command.value = NavigateToUserNameStepCommand(identity)
             } catch (ex: Exception) {
                 Timber.e(ex)
-                _command.value = ShowMessageResCommand(R.string.common_general_error)
-            } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
+                _command.value = ShowMessageResCommand(R.string.common_general_error)
+
             }
         }
     }

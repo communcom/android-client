@@ -5,13 +5,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.screens.login_shared.SignUpDescriptionHelper
+import io.golos.cyber_android.ui.screens.login_sign_up.SignUpViewModel
 import io.golos.cyber_android.ui.screens.login_sign_up_select_method.di.SignUpSelectMethodFragmentComponent
+import io.golos.cyber_android.ui.screens.login_sign_up_select_method.dto.NavigateToUserNameStepCommand
 import io.golos.cyber_android.ui.screens.login_sign_up_select_method.social_network_auth_providers.SocialNetworkAuthProvider
 import io.golos.cyber_android.ui.shared.base.FragmentBase
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.ActivityViewModelFactory
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.domain.dependency_injection.Clarification
 import kotlinx.android.synthetic.main.fragment_sign_up_phone.header
 import kotlinx.android.synthetic.main.fragment_sign_up_select_method.*
@@ -28,6 +33,11 @@ class SignUpSelectMethodFragment: FragmentBase() {
     @Inject
     @field:Named(Clarification.FACEBOOK)
     internal lateinit var facebookAuth: SocialNetworkAuthProvider
+
+    @Inject
+    protected lateinit var viewModelFactory: ActivityViewModelFactory
+
+    private lateinit var signUpViewModel: SignUpViewModel
 
     override fun onDestroy() {
         super.onDestroy()
@@ -49,6 +59,8 @@ class SignUpSelectMethodFragment: FragmentBase() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        signUpViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory).get(SignUpViewModel::class.java)
+
         header.setOnBackButtonClickListener { findNavController().navigateUp() }
 
         phoneButton.setOnClickListener { findNavController().navigate(R.id.action_signUpSelectMethod_to_signUpPhoneFragment) }
@@ -68,6 +80,16 @@ class SignUpSelectMethodFragment: FragmentBase() {
             facebookAuth.processActivityResult(requestCode, resultCode, data)
         }
     }
+
+    override fun processViewCommand(command: ViewCommand) {
+        when(command) {
+            is NavigateToUserNameStepCommand -> {
+                signUpViewModel.updateRegisterState(phone = null, identity = command.identity)
+                findNavController().navigate(R.id.action_signUpSelectMethod_to_signUpNameFragment)
+            }
+        }
+    }
+
 
     private fun startAuth(provider: SocialNetworkAuthProvider) {
         provider.apply {

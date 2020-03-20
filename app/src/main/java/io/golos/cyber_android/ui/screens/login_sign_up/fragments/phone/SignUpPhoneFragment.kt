@@ -63,7 +63,7 @@ class SignUpPhoneFragment : SignUpScreenFragmentBase<SignUpPhoneViewModel>(SignU
         signUp.setOnClickListener {
             val phone = viewModel.field
             if(!TextUtils.isEmpty(phone)){
-                signUpViewModel.updateRegisterState(phone)
+                signUpViewModel.updateRegisterState(phone, null)
             }
         }
         listOf(country, country).forEach {
