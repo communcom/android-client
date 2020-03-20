@@ -53,9 +53,6 @@ android {
             buildConfigField "String",  'SERVICES_URL', "\"wss://gate.commun.com/\""
 
             buildConfigField "String",  'GOOGLE_ACCESS_TOKEN_CLIENT_ID', "\"537042616174-bl79mf0b039i8f6emh5bia6klm18nih3.apps.googleusercontent.com\""
-            buildConfigField "String",  'GOOGLE_ACCESS_TOKEN_CLIENT_SECRET', "\"oqsP-cG2CWGUusiPGYVucjHB\""
-            buildConfigField "String",  'GOOGLE_ACCESS_TOKEN_URL', "\"https://oauth2.googleapis.com/token\""
-
             buildConfigField "String",  'ACCESS_TOKEN_BASE_URL', "\"https://dev-3.commun.com/\""
         }
         dev {
@@ -75,9 +72,6 @@ android {
             buildConfigField "String",  'SERVICES_URL', "\"wss://dev-gate.commun.com\""
 
             buildConfigField "String",  'GOOGLE_ACCESS_TOKEN_CLIENT_ID', "\"537042616174-jr6forf8aon2j7sj09flm39mgvg8ip0l.apps.googleusercontent.com\""
-            buildConfigField "String",  'GOOGLE_ACCESS_TOKEN_CLIENT_SECRET', "\"nhixf339qq9uvrFxILWV4kvF\""
-            buildConfigField "String",  'GOOGLE_ACCESS_TOKEN_URL', "\"https://oauth2.googleapis.com/token\""
-
             buildConfigField "String",  'ACCESS_TOKEN_BASE_URL', "\"https://dev-3.commun.com/\""
         }
     }

@@ -74,10 +74,8 @@ class AppModule(
     @Provides
     internal fun provideSignUpTokensConfig(): SignUpTokensConfig =
         SignUpTokensConfig(
-            googleAccessTokenClientId = BuildConfig.GOOGLE_ACCESS_TOKEN_CLIENT_ID,
-            googleAccessTokenClientSecret = BuildConfig.GOOGLE_ACCESS_TOKEN_CLIENT_SECRET,
-            googleAccessTokenUrl = BuildConfig.GOOGLE_ACCESS_TOKEN_URL,
-            accessTokenBaseUrl = BuildConfig.ACCESS_TOKEN_BASE_URL)
+            accessTokenBaseUrl = BuildConfig.ACCESS_TOKEN_BASE_URL
+        )
 
     @Provides
     internal fun provideDispatchersProvider(): DispatchersProvider = object : DispatchersProvider {
