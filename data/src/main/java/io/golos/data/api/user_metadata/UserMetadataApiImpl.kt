@@ -8,11 +8,10 @@ import io.golos.commun4j.http.rpc.model.transaction.response.TransactionCommitte
 import io.golos.commun4j.http.rpc.model.transaction.response.TransactionParentReceipt
 import io.golos.commun4j.http.rpc.model.transaction.response.TransactionProcessed
 import io.golos.commun4j.sharedmodel.CyberName
-import io.golos.commun4j.sharedmodel.CyberTimeStampSeconds
 import io.golos.data.api.Commun4jApiBase
-import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.commun_entities.GetProfileResultExt
 import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.repositories.CurrentUserRepositoryRead
 import javax.inject.Inject
 import io.golos.commun4j.utils.Pair as CommunPair
 
@@ -34,7 +33,14 @@ constructor(
 
         val struct = UpdatemetaCSocialStruct(
             CyberName(""),
-            AccountmetaCSocialStruct("", "", "", "", "", "", "", "", "", "", "", CyberTimeStampSeconds(0), "", "", "", "", "")
+            AccountmetaCSocialStruct(
+                avatar_url = "",
+                biography = "",
+                cover_url = "",
+                facebook = "",
+                telegram = "",
+                whatsapp = "",
+                wechat = "")
         )
 
         return TransactionCommitted(

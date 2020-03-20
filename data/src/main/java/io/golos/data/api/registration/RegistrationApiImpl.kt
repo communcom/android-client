@@ -14,7 +14,7 @@ constructor(
 ) : Commun4jApiBase(commun4j, currentUserRepository), RegistrationApi {
 
     override fun getRegistrationState(phone: String): UserRegistrationStateResult =
-        commun4j.getRegistrationState(phone).getOrThrow()
+        commun4j.getRegistrationState(phone = phone, identity = null).getOrThrow()
 
     override fun firstUserRegistrationStep(phone: String, testingPass: String?): FirstRegistrationStepResult =
         commun4j.firstUserRegistrationStep("", phone, testingPass).getOrThrow()
@@ -22,7 +22,8 @@ constructor(
     override fun verifyPhoneForUserRegistration(phone: String, code: Int): VerifyStepResult =
         commun4j.verifyPhoneForUserRegistration(phone, code).getOrThrow()
 
-    override fun setVerifiedUserName(user: String, phone: String): SetUserNameStepResult = commun4j.setVerifiedUserName(user, phone).getOrThrow()
+    override fun setVerifiedUserName(user: String, phone: String): SetUserNameStepResult =
+        commun4j.setVerifiedUserName(user = user, phone = phone, identity = null).getOrThrow()
 
     override fun writeUserToBlockChain(
         phone: String,
@@ -30,9 +31,14 @@ constructor(
         userName: String,
         owner: String,
         active: String
-    ): WriteToBlockChainStepResult {
-        return commun4j.writeUserToBlockChain(phone, userId, userName, owner, active).getOrThrow()
-    }
+    ): WriteToBlockChainStepResult =
+        commun4j.writeUserToBlockChain(
+            phone = phone,
+            identity = null,
+            userId = userId,
+            userName = userName,
+            owner = owner,
+            active = active).getOrThrow()
 
 
     override fun resendSmsCode(phone: String): ResultOk = commun4j.resendSmsCode(phone).getOrThrow()

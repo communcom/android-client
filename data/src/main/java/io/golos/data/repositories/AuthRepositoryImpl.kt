@@ -29,6 +29,12 @@ class AuthRepositoryImpl
         apiCallChain { commun4j.getUserAccount(CyberName(userId.userId)) }.mapToBCProfileDomain()
 
     override suspend fun writeUserToBlockChain(phone: String, userId: String, userName: String, owner: String, active: String) {
-        apiCall { commun4j.writeUserToBlockChain(phone, userId, userName, owner, active) }
+        apiCall { commun4j.writeUserToBlockChain(
+            phone = phone,
+            identity = null,
+            userName = userName,
+            userId = userId,
+            owner = owner,
+            active = active) }
     }
 }
