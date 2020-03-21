@@ -8,12 +8,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.screens.login_sign_up_select_method.dto.NavigateToUserNameStepCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.data.repositories.sign_up_tokens.SignUpTokensRepository
 import io.golos.domain.DispatchersProvider
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -57,6 +54,8 @@ constructor(
         return true
     }
 
+    override suspend fun getIdentity(accessToken: String) = signUpTokensRepository.getGoogleIdentity(accessToken)
+
     private fun processSignInResult(data: Intent) {
         val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
         if(result.isSuccess) {
@@ -64,21 +63,7 @@ constructor(
             val idToken = account.idToken
             Timber.tag("ACCESS_TOKEN").d("accessToken: $idToken")
 
-            launch {
-                _command.value = SetLoadingVisibilityCommand(true)
-
-                try {
-                    val identity = signUpTokensRepository.getGoogleIdentity(idToken!!)
-                    Timber.tag("ACCESS_TOKEN").d("identity: $identity")
-
-                    _command.value = SetLoadingVisibilityCommand(false)
-                    _command.value = NavigateToUserNameStepCommand(identity)
-                } catch (ex: Exception) {
-                    Timber.e(ex)
-                    _command.value = SetLoadingVisibilityCommand(false)
-                    _command.value = ShowMessageResCommand(R.string.common_general_error)
-                }
-            }
+            processToken(idToken!!)
         }
     }
 }

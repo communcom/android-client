@@ -9,12 +9,9 @@ import com.facebook.FacebookException
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.screens.login_sign_up_select_method.dto.NavigateToUserNameStepCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.data.repositories.sign_up_tokens.SignUpTokensRepository
 import io.golos.domain.DispatchersProvider
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -64,25 +61,12 @@ constructor(
         return true
     }
 
+    override suspend fun getIdentity(accessToken: String) = signUpTokensRepository.getFacebookIdentity(accessToken)
+
     private fun processAccessToken(accessToken: AccessToken) {
         val token = accessToken.token
         Timber.tag("ACCESS_TOKEN").d("accessToken: $token")
 
-        launch {
-            _command.value = SetLoadingVisibilityCommand(true)
-
-            try {
-                val identity = signUpTokensRepository.getFacebookIdentity(token)
-                Timber.tag("ACCESS_TOKEN").d("identity: $identity")
-
-                _command.value = SetLoadingVisibilityCommand(false)
-                _command.value = NavigateToUserNameStepCommand(identity)
-            } catch (ex: Exception) {
-                Timber.e(ex)
-                _command.value = SetLoadingVisibilityCommand(false)
-                _command.value = ShowMessageResCommand(R.string.common_general_error)
-
-            }
-        }
+        processToken(token)
     }
 }

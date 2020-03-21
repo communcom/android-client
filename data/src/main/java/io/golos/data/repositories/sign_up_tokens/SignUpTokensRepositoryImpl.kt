@@ -52,10 +52,3 @@ constructor(
         return action(sourceData, OkHttpClient())
     }
 }
-
-
-
-// {"identity":"118091995565154151673","provider":"google"}
-// {"oauthState":"setUsername","identity":"118091995565154151673","provider":"google"}
-
-//http://116.203.108.214:3000/oauth/facebook-token?access_token=<token>
