@@ -11,6 +11,7 @@ import android.content.pm.PackageManager
 import android.hardware.fingerprint.FingerprintManager
 import android.os.Build
 import androidx.annotation.RequiresApi
+import dagger.Lazy
 import io.golos.data.encryption.aes.EncryptorFingerprint
 import io.golos.cyber_android.application.shared.fingerprints.eventsHandler.FingerprintAuthEventsHandler
 import io.golos.cyber_android.application.shared.fingerprints.eventsHandler.FingerprintAuthEventsHandlerImpl
@@ -20,7 +21,7 @@ class FingerprintAuthManagerImpl
 @Inject
 constructor(
     private val appContext: Context,
-    private val encryptor: EncryptorFingerprint
+    private val encryptor: Lazy<EncryptorFingerprint>
 ) : FingerprintAuthManager {
 
     override val isAuthenticationPossible: Boolean
@@ -34,7 +35,7 @@ constructor(
     @RequiresApi(Build.VERSION_CODES.M)
     override fun getEventsHandler(): FingerprintAuthEventsHandler {
         val manager = getFingerprintManager()
-        val cryptoObject = FingerprintManager.CryptoObject(encryptor.getCipher())
+        val cryptoObject = FingerprintManager.CryptoObject(encryptor.get().getCipher())
 
         return FingerprintAuthEventsHandlerImpl(manager, cryptoObject)
     }

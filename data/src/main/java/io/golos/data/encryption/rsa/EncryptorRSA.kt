@@ -7,6 +7,7 @@ import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.Encryptor
+import timber.log.Timber
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.math.BigInteger
@@ -36,15 +37,26 @@ constructor(
 
     private val keyStore: KeyStore = KeyStore.getInstance(KEYSTORE_PROVIDER)
 
-    init {
-        keyStore.load(null)
+    private var isInNotEncryptedMode = false
 
-        if (!keyStore.containsAlias(KEY_ALIAS)) {
-            createInternalKey()
+    init {
+        try {
+            keyStore.load(null)
+
+            if (!keyStore.containsAlias(KEY_ALIAS)) {
+                createInternalKey()
+            }
+        } catch (e: Exception) {
+            Timber.e(e)             // to avoid exception on some some old devices
+            isInNotEncryptedMode = true
         }
     }
 
     override fun encrypt(data: ByteArray?): ByteArray? {
+        if(isInNotEncryptedMode)  {
+            return data
+        }
+
         if(data == null) {
             return null
         }
@@ -70,6 +82,10 @@ constructor(
     }
 
     override fun decrypt(data: ByteArray?): ByteArray? {
+        if(isInNotEncryptedMode)  {
+            return data
+        }
+
         if(data == null) {
             return null
         }
