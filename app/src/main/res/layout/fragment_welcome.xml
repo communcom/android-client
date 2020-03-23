@@ -66,7 +66,12 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:text="@string/sign_up"
+        android:text="@string/start_and_get"
+
+        android:paddingStart="58dp"
+        android:paddingEnd="40dp"
+
+        android:drawableEnd="@drawable/ic_golden_coins"
         android:textStyle="bold"
         android:visibility="gone"
         tools:visibility="visible" />

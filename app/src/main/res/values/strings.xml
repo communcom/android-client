@@ -94,6 +94,7 @@
     <!--Welcome-->
     <string name="sign_up">Sign up</string>
     <string name="sign_in">Sign in</string>
+    <string name="start_and_get">Start and get 30 points</string>
     <string name="welcome">Welcome</string>
     <string name="welcome_slides_text_0_0">Welcome\n</string>
     <string name="welcome_slides_text_0_1">to Commun /</string>
@@ -108,11 +109,10 @@
     <string name="continue_with_google">Continue with Google</string>
     <string name="continue_with_facebook">Continue with Facebook</string>
 
-    <string name="welcome_slides_sub_text_1">Social platform based on blockchain\nand for the first time, it’s easy</string>
-    <string name="welcome_slides_sub_text_2">Create, share, and evaluate content\nDecide yourself what deserves\nthe attention</string>
-    <string name="welcome_slides_sub_text_3">Every post, share, comment\nor like is rewarded</string>
+    <string name="welcome_slides_sub_text_1">Blockchain-based social network where you get rewards for posts, comments and likes</string>
+    <string name="welcome_slides_sub_text_2">Choose communities of interest and be rewarded for your actions</string>
+<!--    <string name="welcome_slides_sub_text_3">Communities has no single owner  and fully belongs to its members</string>-->
     <string name="welcome_slides_sub_text_4">Commun has no single owner\nand fully belongs to its members</string>
-
 
     <!--Sign In-->
     <string name="login">Login</string>
