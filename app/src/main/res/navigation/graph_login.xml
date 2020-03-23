@@ -130,7 +130,15 @@
         android:id="@+id/signUpProtectionKeysFragment"
         android:name="io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.view.SignUpProtectionKeysFragment"
         android:label="fragment_sign_up_protection_keys"
-        tools:layout="@layout/fragment_sign_up_protection_keys"/>
+        tools:layout="@layout/fragment_sign_up_protection_keys">
+        <action
+            android:id="@+id/action_signUpProtectionKeysFragment_to_pinCodeFragment"
+            app:destination="@id/pinCodeFragment"
+            app:enterAnim="@anim/nav_slide_in_right"
+            app:exitAnim="@anim/nav_slide_out_left"
+            app:popEnterAnim="@anim/nav_slide_in_left"
+            app:popExitAnim="@anim/nav_slide_out_right" />
+    </fragment>
     <fragment
         android:id="@+id/pinCodeFragment"
         android:name="io.golos.cyber_android.ui.screens.login_sign_up_pin.PinCodeFragment"

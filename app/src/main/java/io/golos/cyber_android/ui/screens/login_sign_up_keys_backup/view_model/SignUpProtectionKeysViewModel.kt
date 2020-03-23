@@ -56,6 +56,7 @@ constructor(
                 analyticsFacade.passwordNotBackuped(true)
 
                 model.saveKeysExported()
+                model.auth()
                 _command.value = NavigateToMainScreenCommand()
             } catch (ex: Exception) {
                 _command.value = ShowMessageResCommand(R.string.common_general_error)
@@ -76,16 +77,17 @@ constructor(
                 model.copyExportedDocumentTo(exportPath)
 
                 model.saveKeysExported()
+                model.auth()
 
                 analyticsFacade.passwordBackuped(PasswordBackup.PDF)
 
+                _command.value = SetLoadingVisibilityCommand(false)
                 _command.value = ShowMessageResCommand(R.string.pdf_save_completed, isError = false)
-
                 _command.value = NavigateToMainScreenCommand()
             } catch (ex: Exception) {
                 Timber.e(ex)
-                _command.value = SetLoadingVisibilityCommand(false)
                 _command.value = ShowMessageResCommand(R.string.common_general_error)
+                _command.value = SetLoadingVisibilityCommand(false)
             }
         }
     }
@@ -109,6 +111,7 @@ constructor(
     fun onExportToGoogleDriveSuccess() {
         launch {
             model.saveKeysExported()
+            model.auth()
 
             analyticsFacade.passwordBackuped(PasswordBackup.CLOUD)
 

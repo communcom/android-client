@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.view
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentSignUpProtectionKeysBinding
@@ -87,10 +88,11 @@ class SignUpProtectionKeysFragment : FragmentBaseMVVM<FragmentSignUpProtectionKe
     }
 
     private fun navigateToMainScreen() {
-        if (!requireActivity().isFinishing) {
-            requireActivity().finish()
-            startActivity(Intent(requireContext(), MainActivity::class.java))
-        }
+        findNavController().navigate(R.id.action_signUpProtectionKeysFragment_to_pinCodeFragment)
+//        if (!requireActivity().isFinishing) {
+//            requireActivity().finish()
+//            startActivity(Intent(requireContext(), MainActivity::class.java))
+//        }
     }
 
     private fun showSaveDialog() {

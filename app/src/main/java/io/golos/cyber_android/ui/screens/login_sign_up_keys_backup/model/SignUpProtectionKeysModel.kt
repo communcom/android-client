@@ -18,4 +18,6 @@ interface SignUpProtectionKeysModel : ModelBase {
     fun getDataForExporting(): PdfPageExportData
 
     suspend fun copyExportedDocumentTo(exportPath: String): File
+
+    suspend fun auth()
 }

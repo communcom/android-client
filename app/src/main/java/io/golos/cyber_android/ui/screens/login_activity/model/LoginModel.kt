@@ -7,6 +7,8 @@ interface LoginModel: ModelBase {
 
     val isSetupCompleted: Boolean
 
+
+
     suspend fun hasAuthState(): Boolean
 
     fun closeApp()

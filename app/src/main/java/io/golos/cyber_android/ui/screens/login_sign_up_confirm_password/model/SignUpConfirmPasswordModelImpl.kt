@@ -1,7 +1,6 @@
 package io.golos.cyber_android.ui.screens.login_sign_up_confirm_password.model
 
 import android.content.Context
-import io.golos.commun4j.utils.StringSigner
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.login_shared.fragments_data_pass.LoginActivityFragmentsDataPass
 import io.golos.cyber_android.ui.screens.login_sign_up_create_password.dto.PasswordProcessingResult
@@ -12,12 +11,12 @@ import io.golos.domain.CrashlyticsFacade
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.UserKeyStore
-import io.golos.domain.dto.AuthResultDomain
 import io.golos.domain.dto.AuthStateDomain
 import io.golos.domain.dto.AuthType
 import io.golos.domain.dto.FtueBoardStageEntity
 import io.golos.domain.repositories.AuthRepository
 import io.golos.domain.repositories.CurrentUserRepository
+import io.golos.use_cases.auth.AuthUseCase
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
@@ -33,7 +32,8 @@ constructor(
     private val authRepository: AuthRepository,
     private val currentUserRepository: CurrentUserRepository,
     private val userKeyStore: UserKeyStore,
-    private val crashlytics: CrashlyticsFacade
+    private val crashlytics: CrashlyticsFacade,
+    private val authUseCase: AuthUseCase
 ) : SignUpCreatePasswordModel,
     ModelBaseImpl() {
 
@@ -91,16 +91,11 @@ constructor(
                 crashlytics.registerUser(userName, userId.userId)
 
                 // Authentication
-                processAuth(userName, userKeys.activePrivateKey)
+                authUseCase.authBrief(userName, userKeys.activePrivateKey)
             } catch (ex: Exception) {
                 Timber.e(ex)
                 throw ex
             }
         }
-    }
-
-    private suspend fun processAuth(userName: String, privateActiveKey: String): AuthResultDomain {
-        val authSecret = authRepository.getAuthSecret()
-        return authRepository.auth(userName, authSecret, StringSigner.signString(authSecret, privateActiveKey))
     }
 }

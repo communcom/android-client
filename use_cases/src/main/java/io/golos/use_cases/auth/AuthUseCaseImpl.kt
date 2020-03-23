@@ -6,10 +6,7 @@ import io.golos.domain.CrashlyticsFacade
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.UserKeyStore
-import io.golos.domain.dto.AuthResultDomain
-import io.golos.domain.dto.AuthStateDomain
-import io.golos.domain.dto.AuthType
-import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.dto.*
 import io.golos.domain.repositories.AuthRepository
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.UsersRepository
@@ -48,6 +45,10 @@ constructor(
             currentUserRepository.authState = authState
             currentUserRepository.userAvatarUrl = userProfile.avatarUrl
         }
+    }
+
+    override suspend fun authBrief(userName: String, activePrivateKey: String?) {
+        processAuth(userName, activePrivateKey ?: userKeyStore.getKey(UserKeyType.ACTIVE))
     }
 
     /**

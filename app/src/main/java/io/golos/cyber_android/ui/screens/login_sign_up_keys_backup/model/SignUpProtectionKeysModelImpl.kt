@@ -13,6 +13,7 @@ import io.golos.domain.UserKeyStore
 import io.golos.domain.dto.UserKey
 import io.golos.domain.dto.UserKeyType
 import io.golos.domain.repositories.CurrentUserRepositoryRead
+import io.golos.use_cases.auth.AuthUseCase
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
@@ -28,7 +29,8 @@ constructor(
     private val currentUserRepository: CurrentUserRepositoryRead,
     private val dataPass: LoginActivityFragmentsDataPass,
     private val moshi: Moshi,
-    override val pageRenderer: PageRenderer
+    override val pageRenderer: PageRenderer,
+    private val authUseCase: AuthUseCase
 ) : ModelBaseImpl(), SignUpProtectionKeysModel {
 
     private lateinit var _allKeys: List<UserKey>
@@ -44,9 +46,9 @@ constructor(
                 UserKeyType.POSTING,
                 UserKeyType.MEMO
             )
-                .map { keyType ->
-                    UserKey(keyType, userKeyStore.getKey(keyType))
-                }
+            .map { keyType ->
+                UserKey(keyType, userKeyStore.getKey(keyType))
+            }
         }
     }
 
@@ -92,4 +94,6 @@ constructor(
             pageRenderer.document!!.copyTo(target, true)
             target
         }
+
+    override suspend fun auth() = authUseCase.authBrief(currentUserRepository.userName)
 }
