@@ -52,5 +52,22 @@ data class UpVoteNotificationDomain(
     override val currentUserName: String
 ) : NotificationDomain(id, isNew, createTime, user, currentUserId, currentUserName)
 
+data class TransferNotificationDomain(
+    override val id: String,
+    override val isNew: Boolean,
+    override val createTime: Date,
+    override val user: UserNotificationDomain,      // From
+
+    val receiver: UserIdDomain,
+
+    val amount: Double,
+    val pointType: String?,
+
+    val community: CommunityDomain,
+
+    override val currentUserId: UserIdDomain,
+    override val currentUserName: String
+) : NotificationDomain(id, isNew, createTime, user, currentUserId, currentUserName)
+
 data class UserNotificationDomain(val id: UserIdDomain, val name: String?, val avatar: String?)
 

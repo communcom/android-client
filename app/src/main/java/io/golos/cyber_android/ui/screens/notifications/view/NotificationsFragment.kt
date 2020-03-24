@@ -28,6 +28,7 @@ import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.utils.id.IdUtil
 import kotlinx.android.synthetic.main.fragment_notifications.*
+import timber.log.Timber
 
 class NotificationsFragment : FragmentBaseMVVM<FragmentNotificationsBinding, NotificationsViewModel>() {
 
@@ -67,6 +68,7 @@ class NotificationsFragment : FragmentBaseMVVM<FragmentNotificationsBinding, Not
     private fun observeViewModel() {
         viewModel.notificationsListState.observe(viewLifecycleOwner, Observer { state ->
             val adapter = rvNotifications.adapter as NotificationsAdapter
+            Timber.tag("NOTIFICATIONS").d(state::class.simpleName)
             when (state) {
                 is Paginator.State.Data<*> -> {
                     adapter.removeProgress()

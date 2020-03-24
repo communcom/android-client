@@ -29,6 +29,7 @@ class NotificationsAdapter (
             UP_VOTE -> NotificationUpVoteViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
             PROGRESS -> LoadingListViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
             ERROR -> RetryListViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
+            TRANSFER -> TransferViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
             else -> throw UnsupportedOperationException("Undefined view holder")
         }
     }
@@ -43,7 +44,8 @@ class NotificationsAdapter (
             is NotificationUpVoteItem -> UP_VOTE
             is LoadingListItem -> PROGRESS
             is ProfileCommentErrorListItem -> ERROR
-            else -> throw UnsupportedOperationException("This type of item is not supported")
+            is TransferNotificationItem -> TRANSFER
+            else -> throw UnsupportedOperationException("This type of item is not supported: ${items[position]::class.simpleName}")
         }
 
     override fun onNextPageReached() {
@@ -90,7 +92,7 @@ class NotificationsAdapter (
     private companion object {
 
         @Target(AnnotationTarget.TYPE, AnnotationTarget.VALUE_PARAMETER)
-        @IntDef(EMPTY_STUB, HEADER_DATE, MENTION, REPLY, SUBSCRIBE, UP_VOTE, PROGRESS, ERROR)
+        @IntDef(EMPTY_STUB, HEADER_DATE, MENTION, REPLY, SUBSCRIBE, UP_VOTE, PROGRESS, ERROR, TRANSFER)
         @Retention(AnnotationRetention.SOURCE)
         annotation class NotificationHolderType
 
@@ -102,5 +104,6 @@ class NotificationsAdapter (
         const val UP_VOTE = 5
         const val PROGRESS = 6
         const val ERROR = 7
+        const val TRANSFER = 8
     }
 }

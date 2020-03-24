@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.notifications.view.list.view_holders
 
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.BaseNotificationItem
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModelListEventsProcessor
@@ -10,6 +11,7 @@ import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.utils.adjustSpannableClicks
+import io.golos.domain.GlobalConstants
 import io.golos.domain.dto.UserIdDomain
 import kotlinx.android.synthetic.main.item_notification.view.*
 
@@ -20,37 +22,44 @@ abstract class BaseNotificationViewHolder<TItem: BaseNotificationItem> (
     R.layout.item_notification
 ) {
 
-    abstract val notificationTypeLabelResId: Int
+    protected open val notificationTypeLabelResId: Int = -1
 
-    fun init(listItem: BaseNotificationItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor) {
+    override fun init(listItem: TItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor) {
         itemView.tvMessage.adjustSpannableClicks()
         setUserAvatar(listItem, listItemEventsProcessor)
         setUnreadIndicatorVisibility(listItem)
         setCreateTime(listItem)
-        setNotificationTypeLabel()
+        setNotificationTypeLabel(itemView.ivNotificationTypeLabel, listItem)
     }
 
     override fun release() {
         itemView.ivUserAvatar.clear()
         itemView.ivContent.clear()
+        itemView.ivNotificationTypeLabel.clear()
         super.release()
     }
 
-    private fun setNotificationTypeLabel(){
+    protected open fun setNotificationTypeLabel(widget: ImageView, listItem: TItem) {
         if(notificationTypeLabelResId == -1){
-            itemView.ivNotificationTypeLabel.visibility = View.INVISIBLE
+            widget.visibility = View.INVISIBLE
         } else{
-            itemView.ivNotificationTypeLabel.visibility = View.VISIBLE
-            itemView.ivNotificationTypeLabel.setImageResource(notificationTypeLabelResId)
+            widget.visibility = View.VISIBLE
+            widget.setImageResource(notificationTypeLabelResId)
         }
     }
 
     private fun setUserAvatar(listItem: BaseNotificationItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor){
-        itemView.ivUserAvatar.loadAvatar(listItem.userAvatar)
+        if(listItem.userId == GlobalConstants.C_BOUNTY_USER_ID) {
+            itemView.ivUserAvatar.setImageResource(R.drawable.ic_golden_coins)
+        } else {
+            itemView.ivUserAvatar.loadAvatar(listItem.userAvatar)
+        }
+
         itemView.ivUserAvatar.setOnClickListener {
             val userId = listItem.userId
             listItemEventsProcessor.onUserClickedById(UserIdDomain(userId))
         }
+
         itemView.ivNotificationTypeLabel.setOnClickListener {
             val userId = listItem.userId
             listItemEventsProcessor.onUserClickedById(UserIdDomain(userId))

@@ -8,6 +8,7 @@ object GlobalConstants {
     const val PAGE_SIZE = 25
 
     const val C_POINT_USER_ID = "c.point"
+    const val C_BOUNTY_USER_ID = "c.bounty"
 
     const val DEVICE_TYPE = "phone"
     const val PLATFORM = "android"

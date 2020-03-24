@@ -104,7 +104,7 @@ class NotificationsRepositoryImpl @Inject constructor(
 
     override suspend fun getNotifications(beforeThanDate: String?, limit: Int): NotificationsPageDomain {
         val notificationsResponse = apiCall{ commun4j.getNotifications(limit, beforeThanDate) }
-        val notifications = notificationsResponse.items.mapNotNull { it.mapToNotificationDomain(currentUserRepository.userName) }
+        val notifications = notificationsResponse.items.mapNotNull { it.mapToNotificationDomain(currentUserRepository.userId, currentUserRepository.userName) }
         return NotificationsPageDomain(notifications, notificationsResponse.lastNotificationTimestamp)
     }
 

@@ -31,13 +31,13 @@ enum class ImageProgressLoadState{
     ERROR
 }
 
-fun ImageView.loadAvatar(avatarUrl: String?, @DrawableRes defaultRes: Int = R.drawable.ic_avatar) =
-    this.load(avatarUrl, defaultRes)
+fun ImageView.loadAvatar(avatarUrlString: String?, @DrawableRes defaultRes: Int = R.drawable.ic_avatar) =
+    this.load(avatarUrlString, defaultRes)
 
 fun ImageView.loadAvatar(avatarUri: Uri?, @DrawableRes defaultRes: Int = R.drawable.ic_avatar) =
     this.load(avatarUri, defaultRes)
 
-fun ImageView.loadCommunity(communityUrl: String?) = this.load(communityUrl, R.drawable.ic_group_temporary)
+fun ImageView.loadCommunity(communityUrl: String?) = this.load(communityUrl, R.drawable.ic_commun)
 
 fun ImageView.loadLeader(url: String?, percentage: Float) =
     Glide

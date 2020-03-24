@@ -1,15 +1,41 @@
 package io.golos.cyber_android.ui.screens.notifications.mappers
 
-import io.golos.cyber_android.ui.screens.notifications.view.list.items.NotificationMentionItem
-import io.golos.cyber_android.ui.screens.notifications.view.list.items.NotificationReplyItem
-import io.golos.cyber_android.ui.screens.notifications.view.list.items.NotificationSubscribeItem
-import io.golos.cyber_android.ui.screens.notifications.view.list.items.NotificationUpVoteItem
+import io.golos.cyber_android.ui.screens.notifications.view.list.items.*
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.dto.*
 import io.golos.utils.id.IdUtil
 
 fun NotificationDomain.mapToVersionedListItem(): VersionedListItem {
     return when(this){
+        is TransferNotificationDomain -> {
+            TransferNotificationItem(
+                version = 0,
+                id = IdUtil.generateLongId(),
+                isFirstItem = false,
+                isLastItem = false,
+
+                notificationId = id,
+                createTime = createTime,
+                isNew = isNew,
+
+                userId = user.id.userId,
+                userName = user.name,
+                userAvatar = user.avatar,
+
+                receiver = receiver,
+                amount = amount,
+                pointType = pointType,
+
+                communityId = community.communityId,
+                communityAlias = community.alias!!,
+                communityName = community.name,
+                communityAvatarUrl = community.avatarUrl,
+
+                currentUserId = currentUserId,
+                currentUserName = currentUserName
+            )
+        }
+
         is MentionNotificationDomain -> {
             NotificationMentionItem(
                 0,
