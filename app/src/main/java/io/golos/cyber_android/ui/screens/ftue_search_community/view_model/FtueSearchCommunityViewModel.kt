@@ -267,12 +267,12 @@ class FtueSearchCommunityViewModel @Inject constructor(
         launch {
             val communityIds = _collectionListState.value!!
                 .filter { it.collection.community != null }
-                .map { it.collection.community?.communityId }
+                .map { it.collection.community?.communityId?.code!! }
 
             analyticsFacade.bountySubscribe(communityIds.size)
             try {
                 _command.value = NavigationToFtueFinishFragment()
-                model.sendCommunitiesCollection(communityIds as List<String>)
+                model.sendCommunitiesCollection(communityIds)
             } catch (e: Exception) {
                 Timber.e(e)
                 //if need processing, error need uncomment
