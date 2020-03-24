@@ -3,28 +3,28 @@
     "countryCode": "AF",
     "name": "Afghanistan",
     "code": "93",
-    "available": false,
+    "available": true,
     "emoji": "🇦🇫"
   },
   {
     "countryCode": "AL",
     "name": "Albania",
     "code": "355",
-    "available": false,
+    "available": true,
     "emoji": "🇦🇱"
   },
   {
     "countryCode": "DZ",
     "name": "Algeria",
     "code": "213",
-    "available": false,
+    "available": true,
     "emoji": "🇩🇿"
   },
   {
     "countryCode": "AS",
     "name": "American Samoa",
     "code": "1684",
-    "available": false,
+    "available": true,
     "emoji": "🇦🇸"
   },
   {
@@ -38,42 +38,42 @@
     "countryCode": "AO",
     "name": "Angola",
     "code": "244",
-    "available": false,
+    "available": true,
     "emoji": "🇦🇴"
   },
   {
     "countryCode": "AI",
     "name": "Anguilla",
     "code": "1264",
-    "available": false,
+    "available": true,
     "emoji": "🇦🇮"
   },
   {
     "countryCode": "AG",
     "code": "1268",
     "name": "Antigua and Barbuda",
-    "available": false,
+    "available": true,
     "emoji": "🇦🇬"
   },
   {
     "countryCode": "AR",
     "name": "Argentina",
     "code": "54",
-    "available": false,
+    "available": true,
     "emoji": "🇦🇷"
   },
   {
     "countryCode": "AM",
     "name": "Armenia",
     "code": "374",
-    "available": false,
+    "available": true,
     "emoji": "🇦🇲"
   },
   {
     "countryCode": "AW",
     "name": "Aruba",
     "code": "297",
-    "available": false,
+    "available": true,
     "emoji": "🇦🇼"
   },
   {
@@ -94,7 +94,7 @@
     "countryCode": "AZ",
     "name": "Azerbaijan",
     "code": "994",
-    "available": false,
+    "available": true,
     "emoji": "🇦🇿"
   },
   {
@@ -115,21 +115,21 @@
     "countryCode": "BD",
     "name": "Bangladesh",
     "code": "880",
-    "available": false,
+    "available": true,
     "emoji": "🇧🇩"
   },
   {
     "countryCode": "BB",
     "name": "Barbados",
     "code": "1246",
-    "available": false,
+    "available": true,
     "emoji": "🇧🇧"
   },
   {
     "countryCode": "BY",
     "name": "Belarus",
     "code": "375",
-    "available": false,
+    "available": true,
     "emoji": "🇧🇾"
   },
   {
@@ -143,98 +143,98 @@
     "countryCode": "BZ",
     "name": "Belize",
     "code": "501",
-    "available": false,
+    "available": true,
     "emoji": "🇧🇿"
   },
   {
     "countryCode": "BJ",
     "name": "Benin",
     "code": "229",
-    "available": false,
+    "available": true,
     "emoji": "🇧🇯"
   },
   {
     "countryCode": "BM",
     "name": "Bermuda",
     "code": "1441",
-    "available": false,
+    "available": true,
     "emoji": "🇧🇲"
   },
   {
     "countryCode": "BT",
     "name": "Bhutan",
     "code": "975",
-    "available": false,
+    "available": true,
     "emoji": "🇧🇹"
   },
   {
     "countryCode": "BO",
     "name": "Bolivia",
     "code": "591",
-    "available": false,
+    "available": true,
     "emoji": "🇧🇴"
   },
   {
     "countryCode": "BA",
     "code": "387",
     "name": "Bosnia and Herzegovina",
-    "available": false,
+    "available": true,
     "emoji": "🇧🇦"
   },
   {
     "countryCode": "BW",
     "name": "Botswana",
     "code": "267",
-    "available": false,
+    "available": true,
     "emoji": "🇧🇼"
   },
   {
     "countryCode": "BR",
     "name": "Brazil",
     "code": "55",
-    "available": false,
+    "available": true,
     "emoji": "🇧🇷"
   },
   {
     "countryCode": "BN",
     "name": "Brunei",
     "code": "673",
-    "available": false,
+    "available": true,
     "emoji": "🇧🇳"
   },
   {
     "countryCode": "BG",
     "name": "Bulgaria",
     "code": "359",
-    "available": false,
+    "available": true,
     "emoji": "🇧🇬"
   },
   {
     "countryCode": "BF",
     "name": "Burkina Faso",
     "code": "226",
-    "available": false,
+    "available": true,
     "emoji": "🇧🇫"
   },
   {
     "countryCode": "BI",
     "name": "Burundi",
     "code": "257",
-    "available": false,
+    "available": true,
     "emoji": "🇧🇮"
   },
   {
     "countryCode": "KH",
     "name": "Cambodia",
     "code": "855",
-    "available": false,
+    "available": true,
     "emoji": "🇰🇭"
   },
   {
     "countryCode": "CM",
     "name": "Cameroon",
     "code": "237",
-    "available": false,
+    "available": true,
     "emoji": "🇨🇲"
   },
   {
@@ -248,112 +248,112 @@
     "countryCode": "CV",
     "name": "Cape Verde",
     "code": "238",
-    "available": false,
+    "available": true,
     "emoji": "🇨🇻"
   },
   {
     "countryCode": "BQ",
     "name": "Caribbean Netherlands",
     "code": "599",
-    "available": false,
+    "available": true,
     "emoji": "🇧🇶"
   },
   {
     "countryCode": "KY",
     "name": "Cayman Islands",
     "code": "1345",
-    "available": false,
+    "available": true,
     "emoji": "🇰🇾"
   },
   {
     "countryCode": "CF",
     "name": "Central African Republic",
     "code": "236",
-    "available": false,
+    "available": true,
     "emoji": "🇨🇫"
   },
   {
     "countryCode": "TD",
     "name": "Chad",
     "code": "235",
-    "available": false,
+    "available": true,
     "emoji": "🇹🇩"
   },
   {
     "countryCode": "CL",
     "name": "Chile",
     "code": "56",
-    "available": false,
+    "available": true,
     "emoji": "🇨🇱"
   },
   {
     "countryCode": "CN",
     "name": "China",
     "code": "86",
-    "available": false,
+    "available": true,
     "emoji": "🇨🇳"
   },
   {
     "countryCode": "CX",
     "name": "Christmas Island",
     "code": "61",
-    "available": false,
+    "available": true,
     "emoji": "🇨🇽"
   },
   {
     "countryCode": "CC",
     "name": "Cocos (Keeling) Islands",
     "code": "61",
-    "available": false,
+    "available": true,
     "emoji": "🇨🇨"
   },
   {
     "countryCode": "CO",
     "name": "Colombia",
     "code": "57",
-    "available": false,
+    "available": true,
     "emoji": "🇨🇴"
   },
   {
     "countryCode": "KM",
     "name": "Comoros",
     "code": "269",
-    "available": false,
+    "available": true,
     "emoji": "🇰🇲"
   },
   {
     "countryCode": "CK",
     "name": "Cook Islands",
     "code": "682",
-    "available": false,
+    "available": true,
     "emoji": "🇨🇰"
   },
   {
     "countryCode": "CR",
     "name": "Costa Rica",
     "code": "506",
-    "available": false,
+    "available": true,
     "emoji": "🇨🇷"
   },
   {
     "countryCode": "HR",
     "name": "Croatia",
     "code": "385",
-    "available": false,
+    "available": true,
     "emoji": "🇭🇷"
   },
   {
     "countryCode": "CU",
     "name": "Cuba",
     "code": "53",
-    "available": false,
+    "available": true,
     "emoji": "🇨🇺"
   },
   {
     "countryCode": "CW",
     "name": "Curaçao",
     "code": "599",
-    "available": false,
+    "available": true,
     "emoji": "🇨🇼"
   },
   {
@@ -374,14 +374,14 @@
     "countryCode": "CI",
     "code": "225",
     "name": "Côte d'Ivoire",
-    "available": false,
+    "available": true,
     "emoji": "🇨🇮"
   },
   {
     "countryCode": "CG",
     "code": "243",
     "name": "Democratic Republic Congo",
-    "available": false,
+    "available": true,
     "emoji": "🇨🇩"
   },
   {
@@ -395,49 +395,49 @@
     "countryCode": "DJ",
     "name": "Djibouti",
     "code": "253",
-    "available": false,
+    "available": true,
     "emoji": "🇩🇯"
   },
   {
     "countryCode": "DM",
     "name": "Dominica",
     "code": "1767",
-    "available": false,
+    "available": true,
     "emoji": "🇩🇲"
   },
   {
     "countryCode": "DO",
     "name": "Dominican Republic",
     "code": "1809",
-    "available": false,
+    "available": true,
     "emoji": "🇩🇴"
   },
   {
     "countryCode": "TP",
     "code": "670",
     "name": "East Timor",
-    "available": false,
+    "available": true,
     "emoji": "🇹🇱"
   },
   {
     "countryCode": "EC",
     "name": "Ecuador",
     "code": "593",
-    "available": false,
+    "available": true,
     "emoji": "🇪🇨"
   },
   {
     "countryCode": "EG",
     "name": "Egypt",
     "code": "20",
-    "available": false,
+    "available": true,
     "emoji": "🇪🇬"
   },
   {
     "countryCode": "SV",
     "name": "El Salvador",
     "code": "503",
-    "available": false,
+    "available": true,
     "emoji": "🇸🇻"
   },
   {
@@ -451,7 +451,7 @@
     "countryCode": "ER",
     "name": "Eritrea",
     "code": "291",
-    "available": false,
+    "available": true,
     "emoji": "🇪🇷"
   },
   {
@@ -465,28 +465,28 @@
     "countryCode": "ET",
     "name": "Ethiopia",
     "code": "251",
-    "available": false,
+    "available": true,
     "emoji": "🇪🇹"
   },
   {
     "countryCode": "FK",
     "code": "500",
     "name": "Falkland Islands (Islas Malvinas)",
-    "available": false,
+    "available": true,
     "emoji": "🇫🇰"
   },
   {
     "countryCode": "FO",
     "name": "Faroe Islands",
     "code": "298",
-    "available": false,
+    "available": true,
     "emoji": "🇫🇴"
   },
   {
     "countryCode": "FJ",
     "name": "Fiji",
     "code": "679",
-    "available": false,
+    "available": true,
     "emoji": "🇫🇯"
   },
   {
@@ -507,35 +507,35 @@
     "countryCode": "GF",
     "name": "French Guiana",
     "code": "594",
-    "available": false,
+    "available": true,
     "emoji": "🇬🇫"
   },
   {
     "countryCode": "PF",
     "name": "French Polynesia",
     "code": "689",
-    "available": false,
+    "available": true,
     "emoji": "🇵🇫"
   },
   {
     "countryCode": "GA",
     "name": "Gabon",
     "code": "241",
-    "available": false,
+    "available": true,
     "emoji": "🇬🇦"
   },
   {
     "countryCode": "GM",
     "name": "Gambia",
     "code": "220",
-    "available": false,
+    "available": true,
     "emoji": "🇬🇲"
   },
   {
     "countryCode": "GE",
     "name": "Georgia",
     "code": "995",
-    "available": false,
+    "available": true,
     "emoji": "🇬🇪"
   },
   {
@@ -549,105 +549,105 @@
     "countryCode": "GH",
     "name": "Ghana",
     "code": "233",
-    "available": false,
+    "available": true,
     "emoji": "🇬🇭"
   },
   {
     "countryCode": "GI",
     "name": "Gibraltar",
     "code": "350",
-    "available": false,
+    "available": true,
     "emoji": "🇬🇮"
   },
   {
     "countryCode": "GR",
     "name": "Greece",
     "code": "30",
-    "available": false,
+    "available": true,
     "emoji": "🇬🇷"
   },
   {
     "countryCode": "GL",
     "name": "Greenland",
     "code": "299",
-    "available": false,
+    "available": true,
     "emoji": "🇬🇱"
   },
   {
     "countryCode": "GD",
     "name": "Grenada",
     "code": "1473",
-    "available": false,
+    "available": true,
     "emoji": "🇬🇩"
   },
   {
     "countryCode": "GP",
     "name": "Guadeloupe",
     "code": "590",
-    "available": false,
+    "available": true,
     "emoji": "🇬🇵"
   },
   {
     "countryCode": "GU",
     "name": "Guam",
     "code": "1671",
-    "available": false,
+    "available": true,
     "emoji": "🇬🇺"
   },
   {
     "countryCode": "GT",
     "name": "Guatemala",
     "code": "502",
-    "available": false,
+    "available": true,
     "emoji": "🇬🇹"
   },
   {
     "countryCode": "GG",
     "name": "Guernsey",
     "code": "44",
-    "available": false,
+    "available": true,
     "emoji": "🇬🇬"
   },
   {
     "countryCode": "GN",
     "code": "224",
     "name": "Guinea Conakry",
-    "available": false,
+    "available": true,
     "emoji": "🇬🇳"
   },
   {
     "countryCode": "GW",
     "name": "Guinea-Bissau",
     "code": "245",
-    "available": false,
+    "available": true,
     "emoji": "🇬🇼"
   },
   {
     "countryCode": "GY",
     "name": "Guyana",
     "code": "592",
-    "available": false,
+    "available": true,
     "emoji": "🇬🇾"
   },
   {
     "countryCode": "HT",
     "name": "Haiti",
     "code": "509",
-    "available": false,
+    "available": true,
     "emoji": "🇭🇹"
   },
   {
     "countryCode": "HM",
     "code": "672",
     "name": "Heard Island and McDonald Islands",
-    "available": false,
+    "available": true,
     "emoji": "🇦🇺"
   },
   {
     "countryCode": "HN",
     "name": "Honduras",
     "code": "504",
-    "available": false,
+    "available": true,
     "emoji": "🇭🇳"
   },
   {
@@ -689,14 +689,14 @@
     "countryCode": "IR",
     "name": "Iran",
     "code": "98",
-    "available": false,
+    "available": true,
     "emoji": "🇮🇷"
   },
   {
     "countryCode": "IQ",
     "name": "Iraq",
     "code": "964",
-    "available": false,
+    "available": true,
     "emoji": "🇮🇶"
   },
   {
@@ -710,7 +710,7 @@
     "countryCode": "IM",
     "name": "Isle of Man",
     "code": "44",
-    "available": false,
+    "available": true,
     "emoji": "🇮🇲"
   },
   {
@@ -731,7 +731,7 @@
     "countryCode": "JM",
     "name": "Jamaica",
     "code": "1876",
-    "available": false,
+    "available": true,
     "emoji": "🇯🇲"
   },
   {
@@ -745,28 +745,28 @@
     "countryCode": "JO",
     "name": "Jordan",
     "code": "962",
-    "available": false,
+    "available": true,
     "emoji": "🇯🇴"
   },
   {
     "countryCode": "KZ",
     "name": "Kazakhstan",
     "code": "7",
-    "available": false,
+    "available": true,
     "emoji": "🇰🇿"
   },
   {
     "countryCode": "KE",
     "name": "Kenya",
     "code": "254",
-    "available": false,
+    "available": true,
     "emoji": "🇰🇪"
   },
   {
     "countryCode": "KI",
     "name": "Kiribati",
     "code": "686",
-    "available": false,
+    "available": true,
     "emoji": "🇰🇮"
   },
   {
@@ -780,14 +780,14 @@
     "countryCode": "KG",
     "name": "Kyrgyzstan",
     "code": "996",
-    "available": false,
+    "available": true,
     "emoji": "🇰🇬"
   },
   {
     "countryCode": "LA",
     "name": "Laos",
     "code": "856",
-    "available": false,
+    "available": true,
     "emoji": "🇱🇦"
   },
   {
@@ -801,28 +801,28 @@
     "countryCode": "LB",
     "name": "Lebanon",
     "code": "961",
-    "available": false,
+    "available": true,
     "emoji": "🇱🇧"
   },
   {
     "countryCode": "LS",
     "name": "Lesotho",
     "code": "266",
-    "available": false,
+    "available": true,
     "emoji": "🇱🇸"
   },
   {
     "countryCode": "LR",
     "name": "Liberia",
     "code": "231",
-    "available": false,
+    "available": true,
     "emoji": "🇱🇷"
   },
   {
     "countryCode": "LY",
     "name": "Libya",
     "code": "218",
-    "available": false,
+    "available": true,
     "emoji": "🇱🇾"
   },
   {
@@ -850,28 +850,28 @@
     "countryCode": "MO",
     "code": "853",
     "name": "Macau",
-    "available": false,
+    "available": true,
     "emoji": "🇲🇴"
   },
   {
     "countryCode": "MK",
     "name": "Macedonia",
     "code": "389",
-    "available": false,
+    "available": true,
     "emoji": "🇲🇰"
   },
   {
     "countryCode": "MG",
     "name": "Madagascar",
     "code": "261",
-    "available": false,
+    "available": true,
     "emoji": "🇲🇬"
   },
   {
     "countryCode": "MW",
     "name": "Malawi",
     "code": "265",
-    "available": false,
+    "available": true,
     "emoji": "🇲🇼"
   },
   {
@@ -885,14 +885,14 @@
     "countryCode": "MV",
     "name": "Maldives",
     "code": "960",
-    "available": false,
+    "available": true,
     "emoji": "🇲🇻"
   },
   {
     "countryCode": "ML",
     "name": "Mali",
     "code": "223",
-    "available": false,
+    "available": true,
     "emoji": "🇲🇱"
   },
   {
@@ -906,56 +906,56 @@
     "countryCode": "MH",
     "name": "Marshall Islands",
     "code": "692",
-    "available": false,
+    "available": true,
     "emoji": "🇲🇭"
   },
   {
     "countryCode": "MQ",
     "name": "Martinique",
     "code": "596",
-    "available": false,
+    "available": true,
     "emoji": "🇲🇶"
   },
   {
     "countryCode": "MR",
     "name": "Mauritania",
     "code": "222",
-    "available": false,
+    "available": true,
     "emoji": "🇲🇷"
   },
   {
     "countryCode": "MU",
     "name": "Mauritius",
     "code": "230",
-    "available": false,
+    "available": true,
     "emoji": "🇲🇺"
   },
   {
     "countryCode": "YT",
     "name": "Mayotte",
     "code": "262",
-    "available": false,
+    "available": true,
     "emoji": "🇾🇹"
   },
   {
     "countryCode": "MX",
     "name": "Mexico",
     "code": "52",
-    "available": false,
+    "available": true,
     "emoji": "🇲🇽"
   },
   {
     "countryCode": "FM",
     "name": "Micronesia",
     "code": "691",
-    "available": false,
+    "available": true,
     "emoji": "🇫🇲"
   },
   {
     "countryCode": "MD",
     "name": "Moldova",
     "code": "373",
-    "available": false,
+    "available": true,
     "emoji": "🇲🇩"
   },
   {
@@ -969,63 +969,63 @@
     "countryCode": "MN",
     "name": "Mongolia",
     "code": "976",
-    "available": false,
+    "available": true,
     "emoji": "🇲🇳"
   },
   {
     "countryCode": "ME",
     "name": "Montenegro",
     "code": "382",
-    "available": false,
+    "available": true,
     "emoji": "🇲🇪"
   },
   {
     "countryCode": "MS",
     "name": "Montserrat",
     "code": "1664",
-    "available": false,
+    "available": true,
     "emoji": "🇲🇸"
   },
   {
     "countryCode": "MA",
     "name": "Morocco",
     "code": "212",
-    "available": false,
+    "available": true,
     "emoji": "🇲🇦"
   },
   {
     "countryCode": "MZ",
     "name": "Mozambique",
     "code": "258",
-    "available": false,
+    "available": true,
     "emoji": "🇲🇿"
   },
   {
     "countryCode": "MM",
     "name": "Myanmar (Burma)",
     "code": "95",
-    "available": false,
+    "available": true,
     "emoji": "🇲🇲"
   },
   {
     "countryCode": "NA",
     "name": "Namibia",
     "code": "264",
-    "available": false,
+    "available": true,
     "emoji": "🇳🇦"
   },
   {
     "countryCode": "NR",
     "name": "Nauru",
     "code": "674",
-    "available": false,
+    "available": true,
     "emoji": "🇳🇷"
   },
   {
     "countryCode": "NP",
     "name": "Nepal",
     "code": "977",
-    "available": false,
+    "available": true,
     "emoji": "🇳🇵"
   },
   {
@@ -1039,7 +1039,7 @@
     "countryCode": "NC",
     "name": "New Caledonia",
     "code": "687",
-    "available": false,
+    "available": true,
     "emoji": "🇳🇨"
   },
   {
@@ -1053,49 +1053,49 @@
     "countryCode": "NI",
     "name": "Nicaragua",
     "code": "505",
-    "available": false,
+    "available": true,
     "emoji": "🇳🇮"
   },
   {
     "countryCode": "NE",
     "name": "Niger",
     "code": "227",
-    "available": false,
+    "available": true,
     "emoji": "🇳🇪"
   },
   {
     "countryCode": "NG",
     "name": "Nigeria",
     "code": "234",
-    "available": false,
+    "available": true,
     "emoji": "🇳🇬"
   },
   {
     "countryCode": "NU",
     "name": "Niue",
     "code": "683",
-    "available": false,
+    "available": true,
     "emoji": "🇳🇺"
   },
   {
     "countryCode": "NF",
     "name": "Norfolk Island",
     "code": "672",
-    "available": false,
+    "available": true,
     "emoji": "🇳🇫"
   },
   {
     "countryCode": "KP",
     "name": "North Korea",
     "code": "850",
-    "available": false,
+    "available": true,
     "emoji": "🇰🇵"
   },
   {
     "countryCode": "MP",
     "name": "Northern Mariana Islands",
     "code": "1670",
-    "available": false,
+    "available": true,
     "emoji": "🇲🇵"
   },
   {
@@ -1116,49 +1116,49 @@
     "countryCode": "PK",
     "name": "Pakistan",
     "code": "92",
-    "available": false,
+    "available": true,
     "emoji": "🇵🇰"
   },
   {
     "countryCode": "PW",
     "name": "Palau",
     "code": "680",
-    "available": false,
+    "available": true,
     "emoji": "🇵🇼"
   },
   {
     "countryCode": "PS",
     "name": "Palestinian Territories",
     "code": "970",
-    "available": false,
+    "available": true,
     "emoji": "🇵🇸"
   },
   {
     "countryCode": "PA",
     "name": "Panama",
     "code": "507",
-    "available": false,
+    "available": true,
     "emoji": "🇵🇦"
   },
   {
     "countryCode": "PG",
     "name": "Papua New Guinea",
     "code": "675",
-    "available": false,
+    "available": true,
     "emoji": "🇵🇬"
   },
   {
     "countryCode": "PY",
     "name": "Paraguay",
     "code": "595",
-    "available": false,
+    "available": true,
     "emoji": "🇵🇾"
   },
   {
     "countryCode": "PE",
     "name": "Peru",
     "code": "51",
-    "available": false,
+    "available": true,
     "emoji": "🇵🇪"
   },
   {
@@ -1186,7 +1186,7 @@
     "countryCode": "PR",
     "name": "Puerto Rico",
     "code": "1787",
-    "available": false,
+    "available": true,
     "emoji": "🇵🇷"
   },
   {
@@ -1200,70 +1200,70 @@
     "countryCode": "CG",
     "code": "242",
     "name": "Republic of Congo",
-    "available": false,
+    "available": true,
     "emoji": "🇨🇬"
   },
   {
     "countryCode": "RO",
     "name": "Romania",
     "code": "40",
-    "available": false,
+    "available": true,
     "emoji": "🇷🇴"
   },
   {
     "countryCode": "RU",
     "name": "Russia",
     "code": "7",
-    "available": false,
+    "available": true,
     "emoji": "🇷🇺"
   },
   {
     "countryCode": "RW",
     "name": "Rwanda",
     "code": "250",
-    "available": false,
+    "available": true,
     "emoji": "🇷🇼"
   },
   {
     "countryCode": "RE",
     "name": "Réunion",
     "code": "262",
-    "available": false,
+    "available": true,
     "emoji": "🇷🇪"
   },
   {
     "countryCode": "BL",
     "code": "590",
     "name": "Saint Barthélemy",
-    "available": false,
+    "available": true,
     "emoji": "🇧🇱"
   },
   {
     "countryCode": "SH",
     "code": "290",
     "name": "Saint Helena",
-    "available": false,
+    "available": true,
     "emoji": "🇸🇭"
   },
   {
     "countryCode": "MF",
     "code": "590",
     "name": "Saint Martin",
-    "available": false,
+    "available": true,
     "emoji": "🇲🇶"
   },
   {
     "countryCode": "PM",
     "code": "508",
     "name": "Saint Pierre and Miquelon",
-    "available": false,
+    "available": true,
     "emoji": "🇵🇲"
   },
   {
     "countryCode": "WS",
     "name": "Samoa",
     "code": "685",
-    "available": false,
+    "available": true,
     "emoji": "🇼🇸"
   },
   {
@@ -1284,28 +1284,28 @@
     "countryCode": "SN",
     "name": "Senegal",
     "code": "221",
-    "available": false,
+    "available": true,
     "emoji": "🇸🇳"
   },
   {
     "countryCode": "RS",
     "name": "Serbia",
     "code": "381",
-    "available": false,
+    "available": true,
     "emoji": "🇷🇸"
   },
   {
     "countryCode": "SC",
     "name": "Seychelles",
     "code": "248",
-    "available": false,
+    "available": true,
     "emoji": "🇸🇨"
   },
   {
     "countryCode": "SL",
     "name": "Sierra Leone",
     "code": "232",
-    "available": false,
+    "available": true,
     "emoji": "🇸🇱"
   },
   {
@@ -1319,7 +1319,7 @@
     "countryCode": "SX",
     "name": "Sint Maarten",
     "code": "1",
-    "available": false,
+    "available": true,
     "emoji": "🇸🇽"
   },
   {
@@ -1340,28 +1340,28 @@
     "countryCode": "SB",
     "name": "Solomon Islands",
     "code": "677",
-    "available": false,
+    "available": true,
     "emoji": "🇸🇧"
   },
   {
     "countryCode": "SO",
     "name": "Somalia",
     "code": "252",
-    "available": false,
+    "available": true,
     "emoji": "🇸🇴"
   },
   {
     "countryCode": "ZA",
     "name": "South Africa",
     "code": "27",
-    "available": false,
+    "available": true,
     "emoji": "🇿🇦"
   },
   {
     "countryCode": "GS",
     "code": "500",
     "name": "South Georgia and the South Sandwich Islands",
-    "available": false,
+    "available": true,
     "emoji": "🇬🇸"
   },
   {
@@ -1375,7 +1375,7 @@
     "countryCode": "SS",
     "name": "South Sudan",
     "code": "211",
-    "available": false,
+    "available": true,
     "emoji": "🇸🇸"
   },
   {
@@ -1389,56 +1389,56 @@
     "countryCode": "LK",
     "name": "Sri Lanka",
     "code": "94",
-    "available": false,
+    "available": true,
     "emoji": "🇱🇰"
   },
   {
     "countryCode": "KN",
     "code": "1869",
     "name": "St. Kitts",
-    "available": false,
+    "available": true,
     "emoji": "🇰🇳"
   },
   {
     "countryCode": "LC",
     "name": "St. Lucia",
     "code": "1758",
-    "available": false,
+    "available": true,
     "emoji": "🇱🇨"
   },
   {
     "countryCode": "VC",
     "code": "1784",
     "name": "St. Vincent",
-    "available": false,
+    "available": true,
     "emoji": "🇻🇨"
   },
   {
     "countryCode": "SD",
     "name": "Sudan",
     "code": "249",
-    "available": false,
+    "available": true,
     "emoji": "🇸🇩"
   },
   {
     "countryCode": "SR",
     "name": "Suriname",
     "code": "597",
-    "available": false,
+    "available": true,
     "emoji": "🇸🇷"
   },
   {
     "countryCode": "SJ",
     "code": "47",
     "name": "Svalbard and Jan Mayen",
-    "available": false,
+    "available": true,
     "emoji": "🇳🇴"
   },
   {
     "countryCode": "SZ",
     "name": "Swaziland",
     "code": "268",
-    "available": false,
+    "available": true,
     "emoji": "🇸🇿"
   },
   {
@@ -1459,14 +1459,14 @@
     "countryCode": "SY",
     "name": "Syria",
     "code": "963",
-    "available": false,
+    "available": true,
     "emoji": "🇸🇾"
   },
   {
     "countryCode": "ST",
     "code": "239",
     "name": "São Tomé and Príncipe",
-    "available": false,
+    "available": true,
     "emoji": "🇸🇹"
   },
   {
@@ -1480,14 +1480,14 @@
     "countryCode": "TJ",
     "name": "Tajikistan",
     "code": "992",
-    "available": false,
+    "available": true,
     "emoji": "🇹🇯"
   },
   {
     "countryCode": "TZ",
     "name": "Tanzania",
     "code": "255",
-    "available": false,
+    "available": true,
     "emoji": "🇹🇿"
   },
   {
@@ -1501,84 +1501,84 @@
     "countryCode": "TG",
     "name": "Togo",
     "code": "228",
-    "available": false,
+    "available": true,
     "emoji": "🇹🇬"
   },
   {
     "countryCode": "TK",
     "name": "Tokelau",
     "code": "690",
-    "available": false,
+    "available": true,
     "emoji": "🇹🇰"
   },
   {
     "countryCode": "TO",
     "name": "Tonga",
     "code": "676",
-    "available": false,
+    "available": true,
     "emoji": "🇹🇴"
   },
   {
     "countryCode": "TT",
     "code": "1868",
     "name": "Trinidad/Tobago",
-    "available": false,
+    "available": true,
     "emoji": "🇹🇹"
   },
   {
     "countryCode": "TN",
     "name": "Tunisia",
     "code": "216",
-    "available": false,
+    "available": true,
     "emoji": "🇹🇳"
   },
   {
     "countryCode": "TR",
     "name": "Turkey",
     "code": "90",
-    "available": false,
+    "available": true,
     "emoji": "🇹🇷"
   },
   {
     "countryCode": "TM",
     "name": "Turkmenistan",
     "code": "993",
-    "available": false,
+    "available": true,
     "emoji": "🇹🇲"
   },
   {
     "countryCode": "TC",
     "code": "1649",
     "name": "Turks and Caicos Islands",
-    "available": false,
+    "available": true,
     "emoji": "🇹🇨"
   },
   {
     "countryCode": "TV",
     "name": "Tuvalu",
     "code": "688",
-    "available": false,
+    "available": true,
     "emoji": "🇹🇻"
   },
   {
     "countryCode": "VI",
     "name": "U.S. Virgin Islands",
     "code": "1340",
-    "available": false,
+    "available": true,
     "emoji": "🇻🇮"
   },
   {
     "countryCode": "UG",
     "name": "Uganda",
     "code": "256",
-    "available": false,
+    "available": true,
     "emoji": "🇺🇬"
   },
   {
     "countryCode": "UA",
     "name": "Ukraine",
     "code": "380",
-    "available": false,
+    "available": true,
     "emoji": "🇺🇦"
   },
   {
@@ -1606,21 +1606,21 @@
     "countryCode": "UY",
     "name": "Uruguay",
     "code": "598",
-    "available": false,
+    "available": true,
     "emoji": "🇺🇾"
   },
   {
     "countryCode": "UZ",
     "name": "Uzbekistan",
     "code": "998",
-    "available": false,
+    "available": true,
     "emoji": "🇺🇿"
   },
   {
     "countryCode": "VU",
     "name": "Vanuatu",
     "code": "678",
-    "available": false,
+    "available": true,
     "emoji": "🇻🇺"
   },
   {
@@ -1634,49 +1634,49 @@
     "countryCode": "VE",
     "name": "Venezuela",
     "code": "58",
-    "available": false,
+    "available": true,
     "emoji": "🇻🇪"
   },
   {
     "countryCode": "VN",
     "name": "Vietnam",
     "code": "84",
-    "available": false,
+    "available": true,
     "emoji": "🇻🇳"
   },
   {
     "countryCode": "WF",
     "code": "681",
     "name": "Wallis and Futuna",
-    "available": false,
+    "available": true,
     "emoji": "🇼🇫"
   },
   {
     "countryCode": "EH",
     "name": "Western Sahara",
     "code": "212",
-    "available": false,
+    "available": true,
     "emoji": "🇪🇭"
   },
   {
     "countryCode": "YE",
     "name": "Yemen",
     "code": "967",
-    "available": false,
+    "available": true,
     "emoji": "🇾🇪"
   },
   {
     "countryCode": "ZM",
     "name": "Zambia",
     "code": "260",
-    "available": false,
+    "available": true,
     "emoji": "🇿🇲"
   },
   {
     "countryCode": "ZW",
     "name": "Zimbabwe",
     "code": "263",
-    "available": false,
+    "available": true,
     "emoji": "🇿🇼"
   }
 ]

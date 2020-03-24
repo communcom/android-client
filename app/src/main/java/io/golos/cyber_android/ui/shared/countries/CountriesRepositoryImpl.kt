@@ -36,7 +36,7 @@ constructor(
             val rawCountries = moshi
                 .adapter<List<CountryDomain>>(Types.newParameterizedType(List::class.java,CountryDomain::class.java))
                 .fromJson(countriesRaw)!!
-                .sortedWith(compareBy( { !it.available }, { it.code }, { it.name }))
+                .sortedWith(compareBy({ it.code }, { it.name }))
 
             countries = rawCountries.map { CountryEntity(it, it.name.toLowerCase(Locale.getDefault())) }
 
