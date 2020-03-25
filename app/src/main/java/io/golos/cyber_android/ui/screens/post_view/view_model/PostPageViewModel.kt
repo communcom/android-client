@@ -1,6 +1,9 @@
 package io.golos.cyber_android.ui.screens.post_view.view_model
 
 import android.net.Uri
+import android.os.Handler
+import android.os.Looper
+import androidx.core.os.postDelayed
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
@@ -14,6 +17,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.shared.utils.localSize
 import io.golos.cyber_android.ui.shared.widgets.CommentWidget
+import io.golos.data.exceptions.ApiResponseErrorException
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.CommunityIdDomain
@@ -71,16 +75,20 @@ constructor(
                 _command.value = SetLoadingVisibilityCommand(true)
                 model.loadPost()
                 _postHeader.value = model.getPostHeader()
-                _command.value = SetLoadingVisibilityCommand(false)
 
                 model.loadStartFirstLevelCommentsPage()
-            } catch (ex: Exception) {
-                Timber.e(ex)
-                _command.value = ShowMessageResCommand(R.string.common_general_error)
-                _command.value = NavigateToMainScreenCommand()
-            } finally {
-                _command.value = SetLoadingVisibilityCommand(false)
+
                 _commentFieldEnabled.value = true
+                _command.value = SetLoadingVisibilityCommand(false)
+            } catch (ex: Exception) {
+                _command.value = (ex as? ApiResponseErrorException)?.errorInfo?.message
+                    ?.let {
+                        ShowMessageTextCommand(it)
+                    }
+                    ?: ShowMessageResCommand(R.string.common_general_error)
+
+                _command.value = SetLoadingVisibilityCommand(false)
+                _command.value = NavigateBackwardCommand()
             }
         }
     }

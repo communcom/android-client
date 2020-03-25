@@ -10,6 +10,7 @@ import android.os.Parcelable
 import android.view.View
 import androidx.annotation.StringRes
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -160,7 +161,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
 
     override fun processViewCommand(command: ViewCommand) {
         when (command) {
-            is NavigateToMainScreenCommand -> activity?.finish()
+            is NavigateBackwardCommand -> getDashboardFragment(this)?.navigateBack(null)
 
             is NavigationToParentScreenWithStringResultCommand -> {
                 val permlink = command.permlink

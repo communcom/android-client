@@ -75,6 +75,7 @@ constructor(
             }
         } catch (e: Exception){
             Timber.e(e)
+            throw e
         }
     }
 
