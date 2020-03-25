@@ -33,6 +33,10 @@ class DebugAnalyticsModule: AnalyticsModule {
     override fun openScreen013() = sendEvent("Open screen 0.1.3")
 
     /**
+     * Event: Click log in 0.1
+     */
+    override fun clickLogIn01() = sendEvent("Click log in 0.1")
+    /**
      * Event: Registration Selection
      */
     override fun registrationSelection(param: RegistrationSelection) =
@@ -118,6 +122,11 @@ class DebugAnalyticsModule: AnalyticsModule {
      * Event: Open screen 1.
      */
     override fun openScreen1() = sendEvent("Open screen 1.")
+
+    /**
+     * Event: Open screen 1.1.0
+     */
+    override fun openScreen110() = sendEvent("Open screen 1.1.0")
 
     /**
      * Event: Open screen 1.1.1

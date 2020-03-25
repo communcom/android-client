@@ -27,6 +27,11 @@ interface AnalyticsEvents {
     fun openScreen013()
 
     /**
+     * Event: Click log in 0.1
+     */
+    fun clickLogIn01()
+
+    /**
      * Event: Registration Selection
      */
     fun registrationSelection(param: RegistrationSelection)
@@ -80,6 +85,11 @@ interface AnalyticsEvents {
      * Event: Open screen 1.
      */
     fun openScreen1()
+
+    /**
+     * Event: Open screen 1.1.0
+     */
+    fun openScreen110()
 
     /**
      * Event: Open screen 1.1.1

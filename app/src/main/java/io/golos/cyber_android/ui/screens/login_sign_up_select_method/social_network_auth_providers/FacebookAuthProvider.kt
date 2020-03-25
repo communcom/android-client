@@ -9,6 +9,7 @@ import com.facebook.FacebookException
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import io.golos.cyber_android.R
+import io.golos.cyber_android.application.shared.analytics.AnalyticsFacade
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.data.repositories.sign_up_tokens.SignUpTokensRepository
 import io.golos.domain.DispatchersProvider
@@ -19,10 +20,12 @@ class FacebookAuthProvider
 @Inject
 constructor(
     dispatchersProvider: DispatchersProvider,
-    signUpTokensRepository: SignUpTokensRepository
+    signUpTokensRepository: SignUpTokensRepository,
+    analyticsFacade: AnalyticsFacade
 ) : AuthProviderBase(
     dispatchersProvider,
-    signUpTokensRepository
+    signUpTokensRepository,
+    analyticsFacade
 ) {
     private lateinit var facebookCallbackManager: CallbackManager
 
@@ -36,14 +39,17 @@ constructor(
 
             LoginManager.getInstance().registerCallback(facebookCallbackManager, object : FacebookCallback<LoginResult> {
                 override fun onSuccess(result: LoginResult?) {
+                    analyticsFacade.facebookAuth(true)
                     processAccessToken(result!!.accessToken)
                 }
 
                 override fun onCancel() {
+                    analyticsFacade.facebookAuth(false)
                     _command.value = ShowMessageResCommand(R.string.common_error_operation_canceled)
                 }
 
                 override fun onError(error: FacebookException?) {
+                    analyticsFacade.facebookAuth(false)
                     Timber.e(error)
                     _command.value = ShowMessageResCommand(R.string.common_general_error)
                 }

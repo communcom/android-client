@@ -8,6 +8,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
+import io.golos.cyber_android.application.shared.analytics.AnalyticsFacade
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.data.repositories.sign_up_tokens.SignUpTokensRepository
 import io.golos.domain.DispatchersProvider
@@ -18,10 +19,12 @@ class GoogleAuthProvider
 @Inject
 constructor(
     dispatchersProvider: DispatchersProvider,
-    signUpTokensRepository: SignUpTokensRepository
+    signUpTokensRepository: SignUpTokensRepository,
+    analyticsFacade: AnalyticsFacade
 ) : AuthProviderBase(
     dispatchersProvider,
-    signUpTokensRepository
+    signUpTokensRepository,
+    analyticsFacade
 ) {
     private val requestCode = 40955
 
@@ -46,6 +49,8 @@ constructor(
         if(resultCode == Activity.RESULT_OK) {
             processSignInResult(data!!)
         } else {
+            analyticsFacade.googleAuth(false)
+
             val status = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
             Timber.w("Can't sign in on Google. The status is: ${status.status.statusMessage} [${status.status.statusCode}]")
             _command.value = ShowMessageResCommand(R.string.common_error_operation_canceled)
@@ -62,6 +67,8 @@ constructor(
             val account = result.signInAccount!!
             val idToken = account.idToken
             Timber.tag("ACCESS_TOKEN").d("accessToken: $idToken")
+
+            analyticsFacade.googleAuth(true)
 
             processToken(idToken!!)
         }

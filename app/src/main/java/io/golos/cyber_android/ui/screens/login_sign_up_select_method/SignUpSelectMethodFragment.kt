@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
+import io.golos.cyber_android.application.shared.analytics.AnalyticsFacade
 import io.golos.cyber_android.ui.screens.login_shared.SignUpDescriptionHelper
 import io.golos.cyber_android.ui.screens.login_sign_up.SignUpViewModel
 import io.golos.cyber_android.ui.screens.login_sign_up_select_method.di.SignUpSelectMethodFragmentComponent
@@ -37,7 +38,15 @@ class SignUpSelectMethodFragment: FragmentBase() {
     @Inject
     protected lateinit var viewModelFactory: ActivityViewModelFactory
 
+    @Inject
+    internal lateinit var analyticsFacade: AnalyticsFacade
+
     private lateinit var signUpViewModel: SignUpViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        analyticsFacade.openScreen110()
+    }
 
     override fun onDestroy() {
         super.onDestroy()
@@ -65,8 +74,15 @@ class SignUpSelectMethodFragment: FragmentBase() {
 
         phoneButton.setOnClickListener { findNavController().navigate(R.id.action_signUpSelectMethod_to_signUpPhoneFragment) }
 
-        googleButton.setOnClickListener { startAuth(googleAuth) }
-        facebookButton.setOnClickListener { startAuth(facebookAuth) }
+        googleButton.setOnClickListener {
+            analyticsFacade.openScreen121()
+            startAuth(googleAuth)
+        }
+
+        facebookButton.setOnClickListener {
+            analyticsFacade.openScreen131()
+            startAuth(facebookAuth)
+        }
 
         tvSignIn.setOnClickListener { findNavController().navigate(R.id.action_signUpSelectMethod_to_signInFragment) }
 

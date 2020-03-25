@@ -65,9 +65,11 @@ class WelcomeFragment : FragmentBaseCoroutines() {
         setupSlidesPager(slides)
 
         topSignIn.setOnClickListener {
+            analyticsFacade.clickLogIn01()
             findNavController().navigate(R.id.action_welcomeFragment_to_signInFragment)
         }
         signIn.setOnClickListener {
+            analyticsFacade.clickLogIn01()
             findNavController().navigate(R.id.action_welcomeFragment_to_signInFragment)
         }
         signUp.setOnClickListener {

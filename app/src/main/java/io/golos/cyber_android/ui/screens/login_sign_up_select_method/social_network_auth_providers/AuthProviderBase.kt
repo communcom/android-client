@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.login_sign_up_select_method.social_net
 
 import androidx.lifecycle.LiveData
 import io.golos.cyber_android.R
+import io.golos.cyber_android.application.shared.analytics.AnalyticsFacade
 import io.golos.cyber_android.ui.screens.login_sign_up_select_method.dto.NavigateToUserNameStepCommand
 import io.golos.cyber_android.ui.shared.mvvm.SingleLiveData
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
@@ -20,7 +21,8 @@ import kotlin.coroutines.CoroutineContext
 abstract class AuthProviderBase
 constructor(
     protected val dispatchersProvider: DispatchersProvider,
-    protected val signUpTokensRepository: SignUpTokensRepository
+    protected val signUpTokensRepository: SignUpTokensRepository,
+    protected val analyticsFacade: AnalyticsFacade
 ) : SocialNetworkAuthProvider,
     CoroutineScope {
 

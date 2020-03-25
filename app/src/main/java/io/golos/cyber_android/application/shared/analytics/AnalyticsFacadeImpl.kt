@@ -39,6 +39,8 @@ constructor(
      */
     override fun openScreen013() = modules.forEach { it.openScreen013() }
 
+    override fun clickLogIn01() = modules.forEach { it.clickLogIn01() }
+
     /**
      * Event: Registration Selection
      */
@@ -93,6 +95,8 @@ constructor(
      * Event: Open screen 1.
      */
     override fun openScreen1() = modules.forEach { it.openScreen1() }
+
+    override fun openScreen110() = modules.forEach { it.openScreen110() }
 
     /**
      * Event: Open screen 1.1.1
