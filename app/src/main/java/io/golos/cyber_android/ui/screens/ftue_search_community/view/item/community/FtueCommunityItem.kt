@@ -8,6 +8,7 @@ import io.golos.utils.format.KiloCounterFormatter
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.screens.ftue_search_community.model.FtueItemListModelEventProcessor
 import io.golos.cyber_android.ui.screens.ftue_search_community.model.item.community.FtueCommunityListItem
+import io.golos.cyber_android.ui.shared.extensions.setOneClickListener
 import io.golos.cyber_android.ui.shared.glide.loadCommunityItemAvatar
 import io.golos.cyber_android.ui.shared.glide.loadCommunityItemCover
 import kotlinx.android.synthetic.main.view_profile_communities_community_list_item.view.*
@@ -26,13 +27,15 @@ class FtueCommunityItem(
         if (listItem.community.isSubscribed) {
             itemView.followingButton.visibility = View.VISIBLE
             itemView.followButton.visibility = View.GONE
-            itemView.followingButton.setOnClickListener {
+
+            itemView.followingButton.setOneClickListener {
                 listItemEventsProcessor.onUnFollowFromCommunity(listItem.community)
             }
         } else {
             itemView.followingButton.visibility = View.GONE
             itemView.followButton.visibility = View.VISIBLE
-            itemView.followButton.setOnClickListener {
+
+            itemView.followButton.setOneClickListener {
                 listItemEventsProcessor.onFollowToCommunity(listItem.community)
             }
         }
@@ -42,8 +45,8 @@ class FtueCommunityItem(
     }
 
     override fun release() {
-        itemView.followingButton.setOnClickListener(null)
-        itemView.followButton.setOnClickListener(null)
+        itemView.followingButton.setOneClickListener(listener = null)
+        itemView.followButton.setOneClickListener(listener = null)
     }
 
     private fun getMembersCount(count: Int, resources: Resources): String {
