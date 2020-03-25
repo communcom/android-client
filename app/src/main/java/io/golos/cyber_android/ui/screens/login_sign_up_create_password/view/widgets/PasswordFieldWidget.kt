@@ -40,7 +40,7 @@ constructor(
     }
 
     private fun updateTextVisibility() {
-        val icon = context.getDrawable(if(isTextVisible) R.drawable.ic_open_eye_fill else R.drawable.ic_close_eye_fill)
+        val icon = context.getDrawable(if(isTextVisible) R.drawable.ic_close_eye_fill else R.drawable.ic_open_eye_fill)
         setCompoundDrawablesWithIntrinsicBounds(null, null, icon, null)
 
         inputType = if(isTextVisible) InputType.TYPE_CLASS_TEXT else InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD

@@ -28,7 +28,7 @@ constructor(
 
     val password = MutableLiveData<String>("")
 
-    private val _isPasswordVisible = MutableLiveData<Boolean>(true)
+    private val _isPasswordVisible = MutableLiveData<Boolean>(false)
     val isPasswordVisible: LiveData<Boolean> = _isPasswordVisible
 
     private val _isInvalidCharactersLabelVisible = MutableLiveData<Int>(View.INVISIBLE)
