@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.screens.community_page_leaders_list.dto.*
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
+import io.golos.data.exceptions.ApiResponseErrorException
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.CommunityLeaderDomain
@@ -54,20 +55,20 @@ constructor(
 
     override suspend fun vote(leader: UserIdDomain): VoteResult {
         if(votingInProgress) {
-            return VoteResult.VOTE_IN_PROGRESS
+            return VoteResult(VoteResultType.VOTE_IN_PROGRESS)
         }
 
         val leaderIndex = loadedItems.indexOfFirst { it is LeaderListItem && it.userId == leader }
         if(leaderIndex == -1) {
-            return VoteResult.FAIL
+            return VoteResult(VoteResultType.FAIL)
         }
 
         if((loadedItems[leaderIndex] as LeaderListItem).isVoted) {
-            return VoteResult.FAIL
+            return VoteResult(VoteResultType.FAIL)
         }
 
         if(loadedItems.any { it is LeaderListItem && it.isVoted }) {
-            return VoteResult.UNVOTE_NEEDED
+            return VoteResult(VoteResultType.UNVOTE_NEEDED)
         }
 
         votingInProgress = true
@@ -79,26 +80,26 @@ constructor(
         } catch (ex: Exception) {
             Timber.e(ex)
             updateLeader(leaderIndex) { it.copy(isVoted = !it.isVoted, version = it.version+1) }
-            return VoteResult.FAIL
+            return VoteResult(VoteResultType.FAIL, (ex as? ApiResponseErrorException)?.errorInfo?.message)
         } finally {
             votingInProgress = false
         }
 
-        return VoteResult.SUCCESS
+        return VoteResult(VoteResultType.SUCCESS)
     }
 
     override suspend fun unvote(leader: UserIdDomain): VoteResult {
         if(votingInProgress) {
-            return VoteResult.VOTE_IN_PROGRESS
+            return VoteResult(VoteResultType.VOTE_IN_PROGRESS)
         }
 
         val leaderIndex = loadedItems.indexOfFirst { it is LeaderListItem && it.userId == leader }
         if(leaderIndex == -1) {
-            return VoteResult.FAIL
+            return VoteResult(VoteResultType.FAIL)
         }
 
         if(!(loadedItems[leaderIndex] as LeaderListItem).isVoted) {
-            return VoteResult.FAIL
+            return VoteResult(VoteResultType.FAIL)
         }
 
         votingInProgress = true
@@ -110,12 +111,12 @@ constructor(
         } catch (ex: Exception) {
             Timber.e(ex)
             updateLeader(leaderIndex) { it.copy(isVoted = !it.isVoted, version = it.version+1) }
-            return VoteResult.FAIL
+            return VoteResult(VoteResultType.FAIL, (ex as? ApiResponseErrorException)?.errorInfo?.message)
         } finally {
             votingInProgress = false
         }
 
-        return VoteResult.SUCCESS
+        return VoteResult(VoteResultType.SUCCESS)
     }
 
     private suspend fun loadData(isRetry: Boolean) {

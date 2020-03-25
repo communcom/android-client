@@ -6,8 +6,10 @@ import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.community_page_leaders_list.dto.VoteResult
+import io.golos.cyber_android.ui.screens.community_page_leaders_list.dto.VoteResultType
 import io.golos.cyber_android.ui.screens.community_page_leaders_list.model.LeadsListModel
 import io.golos.cyber_android.ui.screens.community_page_leaders_list.view.list.LeadsListItemEventsProcessor
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageTextCommand
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.UserIdDomain
 import kotlinx.coroutines.launch
@@ -49,10 +51,16 @@ constructor(
     }
 
     private fun processVoteResult(voteResult: VoteResult) =
-        when(voteResult) {
-            VoteResult.FAIL -> _command.value = ShowMessageResCommand(R.string.common_general_error)
-            VoteResult.VOTE_IN_PROGRESS -> _command.value = ShowMessageResCommand(R.string.voting_in_progress)
-            VoteResult.UNVOTE_NEEDED -> _command.value = ShowMessageResCommand(R.string.voting_one_leader)
+        when(voteResult.type) {
+            VoteResultType.FAIL -> _command.value =
+                voteResult.message
+                    ?.let {
+                        ShowMessageTextCommand(it)
+                    }
+                    ?: ShowMessageResCommand(R.string.common_general_error)
+
+            VoteResultType.VOTE_IN_PROGRESS -> _command.value = ShowMessageResCommand(R.string.voting_in_progress)
+            VoteResultType.UNVOTE_NEEDED -> _command.value = ShowMessageResCommand(R.string.voting_one_leader)
             else -> {}
         }
 }
