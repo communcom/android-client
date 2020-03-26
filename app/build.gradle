@@ -74,6 +74,25 @@ android {
 
             buildConfigField "String",  'GOOGLE_ACCESS_TOKEN_CLIENT_ID', "\"537042616174-jr6forf8aon2j7sj09flm39mgvg8ip0l.apps.googleusercontent.com\""
         }
+        checking {
+            dimension "cyber4j-config-type"
+
+            resValue "string", "app_name", "Commun-dev"
+            resValue "string", "facebook_app_id", "150680096143077"
+            resValue "string", "fb_login_protocol_scheme", "fb150680096143077"
+
+            applicationIdSuffix ".dev"
+
+            buildConfigField "String",  'AMPLITUDE_API_KEY', "\"d4c86feb8c760822a71751a2b894a99e\""
+            buildConfigField "Boolean", 'ANALYTICS_ENABLED', "false"
+            buildConfigField "Boolean", 'CRASH_REPORTS_ENABLED', "false"
+
+            buildConfigField "String",  'BLOCK_CHAIN_HTTP_API_URL', "\"https://dev-3-node.commun.com/\""
+            buildConfigField "String",  'SERVICES_URL', "\"wss://dev-3-gate.commun.com/\""
+            buildConfigField "String",  'ACCESS_TOKEN_BASE_URL', "\"https://dev-3.commun.com/\""
+
+            buildConfigField "String",  'GOOGLE_ACCESS_TOKEN_CLIENT_ID', "\"537042616174-jr6forf8aon2j7sj09flm39mgvg8ip0l.apps.googleusercontent.com\""
+        }
     }
 
     compileOptions {
@@ -143,6 +162,7 @@ dependencies {
     implementation deps.utils.fabric
     implementation deps.utils.protobuf
     implementation deps.utils.amplitude
+    implementation deps.utils.remoteDebugger
 
     implementation deps.googleServices.playServicesVision
 

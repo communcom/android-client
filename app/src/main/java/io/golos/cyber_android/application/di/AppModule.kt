@@ -14,9 +14,10 @@ import io.golos.cyber_android.application.shared.analytics.AnalyticsFacadeImpl
 import io.golos.cyber_android.application.shared.analytics.modules.AnalyticsModule
 import io.golos.cyber_android.application.shared.analytics.modules.amplitude.AmplitudeAnalyticsModule
 import io.golos.cyber_android.application.shared.analytics.modules.debug.DebugAnalyticsModule
-import io.golos.cyber_android.application.shared.logger.CrashlyticsTimberTreeDebug
-import io.golos.cyber_android.application.shared.logger.CrashlyticsTimberTreeRelease
+import io.golos.cyber_android.application.shared.logger.TimberTreeDebug
+import io.golos.cyber_android.application.shared.logger.TimberTreeRelease
 import io.golos.cyber_android.application.shared.logger.Cyber4JLogger
+import io.golos.cyber_android.application.shared.logger.TimberTreeChecking
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
 import io.golos.data.encryption.aes.EncryptorAES
 import io.golos.data.encryption.aes.EncryptorAESOldApi
@@ -27,6 +28,7 @@ import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import timber.log.Timber
+import java.lang.UnsupportedOperationException
 import javax.inject.Named
 
 /** Application level module - global objects are created here   */
@@ -92,10 +94,11 @@ class AppModule(
 
     @Provides
     internal fun provideTimberTree(crashlytics: CrashlyticsFacade): Timber.Tree =
-        if(BuildConfig.DEBUG) {
-            CrashlyticsTimberTreeDebug()
-        } else {
-            CrashlyticsTimberTreeRelease(crashlytics)
+        when(BuildConfig.FLAVOR) {
+            "dev" -> TimberTreeDebug()
+            "prod" -> TimberTreeRelease(crashlytics)
+            "checking" -> TimberTreeChecking()
+            else -> throw UnsupportedOperationException("This flavor is not supported: ${BuildConfig.FLAVOR}")
         }
 
     @Provides

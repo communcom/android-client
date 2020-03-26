@@ -37,6 +37,9 @@ android {
         dev {
             buildConfigField "String", 'BASE_URL', "\"https://commun.com\""
         }
+        checking {
+            buildConfigField "String", 'BASE_URL', "\"https://commun.com\""
+        }
     }
 
     dexOptions {

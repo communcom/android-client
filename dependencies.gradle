@@ -22,10 +22,11 @@ ext.versions = [
         dagger             : '2.19',
 
         //Utils
-        timber             : '4.7.1',
+        timber                : '4.7.1',
         leakCanary            : '2.0',
         protobuf              : "3.9.1",
         zxing                 : "3.4.0",
+        remoteDebugger        : "1.0.0",
 
         //Architecture components
         lifecycle             : '2.2.0',
@@ -122,7 +123,8 @@ ext.deps = [
                 fabric    : "com.crashlytics.sdk.android:crashlytics:$versions.fabric",
                 amplitude : "com.amplitude:android-sdk:$versions.amplitude",
                 protobuf  : "com.google.protobuf:protobuf-java:$versions.protobuf",
-                zxing     : "com.google.zxing:core:$versions.zxing"
+                zxing     : "com.google.zxing:core:$versions.zxing",
+                remoteDebugger: "com.github.zerobranch:android-remote-debugger:$versions.remoteDebugger"
         ],
 
         'architectureComponents': [

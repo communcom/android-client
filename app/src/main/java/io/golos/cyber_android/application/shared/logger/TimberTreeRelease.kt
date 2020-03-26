@@ -5,7 +5,7 @@ import io.golos.domain.CrashlyticsFacade
 import timber.log.Timber
 import javax.inject.Inject
 
-class CrashlyticsTimberTreeRelease
+class TimberTreeRelease
 @Inject
 constructor(
     private val crashlytics: CrashlyticsFacade

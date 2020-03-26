@@ -2,6 +2,7 @@ package io.golos.cyber_android.application
 
 import android.annotation.SuppressLint
 import android.app.Application
+import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.application.di_storage.DependencyInjectionStorage
 import io.golos.cyber_android.application.di.AppComponent
 import io.golos.cyber_android.application.shared.analytics.AnalyticsFacade
@@ -10,6 +11,7 @@ import io.golos.cyber_android.application.shared.ui_monitor.UIMonitor
 import io.golos.domain.LogTags
 import io.golos.utils.id.IdUtil
 import timber.log.Timber
+import zerobranch.androidremotedebugger.AndroidRemoteDebugger
 import javax.inject.Inject
 
 class App : Application() {
@@ -38,8 +40,17 @@ class App : Application() {
         Timber.plant(timberTree)
         Timber.tag(LogTags.NAVIGATION).d("The app is started")
 
+        initRemoteLogging()
+
         analitics.init()
 
         //FacebookAuthProvider.printKeyHash(this)
+    }
+
+    @Suppress("ConstantConditionIf")
+    private fun initRemoteLogging() {
+        if(BuildConfig.FLAVOR == "checking") {
+            AndroidRemoteDebugger.init(applicationContext)
+        }
     }
 }
