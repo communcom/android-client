@@ -1,6 +1,10 @@
 package io.golos.cyber_android.ui.screens.login_sign_up_select_method.social_network_auth_providers
 
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
+import android.util.Base64
 import androidx.fragment.app.Fragment
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
@@ -8,13 +12,16 @@ import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
+import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.shared.analytics.AnalyticsFacade
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.data.repositories.sign_up_tokens.SignUpTokensRepository
 import io.golos.domain.DispatchersProvider
 import timber.log.Timber
+import java.security.MessageDigest
 import javax.inject.Inject
+
 
 class FacebookAuthProvider
 @Inject
@@ -27,6 +34,18 @@ constructor(
     signUpTokensRepository,
     analyticsFacade
 ) {
+    companion object {
+        fun printKeyHash(context: Context) {
+            val info: PackageInfo = context.packageManager.getPackageInfo(BuildConfig.APPLICATION_ID, PackageManager.GET_SIGNATURES)
+
+            for (signature in info.signatures) {
+                val md: MessageDigest = MessageDigest.getInstance("SHA")
+                md.update(signature.toByteArray())
+                Timber.tag("KEY_HASH").d(Base64.encodeToString(md.digest(), Base64.DEFAULT))
+            }
+        }
+    }
+
     private lateinit var facebookCallbackManager: CallbackManager
 
     override fun startAuth(fragment: Fragment) {

@@ -59,7 +59,7 @@ constructor(
     override suspend fun updatePost(contentIdDomain: ContentIdDomain, body: String, tags: List<String>): ContentIdDomain {
         val postDomain = getPost(contentIdDomain.userId.toCyberName(), contentIdDomain.communityId, contentIdDomain.permlink)
 
-        apiCallChain {
+        val updatePostResult = apiCallChain {
             commun4j.updatePostOrComment(
                 messageId = MssgidCGalleryStruct(contentIdDomain.userId.toCyberName(), contentIdDomain.permlink),
                 communCode = CyberSymbolCode(contentIdDomain.communityId.code),
@@ -73,6 +73,11 @@ constructor(
                 authorKey = userKeyStore.getKey(UserKeyType.ACTIVE)
             )
         }
+
+        apiCall {
+            commun4j.waitForTransaction(updatePostResult.transaction_id)
+        }
+
         return contentIdDomain
     }
 

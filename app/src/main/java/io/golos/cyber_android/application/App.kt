@@ -6,6 +6,7 @@ import io.golos.cyber_android.application.di_storage.DependencyInjectionStorage
 import io.golos.cyber_android.application.di.AppComponent
 import io.golos.cyber_android.application.shared.analytics.AnalyticsFacade
 import io.golos.cyber_android.application.shared.ui_monitor.UIMonitor
+//import io.golos.cyber_android.ui.screens.login_sign_up_select_method.social_network_auth_providers.FacebookAuthProvider
 import io.golos.domain.LogTags
 import io.golos.utils.id.IdUtil
 import timber.log.Timber
@@ -38,5 +39,7 @@ class App : Application() {
         Timber.tag(LogTags.NAVIGATION).d("The app is started")
 
         analitics.init()
+
+        //FacebookAuthProvider.printKeyHash(this)
     }
 }
