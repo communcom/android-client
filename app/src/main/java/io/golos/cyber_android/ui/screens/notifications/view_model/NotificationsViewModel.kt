@@ -30,9 +30,12 @@ import java.util.*
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
-class NotificationsViewModel @Inject constructor(notificationsModel: NotificationsModel,
-                                                 dispatchersProvider: DispatchersProvider,
-                                                 private val paginator: Paginator.Store<VersionedListItem>) : ViewModelBase<NotificationsModel>(dispatchersProvider, notificationsModel),
+class NotificationsViewModel
+@Inject constructor(
+    notificationsModel: NotificationsModel,
+    dispatchersProvider: DispatchersProvider,
+    private val paginator: Paginator.Store<VersionedListItem>
+) : ViewModelBase<NotificationsModel>(dispatchersProvider, notificationsModel),
     NotificationsViewModelListEventsProcessor {
 
     private val _notificationsListState: MutableLiveData<Paginator.State> = MutableLiveData(Paginator.State.Empty)
@@ -40,6 +43,9 @@ class NotificationsViewModel @Inject constructor(notificationsModel: Notificatio
 
     private val _newNotificationsCount: MutableLiveData<Int> = MutableLiveData(0)
     val newNotificationsCount = _newNotificationsCount.toLiveData()
+
+    private val _swipeRefreshing = MutableLiveData<Boolean>(false)
+    val swipeRefreshing get() = _swipeRefreshing.toLiveData()
 
     private var loadCommentsJob: Job? = null
 
@@ -81,6 +87,15 @@ class NotificationsViewModel @Inject constructor(notificationsModel: Notificatio
         }
         subscribeToNewNotificationsChanges()
         loadNotificationsFirstPage()
+    }
+
+    fun onSwipeRefresh() {
+        launch {
+            paginator.initState(Paginator.State.Empty)
+            restartLoadNotifications()
+
+            _swipeRefreshing.value = false
+        }
     }
 
     private fun subscribeToNewNotificationsChanges() {

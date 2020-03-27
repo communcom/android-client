@@ -10,6 +10,7 @@ import io.golos.data.network_state.NetworkStateChecker
 import io.golos.data.persistence.key_value_storage.storages.shared_preferences.SharedPreferencesStorage
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
+import io.golos.domain.dto.NotificationDomain
 import io.golos.domain.dto.NotificationsPageDomain
 import io.golos.domain.dto.NotificationsStatusDomain
 import io.golos.domain.repositories.CurrentUserRepository
