@@ -36,6 +36,33 @@ fun NotificationDomain.mapToVersionedListItem(): VersionedListItem {
             )
         }
 
+        is RewardNotificationDomain -> {
+            RewardNotificationItem(
+                version = 0,
+                id = IdUtil.generateLongId(),
+                isFirstItem = false,
+                isLastItem = false,
+
+                notificationId = id,
+                createTime = createTime,
+                isNew = isNew,
+
+                userId = user.id.userId,
+                userName = user.name,
+                userAvatar = user.avatar,
+
+                amount = amount,
+
+                communityId = community.communityId,
+                communityAlias = community.alias!!,
+                communityName = community.name,
+                communityAvatarUrl = community.avatarUrl,
+
+                currentUserId = currentUserId,
+                currentUserName = currentUserName
+            )
+        }
+
         is MentionNotificationDomain -> {
             NotificationMentionItem(
                 0,

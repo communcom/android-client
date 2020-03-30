@@ -16,12 +16,14 @@ import io.golos.domain.dto.NotificationsStatusDomain
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.NotificationsRepository
 import io.golos.utils.format.DatesServerFormatter
+import io.golos.utils.helpers.add
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.text.DateFormat
 import java.util.*
 import javax.inject.Inject
 
@@ -105,8 +107,13 @@ class NotificationsRepositoryImpl @Inject constructor(
 
     override suspend fun getNotifications(beforeThanDate: String?, limit: Int): NotificationsPageDomain {
         val notificationsResponse = apiCall{ commun4j.getNotifications(limit, beforeThanDate) }
+
+        val lastNotification = notificationsResponse.items.last().mapToNotificationDomain(currentUserRepository.userId, currentUserRepository.userName)!!
+        val lastTimestamp = DatesServerFormatter.formatToServer(lastNotification.createTime.add(-1000))
+
         val notifications = notificationsResponse.items.mapNotNull { it.mapToNotificationDomain(currentUserRepository.userId, currentUserRepository.userName) }
-        return NotificationsPageDomain(notifications, notificationsResponse.lastNotificationTimestamp)
+
+        return NotificationsPageDomain(notifications, lastTimestamp)
     }
 
     private companion object{

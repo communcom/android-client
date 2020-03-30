@@ -17,9 +17,12 @@ abstract class VersionedListAdapterBase<TListItemEventsProcessor>(
 
     override fun onBindViewHolder(holder: ViewHolderBase<TListItemEventsProcessor, VersionedListItem>, position: Int) {
         super.onBindViewHolder(holder, position)
+        checkNextPageReached(pageSize, items.size, position)
+    }
 
+    protected open fun checkNextPageReached(pageSize: Int?, itemsSize: Int, position: Int) {
         pageSize?.let {
-            if (position > items.size - it / 2) {
+            if (position > itemsSize - it / 2) {
                 onNextPageReached()
             }
         }

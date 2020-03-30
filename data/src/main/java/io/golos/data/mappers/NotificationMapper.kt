@@ -3,6 +3,7 @@ package io.golos.data.mappers
 import io.golos.commun4j.services.model.*
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dto.*
+import java.util.*
 
 fun Notification.mapToNotificationDomain(currentUserId: UserIdDomain, currentUserName: String): NotificationDomain? {
     return when (this) {
@@ -20,6 +21,29 @@ fun Notification.mapToNotificationDomain(currentUserId: UserIdDomain, currentUse
                     alias = if(pointType == "token") GlobalConstants.COMMUN_CODE else community!!.alias,
                     name = if(pointType == "token") GlobalConstants.COMMUN_CODE else community!!.name!!,
                     avatarUrl = if(pointType == "token") null else community!!.avatarUrl,
+                    coverUrl = null,
+                    subscribersCount = 0,
+                    isSubscribed = false,
+                    postsCount = 0
+                ),
+                currentUserId = currentUserId,
+                currentUserName = currentUserName
+            )
+        }
+
+        is RewardNotification -> {
+            RewardNotificationDomain(
+                id = id,
+                isNew = isNew,
+                createTime = timestamp,
+                user = UserNotificationDomain(UserIdDomain(userId.name), null, null),
+                amount = amount,
+
+                community = CommunityDomain(
+                    communityId = CommunityIdDomain(community!!.communityId.value),
+                    alias = community!!.alias,
+                    name = community!!.name!!,
+                    avatarUrl = community!!.avatarUrl,
                     coverUrl = null,
                     subscribersCount = 0,
                     isSubscribed = false,

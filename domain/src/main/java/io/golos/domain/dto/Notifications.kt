@@ -69,5 +69,18 @@ data class TransferNotificationDomain(
     override val currentUserName: String
 ) : NotificationDomain(id, isNew, createTime, user, currentUserId, currentUserName)
 
+data class RewardNotificationDomain(
+    override val id: String,
+    override val isNew: Boolean,
+    override val createTime: Date,
+    override val user: UserNotificationDomain,
+    val amount: Double,
+
+    val community: CommunityDomain,
+
+    override val currentUserId: UserIdDomain,
+    override val currentUserName: String
+) : NotificationDomain(id, isNew, createTime, user, currentUserId, currentUserName)
+
 data class UserNotificationDomain(val id: UserIdDomain, val name: String?, val avatar: String?)
 

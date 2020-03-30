@@ -48,7 +48,7 @@ abstract class BaseNotificationViewHolder<TItem: BaseNotificationItem> (
         }
     }
 
-    private fun setUserAvatar(listItem: BaseNotificationItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor){
+    protected open fun setUserAvatar(listItem: TItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor){
         if(listItem.userId == GlobalConstants.C_BOUNTY_USER_ID) {
             itemView.ivUserAvatar.setImageResource(R.drawable.ic_golden_coins)
         } else {

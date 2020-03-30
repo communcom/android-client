@@ -45,6 +45,10 @@
         android:layout_marginStart="28dp"
         android:layout_marginTop="28dp"
 
+        android:padding="2dp"
+
+        android:background="@drawable/bcg_circle_white"
+
         tools:visibility="visible"
         tools:src="@drawable/ic_mention_label"/>
 

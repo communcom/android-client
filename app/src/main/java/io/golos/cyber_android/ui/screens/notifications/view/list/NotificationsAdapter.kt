@@ -30,6 +30,7 @@ class NotificationsAdapter (
             PROGRESS -> LoadingListViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
             ERROR -> RetryListViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
             TRANSFER -> TransferViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
+            REWARD -> RewardViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
             else -> throw UnsupportedOperationException("Undefined view holder")
         }
     }
@@ -45,12 +46,21 @@ class NotificationsAdapter (
             is LoadingListItem -> PROGRESS
             is ProfileCommentErrorListItem -> ERROR
             is TransferNotificationItem -> TRANSFER
+            is RewardNotificationItem -> REWARD
             else -> throw UnsupportedOperationException("This type of item is not supported: ${items[position]::class.simpleName}")
         }
 
     override fun onNextPageReached() {
         super.onNextPageReached()
         listEventsProcessor.loadMoreNotifications()
+    }
+
+    override fun checkNextPageReached(pageSize: Int?, itemsSize: Int, position: Int) {
+        pageSize?.let {
+            if (position  >= items.size-1) {
+                onNextPageReached()
+            }
+        }
     }
 
     fun addProgress() {
@@ -105,5 +115,6 @@ class NotificationsAdapter (
         const val PROGRESS = 6
         const val ERROR = 7
         const val TRANSFER = 8
+        const val REWARD = 9
     }
 }

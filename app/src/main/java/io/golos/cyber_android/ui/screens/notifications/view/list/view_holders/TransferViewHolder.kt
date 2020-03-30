@@ -27,8 +27,6 @@ class TransferViewHolder(
 ) : BaseNotificationViewHolder<TransferNotificationItem>(
     parentView
 ) {
-    override val notificationTypeLabelResId: Int = R.drawable.ic_up_vote_label
-
     override fun setNotificationTypeLabel(widget: ImageView, listItem: TransferNotificationItem) {
         if(listItem.communityId.code == GlobalConstants.COMMUN_CODE || listItem.communityAvatarUrl == null) {
             widget.setImageResource(R.drawable.ic_commun)
@@ -47,7 +45,7 @@ class TransferViewHolder(
         itemView.flAction.visibility = View.GONE
         itemView.ivContent.visibility = View.GONE
 
-        itemView.setOnClickListener(null)
+        itemView.setOnClickListener {listItemEventsProcessor.onWalletNavigateClicked()}
     }
 
     private fun setMessage(listItem: TransferNotificationItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor) {

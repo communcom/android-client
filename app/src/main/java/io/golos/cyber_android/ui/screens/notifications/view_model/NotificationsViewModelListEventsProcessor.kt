@@ -15,4 +15,6 @@ interface NotificationsViewModelListEventsProcessor: BaseListItemEventsProcessor
     fun onUserClickedById(userId: UserIdDomain)
 
     fun onPostNavigateClicked(contentId: ContentId)
+
+    fun onWalletNavigateClicked()
 }

@@ -92,12 +92,12 @@ object Paginator {
                 when (state) {
                     is State.Data<*> -> {
                         Timber.d("paginator:[DATA]")
-                        sideEffectListener(SideEffect.LoadPage(state.pageCount + 1))
+                        sideEffectListener(SideEffect.LoadPage(state.pageCount + 1, state.pageKey))
                         State.NewPageProgress(state.pageCount, state.data as List<T>, state.pageKey)
                     }
                     is State.PageError<*> -> {
                         Timber.d("paginator:[PAGE_ERROR]")
-                        sideEffectListener(SideEffect.LoadPage(state.pageCount + 1))
+                        sideEffectListener(SideEffect.LoadPage(state.pageCount + 1, state.pageKey))
                         State.NewPageProgress(state.pageCount, state.data as List<T>, state.pageKey)
                     }
                     is State.SearchPageError<*> -> {
@@ -134,7 +134,7 @@ object Paginator {
                         Timber.d("paginator:[NEW_PAGE_PROGRESS]")
                         if (items.isEmpty() || (pageSize !== null && items.size < pageSize)) {
                             Timber.d("paginator: items is empty")
-                            State.FullData(state.pageCount, state.data as List<T>, pageKey)
+                            State.FullData(state.pageCount, state.data as List<T> + items, pageKey)
                         } else {
                             Timber.d("paginator: set -> [STATE.DATA]")
                             State.Data(state.pageCount + 1, state.data as List<T> + items, pageKey)

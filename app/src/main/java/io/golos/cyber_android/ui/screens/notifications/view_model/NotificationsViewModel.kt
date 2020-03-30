@@ -8,6 +8,7 @@ import io.golos.cyber_android.ui.screens.notifications.mappers.mapToVersionedLis
 import io.golos.cyber_android.ui.screens.notifications.model.NotificationsModel
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.BaseNotificationItem
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.NotificationSubscribeItem
+import io.golos.cyber_android.ui.screens.profile.dto.NavigateToWalletCommand
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToPostCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToUserProfileCommand
@@ -129,6 +130,12 @@ class NotificationsViewModel
     override fun onPostNavigateClicked(contentId: ContentId) {
         val discussionIdModel = DiscussionIdModel(contentId.userId, Permlink(contentId.permlink))
         _command.value = NavigateToPostCommand(discussionIdModel, contentId)
+    }
+
+    override fun onWalletNavigateClicked() {
+        launch {
+            _command.value = NavigateToWalletCommand(model.getBalance())
+        }
     }
 
     override fun onChangeFollowerStatusClicked(notification: BaseNotificationItem) {

@@ -16,7 +16,9 @@ import io.golos.cyber_android.ui.screens.notifications.view.list.items.Notificat
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.NotificationHeaderDateItem
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModel
 import io.golos.cyber_android.ui.screens.post_view.view.PostPageFragment
+import io.golos.cyber_android.ui.screens.profile.dto.NavigateToWalletCommand
 import io.golos.cyber_android.ui.screens.profile.view.ProfileExternalUserFragment
+import io.golos.cyber_android.ui.screens.wallet.view.WalletFragment
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToPostCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToUserProfileCommand
@@ -25,6 +27,7 @@ import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.shared.utils.*
 import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.utils.id.IdUtil
 import kotlinx.android.synthetic.main.fragment_notifications.*
@@ -139,6 +142,7 @@ class NotificationsFragment : FragmentBaseMVVM<FragmentNotificationsBinding, Not
         when(command){
             is NavigateToUserProfileCommand -> openUserProfile(command.userId)
             is NavigateToPostCommand -> openPost(command.discussionIdModel, command.contentId)
+            is NavigateToWalletCommand -> moveToWallet(command.balance)
         }
     }
 
@@ -220,4 +224,7 @@ class NotificationsFragment : FragmentBaseMVVM<FragmentNotificationsBinding, Not
         }
         return itemsWithSections
     }
+
+    private fun moveToWallet(balance: List<WalletCommunityBalanceRecordDomain>) =
+        getDashboardFragment(this)?.navigateToFragment(WalletFragment.newInstance(balance), tag = WalletFragment.tag)
 }

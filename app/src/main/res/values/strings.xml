@@ -448,6 +448,7 @@
     <string name="liked_your_comment">liked your comment</string>
     <string name="up_vote_message_content">: \u0022%1$s\u0022</string>
     <string name="sent_you">sent you {0} {1}</string>
+    <string name="you_have_got">You\'ve got</string>
 
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
