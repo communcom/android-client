@@ -58,6 +58,11 @@ class NotificationsFragment : FragmentBaseMVVM<FragmentNotificationsBinding, Not
         viewModel.onVisibilityChanged(visible, changeStackPage)
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.onActive()
+    }
+
     private fun setupNotificationsList() {
         val communityAdapter = NotificationsAdapter(viewModel, PAGINATION_PAGE_SIZE)
         val lManager = LinearLayoutManager(requireContext())

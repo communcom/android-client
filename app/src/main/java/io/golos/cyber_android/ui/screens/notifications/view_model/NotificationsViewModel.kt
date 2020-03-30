@@ -98,6 +98,14 @@ class NotificationsViewModel
         }
     }
 
+    fun onActive() {
+        // Reload the list when screen is active
+        launch {
+            paginator.initState(Paginator.State.Empty)
+            restartLoadNotifications()
+        }
+    }
+
     private fun subscribeToNewNotificationsChanges() {
         launch {
             model.geNewNotificationsCounterFlow()
