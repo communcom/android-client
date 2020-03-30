@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:paddingTop="@dimen/margin_default"
     android:paddingBottom="@dimen/margin_default"
-    tools:context=".ui.screens.login_welcome.WelcomeFragment">
+    tools:context=".ui.screens.app_start.welcome.welcome_fragment.WelcomeFragment">
 
     <FrameLayout
         android:layout_width="match_parent"

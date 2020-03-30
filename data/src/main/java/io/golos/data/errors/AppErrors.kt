@@ -32,8 +32,6 @@ sealed class AppError: Exception() {
 
     object CashoutWindowError: AppError()
 
-    object FcmServiceError: AppError()
-
     class UnknownError(override val cause: CyberServicesError): AppError()  {
         override val message = cause.message
     }

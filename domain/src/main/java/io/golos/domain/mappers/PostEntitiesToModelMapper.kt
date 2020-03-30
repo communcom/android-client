@@ -1,6 +1,5 @@
 package io.golos.domain.mappers
 
-import io.golos.domain.HtmlToSpannableTransformer
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.dto.DiscussionRelatedEntities
@@ -19,12 +18,9 @@ interface PostEntitiesToModelMapper : EntityToModelMapper<DiscussionRelatedEntit
 @ApplicationScope
 class PostEntitiesToModelMapperImpl
 @Inject
-constructor(
-    private val htmlToSpannableTransformer: HtmlToSpannableTransformer
-) : PostEntitiesToModelMapper {
+constructor() : PostEntitiesToModelMapper {
 
     private val cashedValues = Collections.synchronizedMap(HashMap<DiscussionRelatedEntities<PostEntity>, PostModel>())
-    private val cashedSpans = Collections.synchronizedMap(HashMap<String, CharSequence>())
 
     override fun map(entity: DiscussionRelatedEntities<PostEntity>): PostModel {
         val post = entity.discussionEntity

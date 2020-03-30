@@ -2,17 +2,14 @@ package io.golos.cyber_android.ui.screens.post_view.model.comments_processing.lo
 
 import io.golos.cyber_android.ui.screens.post_view.model.comments_processing.comments_storage.CommentsStorage
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.use_cases.model.CommentModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
-abstract class CommentsLoaderBase
-constructor(
+abstract class CommentsLoaderBase(
     private val dispatchersProvider: DispatchersProvider,
-    private val commentsStorage: CommentsStorage,
-    private val currentUserRepository: CurrentUserRepository
+    private val commentsStorage: CommentsStorage
 ) {
     protected var pageOffset = 0
     protected var endOfDataReached = false

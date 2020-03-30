@@ -51,8 +51,7 @@ sealed class DiscussionModel(
     open val votes: DiscussionVotesModel,
     open val payout: DiscussionPayoutModel,
     open val meta: DiscussionMetadataModel,
-    open val stats: DiscussionStatsModel,
-    var isActiveUserDiscussion: Boolean = false
+    open val stats: DiscussionStatsModel
 ) : Model
 
 @Deprecated("Not need use, use Domain model")

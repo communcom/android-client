@@ -38,5 +38,3 @@ class BiCombinedLiveData<F, S, C>(
 }
 
 
-fun <F, S, C> LiveData<F>.combinedWith(secondSource: LiveData<S>, combine: (data1: F?, data2: S?) -> C)
-        = BiCombinedLiveData(this, secondSource, combine)

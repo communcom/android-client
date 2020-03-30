@@ -2,7 +2,7 @@ package io.golos.cyber_android.ui.screens.ftue_search_community.view_model
 
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
-import io.golos.cyber_android.application.shared.analytics.AnalyticsFacade
+import io.golos.domain.analytics.AnalyticsFacade
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand

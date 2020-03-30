@@ -34,11 +34,24 @@
 
     <string name="common_general_error">Unfortunately, an error was encountered during the operation.</string>
     <string name="common_captcha_error">Can\'t receive a captcha</string>
+    <string name="token_receiving_error">Can\'t receive a token. The operation has been canceled</string>
+    <string name="account_registered_error">Account already registered</string>
+    <string name="password_not_match_error">The passwords do not match</string>
+    <string name="common_captcha_error">Can\'t receive a captcha</string>
     <string name="common_error_operation_canceled">The operation has been canceled</string>
     <string name="common_error_account_registered">Account already registered</string>
     <string name="export_general_error">An error occurred during the export process.</string>
+    <string name="phone_already_taken_error">Name is already registered</string>
+    <string name="name_already_taken_error">Name is already in use</string>
+    <string name="wrong_verification_code_error">Wrong verification code</string>
+    <string name="write_to_blockchain_error">Can\'t save the user to blockchain</string>
+    <string name="too_many_retries_error">Too many retries</string>
+    <string name="try_later_error">The operation is canceled. Try again later</string>
+    <string name="auth_error">Authentication failed</string>
     <string name="post_edit_invalid_url">The link is not valid.</string>
     <string name="post_edit_invalid_resource_type">The type of the resource, described by the link, is not supported.</string>
+
+    <string name="verification_code_resent">A verification code has been resent</string>
 
     <string name="hint_search">Search</string>
 
@@ -112,7 +125,7 @@
 
     <string name="welcome_slides_sub_text_1">Blockchain-based social network where you get rewards for posts, comments and likes</string>
     <string name="welcome_slides_sub_text_2">Choose communities of interest and be rewarded for your actions</string>
-<!--    <string name="welcome_slides_sub_text_3">Communities has no single owner  and fully belongs to its members</string>-->
+    <!--    <string name="welcome_slides_sub_text_3">Communities has no single owner  and fully belongs to its members</string>-->
     <string name="welcome_slides_sub_text_4">Commun has no single owner\nand fully belongs to its members</string>
 
     <!--Sign In-->
@@ -245,9 +258,6 @@
     <string name="not_enough_power">Not enough power</string>
     <string name="unknown_error">Unknown error</string>
     <string name="request_timeout_error">Timeout</string>
-    <string name="wrong_verification_code">Wrong verification code</string>
-    <string name="phone_already_taken_error">Phone already taken</string>
-    <string name="name_already_taken_error">Name is already in use</string>
     <string name="skip">Skip</string>
     <string name="pick_a_profile_picture">Pick a profile\npicture</string>
     <string name="describe_yourself">Describe yourself</string>
@@ -369,7 +379,7 @@
     <string name="communities_count">{0} ({1} Mutual)</string>
 
     <!--SignUp-->
-    <string name="sign_up_description">By clicking the “Sign up” button, you agree to the</string>
+    <string name="sign_up_description">By clicking the “Next” button, you agree to the</string>
     <string name="sign_up_description_1">Terms of use, Privacy Policy</string>
     <string name="sign_up_description_2">and</string>
     <string name="sign_up_description_3">Blockchain Disclaimer</string>
@@ -597,6 +607,5 @@
     <string name="password_validation_min_len">{0}+</string>
     <string name="password_validation_min_len_hint">Min length</string>
     <string name="password_validation_min_len_explanation">The minimum password length must be {0} characters</string>
-    <string name="password_not_match">The passwords do not match</string>
     <string name="password_latin_only">Only Latin characters, digits and special symbols are allowed</string>
 </resources>

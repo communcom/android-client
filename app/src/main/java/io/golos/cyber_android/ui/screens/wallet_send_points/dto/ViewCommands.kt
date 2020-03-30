@@ -11,5 +11,3 @@ class ShowSelectCommunityDialogCommand(val balance: List<WalletCommunityBalanceR
 class ShowWalletTransferCompletedDialogCommand(val data: TransferCompletedInfo): ViewCommand
 
 class UpdateCarouselPositionCommand(val position: Int): ViewCommand
-
-class HideKeyboardCommand(): ViewCommand

@@ -12,11 +12,9 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.CommentEntity
 import io.golos.domain.dto.PostEntity
-import io.golos.domain.dto.VoteRequestEntity
 import io.golos.domain.mappers.CommentsFeedEntityToModelMapper
 import io.golos.domain.mappers.PostEntitiesToModelMapper
 import io.golos.domain.repositories.DiscussionsFeedRepository
-import io.golos.domain.repositories.Repository
 import io.golos.domain.requestmodel.CommentFeedUpdateRequest
 import io.golos.domain.requestmodel.PostFeedUpdateRequest
 import io.golos.domain.use_cases.UseCase
@@ -85,7 +83,6 @@ class EditorPageFragmentModule(private val contentId: ContentId?) {
         PostWithCommentUseCaseImpl(
             postId!!,
             postFeedRepository,
-            postEntityToModelMapper,
             commentsRepository,
             commentFeeEntityToModelMapper,
             dispatchersProvider

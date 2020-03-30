@@ -4,7 +4,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="viewModel" type="io.golos.cyber_android.ui.screens.login_sign_in_qr_code.view_model.SignInQrCodeViewModel" />
+        <variable name="viewModel" type="io.golos.cyber_android.ui.screens.app_start.sign_in.qr_code.view_model.SignInQrCodeViewModel" />
     </data>
 
     <FrameLayout

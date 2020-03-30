@@ -15,6 +15,8 @@ interface ViewCommand
 class NavigateBackwardCommand: ViewCommand
 class NavigateForwardCommand: ViewCommand
 
+class HideKeyboardCommand(): ViewCommand
+
 data class NavigateToCommunityPageCommand(val communityId: CommunityIdDomain) : ViewCommand
 
 class NavigateToCommunitiesListPageCommand(val userId: UserIdDomain) : ViewCommand

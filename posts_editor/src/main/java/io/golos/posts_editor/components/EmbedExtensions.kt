@@ -77,13 +77,6 @@ class EmbedExtensions(private val editorCore: EditorCore) : EditorComponent<Embe
         this.onEmbedAddedOrRemovedListener = listener
     }
 
-    fun openImageGallery() {
-        val intent = Intent()
-        intent.type = "image/*"
-        intent.action = Intent.ACTION_GET_CONTENT
-        (editorCore.context as Activity).startActivityForResult(Intent.createChooser(intent, "Select an image"), EditorCore.PICK_IMAGE_REQUEST)
-    }
-
     @SuppressLint("InflateParams")
     fun insert(type: EmbedType, sourceUri: Uri, displayUri: Uri, description: String?) {
         // Render(getStateFromString());

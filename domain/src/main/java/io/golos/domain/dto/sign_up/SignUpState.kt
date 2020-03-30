@@ -1,0 +1,18 @@
+package io.golos.domain.dto.sign_up
+
+/***
+ * Set of states for the SignUp SM
+ */
+enum class SignUpState {
+    FINAL,
+    SELECTING_SIGN_UP_METHOD,
+    WAITING_FOR_GOOGLE_TOKEN,
+    WAITING_FOR_FB_TOKEN,
+    WAITING_FOR_PHONE,
+    PHONE_VERIFICATION,
+    ENTERING_USER_NAME,
+    ENTERING_PASSWORD,
+    PASSWORD_CONFIRMATION,
+    ENTERING_PIN,
+    SELECTING_METHOD_TO_UNLOCK
+}

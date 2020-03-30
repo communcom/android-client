@@ -1,6 +1,5 @@
 package io.golos.domain.mappers
 
-import io.golos.domain.HtmlToSpannableTransformer
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.dto.CommentEntity
 import io.golos.domain.dto.DiscussionRelatedEntities
@@ -15,12 +14,9 @@ interface CommentEntityToModelMapper : EntityToModelMapper<DiscussionRelatedEnti
 @ApplicationScope
 class CommentEntityToModelMapperImpl
 @Inject
-constructor(
-    private val htmlToSpannableTransformer: HtmlToSpannableTransformer
-) : CommentEntityToModelMapper {
+constructor() : CommentEntityToModelMapper {
 
     private val cashedValues = Collections.synchronizedMap(HashMap<DiscussionRelatedEntities<CommentEntity>, CommentModel>())
-    private val cashedSpans = Collections.synchronizedMap(HashMap<String, CharSequence>())
 
     override fun map(entity: DiscussionRelatedEntities<CommentEntity>): CommentModel {
         val comment = entity.discussionEntity

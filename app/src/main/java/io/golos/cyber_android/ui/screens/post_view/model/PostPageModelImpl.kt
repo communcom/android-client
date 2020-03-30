@@ -13,11 +13,11 @@ import io.golos.cyber_android.ui.screens.post_view.model.voting.post.PostPageVot
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.api.AuthApi
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.PostDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.DiscussionRepository
+import io.golos.domain.repositories.UsersRepository
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
 import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
 import io.golos.domain.use_cases.model.CommentModel
@@ -39,7 +39,7 @@ constructor(
     private val dispatchersProvider: DispatchersProvider,
     private val discussionRepository: DiscussionRepository,
     private val currentUserRepository: CurrentUserRepositoryRead,
-    private val authApi: Lazy<AuthApi>,
+    private val usersRepository: UsersRepository,
     private val postListDataSource: PostListDataSource,
     private val postPageVotingUseCase: Lazy<PostPageVotingUseCase>,
     private val commentsProcessing: CommentsProcessingFacade,
@@ -127,7 +127,7 @@ constructor(
 
     override suspend fun getUserId(userName: String): String =
         withContext(dispatchersProvider.ioDispatcher) {
-            authApi.get().getUserProfile(userName).userId.name
+            usersRepository.getUserProfile(userName).userId.userId
         }
 
     override suspend fun deletePost(): String {

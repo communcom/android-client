@@ -26,13 +26,13 @@ constructor(
     /**
      * Generates new keys, stores and returns them
      */
-    override fun createKeys(userId: UserIdDomain, userName: String): GeneratedUserKeys =
-        createKeys(userId, userName, generateMasterKey())
+    override fun createAndSaveKeys(userId: UserIdDomain, userName: String): GeneratedUserKeys =
+        createAndSaveKeys(userId, userName, generateMasterKey())
 
     /**
      * Generates new keys, stores and returns them
      */
-    override fun createKeys(userId: UserIdDomain, userName: String, masterKey: String): GeneratedUserKeys {
+    override fun createAndSaveKeys(userId: UserIdDomain, userName: String, masterKey: String): GeneratedUserKeys {
         val keys = generateKeys(userId, userName, masterKey)
 
         listOf(
@@ -46,6 +46,12 @@ constructor(
 
         return keys
     }
+
+    /**
+     * Generates new keys BUT doesn't save them
+     */
+    override fun createKeys(userId: UserIdDomain, userName: String, masterKey: String): GeneratedUserKeys =
+        generateKeys(userId, userName, masterKey)
 
     /**
      * Returns private part of a key (in case of master - key itself)

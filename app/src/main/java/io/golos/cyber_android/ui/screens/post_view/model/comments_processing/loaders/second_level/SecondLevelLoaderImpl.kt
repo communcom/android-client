@@ -30,8 +30,8 @@ constructor(
     currentUserRepository: CurrentUserRepository
 ) : CommentsLoaderBase(
     dispatchersProvider,
-    commentsStorage,
-    currentUserRepository),
+    commentsStorage
+),
     SecondLevelLoader {
 
     // Loaded comments and their author

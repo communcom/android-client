@@ -9,7 +9,6 @@ data class DiscussionIdEntity(
     val userId: String,
     val permlink: Permlink
 ) : Entity {
-    val asModel = DiscussionIdModel(userId, permlink)
 
     companion object {
         fun fromModel(model: DiscussionIdModel) = DiscussionIdEntity(model.userId, model.permlink)

@@ -70,8 +70,4 @@ class EditorWidget : LinearLayout {
         fun onWidgetClick()
     }
 
-    /**
-     * State of the editor widget
-     */
-    class EditorWidgetState(var avatarUrl: String?, var username: String)
 }

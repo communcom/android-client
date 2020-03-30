@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.LoadingListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.RetryListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
-import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.utils.id.IdUtil
 import timber.log.Timber
 
@@ -14,8 +13,7 @@ import timber.log.Timber
  * [TLI] Type of list item
  */
 abstract class ListWorkerBaseImpl<TID, TLI: VersionedListItem>(
-    private val pageSize: Int,
-    private val currentUserRepository: CurrentUserRepository
+    private val pageSize: Int
 ) : ListWorkerBase<TID> {
 
     private enum class LoadingState {

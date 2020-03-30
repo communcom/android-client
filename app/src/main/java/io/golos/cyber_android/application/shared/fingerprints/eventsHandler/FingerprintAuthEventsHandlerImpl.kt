@@ -6,6 +6,7 @@ import android.hardware.fingerprint.FingerprintManager
 import android.os.Build
 import android.os.CancellationSignal
 import androidx.annotation.RequiresApi
+import io.golos.domain.fingerprint.*
 
 @RequiresApi(Build.VERSION_CODES.M)
 class FingerprintAuthEventsHandlerImpl(

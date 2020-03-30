@@ -9,7 +9,7 @@ import dagger.Provides
 import io.golos.commun4j.sharedmodel.Commun4jConfig
 import io.golos.commun4j.sharedmodel.SocketOpenQueryParams
 import io.golos.cyber_android.BuildConfig
-import io.golos.cyber_android.application.shared.analytics.AnalyticsFacade
+import io.golos.domain.analytics.AnalyticsFacade
 import io.golos.cyber_android.application.shared.analytics.AnalyticsFacadeImpl
 import io.golos.cyber_android.application.shared.analytics.modules.AnalyticsModule
 import io.golos.cyber_android.application.shared.analytics.modules.amplitude.AmplitudeAnalyticsModule

@@ -1,9 +1,6 @@
 package io.golos.cyber_android.ui.screens.post_view.view_model
 
 import android.net.Uri
-import android.os.Handler
-import android.os.Looper
-import androidx.core.os.postDelayed
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
@@ -17,7 +14,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.shared.utils.localSize
 import io.golos.cyber_android.ui.shared.widgets.CommentWidget
-import io.golos.data.exceptions.ApiResponseErrorException
+import io.golos.domain.repositories.exceptions.ApiResponseErrorException
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.CommunityIdDomain

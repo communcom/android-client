@@ -235,21 +235,5 @@ object Paginator {
             }
         }
 
-        fun updateStoredItems(items: List<T>) {
-            state = when (val currentState: State = state) {
-                is State.Data<*> -> Paginator.State.Data(currentState.pageCount, items, currentState.pageKey)
-                is State.Refresh<*> -> Paginator.State.Refresh(currentState.pageCount, items, currentState.pageKey)
-                is State.NewPageProgress<*> -> Paginator.State.NewPageProgress(currentState.pageCount, items, currentState.pageKey)
-                is State.SearchProgress<*> -> Paginator.State.SearchProgress(currentState.pageCount, items, currentState.pageKey)
-                is State.FullData<*> -> Paginator.State.FullData(currentState.pageCount, items, currentState.pageKey)
-                is State.PageError<*> -> Paginator.State.PageError(currentState.pageCount, items, currentState.pageKey)
-                is State.SearchPageError<*> -> Paginator.State.SearchPageError(currentState.pageCount, items, currentState.pageKey)
-                else -> currentState
-            }
-        }
-
-        fun renderCurrentState(){
-            render.invoke(state, oldState)
-        }
     }
 }

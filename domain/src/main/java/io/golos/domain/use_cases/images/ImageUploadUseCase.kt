@@ -71,7 +71,4 @@ constructor(
         mediator.removeSource(imagesRepository.getAsLiveData(imagesRepository.allDataRequest))
     }
 
-    fun submitImageForUpload(absolutePathToLocalFile: String, compressionParams: CompressionParams) {
-        imagesRepository.makeAction(ImageUploadRequest(File(absolutePathToLocalFile), Uri.EMPTY, compressionParams))
-    }
 }

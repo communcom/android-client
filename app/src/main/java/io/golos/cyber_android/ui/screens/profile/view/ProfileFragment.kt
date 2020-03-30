@@ -19,7 +19,7 @@ import io.golos.cyber_android.ui.dto.BlackListFilter
 import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.dto.ProfileCommunities
 import io.golos.cyber_android.ui.dto.ProfileItem
-import io.golos.cyber_android.ui.screens.login_activity.view.LoginActivity
+import io.golos.cyber_android.ui.screens.app_start.welcome.activity.view.WelcomeActivity
 import io.golos.cyber_android.ui.screens.profile.di.ProfileFragmentComponent
 import io.golos.cyber_android.ui.screens.profile.dto.*
 import io.golos.cyber_android.ui.screens.profile.view.adapters.ProfilePagesAdapter
@@ -204,7 +204,7 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
         getDashboardFragment(this)?.navigateToFragment(ProfileBlackListFragment.newInstance(BlackListFilter.USERS))
 
     private fun restartApp() {
-        val loginIntent = Intent(requireContext(), LoginActivity::class.java)
+        val loginIntent = Intent(requireContext(), WelcomeActivity::class.java)
         startActivity(loginIntent)
         activity!!.finish()
     }

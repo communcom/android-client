@@ -6,7 +6,7 @@ import io.golos.commun4j.Commun4j
 import io.golos.cyber_android.application.di_storage.Cyber4JDagger
 import io.golos.cyber_android.application.shared.crashlytics.CrashlyticsFacadeImpl
 import io.golos.cyber_android.application.shared.device_info.DeviceInfoProviderImpl
-import io.golos.cyber_android.application.shared.fingerprints.FingerprintAuthManager
+import io.golos.domain.fingerprint.FingerprintAuthManager
 import io.golos.cyber_android.application.shared.fingerprints.FingerprintAuthManagerImpl
 import io.golos.cyber_android.ui.shared.clipboard.ClipboardUtils
 import io.golos.cyber_android.ui.shared.clipboard.ClipboardUtilsImpl
@@ -15,7 +15,6 @@ import io.golos.cyber_android.ui.shared.utils.HtmlToSpannableTransformerImpl
 import io.golos.cyber_android.ui.shared.utils.ImageCompressorImpl
 import io.golos.data.ServerMessageReceiver
 import io.golos.data.api.ServerMessageReceiverImpl
-import io.golos.data.api.auth.AuthApiImpl
 import io.golos.data.api.communities.CommunitiesApi
 import io.golos.data.api.communities.CommunitiesApiImpl
 import io.golos.data.api.discussions.DiscussionsApi
@@ -57,7 +56,7 @@ import io.golos.data.repositories.images_uploading.ImageUploadRepositoryImpl
 import io.golos.data.repositories.images_uploading.ImageUploadRepositoryLiveData
 import io.golos.data.repositories.settings.SettingsRepository
 import io.golos.data.repositories.settings.SettingsRepositoryImpl
-import io.golos.data.repositories.sign_up_tokens.SignUpTokensRepository
+import io.golos.domain.SignUpTokensRepository
 import io.golos.data.repositories.sign_up_tokens.SignUpTokensRepositoryImpl
 import io.golos.data.repositories.users.UsersRepositoryImpl
 import io.golos.data.repositories.wallet.WalletRepository
@@ -65,7 +64,6 @@ import io.golos.data.repositories.wallet.WalletRepositoryImpl
 import io.golos.data.strings_converter.StringsConverterImpl
 import io.golos.data.utils.ImageCompressor
 import io.golos.domain.*
-import io.golos.domain.api.AuthApi
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.dto.*
@@ -155,10 +153,6 @@ abstract class AppModuleBinds {
     @Binds
     abstract fun provideEventsApprover(approver: EventsApprover): RequestApprover<EventsFeedUpdateRequest>
     // endregion
-
-    // region Api
-    @Binds
-    abstract fun provideAuthApi(service: AuthApiImpl): AuthApi
 
     @Binds
     abstract fun provideCommunitiesApi(api: CommunitiesApiImpl): CommunitiesApi
@@ -250,10 +244,6 @@ abstract class AppModuleBinds {
     @Binds
     @ApplicationScope
     abstract fun provideEmbedsRepository(repository: EmbedsRepository): Repository<ProcessedLinksEntity, EmbedRequest>
-
-    @Binds
-    @ApplicationScope
-    abstract fun provideAuthStateRepository(repository: AuthStateRepositoryImpl): AuthStateRepository
 
     @Binds
     @ApplicationScope

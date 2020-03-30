@@ -19,8 +19,7 @@ constructor(
     private val usersRepository: UsersRepository,
     private val currentUserRepository: CurrentUserRepository
 ) : ListWorkerBaseImpl<UserIdDomain, UserListItem>(
-    pageSize,
-    currentUserRepository
+    pageSize
 ), ListWorkerUsers {
     override fun isItemInPositiveState(item: UserListItem): Boolean = item.isInPositiveState
 

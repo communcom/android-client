@@ -8,21 +8,18 @@ import androidx.fragment.app.Fragment
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.di.InAppAuthActivityComponent
-import io.golos.cyber_android.application.shared.fingerprints.FingerprintAuthManager
-import io.golos.cyber_android.ui.shared.base.ActivityBase
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.navigation.Navigator
+import io.golos.cyber_android.ui.shared.base.ActivityBase
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.dto.AppUnlockWay
-import io.golos.utils.id.IdUtil
+import io.golos.domain.fingerprint.FingerprintAuthManager
 import kotlinx.coroutines.*
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 class InAppAuthActivity : ActivityBase(), CoroutineScope {
     private val scopeJob: Job = SupervisorJob()
-
-    private val injectionKey = IdUtil.generateStringId()
 
     override val coroutineContext: CoroutineContext
         get() = scopeJob + dispatchersProvider.uiDispatcher
@@ -82,16 +79,22 @@ class InAppAuthActivity : ActivityBase(), CoroutineScope {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_in_app_auth)
 
-        App.injections.get<InAppAuthActivityComponent>(injectionKey).inject(this)
-
         launch {
-            when(getAppUnlockWay()) {
-                AppUnlockWay.PIN_CODE ->
-                    navigator.setPinCodeAsHome(this@InAppAuthActivity, intent.extras!!.getInt(PIN_CODE_HEADER_ID))
-                AppUnlockWay.FINGERPRINT ->
-                    navigator.setFingerprintAsHome(this@InAppAuthActivity,
-                        intent.extras!!.getInt(FINGERPRINT_HEADER_ID),
-                        intent.extras!!.getBoolean(PIN_CODE_UNLOCK_ENABLED))
+            val isPinCodeEnabled = intent.extras!!.getBoolean(PIN_CODE_UNLOCK_ENABLED)
+
+            if(isFingerpringUnlockPossible() && !isPinCodeEnabled) {
+                navigator.setFingerprintAsHome(this@InAppAuthActivity,
+                    intent.extras!!.getInt(FINGERPRINT_HEADER_ID),
+                    isPinCodeEnabled)
+            } else {
+                when(getAppUnlockWay()) {
+                    AppUnlockWay.PIN_CODE ->
+                        navigator.setPinCodeAsHome(this@InAppAuthActivity, intent.extras!!.getInt(PIN_CODE_HEADER_ID))
+                    AppUnlockWay.FINGERPRINT ->
+                        navigator.setFingerprintAsHome(this@InAppAuthActivity,
+                            intent.extras!!.getInt(FINGERPRINT_HEADER_ID),
+                            isPinCodeEnabled)
+                }
             }
         }
     }
@@ -106,9 +109,12 @@ class InAppAuthActivity : ActivityBase(), CoroutineScope {
 
         if(isFinishing) {
             scopeJob.takeIf { it.isActive }?.cancel()
-            App.injections.release<InAppAuthActivityComponent>(injectionKey)
         }
     }
+
+    override fun inject(key: String) = App.injections.get<InAppAuthActivityComponent>(key).inject(this)
+
+    override fun releaseInjection(key: String) = App.injections.release<InAppAuthActivityComponent>(key)
 
     private suspend fun getAppUnlockWay(): AppUnlockWay =
         withContext(dispatchersProvider.ioDispatcher) {
@@ -117,5 +123,10 @@ class InAppAuthActivity : ActivityBase(), CoroutineScope {
             }
 
             keyValueStorage.getAppUnlockWay() ?: AppUnlockWay.PIN_CODE
+        }
+
+    private suspend fun isFingerpringUnlockPossible(): Boolean =
+        withContext(dispatchersProvider.ioDispatcher) {
+            fingerprintAuthManager.isAuthenticationPossible
         }
 }

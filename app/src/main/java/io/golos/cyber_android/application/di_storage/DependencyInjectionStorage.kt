@@ -8,6 +8,7 @@ import io.golos.cyber_android.services.firebase.di.FirebaseNotificationServiceCo
 import io.golos.cyber_android.ui.di.UIComponent
 import io.golos.cyber_android.ui.dialogs.select_community_dialog.di.SelectCommunityDialogComponent
 import io.golos.cyber_android.ui.dto.*
+import io.golos.cyber_android.ui.screens.app_start.sign_in.activity.di.SignInActivityComponent
 import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentComponent
 import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentModule
 import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentTabComponent
@@ -28,7 +29,6 @@ import io.golos.cyber_android.ui.screens.community_page_rules.di.CommunityPageRu
 import io.golos.cyber_android.ui.screens.dashboard.di.DashboardFragmentComponent
 import io.golos.cyber_android.ui.screens.feed.di.FeedFragmentComponent
 import io.golos.cyber_android.ui.screens.feed_my.di.MyFeedFragmentComponent
-import io.golos.cyber_android.ui.screens.feedback_activity.di.FeedbackActivityComponent
 import io.golos.cyber_android.ui.screens.ftue.di.FtueFragmentComponent
 import io.golos.cyber_android.ui.screens.ftue_finish.di.FtueFinishFragmentComponent
 import io.golos.cyber_android.ui.screens.ftue_search_community.di.FtueSearchCommunityFragmentComponent
@@ -37,14 +37,22 @@ import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.fingerpr
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.fingerprint.di.FingerprintAuthFragmentModule
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.pin_code.di.PinCodeAuthFragmentComponent
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.pin_code.di.PinCodeAuthFragmentModule
-import io.golos.cyber_android.ui.screens.login_activity.di.LoginActivityComponent
-import io.golos.cyber_android.ui.screens.login_sign_in_qr_code.di.SignInQrCodeFragmentComponent
-import io.golos.cyber_android.ui.screens.login_sign_in_username.di.SignInUserNameFragmentComponent
-import io.golos.cyber_android.ui.screens.login_sign_up_confirm_password.di.SignUpConfirmPasswordFragmentComponent
-import io.golos.cyber_android.ui.screens.login_sign_up_countries.di.SignUpCountryComponent
-import io.golos.cyber_android.ui.screens.login_sign_up_create_password.di.SignUpCreatePasswordFragmentComponent
-import io.golos.cyber_android.ui.screens.login_sign_up_keys_backup.di.SignUpProtectionKeysFragmentComponent
-import io.golos.cyber_android.ui.screens.login_sign_up_select_method.di.SignUpSelectMethodFragmentComponent
+import io.golos.cyber_android.ui.screens.app_start.welcome.activity.di.WelcomeActivityComponent
+import io.golos.cyber_android.ui.screens.app_start.sign_in.app_unlock.di.SignInAppUnlockFragmentComponent
+import io.golos.cyber_android.ui.screens.app_start.sign_up.app_unlock.di.SignUpAppUnlockFragmentComponent
+import io.golos.cyber_android.ui.screens.app_start.sign_in.qr_code.di.SignInQrCodeFragmentComponent
+import io.golos.cyber_android.ui.screens.app_start.sign_in.username.di.SignInUserNameFragmentComponent
+import io.golos.cyber_android.ui.screens.app_start.sign_up.confirm_password.di.SignUpConfirmPasswordFragmentComponent
+import io.golos.cyber_android.ui.screens.app_start.sign_up.countries.di.SignUpCountryComponent
+import io.golos.cyber_android.ui.screens.app_start.sign_up.create_password.di.SignUpCreatePasswordFragmentComponent
+import io.golos.cyber_android.ui.screens.app_start.sign_in.keys_backup.di.SignInProtectionKeysFragmentComponent
+import io.golos.cyber_android.ui.screens.app_start.sign_up.username.di.SignUpNameFragmentComponent
+import io.golos.cyber_android.ui.screens.app_start.sign_up.phone.di.SignUpPhoneFragmentComponent
+import io.golos.cyber_android.ui.screens.app_start.sign_up.phone_verification.di.SignUpVerificationFragmentComponent
+import io.golos.cyber_android.ui.screens.app_start.sign_in.pin.di.SignInPinCodeFragmentComponent
+import io.golos.cyber_android.ui.screens.app_start.sign_up.activity.di.SignUpActivityComponent
+import io.golos.cyber_android.ui.screens.app_start.sign_up.select_method.di.SignUpSelectMethodFragmentComponent
+import io.golos.cyber_android.ui.screens.app_start.sign_up.pin.di.SignUpPinCodeFragmentComponent
 import io.golos.cyber_android.ui.screens.main_activity.di.MainActivityComponent
 import io.golos.cyber_android.ui.screens.notifications.di.NotificationsFragmentComponent
 import io.golos.cyber_android.ui.screens.post_edit.activity.di.EditorPageActivityComponent
@@ -261,7 +269,11 @@ class DependencyInjectionStorage(private val app: Application) {
                     .init(PinCodeAuthFragmentModule(args[0] as Int))
                     .build()
 
-            LoginActivityComponent::class -> getBase<UIComponent>().loginActivity.build()
+            WelcomeActivityComponent::class -> getBase<UIComponent>().welcomeActivity.build()
+
+            SignInActivityComponent::class -> getBase<UIComponent>().signInActivity.build()
+
+            SignUpActivityComponent::class -> getBase<UIComponent>().signUpActivity.build()
 
             MainActivityComponent::class -> getBase<UIComponent>().mainActivity.build()
 
@@ -323,8 +335,6 @@ class DependencyInjectionStorage(private val app: Application) {
                     .build()
 
             WalletChooseFriendDialogComponent::class -> getBase<WalletFragmentComponent>().chooseFriendDialog.build()
-
-            FeedbackActivityComponent::class -> getBase<UIComponent>().feedbackActivity.build()
 
             SelectCommunityDialogComponent::class -> getBase<UIComponent>().selectCommunityDialog.build()
 
@@ -413,37 +423,72 @@ class DependencyInjectionStorage(private val app: Application) {
             DashboardFragmentComponent::class -> getBase<UIComponent>().dashboardFragmentComponent.build()
 
             SignInUserNameFragmentComponent::class ->
-                getBase<LoginActivityComponent>()
+                getBase<SignInActivityComponent>()
                     .signInUserNameFragmentComponent
                     .build()
 
             SignInQrCodeFragmentComponent::class ->
-                getBase<LoginActivityComponent>()
+                getBase<SignInActivityComponent>()
                     .signInQrCodeFragmentComponent
                     .build()
 
             SignUpCountryComponent::class ->
-                getBase<LoginActivityComponent>()
+                getBase<SignUpActivityComponent>()
                     .signUpCountryComponent
                     .build()
 
-            SignUpProtectionKeysFragmentComponent::class ->
-                getBase<LoginActivityComponent>()
-                    .signUpProtectionKeysFragmentComponent
+            SignUpPhoneFragmentComponent::class ->
+                getBase<SignUpActivityComponent>()
+                    .signUpPhoneFragmentComponent
+                    .build()
+
+            SignUpVerificationFragmentComponent::class ->
+                getBase<SignUpActivityComponent>()
+                    .signUpVerificationFragmentComponent
+                    .build()
+
+            SignUpNameFragmentComponent::class ->
+                getBase<SignUpActivityComponent>()
+                    .signUpNameFragmentComponent
+                    .build()
+
+            SignInPinCodeFragmentComponent::class ->
+                getBase<SignInActivityComponent>()
+                    .signInPinCodeFragmentComponent
+                    .build()
+
+            SignUpPinCodeFragmentComponent::class ->
+                getBase<SignUpActivityComponent>()
+                    .signUpPinCodeFragmentComponent
+                    .build()
+
+            SignInAppUnlockFragmentComponent::class ->
+                getBase<SignInActivityComponent>()
+                    .signInAppUnlockFragmentComponent
+                    .build()
+
+            SignUpAppUnlockFragmentComponent::class ->
+                getBase<SignUpActivityComponent>()
+                    .signUpAppUnlockFragmentComponent
+                    .build()
+
+            SignInProtectionKeysFragmentComponent::class ->
+                getBase<SignInActivityComponent>()
+                    .signInProtectionKeysFragmentComponent
                     .build()
 
             SignUpCreatePasswordFragmentComponent::class ->
-                getBase<LoginActivityComponent>()
+                getBase<SignUpActivityComponent>()
                     .signUpCreatePasswordFragmentComponent
                     .build()
 
             SignUpConfirmPasswordFragmentComponent::class ->
-                getBase<LoginActivityComponent>()
+                getBase<SignUpActivityComponent>()
                     .signUpConfirmPasswordFragmentComponent
                     .build()
 
             SignUpSelectMethodFragmentComponent::class ->
-                getBase<LoginActivityComponent>()
+                getBase<SignUpActivityComponent>()
                     .signUpSelectMethodFragmentComponent
                     .build()
 

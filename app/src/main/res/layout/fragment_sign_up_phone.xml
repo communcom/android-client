@@ -1,90 +1,101 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical"
-    tools:context=".ui.screens.login_sign_up.fragments.phone.SignUpPhoneFragment">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/actionBar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/white_header_height"
-        android:background="@color/white"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        app:liftOnScroll="true">
+    <data>
+        <variable name="viewModel" type="io.golos.cyber_android.ui.screens.app_start.sign_up.phone.view_model.SignUpPhoneViewModel" />
+    </data>
 
-        <io.golos.cyber_android.ui.screens.login_shared.HeaderWidget
-            android:id="@+id/header"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:title = "@string/sign_up"
-        />
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <LinearLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        tools:context=".ui.screens.app_start.sign_up.phone.view.SignUpPhoneFragment">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/country"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/actionBar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/sign_up_field_height"
+            android:layout_height="@dimen/white_header_height"
+            android:background="@color/white"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:liftOnScroll="true">
 
-            android:layout_marginTop="48dp"
+            <io.golos.cyber_android.ui.screens.app_start.shared.HeaderWidget
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:title = "@string/sign_up"
+                app:back_visibility = "@{viewModel.isBackButtonVisible}"
+            />
+        </com.google.android.material.appbar.AppBarLayout>
 
-            style="@style/SignUp.InputField"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            android:hint="@string/select_country"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/country"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sign_up_field_height"
+
+                android:layout_marginTop="48dp"
+
+                style="@style/SignUp.InputField"
+
+                android:hint="@string/select_country"
+                />
+
+            <io.golos.cyber_android.ui.shared.widgets.PrefixTextInputEditText
+                android:id="@+id/phone"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sign_up_field_height"
+
+                android:layout_marginTop="@dimen/margin_default"
+
+                style="@style/SignUp.InputField"
+
+                android:inputType="phone"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:enabled="@{viewModel.phoneEnabled}"
+
+                android:text="@={viewModel.phone}"
+
+                android:hint="@string/phone_number"
             />
 
-        <io.golos.cyber_android.ui.shared.widgets.PrefixTextInputEditText
-            android:id="@+id/phone"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/sign_up_field_height"
+            <TextView
+                android:id="@+id/signUpDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
 
-            android:layout_marginTop="@dimen/margin_default"
+                android:layout_marginStart="42dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="42dp"
 
-            style="@style/SignUp.InputField"
+                style="@style/SignUp.TermsAndConditions"
 
-            android:inputType="phone"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
+                tools:text="@string/sign_up_description" />
 
-            android:hint="@string/phone_number"
-        />
+            <TextView
+                android:id="@+id/signUp"
+                style="@style/SignUpButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="42dp"
+                android:layout_marginTop="@dimen/margin_default"
+                android:layout_marginEnd="42dp"
+                android:enabled="@{viewModel.nextButtonEnabled}"
+                android:text="@string/next" />
 
-        <TextView
-            android:id="@+id/signUpDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+<!--
+            <include layout="@layout/layout_do_you_have_account" />
+-->
 
-            android:layout_marginStart="42dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="42dp"
-
-            style="@style/SignUp.TermsAndConditions"
-
-            tools:text="@string/sign_up_description" />
-
-        <TextView
-            android:id="@+id/signUp"
-            style="@style/SignUpButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="42dp"
-            android:layout_marginTop="@dimen/margin_default"
-            android:layout_marginEnd="42dp"
-            android:enabled="false"
-            android:text="@string/next" />
-
-        <include layout="@layout/layout_do_you_have_account" />
-
-    </LinearLayout>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </LinearLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

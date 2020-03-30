@@ -3,14 +3,6 @@ package io.golos.domain.mappers
 import io.golos.domain.dto.LinkEmbedResult
 
 object IfremlyEmbedMapper {
-    private val typeHtmlText = "text/html"
-    private val typeImage = "image"
-    private val xIcon = "image/x-icon"
-    private val imageJpeg = "image/jpeg"
-    private val imagePng = "image/png"
-    private val imageIcon = "image/icon"
-    private val svgImage = "image/x-icon"
-    private val image = "image"
 
     fun map(communObject: IFramelyEmbedResultRelatedData): LinkEmbedResult {
         val url = communObject.originalRequestUrl

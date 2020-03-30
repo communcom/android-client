@@ -134,12 +134,6 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
             return editorState
         }
 
-    protected val htmlContent: String
-        get() {
-            val content = content
-            return getHTMLContent(content!!)
-        }
-
     var isStateFresh: Boolean
         get() = this.editorSettings.stateFresh
         set(stateFresh) {
@@ -232,19 +226,6 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
         return editorSettings.moshi.adapter(EditorContent::class.java).fromJson(EditorContentSerialized)!!
     }
 
-    protected fun renderEditor(_state: EditorContent) {
-        this.editorSettings.parentView.removeAllViews()
-        this.editorSettings.serialRenderInProgress = true
-        for (item in _state.nodes!!) {
-            when (item.type) {
-                EditorType.INPUT -> inputExtensions!!.renderEditorFromState(item, _state)
-                EditorType.EMBED -> embedExtensions!!.renderEditorFromState(item, _state)
-                else -> {}
-            }
-        }
-        this.editorSettings.serialRenderInProgress = false
-    }
-
     private fun buildNodeFromHTML(element: Element) {
         val tag = HtmlTag.valueOf(element.tagName().toLowerCase(Locale.ROOT))
         val count = parentView.childCount
@@ -287,17 +268,6 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
         return htmlBlock.toString()
     }
 
-    protected fun getHTMLContent(editorContentAsSerialized: String): String {
-        val content = getContentDeserialized(editorContentAsSerialized)
-        return getHTMLContent(content)
-    }
-
-
-    protected fun renderEditorFromHtml(content: String) {
-        this.editorSettings.serialRenderInProgress = true
-        parseHtml(content)
-        this.editorSettings.serialRenderInProgress = false
-    }
 
     protected open fun clearAllContents() {
         this.editorSettings.parentView.removeAllViews()
@@ -388,10 +358,6 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
     fun linkWasPasted(uri: Uri) {
         _onLinkWasPastedListener?.invoke(uri)
     }
-
-    @Suppress("SameParameterValue")
-    private fun getValue(key: String, defaultVal: String): String? =
-        PreferenceManager.getDefaultSharedPreferences(this.context).getString(key, defaultVal)
 
     private fun getNodeInstance(view: View): Node {
         val node = Node()

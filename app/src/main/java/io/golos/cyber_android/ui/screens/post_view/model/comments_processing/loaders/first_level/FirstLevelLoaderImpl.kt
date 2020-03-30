@@ -28,8 +28,7 @@ constructor(
     currentUserRepository: CurrentUserRepository
 ) : CommentsLoaderBase(
     dispatchersProvider,
-    commentsStorage,
-    currentUserRepository
+    commentsStorage
 ),
     FirstLevelLoader {
 

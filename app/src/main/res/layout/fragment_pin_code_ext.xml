@@ -8,7 +8,7 @@
     android:layout_width = "match_parent"
     android:layout_height = "match_parent"
     android:background = "@color/white"
-    tools:context = ".ui.screens.login_sign_up_pin.PinCodeFragment">
+    tools:context = ".ui.screens.app_start.sign_in.pin.view.SignInPinCodeFragment">
 
     <!--region Primary code-->
     <io.golos.cyber_android.ui.shared.widgets.pin.PinCode

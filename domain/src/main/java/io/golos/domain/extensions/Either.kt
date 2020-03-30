@@ -26,13 +26,4 @@ fun <S, F, NS> Either<S, F>.mapSuccess(mapSuccess: (S) -> NS): Either<NS, F> =
         is Either.Failure -> Either.Failure<NS, F>(this.value)
     }
 
-/**
- * Transforms success or fail value to other value
- */
-fun <S, F, NS> Either<S, F>.mapSuccessOrFail(mapSuccess: (S) -> NS, mapFail: () -> NS): Either<NS, NS> =
-    when(this) {
-        is Either.Success -> Either.Success<NS, NS>(mapSuccess(this.value))
-        is Either.Failure -> Either.Failure<NS, NS>(mapFail())
-    }
-
 fun <S, F : Throwable> Either<S, F>.getOrThrow(): S = (this as? Either.Success)?.value ?: throw (this as Either.Failure).value

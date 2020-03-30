@@ -8,20 +8,6 @@ import io.golos.cyber_android.ui.shared.base.ActivityBase
 import timber.log.Timber
 
 
-fun Fragment.setFullScreenMode(){
-    val requireActivity = requireActivity()
-    if(requireActivity is ActivityBase){
-        requireActivity.setFullScreenMode()
-    }
-}
-
-fun Fragment.clearFullScreenMode(){
-    val requireActivity = requireActivity()
-    if(requireActivity is ActivityBase){
-        requireActivity.clearFullScreenMode()
-    }
-}
-
 fun Fragment.openWebPage(url: String) {
     try {
         val webPage = Uri.parse(url)

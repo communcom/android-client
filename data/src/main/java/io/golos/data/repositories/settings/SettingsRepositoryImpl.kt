@@ -2,7 +2,7 @@ package io.golos.data.repositories.settings
 
 import android.content.Context
 import io.golos.commun4j.Commun4j
-import io.golos.data.exceptions.ApiResponseErrorException
+import io.golos.domain.repositories.exceptions.ApiResponseErrorException
 import io.golos.data.mappers.mapToConfigDomain
 import io.golos.data.network_state.NetworkStateChecker
 import io.golos.data.repositories.RepositoryBase

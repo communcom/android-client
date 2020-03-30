@@ -14,12 +14,12 @@ import io.golos.cyber_android.ui.screens.wallet_convert.view_model.WalletConvert
 import io.golos.cyber_android.ui.screens.wallet_dialogs.choose_points_dialog.WalletChoosePointsDialog
 import io.golos.cyber_android.ui.screens.wallet_dialogs.convert_completed.ConversionCompletedInfo
 import io.golos.cyber_android.ui.screens.wallet_dialogs.convert_completed.WalletConversionCompletedDialog
-import io.golos.cyber_android.ui.screens.wallet_send_points.dto.HideKeyboardCommand
 import io.golos.cyber_android.ui.screens.wallet_send_points.dto.ShowSelectCommunityDialogCommand
 import io.golos.cyber_android.ui.screens.wallet_send_points.dto.UpdateCarouselPositionCommand
 import io.golos.cyber_android.ui.shared.animation.AnimationUtils
 import io.golos.cyber_android.ui.shared.keyboard.KeyboardVisibilityListener
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.HideKeyboardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.domain.dto.CommunityIdDomain

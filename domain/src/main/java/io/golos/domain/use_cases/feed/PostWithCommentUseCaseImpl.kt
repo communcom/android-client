@@ -7,13 +7,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import io.golos.domain.repositories.DiscussionsFeedRepository
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.repositories.Repository
 import io.golos.domain.dto.*
 import io.golos.domain.extensions.distinctUntilChanged
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.model.PostModel
 import io.golos.domain.mappers.CommentsFeedEntityToModelMapper
-import io.golos.domain.mappers.PostEntitiesToModelMapper
 import io.golos.domain.requestmodel.CommentFeedUpdateRequest
 import io.golos.domain.requestmodel.PostFeedUpdateRequest
 import kotlinx.coroutines.*
@@ -32,7 +30,6 @@ class PostWithCommentUseCaseImpl
 constructor (
     postId: DiscussionIdModel,
     private val postFeedRepository: DiscussionsFeedRepository<PostEntity, PostFeedUpdateRequest>,
-    private val toModelMapper: PostEntitiesToModelMapper,
     commentsFeedRepository: DiscussionsFeedRepository<CommentEntity, CommentFeedUpdateRequest>,
     feedMapper: CommentsFeedEntityToModelMapper,
     dispatchersProvider: DispatchersProvider

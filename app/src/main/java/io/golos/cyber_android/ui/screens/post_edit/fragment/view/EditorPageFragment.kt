@@ -52,10 +52,6 @@ import kotlinx.android.synthetic.main.fragment_editor_page.*
 import javax.inject.Inject
 
 class EditorPageFragment : ImagePickerFragmentBase() {
-    companion object {
-        private const val GALLERY_REQUEST = 101
-    }
-
     @Parcelize
     data class Args(
         val contentId: ContentId? = null,

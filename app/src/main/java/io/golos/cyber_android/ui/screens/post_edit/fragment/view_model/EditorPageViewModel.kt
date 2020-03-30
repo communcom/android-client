@@ -106,27 +106,6 @@ constructor(
 
     val getAttachedImageLiveData = attachementImageLiveData as LiveData<UserPickedImageModel>
 
-    /**
-     * We need to "block" embed when there is image picked by user in [attachementImageLiveData]
-     */
-    private val embedLiveDate = MediatorLiveData<QueryResult<LinkEmbedModel>>().apply {
-        addSource(embedsUseCase.getAsLiveData) {
-            if (it.containsKey(currentEmbeddedLink) && getAttachedImageLiveData.value == UserPickedImageModel.EMPTY) {
-                postValue(it.getValue(currentEmbeddedLink))
-            }
-        }
-
-        addSource(getAttachedImageLiveData) {
-            if (embedsUseCase.getAsLiveData.value?.containsKey(currentEmbeddedLink) == true
-                && getAttachedImageLiveData.value == UserPickedImageModel.EMPTY
-            ) {
-                postValue(embedsUseCase.getAsLiveData.value?.getValue(currentEmbeddedLink))
-            }
-        }
-    }
-
-
-    private val emptyEmbedLiveData = MutableLiveData(true)
 
     private val nsfwLiveData = MutableLiveData(false)
 

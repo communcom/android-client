@@ -19,8 +19,7 @@ constructor(
     private val communitiesRepository: CommunitiesRepository,
     private val currentUserRepository: CurrentUserRepository
 ) : ListWorkerBaseImpl<CommunityIdDomain, CommunityListItem>(
-    pageSize,
-    currentUserRepository
+    pageSize
 ), ListWorkerCommunities {
 
     override fun isItemInPositiveState(item: CommunityListItem): Boolean = item.isInPositiveState

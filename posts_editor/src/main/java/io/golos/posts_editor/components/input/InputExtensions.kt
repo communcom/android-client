@@ -474,12 +474,6 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
 
     fun isEditTextEmpty(editText: EditText): Boolean = editText.text.toString().trim { it <= ' ' }.isEmpty()
 
-    private fun trimLineEnding(s: String): String {
-        return if (s[s.length - 1] == '\n') {
-            s.substring(0, s.length - 1)
-        } else s
-    }
-
     private fun setFocus(view: CustomEditText) {
         if (editorCore.isStateFresh && !editorCore.autoFocus) {
             editorCore.isStateFresh = false
@@ -536,13 +530,6 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
 
     @Suppress("UNUSED_PARAMETER")
     fun applyTextSettings(node: Node, view: TextView) {
-    }
-
-    fun removeFocus(editText: CustomEditText) {
-        editText.clearFocus()
-        val imm = editorCore.activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(editText.windowToken, 0)
-        editorCore.parentView.removeView(editText)
     }
 
     fun setLineSpacing(lineSpacing: Float) {
@@ -687,14 +674,4 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
         return null
     }
 
-    private fun getSanitizedHtml(text: CharSequence): CharSequence = noTrailingWhiteLines(text.toString().fromHtml())
-
-    private fun CharSequence.isEnterPressed(): Boolean {
-        for(i in this.indices) {
-            if(this[i] == '\n') {
-                return true
-            }
-        }
-        return false
-    }
 }

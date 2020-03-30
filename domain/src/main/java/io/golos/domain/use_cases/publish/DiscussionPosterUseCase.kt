@@ -122,34 +122,6 @@ constructor(
         }
     }
 
-    fun deletePostOrComment(discussionId: DiscussionIdModel) {
-        val request = DeleteDiscussionRequestEntity(discussionId.permlink)
-        lastPostCreationRequest = request
-        discussionCreationRepository.makeAction(request)
-    }
-
-    fun createPostOrComment(request: DiscussionCreationRequest) {
-
-        val requestEntity = when (request) {
-            is PostCreationRequestModel -> PostCreationRequestEntity(
-                request.title,
-                request.body.toString(),
-                request.body,
-                request.tags,
-                CommunityId(""),
-                request.images
-            )
-            is CommentCreationRequestModel -> CommentCreationRequestEntity(
-                request.body,
-                request.parentId,
-                request.tags
-            )
-            else -> throw UnsupportedOperationException()
-        }
-        lastPostCreationRequest = requestEntity
-        discussionCreationRepository.makeAction(requestEntity)
-    }
-
     fun updatePost(request: UpdatePostRequestModel) {
         val requestEntity = PostUpdateRequestEntity(
             request.permlink,

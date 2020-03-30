@@ -47,9 +47,9 @@ open class MyFeedAdapter(
         val adapterItemsList = ArrayList(items)
         val createPostItem = adapterItemsList.find { it is CreatePostItem }
         if (createPostItem == null) {
-            adapterItemsList.add(0, CreatePostItem(user, eventsProcessor))
+            adapterItemsList.add(0, CreatePostItem(user))
         } else {
-            adapterItemsList[0] = CreatePostItem(user, eventsProcessor)
+            adapterItemsList[0] = CreatePostItem(user)
         }
         updateAdapter(adapterItemsList)
     }

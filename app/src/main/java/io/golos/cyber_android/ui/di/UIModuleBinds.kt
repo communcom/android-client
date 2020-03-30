@@ -25,7 +25,6 @@ import io.golos.domain.use_cases.images.ImageUploadUseCase
 import io.golos.domain.use_cases.model.*
 import io.golos.domain.use_cases.publish.DiscussionPosterUseCase
 import io.golos.domain.use_cases.publish.EmbedsUseCase
-import io.golos.domain.use_cases.reg.SignUpUseCase
 import io.golos.domain.mappers.new_mappers.CommentToModelMapper
 import io.golos.domain.mappers.new_mappers.CommentToModelMapperImpl
 import io.golos.domain.requestmodel.QueryResult
@@ -40,9 +39,6 @@ abstract class UIModuleBinds {
 
     @Binds
     abstract fun provideDiscussionPosterUseCase(useCase: DiscussionPosterUseCase): UseCase<QueryResult<DiscussionCreationResultModel>>
-
-    @Binds
-    abstract fun provideSignOnUseCase(useCase: SignUpUseCase): UseCase<UserRegistrationStateModel>
 
     @Binds
     abstract fun provideEmbedsUseCase(useCase: EmbedsUseCase): UseCase<ProccesedLinksModel>

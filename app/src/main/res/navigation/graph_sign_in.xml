@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/graph_sign_in"
+    app:startDestination="@id/signInUserNameFragment">
+
+    <fragment
+        android:id="@+id/signInUserNameFragment"
+        android:name="io.golos.cyber_android.ui.screens.app_start.sign_in.username.view.SignInUserNameFragment"
+        android:label="SignInUserNameFragment" >
+        <action
+            android:id="@+id/action_signInUserNameFragment_to_signInQrCodeFragment"
+            app:enterAnim="@anim/nav_slide_in_right"
+            app:exitAnim="@anim/nav_slide_out_left"
+            app:popEnterAnim="@anim/nav_slide_in_left"
+            app:popExitAnim="@anim/nav_slide_out_right"
+            app:destination="@id/signInQrCodeFragment" />
+        <action
+            android:id="@+id/action_signInUserNameFragment_to_signInPinCodeFragment"
+            app:destination="@id/signInPinCodeFragment"
+            app:enterAnim="@anim/nav_slide_in_right"
+            app:exitAnim="@anim/nav_slide_out_left"
+            app:popEnterAnim="@anim/nav_slide_in_left"
+            app:popExitAnim="@anim/nav_slide_out_right"
+            app:popUpTo="@id/graph_sign_in"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/signInQrCodeFragment"
+        android:name="io.golos.cyber_android.ui.screens.app_start.sign_in.qr_code.view.SignInQrCodeFragment"
+        android:label="SignInQrCodeFragment" />
+
+    <fragment
+        android:id="@+id/signInPinCodeFragment"
+        android:name="io.golos.cyber_android.ui.screens.app_start.sign_in.pin.view.SignInPinCodeFragment"
+        android:label="SignInQrCodeFragment" >
+        <action
+            android:id="@+id/action_signInPinCodeFragment_to_signInAppUnlockFragment"
+            app:destination="@id/signInAppUnlockFragment"
+            app:enterAnim="@anim/nav_slide_in_right"
+            app:exitAnim="@anim/nav_slide_out_left"
+            app:popEnterAnim="@anim/nav_slide_in_left"
+            app:popExitAnim="@anim/nav_slide_out_right"
+            app:popUpTo="@id/graph_sign_in"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/signUpProtectionKeysFragment"
+        android:name="io.golos.cyber_android.ui.screens.app_start.sign_in.keys_backup.view.SignUpProtectionKeysFragment"
+        android:label="SignUpProtectionKeysFragment" >
+        <action
+            android:id="@+id/action_signUpProtectionKeysFragment_to_signInPinCodeFragment"
+            app:enterAnim="@anim/nav_slide_in_right"
+            app:exitAnim="@anim/nav_slide_out_left"
+            app:popEnterAnim="@anim/nav_slide_in_left"
+            app:popExitAnim="@anim/nav_slide_out_right"
+            app:destination="@id/signInPinCodeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/signInAppUnlockFragment"
+        android:name="io.golos.cyber_android.ui.screens.app_start.sign_in.app_unlock.view.SignInAppUnlockFragment"
+        android:label="SignUpProtectionKeysFragment" />
+
+</navigation>

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <io.golos.cyber_android.ui.screens.login_shared.HeaderWidget
+    <io.golos.cyber_android.ui.screens.app_start.shared.HeaderWidget
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="@dimen/white_header_height"

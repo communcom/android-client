@@ -1,6 +1,7 @@
 package io.golos.domain
 
 import io.golos.domain.dto.*
+import io.golos.domain.dto.sign_up.SignUpSnapshotDomain
 
 interface KeyValueStorageFacade {
     /**
@@ -39,4 +40,8 @@ interface KeyValueStorageFacade {
 
     fun saveFcmToken(token: FcmTokenStateDomain)
     fun getFcmToken(): FcmTokenStateDomain?
+
+    fun saveSignUpSnapshot(snapshot: SignUpSnapshotDomain)
+    fun getSignUpSnapshot(): SignUpSnapshotDomain?
+    fun removeSignUpSnapshot()
 }

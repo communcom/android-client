@@ -12,11 +12,3 @@ fun PostFiltersHolder.PeriodTimeFilter.mapToTimeFrameDomain(): PostsConfiguratio
     }
 }
 
-fun PostsConfigurationDomain.TimeFrameDomain.mapToPeriodFilterTypeDomain(): PostFiltersHolder.PeriodTimeFilter {
-    return when (this) {
-        PostsConfigurationDomain.TimeFrameDomain.DAY -> PostFiltersHolder.PeriodTimeFilter.PAST_24_HOURS
-        PostsConfigurationDomain.TimeFrameDomain.WEEK -> PostFiltersHolder.PeriodTimeFilter.PAST_WEEK
-        PostsConfigurationDomain.TimeFrameDomain.MONTH -> PostFiltersHolder.PeriodTimeFilter.PAST_MONTH
-        PostsConfigurationDomain.TimeFrameDomain.ALL -> PostFiltersHolder.PeriodTimeFilter.ALL
-    }
-}

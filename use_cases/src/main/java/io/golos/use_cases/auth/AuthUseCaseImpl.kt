@@ -35,7 +35,7 @@ constructor(
             val userId = userProfile.userId
 
             // generates private keys, stores it and returns an active key
-            val privateActiveKey = userKeyStore.createKeys(userId, userName, password).activePrivateKey
+            val privateActiveKey = userKeyStore.createAndSaveKeys(userId, userName, password).activePrivateKey
 
             checkAuthConditions(privateActiveKey, userName, userId)
 

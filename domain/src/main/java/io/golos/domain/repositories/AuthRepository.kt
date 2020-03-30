@@ -12,17 +12,20 @@ interface AuthRepository {
 
     suspend fun getUserBlockChainProfile(userId: UserIdDomain): BCProfileDomain
 
+    /**
+     * @return true - success
+     */
     suspend fun writeUserToBlockChain(
         phone: String?,
         identity: String?,
         userId: String,
         userName: String,
         owner: String,
-        active: String)
+        active: String): Boolean
 
     suspend fun getRegistrationState(phone: String?, identity: String?): UserRegistrationStateResult
 
-    suspend fun firstUserRegistrationStep(captcha: String?, phone: String, testingPass: String): FirstRegistrationStepResult
+    suspend fun firstUserRegistrationStep(captcha: String, phone: String): FirstRegistrationStepResult
 
     suspend fun verifyPhoneForUserRegistration(phone: String, code: Int): VerifyStepResult
 

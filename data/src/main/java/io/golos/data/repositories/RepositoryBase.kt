@@ -1,11 +1,9 @@
 package io.golos.data.repositories
 
-import android.content.Context
-import android.net.ConnectivityManager
 import io.golos.commun4j.http.rpc.model.ApiResponseError
 import io.golos.commun4j.sharedmodel.Either
 import io.golos.commun4j.sharedmodel.GolosEosError
-import io.golos.data.exceptions.ApiResponseErrorException
+import io.golos.domain.repositories.exceptions.ApiResponseErrorException
 import io.golos.data.mappers.mapToApiResponseErrorDomain
 import io.golos.data.network_state.NetworkStateChecker
 import io.golos.domain.DispatchersProvider

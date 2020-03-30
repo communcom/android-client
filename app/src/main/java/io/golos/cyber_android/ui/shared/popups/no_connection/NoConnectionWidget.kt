@@ -34,11 +34,4 @@ class NoConnectionWidget
         onReconnectClickListener = listener
     }
 
-    fun setReconnectingState(isReconnecting: Boolean) {
-        val reconnectButton = view.findViewById<Button>(R.id.reconnectButton)
-        val reconnectingProgress = view.findViewById<ProgressBar>(R.id.reconnectingProgress)
-
-        reconnectButton.isEnabled = !isReconnecting
-        reconnectingProgress.visibility = if(isReconnecting) View.VISIBLE else View.INVISIBLE
-    }
 }

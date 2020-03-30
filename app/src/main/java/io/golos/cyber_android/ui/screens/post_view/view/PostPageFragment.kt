@@ -301,21 +301,6 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
         ConfirmationDialog.newInstance(R.string.delete_post_confirmation, this@PostPageFragment)
             .show(requireFragmentManager(), "menu")
 
-    private fun moveToUserProfile(userId: String) =
-        getDashboardFragment(this)?.navigateToFragment(ProfileExternalUserFragment.newInstance(UserIdDomain(userId)))
-
-    private fun moveToImageView(imageUri: Uri) =
-        startActivity(ImageViewerActivity.getIntent(requireContext(), imageUri.toString()))
-
-    private fun moveToLinkView(link: Uri) {
-        Intent(Intent.ACTION_VIEW, link)
-            .also { intent ->
-                if (intent.resolveActivity(requireActivity().packageManager) != null) {
-                    startActivity(intent)
-                }
-            }
-    }
-
     private fun openEditPost(contentId: ContentId) {
         startActivityForResult(
             EditorPageActivity.getIntent(

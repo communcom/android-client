@@ -45,15 +45,15 @@ android {
             resValue "string", "facebook_app_id", "150680096143077"
             resValue "string", "fb_login_protocol_scheme", "fb150680096143077"
 
-            buildConfigField "String",  'AMPLITUDE_API_KEY', "\"38406204507945e0941d552f088204fb\""
+            buildConfigField "String", 'AMPLITUDE_API_KEY', "\"38406204507945e0941d552f088204fb\""
             buildConfigField "Boolean", 'ANALYTICS_ENABLED', "true"
             buildConfigField "Boolean", 'CRASH_REPORTS_ENABLED', "true"
 
-            buildConfigField "String",  'BLOCK_CHAIN_HTTP_API_URL', "\"https://node.commun.com/\""
-            buildConfigField "String",  'SERVICES_URL', "\"wss://gate.commun.com/\""
+            buildConfigField "String", 'BLOCK_CHAIN_HTTP_API_URL', "\"https://node.commun.com/\""
+            buildConfigField "String", 'SERVICES_URL', "\"wss://gate.commun.com/\""
             buildConfigField "String",  'ACCESS_TOKEN_BASE_URL', "\"https://commun.com/oauth/\""
 
-            buildConfigField "String",  'GOOGLE_ACCESS_TOKEN_CLIENT_ID', "\"537042616174-bl79mf0b039i8f6emh5bia6klm18nih3.apps.googleusercontent.com\""
+            buildConfigField "String", 'GOOGLE_ACCESS_TOKEN_CLIENT_ID', "\"537042616174-bl79mf0b039i8f6emh5bia6klm18nih3.apps.googleusercontent.com\""
             buildConfigField "String",  'GOOGLE_RECAPTCHA_KEY', "\"6LdIAcAUAAAAANtWk2WpvZ0jMqX58NB3QDpgZR2S\""
         }
         dev {
@@ -65,7 +65,7 @@ android {
 
             applicationIdSuffix ".dev"
 
-            buildConfigField "String",  'AMPLITUDE_API_KEY', "\"d4c86feb8c760822a71751a2b894a99e\""
+            buildConfigField "String", 'AMPLITUDE_API_KEY', "\"d4c86feb8c760822a71751a2b894a99e\""
             buildConfigField "Boolean", 'ANALYTICS_ENABLED', "false"
             buildConfigField "Boolean", 'CRASH_REPORTS_ENABLED', "false"
 
@@ -73,7 +73,7 @@ android {
             buildConfigField "String",  'SERVICES_URL', "\"wss://dev-3-gate.commun.com/\""
             buildConfigField "String",  'ACCESS_TOKEN_BASE_URL', "\"https://dev-3.commun.com/oauth/\""
 
-            buildConfigField "String",  'GOOGLE_ACCESS_TOKEN_CLIENT_ID', "\"537042616174-jr6forf8aon2j7sj09flm39mgvg8ip0l.apps.googleusercontent.com\""
+            buildConfigField "String", 'GOOGLE_ACCESS_TOKEN_CLIENT_ID', "\"537042616174-jr6forf8aon2j7sj09flm39mgvg8ip0l.apps.googleusercontent.com\""
             buildConfigField "String",  'GOOGLE_RECAPTCHA_KEY', "\"6LdIAcAUAAAAANtWk2WpvZ0jMqX58NB3QDpgZR2S\""
         }
         checking {
@@ -85,7 +85,7 @@ android {
 
             applicationIdSuffix ".dev"
 
-            buildConfigField "String",  'AMPLITUDE_API_KEY', "\"d4c86feb8c760822a71751a2b894a99e\""
+            buildConfigField "String", 'AMPLITUDE_API_KEY', "\"d4c86feb8c760822a71751a2b894a99e\""
             buildConfigField "Boolean", 'ANALYTICS_ENABLED', "false"
             buildConfigField "Boolean", 'CRASH_REPORTS_ENABLED', "false"
 
@@ -93,7 +93,7 @@ android {
             buildConfigField "String",  'SERVICES_URL', "\"wss://dev-gate.commun.com/\""
             buildConfigField "String",  'ACCESS_TOKEN_BASE_URL', "\"https://dev.commun.com/oauth/\""
 
-            buildConfigField "String",  'GOOGLE_ACCESS_TOKEN_CLIENT_ID', "\"537042616174-jr6forf8aon2j7sj09flm39mgvg8ip0l.apps.googleusercontent.com\""
+            buildConfigField "String", 'GOOGLE_ACCESS_TOKEN_CLIENT_ID', "\"537042616174-jr6forf8aon2j7sj09flm39mgvg8ip0l.apps.googleusercontent.com\""
             buildConfigField "String",  'GOOGLE_RECAPTCHA_KEY', "\"6LdIAcAUAAAAANtWk2WpvZ0jMqX58NB3QDpgZR2S\""
         }
     }
@@ -151,6 +151,8 @@ dependencies {
     implementation project(':utils')
     implementation project(':pdf_renderer')
 
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     deps.groups.kotlin dependencies
     deps.groups.ui dependencies
     deps.groups.tests dependencies
@@ -172,16 +174,16 @@ dependencies {
     deps.groups.facebook dependencies
 
     // GoogleDrive
-    implementation (deps.googleServices.playServicesAuth) {
+    implementation(deps.googleServices.playServicesAuth) {
         exclude group: 'org.apache.httpcomponents'
     }
-    implementation (deps.googleServices.googleDriveApi) {
+    implementation(deps.googleServices.googleDriveApi) {
         exclude group: 'org.apache.httpcomponents'
     }
-    implementation (deps.googleServices.googleApiClient) {
+    implementation(deps.googleServices.googleApiClient) {
         exclude group: 'org.apache.httpcomponents'
     }
-    implementation (deps.googleServices.googleGsonClient) {
+    implementation(deps.googleServices.googleGsonClient) {
         exclude group: 'org.apache.httpcomponents'
     }
 }

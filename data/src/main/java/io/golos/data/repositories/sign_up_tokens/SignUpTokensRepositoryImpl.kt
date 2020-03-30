@@ -4,6 +4,7 @@ import com.squareup.moshi.Moshi
 import io.golos.data.network_state.NetworkStateChecker
 import io.golos.data.utils.await
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.SignUpTokensRepository
 import io.golos.domain.dto.SignUpIdentityDomain
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient

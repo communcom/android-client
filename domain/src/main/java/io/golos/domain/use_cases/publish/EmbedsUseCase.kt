@@ -97,10 +97,6 @@ constructor(
         }
     }
 
-    fun requestLinkEmbedData(url: String) {
-        embedsRepository.makeAction(EmbedRequest(url))
-    }
-
 
     override fun unsubscribe() {
         super.unsubscribe()

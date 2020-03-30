@@ -7,10 +7,3 @@ import io.golos.cyber_android.ui.shared.mvvm.SingleLiveData
 @Suppress("detekt.UnsafeCast")
 fun <T> MutableLiveData<T>.toLiveData() = this as LiveData<T>
 
-fun <T> LiveData<T>.toSingleLiveData(): LiveData<T> {
-    val result = SingleLiveData<T>()
-    result.addSource(this) {
-        result.value = it
-    }
-    return result
-}

@@ -28,8 +28,4 @@ class JsonToDtoMapper() {
             throw PostParsingException(PostParsingErrorCode.GENERAL)
         }
 
-    /**
-     * Fast way to get post metadata only
-     */
-    fun getPostMetadata(rawJson: String): PostMetadata = PostMetadataMapper().map(JSONObject(rawJson))
 }

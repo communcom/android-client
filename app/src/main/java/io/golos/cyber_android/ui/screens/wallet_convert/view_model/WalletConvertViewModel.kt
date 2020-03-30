@@ -9,13 +9,13 @@ import io.golos.cyber_android.ui.screens.profile.dto.NavigateToWalletBackCommand
 import io.golos.cyber_android.ui.screens.wallet_convert.dto.*
 import io.golos.cyber_android.ui.screens.wallet_convert.model.WalletConvertModel
 import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
-import io.golos.cyber_android.ui.screens.wallet_send_points.dto.HideKeyboardCommand
 import io.golos.cyber_android.ui.screens.wallet_send_points.dto.ShowSelectCommunityDialogCommand
 import io.golos.cyber_android.ui.screens.wallet_send_points.dto.UpdateCarouselPositionCommand
 import io.golos.cyber_android.ui.screens.wallet_shared.dto.AmountValidationResult
 import io.golos.cyber_android.ui.screens.wallet_shared.getDisplayName
 import io.golos.utils.format.CurrencyFormatter
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.HideKeyboardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand

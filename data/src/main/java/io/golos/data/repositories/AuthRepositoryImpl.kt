@@ -48,7 +48,7 @@ class AuthRepositoryImpl
         userId: String,
         userName: String,
         owner: String,
-        active: String) {
+        active: String): Boolean =
         apiCall {
             Timber.tag("NET_SOCKET").d("AuthRepositoryImpl::writeUserToBlockChain(phone = $phone, identity = $identity, userId = $userId, userName = $userName, owner = $owner, active = $active)")
             commun4j.writeUserToBlockChain(
@@ -58,8 +58,7 @@ class AuthRepositoryImpl
                 userId = userId,
                 owner = owner,
                 active = active,
-                email = null) }
-    }
+                email = null) }.currentState == UserRegistrationState.REGISTERED
 
     override suspend fun getRegistrationState(phone: String?, identity: String?): UserRegistrationStateResult =
         apiCall {
@@ -67,10 +66,10 @@ class AuthRepositoryImpl
             commun4j.getRegistrationState(phone = phone, identity = identity)
         }
 
-    override suspend fun firstUserRegistrationStep(captcha: String?, phone: String, testingPass: String): FirstRegistrationStepResult =
+    override suspend fun firstUserRegistrationStep(captcha: String, phone: String): FirstRegistrationStepResult =
         apiCall {
-            Timber.tag("NET_SOCKET").d("AuthRepositoryImpl::firstUserRegistrationStep(phone = $phone, testingPass = $testingPass)")
-            commun4j.firstUserRegistrationStep(captcha, phone, testingPass, "android")
+            Timber.tag("NET_SOCKET").d("AuthRepositoryImpl::firstUserRegistrationStep(phone = $phone)")
+            commun4j.firstUserRegistrationStep(captcha = captcha, phone = phone, testingPass = null, captchaType = "android")
         }
 
     override suspend fun verifyPhoneForUserRegistration(phone: String, code: Int): VerifyStepResult =

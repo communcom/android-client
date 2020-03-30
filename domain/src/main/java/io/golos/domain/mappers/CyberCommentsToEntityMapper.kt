@@ -11,7 +11,7 @@ interface CyberCommentsToEntityMapper : CommunToEntityMapper<FeedUpdateRequestsW
 
 class CyberCommentsToEntityMapperImpl
 @Inject
-constructor(val postMapper: CyberCommentToEntityMapper) : CyberCommentsToEntityMapper {
+constructor() : CyberCommentsToEntityMapper {
 
     override fun map(communObject: FeedUpdateRequestsWithResult<FeedUpdateRequest>): FeedEntity<CommentEntity> {
         throw UnsupportedOperationException("")

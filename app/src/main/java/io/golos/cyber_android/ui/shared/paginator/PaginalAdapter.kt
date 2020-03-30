@@ -107,10 +107,6 @@ abstract class PaginalAdapter<ITEM> : RecyclerView.Adapter<RecyclerView.ViewHold
 
     protected companion object {
 
-        @IntDef(DATA, PROGRESS_ERROR)
-        @Retention(AnnotationRetention.SOURCE)
-        protected annotation class PAGINATION_ITEM_VIEW_TYPE
-
         const val DATA = 0
         const val PROGRESS_ERROR = 1
     }

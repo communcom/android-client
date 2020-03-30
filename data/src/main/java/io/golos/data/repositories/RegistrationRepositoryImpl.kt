@@ -67,7 +67,7 @@ constructor(
                             when (params) {
                                 is GetUserRegistrationStepRequest -> null
                                 is SendSmsForVerificationRequest ->
-                                    authRepository.firstUserRegistrationStep(params.captcha, params.phone!!, params.testCode)
+                                    authRepository.firstUserRegistrationStep("", params.phone!!)
                                 is SendVerificationCodeRequest ->
                                     authRepository.verifyPhoneForUserRegistration(params.phone!!, params.code)
 

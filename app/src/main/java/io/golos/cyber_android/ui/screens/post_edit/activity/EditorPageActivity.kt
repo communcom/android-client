@@ -11,18 +11,13 @@ import io.golos.cyber_android.ui.screens.post_edit.fragment.view.EditorPageFragm
 import io.golos.cyber_android.ui.screens.post_edit.shared.EditorPageBridgeActivity
 import io.golos.cyber_android.ui.shared.Tags
 import io.golos.cyber_android.ui.shared.base.ActivityBase
-import io.golos.utils.id.IdUtil
 import javax.inject.Inject
 
 class EditorPageActivity : ActivityBase() {
     companion object {
-        private const val INJECTION_KEY = "INJECTION_KEY"
-
         fun getIntent(context: Context, args: EditorPageFragment.Args = EditorPageFragment.Args()) =
             Intent(context, EditorPageActivity::class.java).apply { putExtra(Tags.ARGS, args) }
     }
-
-    private lateinit var injectionKey: String
 
     @Inject
     internal lateinit var fragmentBridge: EditorPageBridgeActivity
@@ -30,25 +25,13 @@ class EditorPageActivity : ActivityBase() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        injectionKey = savedInstanceState?.getString(INJECTION_KEY) ?: IdUtil.generateStringId()
-        App.injections.get<EditorPageActivityComponent>(injectionKey).inject(this)
-
         setContentView(R.layout.activity_editor_page)
         findNavController(R.id.editorNavHost).setGraph(R.navigation.graph_editor_page, intent.extras)
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        outState.putString(INJECTION_KEY, injectionKey)
-        super.onSaveInstanceState(outState)
-    }
+    override fun inject(key: String) = App.injections.get<EditorPageActivityComponent>(key).inject(this)
 
-    override fun onDestroy() {
-        if(isFinishing) {
-            App.injections.release<EditorPageActivityComponent>(injectionKey)
-        }
-
-        super.onDestroy()
-    }
+    override fun releaseInjection(key: String) = App.injections.release<EditorPageActivityComponent>(key)
 
     override fun onBackPressed() {
         if(fragmentBridge.canCloseEditor()) {

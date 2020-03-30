@@ -2,7 +2,7 @@ package io.golos.data.mappers
 
 import io.golos.commun4j.http.rpc.model.ApiResponseError
 import io.golos.commun4j.sharedmodel.GolosEosError
-import io.golos.domain.dto.ApiResponseErrorDomain
+import io.golos.domain.repositories.exceptions.ApiResponseErrorDomain
 import io.golos.utils.helpers.capitalize
 
 fun ApiResponseError.mapToApiResponseErrorDomain(): ApiResponseErrorDomain =

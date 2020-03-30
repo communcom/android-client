@@ -24,17 +24,6 @@ abstract class NavigatorBaseImpl(@IdRes private val navHostId: Int): NavigatorBa
      */
     override fun moveBack(currentActivity: FragmentActivity) = currentActivity.onBackPressed()
 
-    /**
-     * Move to some destination
-     */
-    protected fun moveTo(currentFragment: Fragment, destinationId: Int, finishCurrentActivity: Boolean = false, args: Bundle? = null) {
-        getNavigationController(currentFragment).navigate(destinationId, args)
-
-        if(finishCurrentActivity) {
-            currentFragment.requireActivity().finish()
-        }
-    }
-
     protected fun getNavigationController(activity: FragmentActivity) = Navigation.findNavController(activity, navHostId)
 
     protected fun setHome(

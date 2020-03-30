@@ -9,11 +9,6 @@ interface CommunToEntityMapper<TC, TE : Entity> {
     fun map(communObject: TC): TE
 }
 
-interface EntityToCommunMapper<TE : Entity, TC> {
-    @WorkerThread
-    suspend fun map(entity: TE): TC
-}
-
 interface EntityToModelMapper<TE : Entity, TM : Model> {
     @WorkerThread
     fun map(entity: TE): TM

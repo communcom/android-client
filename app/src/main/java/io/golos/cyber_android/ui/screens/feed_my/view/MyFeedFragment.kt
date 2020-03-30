@@ -383,9 +383,6 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
         })
     }
 
-    private fun showPostRewardDialog(@StringRes titleResId: Int, @StringRes textResId: Int) =
-        PostRewardBottomSheetDialog.show(this, titleResId, textResId) {}
-
     override fun onDestroyView() {
         rvPosts.adapter = null
         super.onDestroyView()

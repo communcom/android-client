@@ -5,6 +5,7 @@ import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.data.persistence.key_value_storage.storages.Storage
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.dto.*
+import io.golos.domain.dto.sign_up.SignUpSnapshotDomain
 import javax.inject.Inject
 
 /**
@@ -36,6 +37,7 @@ constructor(
         private const val USER_KEY_TYPE_MASTER_KEY = "USER_KEY_TYPE_MASTER"
 
         private const val FCM_TOKEN_KEY = "FCM_TOKEN"
+        private const val SIGN_UP_SNAPSHOT_KEY = "SIGN_UP_SNAPSHOT"
     }
 
     // To provide compatibility to WebView application
@@ -183,6 +185,21 @@ constructor(
     override fun getFcmToken(): FcmTokenStateDomain? =
         keyValueStorage.read {
             it.readString(FCM_TOKEN_KEY)?.let { moshi.adapter(FcmTokenStateDomain::class.java).fromJson(it) }
+        }
+
+    override fun saveSignUpSnapshot(snapshot: SignUpSnapshotDomain) =
+        keyValueStorage.update {
+            it.putString(SIGN_UP_SNAPSHOT_KEY, moshi.adapter(SignUpSnapshotDomain::class.java).toJson(snapshot))
+        }
+
+    override fun getSignUpSnapshot(): SignUpSnapshotDomain? =
+        keyValueStorage.read {
+            it.readString(SIGN_UP_SNAPSHOT_KEY)?.let { moshi.adapter(SignUpSnapshotDomain::class.java).fromJson(it) }
+        }
+
+    override fun removeSignUpSnapshot() =
+        keyValueStorage.update {
+            it.remove(SIGN_UP_SNAPSHOT_KEY)
         }
 
     private fun getInternalKeyForUserKey(keyType: UserKeyType) =

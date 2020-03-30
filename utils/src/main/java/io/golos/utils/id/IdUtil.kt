@@ -5,8 +5,6 @@ import java.util.*
 import kotlin.math.absoluteValue
 
 object IdUtil {
-    /** */
-    const val emptyId: String = ""
 
     /** */
     fun generateStringId(): String = UUID.randomUUID().toString()

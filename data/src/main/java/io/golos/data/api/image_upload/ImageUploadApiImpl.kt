@@ -3,7 +3,6 @@ package io.golos.data.api.image_upload
 import android.net.Uri
 import io.golos.commun4j.Commun4j
 import io.golos.data.api.Commun4jApiBase
-import io.golos.domain.DispatchersProvider
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import java.io.File
 import javax.inject.Inject
@@ -12,8 +11,7 @@ class ImageUploadApiImpl
 @Inject
 constructor(
     commun4j: Commun4j,
-    currentUserRepository: CurrentUserRepositoryRead,
-    private val dispatchersProvider: DispatchersProvider
+    currentUserRepository: CurrentUserRepositoryRead
 ) : Commun4jApiBase(commun4j, currentUserRepository), ImageUploadApi {
 
     /**

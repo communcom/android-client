@@ -1,7 +1,0 @@
-package io.golos.cyber_android.ui.screens.login_sign_up_pin.view_state_dto
-
-data class CodeState (
-    val isPrimaryCodeActive: Boolean,
-    val isRepeatedCodeActive: Boolean,
-    val resetNeeded: Boolean
-)

@@ -16,16 +16,8 @@ import kotlin.coroutines.CoroutineContext
  * [Fragment] that supports showing progress with [LoadingDialog] via
  * [showLoading] and [hideLoading] methods
  */
-abstract class FragmentBaseCoroutines: Fragment(), CoroutineScope {
-
+abstract class FragmentBaseCoroutines: FragmentBase(), CoroutineScope {
     private val scopeJob: Job = SupervisorJob()
-
-    private val loadingDialog = LoadingDialog()
-
-    private var wasAdded = false
-
-    @Inject
-    protected lateinit var uiHelper: UIHelper
 
     @Inject
     protected lateinit var dispatchersProvider: DispatchersProvider
@@ -36,29 +28,11 @@ abstract class FragmentBaseCoroutines: Fragment(), CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = scopeJob + dispatchersProvider.uiDispatcher
 
-    override fun onResume() {
-        super.onResume()
-        Timber.tag(LogTags.NAVIGATION).d("${javaClass.simpleName} fragment is active")
-    }
+    override fun onDestroy() {
+        super.onDestroy()
 
-    protected fun setLoadingVisibility(isVisible: Boolean) =
-        if(isVisible) {
-            showLoading()
-        } else {
-            hideLoading()
-        }
-
-    protected fun showLoading() {
-        if (loadingDialog.dialog?.isShowing != true && !loadingDialog.isAdded && !wasAdded) {
-            loadingDialog.show(requireFragmentManager(), "loading")
-            wasAdded = true
-        }
-    }
-
-    protected fun hideLoading() {
-        if (loadingDialog.fragmentManager != null && wasAdded) {
-            loadingDialog.dismiss()
-            wasAdded = false
+        if(isRemoving) {
+            scopeJob.cancel()
         }
     }
 }

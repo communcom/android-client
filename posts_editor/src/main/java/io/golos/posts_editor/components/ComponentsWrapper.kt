@@ -2,7 +2,7 @@ package io.golos.posts_editor.components
 
 import io.golos.posts_editor.components.input.InputExtensions
 
-class ComponentsWrapper(val inputExtensions: InputExtensions?, val embedExtensions: EmbedExtensions?) {
+class ComponentsWrapper(val inputExtensions: InputExtensions?) {
 
     class Builder {
         private var inputExtensions: InputExtensions? = null
@@ -18,6 +18,6 @@ class ComponentsWrapper(val inputExtensions: InputExtensions?, val embedExtensio
             return this
         }
 
-        fun build(): ComponentsWrapper = ComponentsWrapper(this.inputExtensions, this.embedExtensions)
+        fun build(): ComponentsWrapper = ComponentsWrapper(this.inputExtensions)
     }
 }

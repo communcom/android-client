@@ -1,11 +1,12 @@
 package io.golos.cyber_android.application.shared.analytics
 
 import android.app.Application
-import io.golos.cyber_android.application.shared.analytics.dto.PasswordBackup
-import io.golos.cyber_android.application.shared.analytics.dto.RegistrationSelection
-import io.golos.cyber_android.application.shared.analytics.dto.SmsCodeEntered
-import io.golos.cyber_android.application.shared.analytics.dto.UsernameEntered
+import io.golos.domain.analytics.PasswordBackup
+import io.golos.domain.analytics.RegistrationSelection
+import io.golos.domain.analytics.SmsCodeEntered
+import io.golos.domain.analytics.UsernameEntered
 import io.golos.cyber_android.application.shared.analytics.modules.AnalyticsModule
+import io.golos.domain.analytics.AnalyticsFacade
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import javax.inject.Inject
 

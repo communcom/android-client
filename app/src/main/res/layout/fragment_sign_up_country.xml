@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="viewModel" type="io.golos.cyber_android.ui.screens.login_sign_up_countries.view_model.SignUpCountryViewModel" />
+        <variable name="viewModel" type="io.golos.cyber_android.ui.screens.app_start.sign_up.countries.view_model.SignUpCountryViewModel" />
     </data>
 
     <LinearLayout
@@ -12,7 +12,7 @@
         android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.screens.login_sign_up_countries.view.SignUpCountryFragment">
+        tools:context=".ui.screens.app_start.sign_up.countries.view.SignUpCountryFragment">
 
         <com.google.android.material.appbar.AppBarLayout
             app:elevation="0dp"
@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:theme="@style/AppTheme.AppBarOverlay">
 
-            <io.golos.cyber_android.ui.screens.login_shared.HeaderWidget
+            <io.golos.cyber_android.ui.screens.app_start.shared.HeaderWidget
                 android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

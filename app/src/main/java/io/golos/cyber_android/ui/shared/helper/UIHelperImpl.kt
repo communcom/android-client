@@ -9,7 +9,6 @@ import android.widget.TextView
 import android.widget.Toast
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.keyboard.KeyboardUtils
-import io.golos.cyber_android.ui.shared.keyboard.SoftKeyboardVisibilityRunnable
 import javax.inject.Inject
 
 class UIHelperImpl

@@ -10,10 +10,6 @@ fun List<Community>.mapToCommunityListItem(): List<FtueCommunityListItem> = map 
     FtueCommunityListItem(community)
 }
 
-fun List<Community?>.mapToCollectionList(): List<CommunityCollection> = map { community ->
-    CommunityCollection(community)
-}
-
 fun List<CommunityCollection>.mapToCollectionListItem(): List<FtueCommunityCollectionListItem> = map { community ->
     FtueCommunityCollectionListItem(community)
 }

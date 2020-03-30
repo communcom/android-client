@@ -18,15 +18,6 @@ data class ContentBody(
     val postBlock: ContentBlock
 ) : Entity
 
-data class EmbedEntity(
-    val type: String,
-    val title: String,
-    val url: String,
-    val author: String,
-    val provider_name: String,
-    val html: String
-) : Entity
-
 data class DiscussionMetadata(val time: Date) : Entity
 
 class DiscussionPayout : Entity

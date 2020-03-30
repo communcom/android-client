@@ -21,7 +21,5 @@ data class LinkEmbedModel(
     companion object {
         val empty = LinkEmbedModel("", "", "", "", "",0 to 0)
 
-        fun ofImage(imageUrl: String) = LinkEmbedModel("", "", "", imageUrl, "", 0 to 0)
-
     }
 }

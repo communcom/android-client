@@ -23,15 +23,4 @@ internal fun <E> List<E>.replace(
 
 }
 
-internal fun <E> List<E>.replaceByProducer(
-    identifier: (E) -> Boolean,
-    producer: (E) -> E
-) = this.toMutableList().map { item ->
-    if (identifier(item)) producer(item)
-    else item
-
-}
-
-internal fun CyberName.toCyberUser() = CyberUser(this.name)
-internal fun String.toCyberUser() = CyberUser(this)
 internal fun String.toCyberName() = CyberName(this)

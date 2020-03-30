@@ -9,10 +9,15 @@ interface UserKeyStore {
     /**
      * Generates new keys, stores and returns them
      */
-    fun createKeys(userId: UserIdDomain, userName: String): GeneratedUserKeys
+    fun createAndSaveKeys(userId: UserIdDomain, userName: String): GeneratedUserKeys
 
     /**
      * Generates new keys, stores and returns them
+     */
+    fun createAndSaveKeys(userId: UserIdDomain, userName: String, masterKey: String): GeneratedUserKeys
+
+    /**
+     * Generates new keys BUT doesn't save them
      */
     fun createKeys(userId: UserIdDomain, userName: String, masterKey: String): GeneratedUserKeys
 
