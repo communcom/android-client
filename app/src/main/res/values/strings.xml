@@ -213,7 +213,7 @@
 
     <!--Post page-->
     <string name="no_comments_title">No comments</string>
-    <string name="no_comments_description">Comments not found</string>
+    <string name="no_comments_description">This post doesn\'t contain any comment</string>
     <string name="favorite_add_post">Add to Favorite</string>
     <string name="favorite_remove_post">Remove from Favorite</string>
     <string name="share_post">Share</string>

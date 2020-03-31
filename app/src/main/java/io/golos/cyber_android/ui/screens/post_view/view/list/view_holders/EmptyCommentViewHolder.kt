@@ -19,6 +19,6 @@ class EmptyCommentViewHolder(
         listItemEventsProcessor: PostPageViewModelListEventsProcessor
     ) {
         itemView.commentEmptyHolder.setTitle(R.string.no_comments_title)
-        itemView.commentEmptyHolder.setExplanation(R.string.no_communities_explanation)
+        itemView.commentEmptyHolder.setExplanation(R.string.no_comments_description)
     }
 }
