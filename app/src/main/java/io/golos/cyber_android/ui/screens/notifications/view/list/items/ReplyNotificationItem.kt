@@ -2,12 +2,10 @@ package io.golos.cyber_android.ui.screens.notifications.view.list.items
 
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.dto.NotificationCommentDomain
-import io.golos.domain.dto.NotificationPostDomain
 import io.golos.domain.dto.UserIdDomain
 import java.util.*
 
-
-data class NotificationMentionItem(
+data class ReplyNotificationItem(
     override val version: Long,
     override val id: Long,
     override val isFirstItem: Boolean,
@@ -19,8 +17,7 @@ data class NotificationMentionItem(
     override val userId: String,
     override val userName: String?,
     override val userAvatar: String?,
-    val comment: NotificationCommentDomain?,
-    val post: NotificationPostDomain?,
+    val comment: NotificationCommentDomain,
     val currentUserId: UserIdDomain,
     val currentUserName: String
 ) :

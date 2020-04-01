@@ -10,7 +10,7 @@ import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.mappers.mapToContentId
-import io.golos.cyber_android.ui.screens.notifications.view.list.items.NotificationReplyItem
+import io.golos.cyber_android.ui.screens.notifications.view.list.items.ReplyNotificationItem
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModelListEventsProcessor
 import io.golos.cyber_android.ui.shared.glide.loadNotificationImageContent
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
@@ -22,19 +22,19 @@ import kotlinx.android.synthetic.main.item_notification.view.*
 
 class NotificationReplyViewHolder(
     parentView: ViewGroup
-) : BaseNotificationViewHolder<NotificationReplyItem>(
+) : BaseNotificationViewHolder<ReplyNotificationItem>(
     parentView
 ) {
 
     override val notificationTypeLabelResId: Int = R.drawable.ic_reply_label
 
-    override fun init(listItem: NotificationReplyItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor) {
+    override fun init(listItem: ReplyNotificationItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor) {
         super.init(listItem, listItemEventsProcessor)
         setAction(listItem, listItemEventsProcessor)
         setMessage(listItem, listItemEventsProcessor)
     }
 
-    private fun setMessage(listItem: NotificationReplyItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor){
+    private fun setMessage(listItem: ReplyNotificationItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor){
         val resources = itemView.context.resources
         val context = itemView.context
         val messageStringBuilder = SpannableStringBuilder()
@@ -95,7 +95,7 @@ class NotificationReplyViewHolder(
         itemView.tvMessage.text = messageStringBuilder
     }
 
-    private fun setAction(listItem: NotificationReplyItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor){
+    private fun setAction(listItem: ReplyNotificationItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor){
         val imageUrl = listItem.comment.imageUrl
         if(!imageUrl.isNullOrEmpty()){
             itemView.ivContent.loadNotificationImageContent(imageUrl)
@@ -110,7 +110,7 @@ class NotificationReplyViewHolder(
         }
     }
 
-    private fun onItemClicked(listItem: NotificationReplyItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor){
+    private fun onItemClicked(listItem: ReplyNotificationItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor){
         val postContentId: ContentId = listItem.comment.parents.post.mapToContentId()
         listItemEventsProcessor.onPostNavigateClicked(postContentId)
     }

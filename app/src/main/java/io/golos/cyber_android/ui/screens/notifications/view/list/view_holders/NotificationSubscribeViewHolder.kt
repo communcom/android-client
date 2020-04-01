@@ -7,7 +7,7 @@ import android.text.style.StyleSpan
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.screens.notifications.view.list.items.NotificationSubscribeItem
+import io.golos.cyber_android.ui.screens.notifications.view.list.items.SubscribeNotificationItem
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModelListEventsProcessor
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
 import io.golos.domain.dto.UserIdDomain
@@ -18,20 +18,20 @@ import kotlinx.android.synthetic.main.item_notification.view.*
 
 class NotificationSubscribeViewHolder(
     parentView: ViewGroup
-) : BaseNotificationViewHolder<NotificationSubscribeItem>(
+) : BaseNotificationViewHolder<SubscribeNotificationItem>(
     parentView
 ) {
 
     override val notificationTypeLabelResId: Int = -1
 
-    override fun init(listItem: NotificationSubscribeItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor) {
+    override fun init(listItem: SubscribeNotificationItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor) {
         super.init(listItem, listItemEventsProcessor)
         setMessage(listItem, listItemEventsProcessor)
         setAction(listItem, listItemEventsProcessor)
     }
 
     private fun setMessage(
-        listItem: NotificationSubscribeItem,
+        listItem: SubscribeNotificationItem,
         listItemEventsProcessor: NotificationsViewModelListEventsProcessor
     ) {
         val userId = listItem.userId
@@ -57,13 +57,13 @@ class NotificationSubscribeViewHolder(
         itemView.tvMessage.text = message
     }
 
-    private fun setAction(listItem: NotificationSubscribeItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor){
+    private fun setAction(listItem: SubscribeNotificationItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor){
         itemView.setOnClickListener{
             onItemClicked(listItem, listItemEventsProcessor)
         }
     }
 
-    private fun onItemClicked(listItem: NotificationSubscribeItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor){
+    private fun onItemClicked(listItem: SubscribeNotificationItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor){
         listItemEventsProcessor.onUserClickedById(UserIdDomain(listItem.userId))
     }
 }

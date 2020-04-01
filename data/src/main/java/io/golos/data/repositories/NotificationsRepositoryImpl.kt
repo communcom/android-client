@@ -2,6 +2,7 @@ package io.golos.data.repositories
 
 import com.squareup.moshi.Moshi
 import io.golos.commun4j.Commun4j
+import io.golos.commun4j.services.model.UnsupportedNotification
 import io.golos.data.ServerMessageReceiver
 import io.golos.data.api.ApiMethods
 import io.golos.data.dto.NotificationsStatusEntity
@@ -106,16 +107,14 @@ class NotificationsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getNotifications(beforeThanDate: String?, limit: Int): NotificationsPageDomain {
-        val notificationsResponse = apiCall{ commun4j.getNotifications(limit, beforeThanDate) }
+        val notificationsResponse = apiCall{ commun4j.getNotificationsSkipUnrecognized(limit, beforeThanDate) }
 
         return if(notificationsResponse.items.isNotEmpty()) {
-            val lastNotification = notificationsResponse.items.last().mapToNotificationDomain(
-                currentUserRepository.userId,
-                currentUserRepository.userName
-            )!!
-            val lastTimestamp = DatesServerFormatter.formatToServer(lastNotification.createTime.add(-1000))
+            val lastTimestamp = notificationsResponse.items.last().timestamp.let {
+                DatesServerFormatter.formatToServer(it.add(-1000))
+            }
 
-            val notifications = notificationsResponse.items.mapNotNull {
+            val notifications = notificationsResponse.items.map {
                 it.mapToNotificationDomain(
                     currentUserRepository.userId,
                     currentUserRepository.userName

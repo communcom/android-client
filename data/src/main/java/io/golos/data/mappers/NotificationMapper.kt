@@ -5,7 +5,7 @@ import io.golos.domain.GlobalConstants
 import io.golos.domain.dto.*
 import java.util.*
 
-fun Notification.mapToNotificationDomain(currentUserId: UserIdDomain, currentUserName: String): NotificationDomain? {
+fun Notification.mapToNotificationDomain(currentUserId: UserIdDomain, currentUserName: String): NotificationDomain {
     return when (this) {
         is TransferNotification -> {
             TransferNotificationDomain(
@@ -125,6 +125,15 @@ fun Notification.mapToNotificationDomain(currentUserId: UserIdDomain, currentUse
             )
         }
 
-        else -> null
+        else -> {
+            UnsupportedNotificationDomain(
+                id = id,
+                isNew = false,
+                createTime = timestamp,
+                user = UserNotificationDomain(currentUserId, currentUserName, null),
+                currentUserId = currentUserId,
+                currentUserName = currentUserName
+            )
+        }
     }
 }

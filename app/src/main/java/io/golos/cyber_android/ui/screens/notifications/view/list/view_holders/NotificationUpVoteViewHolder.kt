@@ -10,7 +10,7 @@ import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.mappers.mapToContentId
-import io.golos.cyber_android.ui.screens.notifications.view.list.items.NotificationUpVoteItem
+import io.golos.cyber_android.ui.screens.notifications.view.list.items.UpVoteNotificationItem
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModelListEventsProcessor
 import io.golos.cyber_android.ui.shared.glide.loadNotificationImageContent
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
@@ -22,18 +22,18 @@ import kotlinx.android.synthetic.main.item_notification.view.*
 
 class NotificationUpVoteViewHolder(
     parentView: ViewGroup
-) : BaseNotificationViewHolder<NotificationUpVoteItem>(
+) : BaseNotificationViewHolder<UpVoteNotificationItem>(
     parentView
 ) {
     override val notificationTypeLabelResId: Int = R.drawable.ic_up_vote_label
 
-    override fun init(listItem: NotificationUpVoteItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor) {
+    override fun init(listItem: UpVoteNotificationItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor) {
         super.init(listItem, listItemEventsProcessor)
         setAction(listItem, listItemEventsProcessor)
         setMessage(listItem, listItemEventsProcessor)
     }
 
-    private fun setMessage(listItem: NotificationUpVoteItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor) {
+    private fun setMessage(listItem: UpVoteNotificationItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor) {
         val context = itemView.context
         val messageStringBuilder = SpannableStringBuilder()
         val userName = listItem.userName
@@ -77,7 +77,7 @@ class NotificationUpVoteViewHolder(
         itemView.tvMessage.text = messageStringBuilder
     }
 
-    private fun setAction(listItem: NotificationUpVoteItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor){
+    private fun setAction(listItem: UpVoteNotificationItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor){
         val imageUrl = listItem.comment?.imageUrl ?: listItem.post?.imageUrl
         if(!imageUrl.isNullOrEmpty()){
             itemView.ivContent.loadNotificationImageContent(imageUrl)
@@ -92,7 +92,7 @@ class NotificationUpVoteViewHolder(
         }
     }
 
-    private fun onItemClicked(listItem: NotificationUpVoteItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor){
+    private fun onItemClicked(listItem: UpVoteNotificationItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor){
         val postContentId: ContentId? = (listItem.post?.contentId ?: listItem.comment?.parents?.post)?.mapToContentId()
         postContentId?.let {
             listItemEventsProcessor.onPostNavigateClicked(it)

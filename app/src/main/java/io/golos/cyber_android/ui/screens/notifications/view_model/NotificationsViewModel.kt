@@ -7,7 +7,7 @@ import io.golos.cyber_android.ui.mappers.mapToUser
 import io.golos.cyber_android.ui.screens.notifications.mappers.mapToVersionedListItem
 import io.golos.cyber_android.ui.screens.notifications.model.NotificationsModel
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.BaseNotificationItem
-import io.golos.cyber_android.ui.screens.notifications.view.list.items.NotificationSubscribeItem
+import io.golos.cyber_android.ui.screens.notifications.view.list.items.SubscribeNotificationItem
 import io.golos.cyber_android.ui.screens.profile.dto.NavigateToWalletCommand
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToPostCommand
@@ -139,7 +139,7 @@ class NotificationsViewModel
     }
 
     override fun onChangeFollowerStatusClicked(notification: BaseNotificationItem) {
-        if(notification is NotificationSubscribeItem){
+        if(notification is SubscribeNotificationItem){
 
         }
     }

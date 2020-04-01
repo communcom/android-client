@@ -15,6 +15,24 @@ class NotificationsAdapter (
     private val listEventsProcessor: NotificationsViewModelListEventsProcessor,
     pageSize:Int): VersionedListAdapterBase<NotificationsViewModelListEventsProcessor>(listEventsProcessor,pageSize) {
 
+    private companion object {
+        @Target(AnnotationTarget.TYPE, AnnotationTarget.VALUE_PARAMETER)
+        @IntDef(EMPTY_STUB, HEADER_DATE, MENTION, REPLY, SUBSCRIBE, UP_VOTE, PROGRESS, ERROR, TRANSFER)
+        @Retention(AnnotationRetention.SOURCE)
+        annotation class NotificationHolderType
+
+        const val EMPTY_STUB = 0
+        const val HEADER_DATE = 1
+        const val MENTION = 2
+        const val REPLY = 3
+        const val SUBSCRIBE = 4
+        const val UP_VOTE = 5
+        const val PROGRESS = 6
+        const val ERROR = 7
+        const val TRANSFER = 8
+        const val REWARD = 9
+        const val UNSUPPORTED = 10
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -31,23 +49,25 @@ class NotificationsAdapter (
             ERROR -> RetryListViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
             TRANSFER -> TransferViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
             REWARD -> RewardViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
+            UNSUPPORTED -> NotificationUnsupportedViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
             else -> throw UnsupportedOperationException("Undefined view holder")
         }
     }
 
     override fun getItemViewType(position: Int): @NotificationHolderType Int =
         when(items[position]) {
-            is NotificationEmptyStubItem -> EMPTY_STUB
-            is NotificationHeaderDateItem -> HEADER_DATE
-            is NotificationMentionItem -> MENTION
-            is NotificationReplyItem -> REPLY
-            is NotificationSubscribeItem -> SUBSCRIBE
-            is NotificationUpVoteItem -> UP_VOTE
+            is EmptyStubNotificationItem -> EMPTY_STUB
+            is HeaderDateNotificationItem -> HEADER_DATE
+            is MentionNotificationItem -> MENTION
+            is ReplyNotificationItem -> REPLY
+            is SubscribeNotificationItem -> SUBSCRIBE
+            is UpVoteNotificationItem -> UP_VOTE
             is LoadingListItem -> PROGRESS
             is ProfileCommentErrorListItem -> ERROR
             is TransferNotificationItem -> TRANSFER
             is RewardNotificationItem -> REWARD
             is RetryListItem -> ERROR
+            is UnsupportedNotificationItem -> UNSUPPORTED
             else -> throw UnsupportedOperationException("This type of item is not supported: ${items[position]::class.simpleName}")
         }
 
@@ -98,24 +118,5 @@ class NotificationsAdapter (
             adapterItemsList.remove(item)
             update(adapterItemsList)
         }
-    }
-
-    private companion object {
-
-        @Target(AnnotationTarget.TYPE, AnnotationTarget.VALUE_PARAMETER)
-        @IntDef(EMPTY_STUB, HEADER_DATE, MENTION, REPLY, SUBSCRIBE, UP_VOTE, PROGRESS, ERROR, TRANSFER)
-        @Retention(AnnotationRetention.SOURCE)
-        annotation class NotificationHolderType
-
-        const val EMPTY_STUB = 0
-        const val HEADER_DATE = 1
-        const val MENTION = 2
-        const val REPLY = 3
-        const val SUBSCRIBE = 4
-        const val UP_VOTE = 5
-        const val PROGRESS = 6
-        const val ERROR = 7
-        const val TRANSFER = 8
-        const val REWARD = 9
     }
 }

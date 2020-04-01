@@ -64,7 +64,7 @@ fun NotificationDomain.mapToVersionedListItem(): VersionedListItem {
         }
 
         is MentionNotificationDomain -> {
-            NotificationMentionItem(
+            MentionNotificationItem(
                 0,
                 IdUtil.generateLongId(),
                 false,
@@ -81,7 +81,7 @@ fun NotificationDomain.mapToVersionedListItem(): VersionedListItem {
                 currentUserName
             )
         }
-        is SubscribeNotificationDomain -> NotificationSubscribeItem(
+        is SubscribeNotificationDomain -> SubscribeNotificationItem(
             0,
             IdUtil.generateLongId(),
             false,
@@ -94,7 +94,7 @@ fun NotificationDomain.mapToVersionedListItem(): VersionedListItem {
             user.avatar)
 
         is UpVoteNotificationDomain -> {
-            NotificationUpVoteItem(
+            UpVoteNotificationItem(
                 0,
                 IdUtil.generateLongId(),
                 false,
@@ -111,7 +111,7 @@ fun NotificationDomain.mapToVersionedListItem(): VersionedListItem {
                 currentUserName)
         }
         is ReplyNotificationDomain -> {
-            NotificationReplyItem(
+            ReplyNotificationItem(
                 0,
                 IdUtil.generateLongId(),
                 false,
@@ -125,6 +125,21 @@ fun NotificationDomain.mapToVersionedListItem(): VersionedListItem {
                 comment,
                 currentUserId,
                 currentUserName)
+        }
+        is UnsupportedNotificationDomain -> {
+            UnsupportedNotificationItem(
+                version = 0,
+                id = IdUtil.generateLongId(),
+                isFirstItem = false,
+                isLastItem = false,
+
+                notificationId = id,
+                createTime = createTime,
+                isNew = isNew,
+                userId = currentUserId.userId,
+                userName = currentUserName,
+                userAvatar = null
+            )
         }
     }
 }

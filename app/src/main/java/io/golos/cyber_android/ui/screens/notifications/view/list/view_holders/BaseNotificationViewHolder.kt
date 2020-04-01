@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.notifications.view.list.view_holders
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.annotation.LayoutRes
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.BaseNotificationItem
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModelListEventsProcessor
@@ -16,12 +17,12 @@ import io.golos.domain.dto.UserIdDomain
 import kotlinx.android.synthetic.main.item_notification.view.*
 
 abstract class BaseNotificationViewHolder<TItem: BaseNotificationItem> (
-    parentView: ViewGroup
+    parentView: ViewGroup,
+    @LayoutRes layoutResId: Int = R.layout.item_notification
 ) : ViewHolderBase<NotificationsViewModelListEventsProcessor, TItem>(
     parentView,
-    R.layout.item_notification
+    layoutResId
 ) {
-
     protected open val notificationTypeLabelResId: Int = -1
 
     override fun init(listItem: TItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor) {

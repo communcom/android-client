@@ -12,8 +12,8 @@ import io.golos.cyber_android.ui.screens.feed_my.di.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.notifications.di.NotificationsFragmentComponent
 import io.golos.cyber_android.ui.screens.notifications.view.list.NotificationsAdapter
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.BaseNotificationItem
-import io.golos.cyber_android.ui.screens.notifications.view.list.items.NotificationEmptyStubItem
-import io.golos.cyber_android.ui.screens.notifications.view.list.items.NotificationHeaderDateItem
+import io.golos.cyber_android.ui.screens.notifications.view.list.items.EmptyStubNotificationItem
+import io.golos.cyber_android.ui.screens.notifications.view.list.items.HeaderDateNotificationItem
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModel
 import io.golos.cyber_android.ui.screens.post_view.view.PostPageFragment
 import io.golos.cyber_android.ui.screens.profile.dto.NavigateToWalletCommand
@@ -113,7 +113,7 @@ class NotificationsFragment : FragmentBaseMVVM<FragmentNotificationsBinding, Not
                     emptyProgressLoading.visibility = View.VISIBLE
                 }
                 is Paginator.State.Empty -> {
-                    adapter.update(mutableListOf(NotificationEmptyStubItem(0, IdUtil.generateLongId())))
+                    adapter.update(mutableListOf(EmptyStubNotificationItem(0, IdUtil.generateLongId())))
                     adapter.removeProgress()
                     adapter.removeRetry()
                     btnRetry.visibility = View.INVISIBLE
@@ -203,23 +203,23 @@ class NotificationsFragment : FragmentBaseMVVM<FragmentNotificationsBinding, Not
 
 
         if(currentDayNotifications.isNotEmpty()){
-            itemsWithSections.add(NotificationHeaderDateItem(0, IdUtil.generateLongId(), getString(R.string.today)))
+            itemsWithSections.add(HeaderDateNotificationItem(0, IdUtil.generateLongId(), getString(R.string.today)))
             itemsWithSections.addAll(currentDayNotifications)
         }
         if(yesterdayNotifications.isNotEmpty()){
-            itemsWithSections.add(NotificationHeaderDateItem(0, IdUtil.generateLongId(), getString(R.string.yesterday)))
+            itemsWithSections.add(HeaderDateNotificationItem(0, IdUtil.generateLongId(), getString(R.string.yesterday)))
             itemsWithSections.addAll(yesterdayNotifications)
         }
         if(weekNotifications.isNotEmpty()){
-            itemsWithSections.add(NotificationHeaderDateItem(0, IdUtil.generateLongId(), getString(R.string.this_week)))
+            itemsWithSections.add(HeaderDateNotificationItem(0, IdUtil.generateLongId(), getString(R.string.this_week)))
             itemsWithSections.addAll(weekNotifications)
         }
         if(monthNotifications.isNotEmpty()){
-            itemsWithSections.add(NotificationHeaderDateItem(0, IdUtil.generateLongId(), getString(R.string.this_month)))
+            itemsWithSections.add(HeaderDateNotificationItem(0, IdUtil.generateLongId(), getString(R.string.this_month)))
             itemsWithSections.addAll(monthNotifications)
         }
         if(otherNotifications.isNotEmpty()){
-            itemsWithSections.add(NotificationHeaderDateItem(0, IdUtil.generateLongId(), getString(R.string.other)))
+            itemsWithSections.add(HeaderDateNotificationItem(0, IdUtil.generateLongId(), getString(R.string.other)))
             itemsWithSections.addAll(otherNotifications)
         }
         return itemsWithSections
