@@ -21,6 +21,7 @@
 #-renamesourcefileattribute SourceFile
 -keep class io.golos.** { *; }
 -keep class kotlin.Metadata { *; }
+-keep class kotlin.reflect.** { *; }
 
 -keepclassmembers class * implements android.os.Parcelable {
     static ** CREATOR;
@@ -29,3 +30,5 @@
 -keepnames class * implements android.os.Parcelable {
     public static final ** CREATOR;
 }
+
+-keep class org.slf4j.impl.** { *; }
