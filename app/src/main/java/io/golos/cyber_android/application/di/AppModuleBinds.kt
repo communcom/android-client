@@ -6,8 +6,6 @@ import io.golos.commun4j.Commun4j
 import io.golos.cyber_android.application.di_storage.Cyber4JDagger
 import io.golos.cyber_android.application.shared.crashlytics.CrashlyticsFacadeImpl
 import io.golos.cyber_android.application.shared.device_info.DeviceInfoProviderImpl
-import io.golos.cyber_android.application.shared.display_info.DisplayInfoProvider
-import io.golos.cyber_android.application.shared.display_info.DisplayInfoProviderImpl
 import io.golos.cyber_android.application.shared.fingerprints.FingerprintAuthManager
 import io.golos.cyber_android.application.shared.fingerprints.FingerprintAuthManagerImpl
 import io.golos.cyber_android.application.shared.ui_monitor.UIMonitor
@@ -297,9 +295,6 @@ abstract class AppModuleBinds {
 
     @Binds
     abstract fun provideDeviceInfoService(service: DeviceInfoProviderImpl): DeviceInfoProvider
-
-    @Binds
-    abstract fun provideDisplayInfoProvider(provider: DisplayInfoProviderImpl): DisplayInfoProvider
 
     @Binds
     @ApplicationScope

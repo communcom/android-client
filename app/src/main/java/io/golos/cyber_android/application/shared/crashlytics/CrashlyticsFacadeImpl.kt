@@ -1,7 +1,6 @@
 package io.golos.cyber_android.application.shared.crashlytics
 
 import android.content.Context
-import android.content.pm.PackageManager
 import com.crashlytics.android.Crashlytics
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
@@ -14,7 +13,6 @@ class CrashlyticsFacadeImpl
 @Inject
 constructor(
     appContext: Context,
-    displayInfoProvider: DisplayInfoProvider,
     deviceInfoProvider: DeviceInfoProvider
 ): CrashlyticsFacade {
 
@@ -30,19 +28,19 @@ constructor(
 
             Crashlytics.setString("COUNTRY", deviceInfoProvider.getCountryCode() ?: "")
 
-            displayInfoProvider.sizeInPix.apply {
+            DisplayInfoProvider.getSizeInPix(appContext).apply {
                 Crashlytics.setString("DISPLAY_SIZE_PIXELS", "${this.width}x${this.height} [pix]")
             }
 
-            displayInfoProvider.sizeInDp.apply {
+            DisplayInfoProvider.getSizeInDp(appContext).apply {
                 Crashlytics.setString("DISPLAY_SIZE_DP", "${this.width}x${this.height} [dp]")
             }
 
-            displayInfoProvider.densityCategory.apply {
+            DisplayInfoProvider.getDensityCategory(appContext).apply {
                 Crashlytics.setString("DISPLAY_DENSITY_CATEGORY", this.toString())
             }
 
-            displayInfoProvider.sizeCategory.apply {
+            DisplayInfoProvider.getSizeCategory(appContext).apply {
                 Crashlytics.setString("DISPLAY_SIZE_CATEGORY", this.toString())
             }
         }
