@@ -47,6 +47,7 @@ class NotificationsAdapter (
             is ProfileCommentErrorListItem -> ERROR
             is TransferNotificationItem -> TRANSFER
             is RewardNotificationItem -> REWARD
+            is RetryListItem -> ERROR
             else -> throw UnsupportedOperationException("This type of item is not supported: ${items[position]::class.simpleName}")
         }
 
@@ -57,7 +58,7 @@ class NotificationsAdapter (
 
     override fun checkNextPageReached(pageSize: Int?, itemsSize: Int, position: Int) {
         pageSize?.let {
-            if (position  >= items.size-1) {
+            if (position  >= items.size-1 && items.last() !is RetryListItem ) {
                 onNextPageReached()
             }
         }
