@@ -129,16 +129,22 @@ class WalletConvertFragment : FragmentBaseMVVM<FragmentWalletConvertBinding, Wal
                 duration = 400,
                 forward = isVisible,
                 startListener = {
-                    if (isVisible) {
-                        swapButton.visibility = View.VISIBLE
+                    swapButton?.let {
+                        if (isVisible) {
+                            it.visibility = View.VISIBLE
+                        }
                     }
                 },
                 updateListener = { alpha ->
-                    swapButton.alpha = alpha
+                    swapButton?.let {
+                        it.alpha = alpha
+                    }
                 },
                 completeListener = {
-                    if (!isVisible) {
-                        swapButton.visibility = View.INVISIBLE
+                    swapButton?.let {
+                        if (!isVisible) {
+                            it.visibility = View.INVISIBLE
+                        }
                     }
                 }
             ).start()
