@@ -217,7 +217,7 @@ constructor(
         val currentUserId = currentUserRepository.userId.userId
         return apiCall {
             commun4j.getCommentsRaw(
-                sortBy = CommentsSortBy.TIME,
+                sortBy = CommentsSortBy.TIME_DESC,
                 offset = offset,
                 limit = pageSize,
                 type = commentType.mapToCommentSortType(),
