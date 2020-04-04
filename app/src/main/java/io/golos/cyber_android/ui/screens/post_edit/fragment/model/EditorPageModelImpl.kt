@@ -184,12 +184,12 @@ constructor(
      */
     private fun mapExternalLinkInfo(serverLinkInfo: OEmbedResult, sourceUrl: String): ExternalLinkInfo? {
         val type = when (serverLinkInfo.type) {
-            "link" -> ExternalLinkType.WEBSITE
+            "link", "website" -> ExternalLinkType.WEBSITE
 
-            "image",
-            "photo" -> ExternalLinkType.IMAGE
+            "image", "photo" -> ExternalLinkType.IMAGE
 
             "video" -> ExternalLinkType.VIDEO
+
             else -> {
                 Timber.e(UnsupportedOperationException("This resource type is not supported: ${serverLinkInfo.type}"))
                 null
