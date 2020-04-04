@@ -9,6 +9,7 @@ import android.text.style.CharacterStyle
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.text.util.Linkify
+import android.util.Patterns
 import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
@@ -286,9 +287,24 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 val pastedText = s.substring(start until start+count)
 
+                // The text contains a link only
                 if(URLUtil.isValidUrl(pastedText)) {
                     lastPastedLinkRange = start..start+count
                     editorCore.linkWasPasted(Uri.parse(pastedText))
+                    return
+                }
+
+                // Try to locate links in the text
+                val matcher = Patterns.WEB_URL.matcher(pastedText)
+                val allLinks = mutableListOf<Pair<String, IntRange>>()
+                while (matcher.find()) {
+                    allLinks.add(Pair(matcher.group(), IntRange(matcher.start()+start, matcher.end()+start)))
+                }
+
+                // The text contains links and some other text
+                if(allLinks.size > 0) {
+                    lastPastedLinkRange = allLinks[0].second
+                    editorCore.linkWasPasted(Uri.parse(allLinks[0].first))
                 }
             }
 
