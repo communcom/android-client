@@ -33,9 +33,10 @@ interface KeyValueStorageFacade {
 
     fun saveFtueBoardStage(stage: FtueBoardStageEntity)
     fun getFtueBoardStage(): FtueBoardStageEntity
-
     fun saveFtueCommunitySubscriptions(communitySubscriptions: List<CommunityEntity>)
     fun getFtueCommunitySubscriptions(): List<CommunityEntity>
-
     fun removeFtueState()
+
+    fun saveFcmToken(token: FcmTokenStateDomain)
+    fun getFcmToken(): FcmTokenStateDomain?
 }

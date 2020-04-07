@@ -3,6 +3,8 @@ package io.golos.cyber_android.application.di
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import dagger.Component
 import io.golos.cyber_android.application.App
+import io.golos.cyber_android.services.firebase.FirebaseNotificationService
+import io.golos.cyber_android.services.firebase.FirebaseNotificationServiceComponent
 import io.golos.cyber_android.ui.di.UIComponent
 
 @Component(modules = [
@@ -13,6 +15,7 @@ import io.golos.cyber_android.ui.di.UIComponent
 @ApplicationScope
 interface AppComponent {
     val ui: UIComponent.Builder
+    val firebaseNotification: FirebaseNotificationServiceComponent.Builder
 
     fun inject(app: App)
 }

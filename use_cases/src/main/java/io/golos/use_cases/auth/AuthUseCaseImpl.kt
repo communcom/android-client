@@ -9,6 +9,7 @@ import io.golos.domain.UserKeyStore
 import io.golos.domain.dto.*
 import io.golos.domain.repositories.AuthRepository
 import io.golos.domain.repositories.CurrentUserRepository
+import io.golos.domain.repositories.NotificationsRepository
 import io.golos.domain.repositories.UsersRepository
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -22,7 +23,8 @@ constructor(
     private val authRepository: AuthRepository,
     private val crashlytics: CrashlyticsFacade,
     private val keyValueStorage: KeyValueStorageFacade,
-    private val currentUserRepository: CurrentUserRepository
+    private val currentUserRepository: CurrentUserRepository,
+    private val notificationsRepository: NotificationsRepository
 ) : AuthUseCase {
 
     override suspend fun auth(userName: String, password: String) {
@@ -41,6 +43,8 @@ constructor(
             crashlytics.registerUser(userName, userId.userId)
 
             val authState = saveAuthState(userName, userId)
+
+            sendFsmToken()
 
             currentUserRepository.authState = authState
             currentUserRepository.userAvatarUrl = userProfile.avatarUrl
@@ -95,12 +99,24 @@ constructor(
             isUserLoggedIn = true,
             isPinCodeSettingsPassed = oldAuthState?.isPinCodeSettingsPassed ?: false,
             isFingerprintSettingsPassed = oldAuthState?.isFingerprintSettingsPassed ?: false,
-            isKeysExported = oldAuthState?.isKeysExported ?: false,
+            isKeysExported = true,
             type = AuthType.SIGN_IN
         )
 
         keyValueStorage.saveAuthState(newAuthState)
 
         return newAuthState
+    }
+
+    private suspend fun sendFsmToken() {
+        notificationsRepository.setTimeZoneOffset()
+
+        keyValueStorage.getFcmToken()
+            ?.let { tokenInfo ->
+                if(!tokenInfo.sent) {
+                    notificationsRepository.setFcmToken(tokenInfo.token)
+                    keyValueStorage.saveFcmToken(tokenInfo.copy(sent = true))
+                }
+            }
     }
 }

@@ -35,6 +35,7 @@ constructor(
         private const val USER_KEY_TYPE_ACTIVE_KEY = "USER_KEY_TYPE_ACTIVE"
         private const val USER_KEY_TYPE_MASTER_KEY = "USER_KEY_TYPE_MASTER"
 
+        private const val FCM_TOKEN_KEY = "FCM_TOKEN"
     }
 
     // To provide compatibility to WebView application
@@ -172,6 +173,16 @@ constructor(
         keyValueStorage.update {
             it.remove(KEY_FTUE_BOARD_STAGE_KEY)
             it.remove(KEY_FTUE_COMMUNITY_SUBSCRIPTIONS_KEY)
+        }
+
+    override fun saveFcmToken(token: FcmTokenStateDomain) =
+        keyValueStorage.update {
+            it.putString(FCM_TOKEN_KEY, moshi.adapter(FcmTokenStateDomain::class.java).toJson(token))
+        }
+
+    override fun getFcmToken(): FcmTokenStateDomain? =
+        keyValueStorage.read {
+            it.readString(FCM_TOKEN_KEY)?.let { moshi.adapter(FcmTokenStateDomain::class.java).fromJson(it) }
         }
 
     private fun getInternalKeyForUserKey(keyType: UserKeyType) =

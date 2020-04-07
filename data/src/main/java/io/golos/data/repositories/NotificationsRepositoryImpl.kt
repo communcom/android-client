@@ -132,7 +132,7 @@ class NotificationsRepositoryImpl @Inject constructor(
         apiCall { commun4j.setFcmToken(token) }
     }
 
-    override suspend fun resetFcmToken(token: String) {
+    override suspend fun resetFcmToken() {
         apiCall { commun4j.resetFcmToken() }
     }
 

@@ -22,7 +22,7 @@ interface NotificationsRepository {
 
     suspend fun setFcmToken(token: String)
 
-    suspend fun resetFcmToken(token: String)
+    suspend fun resetFcmToken()
 
     suspend fun setTimeZoneOffset()
 }

@@ -4,6 +4,7 @@ import android.app.Application
 import io.golos.cyber_android.application.di.AppComponent
 import io.golos.cyber_android.application.di.AppModule
 import io.golos.cyber_android.application.di.DaggerAppComponent
+import io.golos.cyber_android.services.firebase.FirebaseNotificationServiceComponent
 import io.golos.cyber_android.ui.di.UIComponent
 import io.golos.cyber_android.ui.dialogs.select_community_dialog.di.SelectCommunityDialogComponent
 import io.golos.cyber_android.ui.dto.*
@@ -155,6 +156,8 @@ class DependencyInjectionStorage(private val app: Application) {
             AppComponent::class -> DaggerAppComponent.builder().appModule(AppModule(app)).build()
 
             UIComponent::class -> getBase<AppComponent>().ui.build()
+
+            FirebaseNotificationServiceComponent::class -> getBase<AppComponent>().firebaseNotification.build()
 
             EditorPageActivityComponent::class -> getBase<UIComponent>().editorPageActivity.build()
 
