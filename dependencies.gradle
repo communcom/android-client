@@ -61,8 +61,8 @@ ext.versions = [
         googleGsonClient      : '1.34.2',
 
         //Firebase & Analytics
-        firebaseMessaging     : '19.0.1',
-        firebaseCore          : '17.0.1',
+        firebaseMessaging     : '20.1.5',
+        firebaseCore          : '17.3.0',
         fabric                : '2.10.1',
         fabricPlugin          : '1.29.0',
         amplitude             : '2.23.2',
