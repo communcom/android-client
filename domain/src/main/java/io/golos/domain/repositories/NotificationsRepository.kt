@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.Flow
 import java.util.*
 
 interface NotificationsRepository {
-
     suspend fun getNotifications(beforeThanDate: String?, limit: Int): NotificationsPageDomain
 
     suspend fun updateNewNotificationsCounter()
@@ -20,4 +19,10 @@ interface NotificationsRepository {
     suspend fun subscribeOnNotificationsChanges()
 
     suspend fun unsubscribeOnNotificationsChanges()
+
+    suspend fun setFcmToken(token: String)
+
+    suspend fun resetFcmToken(token: String)
+
+    suspend fun setTimeZoneOffset()
 }

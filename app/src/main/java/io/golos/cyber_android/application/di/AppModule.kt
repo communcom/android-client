@@ -25,10 +25,13 @@ import io.golos.data.repositories.sign_up_tokens.SignUpTokensConfig
 import io.golos.domain.*
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
+import io.golos.utils.id.IdUtil
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import timber.log.Timber
+import java.io.File
 import java.lang.UnsupportedOperationException
+import java.nio.charset.Charset
 import javax.inject.Named
 
 /** Application level module - global objects are created here   */
@@ -61,8 +64,17 @@ class AppModule(
 
     @Provides
     @ApplicationScope
-    internal fun provideCommun4JConfig(): Commun4jConfig =
-        Commun4jConfig(
+    internal fun provideCommun4JConfig(): Commun4jConfig {
+        val instanceIdFile = File(app.applicationContext.filesDir, "instance.id")
+        val instanceId = if(instanceIdFile.exists()) {
+            instanceIdFile.readLines(Charsets.UTF_8)[0]
+        } else {
+            val id = IdUtil.generateStringId()
+            instanceIdFile.writeText(id, Charsets.UTF_8)
+            id
+        }
+
+        return Commun4jConfig(
             blockChainHttpApiUrl = BuildConfig.BLOCK_CHAIN_HTTP_API_URL,
             servicesUrl = BuildConfig.SERVICES_URL,
             httpLogger = Cyber4JLogger(Cyber4JLogger.HTTP),
@@ -71,7 +83,11 @@ class AppModule(
                 version = BuildConfig.VERSION_NAME,
                 deviceType = GlobalConstants.DEVICE_TYPE,
                 platform = GlobalConstants.PLATFORM,
-                clientType = GlobalConstants.CLIENT_TYPE))
+                clientType = GlobalConstants.CLIENT_TYPE,
+                deviceId = instanceId
+            )
+        )
+    }
 
     @Provides
     internal fun provideSignUpTokensConfig(): SignUpTokensConfig =

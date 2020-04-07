@@ -1,7 +1,10 @@
 package io.golos.data.repositories
 
 import io.golos.commun4j.Commun4j
-import io.golos.commun4j.services.model.*
+import io.golos.commun4j.services.model.FirstRegistrationStepResult
+import io.golos.commun4j.services.model.SetUserNameStepResult
+import io.golos.commun4j.services.model.UserRegistrationStateResult
+import io.golos.commun4j.services.model.VerifyStepResult
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.data.mappers.mapToAuthResultDomain
 import io.golos.data.mappers.mapToBCProfileDomain
@@ -11,10 +14,7 @@ import io.golos.domain.dto.AuthResultDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.dto.bc_profile.BCProfileDomain
 import io.golos.domain.repositories.AuthRepository
-import kotlinx.coroutines.delay
 import timber.log.Timber
-import java.lang.Exception
-import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
 class AuthRepositoryImpl
@@ -57,7 +57,8 @@ class AuthRepositoryImpl
                 userName = userName,
                 userId = userId,
                 owner = owner,
-                active = active) }
+                active = active,
+                email = null) }
     }
 
     override suspend fun getRegistrationState(phone: String?, identity: String?): UserRegistrationStateResult =
@@ -84,9 +85,10 @@ class AuthRepositoryImpl
             commun4j.setVerifiedUserName(user = user, phone = phone, identity = identity)
         }
 
-    override suspend fun resendSmsCode(phone: String): ResultOk =
+    override suspend fun resendSmsCode(phone: String) {
         apiCall {
             Timber.tag("NET_SOCKET").d("AuthRepositoryImpl::resendSmsCode(phone = $phone)")
             commun4j.resendSmsCode(phone)
         }
+    }
 }

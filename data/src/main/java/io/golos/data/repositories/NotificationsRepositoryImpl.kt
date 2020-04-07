@@ -37,7 +37,14 @@ class NotificationsRepositoryImpl @Inject constructor(
     private val sharedPreferencesStorage: SharedPreferencesStorage,
     private val serverMessageReceiver: ServerMessageReceiver,
     private val moshi: Moshi
-) : RepositoryCoroutineSupport(dispatchersProvider, networkStateChecker), NotificationsRepository {
+) : RepositoryCoroutineSupport(
+    dispatchersProvider,
+    networkStateChecker
+) , NotificationsRepository {
+
+    private companion object{
+        private const val PREF_UNREAD_NOTIFICATIONS_COUNT = "PREF_UNREAD_NOTIFICATIONS_COUNT"
+    }
 
     private val notificationsCountChannel = ConflatedBroadcastChannel(NotificationsStatusDomain(0, null))
 
@@ -100,12 +107,6 @@ class NotificationsRepositoryImpl @Inject constructor(
         return unseenCount
     }
 
-    private fun saveNewNotificationCounter(counter: Int){
-        val createWriteOperationsInstance = sharedPreferencesStorage.createWriteOperationsInstance()
-        createWriteOperationsInstance.putInt(PREF_UNREAD_NOTIFICATIONS_COUNT, counter)
-        createWriteOperationsInstance.commit()
-    }
-
     override suspend fun getNotifications(beforeThanDate: String?, limit: Int): NotificationsPageDomain {
         val notificationsResponse = apiCall{ commun4j.getNotificationsSkipUnrecognized(limit, beforeThanDate) }
 
@@ -127,8 +128,22 @@ class NotificationsRepositoryImpl @Inject constructor(
         }
     }
 
-    private companion object{
+    override suspend fun setFcmToken(token: String) {
+        apiCall { commun4j.setFcmToken(token) }
+    }
 
-        private const val PREF_UNREAD_NOTIFICATIONS_COUNT = "PREF_UNREAD_NOTIFICATIONS_COUNT"
+    override suspend fun resetFcmToken(token: String) {
+        apiCall { commun4j.resetFcmToken() }
+    }
+
+    override suspend fun setTimeZoneOffset() {
+        val offset = Calendar.getInstance().timeZone.rawOffset / (1000 * 60)
+        apiCall { commun4j.setInfo(offset) }
+    }
+
+    private fun saveNewNotificationCounter(counter: Int){
+        val createWriteOperationsInstance = sharedPreferencesStorage.createWriteOperationsInstance()
+        createWriteOperationsInstance.putInt(PREF_UNREAD_NOTIFICATIONS_COUNT, counter)
+        createWriteOperationsInstance.commit()
     }
 }

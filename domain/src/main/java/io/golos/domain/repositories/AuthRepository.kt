@@ -31,5 +31,5 @@ interface AuthRepository {
 
     suspend fun setVerifiedUserName(user: String, phone: String?, identity: String?): SetUserNameStepResult
 
-    suspend fun resendSmsCode(phone: String): ResultOk
+    suspend fun resendSmsCode(phone: String)
 }
