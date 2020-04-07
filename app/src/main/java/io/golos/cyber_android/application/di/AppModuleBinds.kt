@@ -8,8 +8,6 @@ import io.golos.cyber_android.application.shared.crashlytics.CrashlyticsFacadeIm
 import io.golos.cyber_android.application.shared.device_info.DeviceInfoProviderImpl
 import io.golos.cyber_android.application.shared.fingerprints.FingerprintAuthManager
 import io.golos.cyber_android.application.shared.fingerprints.FingerprintAuthManagerImpl
-import io.golos.cyber_android.application.shared.ui_monitor.UIMonitor
-import io.golos.cyber_android.application.shared.ui_monitor.UIMonitorImpl
 import io.golos.cyber_android.ui.shared.clipboard.ClipboardUtils
 import io.golos.cyber_android.ui.shared.clipboard.ClipboardUtilsImpl
 import io.golos.cyber_android.ui.shared.utils.FromSpannedToHtmlTransformerImpl
@@ -299,10 +297,6 @@ abstract class AppModuleBinds {
     @Binds
     @ApplicationScope
     abstract fun provideCrashlyticsFacade(facade: CrashlyticsFacadeImpl): CrashlyticsFacade
-
-    @Binds
-    @ApplicationScope
-    abstract fun provideUIMonitor(monitor: UIMonitorImpl): UIMonitor
 
     @Binds
     @ApplicationScope

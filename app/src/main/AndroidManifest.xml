@@ -111,11 +111,6 @@
                     android:resource="@xml/filepaths"/>
         </provider>
         <service
-                android:name="io.golos.cyber_android.services.feedback_service.FeedbackService"
-                android:enabled="true"
-                android:exported="false">
-        </service>
-        <service
             android:name="io.golos.cyber_android.services.firebase.FirebaseNotificationService"
             android:exported="false">
             <intent-filter>
