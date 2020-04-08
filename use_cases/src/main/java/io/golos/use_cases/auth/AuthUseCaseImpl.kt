@@ -12,6 +12,7 @@ import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.NotificationsRepository
 import io.golos.domain.repositories.UsersRepository
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 class AuthUseCaseImpl
@@ -113,6 +114,9 @@ constructor(
 
         keyValueStorage.getFcmToken()
             ?.let { tokenInfo ->
+                Timber.tag("FCM_MESSAGES").d("Token: ${tokenInfo.token}")
+                Timber.tag("FCM_MESSAGES").d("Token sent: ${tokenInfo.sent}")
+
                 if(!tokenInfo.sent) {
                     notificationsRepository.setFcmToken(tokenInfo.token)
                     keyValueStorage.saveFcmToken(tokenInfo.copy(sent = true))

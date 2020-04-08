@@ -24,6 +24,7 @@ import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.text.DateFormat
 import java.util.*
 import javax.inject.Inject
@@ -129,6 +130,7 @@ class NotificationsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun setFcmToken(token: String) {
+        Timber.tag("FCM_MESSAGES").d("Token: setFcmToken(${token})")
         apiCall { commun4j.setFcmToken(token) }
     }
 
@@ -137,7 +139,8 @@ class NotificationsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun setTimeZoneOffset() {
-        val offset = Calendar.getInstance().timeZone.rawOffset / (1000 * 60)
+        val offset = -Calendar.getInstance().timeZone.rawOffset / (1000 * 60)
+        Timber.tag("FCM_MESSAGES").d("Token: setTimeZoneOffset(${offset})")
         apiCall { commun4j.setInfo(offset) }
     }
 

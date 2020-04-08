@@ -74,6 +74,8 @@ class AppModule(
             id
         }
 
+        Timber.tag("FCM_MESSAGES").d("DeviceId: $instanceId")
+
         return Commun4jConfig(
             blockChainHttpApiUrl = BuildConfig.BLOCK_CHAIN_HTTP_API_URL,
             servicesUrl = BuildConfig.SERVICES_URL,

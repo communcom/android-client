@@ -25,15 +25,15 @@ class FirebaseNotificationService : FirebaseMessagingService() {
     }
 
     override fun onNewToken(token: String) {
-        Timber.tag("FIREBASE_TOKEN").d("Token: $token")
+        Timber.tag("FCM_MESSAGES").d("Token received: $token")
         Executors.newSingleThreadExecutor().execute {
             keyValueStorage.get().saveFcmToken(FcmTokenStateDomain(false, token))
-            Timber.tag("FIREBASE_TOKEN").d("Token: saved")
+            Timber.tag("FCM_MESSAGES").d("Token: saved")
         }
     }
 
     override fun onMessageReceived(p0: RemoteMessage) {
-        Timber.tag("FIREBASE_MESSAGE").d("Message received")
+        Timber.tag("FCM_MESSAGES").d("Message received")
         super.onMessageReceived(p0)
     }
 
