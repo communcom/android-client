@@ -1,6 +1,7 @@
 package io.golos.cyber_android.services.firebase
 
 import com.google.firebase.messaging.FirebaseMessagingService
+import com.google.firebase.messaging.RemoteMessage
 import dagger.Lazy
 import io.golos.cyber_android.application.App
 import io.golos.domain.KeyValueStorageFacade
@@ -29,6 +30,11 @@ class FirebaseNotificationService : FirebaseMessagingService() {
             keyValueStorage.get().saveFcmToken(FcmTokenStateDomain(false, token))
             Timber.tag("FIREBASE_TOKEN").d("Token: saved")
         }
+    }
+
+    override fun onMessageReceived(p0: RemoteMessage) {
+        Timber.tag("FIREBASE_MESSAGE").d("Message received")
+        super.onMessageReceived(p0)
     }
 
     override fun onDestroy() {
