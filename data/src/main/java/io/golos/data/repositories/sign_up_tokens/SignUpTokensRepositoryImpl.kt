@@ -28,7 +28,7 @@ constructor(
     private suspend fun getIdentity(accessToken: String, tokenType: String): SignUpIdentityDomain =
         processRequest(accessToken) { token, client ->
             val request: Request = Request.Builder()
-                .url("${config.accessTokenBaseUrl}oauth/${tokenType}-token?access_token=$token")
+                .url("${config.accessTokenBaseUrl}${tokenType}-token?access_token=$token")
                 .get()
                 .build()
 
