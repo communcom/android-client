@@ -34,7 +34,7 @@ class EditorWidget : LinearLayout {
     private fun init(context: Context) {
         inflate(context, R.layout.view_editor_widget, this)
 
-        galleryButton.setOnClickListener { listener?.onGalleryClick() }
+//        galleryButton.setOnClickListener { listener?.onGalleryClick() }
         rootView.setOnClickListener { listener?.onWidgetClick() }
     }
 

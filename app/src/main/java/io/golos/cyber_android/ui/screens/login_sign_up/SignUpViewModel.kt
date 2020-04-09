@@ -102,7 +102,7 @@ constructor(
 
         currentPhone = getNormalizedPhone(phone)
         launch {
-            signUpUseCase.makeRegistrationStep(SendSmsForVerificationRequestModel(currentPhone, dataPass.getIdentity()?.identity))
+            signUpUseCase.makeRegistrationStep(SendSmsForVerificationRequestModel(dataPass.getCaptcha(), currentPhone, dataPass.getIdentity()?.identity))
         }
     }
 

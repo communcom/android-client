@@ -12,7 +12,7 @@ sealed class NextRegistrationStepRequestModel(
 
 data class GetUserRegistrationStepRequestModel(override val phone: String?, override val identity: String?) : NextRegistrationStepRequestModel(phone, identity)
 
-data class SendSmsForVerificationRequestModel(override val phone: String?, override val identity: String?) : NextRegistrationStepRequestModel(phone, identity)
+data class SendSmsForVerificationRequestModel(val captcha: String?, override val phone: String?, override val identity: String?) : NextRegistrationStepRequestModel(phone, identity)
 
 data class SendVerificationCodeRequestModel(override val phone: String?, override val identity: String?,  val code: Int) :
     NextRegistrationStepRequestModel(phone, identity)

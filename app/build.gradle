@@ -54,6 +54,7 @@ android {
             buildConfigField "String",  'ACCESS_TOKEN_BASE_URL', "\"https://commun.com/oauth/\""
 
             buildConfigField "String",  'GOOGLE_ACCESS_TOKEN_CLIENT_ID', "\"537042616174-bl79mf0b039i8f6emh5bia6klm18nih3.apps.googleusercontent.com\""
+            buildConfigField "String",  'GOOGLE_RECAPTCHA_KEY', "\"6LdIAcAUAAAAANtWk2WpvZ0jMqX58NB3QDpgZR2S\""
         }
         dev {
             dimension "cyber4j-config-type"
@@ -73,6 +74,7 @@ android {
             buildConfigField "String",  'ACCESS_TOKEN_BASE_URL', "\"https://dev.commun.com/oauth/\""
 
             buildConfigField "String",  'GOOGLE_ACCESS_TOKEN_CLIENT_ID', "\"537042616174-jr6forf8aon2j7sj09flm39mgvg8ip0l.apps.googleusercontent.com\""
+            buildConfigField "String",  'GOOGLE_RECAPTCHA_KEY', "\"6LdIAcAUAAAAANtWk2WpvZ0jMqX58NB3QDpgZR2S\""
         }
         checking {
             dimension "cyber4j-config-type"
@@ -92,6 +94,7 @@ android {
             buildConfigField "String",  'ACCESS_TOKEN_BASE_URL', "\"https://dev.commun.com/oauth/\""
 
             buildConfigField "String",  'GOOGLE_ACCESS_TOKEN_CLIENT_ID', "\"537042616174-jr6forf8aon2j7sj09flm39mgvg8ip0l.apps.googleusercontent.com\""
+            buildConfigField "String",  'GOOGLE_RECAPTCHA_KEY', "\"6LdIAcAUAAAAANtWk2WpvZ0jMqX58NB3QDpgZR2S\""
         }
     }
 

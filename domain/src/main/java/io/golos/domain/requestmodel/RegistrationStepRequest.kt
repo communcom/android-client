@@ -49,7 +49,7 @@ sealed class RegistrationStepRequest(
 
 class GetUserRegistrationStepRequest(phone: String?, identity: String?) : RegistrationStepRequest(phone, identity)
 
-class SendSmsForVerificationRequest(phone: String?, identity: String?, val testCode: String?) :
+class SendSmsForVerificationRequest(val captcha: String?, phone: String?, identity: String?, val testCode: String?) :
     RegistrationStepRequest(phone, identity){
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

@@ -2,15 +2,23 @@ package io.golos.cyber_android.ui.screens.login_sign_up_select_method
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.CommonStatusCodes
+import com.google.android.gms.safetynet.SafetyNet
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
+import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.application.shared.analytics.AnalyticsFacade
 import io.golos.cyber_android.ui.screens.login_shared.SignUpDescriptionHelper
+import io.golos.cyber_android.ui.screens.login_shared.fragments_data_pass.LoginActivityFragmentsDataPass
 import io.golos.cyber_android.ui.screens.login_sign_up.SignUpViewModel
 import io.golos.cyber_android.ui.screens.login_sign_up_select_method.di.SignUpSelectMethodFragmentComponent
 import io.golos.cyber_android.ui.screens.login_sign_up_select_method.dto.NavigateToUserNameStepCommand
@@ -22,6 +30,8 @@ import io.golos.domain.dependency_injection.Clarification
 import kotlinx.android.synthetic.main.fragment_sign_up_phone.header
 import kotlinx.android.synthetic.main.fragment_sign_up_select_method.*
 import kotlinx.android.synthetic.main.fragment_sign_up_select_method.signUpDescription
+import timber.log.Timber
+import java.util.concurrent.Executor
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -40,6 +50,9 @@ class SignUpSelectMethodFragment: FragmentBase() {
 
     @Inject
     internal lateinit var analyticsFacade: AnalyticsFacade
+
+    @Inject
+    internal lateinit var dataPass: LoginActivityFragmentsDataPass
 
     private lateinit var signUpViewModel: SignUpViewModel
 
@@ -72,7 +85,20 @@ class SignUpSelectMethodFragment: FragmentBase() {
 
         header.setOnBackButtonClickListener { findNavController().navigateUp() }
 
-        phoneButton.setOnClickListener { findNavController().navigate(R.id.action_signUpSelectMethod_to_signUpPhoneFragment) }
+        phoneButton.setOnClickListener {
+            SafetyNet.getClient(requireActivity()).verifyWithRecaptcha(BuildConfig.GOOGLE_RECAPTCHA_KEY)
+                .addOnSuccessListener { response ->
+                    val userResponseToken = response.tokenResult
+                    if (userResponseToken?.isNotEmpty() == true) {
+                        dataPass.putCaptcha(userResponseToken)
+                        findNavController().navigate(R.id.action_signUpSelectMethod_to_signUpPhoneFragment)
+                    }
+                }
+                .addOnFailureListener { e ->
+                    Timber.e(e)
+                    uiHelper.showMessage(R.string.common_captcha_error)
+                }
+        }
 
         googleButton.setOnClickListener {
             analyticsFacade.openScreen121()

@@ -107,7 +107,7 @@ constructor(
                         updatingState.value = myState.map(
                             when (originalQuery) {
                                 is GetUserRegistrationStepRequest -> GetUserRegistrationStepRequestModel(originalQuery.phone, originalQuery.identity)
-                                is SendSmsForVerificationRequest -> SendSmsForVerificationRequestModel(originalQuery.phone, originalQuery.identity)
+                                is SendSmsForVerificationRequest -> SendSmsForVerificationRequestModel(originalQuery.captcha, originalQuery.phone, originalQuery.identity)
                                 is SendVerificationCodeRequest -> SendVerificationCodeRequestModel(
                                     originalQuery.phone,
                                     originalQuery.identity,
@@ -169,6 +169,7 @@ constructor(
             when (param) {
                 is GetUserRegistrationStepRequestModel -> GetUserRegistrationStepRequest(param.phone, param.identity)
                 is SendSmsForVerificationRequestModel -> SendSmsForVerificationRequest(
+                    param.captcha,
                     param.phone,
                     param.identity,
                     testPassProvider.provide()

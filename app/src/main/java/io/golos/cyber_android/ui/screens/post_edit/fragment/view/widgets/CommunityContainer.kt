@@ -26,6 +26,9 @@ constructor(
         inflate(getContext(), R.layout.view_post_editor_community_container, this)
 
         showCommunitiesButton.setOnClickListener { onShowCommunitiesClickListener?.invoke() }
+        emptyCommunityName.setOnClickListener { onShowCommunitiesClickListener?.invoke() }
+        communityTitle.setOnClickListener { onShowCommunitiesClickListener?.invoke() }
+        communityAvatar.setOnClickListener { onShowCommunitiesClickListener?.invoke() }
     }
 
     fun setCommunity(community: CommunityDomain?) {
@@ -45,5 +48,15 @@ constructor(
 
     fun setSelectCommunityEnabled(isEnabled: Boolean) {
         showCommunitiesButton.isEnabled = isEnabled
+
+        if(isEnabled) {
+            emptyCommunityName.setOnClickListener { onShowCommunitiesClickListener?.invoke() }
+            communityTitle.setOnClickListener { onShowCommunitiesClickListener?.invoke() }
+            communityAvatar.setOnClickListener { onShowCommunitiesClickListener?.invoke() }
+        } else {
+            emptyCommunityName.setOnClickListener(null)
+            communityTitle.setOnClickListener(null)
+            communityAvatar.setOnClickListener(null)
+        }
     }
 }

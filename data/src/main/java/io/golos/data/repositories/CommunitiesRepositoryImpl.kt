@@ -99,18 +99,21 @@ constructor(
         pageSize: Int,
         showAll: Boolean,
         searchQuery: String?
-    ): List<CommunityDomain> {
-        return apiCall {
-            commun4j.getCommunitiesList(
-                type = if(showAll) CommunitiesRequestType.ALL else CommunitiesRequestType.USER,
-                userId = CyberName(userId.userId),
-                search = searchQuery,
-                offset = offset,
-                limit = pageSize)
+    ): List<CommunityDomain> =
+        if(!showAll && searchQuery.isNullOrBlank()) {
+            getUserCommunities(userId, offset, pageSize)
+        } else {
+            apiCall {
+                commun4j.getCommunitiesList(
+                    type = if(showAll) CommunitiesRequestType.ALL else CommunitiesRequestType.USER,
+                    userId = CyberName(userId.userId),
+                    search = searchQuery,
+                    offset = offset,
+                    limit = pageSize)
             }
-            .items
-            .map { it.mapToCommunityDomain() }
-    }
+                .items
+                .map { it.mapToCommunityDomain() }
+        }
 
     override suspend fun getCommunityLeads(communityId: CommunityIdDomain): List<CommunityLeaderDomain> =
         apiCall { commun4j.getLeaders(communityId.code, 50, 0) }

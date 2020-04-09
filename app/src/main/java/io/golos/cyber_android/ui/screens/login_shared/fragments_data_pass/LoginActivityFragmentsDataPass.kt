@@ -29,4 +29,7 @@ interface LoginActivityFragmentsDataPass {
 
     fun putIdentity(identity: SignUpIdentityDomain)
     fun getIdentity(): SignUpIdentityDomain?
+
+    fun putCaptcha(captcha: String)
+    fun getCaptcha(): String?
 }

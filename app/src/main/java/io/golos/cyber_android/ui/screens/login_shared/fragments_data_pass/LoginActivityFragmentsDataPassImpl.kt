@@ -24,6 +24,7 @@ constructor():
         private const val USER_NAME_KEY = 37148304
         private const val USER_ID_KEY = 20028776
         private const val IDENTITY_KEY = 96790846
+        private const val CAPTCHA_KEY = 26791840
     }
 
     override fun putQrCode(qrCode: QrCodeContent) = put(QR_CODE_KEY, qrCode)
@@ -57,4 +58,8 @@ constructor():
     override fun putIdentity(identity: SignUpIdentityDomain) = put(IDENTITY_KEY, identity)
 
     override fun getIdentity(): SignUpIdentityDomain? = get(IDENTITY_KEY) as SignUpIdentityDomain?
+
+    override fun putCaptcha(captcha: String) = put(CAPTCHA_KEY, captcha)
+
+    override fun getCaptcha(): String? = get(CAPTCHA_KEY) as String
 }
