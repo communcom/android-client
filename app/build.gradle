@@ -69,9 +69,9 @@ android {
             buildConfigField "Boolean", 'ANALYTICS_ENABLED', "false"
             buildConfigField "Boolean", 'CRASH_REPORTS_ENABLED', "false"
 
-            buildConfigField "String",  'BLOCK_CHAIN_HTTP_API_URL', "\"https://dev-node.commun.com/\""
-            buildConfigField "String",  'SERVICES_URL', "\"wss://dev-gate.commun.com/\""
-            buildConfigField "String",  'ACCESS_TOKEN_BASE_URL', "\"https://dev.commun.com/oauth/\""
+            buildConfigField "String",  'BLOCK_CHAIN_HTTP_API_URL', "\"https://dev-3-node.commun.com/\""
+            buildConfigField "String",  'SERVICES_URL', "\"wss://dev-3-gate.commun.com/\""
+            buildConfigField "String",  'ACCESS_TOKEN_BASE_URL', "\"https://dev-3.commun.com/oauth/\""
 
             buildConfigField "String",  'GOOGLE_ACCESS_TOKEN_CLIENT_ID', "\"537042616174-jr6forf8aon2j7sj09flm39mgvg8ip0l.apps.googleusercontent.com\""
             buildConfigField "String",  'GOOGLE_RECAPTCHA_KEY', "\"6LdIAcAUAAAAANtWk2WpvZ0jMqX58NB3QDpgZR2S\""
