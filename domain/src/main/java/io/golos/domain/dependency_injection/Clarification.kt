@@ -27,4 +27,6 @@ object Clarification {
 
     const val GOOGLE = "GOOGLE"
     const val FACEBOOK = "FACEBOOK"
+
+    const val FIREBASE_MESSAGES = "FIREBASE_MESSAGES"
 }
