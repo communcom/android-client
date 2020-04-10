@@ -1,10 +1,7 @@
 package io.golos.data.repositories
 
 import io.golos.commun4j.Commun4j
-import io.golos.commun4j.services.model.FirstRegistrationStepResult
-import io.golos.commun4j.services.model.SetUserNameStepResult
-import io.golos.commun4j.services.model.UserRegistrationStateResult
-import io.golos.commun4j.services.model.VerifyStepResult
+import io.golos.commun4j.services.model.*
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.data.mappers.mapToAuthResultDomain
 import io.golos.data.mappers.mapToBCProfileDomain

@@ -39,7 +39,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Login"
             android:windowSoftInputMode="adjustUnspecified"
-            />
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.screens.in_app_auth_activity.InAppAuthActivity"
             android:screenOrientation="portrait"

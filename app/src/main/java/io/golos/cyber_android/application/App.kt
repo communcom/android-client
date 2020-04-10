@@ -5,9 +5,9 @@ import android.app.Application
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.application.di_storage.DependencyInjectionStorage
 import io.golos.cyber_android.application.di.AppComponent
-import io.golos.cyber_android.application.shared.analytics.AnalyticsFacade
 //import io.golos.cyber_android.ui.screens.login_sign_up_select_method.social_network_auth_providers.FacebookAuthProvider
 import io.golos.domain.LogTags
+import io.golos.domain.analytics.AnalyticsFacade
 import io.golos.utils.id.IdUtil
 import timber.log.Timber
 import zerobranch.androidremotedebugger.AndroidRemoteDebugger
