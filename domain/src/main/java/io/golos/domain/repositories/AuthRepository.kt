@@ -22,7 +22,7 @@ interface AuthRepository {
 
     suspend fun getRegistrationState(phone: String?, identity: String?): UserRegistrationStateResult
 
-    suspend fun firstUserRegistrationStep(captcha: String?, phone: String, testingPass: String?): FirstRegistrationStepResult
+    suspend fun firstUserRegistrationStep(captcha: String?, phone: String, testingPass: String): FirstRegistrationStepResult
 
     suspend fun verifyPhoneForUserRegistration(phone: String, code: Int): VerifyStepResult
 

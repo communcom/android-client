@@ -67,7 +67,7 @@ class AuthRepositoryImpl
             commun4j.getRegistrationState(phone = phone, identity = identity)
         }
 
-    override suspend fun firstUserRegistrationStep(captcha: String?, phone: String, testingPass: String?): FirstRegistrationStepResult =
+    override suspend fun firstUserRegistrationStep(captcha: String?, phone: String, testingPass: String): FirstRegistrationStepResult =
         apiCall {
             Timber.tag("NET_SOCKET").d("AuthRepositoryImpl::firstUserRegistrationStep(phone = $phone, testingPass = $testingPass)")
             commun4j.firstUserRegistrationStep(captcha, phone, testingPass, "android")
