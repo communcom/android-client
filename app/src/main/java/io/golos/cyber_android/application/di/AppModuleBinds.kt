@@ -8,6 +8,8 @@ import io.golos.cyber_android.application.shared.crashlytics.CrashlyticsFacadeIm
 import io.golos.cyber_android.application.shared.device_info.DeviceInfoProviderImpl
 import io.golos.domain.fingerprint.FingerprintAuthManager
 import io.golos.cyber_android.application.shared.fingerprints.FingerprintAuthManagerImpl
+import io.golos.cyber_android.services.firebase.notifications.popup_manager.FirebaseNotificationPopupManager
+import io.golos.cyber_android.services.firebase.notifications.popup_manager.FirebaseNotificationPopupManagerImpl
 import io.golos.cyber_android.ui.shared.clipboard.ClipboardUtils
 import io.golos.cyber_android.ui.shared.clipboard.ClipboardUtilsImpl
 import io.golos.cyber_android.ui.shared.utils.FromSpannedToHtmlTransformerImpl
@@ -313,4 +315,7 @@ abstract class AppModuleBinds {
     @ApplicationScope
     abstract fun provideServerMessageReceiver(receiver: ServerMessageReceiverImpl): ServerMessageReceiver
 
+    @Binds
+    @ApplicationScope
+    abstract fun provideFirebaseNotificationPopupManager(manager: FirebaseNotificationPopupManagerImpl): FirebaseNotificationPopupManager
 }

@@ -1,4 +1,4 @@
-package io.golos.cyber_android.services.firebase
+package io.golos.cyber_android.services.firebase.notifications
 
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -6,8 +6,9 @@ import com.squareup.moshi.Moshi
 import dagger.Lazy
 import io.golos.commun4j.services.model.*
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.services.firebase.di.FirebaseNotificationServiceComponent
-import io.golos.cyber_android.services.firebase.dto.NotificationMetadata
+import io.golos.cyber_android.services.firebase.notifications.di.FirebaseNotificationServiceComponent
+import io.golos.cyber_android.services.firebase.notifications.dto.NotificationMetadata
+import io.golos.cyber_android.services.firebase.notifications.popup_manager.FirebaseNotificationPopupManager
 import io.golos.data.mappers.mapToNotificationDomain
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.KeyValueStorageFacade
@@ -43,6 +44,9 @@ class FirebaseNotificationService : FirebaseMessagingService(), CoroutineScope {
     @Inject
     internal lateinit var dispatchersProvider: DispatchersProvider
 
+    @Inject
+    internal lateinit var popupManager: Lazy<FirebaseNotificationPopupManager>
+
     override fun onCreate() {
         super.onCreate()
 
@@ -59,16 +63,17 @@ class FirebaseNotificationService : FirebaseMessagingService(), CoroutineScope {
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        remoteMessage.data["notification"]?.let { jsonNotification ->
-            Timber.tag("FCM_MESSAGES").d("Message received: $jsonNotification")
+        Timber.tag("FCM_MESSAGES").d("Message received - called")
+        remoteMessage.data["notification"]?.let { rawJsonNotification ->
+            Timber.tag("FCM_MESSAGES").d("Message received: $rawJsonNotification")
 
             launch {
-                getCurrentUser()
-                    ?.let {
-                        parseNotification(jsonNotification)?.mapToNotificationDomain(it.second, it.first)
-                            ?.let { notification ->
-                                // do something
-                                Timber.tag("FCM_MESSAGES").d("Message parsed: $notification")
+                parseNotification(rawJsonNotification)
+                    ?.let { parsedNotification ->
+                        getCurrentUser()
+                            ?.let { currentUser ->
+                                popupManager.get().showNotification(
+                                    parsedNotification.mapToNotificationDomain(currentUser.second, currentUser.first))
                             }
                     }
             }

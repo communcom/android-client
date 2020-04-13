@@ -1,4 +1,4 @@
-package io.golos.cyber_android.services.firebase.custom_json_adapters
+package io.golos.cyber_android.services.firebase.notifications.custom_json_adapters
 
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson

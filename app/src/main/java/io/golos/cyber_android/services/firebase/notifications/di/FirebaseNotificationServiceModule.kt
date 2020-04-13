@@ -1,11 +1,11 @@
-package io.golos.cyber_android.services.firebase.di
+package io.golos.cyber_android.services.firebase.notifications.di
 
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
-import io.golos.cyber_android.services.firebase.custom_json_adapters.CyberNameJsonAdapter
-import io.golos.cyber_android.services.firebase.custom_json_adapters.CyberSymbolCodeJsonAdapter
-import io.golos.cyber_android.services.firebase.custom_json_adapters.DateJsonAdapter
+import io.golos.cyber_android.services.firebase.notifications.custom_json_adapters.CyberNameJsonAdapter
+import io.golos.cyber_android.services.firebase.notifications.custom_json_adapters.CyberSymbolCodeJsonAdapter
+import io.golos.cyber_android.services.firebase.notifications.custom_json_adapters.DateJsonAdapter
 import io.golos.domain.dependency_injection.Clarification
 import javax.inject.Named
 

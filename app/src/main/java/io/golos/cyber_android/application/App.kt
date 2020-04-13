@@ -5,6 +5,7 @@ import android.app.Application
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.application.di_storage.DependencyInjectionStorage
 import io.golos.cyber_android.application.di.AppComponent
+import io.golos.cyber_android.services.firebase.notifications.popup_manager.FirebaseNotificationPopupManager
 //import io.golos.cyber_android.ui.screens.login_sign_up_select_method.social_network_auth_providers.FacebookAuthProvider
 import io.golos.domain.LogTags
 import io.golos.domain.analytics.AnalyticsFacade
@@ -19,7 +20,10 @@ class App : Application() {
     internal lateinit var timberTree: Timber.Tree
 
     @Inject
-    internal lateinit var analitics: AnalyticsFacade
+    internal lateinit var analytics: AnalyticsFacade
+
+    @Inject
+    internal lateinit var firebaseNotificationsManager: FirebaseNotificationPopupManager
 
     companion object {
         @SuppressLint("StaticFieldLeak")
@@ -38,7 +42,7 @@ class App : Application() {
 
         initRemoteLogging()
 
-        analitics.init()
+        analytics.init()
 
         //FacebookAuthProvider.printKeyHash(this)
     }
