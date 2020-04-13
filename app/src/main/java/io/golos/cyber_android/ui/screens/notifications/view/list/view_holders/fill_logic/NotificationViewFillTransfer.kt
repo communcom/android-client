@@ -1,11 +1,10 @@
-package io.golos.cyber_android.ui.screens.notifications.view.list.view_holders
+package io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.fill_logic
 
 import android.graphics.Typeface
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
@@ -20,13 +19,14 @@ import io.golos.utils.format.CurrencyFormatter
 import io.golos.utils.helpers.SPACE
 import io.golos.utils.helpers.appendText
 import io.golos.utils.helpers.setSpan
-import kotlinx.android.synthetic.main.item_notification.view.*
 
-class TransferViewHolder(
-    parentView: ViewGroup
-) : BaseNotificationViewHolder<TransferNotificationItem>(
-    parentView
-) {
+class NotificationViewFillTransfer(viewDescription: NotificationView) : NotificationViewFillBase<TransferNotificationItem>(viewDescription) {
+    override fun init(listItem: TransferNotificationItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor) {
+        super.init(listItem, listItemEventsProcessor)
+        setAction(listItem, listItemEventsProcessor)
+        setMessage(listItem, listItemEventsProcessor)
+    }
+
     override fun setNotificationTypeLabel(widget: ImageView, listItem: TransferNotificationItem) {
         if(listItem.communityId.code == GlobalConstants.COMMUN_CODE || listItem.communityAvatarUrl == null) {
             widget.setImageResource(R.drawable.ic_commun)
@@ -35,21 +35,15 @@ class TransferViewHolder(
         }
     }
 
-    override fun init(listItem: TransferNotificationItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor) {
-        super.init(listItem, listItemEventsProcessor)
-        setAction(listItem, listItemEventsProcessor)
-        setMessage(listItem, listItemEventsProcessor)
-    }
-
     private fun setAction(listItem: TransferNotificationItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor){
-        itemView.flAction.visibility = View.GONE
-        itemView.ivContent.visibility = View.GONE
+        viewDescription.followButton.visibility = View.GONE
+        viewDescription.contentIcon.visibility = View.GONE
 
-        itemView.setOnClickListener {listItemEventsProcessor.onWalletNavigateClicked()}
+        viewDescription.root.setOnClickListener {listItemEventsProcessor.onWalletNavigateClicked()}
     }
 
     private fun setMessage(listItem: TransferNotificationItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor) {
-        val context = itemView.context
+        val context = viewDescription.root.context
         val messageStringBuilder = SpannableStringBuilder()
         val userName = listItem.userName
         val userId = listItem.userId
@@ -76,6 +70,6 @@ class TransferViewHolder(
         val tailInterval = messageStringBuilder.appendText(tail)
         messageStringBuilder.setSpan(ForegroundColorSpan(colorMessage), tailInterval)
 
-        itemView.tvMessage.text = messageStringBuilder
+        viewDescription.messageText.text = messageStringBuilder
     }
 }

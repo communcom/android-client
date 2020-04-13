@@ -3,12 +3,15 @@ package io.golos.cyber_android.services.firebase.notifications.popup_manager
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import io.golos.cyber_android.services.firebase.notifications.popup_manager.popup_factory.background.BackgroundNotificationPopupFactory
+import io.golos.cyber_android.services.firebase.notifications.popup_manager.popup_factory.foreground.ForegroundNotificationPopupFactory
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity
 import io.golos.cyber_android.ui.screens.post_edit.activity.EditorPageActivity
 import io.golos.cyber_android.ui.shared.ImageViewerActivity
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.dto.NotificationDomain
-import timber.log.Timber
+import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 @ApplicationScope
@@ -22,6 +25,8 @@ constructor(
     private var createdCount = 0
     private var activeCount = 0
 
+    private var currentActivity: WeakReference<Activity>? = null
+
     init {
         application.registerActivityLifecycleCallbacks(this)
     }
@@ -34,9 +39,10 @@ constructor(
 
     override fun onActivityStarted(activity: Activity?) { }
 
-    override fun onActivityResumed(activity: Activity?) {
+    override fun onActivityResumed(activity: Activity) {
         if(canProcessActivity(activity)) {
             activeCount++
+            currentActivity = WeakReference(activity)
         }
     }
 
@@ -58,8 +64,11 @@ constructor(
 
     override fun showNotification(notification: NotificationDomain) {
         when {
-            createdCount <= 0 -> Timber.tag("FCM_MESSAGES").d("Show system popup")
-            activeCount > 0 -> Timber.tag("FCM_MESSAGES").d("Show balloon")
+            createdCount <= 0 || (createdCount > 0 && activeCount == 0) ->
+                BackgroundNotificationPopupFactory().showNotification(notification)
+
+            activeCount > 0 ->
+                ForegroundNotificationPopupFactory().showNotification(notification, currentActivity?.get() as? AppCompatActivity)
         }
     }
 

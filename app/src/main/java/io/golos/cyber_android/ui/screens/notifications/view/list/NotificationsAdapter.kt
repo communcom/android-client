@@ -47,8 +47,8 @@ class NotificationsAdapter (
             UP_VOTE -> NotificationUpVoteViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
             PROGRESS -> LoadingListViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
             ERROR -> RetryListViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
-            TRANSFER -> TransferViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
-            REWARD -> RewardViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
+            TRANSFER -> NotificationTransferViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
+            REWARD -> NotificationRewardViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
             UNSUPPORTED -> NotificationUnsupportedViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
             else -> throw UnsupportedOperationException("Undefined view holder")
         }

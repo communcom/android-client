@@ -1,11 +1,10 @@
 package io.golos.cyber_android.ui.screens.notifications.mappers
 
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.*
-import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.dto.*
 import io.golos.utils.id.IdUtil
 
-fun NotificationDomain.mapToVersionedListItem(): VersionedListItem {
+fun NotificationDomain.mapToVersionedListItem(): BaseNotificationItem {
     return when(this){
         is TransferNotificationDomain -> {
             TransferNotificationItem(

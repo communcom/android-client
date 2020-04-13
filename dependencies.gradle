@@ -47,6 +47,7 @@ ext.versions = [
         captcha               : '17.0.0',
         permissdispatcher     : '4.6.0',
         viewpagerdotsindicator: "4.1.2",
+        balloon               : "1.1.4",
 
         //Google services
         googleServicesPlugin  : '4.2.0',
@@ -150,7 +151,8 @@ ext.deps = [
                 captcha                             : "com.google.android.gms:play-services-safetynet:$versions.captcha",
                 permissdispatcher                   : "org.permissionsdispatcher:permissionsdispatcher:$versions.permissdispatcher",
                 permissdispatcherAnnotationProcessor: "org.permissionsdispatcher:permissionsdispatcher-processor:$versions.permissdispatcher",
-                viewpagerdotsindicator              : "com.tbuonomo.andrui:viewpagerdotsindicator:$versions.viewpagerdotsindicator"
+                viewpagerdotsindicator              : "com.tbuonomo.andrui:viewpagerdotsindicator:$versions.viewpagerdotsindicator",
+                balloon                              : "com.github.skydoves:balloon:$versions.balloon"
         ],
 
         'googleServices'        : [
@@ -276,6 +278,7 @@ ext.deps.groups = [
             implementation deps.ui.captcha
             implementation deps.ui.permissdispatcher
             implementation deps.ui.viewpagerdotsindicator
+            implementation deps.ui.balloon
             kapt deps.ui.glideAnnotationProcessor
             kapt deps.ui.permissdispatcherAnnotationProcessor
         },
