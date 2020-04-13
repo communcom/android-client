@@ -27,7 +27,8 @@ class FirebaseNotificationService : FirebaseMessagingService(), CoroutineScope {
 
     private val scopeJob: Job = SupervisorJob()
 
-    override val coroutineContext: CoroutineContext = scopeJob + dispatchersProvider.uiDispatcher
+    override val coroutineContext: CoroutineContext
+        get() = scopeJob + dispatchersProvider.uiDispatcher
 
     @Inject
     internal lateinit var keyValueStorage: Lazy<KeyValueStorageFacade>
@@ -67,7 +68,7 @@ class FirebaseNotificationService : FirebaseMessagingService(), CoroutineScope {
                         parseNotification(jsonNotification)?.mapToNotificationDomain(it.second, it.first)
                             ?.let { notification ->
                                 // do something
-                                Timber.d("")
+                                Timber.tag("FCM_MESSAGES").d("Message parsed: $notification")
                             }
                     }
             }
