@@ -35,6 +35,7 @@ import io.golos.cyber_android.ui.shared.Tags
 import io.golos.utils.getColorRes
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToWalletCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowConfirmationDialog
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.shared.widgets.TabLineDrawable

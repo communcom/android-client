@@ -8,10 +8,10 @@ import io.golos.cyber_android.ui.screens.notifications.mappers.mapToVersionedLis
 import io.golos.cyber_android.ui.screens.notifications.model.NotificationsModel
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.BaseNotificationItem
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.SubscribeNotificationItem
-import io.golos.cyber_android.ui.screens.profile.dto.NavigateToWalletCommand
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToPostCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToUserProfileCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToWalletCommand
 import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.shared.utils.PAGINATION_PAGE_SIZE

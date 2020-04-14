@@ -2,6 +2,7 @@ package io.golos.cyber_android.services.firebase.notifications.popup_manager
 
 import android.app.Activity
 import android.app.Application
+import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import io.golos.cyber_android.services.firebase.notifications.popup_manager.popup_factory.background.BackgroundNotificationPopupFactory

@@ -9,6 +9,9 @@ import io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.fi
 import io.golos.domain.dto.NotificationDomain
 
 class ForegroundNotificationPopupFactory {
+
+    private var activeBalloon: Balloon? = null
+
     fun showNotification(notification: NotificationDomain, currentActivity: AppCompatActivity?) {
         if(currentActivity == null) {
             return
@@ -20,6 +23,8 @@ class ForegroundNotificationPopupFactory {
             return
         }
 
+        activeBalloon?.dismiss()
+
         val balloon = Balloon.Builder(currentActivity)
             .setArrowVisible(false)
             .setLifecycleOwner(currentActivity)
@@ -27,21 +32,30 @@ class ForegroundNotificationPopupFactory {
             .setHeight(100)
             .setPadding(0)
             .setElevation(10f)
-            .setAutoDismissDuration(3000L)
+            .setAutoDismissDuration(5_000L)
+            .setDismissWhenClicked(true)
             .setCornerRadius(11f)
             .setLayout(R.layout.item_notification)
+            .setOnBalloonDismissListener { activeBalloon = null }
             .build()
 
         val contentView = balloon.getContentView()
         contentView.setBackgroundResource(R.drawable.bcg_thin_gray_stroke_ripple_6)
 
-        fill(listItem, NotificationView(contentView))
+        fill(listItem, NotificationView(contentView), currentActivity, balloon)
 
         balloon.showAlignTop(currentActivity.findViewById(android.R.id.content))
+
+        activeBalloon = balloon
     }
 
-    private fun fill(notification: BaseNotificationItem, viewDescription: NotificationView) {
-        val eventsProcessor = EventsProcessor()
+    private fun fill(
+        notification: BaseNotificationItem,
+        viewDescription: NotificationView,
+        currentActivity: AppCompatActivity,
+        balloon: Balloon) {
+
+        val eventsProcessor = ForegroundNotificationsEventsProcessor(currentActivity, balloon)
 
         when (notification) {
             is TransferNotificationItem -> NotificationViewFillTransfer(viewDescription).init(notification, eventsProcessor)

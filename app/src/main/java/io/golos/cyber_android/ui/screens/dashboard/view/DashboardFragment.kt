@@ -24,12 +24,10 @@ import io.golos.cyber_android.ui.screens.post_edit.activity.EditorPageActivity
 import io.golos.cyber_android.ui.screens.post_view.view.PostPageFragment
 import io.golos.cyber_android.ui.screens.profile.view.ProfileExternalUserFragment
 import io.golos.cyber_android.ui.screens.profile.view.ProfileFragment
+import io.golos.cyber_android.ui.screens.wallet.view.WalletFragment
 import io.golos.cyber_android.ui.shared.Tags
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToCommunityPageCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToPostCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToUserProfileCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.utils.setStatusBarColor
 import io.golos.cyber_android.ui.shared.widgets.NavigationBottomMenuWidget
 import io.golos.domain.commun_entities.Permlink
@@ -124,22 +122,14 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
             is NavigateToUserProfileCommand -> navigateToFragment(ProfileExternalUserFragment.newInstance(command.userId))
             is NavigateToCommunityPageCommand -> navigateToFragment(CommunityPageFragment.newInstance(command.communityId))
             is NavigateToPostCommand -> openPost(command.discussionIdModel, command.contentId)
+            is NavigateToWalletCommand -> navigateToFragment(WalletFragment.newInstance(command.balance))
         }
     }
 
-    private fun openPost(
-        discussionIdModel: DiscussionIdModel,
-        contentId: ContentId
-    ) {
-        navigateToFragment(
-            PostPageFragment.newInstance(
-                PostPageFragment.Args(
-                    discussionIdModel,
-                    contentId
-                )
-            ),
-            tag = contentId.permlink
-        )
+    fun processIntent(intent: Intent) = viewModel.processIntent(intent)
+
+    private fun openPost(discussionIdModel: DiscussionIdModel, contentId: ContentId) {
+        navigateToFragment(PostPageFragment.newInstance(PostPageFragment.Args(discussionIdModel, contentId)),tag = contentId.permlink)
     }
 
     private fun observeViewModel() {

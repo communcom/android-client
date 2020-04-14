@@ -16,12 +16,12 @@ import io.golos.cyber_android.ui.screens.notifications.view.list.items.EmptyStub
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.HeaderDateNotificationItem
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModel
 import io.golos.cyber_android.ui.screens.post_view.view.PostPageFragment
-import io.golos.cyber_android.ui.screens.profile.dto.NavigateToWalletCommand
 import io.golos.cyber_android.ui.screens.profile.view.ProfileExternalUserFragment
 import io.golos.cyber_android.ui.screens.wallet.view.WalletFragment
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToPostCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToUserProfileCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToWalletCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem

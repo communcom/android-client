@@ -8,6 +8,7 @@ import io.golos.cyber_android.ui.dto.Comment
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 
 interface ViewCommand
@@ -78,3 +79,5 @@ class ShowNoConnectionDialogCommand() : ViewCommand
 class HideNoConnectionDialogCommand() : ViewCommand
 
 class ShowUpdateAppDialogCommand() : ViewCommand
+
+class NavigateToWalletCommand(val balance: List<WalletCommunityBalanceRecordDomain>) : ViewCommand

@@ -1,17 +1,19 @@
 package io.golos.cyber_android.ui.screens.dashboard.view_model
 
+import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.dashboard.dto.DeepLinkInfo
+import io.golos.cyber_android.ui.screens.dashboard.dto.OpenNotificationInfo
 import io.golos.cyber_android.ui.screens.dashboard.model.DashboardModel
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToCommunityPageCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToPostCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToUserProfileCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToWalletCommand
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.cyber_android.ui.shared.widgets.NavigationBottomMenuWidget
 import io.golos.domain.DispatchersProvider
@@ -108,6 +110,26 @@ constructor(
                             val discussionId = DiscussionIdModel(linkInfo.userId.userId, Permlink(linkInfo.postId))
                             val contentId = ContentId(linkInfo.communityId, linkInfo.postId, linkInfo.userId.userId)
                             NavigateToPostCommand(discussionId, contentId)
+                        }
+                    }
+                }
+        }
+    }
+
+    fun processIntent(intent: Intent) {
+        launch {
+            model.parseOpenNotification(intent)
+                ?.let {
+                    _command.value = when(it) {
+                        is OpenNotificationInfo.OpenProfile -> {
+                            NavigateToUserProfileCommand(it.userId)
+                        }
+                        is OpenNotificationInfo.OpenPost -> {
+                            val discussionId = DiscussionIdModel(it.contentId.userId, Permlink(it.contentId.permlink))
+                            NavigateToPostCommand(discussionId, it.contentId)
+                        }
+                        is OpenNotificationInfo.OpenWallet -> {
+                            NavigateToWalletCommand(it.balance)
                         }
                     }
                 }
