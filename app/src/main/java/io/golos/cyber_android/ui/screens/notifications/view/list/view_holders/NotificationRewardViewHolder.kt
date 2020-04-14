@@ -2,15 +2,15 @@ package io.golos.cyber_android.ui.screens.notifications.view.list.view_holders
 
 import android.view.ViewGroup
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.RewardNotificationItem
-import io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.fill_logic.NotificationView
-import io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.fill_logic.NotificationViewFillBase
-import io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.fill_logic.NotificationViewFillReward
+import io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.content_rendering.view.NotificationView
+import io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.content_rendering.NotificationContentRenderedBase
+import io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.content_rendering.NotificationContentRenderedReward
 
 class NotificationRewardViewHolder(
     parentView: ViewGroup
 ) : NotificationViewHolderBase<RewardNotificationItem>(
     parentView
 ) {
-    override fun createViewFill(viewDescription: NotificationView): NotificationViewFillBase<RewardNotificationItem> =
-        NotificationViewFillReward(viewDescription)
+    override fun createContentRenderer(viewDescription: NotificationView): NotificationContentRenderedBase<RewardNotificationItem> =
+        NotificationContentRenderedReward(viewDescription)
 }

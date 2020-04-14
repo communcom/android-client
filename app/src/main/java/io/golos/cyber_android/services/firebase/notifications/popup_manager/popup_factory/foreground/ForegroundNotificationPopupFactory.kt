@@ -3,12 +3,14 @@ package io.golos.cyber_android.services.firebase.notifications.popup_manager.pop
 import androidx.appcompat.app.AppCompatActivity
 import com.skydoves.balloon.Balloon
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.screens.notifications.mappers.mapToVersionedListItem
-import io.golos.cyber_android.ui.screens.notifications.view.list.items.*
-import io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.fill_logic.*
+import io.golos.cyber_android.services.firebase.notifications.popup_manager.popup_factory.NotificationPopupFactoryBase
+import io.golos.cyber_android.ui.screens.notifications.view.list.items.BaseNotificationItem
+import io.golos.cyber_android.ui.screens.notifications.view.list.items.UnsupportedNotificationItem
+import io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.content_rendering.view.NotificationView
+import io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.content_rendering.view.NotificationViewLayout
 import io.golos.domain.dto.NotificationDomain
 
-class ForegroundNotificationPopupFactory {
+class ForegroundNotificationPopupFactory: NotificationPopupFactoryBase() {
 
     private var activeBalloon: Balloon? = null
 
@@ -17,7 +19,7 @@ class ForegroundNotificationPopupFactory {
             return
         }
 
-        val listItem = notification.mapToVersionedListItem()
+        val listItem = mapNotification(notification)
 
         if(listItem is UnsupportedNotificationItem) {
             return
@@ -42,7 +44,7 @@ class ForegroundNotificationPopupFactory {
         val contentView = balloon.getContentView()
         contentView.setBackgroundResource(R.drawable.bcg_thin_gray_stroke_ripple_6)
 
-        fill(listItem, NotificationView(contentView), currentActivity, balloon)
+        fill(listItem, NotificationViewLayout(contentView), currentActivity, balloon)
 
         balloon.showAlignTop(currentActivity.findViewById(android.R.id.content))
 
@@ -56,15 +58,6 @@ class ForegroundNotificationPopupFactory {
         balloon: Balloon) {
 
         val eventsProcessor = ForegroundNotificationsEventsProcessor(currentActivity, balloon)
-
-        when (notification) {
-            is TransferNotificationItem -> NotificationViewFillTransfer(viewDescription).init(notification, eventsProcessor)
-            is RewardNotificationItem -> NotificationViewFillReward(viewDescription).init(notification, eventsProcessor)
-            is MentionNotificationItem -> NotificationViewFillMention(viewDescription).init(notification, eventsProcessor)
-            is SubscribeNotificationItem -> NotificationViewFillSubscribe(viewDescription).init(notification, eventsProcessor)
-            is UpVoteNotificationItem -> NotificationViewFillUpVote(viewDescription).init(notification, eventsProcessor)
-            is ReplyNotificationItem -> NotificationViewFillReply(viewDescription).init(notification, eventsProcessor)
-            else -> throw UnsupportedOperationException("This notification is not supported")
-        }
+        renderView(notification, viewDescription, eventsProcessor)
     }
 }

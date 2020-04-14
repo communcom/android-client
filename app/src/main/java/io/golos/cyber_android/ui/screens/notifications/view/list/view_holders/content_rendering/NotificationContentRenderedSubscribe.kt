@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.fill_logic
+package io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.content_rendering
 
 import android.graphics.Typeface
 import android.text.SpannableStringBuilder
@@ -7,6 +7,7 @@ import android.text.style.StyleSpan
 import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.SubscribeNotificationItem
+import io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.content_rendering.view.NotificationView
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModelListEventsProcessor
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
 import io.golos.domain.dto.UserIdDomain
@@ -14,7 +15,7 @@ import io.golos.utils.helpers.SPACE
 import io.golos.utils.helpers.appendText
 import io.golos.utils.helpers.setSpan
 
-class NotificationViewFillSubscribe(viewDescription: NotificationView) : NotificationViewFillBase<SubscribeNotificationItem>(viewDescription) {
+class NotificationContentRenderedSubscribe(viewDescription: NotificationView) : NotificationContentRenderedBase<SubscribeNotificationItem>(viewDescription) {
     override val notificationTypeLabelResId: Int = -1
 
     override fun init(listItem: SubscribeNotificationItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor) {

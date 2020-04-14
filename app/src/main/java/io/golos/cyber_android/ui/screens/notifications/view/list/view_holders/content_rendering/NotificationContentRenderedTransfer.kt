@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.fill_logic
+package io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.content_rendering
 
 import android.graphics.Typeface
 import android.text.SpannableStringBuilder
@@ -9,6 +9,7 @@ import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.TransferNotificationItem
+import io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.content_rendering.view.NotificationView
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModelListEventsProcessor
 import io.golos.cyber_android.ui.shared.glide.loadCommunity
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
@@ -20,7 +21,7 @@ import io.golos.utils.helpers.SPACE
 import io.golos.utils.helpers.appendText
 import io.golos.utils.helpers.setSpan
 
-class NotificationViewFillTransfer(viewDescription: NotificationView) : NotificationViewFillBase<TransferNotificationItem>(viewDescription) {
+class NotificationContentRenderedTransfer(viewDescription: NotificationView) : NotificationContentRenderedBase<TransferNotificationItem>(viewDescription) {
     override fun init(listItem: TransferNotificationItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor) {
         super.init(listItem, listItemEventsProcessor)
         setAction(listItem, listItemEventsProcessor)

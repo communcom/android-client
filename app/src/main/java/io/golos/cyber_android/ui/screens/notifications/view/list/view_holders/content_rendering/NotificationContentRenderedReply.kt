@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.fill_logic
+package io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.content_rendering
 
 import android.graphics.Typeface
 import android.text.SpannableStringBuilder
@@ -10,6 +10,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.mappers.mapToContentId
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.ReplyNotificationItem
+import io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.content_rendering.view.NotificationView
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModelListEventsProcessor
 import io.golos.cyber_android.ui.shared.glide.loadNotificationImageContent
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
@@ -18,7 +19,7 @@ import io.golos.utils.helpers.SPACE
 import io.golos.utils.helpers.appendText
 import io.golos.utils.helpers.setSpan
 
-class NotificationViewFillReply(viewDescription: NotificationView) : NotificationViewFillBase<ReplyNotificationItem>(viewDescription) {
+class NotificationContentRenderedReply(viewDescription: NotificationView) : NotificationContentRenderedBase<ReplyNotificationItem>(viewDescription) {
     override val notificationTypeLabelResId: Int = R.drawable.ic_reply_label
 
     override fun init(listItem: ReplyNotificationItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor) {

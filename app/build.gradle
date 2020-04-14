@@ -151,8 +151,6 @@ dependencies {
     implementation project(':utils')
     implementation project(':pdf_renderer')
 
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     deps.groups.kotlin dependencies
     deps.groups.ui dependencies
     deps.groups.tests dependencies

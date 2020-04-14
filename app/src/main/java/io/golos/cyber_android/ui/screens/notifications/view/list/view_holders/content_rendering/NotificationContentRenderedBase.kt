@@ -1,9 +1,10 @@
-package io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.fill_logic
+package io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.content_rendering
 
 import android.view.View
 import android.widget.ImageView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.BaseNotificationItem
+import io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.content_rendering.view.NotificationView
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModelListEventsProcessor
 import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
@@ -12,7 +13,7 @@ import io.golos.domain.GlobalConstants
 import io.golos.domain.dto.UserIdDomain
 import io.golos.utils.format.TimeEstimationFormatter
 
-abstract class NotificationViewFillBase<TItem: BaseNotificationItem>(protected val viewDescription: NotificationView) {
+abstract class NotificationContentRenderedBase<TItem: BaseNotificationItem>(protected val viewDescription: NotificationView) {
     protected open val notificationTypeLabelResId: Int = -1
 
     open fun init(listItem: TItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor) {

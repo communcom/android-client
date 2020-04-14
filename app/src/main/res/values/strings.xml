@@ -3,6 +3,8 @@
 
     <string name="action_settings">Settings</string>
 
+    <string name="notification_channel_description">Commun notification</string>
+
     <!--Digits-->
     <string name="digit1">1</string>
     <string name="digit2">2</string>

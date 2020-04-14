@@ -3,8 +3,8 @@ package io.golos.cyber_android.ui.screens.notifications.view.list.view_holders
 import android.view.ViewGroup
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.UnsupportedNotificationItem
-import io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.fill_logic.NotificationView
-import io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.fill_logic.NotificationViewFillBase
+import io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.content_rendering.view.NotificationView
+import io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.content_rendering.NotificationContentRenderedBase
 
 class NotificationUnsupportedViewHolder(
     parentView: ViewGroup
@@ -12,5 +12,5 @@ class NotificationUnsupportedViewHolder(
     parentView,
     R.layout.item_notification_unsupported
 ) {
-    override fun createViewFill(viewDescription: NotificationView): NotificationViewFillBase<UnsupportedNotificationItem>? = null
+    override fun createContentRenderer(viewDescription: NotificationView): NotificationContentRenderedBase<UnsupportedNotificationItem>? = null
 }

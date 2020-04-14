@@ -13,13 +13,15 @@ import io.golos.cyber_android.ui.shared.ImageViewerActivity
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.dto.NotificationDomain
 import java.lang.ref.WeakReference
+import java.util.*
 import javax.inject.Inject
 
 @ApplicationScope
 class FirebaseNotificationPopupManagerImpl
 @Inject
 constructor(
-    application: Application
+    application: Application,
+    private val appContext: Context
 ) : FirebaseNotificationPopupManager,
     Application.ActivityLifecycleCallbacks {
 
@@ -66,7 +68,7 @@ constructor(
     override fun showNotification(notification: NotificationDomain) {
         when {
             createdCount <= 0 || (createdCount > 0 && activeCount == 0) ->
-                BackgroundNotificationPopupFactory().showNotification(notification)
+                BackgroundNotificationPopupFactory(appContext).showNotification(notification)
 
             activeCount > 0 ->
                 ForegroundNotificationPopupFactory().showNotification(notification, currentActivity?.get() as? AppCompatActivity)

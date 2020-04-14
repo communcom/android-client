@@ -11,6 +11,7 @@ ext.versions = [
         appcompat          : '1.1.0',
         annotation         : '1.1.0',
         legacySupport      : '1.0.0',
+        supportCompat      : '28.0.0',
 
         // Commun4j
         commun4jVersion    : '1.4.7',
@@ -96,7 +97,8 @@ ext.deps = [
                 appcompat    : "androidx.appcompat:appcompat:$versions.appcompat",
                 annotation   : "androidx.annotation:annotation:$versions.annotation",
                 legacySupport: "androidx.legacy:legacy-support-v4:$versions.legacySupport",
-                androidCore  : "androidx.core:core-ktx:+"
+                androidCore  : "androidx.core:core-ktx:+",
+                supportCompat : "com.android.support:support-compat:$versions.supportCompat"
         ],
 
         'kotlin'                : [
@@ -208,6 +210,7 @@ ext.deps.groups = [
             implementation deps.android.annotation
             implementation deps.android.legacySupport
             implementation deps.android.androidCore
+            implementation deps.android.supportCompat
         },
 
         'kotlinCoroutines'      : { dependencyHandler ->
