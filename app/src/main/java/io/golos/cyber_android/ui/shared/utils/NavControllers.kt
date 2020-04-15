@@ -8,8 +8,8 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigationCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigationToDashboardCommand
 
 fun NavController.navigate(navigationCommand: NavigationCommand){
-    val args = if(navigationCommand is NavigationToDashboardCommand && navigationCommand.deepLinkUri != null) {
-        Bundle().apply { putParcelable(DashboardFragment.DEEP_LINK_URI_KEY, navigationCommand.deepLinkUri) }
+    val args = if(navigationCommand is NavigationToDashboardCommand && navigationCommand.intent != null) {
+        Bundle().apply { putParcelable(DashboardFragment.INTENT_KEY, navigationCommand.intent) }
     } else {
         null
     }

@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.shared.mvvm.view_commands
 
+import android.content.Intent
 import android.net.Uri
 import androidx.annotation.IdRes
 import androidx.annotation.NavigationRes
@@ -55,7 +56,7 @@ class NavigationToDashboardCommand(
     @IdRes navigationId: Int?,
     @IdRes startDestination: Int? = null,
     @NavigationRes graphId: Int? = null,
-    val deepLinkUri: Uri?
+    val intent: Intent?
 ) : NavigationCommand(navigationId, startDestination, graphId)
 
 class NavigateToImageViewCommand(val imageUri: Uri) : ViewCommand

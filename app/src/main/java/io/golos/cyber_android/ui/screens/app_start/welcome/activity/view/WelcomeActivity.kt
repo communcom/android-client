@@ -2,12 +2,14 @@ package io.golos.cyber_android.ui.screens.app_start.welcome.activity.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
+import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.app_start.welcome.activity.di.WelcomeActivityComponent
 import io.golos.cyber_android.ui.screens.app_start.welcome.activity.dto.HideSplashAnimationCommand
 import io.golos.cyber_android.ui.screens.app_start.welcome.activity.dto.NavigateToWelcomeScreenCommand
@@ -22,6 +24,9 @@ import io.golos.cyber_android.ui.shared.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.popups.app_update.AppUpdatePopup
 import io.golos.cyber_android.ui.shared.popups.no_connection.NoConnectionPopup
+import io.golos.cyber_android.ui.shared.utils.IntentConstants
+import io.golos.domain.dto.ContentIdDomain
+import io.golos.domain.dto.UserIdDomain
 import kotlinx.android.synthetic.main.activity_welcome.*
 import javax.inject.Inject
 
@@ -92,12 +97,32 @@ class WelcomeActivity : ActivityBase(), SplashAnimatorTarget {
     }
 
     private fun navigateToMainScreen() {
+        val oldIntent = intent
+
         val startMainScreenIntent = Intent(this, MainActivity::class.java)
-            .also {
-                // Has deep link
-                if(intent.action == Intent.ACTION_VIEW) {
-                    it.action = Intent.ACTION_VIEW
-                    it.data = intent.data
+            .also { newIntent ->
+                when(oldIntent.action) {
+                    // Has deep link
+                    Intent.ACTION_VIEW -> {
+                        newIntent.action = oldIntent.action
+                        newIntent.data = oldIntent.data
+                    }
+
+                    // Click on notification
+                    IntentConstants.ACTION_OPEN_NOTIFICATION -> {
+                        newIntent.action = oldIntent.action
+                        newIntent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+
+                        if(oldIntent.extras!!.containsKey(IntentConstants.POST_CONTENT_ID)) {
+                            newIntent.putExtra(IntentConstants.POST_CONTENT_ID, oldIntent.getParcelableExtra<ContentId>(IntentConstants.POST_CONTENT_ID))
+                        }
+                        if(oldIntent.extras!!.containsKey(IntentConstants.USER_ID)) {
+                            newIntent.putExtra(IntentConstants.USER_ID, oldIntent.getParcelableExtra<UserIdDomain>(IntentConstants.USER_ID))
+                        }
+                        if(oldIntent.extras!!.containsKey(IntentConstants.WALLET)) {
+                            newIntent.putExtra(IntentConstants.WALLET, oldIntent.getBooleanExtra(IntentConstants.WALLET, true))
+                        }
+                    }
                 }
             }
 

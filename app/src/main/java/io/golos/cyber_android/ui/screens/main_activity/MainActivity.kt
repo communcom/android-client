@@ -17,7 +17,6 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.shared.utils.IntentConstants
 import io.golos.cyber_android.ui.shared.utils.navigate
 import kotlinx.android.synthetic.main.activity_main.*
-import timber.log.Timber
 
 
 class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainViewModel>() {
@@ -71,12 +70,13 @@ class MainActivity : ActivityBaseMVVM<ActivityMainBinding, MainViewModel>() {
     private fun processNavigation(command: NavigationCommand) {
         mainNavHost.findNavController()
             .let { navigationController ->
-                if(command is NavigationToDashboardCommand && intent.action == Intent.ACTION_VIEW) {
-                    NavigationToDashboardCommand(           // Deep links
+                if(command is NavigationToDashboardCommand &&
+                    (intent.action == Intent.ACTION_VIEW || intent.action == IntentConstants.ACTION_OPEN_NOTIFICATION)) {
+                    NavigationToDashboardCommand(           // Deep links & Popup notifications
                         navigationId = command.navigationId,
                         startDestination = command.startDestination,
                         graphId = command.graphId,
-                        deepLinkUri = intent.data
+                        intent = intent
                     )
                 } else {
                     command

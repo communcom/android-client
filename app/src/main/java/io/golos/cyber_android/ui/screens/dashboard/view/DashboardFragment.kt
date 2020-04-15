@@ -38,7 +38,7 @@ import kotlinx.android.synthetic.main.fragment_dashboard.*
 class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardViewModel>() {
     companion object {
         private const val REQUEST_FOR_RESULT_FROM_EDIT = 41522
-        const val DEEP_LINK_URI_KEY = "DEEP_LINK_URI"
+        const val INTENT_KEY = "DEEP_LINK_URI"
     }
 
     private val viewPagerFragmentsList = mutableListOf<Fragment>()
@@ -61,7 +61,7 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
 
         // Navigate to deep[ link
         arguments?.let {
-            it.getParcelable<Uri?>(DEEP_LINK_URI_KEY)?.let { viewModel.processDeepLink(it) }
+            it.getParcelable<Intent?>(INTENT_KEY)?.let { viewModel.processIntent(it) }
         }
 
         viewModel.updateUnreadNotificationsCounter()

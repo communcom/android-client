@@ -1,7 +1,6 @@
 package io.golos.cyber_android.ui.screens.dashboard.view_model
 
 import android.content.Intent
-import android.net.Uri
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -14,6 +13,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToCommunityPa
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToPostCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToUserProfileCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToWalletCommand
+import io.golos.cyber_android.ui.shared.utils.IntentConstants
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.cyber_android.ui.shared.widgets.NavigationBottomMenuWidget
 import io.golos.domain.DispatchersProvider
@@ -95,9 +95,16 @@ constructor(
         }
     }
 
-    fun processDeepLink(uri: Uri) {
+    fun processIntent(intent: Intent) =
+        when(intent.action) {
+            Intent.ACTION_VIEW -> processDeepLink(intent)
+            IntentConstants.ACTION_OPEN_NOTIFICATION -> processNotification(intent)
+            else -> Timber.w("This intent is not supported: ${intent.action}")
+        }
+
+    private fun processDeepLink(intent: Intent) {
         launch {
-            model.parseDeepLinkUri(uri)
+            model.parseDeepLinkUri(intent.data!!)
                 ?.let { linkInfo ->
                     _command.value = when(linkInfo) {
                         is DeepLinkInfo.ProfileDeepLink -> {
@@ -116,7 +123,7 @@ constructor(
         }
     }
 
-    fun processIntent(intent: Intent) {
+    private fun processNotification(intent: Intent) {
         launch {
             model.parseOpenNotification(intent)
                 ?.let {

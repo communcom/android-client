@@ -13,7 +13,6 @@ import io.golos.cyber_android.ui.shared.ImageViewerActivity
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.dto.NotificationDomain
 import java.lang.ref.WeakReference
-import java.util.*
 import javax.inject.Inject
 
 @ApplicationScope
