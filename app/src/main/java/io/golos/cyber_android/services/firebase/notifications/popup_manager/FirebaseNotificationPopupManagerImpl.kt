@@ -29,6 +29,12 @@ constructor(
 
     private var currentActivity: WeakReference<Activity>? = null
 
+    private val backgroundNotificationsFactory
+        get() = BackgroundNotificationPopupFactory(appContext)
+
+    private val foregroundNotificationsFactory
+        get() = ForegroundNotificationPopupFactory()
+
     init {
         application.registerActivityLifecycleCallbacks(this)
     }
@@ -45,6 +51,8 @@ constructor(
         if(canProcessActivity(activity)) {
             activeCount++
             currentActivity = WeakReference(activity)
+
+            backgroundNotificationsFactory.clearAll()
         }
     }
 
@@ -67,10 +75,10 @@ constructor(
     override fun showNotification(notification: NotificationDomain) {
         when {
             createdCount <= 0 || (createdCount > 0 && activeCount == 0) ->
-                BackgroundNotificationPopupFactory(appContext).showNotification(notification)
+                backgroundNotificationsFactory.showNotification(notification)
 
             activeCount > 0 ->
-                ForegroundNotificationPopupFactory().showNotification(notification, currentActivity?.get() as? AppCompatActivity)
+                foregroundNotificationsFactory.showNotification(notification, currentActivity?.get() as? AppCompatActivity)
         }
     }
 

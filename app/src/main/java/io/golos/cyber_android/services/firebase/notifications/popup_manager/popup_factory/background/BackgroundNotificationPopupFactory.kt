@@ -31,6 +31,8 @@ class BackgroundNotificationPopupFactory(
         const val CHANNEL_ID = "${BuildConfig.APPLICATION_ID}.COMMUN_NOTIFICATIONS"
     }
 
+    fun clearAll() = NotificationManagerCompat.from(appContext).cancelAll()
+
     fun showNotification(notificationData: NotificationDomain) {
         val listItem = mapNotification(notificationData)
 
