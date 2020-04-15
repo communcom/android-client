@@ -69,6 +69,8 @@
             android:maxLength="16"
             android:maxLines="1"
             android:lines="1"
+
+            android:visibility="gone"
             tools:ignore="Autofill,LabelFor" />
 
 
