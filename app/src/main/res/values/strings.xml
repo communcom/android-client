@@ -35,7 +35,6 @@
     <!--Size formatting - end -->
 
     <string name="common_general_error">Unfortunately, an error was encountered during the operation.</string>
-    <string name="common_captcha_error">Can\'t receive a captcha</string>
     <string name="token_receiving_error">Can\'t receive a token. The operation has been canceled</string>
     <string name="account_registered_error">Account already registered</string>
     <string name="password_not_match_error">The passwords do not match</string>
