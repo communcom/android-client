@@ -54,6 +54,7 @@ class NotificationsRepositoryImpl @Inject constructor(
             serverMessageReceiver
                 .messagesFlow()
                 .collect {
+                    Timber.tag("FCM_MESSAGES").d("Notification channel message: ${it.method}")
                     if(it.method == ApiMethods.notificationsStatusUpdated){
                         val notificationsStatusEntity = moshi.adapter(NotificationsStatusEntity::class.java).fromJsonValue(it.data)
                         notificationsStatusEntity?.let {

@@ -29,7 +29,6 @@ constructor(
 
     override fun messagesFlow(): Flow<ServerMessageReceiver.Message> = messagesBroadcastChannel.asFlow()
 
-
     override fun onMessage(message: RpcServerMessage) {
         launch {
             try {
