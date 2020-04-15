@@ -83,7 +83,7 @@ object EditorOutputToJsonMapper {
 
                 when(split) {
                     is SplittedText -> builder.putBlock(
-                        BlockType.TEXT, isLastSplit, split.content)
+                        BlockType.TEXT, isLastSplit, split.content.replace("\"", "\\\""))
 
                     is SplittedTag -> builder.putBlock(
                         BlockType.TAG, isLastSplit, split.content)
