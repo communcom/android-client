@@ -19,7 +19,6 @@ import io.golos.cyber_android.ui.screens.community_page_leaders_list.view.LeadsL
 import io.golos.cyber_android.ui.screens.community_page_members.view.CommunityPageMembersFragment
 import io.golos.cyber_android.ui.screens.community_page_post.view.CommunityPostFragment
 import io.golos.cyber_android.ui.screens.community_page_rules.CommunityPageRulesFragment
-import io.golos.utils.format.KiloCounterFormatter
 import io.golos.cyber_android.ui.shared.glide.loadCommunity
 import io.golos.cyber_android.ui.shared.glide.loadCover
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
@@ -29,7 +28,7 @@ import io.golos.cyber_android.ui.shared.popups.no_connection.NoConnectionPopup
 import io.golos.cyber_android.ui.shared.utils.toMMMM_DD_YYYY_Format
 import io.golos.cyber_android.ui.shared.widgets.TabLineDrawable
 import io.golos.domain.dto.CommunityIdDomain
-import io.golos.utils.helpers.EMPTY
+import io.golos.utils.format.KiloCounterFormatter
 import io.golos.utils.helpers.toPluralInt
 import kotlinx.android.synthetic.main.fragment_community_page.*
 import kotlinx.android.synthetic.main.layout_community_header_members.*
@@ -116,11 +115,11 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
             tvMemberCount.setOnClickListener { viewModel.onMembersLabelClick() }
             tvMembersLabel.setOnClickListener { viewModel.onMembersLabelClick() }
 
-            if(it.friendsCount > 0) {
+            if(it.friendsCount > 3) {
                 tvFriendsCountLabel.visibility = View.VISIBLE
                 tvFriendsLabel.visibility = View.VISIBLE
 
-                tvFriendsCountLabel.text = getString(R.string.friends_label, KiloCounterFormatter.format(it.friendsCount))
+                tvFriendsCountLabel.text = getString(R.string.friends_label, KiloCounterFormatter.format(it.friendsCount-3))
                 tvFriendsLabel.text = resources.getQuantityText(R.plurals.plural_friends, it.friendsCount.toPluralInt())
 
                 tvFriendsCountLabel.setOnClickListener { viewModel.onFriendsLabelClick() }
