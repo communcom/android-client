@@ -14,7 +14,7 @@ import io.golos.commun4j.sharedmodel.CyberSymbolCode
 import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.data.api.transactions.TransactionsApi
 import io.golos.data.mappers.*
-import io.golos.data.network_state.NetworkStateChecker
+import io.golos.data.repositories.network_call.NetworkCallProxy
 import io.golos.data.toCyberName
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.UserKeyStore
@@ -39,27 +39,25 @@ import javax.inject.Inject
 class DiscussionRepositoryImpl
 @Inject
 constructor(
+    private val callProxy: NetworkCallProxy,
     private val dispatchersProvider: DispatchersProvider,
-    networkStateChecker: NetworkStateChecker,
     private val discussionsApi: DiscussionsApi,
     private val postToEntityMapper: CyberPostToEntityMapper,
     private val postToModelMapper: PostEntitiesToModelMapper,
     private val currentUserRepository: CurrentUserRepositoryRead,
-    private val transactionsApi: TransactionsApi,
+    transactionsApi: TransactionsApi,
     private val commun4j: Commun4j,
     private val userKeyStore: UserKeyStore,
     private val moshi: Moshi
 ) : DiscussionCreationRepositoryBase(
-    dispatchersProvider,
     discussionsApi,
-    networkStateChecker,
     transactionsApi
 ), DiscussionRepository {
 
     override suspend fun updatePost(contentIdDomain: ContentIdDomain, body: String, tags: List<String>): ContentIdDomain {
         val postDomain = getPost(contentIdDomain.userId.toCyberName(), contentIdDomain.communityId, contentIdDomain.permlink)
 
-        val updatePostResult = apiCallChain {
+        val updatePostResult = callProxy.callBC {
             commun4j.updatePostOrComment(
                 messageId = MssgidCGalleryStruct(contentIdDomain.userId.toCyberName(), contentIdDomain.permlink),
                 communCode = CyberSymbolCode(contentIdDomain.communityId.code),
@@ -74,7 +72,7 @@ constructor(
             )
         }
 
-        apiCall {
+        callProxy.call {
             commun4j.waitForTransaction(updatePostResult.transaction_id)
         }
 
@@ -82,7 +80,7 @@ constructor(
     }
 
     override suspend fun createPost(communityId: CommunityIdDomain, body: String, tags: List<String>): ContentIdDomain {
-        val createPostResult = apiCallChain {
+        val createPostResult = callProxy.callBC {
             commun4j.createPost(
                 communCode = CyberSymbolCode(communityId.code),
                 header = "",
@@ -97,7 +95,7 @@ constructor(
             )
         }
 
-        apiCall {
+        callProxy.call {
             commun4j.waitForTransaction(createPostResult.transaction_id)
         }
 
@@ -111,7 +109,7 @@ constructor(
     }
 
     override suspend fun uploadContentAttachment(file: File): String {
-        return apiCallChain { commun4j.uploadImage(file) }
+        return callProxy.callBC { commun4j.uploadImage(file) }
     }
 
     override suspend fun getPosts(
@@ -121,7 +119,7 @@ constructor(
         val type = getFeedType(postsConfigurationDomain.typeFeed, typeObject)
         val timeFrame = getFeedTimeFrame(postsConfigurationDomain.timeFrame, postsConfigurationDomain.typeFeed)
 
-        val posts = apiCall {
+        val posts = callProxy.call {
             commun4j.getPostsRaw(
                 if (typeObject != TypeObjectDomain.COMMUNITY) postsConfigurationDomain.userId.toCyberName() else null,
                 postsConfigurationDomain.communityId?.code,
@@ -138,7 +136,7 @@ constructor(
         return if(posts.isNotEmpty()) {
             val contentIds = posts.map { UserAndPermlinkPair(it.contentId.userId, it.contentId.permlink) }
 
-            val rewards = apiCall {
+            val rewards = callProxy.call {
                 commun4j.getStateBulk(contentIds) }
                 .flatMap { it.value }
                 .map { it.mapToRewardPostDomain() }
@@ -215,7 +213,7 @@ constructor(
         parentComment: ParentCommentIdentifierDomain?
     ): List<CommentDomain> {
         val currentUserId = currentUserRepository.userId.userId
-        return apiCall {
+        return callProxy.call {
             commun4j.getCommentsRaw(
                 sortBy = CommentsSortBy.TIME_DESC,
                 offset = offset,
@@ -232,7 +230,7 @@ constructor(
     }
 
     override suspend fun deletePost(permlink: String, communityId: CommunityIdDomain) {
-        apiCallChain {
+        callProxy.callBC {
             commun4j.deletePostOrComment(
                 messageId = MssgidCGalleryStruct(currentUserRepository.userId.mapToCyberName(), permlink),
                 communCode = CyberSymbolCode(communityId.code),
@@ -245,7 +243,7 @@ constructor(
     }
 
     override suspend fun deleteComment(permlink: String, communityId: CommunityIdDomain) {
-        apiCallChain {
+        callProxy.callBC {
             commun4j.deletePostOrComment(
                 messageId = MssgidCGalleryStruct(currentUserRepository.userId.mapToCyberName(), permlink),
                 communCode = CyberSymbolCode(communityId.code),
@@ -263,7 +261,7 @@ constructor(
         val adapter = moshi.adapter(ListContentBlockEntity::class.java)
         val jsonBody = adapter.toJson(contentEntity)
         val contentId = commentDomain.contentId
-        apiCallChain {
+        callProxy.callBC {
             commun4j.updatePostOrComment(
                 messageId = MssgidCGalleryStruct(contentId.userId.toCyberName(), contentId.permlink),
                 communCode = CyberSymbolCode(contentId.communityId.code),
@@ -279,7 +277,7 @@ constructor(
     }
 
     override suspend fun reportPost(communityId: CommunityIdDomain, authorId: String, permlink: String, reason: String) {
-        apiCallChain {
+        callProxy.callBC {
             commun4j.reportContent(
                 CyberSymbolCode(communityId.code),
                 messageId = MssgidCGalleryStruct(authorId.toCyberName(), permlink),
@@ -294,7 +292,7 @@ constructor(
 
     override suspend fun upVote(contentIdDomain: ContentIdDomain) {
         val currentUser = currentUserRepository.userId.userId.toCyberName()
-        apiCallChain {
+        callProxy.callBC {
             commun4j.upVote(
                 communCode = CyberSymbolCode(contentIdDomain.communityId.code),
                 messageId = MssgidCGalleryStruct(contentIdDomain.userId.toCyberName(), contentIdDomain.permlink),
@@ -309,7 +307,7 @@ constructor(
 
     override suspend fun downVote(contentIdDomain: ContentIdDomain) {
         val currentUser = currentUserRepository.userId.userId.toCyberName()
-        apiCallChain {
+        callProxy.callBC {
             commun4j.downVote(
                 communCode = CyberSymbolCode(contentIdDomain.communityId.code),
                 messageId = MssgidCGalleryStruct(contentIdDomain.userId.toCyberName(), contentIdDomain.permlink),
@@ -328,11 +326,11 @@ constructor(
         createOrUpdateDiscussion(params)
 
     override suspend fun getPost(user: CyberName, communityId: CommunityIdDomain, permlink: String): PostDomain {
-        val post = apiCall { commun4j.getPostRaw(user, communityId.code, permlink) }
+        val post = callProxy.call { commun4j.getPostRaw(user, communityId.code, permlink) }
 
         val contentIds = listOf(UserAndPermlinkPair(post.contentId.userId, post.contentId.permlink))
 
-        val rewards = apiCall {
+        val rewards = callProxy.call {
             commun4j.getStateBulk(contentIds) }
             .flatMap { it.value }
             .map { it.mapToRewardPostDomain()
@@ -358,7 +356,7 @@ constructor(
         val adapter = moshi.adapter(ListContentBlockEntity::class.java)
         val jsonBody = adapter.toJson(contentEntity)
         val author = currentUserRepository.userId.mapToCyberName()
-        val response = apiCallChain {
+        val response = callProxy.callBC {
             val metadata = DatesServerFormatter.formatToServer(Date())
             commun4j.createComment(
                 parentMssgId = MssgidCGalleryStruct(postIdDomain.userId.toCyberName(), postIdDomain.permlink),
@@ -397,7 +395,7 @@ constructor(
         val jsonBody = adapter.toJson(contentEntity)
         val author = currentUserRepository.userId.mapToCyberName()
         val communityId = parentCommentId.communityId
-        val response = apiCallChain {
+        val response = callProxy.callBC {
             val metadata = DatesServerFormatter.formatToServer(Date())
             commun4j.createComment(
                 parentMssgId = MssgidCGalleryStruct(parentCommentId.userId.toCyberName(), parentCommentId.permlink),

@@ -1,14 +1,11 @@
 package io.golos.data.repositories.discussion
 
-import android.content.Context
+import io.golos.commun4j.Commun4j
 import io.golos.commun4j.abi.implementation.c.gallery.CreateCGalleryStruct
 import io.golos.commun4j.abi.implementation.c.gallery.RemoveCGalleryStruct
 import io.golos.commun4j.abi.implementation.c.gallery.UpdateCGalleryStruct
 import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.data.api.transactions.TransactionsApi
-import io.golos.data.network_state.NetworkStateChecker
-import io.golos.data.repositories.RepositoryBase
-import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.dto.DiscussionCreationResultEntity
 import io.golos.domain.mappers.discussion_creation.request.DiscussionCreationRequestMapper
@@ -18,11 +15,8 @@ import io.golos.domain.mappers.discussion_creation.result.DiscussionUpdateResult
 import io.golos.domain.requestmodel.*
 
 abstract class DiscussionCreationRepositoryBase(
-    dispatchersProvider: DispatchersProvider,
     private val discussionsCreationApi: DiscussionsApi,
-    networkStateChecker: NetworkStateChecker,
-    private val transactionsApi: TransactionsApi
-): RepositoryBase(dispatchersProvider, networkStateChecker){
+    private val transactionsApi: TransactionsApi) {
     protected fun createOrUpdateDiscussion(params: DiscussionCreationRequestEntity): DiscussionCreationResultEntity {
             val request = DiscussionCreationRequestMapper.map(params)
             val apiAnswer = when (request) {

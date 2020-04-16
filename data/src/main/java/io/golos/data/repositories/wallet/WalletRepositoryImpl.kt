@@ -9,9 +9,7 @@ import io.golos.commun4j.sharedmodel.CyberSymbol
 import io.golos.commun4j.sharedmodel.CyberSymbolCode
 import io.golos.data.mappers.mapToWalletCommunityBalanceRecordDomain
 import io.golos.data.mappers.mapToWalletTransferHistoryRecordDomain
-import io.golos.data.network_state.NetworkStateChecker
-import io.golos.data.repositories.RepositoryBase
-import io.golos.domain.DispatchersProvider
+import io.golos.data.repositories.network_call.NetworkCallProxy
 import io.golos.domain.GlobalConstants
 import io.golos.domain.UserKeyStore
 import io.golos.domain.dto.*
@@ -22,19 +20,17 @@ import javax.inject.Inject
 class WalletRepositoryImpl
 @Inject
 constructor(
-    dispatchersProvider: DispatchersProvider,
-    networkStateChecker: NetworkStateChecker,
+    private val callProxy: NetworkCallProxy,
     private val currentUserRepository: CurrentUserRepository,
     private val commun4j: Commun4j,
     private val userKeyStore: UserKeyStore
-) : RepositoryBase(dispatchersProvider, networkStateChecker),
-    WalletRepository {
+) : WalletRepository {
 
     override suspend fun getBalance(): List<WalletCommunityBalanceRecordDomain> {
-        val callResult = apiCall { commun4j.getBalance(CyberName(currentUserRepository.userId.userId)) }
+        val callResult = callProxy.call { commun4j.getBalance(CyberName(currentUserRepository.userId.userId)) }
 
         if(callResult.all { it.symbol.value != GlobalConstants.COMMUN_CODE }) {
-            apiCallChain {
+            callProxy.callBC {
                 commun4j.openBalance(
                     symbol = CyberSymbol("4,CMN"),
                     ramPayer = CyberName(currentUserRepository.userId.userId),
@@ -49,7 +45,7 @@ constructor(
     }
 
     override suspend fun getTransferHistory(offset: Int, limit: Int, communityId: CommunityIdDomain): List<WalletTransferHistoryRecordDomain> =
-        apiCall {commun4j.getTransferHistory(
+        callProxy.call {commun4j.getTransferHistory(
             userId = CyberName(currentUserRepository.userId.userId),
             direction = TransferHistoryDirection.ALL,
             transferType = TransferHistoryTransferType.ALL,
@@ -62,7 +58,7 @@ constructor(
 
     override suspend fun sendToUser(toUser: UserIdDomain, amount: Double, communityId: CommunityIdDomain) {
         if(communityId.code != GlobalConstants.COMMUN_CODE) {
-            apiCallChain {
+            callProxy.callBC {
                 commun4j.transfer(
                     to = CyberName(toUser.userId),
                     amount = DoubleFormatter.formatToServerPoints(amount),
@@ -74,10 +70,10 @@ constructor(
                 )
             }
             .let {
-                apiCall { commun4j.waitForTransaction(it.transaction_id) }
+                callProxy.call { commun4j.waitForTransaction(it.transaction_id) }
             }
         } else {
-            apiCallChain {
+            callProxy.callBC {
                 commun4j.exchange(
                     to = CyberName(toUser.userId),
                     amount = DoubleFormatter.formatToServerTokens(amount),
@@ -89,7 +85,7 @@ constructor(
                 )
             }
             .let {
-                apiCall { commun4j.waitForTransaction(it.transaction_id) }
+                callProxy.call { commun4j.waitForTransaction(it.transaction_id) }
             }
         }
     }
@@ -97,7 +93,7 @@ constructor(
     override suspend fun convertPointsToCommun(amount: Double, communityId: CommunityIdDomain) {
         val amountAsString = DoubleFormatter.formatToServerPoints(amount)
 
-        apiCallChain {
+        callProxy.callBC {
             commun4j.transfer(
                 to = CyberName(GlobalConstants.C_POINT_USER_ID),
                 amount = amountAsString,
@@ -109,12 +105,12 @@ constructor(
             )
         }
         .let {
-            apiCall { commun4j.waitForTransaction(it.transaction_id) }
+            callProxy.call { commun4j.waitForTransaction(it.transaction_id) }
         }
     }
 
     override suspend fun convertCommunToPoints(amount: Double, communityId: CommunityIdDomain) {
-        apiCallChain {
+        callProxy.callBC {
             commun4j.exchange(
                 to = CyberName(GlobalConstants.C_POINT_USER_ID),
                 amount = DoubleFormatter.formatToServerTokens(amount),
@@ -126,7 +122,7 @@ constructor(
             )
         }
         .let {
-            apiCall { commun4j.waitForTransaction(it.transaction_id) }
+            callProxy.call { commun4j.waitForTransaction(it.transaction_id) }
         }
     }
 }

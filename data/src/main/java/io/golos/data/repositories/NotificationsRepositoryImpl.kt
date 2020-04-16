@@ -2,16 +2,14 @@ package io.golos.data.repositories
 
 import com.squareup.moshi.Moshi
 import io.golos.commun4j.Commun4j
-import io.golos.commun4j.services.model.UnsupportedNotification
 import io.golos.data.ServerMessageReceiver
 import io.golos.data.api.ApiMethods
 import io.golos.data.dto.NotificationsStatusEntity
 import io.golos.data.mappers.mapToNotificationDomain
-import io.golos.data.network_state.NetworkStateChecker
 import io.golos.data.persistence.key_value_storage.storages.shared_preferences.SharedPreferencesStorage
+import io.golos.data.repositories.network_call.NetworkCallProxy
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
-import io.golos.domain.dto.NotificationDomain
 import io.golos.domain.dto.NotificationsPageDomain
 import io.golos.domain.dto.NotificationsStatusDomain
 import io.golos.domain.repositories.CurrentUserRepository
@@ -30,18 +28,17 @@ import java.util.*
 import javax.inject.Inject
 
 @ApplicationScope
-class NotificationsRepositoryImpl @Inject constructor(
+class NotificationsRepositoryImpl
+@Inject
+constructor(
+    private val callProxy: NetworkCallProxy,
     private val dispatchersProvider: DispatchersProvider,
-    networkStateChecker: NetworkStateChecker,
     private val commun4j: Commun4j,
     private val currentUserRepository: CurrentUserRepository,
     private val sharedPreferencesStorage: SharedPreferencesStorage,
     private val serverMessageReceiver: ServerMessageReceiver,
     private val moshi: Moshi
-) : RepositoryCoroutineSupport(
-    dispatchersProvider,
-    networkStateChecker
-) , NotificationsRepository {
+) : RepositoryCoroutineSupport(dispatchersProvider), NotificationsRepository {
 
     private companion object{
         private const val PREF_UNREAD_NOTIFICATIONS_COUNT = "PREF_UNREAD_NOTIFICATIONS_COUNT"
@@ -70,13 +67,13 @@ class NotificationsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun subscribeOnNotificationsChanges() {
-        apiCall {
+        callProxy.call {
             commun4j.subscribeOnNotifications()
         }
     }
 
     override suspend fun unsubscribeOnNotificationsChanges() {
-        apiCall {
+        callProxy.call {
             commun4j.unSubscribeFromNotifications()
         }
     }
@@ -90,7 +87,7 @@ class NotificationsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun markAllNotificationAsViewed(untilDate: Date) {
-        apiCall { commun4j.markAllNotificationAsViewed(DatesServerFormatter.formatToServer(untilDate)) }
+        callProxy.call { commun4j.markAllNotificationAsViewed(DatesServerFormatter.formatToServer(untilDate)) }
         updateNewNotificationsCounter(untilDate)
     }
 
@@ -104,13 +101,13 @@ class NotificationsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getNewNotificationsCounter(): Int {
-        val unseenCount = apiCall { commun4j.getNotificationsStatus() }.unseenCount
+        val unseenCount = callProxy.call { commun4j.getNotificationsStatus() }.unseenCount
         saveNewNotificationCounter(unseenCount)
         return unseenCount
     }
 
     override suspend fun getNotifications(beforeThanDate: String?, limit: Int): NotificationsPageDomain {
-        val notificationsResponse = apiCall{ commun4j.getNotificationsSkipUnrecognized(limit, beforeThanDate) }
+        val notificationsResponse = callProxy.call{ commun4j.getNotificationsSkipUnrecognized(limit, beforeThanDate) }
 
         return if(notificationsResponse.items.isNotEmpty()) {
             val lastTimestamp = notificationsResponse.items.last().timestamp.let {

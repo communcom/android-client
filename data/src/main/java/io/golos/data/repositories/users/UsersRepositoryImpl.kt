@@ -7,8 +7,7 @@ import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.data.api.user.UsersApi
 import io.golos.domain.repositories.exceptions.ApiResponseErrorException
 import io.golos.data.mappers.*
-import io.golos.data.network_state.NetworkStateChecker
-import io.golos.data.repositories.RepositoryBase
+import io.golos.data.repositories.network_call.NetworkCallProxy
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.UserKeyStore
@@ -21,15 +20,14 @@ import javax.inject.Inject
 
 class UsersRepositoryImpl
 @Inject constructor(
+    private val callProxy: NetworkCallProxy,
     private val usersApi: UsersApi,
     private val dispatchersProvider: DispatchersProvider,
-    networkStateChecker: NetworkStateChecker,
     private val commun4j: Commun4j,
     private val currentUserRepository: CurrentUserRepository,
     private val userKeyStore: UserKeyStore,
     private val keyValueStorageFacade: KeyValueStorageFacade
-) : RepositoryBase(dispatchersProvider, networkStateChecker),
-    UsersRepository {
+) : UsersRepository {
 
     override suspend fun clearCurrentUserData() {
         keyValueStorageFacade.removeFtueState()
@@ -59,7 +57,7 @@ class UsersRepositoryImpl
     }
 
     override suspend fun subscribeToFollower(userId: UserIdDomain) {
-        apiCallChain { commun4j.pinUser(
+        callProxy.callBC { commun4j.pinUser(
             pinning = CyberName(userId.userId),
             pinner = CyberName(currentUserRepository.userId.userId),
             bandWidthRequest = BandWidthRequest.bandWidthFromComn,
@@ -69,7 +67,7 @@ class UsersRepositoryImpl
     }
 
     override suspend fun unsubscribeToFollower(userId: UserIdDomain) {
-        apiCallChain {
+        callProxy.callBC {
             commun4j.unpinUser(
                 unpinning = CyberName(userId.userId),
                 pinner = CyberName(currentUserRepository.userId.userId),
@@ -81,10 +79,10 @@ class UsersRepositoryImpl
 
     override suspend fun getUserProfile(userId: UserIdDomain): UserProfileDomain =
         try {
-            apiCall { commun4j.getUserProfile(CyberName(userId.userId), null) }.mapToUserProfileDomain()
+            callProxy.call { commun4j.getUserProfile(CyberName(userId.userId), null) }.mapToUserProfileDomain()
         } catch (ex: ApiResponseErrorException) {
             if(ex.errorInfo.code == 404L) {
-                apiCall { commun4j.getUserProfile(null, userId.userId) }.mapToUserProfileDomain()
+                callProxy.call { commun4j.getUserProfile(null, userId.userId) }.mapToUserProfileDomain()
             } else {
                 throw  ex
             }
@@ -92,17 +90,17 @@ class UsersRepositoryImpl
 
     override suspend fun getUserProfile(userName: String): UserProfileDomain =
         try {
-            apiCall { commun4j.getUserProfile(null, userName) }.mapToUserProfileDomain()
+            callProxy.call { commun4j.getUserProfile(null, userName) }.mapToUserProfileDomain()
         } catch (ex: ApiResponseErrorException) {
             if(ex.errorInfo.code == 404L) {
-                apiCall { commun4j.getUserProfile(CyberName(userName), null) }.mapToUserProfileDomain()
+                callProxy.call { commun4j.getUserProfile(CyberName(userName), null) }.mapToUserProfileDomain()
             } else {
                 throw  ex
             }
         }
 
     override suspend fun getUserFollowers(userId: UserIdDomain, offset: Int, pageSizeLimit: Int): List<FollowingUserDomain> {
-        return apiCall {
+        return callProxy.call {
             commun4j.getSubscribers(
                 CyberName(userId.userId),
                 null,
@@ -113,14 +111,14 @@ class UsersRepositoryImpl
     }
 
     override suspend fun getUserFollowing(userId: UserIdDomain, offset: Int, pageSizeLimit: Int): List<FollowingUserDomain> =
-        apiCall { commun4j.getUserSubscriptions(CyberName(userId.userId), pageSizeLimit, offset) }.items.map { it.mapToFollowingUserDomain() }
+        callProxy.call { commun4j.getUserSubscriptions(CyberName(userId.userId), pageSizeLimit, offset) }.items.map { it.mapToFollowingUserDomain() }
 
     /**
      * Update cover of current user profile
      * @return url of a cover
      */
     override suspend fun updateCover(coverFile: File): String =
-        apiCallChain { commun4j.uploadImage(coverFile) }
+        callProxy.callBC { commun4j.uploadImage(coverFile) }
             .also { url -> updateCurrentUserMetadata { it.copy(coverUrl = url) } }
 
     /**
@@ -128,7 +126,7 @@ class UsersRepositoryImpl
      * @return url of an avatar
      */
     override suspend fun updateAvatar(avatarFile: File): String =
-        apiCallChain { commun4j.uploadImage(avatarFile) }
+        callProxy.callBC { commun4j.uploadImage(avatarFile) }
             .also { url -> updateCurrentUserMetadata { it.copy(avatarUrl = url) } }
             .also {
                 currentUserRepository.userAvatarUrl = it
@@ -168,10 +166,10 @@ class UsersRepositoryImpl
     }
 
     override suspend fun getUsersInBlackList(offset: Int, pageSize: Int, userId: UserIdDomain): List<UserDomain> =
-        apiCall { commun4j.getBlacklistedUsers(CyberName(userId.userId)) }.items.map { it.mapToUserDomain() }
+        callProxy.call { commun4j.getBlacklistedUsers(CyberName(userId.userId)) }.items.map { it.mapToUserDomain() }
 
     override suspend fun moveUserToBlackList(userId: UserIdDomain) {
-        apiCallChain {
+        callProxy.callBC {
             commun4j.block(
                 blocking = CyberName(userId.userId),
                 blocker = CyberName(currentUserRepository.userId.userId),
@@ -182,7 +180,7 @@ class UsersRepositoryImpl
     }
 
     override suspend fun moveUserFromBlackList(userId: UserIdDomain) {
-        apiCallChain {
+        callProxy.callBC {
             commun4j.unBlock(
                 blocking = CyberName(userId.userId),
                 blocker = CyberName(currentUserRepository.userId.userId),
@@ -208,7 +206,7 @@ class UsersRepositoryImpl
                 key = userKeyStore.getKey(UserKeyType.ACTIVE))
         )
             .let {
-                apiCallChain {
+                callProxy.callBC {
                     commun4j.updateUserMetadata(
                         avatarUrl = it.avatarUrl,
                         coverUrl = it.coverUrl,

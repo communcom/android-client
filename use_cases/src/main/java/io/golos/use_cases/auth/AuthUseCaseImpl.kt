@@ -87,6 +87,7 @@ constructor(
     }
 
     private suspend fun processAuth(userName: String, privateActiveKey: String): AuthResultDomain {
+        Timber.tag("PRIVATE_ACTIVE_KEY").d(privateActiveKey)
         val authSecret = authRepository.getAuthSecret()
         return authRepository.auth(userName, authSecret, StringSigner.signString(authSecret, privateActiveKey))
     }

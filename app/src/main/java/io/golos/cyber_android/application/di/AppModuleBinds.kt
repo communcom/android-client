@@ -56,6 +56,8 @@ import io.golos.data.repositories.embed.EmbedRepositoryImpl
 import io.golos.data.repositories.images_uploading.ImageUploadRepository
 import io.golos.data.repositories.images_uploading.ImageUploadRepositoryImpl
 import io.golos.data.repositories.images_uploading.ImageUploadRepositoryLiveData
+import io.golos.data.repositories.network_call.NetworkCallProxy
+import io.golos.data.repositories.network_call.NetworkCallProxyImpl
 import io.golos.data.repositories.settings.SettingsRepository
 import io.golos.data.repositories.settings.SettingsRepositoryImpl
 import io.golos.domain.SignUpTokensRepository
@@ -312,9 +314,11 @@ abstract class AppModuleBinds {
     abstract fun provideNetworkStateChecker(checker: NetworkStateCheckerImpl): NetworkStateChecker
 
     @Binds
+    abstract fun provideNetworkCallProxy(proxy: NetworkCallProxyImpl): NetworkCallProxy
+
+    @Binds
     @ApplicationScope
     abstract fun provideServerMessageReceiver(receiver: ServerMessageReceiverImpl): ServerMessageReceiver
-
     @Binds
     @ApplicationScope
     abstract fun provideFirebaseNotificationPopupManager(manager: FirebaseNotificationPopupManagerImpl): FirebaseNotificationPopupManager

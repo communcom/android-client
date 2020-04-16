@@ -5,8 +5,7 @@ import io.golos.commun4j.services.model.*
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.data.mappers.mapToAuthResultDomain
 import io.golos.data.mappers.mapToBCProfileDomain
-import io.golos.data.network_state.NetworkStateChecker
-import io.golos.domain.DispatchersProvider
+import io.golos.data.repositories.network_call.NetworkCallProxy
 import io.golos.domain.dto.AuthResultDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.dto.bc_profile.BCProfileDomain
@@ -16,25 +15,23 @@ import javax.inject.Inject
 
 class AuthRepositoryImpl
 @Inject constructor(
-    dispatchersProvider: DispatchersProvider,
-    networkStateChecker: NetworkStateChecker,
+    private val callProxy: NetworkCallProxy,
     private val commun4j: Commun4j
-) : RepositoryBase(dispatchersProvider, networkStateChecker),
-    AuthRepository {
+) : AuthRepository {
 
     override suspend fun auth(userName: String, secret: String, signedSecret: String): AuthResultDomain =
-        apiCall {
+        callProxy.call {
             Timber.tag("NET_SOCKET").d("AuthRepositoryImpl::auth(userName = $userName, secret = $secret, signedSecret = $signedSecret)")
             commun4j.authWithSecret(userName, secret, signedSecret)
         }.mapToAuthResultDomain()
 
-    override suspend fun getAuthSecret(): String = apiCall {
+    override suspend fun getAuthSecret(): String = callProxy.call {
         Timber.tag("NET_SOCKET").d("AuthRepositoryImpl::getAuthSecret()")
         commun4j.getAuthSecret()
     }.secret
 
     override suspend fun getUserBlockChainProfile(userId: UserIdDomain): BCProfileDomain =
-        apiCallChain {
+        callProxy.callBC {
             Timber.tag("NET_SOCKET").d("AuthRepositoryImpl::getUserBlockChainProfile(userId = $userId)")
             commun4j.getUserAccount(CyberName(userId.userId))
         }.mapToBCProfileDomain()
@@ -46,7 +43,7 @@ class AuthRepositoryImpl
         userName: String,
         owner: String,
         active: String): Boolean =
-        apiCall {
+        callProxy.call {
             Timber.tag("NET_SOCKET").d("AuthRepositoryImpl::writeUserToBlockChain(phone = $phone, identity = $identity, userId = $userId, userName = $userName, owner = $owner, active = $active)")
             commun4j.writeUserToBlockChain(
                 phone = phone,
@@ -58,31 +55,31 @@ class AuthRepositoryImpl
                 email = null) }.currentState == UserRegistrationState.REGISTERED
 
     override suspend fun getRegistrationState(phone: String?, identity: String?): UserRegistrationStateResult =
-        apiCall {
+        callProxy.call {
             Timber.tag("NET_SOCKET").d("AuthRepositoryImpl::getRegistrationState(phone = $phone, identity = $identity)")
             commun4j.getRegistrationState(phone = phone, identity = identity)
         }
 
     override suspend fun firstUserRegistrationStep(captcha: String, phone: String): FirstRegistrationStepResult =
-        apiCall {
+        callProxy.call {
             Timber.tag("NET_SOCKET").d("AuthRepositoryImpl::firstUserRegistrationStep(phone = $phone)")
             commun4j.firstUserRegistrationStep(captcha = captcha, phone = phone, testingPass = null, captchaType = "android")
         }
 
     override suspend fun verifyPhoneForUserRegistration(phone: String, code: Int): VerifyStepResult =
-        apiCall {
+        callProxy.call {
             Timber.tag("NET_SOCKET").d("AuthRepositoryImpl::verifyPhoneForUserRegistration(phone = $phone, code = $code)")
             commun4j.verifyPhoneForUserRegistration(phone, code)
         }
 
     override suspend fun setVerifiedUserName(user: String, phone: String?, identity: String?): SetUserNameStepResult =
-        apiCall {
+        callProxy.call {
             Timber.tag("NET_SOCKET").d("AuthRepositoryImpl::setVerifiedUserName(user = $user, phone = $phone, identity = $identity)")
             commun4j.setVerifiedUserName(user = user, phone = phone, identity = identity)
         }
 
     override suspend fun resendSmsCode(phone: String) {
-        apiCall {
+        callProxy.call {
             Timber.tag("NET_SOCKET").d("AuthRepositoryImpl::resendSmsCode(phone = $phone)")
             commun4j.resendSmsCode(phone)
         }
