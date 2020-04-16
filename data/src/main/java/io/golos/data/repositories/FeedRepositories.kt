@@ -2,23 +2,21 @@ package io.golos.data.repositories
 
 import io.golos.commun4j.model.CyberDiscussionRaw
 import io.golos.commun4j.model.GetDiscussionsResultRaw
-import io.golos.commun4j.services.model.FeedSort
-import io.golos.commun4j.services.model.FeedTimeFrame
-import io.golos.commun4j.sharedmodel.CyberName
-import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.dto.*
-import io.golos.domain.use_cases.model.FeedTimeFrameOption
-import io.golos.domain.mappers.CyberCommentToEntityMapper
 import io.golos.domain.mappers.CyberCommentsToEntityMapper
 import io.golos.domain.mappers.CyberFeedToEntityMapper
 import io.golos.domain.mappers.CyberPostToEntityMapper
-import io.golos.domain.requestmodel.*
+import io.golos.domain.requestmodel.CommentFeedUpdateRequest
+import io.golos.domain.requestmodel.CommentsOfApPostUpdateRequest
+import io.golos.domain.requestmodel.CommunityFeedUpdateRequest
+import io.golos.domain.requestmodel.PostFeedUpdateRequest
 import io.golos.domain.rules.EmptyEntityProducer
 import io.golos.domain.rules.EntityMerger
 import io.golos.domain.rules.RequestApprover
+import io.golos.domain.use_cases.model.FeedTimeFrameOption
 import javax.inject.Inject
 
 /**
@@ -28,7 +26,7 @@ import javax.inject.Inject
 class PostsFeedRepository
 @Inject
 constructor(
-    private val apiService: DiscussionsApi,
+//    private val apiService: DiscussionsApi,
     feedMapper: CyberFeedToEntityMapper,
     postMapper: CyberPostToEntityMapper,
     postMerger: EntityMerger<PostEntity>,
@@ -57,27 +55,7 @@ constructor(
     }
 
     override suspend fun getFeedOnBackground(updateRequest: PostFeedUpdateRequest): GetDiscussionsResultRaw {
-        return when (updateRequest) {
-            is CommunityFeedUpdateRequest -> apiService.getCommunityPosts(
-                updateRequest.communityId,
-                updateRequest.limit,
-                updateRequest.sort.toDiscussionSort(),
-                updateRequest.timeFrameOption.toFeedTimeFrame(),
-                updateRequest.sequenceKey
-            )
-            is UserSubscriptionsFeedUpdateRequest -> apiService.getUserSubscriptions(
-                updateRequest.userId,
-                updateRequest.limit,
-                updateRequest.sort.toDiscussionSort(),
-                updateRequest.sequenceKey
-            )
-            is UserPostsUpdateRequest -> apiService.getUserPost(
-                updateRequest.userId,
-                updateRequest.limit,
-                updateRequest.sort.toDiscussionSort(),
-                updateRequest.sequenceKey
-            )
-        }
+        throw UnsupportedOperationException("")
     }
 
     override val allDataRequest: PostFeedUpdateRequest =
@@ -88,16 +66,13 @@ constructor(
 class CommentsFeedRepository
 @Inject
 constructor(
-    private val apiService: DiscussionsApi,
     feedMapper: CyberCommentsToEntityMapper,
-    postMapper: CyberCommentToEntityMapper,
     postMerger: EntityMerger<CommentEntity>,
     feedMerger: EntityMerger<FeedRelatedData<CommentEntity>>,
     approver: RequestApprover<CommentFeedUpdateRequest>,
     emptyFeedProducer: EmptyEntityProducer<FeedEntity<CommentEntity>>,
     dispatchersProvider: DispatchersProvider
-) :
-    AbstractDiscussionsRepository<CommentEntity, CommentFeedUpdateRequest>(
+) : AbstractDiscussionsRepository<CommentEntity, CommentFeedUpdateRequest>(
         feedMapper,
         null/*postMapper*/,
         postMerger,
@@ -109,90 +84,16 @@ constructor(
 
     override suspend fun getDiscussionItem(params: DiscussionIdEntity): CyberDiscussionRaw {
         throw UnsupportedOperationException("")
-        //return apiService.getComment(CyberName(params.userId), params.permlink)
     }
 
     override fun fixOnPositionDiscussion(discussion: CommentEntity, parent: DiscussionIdEntity) {
-
-
-        val commentsToAPosts = discussionsFeedMap
-            .filterKeys { id -> id is CommentsOfApPostUpdateRequest.Id }
-            .mapKeys { mapEntry ->
-                mapEntry.key as CommentsOfApPostUpdateRequest.Id
-            }
-
-        commentsToAPosts.filter { mapEntry ->
-            mapEntry.key._permlink == parent.permlink
-                    && mapEntry.key._user == parent.userId
-        }
-            .onEach {
-                fixedDiscussions[it.key] = (fixedDiscussions[it.key] ?: emptySet()).toMutableSet().apply {
-                    add(discussion)
-                }
-
-            }
-            .values
-            .forEach { mutableLiveData ->
-                val commentsFeed = mutableLiveData.value ?: return@forEach
-
-                mutableLiveData.value = commentsFeed.copy(
-                    discussions = listOf(discussion) + commentsFeed.discussions
-                )
-            }
-
-
-        commentsToAPosts
-            .filter { mapEntry ->
-                mapEntry.value.value?.discussions.orEmpty().any { comment ->
-                    comment.contentId == parent
-                }
-            }
-            .onEach {
-                fixedDiscussions[it.key] = (fixedDiscussions[it.key] ?: emptySet()).toMutableSet().apply {
-                    add(discussion)
-                }
-            }
-            .values
-            .forEach { commentsLiveData ->
-                val commentsFeed = commentsLiveData.value ?: return@forEach
-                val commentsList = commentsFeed.discussions.toMutableList()
-                when (val parentCommentPosition = commentsList.indexOfLast { it.contentId == parent }) {
-                    -1 -> return@forEach
-                    commentsList.lastIndex -> commentsList.add(discussion)
-                    else -> commentsList.add(parentCommentPosition + 1, discussion)
-                }
-
-                commentsLiveData.value = commentsFeed.copy(discussions = commentsList)
-            }
-
+        throw UnsupportedOperationException("")
     }
 
     override suspend fun getFeedOnBackground(updateRequest: CommentFeedUpdateRequest): GetDiscussionsResultRaw {
-        return when (updateRequest) {
-            is CommentsOfApPostUpdateRequest -> apiService.getCommentsOfPost(
-                CyberName(updateRequest.user),
-                updateRequest.permlink,
-                updateRequest.limit,
-                updateRequest.sort.toDiscussionSort(),
-                updateRequest.sequenceKey
-            )
-        }
+        throw UnsupportedOperationException("")
     }
 
     override val allDataRequest: CommentFeedUpdateRequest =
         CommentsOfApPostUpdateRequest("stub", Permlink("stub"), 0, DiscussionsSort.FROM_NEW_TO_OLD, "stub")
-}
-
-internal fun DiscussionsSort.toDiscussionSort() = when (this) {
-    DiscussionsSort.FROM_OLD_TO_NEW -> FeedSort.SEQUENTIALLY
-    DiscussionsSort.FROM_NEW_TO_OLD -> FeedSort.INVERTED
-    DiscussionsSort.POPULAR -> FeedSort.POPULAR
-}
-
-internal fun FeedTimeFrameOption.toFeedTimeFrame() = when (this) {
-    FeedTimeFrameOption.DAY -> FeedTimeFrame.DAY
-    FeedTimeFrameOption.WEEK -> FeedTimeFrame.WEEK
-    FeedTimeFrameOption.MONTH -> FeedTimeFrame.MONTH
-    FeedTimeFrameOption.YEAR -> FeedTimeFrame.YEAR
-    FeedTimeFrameOption.ALL -> FeedTimeFrame.ALL
 }

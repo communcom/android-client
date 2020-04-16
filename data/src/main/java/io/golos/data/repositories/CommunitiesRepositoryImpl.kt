@@ -6,7 +6,6 @@ import io.golos.commun4j.model.ClientAuthRequest
 import io.golos.commun4j.services.model.CommunitiesRequestType
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.sharedmodel.CyberSymbolCode
-import io.golos.data.api.communities.CommunitiesApi
 import io.golos.data.mappers.*
 import io.golos.data.repositories.network_call.NetworkCallProxy
 import io.golos.domain.DispatchersProvider
@@ -16,13 +15,14 @@ import io.golos.domain.dto.*
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.community.CommunitiesRepository
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 class CommunitiesRepositoryImpl
 @Inject
 constructor(
     private val callProxy: NetworkCallProxy,
-    private val communitiesApi: CommunitiesApi,
+//    private val communitiesApi: CommunitiesApi,
     private val dispatchersProvider: DispatchersProvider,
     private val commun4j: Commun4j,
     private val currentUserRepository: CurrentUserRepositoryRead,
@@ -42,13 +42,14 @@ constructor(
 
     override suspend fun sendCommunitiesCollection(communityIds: List<String>) {
         callProxy.call{
+            Timber.tag("NET_SOCKET").d("CommunitiesRepositoryImpl::sendCommunitiesCollection(...)")
             commun4j.onBoardingCommunitySubscriptions(CyberName(currentUserRepository.userId.userId), communityIds)
         }
     }
 
     override suspend fun getCommunityById(communityId: CommunityIdDomain): CommunityPageDomain {
+        Timber.tag("NET_SOCKET").d("CommunitiesRepositoryImpl::getCommunityById(...)")
         val community = callProxy.call { commun4j.getCommunity(communityId.code, null) }
-
         val leads = callProxy.call { commun4j.getLeaders(community.communityId, 50, 0) }.items.map { it.userId }
         return community.mapToCommunityPageDomain(leads)
     }
@@ -81,15 +82,17 @@ constructor(
     }
 
     override suspend fun getCommunitiesByQuery(query: String?, offset: Int, pageLimitSize: Int): List<CommunityDomain> {
-        return withContext(dispatchersProvider.ioDispatcher) {
-            communitiesApi.getCommunitiesByQuery(query, offset, pageLimitSize)
-        }
+        throw UnsupportedOperationException("")
+//        return withContext(dispatchersProvider.ioDispatcher) {
+//            communitiesApi.getCommunitiesByQuery(query, offset, pageLimitSize)
+//        }
     }
 
     override suspend fun getRecommendedCommunities(offset: Int, pageLimitSize: Int): List<CommunityDomain> {
-        return withContext(dispatchersProvider.ioDispatcher) {
-            communitiesApi.getRecommendedCommunities(offset, pageLimitSize)
-        }
+        throw UnsupportedOperationException("")
+//        return withContext(dispatchersProvider.ioDispatcher) {
+//            communitiesApi.getRecommendedCommunities(offset, pageLimitSize)
+//        }
     }
 
     override suspend fun getCommunitiesList(

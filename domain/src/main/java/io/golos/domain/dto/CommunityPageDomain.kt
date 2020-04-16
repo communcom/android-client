@@ -8,7 +8,7 @@ data class CommunityPageDomain(
     val avatarUrl: String?,
     val coverUrl: String?,
     val description: String?,
-    val rules: String?,
+    val rules: List<CommunityRuleDomain>,
     val isSubscribed: Boolean,
     val isBlocked: Boolean,
     val friendsCount: Int,

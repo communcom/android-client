@@ -354,7 +354,7 @@ class DependencyInjectionStorage(private val app: Application) {
             CommunityPageRulesFragmentComponent::class ->
                 getBase<UIComponent>()
                     .communityPageRulesFragment
-                    .init(CommunityPageRulesFragmentModule(args[0] as String))
+                    .init(CommunityPageRulesFragmentModule(args[0] as List<CommunityRuleDomain>))
                     .build()
 
             CommunityPageAboutFragmentComponent::class ->

@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.screens.community_page.dto
 
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.CommunityRuleDomain
 import java.util.*
 
 data class CommunityPage(
@@ -9,7 +10,7 @@ data class CommunityPage(
     val avatarUrl: String?,
     val coverUrl: String?,
     val description: String?,
-    val rules: String?,
+    val rules: List<CommunityRuleDomain>,
     var isSubscribed: Boolean,
     val isBlocked: Boolean,
     val friendsCount: Int,

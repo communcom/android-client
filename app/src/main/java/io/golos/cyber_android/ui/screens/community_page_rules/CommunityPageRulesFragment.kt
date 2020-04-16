@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.ui.screens.community_page_rules.di.CommunityPageRulesFragmentComponent
 import io.golos.cyber_android.databinding.FragmentCommunityPageRulesBinding
+import io.golos.cyber_android.ui.screens.community_page_rules.di.CommunityPageRulesFragmentComponent
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
+import io.golos.domain.dto.CommunityRuleDomain
 import kotlinx.android.synthetic.main.fragment_community_page_rules.*
 
 class CommunityPageRulesFragment :
@@ -31,27 +31,28 @@ class CommunityPageRulesFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.communityPageRulesLiveData.observe(this, Observer {
-            if (TextUtils.isEmpty(it)) {
+        viewModel.communityPageRulesLiveData.observe({ viewLifecycleOwner.lifecycle }) {
+            // List<CommunityRuleDomain>
+//            if (TextUtils.isEmpty(it)) {
                 tvRules.text = getString(R.string.missing_description)
-            } else {
-                tvRules.text = it
-            }
-        })
+//            } else {
+//                tvRules.text = it
+//            }
+        }
         viewModel.start()
     }
 
-    private fun getRules(): String? {
-        return arguments!!.getString(ARG_RULES)
+    private fun getRules(): List<CommunityRuleDomain> {
+        return arguments!!.getParcelableArray(ARG_RULES)!!.map { it as CommunityRuleDomain } .toList()
     }
 
     companion object {
 
         private const val ARG_RULES = "ARG_RULES"
 
-        fun newInstance(description: String?): Fragment {
+        fun newInstance(description: List<CommunityRuleDomain>): Fragment {
             val bundle = Bundle()
-            bundle.putString(ARG_RULES, description)
+            bundle.putParcelableArray(ARG_RULES, description.toTypedArray())
             val communityPageRulesFragment = CommunityPageRulesFragment()
             communityPageRulesFragment.arguments = bundle
             return communityPageRulesFragment

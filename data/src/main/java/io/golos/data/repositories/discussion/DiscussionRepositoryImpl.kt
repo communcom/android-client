@@ -11,7 +11,6 @@ import io.golos.commun4j.services.model.CommentsSortBy
 import io.golos.commun4j.services.model.UserAndPermlinkPair
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.sharedmodel.CyberSymbolCode
-import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.data.api.transactions.TransactionsApi
 import io.golos.data.mappers.*
 import io.golos.data.repositories.network_call.NetworkCallProxy
@@ -41,7 +40,7 @@ class DiscussionRepositoryImpl
 constructor(
     private val callProxy: NetworkCallProxy,
     private val dispatchersProvider: DispatchersProvider,
-    private val discussionsApi: DiscussionsApi,
+//    private val discussionsApi: DiscussionsApi,
     private val postToEntityMapper: CyberPostToEntityMapper,
     private val postToModelMapper: PostEntitiesToModelMapper,
     private val currentUserRepository: CurrentUserRepositoryRead,
@@ -50,7 +49,7 @@ constructor(
     private val userKeyStore: UserKeyStore,
     private val moshi: Moshi
 ) : DiscussionCreationRepositoryBase(
-    discussionsApi,
+//    discussionsApi,
     transactionsApi
 ), DiscussionRepository {
 
@@ -340,9 +339,10 @@ constructor(
     }
 
     override fun getPost(user: CyberName, permlink: Permlink): PostModel {
-        return discussionsApi.getPost(user, permlink)
-            .let { rawPost -> postToEntityMapper.map(rawPost) }
-            .let { postEntity -> postToModelMapper.map(postEntity) }
+        throw UnsupportedOperationException("")
+//        return discussionsApi.getPost(user, permlink)
+//            .let { rawPost -> postToEntityMapper.map(rawPost) }
+//            .let { postEntity -> postToModelMapper.map(postEntity) }
     }
 
     @Deprecated("")

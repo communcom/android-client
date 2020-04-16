@@ -17,10 +17,6 @@ import io.golos.cyber_android.ui.shared.utils.HtmlToSpannableTransformerImpl
 import io.golos.cyber_android.ui.shared.utils.ImageCompressorImpl
 import io.golos.data.ServerMessageReceiver
 import io.golos.data.api.ServerMessageReceiverImpl
-import io.golos.data.api.communities.CommunitiesApi
-import io.golos.data.api.communities.CommunitiesApiImpl
-import io.golos.data.api.discussions.DiscussionsApi
-import io.golos.data.api.discussions.DiscussionsApiImpl
 import io.golos.data.api.events.EventsApi
 import io.golos.data.api.events.EventsApiImpl
 import io.golos.data.api.image_upload.ImageUploadApi
@@ -157,12 +153,6 @@ abstract class AppModuleBinds {
     @Binds
     abstract fun provideEventsApprover(approver: EventsApprover): RequestApprover<EventsFeedUpdateRequest>
     // endregion
-
-    @Binds
-    abstract fun provideCommunitiesApi(api: CommunitiesApiImpl): CommunitiesApi
-
-    @Binds
-    abstract fun provideDiscussionsApi(api: DiscussionsApiImpl): DiscussionsApi
 
     @Binds
     abstract fun provideEventsApi(api: EventsApiImpl): EventsApi

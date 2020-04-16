@@ -3,11 +3,9 @@ package io.golos.data.repositories.discussion.live_data
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.commun4j.Commun4j
-import io.golos.data.api.discussions.DiscussionsApi
 import io.golos.data.api.transactions.TransactionsApi
 import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.data.repositories.discussion.DiscussionCreationRepositoryBase
-import io.golos.data.repositories.network_call.NetworkCallProxy
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.repositories.Repository
@@ -28,14 +26,14 @@ import kotlin.collections.HashMap
 class DiscussionCreationRepositoryLiveData
 @Inject
 constructor(
-    private val callProxy: NetworkCallProxy,
-    discussionsCreationApi: DiscussionsApi,
+//    private val callProxy: NetworkCallProxy,
+//    discussionsCreationApi: DiscussionsApi,
     transactionsApi: TransactionsApi,
     private val dispatchersProvider: DispatchersProvider,
     private val toAppErrorMapper: CyberToAppErrorMapper,
     private val commun4j: Commun4j
 ) : DiscussionCreationRepositoryBase(
-    discussionsCreationApi,
+//    discussionsCreationApi,
     transactionsApi
 ), Repository<DiscussionCreationResultEntity, DiscussionCreationRequestEntity> {
 
