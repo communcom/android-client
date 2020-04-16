@@ -27,11 +27,10 @@ fun GetCommunitiesItem.mapToCommunityPageDomain(leaders: List<CyberName>): Commu
         avatarUrl = avatarUrl,
         coverUrl = coverUrl,
         description = description,
-        rules = rules?.filter { !it.text.isNullOrBlank() || !it.title.isNullOrBlank() }?.let {
-            it.mapIndexed { index, communityRuleItem ->
-                CommunityRuleDomain(index, communityRuleItem.title, communityRuleItem.text)
-            }
-        } ?: listOf() ,
+        rules = rules
+            ?.filter { !it.text.isNullOrBlank() || !it.title.isNullOrBlank() }
+            ?.map { CommunityRuleDomain(it.title, it.text) }
+            ?: listOf() ,
         isSubscribed = isSubscribed ?: false,
         isBlocked = isBlocked ?: true,
         friendsCount = friendsCount ?: 0,

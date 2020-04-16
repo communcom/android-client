@@ -1,7 +1,6 @@
 package io.golos.cyber_android.ui.screens.community_page_rules
 
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.View
 import androidx.fragment.app.Fragment
 import io.golos.cyber_android.R
@@ -9,6 +8,7 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentCommunityPageRulesBinding
 import io.golos.cyber_android.ui.screens.community_page_rules.di.CommunityPageRulesFragmentComponent
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.shared.widgets.rules_card.RulesCardItem
 import io.golos.domain.dto.CommunityRuleDomain
 import kotlinx.android.synthetic.main.fragment_community_page_rules.*
 
@@ -32,12 +32,7 @@ class CommunityPageRulesFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.communityPageRulesLiveData.observe({ viewLifecycleOwner.lifecycle }) {
-            // List<CommunityRuleDomain>
-//            if (TextUtils.isEmpty(it)) {
-                tvRules.text = getString(R.string.missing_description)
-//            } else {
-//                tvRules.text = it
-//            }
+            rulesCardList.setData(it.map { item ->  RulesCardItem(item.title, item.text)})
         }
         viewModel.start()
     }

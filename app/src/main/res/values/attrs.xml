@@ -58,4 +58,12 @@
     <declare-styleable name="HeaderWidget">
         <attr name="title" format="string" />
     </declare-styleable>
+
+    <declare-styleable name="RulesCardList">
+        <attr name="card_margin_top" format="dimension"/>
+        <attr name="card_margin_bottom" format="dimension"/>
+        <attr name="card_margin_start" format="dimension"/>
+        <attr name="card_margin_end" format="dimension"/>
+        <attr name="card_corner_radius" format="dimension"/>
+    </declare-styleable>
 </resources>
