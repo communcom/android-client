@@ -5,13 +5,13 @@ import io.golos.commun4j.http.rpc.model.ApiResponseError
 import io.golos.commun4j.sharedmodel.Either
 import io.golos.commun4j.sharedmodel.GolosEosError
 import io.golos.commun4j.utils.StringSigner
-import io.golos.data.exceptions.ApiResponseErrorException
 import io.golos.data.mappers.mapToApiResponseErrorDomain
 import io.golos.data.network_state.NetworkStateChecker
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.UserKeyStore
 import io.golos.domain.dto.UserKeyType
+import io.golos.domain.repositories.exceptions.ApiResponseErrorException
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.net.SocketTimeoutException
