@@ -59,6 +59,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
             app:wallet_convert_bottom_point_info = "@{viewModel.pointInfo}"
             app:wallet_convert_bottom_input_info = "@{viewModel.inputFieldInfo}"
             app:wallet_convert_bottom_button_info = "@{viewModel.convertButtonInfo}"
+            app:wallet_convert_bottom_error_info = "@{viewModel.errorLabelInfo}"
             app:wallet_convert_bottom_sell_field = "@{viewModel.sellInputField}"
             app:wallet_convert_bottom_buy_field = "@{viewModel.buyInputField}"
         />

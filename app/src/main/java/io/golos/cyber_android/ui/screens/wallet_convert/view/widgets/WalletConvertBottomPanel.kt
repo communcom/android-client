@@ -7,6 +7,7 @@ import android.widget.EditText
 import androidx.constraintlayout.widget.ConstraintLayout
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.wallet_convert.dto.ConvertButtonInfo
+import io.golos.cyber_android.ui.screens.wallet_convert.dto.ErrorLabelInfo
 import io.golos.cyber_android.ui.screens.wallet_convert.dto.InputFieldsInfo
 import io.golos.cyber_android.ui.screens.wallet_convert.dto.PointInfo
 import io.golos.utils.getFormattedString
@@ -124,6 +125,11 @@ constructor(
     fun setConvertButtonInfo(convertButtonInfo: ConvertButtonInfo) {
         sendButton.text = convertButtonInfo.text
         sendButton.isEnabled = convertButtonInfo.isEnabled
+    }
+
+    fun setErrorLabelInfo(errorLabelInfo: ErrorLabelInfo) {
+        errorLabel.text = errorLabelInfo.errorText
+        errorLabel.visibility = if(errorLabelInfo.isVisible)  View.VISIBLE else View.INVISIBLE
     }
 
     fun setOnSelectPointClickListener(listener: (() -> Unit)?) {

@@ -41,6 +41,8 @@
     <string name="common_captcha_error">Can\'t receive a captcha</string>
     <string name="common_error_operation_canceled">The operation has been canceled</string>
     <string name="common_error_account_registered">Account already registered</string>
+    <string name="common_error_invalid_value">Invalid value</string>
+    <string name="wallet_error_no_points">Insufficient funds: you have no points</string>
     <string name="export_general_error">An error occurred during the export process.</string>
     <string name="phone_already_taken_error">Name is already registered</string>
     <string name="name_already_taken_error">Name is already in use</string>

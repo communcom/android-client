@@ -4,6 +4,7 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import io.golos.cyber_android.ui.screens.wallet_convert.dto.ConvertButtonInfo
+import io.golos.cyber_android.ui.screens.wallet_convert.dto.ErrorLabelInfo
 import io.golos.cyber_android.ui.screens.wallet_convert.dto.InputFieldsInfo
 import io.golos.cyber_android.ui.screens.wallet_convert.dto.PointInfo
 import io.golos.cyber_android.ui.shared.extensions.parentActivity
@@ -31,6 +32,15 @@ fun setWalletConvertBottomPanelConvertButtonInfo(view: WalletConvertBottomPanel,
     valueToBind?.let { liveValue ->
         view.parentActivity?.let { activity ->
             liveValue.observe(activity, Observer { view.setConvertButtonInfo(it) })
+        }
+    }
+}
+
+@BindingAdapter("wallet_convert_bottom_error_info")
+fun setWalletConvertBottomPanelErrorInfo(view: WalletConvertBottomPanel, valueToBind: LiveData<ErrorLabelInfo>?) {
+    valueToBind?.let { liveValue ->
+        view.parentActivity?.let { activity ->
+            liveValue.observe(activity, Observer { view.setErrorLabelInfo(it) })
         }
     }
 }

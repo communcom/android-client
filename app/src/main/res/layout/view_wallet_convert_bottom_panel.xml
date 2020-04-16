@@ -300,4 +300,26 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sellPanel" />
+
+    <TextView
+        android:id="@+id/errorLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text=""
+        tools:text="Some error text"
+
+        style="@style/Text12.Black.Bold.SingleLine"
+        android:textColor="@color/red"
+
+        android:visibility="invisible"
+        tools:visibility="visible"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rateLabel"
+        app:layout_constraintBottom_toTopOf="@+id/sendButton"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -57,6 +57,9 @@ constructor(
     private val _convertButtonInfo = MutableLiveData<ConvertButtonInfo>(getConvertButtonInfo())
     val convertButtonInfo: LiveData<ConvertButtonInfo> = _convertButtonInfo
 
+    private val _errorLabelInfo = MutableLiveData<ErrorLabelInfo>(getErrorLabelInfo())
+    val errorLabelInfo: LiveData<ErrorLabelInfo> = _errorLabelInfo
+
     private val _pointInfo = MutableLiveData<PointInfo>(getPointInfo())
     val pointInfo: LiveData<PointInfo> = _pointInfo
 
@@ -70,6 +73,7 @@ constructor(
 
         _buyInputField.value = getBuyAmount()
         _convertButtonInfo.value = getConvertButtonInfo()
+        _errorLabelInfo.value = getErrorLabelInfo()
     }
 
     fun onBuyInputFieldUpdated(value: String) {
@@ -79,6 +83,7 @@ constructor(
 
         _sellInputField.value = getSellAmount()
         _convertButtonInfo.value = getConvertButtonInfo()
+        _errorLabelInfo.value = getErrorLabelInfo()
     }
 
     fun onBackClick() {
@@ -104,6 +109,7 @@ constructor(
         _buyInputField.value = getBuyAmount()
 
         _convertButtonInfo.value = getConvertButtonInfo()
+        _errorLabelInfo.value = getErrorLabelInfo()
         _pointInfo.value = getPointInfo()
         _isMenuVisible.value = model.isInSellPointMode
     }
@@ -113,6 +119,7 @@ constructor(
         _sellInputField.value = getSellAmount()
         _buyInputField.value = getBuyAmount()
         _convertButtonInfo.value = getConvertButtonInfo()
+        _errorLabelInfo.value = getErrorLabelInfo()
     }
 
     fun onSendButtonClickListener() {
@@ -155,6 +162,7 @@ constructor(
 
                 _inputFieldInfo.value = getInputFieldsInfo()
                 _convertButtonInfo.value = getConvertButtonInfo()
+                _errorLabelInfo.value = getErrorLabelInfo()
 
                 _pointInfo.value = getPointInfo()
 
@@ -213,6 +221,16 @@ constructor(
             isEnabled = model.validateAmount().isValid
         )
     }
+
+    private fun getErrorLabelInfo(): ErrorLabelInfo =
+        with(model.validateAmount()) {
+            when {
+                buyAmount == AmountValidationResult.TOO_LARGE || sellAmount == AmountValidationResult.TOO_LARGE ->
+                    ErrorLabelInfo(true, appContext.getString(R.string.wallet_error_no_points))
+
+                else -> ErrorLabelInfo(false, null)
+            }
+        }
 
     private fun getSellerRecord() = model.getSellerRecord().let { it.copy(communityName = it.getDisplayName(appContext)) }
 
