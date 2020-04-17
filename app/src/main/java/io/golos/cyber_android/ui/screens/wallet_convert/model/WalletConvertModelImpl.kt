@@ -87,12 +87,12 @@ constructor(
 
     override fun validateAmount(): ConvertAmountValidationResult {
         val sellValidationResult = amountValidator.validate(_amountCalculator.sellAmount, getSellerRecord().points, 0.0)
-        val buyValidationResult = amountValidator.validate(_amountCalculator.buyAmount, getBuyerRecord().points, 0.0)
+//        val buyValidationResult = amountValidator.validate(_amountCalculator.buyAmount, getBuyerRecord().points, 0.0)
 
         return ConvertAmountValidationResult(
             sellValidationResult,
-            buyValidationResult,
-            isValid = sellValidationResult == AmountValidationResult.SUCCESS && buyValidationResult == AmountValidationResult.SUCCESS
+            AmountValidationResult.SUCCESS/*buyValidationResult*/,
+            isValid = sellValidationResult == AmountValidationResult.SUCCESS/* && buyValidationResult == AmountValidationResult.SUCCESS*/
         )
     }
 

@@ -226,7 +226,7 @@ constructor(
         with(model.validateAmount()) {
             when {
                 buyAmount == AmountValidationResult.TOO_LARGE || sellAmount == AmountValidationResult.TOO_LARGE ->
-                    ErrorLabelInfo(true, appContext.getString(R.string.wallet_error_no_points))
+                    ErrorLabelInfo(true, appContext.getString(R.string.wallet_amount_validation_buy_too_large))
 
                 else -> ErrorLabelInfo(false, null)
             }

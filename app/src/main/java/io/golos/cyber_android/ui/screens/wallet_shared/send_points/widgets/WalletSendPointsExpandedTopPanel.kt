@@ -69,8 +69,8 @@ constructor(
     fun setTitle(@StringRes titleResId: Int) = title.setText(titleResId)
 
     fun switchMode(isInCarouselMode: Boolean) {
-        carousel.visibility = if(isInCarouselMode) View.VISIBLE else View.GONE
-        communSymbol.visibility = if(isInCarouselMode) View.GONE else View.VISIBLE
+        carousel.visibility = if(isInCarouselMode) View.VISIBLE else View.INVISIBLE
+        communSymbol.visibility = if(isInCarouselMode) View.INVISIBLE else View.VISIBLE
     }
 
     fun setMenuVisibility(isVisible: Boolean) {

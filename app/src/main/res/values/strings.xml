@@ -41,8 +41,6 @@
     <string name="common_captcha_error">Can\'t receive a captcha</string>
     <string name="common_error_operation_canceled">The operation has been canceled</string>
     <string name="common_error_account_registered">Account already registered</string>
-    <string name="common_error_invalid_value">Invalid value</string>
-    <string name="wallet_error_no_points">Insufficient funds: you have no points</string>
     <string name="export_general_error">An error occurred during the export process.</string>
     <string name="phone_already_taken_error">Name is already registered</string>
     <string name="name_already_taken_error">Name is already in use</string>
@@ -527,7 +525,7 @@
     <string name="wallet_amount_validation_sell_invalid_value">Invalid value of the sale</string>
     <string name="wallet_amount_validation_sell_zero">The value of the sale can\'t be zero</string>
 
-    <string name="wallet_amount_validation_buy_too_large">Purchase value is too large</string>
+    <string name="wallet_amount_validation_buy_too_large">Insufficient funds: you have no points</string>
     <string name="wallet_amount_validation_buy_invalid_value">Invalid value of the purchase</string>
     <string name="wallet_amount_validation_buy_zero">The value of the purchase can\'t be zero</string>
 
