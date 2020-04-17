@@ -109,20 +109,16 @@ constructor(
     }
 
     override fun onUserClicked(userId: String) {
-        if (currentUserRepository.userId.userId == userId) {
-            return
-        }
-
         launch {
             try {
-                _command.value = SetLoadingVisibilityCommand(true)
-                wasMovedToChild = true
-                _command.value = NavigateToUserProfileCommand(UserIdDomain(userId))
+                val realUserId = model.getUserId(userId)
+                if (currentUserRepository.userId != realUserId) {
+                    wasMovedToChild = true
+                    _command.value = NavigateToUserProfileCommand(realUserId)
+                }
             } catch (ex: Exception) {
                 Timber.e(ex)
                 _command.value = ShowMessageResCommand(R.string.common_general_error)
-            } finally {
-                _command.value = SetLoadingVisibilityCommand(false)
             }
         }
     }
@@ -163,12 +159,7 @@ constructor(
 
     override fun onCommentDownVoteClick(commentId: DiscussionIdModel) = voteForComment(commentId, false)
 
-    fun onUserInHeaderClick(userId: String) {
-        if (currentUserRepository.userId.userId != userId) {
-            wasMovedToChild = true
-            _command.value = NavigateToUserProfileCommand(UserIdDomain(userId))
-        }
-    }
+    fun onUserInHeaderClick(userId: String) = onUserClicked(userId)
 
     fun onPostMenuClick() {
         val postMenu: PostMenu = model.getPostMenu()

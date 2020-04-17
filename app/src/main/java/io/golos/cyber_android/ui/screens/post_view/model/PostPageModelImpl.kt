@@ -15,6 +15,7 @@ import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListIte
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.PostDomain
+import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.repositories.UsersRepository
@@ -45,7 +46,8 @@ constructor(
     private val commentsProcessing: CommentsProcessingFacade,
     private val subscribeToCommunityUseCase: SubscribeToCommunityUseCase,
     private val unsubscribeToCommunityUseCase: UnsubscribeToCommunityUseCase,
-    private val contentId: ContentId?
+    private val contentId: ContentId?,
+    private val usersRepository: Lazy<UsersRepository>
 ) : ModelBaseImpl(),
     PostPageModel,
     SubscribeToCommunityUseCase by subscribeToCommunityUseCase,

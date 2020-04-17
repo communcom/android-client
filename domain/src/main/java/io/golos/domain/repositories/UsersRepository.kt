@@ -29,6 +29,8 @@ interface UsersRepository {
 
     suspend fun getUserProfile(userName: String): UserProfileDomain
 
+    suspend fun getUserId(userNameOrId: String): UserIdDomain
+
     suspend fun getUserFollowers(userId: UserIdDomain, offset: Int, pageSizeLimit: Int): List<FollowingUserDomain>
 
     suspend fun getUserFollowing(userId: UserIdDomain, offset: Int, pageSizeLimit: Int): List<FollowingUserDomain>

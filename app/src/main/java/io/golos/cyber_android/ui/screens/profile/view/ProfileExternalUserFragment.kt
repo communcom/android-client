@@ -16,9 +16,7 @@ import io.golos.domain.dto.UserIdDomain
 
 class ProfileExternalUserFragment : ProfileFragment() {
     companion object {
-        fun newInstance(
-            userId: UserIdDomain
-        ) = ProfileExternalUserFragment().apply {
+        fun newInstance(userId: UserIdDomain) = ProfileExternalUserFragment().apply {
             arguments = Bundle().apply {
                 putParcelable(Tags.USER_ID, userId)
             }

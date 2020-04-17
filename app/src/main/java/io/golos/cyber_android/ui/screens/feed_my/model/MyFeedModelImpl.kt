@@ -4,8 +4,10 @@ import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.ContentIdDomain
+import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.DiscussionRepository
+import io.golos.domain.repositories.UsersRepository
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
 import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
 import io.golos.domain.use_cases.posts.GetPostsUseCase
@@ -23,7 +25,8 @@ class MyFeedModelImpl @Inject constructor(
     private val postFilter: PostFiltersHolder,
     private val discussionRepository: DiscussionRepository,
     private val dispatchersProvider: DispatchersProvider,
-    private val currentUserRepository: CurrentUserRepository
+    private val usersRepository: UsersRepository,
+    currentUserRepository: CurrentUserRepository
 ) : MyFeedModel,
     GetPostsUseCase by getPostsUseCase,
     GetLocalUserUseCase by getUserProfileUseCase,
@@ -33,6 +36,8 @@ class MyFeedModelImpl @Inject constructor(
     override val openFeedTypeFlow: Flow<PostFiltersHolder.CurrentOpenTypeFeed> = postFilter.openTypeFeedFlow
 
     override val userAvatarFlow: Flow<String?> = currentUserRepository.userAvatarFlow
+
+    override suspend fun getUserId(userNameOrId: String): UserIdDomain = usersRepository.getUserId(userNameOrId)
 
     override suspend fun deletePost(permlink: String, communityId: CommunityIdDomain) {
         withContext(dispatchersProvider.ioDispatcher) {

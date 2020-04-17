@@ -8,6 +8,7 @@ import io.golos.cyber_android.ui.screens.post_view.dto.SortingType
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
 import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
 import io.golos.domain.use_cases.model.CommentModel
@@ -30,7 +31,7 @@ interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToC
 
     fun getPostHeader(): PostHeader
 
-    suspend fun getUserId(userName: String): String
+    suspend fun getUserId(userNameOrId: String): UserIdDomain
 
     suspend fun addToFavorite(permlink: String)
 

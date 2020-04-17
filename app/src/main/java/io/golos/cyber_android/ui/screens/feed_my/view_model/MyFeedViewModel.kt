@@ -136,8 +136,16 @@ class MyFeedViewModel @Inject constructor(
     }
 
     override fun onUserClicked(userId: String) {
-        if (currentUserRepository.userId.userId != userId) {
-            _command.value = NavigateToUserProfileCommand(UserIdDomain(userId))
+        launch {
+            try {
+                val realUserId = model.getUserId(userId)
+                if (currentUserRepository.userId != realUserId) {
+                    _command.value = NavigateToUserProfileCommand(realUserId)
+                }
+            } catch (ex: Exception) {
+                Timber.e(ex)
+                _command.value = ShowMessageResCommand(R.string.common_general_error)
+            }
         }
     }
 

@@ -9,6 +9,7 @@ import io.golos.domain.repositories.exceptions.ApiResponseErrorException
 import io.golos.data.mappers.*
 import io.golos.data.repositories.network_call.NetworkCallProxy
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.GlobalConstants
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.UserKeyStore
 import io.golos.domain.dto.*
@@ -97,6 +98,13 @@ class UsersRepositoryImpl
             } else {
                 throw  ex
             }
+        }
+
+    override suspend fun getUserId(userNameOrId: String): UserIdDomain =
+        if(userNameOrId.startsWith(GlobalConstants.USER_ID_PREFIX)) {
+            UserIdDomain(userNameOrId)
+        } else {
+            getUserProfile(userNameOrId).userId
         }
 
     override suspend fun getUserFollowers(userId: UserIdDomain, offset: Int, pageSizeLimit: Int): List<FollowingUserDomain> {
