@@ -118,7 +118,8 @@ class EditorPageFragment : ImagePickerFragmentBase() {
         close.setOnClickListener { viewModel.tryToClose(editorWidget.getMetadata(), isCloseButtonAction = true) }
 
         postButton.setOnClickListener {
-            viewModel.post(editorWidget.getMetadata())
+            editorWidget.getMetadata()
+//            viewModel.post(editorWidget.getMetadata())
         }
 
         leaderName.addTextChangedListener(object : TextWatcherBase() {
@@ -224,18 +225,18 @@ class EditorPageFragment : ImagePickerFragmentBase() {
                 EditorAction.LINK -> {
                     linkInTextButton.visibility = View.VISIBLE
                     linkInTextButton.setOnClickListener {
-                        val oldLink = editorWidget.tryGetLinkInTextInfo()
-                        TextAndLinkDialog(
-                            requireContext(),
-                            oldLink?.text ?: "",
-                            oldLink?.uri?.toString() ?: "",
-                            R.string.enter_link
-                        ) { text, uri ->
-                            if (text != null && uri != null) {
-                                viewModel.checkLinkInText(oldLink != null, text, uri)
-                            }
-                        }
-                            .show()
+//                        val oldLink = editorWidget.tryGetLinkInTextInfo()
+//                        TextAndLinkDialog(
+//                            requireContext(),
+//                            oldLink?.text ?: "",
+//                            oldLink?.uri?.toString() ?: "",
+//                            R.string.enter_link
+//                        ) { text, uri ->
+//                            if (text != null && uri != null) {
+//                                viewModel.checkLinkInText(oldLink != null, text, uri)
+//                            }
+//                        }
+//                            .show()
                     }
                 }
                 EditorAction.LOCAL_IMAGE -> {

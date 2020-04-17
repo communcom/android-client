@@ -50,3 +50,5 @@ fun String.capitalize(locale: Locale = Locale.getDefault()): String {
 }
 
 fun String.isMatch(s: String): Boolean = Pattern.compile(this).matcher(s).find()
+
+fun Pattern.isMatch(s: String): Boolean = this.matcher(s).find()

@@ -6,7 +6,10 @@ apply from: "$rootDir/config.gradle"
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     implementation project(':domain')
+    implementation project(':utils')
+
     deps.groups.ui dependencies
     deps.groups.serializers dependencies
     deps.groups.android dependencies

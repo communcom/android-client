@@ -9,7 +9,7 @@ class SpansWorkerImpl(text: CharSequence?) : SpansWorker {
     private val spannableString = text as SpannableStringBuilder
 
     @Suppress("UNCHECKED_CAST")
-    override fun <T: CharacterStyle>getSpans(spanType: KClass<*>): List<T> =
+    override fun <T: CharacterStyle>getAllSpans(spanType: KClass<*>): List<T> =
         getSpansInternal(spanType, 0..spannableString.length)
             .map { it as T }
 

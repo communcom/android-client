@@ -4,7 +4,7 @@ import android.text.style.CharacterStyle
 import kotlin.reflect.KClass
 
 interface SpansWorkerRead {
-    fun <T: CharacterStyle>getSpans(spanType: KClass<*>): List<T>
+    fun <T: CharacterStyle>getAllSpans(spanType: KClass<*>): List<T>
 
     fun <T: CharacterStyle>getSpans(spanType: KClass<*>, interval: IntRange): List<T>
 

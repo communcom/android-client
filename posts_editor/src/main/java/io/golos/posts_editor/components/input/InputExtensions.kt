@@ -39,12 +39,14 @@ import io.golos.posts_editor.components.input.spans.custom.LinkSpan
 import io.golos.posts_editor.components.input.spans.custom.MentionSpan
 import io.golos.posts_editor.components.input.spans.custom.TagSpan
 import io.golos.posts_editor.components.input.spans.spans_worker.SpansWorkerImpl
+import io.golos.posts_editor.components.input.text_tasks.MentionsTask
 import io.golos.posts_editor.components.util.mapTypefaceToEditorTextStyle
 import io.golos.posts_editor.models.*
 import io.golos.posts_editor.utilities.MaterialColor
 import io.golos.posts_editor.utilities.Utilities
 import io.golos.posts_editor.utilities.fromHtml
 import io.golos.posts_editor.utilities.toHtml
+import io.golos.utils.helpers.isMatch
 import org.jsoup.nodes.Element
 import java.util.*
 import kotlin.reflect.KClass
@@ -61,6 +63,10 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
         get() = editorCore.activeView as CustomEditText
 
     private var lastPastedLinkRange: IntRange? = null
+
+    private var tasksAreRun = false
+
+    private val mentionsTask = MentionsTask()
 
     /**
      * @param the value is true if some text is selected, otherwise it's false
@@ -150,6 +156,16 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
         this.componentsWrapper = componentsWrapper
     }
 
+    fun runTasks() {
+        tasksAreRun = true
+
+        val oldCursorPos = editor.cursorPosition
+        editor.setText(mentionsTask.process(editor.text))
+        editor.setCursorPosition(oldCursorPos)
+
+        tasksAreRun = false
+    }
+
     fun setText(textView: TextView, text: CharSequence) {
 //        val toReplace = getSanitizedHtml(text)
         textView.text = text
@@ -157,7 +173,7 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
 
     fun insertTag(tagText: String) = insertTag(tagText, true, false)
 
-    fun insertMention(userName: String) = insertMention(userName, true, false)
+    fun insertMention(userName: String) = insertMention(userName, addSpace =  true, tryToMoveCursor = false)
 
     fun insertLinkInText(linkInfo: LinkInfo) = insertLinkInText(linkInfo, true, false)
 
@@ -285,12 +301,22 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
             private lateinit var linkSpanToRemove: List<LinkSpan>
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                if(tasksAreRun) {
+                    return
+                }
+
                 val pastedText = s.substring(start until start+count)
 
                 // The text contains a link only
+
+                val emailMatcher = Patterns.EMAIL_ADDRESS
+
                 if(URLUtil.isValidUrl(pastedText)) {
                     lastPastedLinkRange = start..start+count
-                    editorCore.linkWasPasted(Uri.parse(pastedText))
+
+                    if(!emailMatcher.isMatch(pastedText)) {
+                        editorCore.linkWasPasted(Uri.parse(pastedText))
+                    }
                     return
                 }
 
@@ -304,11 +330,18 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
                 // The text contains links and some other text
                 if(allLinks.size > 0) {
                     lastPastedLinkRange = allLinks[0].second
-                    editorCore.linkWasPasted(Uri.parse(allLinks[0].first))
+
+                    if(!emailMatcher.isMatch(allLinks[0].first)) {
+                        editorCore.linkWasPasted(Uri.parse(allLinks[0].first))
+                    }
                 }
             }
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                if(tasksAreRun) {
+                    return
+                }
+
                 updateRange = start..start+count
 
                 val spansWorker = SpansWorkerImpl(s)
@@ -320,6 +353,10 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
             }
 
             override fun afterTextChanged(s: Editable) {
+                if(tasksAreRun) {
+                    return
+                }
+
                 val tag = editText.getTag(R.id.control_tag)
 
                 if (s.isEmpty() && tag != null)
