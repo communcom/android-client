@@ -34,7 +34,7 @@
 
         android:text=""
 
-        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/hideButton"
         app:layout_constraintHorizontal_bias="0.5"
 
@@ -61,7 +61,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:id="@+id/view"
+        android:id="@+id/itemsSeparator"
         android:layout_width="0dp"
 
         android:layout_height="@dimen/stroke_normal"

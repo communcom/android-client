@@ -146,9 +146,27 @@ abstract class ListWorkerBaseImpl<TID, TLI: VersionedListItem>(
     }
 
     protected fun addLoadedData(data: List<TLI>) = updateData {
-        loadedItems.removeAt(loadedItems.lastIndex)
-        loadedItems.addAll(data)
+        loadedItems.removeAt(loadedItems.lastIndex)         // Remove Loading or Retry items
+
+        if(data.isNotEmpty()) {
+            val lastIndex = loadedItems.lastIndex
+
+            loadedItems.addAll(data)
+
+            if(lastIndex == -1) {
+                loadedItems[0] = markAsFirst(loadedItems[0])
+            } else {
+                loadedItems[lastIndex] = unMarkAsLast(loadedItems[lastIndex])
+            }
+            loadedItems[loadedItems.lastIndex] = markAsLast(loadedItems[loadedItems.lastIndex])
+        }
     }
+
+    protected abstract fun markAsFirst(item: VersionedListItem): VersionedListItem
+
+    protected abstract fun markAsLast(item: VersionedListItem): VersionedListItem
+
+    protected abstract fun unMarkAsLast(item: VersionedListItem): VersionedListItem
 
     protected fun addLoading() = updateData { loadedItems.add( LoadingListItem(IdUtil.generateLongId(), 0)) }
 

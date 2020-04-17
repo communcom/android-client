@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.profile_black_list.view.list.communities
 
+import android.view.View
 import android.view.ViewGroup
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.glide.loadCommunity
@@ -33,6 +34,8 @@ class CommunityListItemViewHolder(
             itemView.hideButton.setOnClickListener { listItemEventsProcessor.onHideCommunityClick(community.communityId) }
 
             itemView.avatar.loadCommunity(community.avatarUrl)
+
+            itemView.itemsSeparator.visibility = if(listItem.isLastItem) View.GONE else View.VISIBLE
         }
     }
 

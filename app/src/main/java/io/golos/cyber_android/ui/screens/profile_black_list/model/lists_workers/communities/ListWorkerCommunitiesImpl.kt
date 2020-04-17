@@ -1,7 +1,8 @@
 package io.golos.cyber_android.ui.screens.profile_black_list.model.lists_workers.communities
 
-import io.golos.cyber_android.ui.shared.recycler_view.versioned.CommunityListItem
 import io.golos.cyber_android.ui.screens.profile_black_list.model.lists_workers.ListWorkerBaseImpl
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.CommunityListItem
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.dto.CommunityIdDomain
@@ -64,4 +65,10 @@ constructor(
             isInPositiveState = true,
             isProgress = false
         )
+
+    override fun markAsFirst(item: VersionedListItem): VersionedListItem = (item as CommunityListItem).copy(isFirstItem = true)
+
+    override fun markAsLast(item: VersionedListItem): VersionedListItem = (item as CommunityListItem).copy(isLastItem = true)
+
+    override fun unMarkAsLast(item: VersionedListItem): VersionedListItem = (item as CommunityListItem).copy(isLastItem = false)
 }

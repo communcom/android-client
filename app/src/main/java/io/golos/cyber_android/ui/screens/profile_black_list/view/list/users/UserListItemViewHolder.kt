@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.profile_black_list.view.list.users
 
+import android.view.View
 import android.view.ViewGroup
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
@@ -33,6 +34,8 @@ class UserListItemViewHolder(
             itemView.hideButton.setOnClickListener { listItemEventsProcessor.onHideUserClick(user.userId) }
 
             itemView.avatar.loadAvatar(user.userAvatar)
+
+            itemView.itemsSeparator.visibility = if(listItem.isLastItem) View.GONE else View.VISIBLE
         }
     }
 

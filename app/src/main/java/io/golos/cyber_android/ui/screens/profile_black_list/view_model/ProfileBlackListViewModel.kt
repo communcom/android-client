@@ -32,10 +32,10 @@ constructor(
 
     val communitiesItems: LiveData<List<VersionedListItem>> get() = model.getItems(BlackListFilter.COMMUNITIES)
 
-    private val _usersVisibility = MutableLiveData<Int>((startFilter == BlackListFilter.USERS).toVisibility())
+    private val _usersVisibility = MutableLiveData<Int>(false.toVisibility())
     val usersVisibility: LiveData<Int> get() = _usersVisibility
 
-    private val _communitiesVisibility = MutableLiveData<Int>((startFilter == BlackListFilter.COMMUNITIES).toVisibility())
+    private val _communitiesVisibility = MutableLiveData<Int>(false.toVisibility())
     val communitiesVisibility: LiveData<Int> get() = _communitiesVisibility
 
     private val _noDataStubVisibility = MutableLiveData<Int>(false.toVisibility())
@@ -73,20 +73,17 @@ constructor(
         when(filter) {
             BlackListFilter.COMMUNITIES ->
                 hasCommunitiesData?.let {
-                    if(it) {
-                        _communitiesVisibility.value = it.toVisibility()
-                        _usersVisibility.value = (!it).toVisibility()
-                    }
+                    _communitiesVisibility.value = it.toVisibility()
+                    _usersVisibility.value = false.toVisibility()
+
                     _noDataStubVisibility.value = (!it).toVisibility()
                     _noDataStubText.value = R.string.no_communities
                     _noDataExplanationText.value = R.string.no_communities_explanation
                 }
             BlackListFilter.USERS ->
                 hasUsersData?.let {
-                    if(it) {
-                        _usersVisibility.value = it.toVisibility()
-                        _communitiesVisibility.value = (!it).toVisibility()
-                    }
+                    _usersVisibility.value = it.toVisibility()
+                    _communitiesVisibility.value = false.toVisibility()
 
                     _noDataStubVisibility.value = (!it).toVisibility()
                     _noDataStubText.value = R.string.no_users

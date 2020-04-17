@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.profile_black_list.model.lists_workers
 
 import io.golos.cyber_android.ui.screens.profile_black_list.dto.UserListItem
 import io.golos.cyber_android.ui.screens.profile_black_list.model.lists_workers.ListWorkerBaseImpl
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.UserIdDomain
@@ -62,4 +63,10 @@ constructor(
             isInPositiveState = true,
             isProgress = false
         )
+
+    override fun markAsFirst(item: VersionedListItem): VersionedListItem = (item as UserListItem).copy(isFirstItem = true)
+
+    override fun markAsLast(item: VersionedListItem): VersionedListItem = (item as UserListItem).copy(isLastItem = true)
+
+    override fun unMarkAsLast(item: VersionedListItem): VersionedListItem = (item as UserListItem).copy(isLastItem = false)
 }
