@@ -89,17 +89,20 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
                             when(it.span) {
                                 is ForegroundColorSpan -> ColorSpanInfo(
                                     it.spanInterval,
+                                    it.span.foregroundColor,
                                     it.span.foregroundColor
                                 )
                                 is StyleSpan -> StyleSpanInfo(
                                     it.spanInterval,
+                                    it.span.style.mapTypefaceToEditorTextStyle(),
                                     it.span.style.mapTypefaceToEditorTextStyle()
                                 )
-                                is LinkSpan -> LinkSpanInfo(it.spanInterval, it.span.value)
-                                is TagSpan -> TagSpanInfo(it.spanInterval, it.span.value)
+                                is LinkSpan -> LinkSpanInfo(it.spanInterval, it.span.value, it.span.value)
+                                is TagSpan -> TagSpanInfo(it.spanInterval, it.span.value, it.span.value)
                                 is MentionSpan -> MentionSpanInfo(
                                     it.spanInterval,
-                                    it.span.value
+                                    it.span.value,
+                                    it.span.value.removeRange(0..0)
                                 )
                                 else -> null
                             }
@@ -244,7 +247,7 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
 
                         is CreateSpanOperation<*> -> {
                             with((operation as CreateSpanOperation<Int>).spanInfo) {
-                                spansWorker.appendSpan(PostSpansFactory.createTextColor(value), area)
+                                spansWorker.appendSpan(PostSpansFactory.createTextColor(displayValue), area)
                             }
                         }
                     }
@@ -483,7 +486,7 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
 
                         is CreateSpanOperation<*> -> {
                             with((operation as CreateSpanOperation<TextStyle>).spanInfo) {
-                                spansWorker.appendSpan(PostSpansFactory.createTextStyle(value), area)
+                                spansWorker.appendSpan(PostSpansFactory.createTextStyle(displayValue), area)
                             }
                         }
                     }

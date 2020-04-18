@@ -3,23 +3,23 @@ package io.golos.domain.use_cases.post.editor_output
 import androidx.annotation.ColorInt
 import io.golos.domain.use_cases.post.TextStyle
 
-abstract class SpanInfo<T> (val area: IntRange, val value: T)
+abstract class SpanInfo<T> (val area: IntRange, val displayValue: T, val value: T)
 
-class StyleSpanInfo(area: IntRange, value: TextStyle): SpanInfo<TextStyle>(area, value)
-
-/**
- * [value] - color's value as Int
- */
-class ColorSpanInfo(area: IntRange, @ColorInt value: Int): SpanInfo<Int>(area, value)
+class StyleSpanInfo(area: IntRange, displayValue: TextStyle, value: TextStyle): SpanInfo<TextStyle>(area, displayValue, value)
 
 /**
- * [value] - text of a tag
+ * [displayValue] - color's value as Int
  */
-class TagSpanInfo(area: IntRange, value: String): SpanInfo<String>(area, value)
+class ColorSpanInfo(area: IntRange, @ColorInt displayValue: Int, value: Int): SpanInfo<Int>(area, displayValue, value)
 
 /**
- * [value] - user's name
+ * [displayValue] - text of a tag
  */
-class MentionSpanInfo(area: IntRange, value: String): SpanInfo<String>(area, value)
+class TagSpanInfo(area: IntRange, displayValue: String, value: String): SpanInfo<String>(area, displayValue, value)
 
-class LinkSpanInfo(area: IntRange, value: LinkInfo): SpanInfo<LinkInfo>(area, value)
+/**
+ * [displayValue] - user's name
+ */
+class MentionSpanInfo(area: IntRange, displayValue: String, value: String): SpanInfo<String>(area, displayValue, value)
+
+class LinkSpanInfo(area: IntRange, displayValue: LinkInfo, value: LinkInfo): SpanInfo<LinkInfo>(area, displayValue, value)

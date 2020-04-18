@@ -218,7 +218,7 @@ constructor(
             .map { it.spans }
             .flatten()
             .filterIsInstance<TagSpanInfo>()
-            .map { it.value }
+            .map { it.displayValue }
             .toMutableSet()
 
         if (adultOnly) {

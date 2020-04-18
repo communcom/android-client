@@ -37,10 +37,10 @@ class StyleSpansCalculator(spansReader: SpansWorkerRead) : SpansCalculator<TextS
     }
 
     override fun SpanInfo<TextStyle>.copy(newValue: TextStyle): SpanInfo<TextStyle> =
-        StyleSpanInfo(area, newValue)
+        StyleSpanInfo(area, newValue, newValue)
 
     override fun createSpanInfo(area: IntRange, newValue: TextStyle): SpanInfo<TextStyle> =
-        StyleSpanInfo(area, newValue)
+        StyleSpanInfo(area, newValue, newValue)
 
     override fun getSpanClass(): KClass<*> = StyleSpan::class
 

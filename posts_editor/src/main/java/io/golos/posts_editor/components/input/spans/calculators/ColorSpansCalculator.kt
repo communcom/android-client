@@ -12,10 +12,10 @@ class ColorSpansCalculator(spansReader: SpansWorkerRead): SpansCalculator<Int>(s
     override fun calculateSpanValue(oldValue: Int, newValue: Int): Int? = newValue
 
     override fun SpanInfo<Int>.copy(newValue: Int): SpanInfo<Int> =
-        ColorSpanInfo(area, newValue)
+        ColorSpanInfo(area, newValue, newValue)
 
     override fun createSpanInfo(area: IntRange, newValue: Int): SpanInfo<Int> =
-        ColorSpanInfo(area, newValue)
+        ColorSpanInfo(area, newValue, newValue)
 
     override fun getSpanClass(): KClass<*> = ForegroundColorSpan::class
 

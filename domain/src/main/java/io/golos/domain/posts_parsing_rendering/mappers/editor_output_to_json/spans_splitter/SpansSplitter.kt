@@ -40,14 +40,14 @@ class SpansSplitter {
 
             val spanToAdd = when(span) {
                 is TagSpanInfo -> SplittedTag(
-                    span.value
+                    span.displayValue
                 )
                 is MentionSpanInfo -> SplittedMention(
                     span.value
                 )
                 is LinkSpanInfo -> SplittedLink(
-                    span.value.text,
-                    span.value.uri
+                    span.displayValue.text,
+                    span.displayValue.uri
                 )
                 else -> throw UnsupportedOperationException("This type of span is not supporred: ${span::class}")
             }

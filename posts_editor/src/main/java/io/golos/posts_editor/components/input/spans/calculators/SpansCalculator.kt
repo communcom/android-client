@@ -94,8 +94,8 @@ abstract class SpansCalculator<T>(spansReader: SpansWorkerRead) {
         // Has full intersection
         val fullIntersection = intersections.spansIntersectFull.firstOrNull()
         if(fullIntersection != null) {
-            val newSpanValue = calculateSpanValue(fullIntersection.value, span.value)
-            if(fullIntersection.value == newSpanValue) {
+            val newSpanValue = calculateSpanValue(fullIntersection.displayValue, span.displayValue)
+            if(fullIntersection.displayValue == newSpanValue) {
                 return result
             }
 
@@ -113,17 +113,17 @@ abstract class SpansCalculator<T>(spansReader: SpansWorkerRead) {
         // Has old full-outside span
         val oldFullOutside = intersections.spansOutsideFull.firstOrNull()
         if(oldFullOutside != null) {
-            val newSpanValue = calculateSpanValue(oldFullOutside.value, span.value)
-            if(oldFullOutside.value == newSpanValue) {
+            val newSpanValue = calculateSpanValue(oldFullOutside.displayValue, span.displayValue)
+            if(oldFullOutside.displayValue == newSpanValue) {
                 return result
             }
 
             result.add(DeleteSpanOperation(spansInText.getValue(oldFullOutside)))
 
-            val newLeftSpan = createSpanInfo(oldFullOutside.area.first..span.area.first, oldFullOutside.value)
+            val newLeftSpan = createSpanInfo(oldFullOutside.area.first..span.area.first, oldFullOutside.displayValue)
             result.add(CreateSpanOperation(newLeftSpan))
 
-            val newRightSpan = createSpanInfo(span.area.last..oldFullOutside.area.last, oldFullOutside.value)
+            val newRightSpan = createSpanInfo(span.area.last..oldFullOutside.area.last, oldFullOutside.displayValue)
             result.add(CreateSpanOperation(newRightSpan))
 
             newSpanValue?.let {
@@ -142,7 +142,7 @@ abstract class SpansCalculator<T>(spansReader: SpansWorkerRead) {
 
         // Process left-intersected spans
         intersections.spansInsideLeft.forEach { oldLeftSpan ->
-            createSpanInfo(oldLeftSpan.area.first..span.area.first, oldLeftSpan.value).let { newLeftSpan ->
+            createSpanInfo(oldLeftSpan.area.first..span.area.first, oldLeftSpan.displayValue).let { newLeftSpan ->
                 result.add(DeleteSpanOperation(spansInText.getValue(oldLeftSpan)))
 
                 result.add(CreateSpanOperation(newLeftSpan))
@@ -152,7 +152,7 @@ abstract class SpansCalculator<T>(spansReader: SpansWorkerRead) {
 
         // Process right-intersected spans
         intersections.spansInsideRight.forEach { oldRightSpan ->
-            createSpanInfo(span.area.last..oldRightSpan.area.last, oldRightSpan.value).let { newRightSpan ->
+            createSpanInfo(span.area.last..oldRightSpan.area.last, oldRightSpan.displayValue).let { newRightSpan ->
                 result.add(DeleteSpanOperation(spansInText.getValue(oldRightSpan)))
 
                 result.add(CreateSpanOperation(newRightSpan))
