@@ -114,7 +114,12 @@ class EditorPageFragment : ImagePickerFragmentBase() {
 
         close.setOnClickListener { viewModel.tryToClose(editorWidget.getMetadata(), isCloseButtonAction = true) }
 
-        postButton.setOnClickListener { viewModel.post(editorWidget.getMetadata()) }
+        postButton.setOnClickListener {
+            val metadata = editorWidget.getMetadata()
+            if(metadata.isNotEmpty()) {
+                viewModel.post(metadata)
+            }
+        }
 
         leaderName.addTextChangedListener(object : TextWatcherBase() {
             override fun afterTextChanged(s: Editable?) {

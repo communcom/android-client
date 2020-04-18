@@ -20,15 +20,9 @@ object PostSpansFactory {
 
     fun createTextStyle(style: TextStyle): CharacterStyle = StyleSpan(style.toTypeface())
 
-    fun createTag(value: String): CharacterStyle = TagSpan(value,
-        specialSpansColors
-    )
+    fun createTag(value: String): CharacterStyle = TagSpan(value, specialSpansColors)
 
-    fun createMention(value: String): CharacterStyle = MentionSpan(value,
-        specialSpansColors
-    )
+    fun createMention(value: String): CharacterStyle = MentionSpan(value, specialSpansColors)
 
-    fun createLink(value: LinkInfo): CharacterStyle = LinkSpan(value,
-        specialSpansColors
-    )
+        fun createLink(value: LinkInfo): CharacterStyle = LinkSpan(value, specialSpansColors)
 }

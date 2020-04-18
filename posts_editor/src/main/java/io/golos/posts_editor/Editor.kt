@@ -102,18 +102,23 @@ class Editor(context: Context, attrs: AttributeSet) : EditorCore(context, attrs)
         _onLinkWasPastedListener = listener
     }
 
+    private var needToRunTasks = true
     fun getMetadata(): List<ControlMetadata> {
-        inputExtensions!!.runTasks()
+        if(needToRunTasks) {
+            inputExtensions!!.runTasks()
+            needToRunTasks = false
+            return listOf()
+        } else {
+            val result = mutableListOf<ControlMetadata>()
 
-        val result = mutableListOf<ControlMetadata>()
+            for(i in 0 until parentView.childCount) {
+                parentView.getChildAt(i)
+                    .let { inputExtensions!!.getMetadata(it) ?: embedExtensions!!.getMetadata(it) }
+                    ?.let { result.add(it) }
+            }
 
-        for(i in 0 until parentView.childCount) {
-            parentView.getChildAt(i)
-                .let { inputExtensions!!.getMetadata(it) ?: embedExtensions!!.getMetadata(it) }
-                ?.let { result.add(it) }
+            return result
         }
-
-        return result
     }
 
     fun getEmbedCount(): Int {
