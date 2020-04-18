@@ -3,6 +3,7 @@ package io.golos.posts_editor.components.input.text_tasks
 import android.text.style.CharacterStyle
 import io.golos.posts_editor.components.input.spans.spans_worker.SpansWorkerImpl
 import io.golos.posts_editor.components.input.text_tasks.dto.TextSlice
+import io.golos.posts_editor.components.input.text_tasks.dto.TextTaskResult
 
 /**
  * Finds and marks all mentions
@@ -11,7 +12,7 @@ abstract class TextTaskBase: TextTask {
     private var priorSlices: List<TextSlice>? = null
     private var currentSpans: List<CharacterStyle>? = null
 
-    override fun process(oldText: CharSequence?): CharSequence? =
+    override fun process(oldText: CharSequence?): TextTaskResult =
         oldText?.let {
             val allSlices = findSlices(it)
 
@@ -19,10 +20,13 @@ abstract class TextTaskBase: TextTask {
                 removeOldSpans(it, currentSpans)
                 currentSpans = insertSpans(it, allSlices)
                 priorSlices = allSlices
+
+                TextTaskResult(true, it)
+            } else {
+                TextTaskResult(false, null)
             }
 
-            it
-        }
+        } ?: TextTaskResult(false, null)
 
     protected abstract fun findSlices(sourceText: CharSequence): List<TextSlice>
 

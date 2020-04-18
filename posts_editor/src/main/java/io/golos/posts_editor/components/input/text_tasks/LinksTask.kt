@@ -3,6 +3,7 @@ package io.golos.posts_editor.components.input.text_tasks
 import android.net.Uri
 import android.text.style.CharacterStyle
 import android.util.Patterns
+import android.webkit.URLUtil
 import io.golos.domain.use_cases.post.editor_output.LinkInfo
 import io.golos.posts_editor.components.input.spans.custom.LinkSpan
 import io.golos.posts_editor.components.input.spans.spans_worker.SpansWorkerImpl
@@ -19,7 +20,9 @@ class LinksTask: TextTaskBase() {
         val linksMatcher = Patterns.WEB_URL.matcher(sourceText)
 
         while (linksMatcher.find()) {
-            result.add(TextSlice(linksMatcher.group(), linksMatcher.start()..linksMatcher.end()))
+            if(URLUtil.isValidUrl(linksMatcher.group())) {
+                result.add(TextSlice(linksMatcher.group(), linksMatcher.start()..linksMatcher.end()))
+            }
         }
 
         return result

@@ -40,6 +40,7 @@ import io.golos.posts_editor.components.input.spans.custom.TagSpan
 import io.golos.posts_editor.components.input.spans.spans_worker.SpansWorkerImpl
 import io.golos.posts_editor.components.input.text_tasks.LinksTask
 import io.golos.posts_editor.components.input.text_tasks.MentionsTask
+import io.golos.posts_editor.components.input.text_tasks_runner.TextTasksRunner
 import io.golos.posts_editor.components.util.mapTypefaceToEditorTextStyle
 import io.golos.posts_editor.models.*
 import io.golos.posts_editor.utilities.MaterialColor
@@ -47,7 +48,10 @@ import io.golos.posts_editor.utilities.Utilities
 import io.golos.posts_editor.utilities.fromHtml
 import io.golos.posts_editor.utilities.post.spans.PostSpansFactory
 import io.golos.posts_editor.utilities.toHtml
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.jsoup.nodes.Element
+import timber.log.Timber
 import java.util.*
 import kotlin.reflect.KClass
 
@@ -64,10 +68,10 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
 
     private var lastPastedLinkRange: IntRange? = null
 
-    private var tasksAreRun = false
-
     private val mentionsTask = MentionsTask()
     private val linksTask = LinksTask()
+
+    private val taskRunner = TextTasksRunner(listOf(mentionsTask, linksTask))
 
     /**
      * @param the value is true if some text is selected, otherwise it's false
@@ -159,16 +163,9 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
         this.componentsWrapper = componentsWrapper
     }
 
-    fun runTasks() {
-        tasksAreRun = true
+    private fun runTasksDelay(processedText: CharSequence?) = taskRunner.runDelay(processedText)
 
-        val oldCursorPos = editor.cursorPosition
-        editor.setText(mentionsTask.process(editor.text))
-        editor.setText(linksTask.process(editor.text))
-        editor.setCursorPosition(oldCursorPos)
-
-        tasksAreRun = false
-    }
+    fun runTasksDirect() = taskRunner.run(editor.text)
 
     fun setText(textView: TextView, text: CharSequence) {
 //        val toReplace = getSanitizedHtml(text)
@@ -327,22 +324,18 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
             }
 
             override fun afterTextChanged(s: Editable) {
-                if(tasksAreRun) {
-                    return
-                }
-
                 val tag = editText.getTag(R.id.control_tag)
 
                 if (s.isEmpty() && tag != null)
                     editText.hint = tag.toString()
 
-//                var isEnterPressed = false
+                var isEnterPressed = false
 
                 if (s.isNotEmpty()) {
                     // if user had pressed enter, replace it with br
                     for (i in s.indices) {
                         if (s[i] == '\n') {
-//                            isEnterPressed = true
+                            isEnterPressed = true
 
                             s.delete(i, i+1)
 
@@ -353,6 +346,10 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
                             insertEditText(position, editable)      // Add new paragraph by Enter
                             break
                         }
+                    }
+
+                    if(!isEnterPressed) {
+                        runTasksDelay(s)
                     }
 
 //                    if(!isEnterPressed) {

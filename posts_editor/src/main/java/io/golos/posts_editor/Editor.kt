@@ -105,7 +105,7 @@ class Editor(context: Context, attrs: AttributeSet) : EditorCore(context, attrs)
     private var needToRunTasks = true
     fun getMetadata(): List<ControlMetadata> {
         if(needToRunTasks) {
-            inputExtensions!!.runTasks()
+            inputExtensions!!.runTasksDirect()
             needToRunTasks = false
             return listOf()
         } else {
