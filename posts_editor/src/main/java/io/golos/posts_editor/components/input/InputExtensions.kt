@@ -48,10 +48,7 @@ import io.golos.posts_editor.utilities.Utilities
 import io.golos.posts_editor.utilities.fromHtml
 import io.golos.posts_editor.utilities.post.spans.PostSpansFactory
 import io.golos.posts_editor.utilities.toHtml
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.jsoup.nodes.Element
-import timber.log.Timber
 import java.util.*
 import kotlin.reflect.KClass
 
@@ -163,9 +160,9 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
         this.componentsWrapper = componentsWrapper
     }
 
-    private fun runTasksDelay(processedText: CharSequence?) = taskRunner.runDelay(processedText)
+    private fun runTextTasksDelay(processedText: CharSequence?) = taskRunner.runDelay(processedText)
 
-    fun runTasksDirect() = taskRunner.run(editor.text)
+    fun runTextTasksDirect() = taskRunner.run(editor.text)
 
     fun setText(textView: TextView, text: CharSequence) {
 //        val toReplace = getSanitizedHtml(text)
@@ -343,13 +340,14 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
                             val position = index + 1
                             val editable = SpannableStringBuilder()
 
+                            runTextTasksDirect()
                             insertEditText(position, editable)      // Add new paragraph by Enter
                             break
                         }
                     }
 
                     if(!isEnterPressed) {
-                        runTasksDelay(s)
+                        runTextTasksDelay(s)
                     }
 
 //                    if(!isEnterPressed) {
