@@ -197,7 +197,7 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
 
     fun getPossibleActions(): List<EditorAction> =
         if(!isTextStylesSupported) {
-            listOf(EditorAction.TAG, EditorAction.MENTION, EditorAction.LINK, EditorAction.LOCAL_IMAGE)
+            listOf(EditorAction.LOCAL_IMAGE)
         } else {
             EditorAction.values().toList()
         }

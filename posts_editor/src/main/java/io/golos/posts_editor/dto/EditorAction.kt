@@ -5,9 +5,5 @@ enum class EditorAction {
     TEXT_ITALIC,
     TEXT_COLOR,
 
-    TAG,
-    MENTION,
-    LINK,
-
     LOCAL_IMAGE
 }

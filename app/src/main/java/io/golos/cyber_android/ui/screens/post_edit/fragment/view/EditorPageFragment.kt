@@ -24,14 +24,11 @@ import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.post_edit.fragment.di.EditorPageFragmentComponent
 import io.golos.cyber_android.ui.screens.post_edit.fragment.dto.ExternalLinkType
 import io.golos.cyber_android.ui.screens.post_edit.fragment.dto.ShowCloseConfirmationDialogCommand
-import io.golos.cyber_android.ui.screens.post_edit.fragment.view.dialogs.one_text_line.OneTextLineDialog
-import io.golos.cyber_android.ui.screens.post_edit.fragment.view.dialogs.text_and_link.TextAndLinkDialog
 import io.golos.cyber_android.ui.screens.post_edit.fragment.view.image_picker.ImagePickerFragmentBase
 import io.golos.cyber_android.ui.screens.post_edit.fragment.view.post_to_editor_loader.PostToEditorLoader
 import io.golos.cyber_android.ui.screens.post_edit.fragment.view_commands.InsertExternalLinkViewCommand
 import io.golos.cyber_android.ui.screens.post_edit.fragment.view_commands.PastedLinkIsValidViewCommand
 import io.golos.cyber_android.ui.screens.post_edit.fragment.view_commands.PostCreatedViewCommand
-import io.golos.cyber_android.ui.screens.post_edit.fragment.view_commands.UpdateLinkInTextViewCommand
 import io.golos.cyber_android.ui.screens.post_edit.fragment.view_model.EditorPageViewModel
 import io.golos.cyber_android.ui.screens.post_edit.shared.EditorPageBridgeFragment
 import io.golos.cyber_android.ui.shared.Tags
@@ -43,10 +40,10 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.shared.utils.TextWatcherBase
 import io.golos.domain.use_cases.post.TextStyle
 import io.golos.domain.use_cases.post.editor_output.EmbedType
-import io.golos.utils.id.IdUtil
 import io.golos.posts_editor.dialogs.selectColor.SelectColorDialog
 import io.golos.posts_editor.dto.EditorAction
 import io.golos.posts_editor.utilities.MaterialColor
+import io.golos.utils.id.IdUtil
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.fragment_editor_page.*
 import javax.inject.Inject
@@ -183,59 +180,6 @@ class EditorPageFragment : ImagePickerFragmentBase() {
                             .show()
                     }
                 }
-                EditorAction.TAG -> {
-                    tagButton.visibility = View.VISIBLE
-                    tagButton.setOnClickListener {
-                        val oldTextOfTag = editorWidget.tryGetTextOfTag()
-                        OneTextLineDialog(requireContext(), oldTextOfTag ?: "", R.string.enter_tag) { newTextOfTag ->
-                            newTextOfTag?.let {
-                                if (oldTextOfTag == null) {
-                                    editorWidget.insertTag(it)
-                                } else {
-                                    editorWidget.editTag(it)
-                                }
-                            }
-                        }
-                            .show()
-                    }
-                }
-                EditorAction.MENTION -> {
-                    mentionButton.visibility = View.VISIBLE
-                    mentionButton.setOnClickListener {
-                        val oldTextOfMention = editorWidget.tryGetTextOfMention()
-                        OneTextLineDialog(
-                            requireContext(),
-                            oldTextOfMention ?: "",
-                            R.string.enter_user_name
-                        ) { newTextOfMention ->
-                            newTextOfMention?.let {
-                                if (oldTextOfMention == null) {
-                                    editorWidget.insertMention(it)
-                                } else {
-                                    editorWidget.editMention(it)
-                                }
-                            }
-                        }
-                            .show()
-                    }
-                }
-                EditorAction.LINK -> {
-                    linkInTextButton.visibility = View.VISIBLE
-                    linkInTextButton.setOnClickListener {
-//                        val oldLink = editorWidget.tryGetLinkInTextInfo()
-//                        TextAndLinkDialog(
-//                            requireContext(),
-//                            oldLink?.text ?: "",
-//                            oldLink?.uri?.toString() ?: "",
-//                            R.string.enter_link
-//                        ) { text, uri ->
-//                            if (text != null && uri != null) {
-//                                viewModel.checkLinkInText(oldLink != null, text, uri)
-//                            }
-//                        }
-//                            .show()
-                    }
-                }
                 EditorAction.LOCAL_IMAGE -> {
                     photoButton.visibility = View.VISIBLE
                     photoButton.setOnClickListener {
@@ -264,10 +208,6 @@ class EditorPageFragment : ImagePickerFragmentBase() {
             italicButton.isEnabled = isSomeTextSelected
             textColorButton.isEnabled = isSomeTextSelected
 
-            tagButton.isEnabled = !isSomeTextSelected
-            mentionButton.isEnabled = !isSomeTextSelected
-            linkInTextButton.isEnabled = !isSomeTextSelected
-
             photoButton.isEnabled = !isSomeTextSelected
         }
 
@@ -286,15 +226,6 @@ class EditorPageFragment : ImagePickerFragmentBase() {
                 is InsertExternalLinkViewCommand ->
                     with(command.linkInfo) {
                         editorWidget.insertEmbed(type.mapToEmbedType(), sourceUrl, thumbnailUrl, description)
-                    }
-
-                is UpdateLinkInTextViewCommand ->
-                    with(command) {
-                        if (isEdit) {
-                            editorWidget.editLinkInText(command.linkInfo)
-                        } else {
-                            editorWidget.insertLinkInText(command.linkInfo)
-                        }
                     }
 
                 is PostCreatedViewCommand -> onPostResult(command.contentId)

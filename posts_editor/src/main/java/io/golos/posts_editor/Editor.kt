@@ -5,13 +5,12 @@ import android.net.Uri
 import android.util.AttributeSet
 import android.view.KeyEvent
 import android.view.View
-import io.golos.domain.use_cases.post.editor_output.ControlMetadata
 import io.golos.domain.use_cases.post.TextStyle
+import io.golos.domain.use_cases.post.editor_output.ControlMetadata
 import io.golos.domain.use_cases.post.editor_output.EmbedType
-import io.golos.domain.use_cases.post.editor_output.LinkInfo
+import io.golos.posts_editor.components.EmbedWidget
 import io.golos.posts_editor.components.input.edit_text.CustomEditText
 import io.golos.posts_editor.models.EditorContent
-import io.golos.posts_editor.components.EmbedWidget
 import io.golos.posts_editor.models.RenderType
 import io.golos.posts_editor.utilities.MaterialColor
 
@@ -56,27 +55,7 @@ class Editor(context: Context, attrs: AttributeSet) : EditorCore(context, attrs)
         inputExtensions!!.updateTextColor(color, null)
     }
 
-    fun insertTag(tag: String) {
-        inputExtensions!!.insertTag(tag)
-    }
-
-    fun insertMention(mention: String) {
-        inputExtensions!!.insertMention(mention)
-    }
-
-    fun insertLinkInText(linkInfo: LinkInfo) = inputExtensions!!.insertLinkInText(linkInfo)
-
     fun pastedLinkIsValid(uri: Uri) = inputExtensions!!.lastPastedLinkWasValidated(uri)
-
-    fun editTag(tag: String) {
-        inputExtensions!!.editTag(tag)
-    }
-
-    fun editMention(mention: String) {
-        inputExtensions!!.editMention(mention)
-    }
-
-    fun editLinkInText(linkInfo: LinkInfo) = inputExtensions!!.editLinkInText(linkInfo)
 
     /**
      * Tries to find a tag under a cursor and gets a value of it
@@ -87,11 +66,6 @@ class Editor(context: Context, attrs: AttributeSet) : EditorCore(context, attrs)
      * Tries to find a mention under a cursor and gets a value of it
      */
     fun tryGetTextOfMention(): String? = inputExtensions!!.tryGetTextOfMention()
-
-    /**
-     * Tries to find a link under a cursor and gets a value of it
-     */
-    fun tryGetLinkInTextInfo(): LinkInfo? = inputExtensions!!.tryGetLinkInTextInfo()
 
     fun insertEmptyParagraph() {
         inputExtensions!!.insertEditText(childCount, null)

@@ -236,65 +236,6 @@
 
                         tools:visibility="visible" />
 
-                    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
-                        android:id="@+id/tagButton"
-
-                        android:layout_width="@dimen/size_editor_tool_button"
-                        android:layout_height="@dimen/size_editor_tool_button"
-
-                        android:layout_gravity="start|center_vertical"
-                        android:layout_marginStart="@dimen/margin_size_editor_tool_button"
-
-                        android:layout_marginEnd="@dimen/margin_size_editor_tool_button"
-
-                        android:background="@drawable/bcg_editor_tool_button"
-                        android:visibility="gone"
-
-                        app:imageButton_icon="@drawable/ic_tag"
-                        app:imageButton_iconInscribeSize="@dimen/size_editor_tool_button_icon"
-                        app:imageButton_tint="@color/tint_editor_tool_button"
-
-                        tools:visibility="visible" />
-
-                    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
-                        android:id="@+id/mentionButton"
-
-                        android:layout_width="@dimen/size_editor_tool_button"
-                        android:layout_height="@dimen/size_editor_tool_button"
-
-                        android:layout_gravity="start|center_vertical"
-                        android:layout_marginStart="@dimen/margin_size_editor_tool_button"
-
-                        android:layout_marginEnd="@dimen/margin_size_editor_tool_button"
-
-                        android:background="@drawable/bcg_editor_tool_button"
-                        android:visibility="gone"
-
-                        app:imageButton_icon="@drawable/ic_mention"
-                        app:imageButton_iconInscribeSize="@dimen/size_editor_tool_button_icon"
-                        app:imageButton_tint="@color/tint_editor_tool_button"
-
-                        tools:visibility="visible" />
-
-                    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
-                        android:id="@+id/linkInTextButton"
-
-                        android:layout_width="@dimen/size_editor_tool_button"
-                        android:layout_height="@dimen/size_editor_tool_button"
-
-                        android:layout_gravity="start|center_vertical"
-                        android:layout_marginStart="@dimen/margin_size_editor_tool_button"
-
-                        android:layout_marginEnd="@dimen/margin_size_editor_tool_button"
-
-                        android:background="@drawable/bcg_editor_tool_button"
-                        android:visibility="gone"
-
-                        app:imageButton_icon="@drawable/ic_link_in_text"
-                        app:imageButton_iconInscribeSize="@dimen/size_editor_tool_button_icon"
-                        app:imageButton_tint="@color/tint_editor_tool_button"
-
-                        tools:visibility="visible" />
 
                     <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
                         android:id="@+id/photoButton"

@@ -8,11 +8,6 @@ import io.golos.domain.use_cases.post.editor_output.LinkInfo
 
 class InsertExternalLinkViewCommand(val linkInfo: ExternalLinkInfo) : ViewCommand
 
-class UpdateLinkInTextViewCommand(
-    val isEdit: Boolean,
-    val linkInfo: LinkInfo
-) : ViewCommand
-
 class PostCreatedViewCommand(val contentId: ContentId) : ViewCommand
 
 class PastedLinkIsValidViewCommand(val uri: Uri) : ViewCommand

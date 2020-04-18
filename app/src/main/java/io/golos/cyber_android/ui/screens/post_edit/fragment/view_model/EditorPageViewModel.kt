@@ -18,7 +18,6 @@ import io.golos.cyber_android.ui.screens.post_edit.fragment.model.EditorPageMode
 import io.golos.cyber_android.ui.screens.post_edit.fragment.view_commands.InsertExternalLinkViewCommand
 import io.golos.cyber_android.ui.screens.post_edit.fragment.view_commands.PastedLinkIsValidViewCommand
 import io.golos.cyber_android.ui.screens.post_edit.fragment.view_commands.PostCreatedViewCommand
-import io.golos.cyber_android.ui.screens.post_edit.fragment.view_commands.UpdateLinkInTextViewCommand
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToMainScreenCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
@@ -26,7 +25,6 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.data.errors.AppError
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.dto.PostDomain
@@ -37,7 +35,6 @@ import io.golos.domain.use_cases.UseCase
 import io.golos.domain.use_cases.feed.PostWithCommentUseCaseImpl
 import io.golos.domain.use_cases.model.*
 import io.golos.domain.use_cases.post.editor_output.ControlMetadata
-import io.golos.domain.use_cases.post.editor_output.LinkInfo
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -230,14 +227,6 @@ constructor(
         getFileUploadingStateLiveData.removeObserver(imageUploadObserver)
         //postUseCase?.getPostAsLiveData?.removeObserver(postToEditObserver)
         urlParserJob?.cancel()
-    }
-
-    fun checkLinkInText(isEdit: Boolean, text: String, uri: String) = processUri(uri) { linkInfo ->
-        _command.value = UpdateLinkInTextViewCommand(isEdit, LinkInfo(text, linkInfo.sourceUrl))
-
-        if (!isEdit && embedCount == 0) {
-            _command.value = InsertExternalLinkViewCommand(linkInfo)
-        }
     }
 
     fun validatePastedLink(uri: Uri) = processUri(uri.toString()) {

@@ -147,7 +147,6 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
                 text = element.html()
                 count = editorCore.parentView.childCount
                 tv = insertEditText(count, text)
-                applyStyles(tv, element)
             }
 
             else -> {}
@@ -174,38 +173,8 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
         textView.text = text
     }
 
-    fun insertTag(tagText: String) = insertTag(tagText, true, false)
-
-    fun insertMention(userName: String) = insertMention(userName, addSpace =  true, tryToMoveCursor = false)
-
-    fun insertLinkInText(linkInfo: LinkInfo) = insertLinkInText(linkInfo, true, false)
-
     fun lastPastedLinkWasValidated(uri: Uri) {
         setSpanToLastPastedLink(PostSpansFactory.createLink(LinkInfo(uri.toString(), uri)))
-    }
-
-    fun editTag(tagText: String) {
-        if(removeSpecialSpan(TagSpan::class)) {
-            editor.post {
-                insertTag(tagText, false, true)
-            }
-        }
-    }
-
-    fun editMention(userName: String) {
-        if(removeSpecialSpan(MentionSpan::class)) {
-            editor.post {
-                insertMention(userName, false, true)
-            }
-        }
-    }
-
-    fun editLinkInText(linkInfo: LinkInfo) {
-        if(removeSpecialSpan(LinkSpan::class)) {
-            editor.post {
-                insertLinkInText(linkInfo, false, true)
-            }
-        }
     }
 
     /**
@@ -559,13 +528,6 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
         return editorCore.getControlType(editorCore.parentView.getChildAt(position)) === EditorType.INPUT
     }
 
-    fun applyStyles(editText: TextView, element: Element) {
-//        val styles = componentsWrapper!!.htmlExtensions!!.getStyleMap(element)
-//        if (styles.containsKey("color")) {
-//            updateTextColor(MaterialColor.BLACK, editText)
-//        }
-    }
-
     fun getInputHtml(): String = ""
 
     @Suppress("UNUSED_PARAMETER")
@@ -594,46 +556,6 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
         return textView
     }
 
-    private fun insertTag(tagText: String, addSpace: Boolean, tryToMoveCursor: Boolean) =
-        insertSpecialSpan(PostSpansTextFactory.createTagText(tagText), PostSpansFactory.createTag(tagText), addSpace, tryToMoveCursor)
-
-    private fun insertMention(userName: String, addSpace: Boolean, tryToMoveCursor: Boolean) =
-        insertSpecialSpan(PostSpansTextFactory.createMentionText(userName), PostSpansFactory.createMention(userName), addSpace, tryToMoveCursor)
-
-    private fun insertLinkInText(linkInfo: LinkInfo, addSpace: Boolean, tryToMoveCursor: Boolean) =
-        insertSpecialSpan(linkInfo.text, PostSpansFactory.createLink(linkInfo), addSpace, tryToMoveCursor)
-
-    /**
-     * Inserts special span into a cursor position
-     */
-    private fun insertSpecialSpan(textToDisplay: String, span: CharacterStyle, addSpace: Boolean, tryToMoveCursor: Boolean) {
-        try {
-            if(editor.selectionArea != null) {
-                return
-            }
-
-            editor.text?.let { textArea ->
-                val spansWorker = SpansWorkerImpl(textArea)
-
-                val startPosition = editor.cursorPosition
-                val endPosition = editor.cursorPosition+textToDisplay.length
-
-                val suffix = if(addSpace) " " else ""
-
-                textArea.insert(editor.cursorPosition, "$textToDisplay$suffix")
-
-                editor.post {
-                    spansWorker.appendSpan(span, startPosition..endPosition)
-                    if(tryToMoveCursor && textArea.lastIndex >= endPosition) {
-                        editor.setCursorPosition(endPosition+1)
-                    }
-                }
-            }
-        } catch (ex: Exception) {
-            ex.printStackTrace()
-        }
-    }
-
     /**
      * Mark last pasted span as link
      */
@@ -650,38 +572,6 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
         } catch (ex: Exception) {
             ex.printStackTrace()
         }
-    }
-
-    /**
-     * Removes special span under a cursor position
-     */
-    private fun removeSpecialSpan(spanType: KClass<*>): Boolean {
-        try {
-            if(editor.selectionArea != null) {
-                return false
-            }
-
-            editor.text?.let { textArea ->
-                val spansWorker = SpansWorkerImpl(textArea)
-
-                spansWorker.getSpanUnderPosition(spanType, editor.cursorPosition)
-                    ?.let { span ->
-                        val spanInterval = spansWorker.getSpanInterval(span)
-
-                        spansWorker.removeSpan(span)
-
-                        editor.post {
-                            textArea.delete(spanInterval.first, spanInterval.last)
-                        }
-
-                        return true
-                    }
-            }
-        } catch (ex: Exception) {
-            ex.printStackTrace()
-        }
-
-        return false
     }
 
     /**
@@ -713,5 +603,4 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
 
         return null
     }
-
 }
