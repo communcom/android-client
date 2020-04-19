@@ -20,13 +20,10 @@ abstract class TextTaskBase: TextTask {
                 removeOldSpans(it, currentSpans)
                 currentSpans = insertSpans(it, allSlices)
                 priorSlices = allSlices
-
-                TextTaskResult(true, it)
-            } else {
-                TextTaskResult(false, null)
             }
+            TextTaskResult(allSlices)
 
-        } ?: TextTaskResult(false, null)
+        } ?: TextTaskResult(listOf())
 
     protected abstract fun findSlices(sourceText: CharSequence): List<TextSlice>
 

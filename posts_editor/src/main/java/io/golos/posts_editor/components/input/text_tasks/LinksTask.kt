@@ -21,7 +21,7 @@ class LinksTask: TextTaskBase() {
 
         while (linksMatcher.find()) {
             if(URLUtil.isValidUrl(linksMatcher.group())) {
-                result.add(TextSlice(linksMatcher.group(), linksMatcher.start()..linksMatcher.end()))
+                result.add(TextSlice.LinkTextSlice(linksMatcher.group(), linksMatcher.start()..linksMatcher.end()))
             }
         }
 

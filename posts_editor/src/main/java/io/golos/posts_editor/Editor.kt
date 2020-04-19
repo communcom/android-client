@@ -103,7 +103,7 @@ class Editor(context: Context, attrs: AttributeSet) : EditorCore(context, attrs)
     }
 
     fun getMetadata(): List<ControlMetadata> {
-        inputExtensions!!.runTextTasksDirect()
+        inputExtensions!!.closeTextTasks()
 
         val result = mutableListOf<ControlMetadata>()
 

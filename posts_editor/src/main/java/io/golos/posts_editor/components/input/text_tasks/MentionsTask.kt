@@ -36,7 +36,7 @@ class MentionsTask: TextTaskBase() {
             if(start == 0 || !validCharacterPattern.matcher(sourceText[start-1].toString()).find()) {
                 val userNameExtracted = text.removeRange(0..0)
                 if(userNameValidator.validate(userNameExtracted) == UserNameValidationResult.SUCCESS) {
-                    result.add(TextSlice(text, start..end))
+                    result.add(TextSlice.MentionTextSlice(text, start..end))
                 }
             }
         }

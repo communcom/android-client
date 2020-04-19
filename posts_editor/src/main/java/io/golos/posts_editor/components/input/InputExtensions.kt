@@ -40,6 +40,8 @@ import io.golos.posts_editor.components.input.spans.custom.TagSpan
 import io.golos.posts_editor.components.input.spans.spans_worker.SpansWorkerImpl
 import io.golos.posts_editor.components.input.text_tasks.LinksTask
 import io.golos.posts_editor.components.input.text_tasks.MentionsTask
+import io.golos.posts_editor.components.input.text_tasks.dto.TextSlice
+import io.golos.posts_editor.components.input.text_tasks_runner.TasksFactoryImpl
 import io.golos.posts_editor.components.input.text_tasks_runner.TextTasksRunner
 import io.golos.posts_editor.components.util.mapTypefaceToEditorTextStyle
 import io.golos.posts_editor.models.*
@@ -65,10 +67,7 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
 
     private var lastPastedLinkRange: IntRange? = null
 
-    private val mentionsTask = MentionsTask()
-    private val linksTask = LinksTask()
-
-    private val taskRunner = TextTasksRunner(listOf(mentionsTask, linksTask))
+    private val taskRunner = TextTasksRunner(TasksFactoryImpl()).apply { setOnPasteListener { onPaste(it) } }
 
     /**
      * @param the value is true if some text is selected, otherwise it's false
@@ -160,9 +159,13 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
         this.componentsWrapper = componentsWrapper
     }
 
-    private fun runTextTasksDelay(processedText: CharSequence?) = taskRunner.runDelay(processedText)
+    fun closeTextTasks() = taskRunner.close()
 
-    fun runTextTasksDirect() = taskRunner.run(editor.text)
+    private fun runTextTasksDelay(processedText: CharSequence?) = taskRunner.runDelay(processedText, editor)
+
+    private fun onPaste(textSlices: List<TextSlice>) {
+        textSlices.firstOrNull { it is TextSlice.LinkTextSlice }?.let { editorCore.linkWasPasted(Uri.parse(it.text)) }
+    }
 
     fun setText(textView: TextView, text: CharSequence) {
 //        val toReplace = getSanitizedHtml(text)
@@ -340,7 +343,6 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
                             val position = index + 1
                             val editable = SpannableStringBuilder()
 
-                            runTextTasksDirect()
                             insertEditText(position, editable)      // Add new paragraph by Enter
                             break
                         }
