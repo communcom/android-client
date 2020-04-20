@@ -1,7 +1,7 @@
 package io.golos.cyber_android.ui.screens.notifications.mappers
 
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.*
-import io.golos.domain.dto.*
+import io.golos.domain.dto.notifications.*
 import io.golos.utils.id.IdUtil
 
 fun NotificationDomain.mapToVersionedListItem(): BaseNotificationItem {

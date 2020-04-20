@@ -1,5 +1,7 @@
-package io.golos.domain.dto
+package io.golos.domain.dto.notifications
 
+import io.golos.domain.dto.CommunityDomain
+import io.golos.domain.dto.UserIdDomain
 import java.util.*
 
 sealed class NotificationDomain (

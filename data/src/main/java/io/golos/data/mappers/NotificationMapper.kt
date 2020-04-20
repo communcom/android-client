@@ -3,7 +3,7 @@ package io.golos.data.mappers
 import io.golos.commun4j.services.model.*
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dto.*
-import java.util.*
+import io.golos.domain.dto.notifications.*
 
 fun Notification.mapToNotificationDomain(currentUserId: UserIdDomain, currentUserName: String): NotificationDomain {
     return when (this) {
@@ -17,10 +17,10 @@ fun Notification.mapToNotificationDomain(currentUserId: UserIdDomain, currentUse
                 amount = amount ?: 0.0,
                 pointType = pointType,
                 community = CommunityDomain(
-                    communityId = CommunityIdDomain(if(pointType == "token") GlobalConstants.COMMUN_CODE else community!!.communityId.value),
-                    alias = if(pointType == "token") GlobalConstants.COMMUN_CODE else community!!.alias,
-                    name = if(pointType == "token") GlobalConstants.COMMUN_CODE else community!!.name!!,
-                    avatarUrl = if(pointType == "token") null else community!!.avatarUrl,
+                    communityId = CommunityIdDomain(if (pointType == "token") GlobalConstants.COMMUN_CODE else community!!.communityId.value),
+                    alias = if (pointType == "token") GlobalConstants.COMMUN_CODE else community!!.alias,
+                    name = if (pointType == "token") GlobalConstants.COMMUN_CODE else community!!.name!!,
+                    avatarUrl = if (pointType == "token") null else community!!.avatarUrl,
                     coverUrl = null,
                     subscribersCount = 0,
                     isSubscribed = false,
@@ -36,7 +36,11 @@ fun Notification.mapToNotificationDomain(currentUserId: UserIdDomain, currentUse
                 id = id,
                 isNew = isNew,
                 createTime = timestamp,
-                user = UserNotificationDomain(UserIdDomain(userId.name), null, null),
+                user = UserNotificationDomain(
+                    UserIdDomain(userId.name),
+                    null,
+                    null
+                ),
                 amount = amount,
 
                 community = CommunityDomain(
@@ -130,7 +134,11 @@ fun Notification.mapToNotificationDomain(currentUserId: UserIdDomain, currentUse
                 id = id,
                 isNew = false,
                 createTime = timestamp,
-                user = UserNotificationDomain(currentUserId, currentUserName, null),
+                user = UserNotificationDomain(
+                    currentUserId,
+                    currentUserName,
+                    null
+                ),
                 currentUserId = currentUserId,
                 currentUserName = currentUserName
             )

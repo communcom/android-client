@@ -9,7 +9,7 @@ import io.golos.cyber_android.ui.screens.dashboard.model.deep_links.DeepLinksPar
 import io.golos.cyber_android.ui.shared.utils.IntentConstants
 import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.dto.NotificationsStatusDomain
+import io.golos.domain.dto.notifications.NotificationsStatusDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.NotificationsRepository
 import kotlinx.coroutines.flow.Flow

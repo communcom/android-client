@@ -5,7 +5,7 @@ import io.golos.cyber_android.ui.screens.notifications.view.list.items.*
 import io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.content_rendering.*
 import io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.content_rendering.view.NotificationView
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModelListEventsProcessor
-import io.golos.domain.dto.NotificationDomain
+import io.golos.domain.dto.notifications.NotificationDomain
 
 abstract class NotificationPopupFactoryBase {
     protected fun mapNotification(notification: NotificationDomain): BaseNotificationItem = notification.mapToVersionedListItem()

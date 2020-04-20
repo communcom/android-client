@@ -11,7 +11,7 @@ import io.golos.cyber_android.ui.screens.main_activity.MainActivity
 import io.golos.cyber_android.ui.screens.post_edit.activity.EditorPageActivity
 import io.golos.cyber_android.ui.shared.ImageViewerActivity
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
-import io.golos.domain.dto.NotificationDomain
+import io.golos.domain.dto.notifications.NotificationDomain
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 

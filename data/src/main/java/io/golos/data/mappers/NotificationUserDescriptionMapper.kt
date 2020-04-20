@@ -2,7 +2,7 @@ package io.golos.data.mappers
 
 import io.golos.commun4j.services.model.NotificationUserDescription
 import io.golos.domain.dto.UserIdDomain
-import io.golos.domain.dto.UserNotificationDomain
+import io.golos.domain.dto.notifications.UserNotificationDomain
 
 fun NotificationUserDescription.mapToUserNotificationDomain() =
     UserNotificationDomain(

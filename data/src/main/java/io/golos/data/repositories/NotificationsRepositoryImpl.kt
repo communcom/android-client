@@ -6,12 +6,16 @@ import io.golos.data.ServerMessageReceiver
 import io.golos.data.api.ApiMethods
 import io.golos.data.dto.NotificationsStatusEntity
 import io.golos.data.mappers.mapToNotificationDomain
+import io.golos.data.mappers.mapToNotificationType
+import io.golos.data.mappers.mapToNotificationTypeDomain
 import io.golos.data.persistence.key_value_storage.storages.shared_preferences.SharedPreferencesStorage
 import io.golos.data.repositories.network_call.NetworkCallProxy
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
-import io.golos.domain.dto.NotificationsPageDomain
-import io.golos.domain.dto.NotificationsStatusDomain
+import io.golos.domain.dto.notifications.NotificationSettingsDomain
+import io.golos.domain.dto.notifications.NotificationTypeDomain
+import io.golos.domain.dto.notifications.NotificationsPageDomain
+import io.golos.domain.dto.notifications.NotificationsStatusDomain
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.NotificationsRepository
 import io.golos.utils.format.DatesServerFormatter
@@ -37,13 +41,19 @@ constructor(
     private val sharedPreferencesStorage: SharedPreferencesStorage,
     private val serverMessageReceiver: ServerMessageReceiver,
     private val moshi: Moshi
-) : RepositoryCoroutineSupport(dispatchersProvider), NotificationsRepository {
+) : RepositoryCoroutineSupport(dispatchersProvider),
+    NotificationsRepository {
 
     private companion object{
         private const val PREF_UNREAD_NOTIFICATIONS_COUNT = "PREF_UNREAD_NOTIFICATIONS_COUNT"
     }
 
-    private val notificationsCountChannel = ConflatedBroadcastChannel(NotificationsStatusDomain(0, null))
+    private val notificationsCountChannel = ConflatedBroadcastChannel(
+        NotificationsStatusDomain(
+            0,
+            null
+        )
+    )
 
     init {
         launch {
@@ -56,7 +66,12 @@ constructor(
                         notificationsStatusEntity?.let {
                             val newNotificationsCounter = notificationsStatusEntity.unseenCount.toInt()
                             launch {
-                                notificationsCountChannel.send(NotificationsStatusDomain(newNotificationsCounter, null))
+                                notificationsCountChannel.send(
+                                    NotificationsStatusDomain(
+                                        newNotificationsCounter,
+                                        null
+                                    )
+                                )
                                 saveNewNotificationCounter(newNotificationsCounter)
                             }
                         }
@@ -81,7 +96,12 @@ constructor(
         val newNotificationsCounter = withContext(dispatchersProvider.ioDispatcher){
             sharedPreferencesStorage.createReadOperationsInstance().readInt(PREF_UNREAD_NOTIFICATIONS_COUNT)
         } ?: 0
-        notificationsCountChannel.send(NotificationsStatusDomain(newNotificationsCounter, null))
+        notificationsCountChannel.send(
+            NotificationsStatusDomain(
+                newNotificationsCounter,
+                null
+            )
+        )
         return notificationsCountChannel.asFlow()
     }
 
@@ -96,7 +116,12 @@ constructor(
 
     private suspend fun updateNewNotificationsCounter(lastNotificationMarkDate: Date?){
         val newNotificationsCounter = getNewNotificationsCounter()
-        notificationsCountChannel.send(NotificationsStatusDomain(newNotificationsCounter, lastNotificationMarkDate))
+        notificationsCountChannel.send(
+            NotificationsStatusDomain(
+                newNotificationsCounter,
+                lastNotificationMarkDate
+            )
+        )
     }
 
     override suspend fun getNewNotificationsCounter(): Int {
@@ -139,6 +164,23 @@ constructor(
         val offset = -Calendar.getInstance().timeZone.rawOffset / (1000 * 60)
         Timber.tag("FCM_MESSAGES").d("Token: setTimeZoneOffset(${offset})")
         callProxy.call { commun4j.setInfo(offset) }
+    }
+
+    /**
+     * @return full set of settings and their state
+     */
+    override suspend fun getNotificationSettings(): List<NotificationSettingsDomain> {
+        val disabledSettings = callProxy.call { commun4j.getPushSettings() }.disabled.map {it.mapToNotificationTypeDomain() }
+        return NotificationTypeDomain.values().map { type ->
+            NotificationSettingsDomain(type, !disabledSettings.contains(type))
+        }
+    }
+
+    /**
+     * [settings] full set of settings and their state
+     */
+    override suspend fun setNotificationSettings(settings: List<NotificationSettingsDomain>) {
+        callProxy.call { commun4j.setPushSettings(settings.filter { !it.isEnabled }.map { it.type.mapToNotificationType() }) }
     }
 
     private fun saveNewNotificationCounter(counter: Int){
