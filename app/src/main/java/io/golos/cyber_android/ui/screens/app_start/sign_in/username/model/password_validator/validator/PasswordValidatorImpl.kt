@@ -16,7 +16,7 @@ constructor() : PasswordValidator {
             validatedValue.length < minLen -> PasswordValidationResult.LEN_IS_TOO_SHORT
             validatedValue.length > maxLen -> PasswordValidationResult.LEN_IS_TOO_LONG
 
-            !"^[a-zA-Z0-9]+$".isMatch(validatedValue) -> PasswordValidationResult.INVALID_CHARACTER
+            !"^[a-zA-Z0-9_!()@#$%^&*,.?:{}<>~+;]+$".isMatch(validatedValue) -> PasswordValidationResult.INVALID_CHARACTER
 
             else -> PasswordValidationResult.SUCCESS
         }
