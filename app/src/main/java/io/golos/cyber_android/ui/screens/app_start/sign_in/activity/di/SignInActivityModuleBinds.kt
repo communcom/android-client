@@ -2,8 +2,6 @@ package io.golos.cyber_android.ui.screens.app_start.sign_in.activity.di
 
 import dagger.Binds
 import dagger.Module
-import io.golos.cyber_android.ui.screens.app_start.shared.user_name.validator.UserNameValidator
-import io.golos.cyber_android.ui.screens.app_start.shared.user_name.validator.UserNameValidatorImpl
 import io.golos.cyber_android.ui.screens.app_start.shared.user_name.vizualizer.UserNameValidationVisualizer
 import io.golos.cyber_android.ui.screens.app_start.shared.user_name.vizualizer.UserNameValidationVisualizerImpl
 import io.golos.cyber_android.ui.screens.app_start.sign_in.shared.data_pass.SignInFragmentsDataPass
@@ -15,6 +13,8 @@ import io.golos.cyber_android.ui.screens.app_start.sign_in.username.model.passwo
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ActivityViewModelFactoryImpl
 import io.golos.domain.dependency_injection.scopes.ActivityScope
+import io.golos.domain.validation.user_name.UserNameValidator
+import io.golos.domain.validation.user_name.UserNameValidatorImpl
 import io.golos.use_cases.auth.AuthUseCase
 import io.golos.use_cases.auth.AuthUseCaseImpl
 

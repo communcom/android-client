@@ -2,7 +2,6 @@ package io.golos.cyber_android.ui.screens.app_start.sign_up.username.view_model
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber_android.ui.screens.app_start.shared.user_name.validator.UserNameValidationResult
 import io.golos.cyber_android.ui.screens.app_start.shared.user_name.vizualizer.UserNameValidationVisualizer
 import io.golos.cyber_android.ui.screens.app_start.sign_up.username.dto.NavigateToGetPasswordCommand
 import io.golos.cyber_android.ui.screens.app_start.sign_up.username.dto.ValidationResult
@@ -14,6 +13,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityC
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageTextCommand
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.analytics.AnalyticsFacade
+import io.golos.domain.validation.user_name.UserNameValidationResult
 import io.golos.use_cases.sign_up.core.SignUpCoreView
 import io.golos.use_cases.sign_up.core.data_structs.*
 import kotlinx.coroutines.flow.collect

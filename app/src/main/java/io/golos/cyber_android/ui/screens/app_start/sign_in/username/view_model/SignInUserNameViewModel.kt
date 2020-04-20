@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.Lazy
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.screens.app_start.shared.user_name.validator.UserNameValidationResult
 import io.golos.cyber_android.ui.screens.app_start.shared.user_name.vizualizer.UserNameValidationVisualizer
 import io.golos.cyber_android.ui.screens.app_start.sign_in.shared.data_pass.SignInFragmentsDataPass
 import io.golos.cyber_android.ui.screens.app_start.sign_in.username.dto.NavigateToQrCodeCommand
@@ -18,6 +17,7 @@ import io.golos.cyber_android.ui.screens.app_start.sign_in.username.model.passwo
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.validation.user_name.UserNameValidationResult
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject

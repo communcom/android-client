@@ -40,7 +40,6 @@ constructor(
     private val dispatchersProvider: DispatchersProvider,
     private val discussionRepository: DiscussionRepository,
     private val currentUserRepository: CurrentUserRepositoryRead,
-    private val usersRepository: UsersRepository,
     private val postListDataSource: PostListDataSource,
     private val postPageVotingUseCase: Lazy<PostPageVotingUseCase>,
     private val commentsProcessing: CommentsProcessingFacade,
@@ -127,10 +126,7 @@ constructor(
         delay(100)
     }
 
-    override suspend fun getUserId(userName: String): String =
-        withContext(dispatchersProvider.ioDispatcher) {
-            usersRepository.getUserProfile(userName).userId.userId
-        }
+    override suspend fun getUserId(userNameOrId: String): UserIdDomain = usersRepository.get().getUserId(userNameOrId)
 
     override suspend fun deletePost(): String {
         withContext(dispatchersProvider.ioDispatcher) {

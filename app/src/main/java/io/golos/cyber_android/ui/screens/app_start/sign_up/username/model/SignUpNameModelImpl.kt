@@ -1,8 +1,8 @@
 package io.golos.cyber_android.ui.screens.app_start.sign_up.username.model
 
-import io.golos.cyber_android.ui.screens.app_start.shared.user_name.validator.UserNameValidationResult
-import io.golos.cyber_android.ui.screens.app_start.shared.user_name.validator.UserNameValidator
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
+import io.golos.domain.validation.user_name.UserNameValidationResult
+import io.golos.domain.validation.user_name.UserNameValidator
 import javax.inject.Inject
 
 class SignUpNameModelImpl
