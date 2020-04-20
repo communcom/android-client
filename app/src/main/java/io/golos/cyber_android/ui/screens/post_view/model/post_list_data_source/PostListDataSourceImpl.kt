@@ -244,7 +244,9 @@ constructor(
                         )
                     }
                 )
-                .let { postList.addAll(indexToNewData, it as Collection<VersionedListItem>) }
+                .let {
+                    postList.addAll(indexToNewData, it as Collection<VersionedListItem>)
+                }
             sortPostItems()
         }
 

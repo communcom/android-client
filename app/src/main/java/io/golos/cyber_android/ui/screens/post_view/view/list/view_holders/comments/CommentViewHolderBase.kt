@@ -38,6 +38,7 @@ import io.golos.utils.helpers.appendText
 import io.golos.utils.helpers.setSpan
 import io.golos.domain.use_cases.model.DiscussionAuthorModel
 import io.golos.domain.use_cases.model.DiscussionMetadataModel
+import io.golos.domain.use_cases.post.TextStyle
 import io.golos.domain.use_cases.post.post_dto.*
 import io.golos.utils.id.IdUtil
 import io.golos.utils.helpers.SPACE
@@ -157,11 +158,8 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
 
     private fun addAuthorNameToContent(newContentList: ArrayList<Block>, author: Author, paragraphWidgetListener: ParagraphWidgetListener) {
         val findBlock = newContentList.find { it is TextBlock || it is ParagraphBlock }
-        // In this logic we need add author comment in top block/ If we find this block, than change on SpanableBlock or we add new in top
-        //TODO need write this code better
-        val authorBlock = ParagraphBlock(null,
-            arrayListOf(SpanableBlock(getAuthorAndText(author, "", paragraphWidgetListener)))
-        ) as Block
+        val authorBlock = ParagraphBlock(null, arrayListOf(SpanableBlock(getAuthorAndText(author, "", paragraphWidgetListener)))) as Block
+
         if (findBlock == null) {
             newContentList.add(0, authorBlock)
         } else {
@@ -174,20 +172,10 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
                     if (findBlock is ParagraphBlock) {
                         if (findBlock.content.isNotEmpty()) {
                             val paragraphContent = mutableListOf<ParagraphItemBlock>()
-                            for (i in findBlock.content.indices) {
-                                val block: ParagraphItemBlock
-                                if (i == 0) {
-                                    val paragraphItemBlock = findBlock.content[0]
-                                    block = if (paragraphItemBlock is TextBlock) {
-                                        SpanableBlock(getAuthorAndText(author, paragraphItemBlock.content, paragraphWidgetListener))
-                                    } else {
-                                        SpanableBlock(getAuthorAndText(author, "", paragraphWidgetListener))
-                                    }
-                                } else {
-                                    block = findBlock.content[0]
-                                }
-                                paragraphContent.add(block)
-                            }
+
+                            paragraphContent.add(TextBlock(IdUtil.generateLongId(), (author.username ?: author.userId)+" ", TextStyle.BOLD, null))
+                            findBlock.content.forEach { block -> paragraphContent.add(block) }
+
                             val newParagraph = ParagraphBlock(null, paragraphContent)
                             newContentList[0] = newParagraph
                         } else {
