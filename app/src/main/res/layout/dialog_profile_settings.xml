@@ -42,7 +42,7 @@
         style="@style/BottomSheetMenuItem"
 
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="@dimen/settings_menu_item_height"
 
         android:layout_marginTop="20dp"
 
@@ -61,7 +61,7 @@
 
         style="@style/BottomSheetMenuItem"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="@dimen/settings_menu_item_height"
 
         android:text="@string/blacklist"
 
@@ -71,11 +71,25 @@
         app:layout_constraintTop_toBottomOf="@+id/liked" />
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/notifications"
+
+        style="@style/BottomSheetMenuItem"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/settings_menu_item_height"
+
+        android:text="@string/notifications"
+
+        app:drawableEndCompat="@drawable/ic_settings_notifications"
+        app:layout_constraintEnd_toEndOf="@+id/blacklist"
+        app:layout_constraintStart_toStartOf="@+id/blacklist"
+        app:layout_constraintTop_toBottomOf="@+id/blacklist" />
+
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/logout"
 
         style="@style/BottomSheetMenuItem.Dangerous"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="@dimen/settings_menu_item_height"
 
         android:text="@string/log_out"
 
@@ -83,7 +97,7 @@
 
         android:layout_marginTop="20dp"
 
-        app:layout_constraintEnd_toEndOf="@+id/blacklist"
-        app:layout_constraintStart_toStartOf="@+id/blacklist"
-        app:layout_constraintTop_toBottomOf="@+id/blacklist" />
+        app:layout_constraintEnd_toEndOf="@+id/notifications"
+        app:layout_constraintStart_toStartOf="@+id/notifications"
+        app:layout_constraintTop_toBottomOf="@+id/notifications" />
 </androidx.constraintlayout.widget.ConstraintLayout>

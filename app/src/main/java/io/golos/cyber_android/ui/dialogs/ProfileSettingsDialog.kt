@@ -10,6 +10,7 @@ class ProfileSettingsDialog : BottomSheetDialogFragmentBase<ProfileSettingsDialo
     sealed class Result {
         object Liked: Result()
         object BlackList: Result()
+        object Notifications: Result()
         object Logout: Result()
     }
 
@@ -29,6 +30,7 @@ class ProfileSettingsDialog : BottomSheetDialogFragmentBase<ProfileSettingsDialo
     override fun setupView() {
         liked.setOnClickListener { closeOnItemSelected(Result.Liked) }
         blacklist.setOnClickListener { closeOnItemSelected(Result.BlackList) }
+        notifications.setOnClickListener { closeOnItemSelected(Result.Notifications) }
         logout.setOnClickListener { closeOnItemSelected(Result.Logout) }
     }
 }

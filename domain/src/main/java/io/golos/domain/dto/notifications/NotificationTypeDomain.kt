@@ -8,5 +8,5 @@ enum class NotificationTypeDomain {
     TRANSFER,
     REWARD,
     REFERRAL_REG_BONUS,
-    REFERRAL_PURCHASE_BONUS;
+    REFERRAL_PURCHASE_BONUS
 }

@@ -11,6 +11,8 @@ import io.golos.cyber_android.ui.screens.profile.model.ProfileModel
 import io.golos.cyber_android.ui.screens.profile.model.ProfileModelImpl
 import io.golos.cyber_android.ui.screens.profile.model.logout.LogoutUseCase
 import io.golos.cyber_android.ui.screens.profile.model.logout.LogoutUseCaseImpl
+import io.golos.cyber_android.ui.screens.profile.model.notifications_settings.NotificationsSettingsFacade
+import io.golos.cyber_android.ui.screens.profile.model.notifications_settings.NotificationsSettingsFacadeImpl
 import io.golos.cyber_android.ui.screens.profile.view_model.ProfileViewModel
 
 @Module
@@ -28,4 +30,7 @@ abstract class ProfileFragmentModuleBinds {
 
     @Binds
     abstract fun provideLogoutUseCase(useCase: LogoutUseCaseImpl): LogoutUseCase
+
+    @Binds
+    abstract fun provideNotificationsSettingsFacade(facade: NotificationsSettingsFacadeImpl): NotificationsSettingsFacade
 }

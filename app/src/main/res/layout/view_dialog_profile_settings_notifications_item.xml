@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="55dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/bcg_bottom_sheet_dialog_round_corners_button"
+
+    android:paddingStart="@dimen/bottom_sheet_dialog_item_padding_horizontal"
+    android:paddingEnd="@dimen/bottom_sheet_dialog_item_padding_horizontal">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:id="@+id/notificationName"
+
+        style="@style/BottomSheetMenuItemNotifications"
+
+        tools:text="@string/notifications"
+        tools:drawableStartCompat="@drawable/ic_settings_notifications" />
+
+    <Switch
+        android:id="@+id/notificationSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_gravity="end|center_vertical"
+
+        android:checked="false"
+        />
+</FrameLayout>

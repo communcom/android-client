@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.profile.model
 
+import io.golos.cyber_android.ui.screens.profile.model.notifications_settings.NotificationsSettingsFacade
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
 import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.dto.UserDomain
@@ -23,6 +24,8 @@ interface ProfileModel: ModelBase {
     val coverUrl: String?
 
     val balanceData: List<WalletCommunityBalanceRecordDomain>
+
+    val notificationSettings: NotificationsSettingsFacade
 
     suspend fun loadProfileInfo(): UserProfileDomain
 

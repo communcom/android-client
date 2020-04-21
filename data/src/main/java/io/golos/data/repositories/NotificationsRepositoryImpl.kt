@@ -180,7 +180,8 @@ constructor(
      * [settings] full set of settings and their state
      */
     override suspend fun setNotificationSettings(settings: List<NotificationSettingsDomain>) {
-        callProxy.call { commun4j.setPushSettings(settings.filter { !it.isEnabled }.map { it.type.mapToNotificationType() }) }
+        val settingsToUpdate = settings.filter { !it.isEnabled }.map { it.type.mapToNotificationType() }
+        callProxy.call { commun4j.setPushSettings(settingsToUpdate) }
     }
 
     private fun saveNewNotificationCounter(counter: Int){
