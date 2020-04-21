@@ -13,12 +13,12 @@ import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.shared.utils.localSize
-import io.golos.cyber_android.ui.shared.widgets.CommentWidget
+import io.golos.cyber_android.ui.shared.widgets.comment.CommentContent
+import io.golos.cyber_android.ui.shared.widgets.comment.ContentState
 import io.golos.domain.repositories.exceptions.ApiResponseErrorException
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.CommunityIdDomain
-import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.post.post_dto.AttachmentsBlock
@@ -288,7 +288,7 @@ constructor(
         }
     }
 
-    fun sendComment(commentContent: CommentWidget.CommentContent) {
+    fun sendComment(commentContent: CommentContent) {
         launch {
             try {
                 _commentFieldEnabled.value = false
@@ -321,14 +321,14 @@ constructor(
                 }
 
                 when (commentState) {
-                    CommentWidget.ContentState.NEW -> {
+                    ContentState.NEW -> {
                         model.sendComment(content, attachments)
                     }
-                    CommentWidget.ContentState.EDIT -> {
+                    ContentState.EDIT -> {
                         val currentMessageId = commentContent.contentId!!
                         model.updateComment(DiscussionIdModel(currentMessageId.userId, Permlink(currentMessageId.permlink)), content, attachments)
                     }
-                    CommentWidget.ContentState.REPLY -> {
+                    ContentState.REPLY -> {
                         val repliedMessageId = commentContent.contentId!!
                         model.replyToComment(DiscussionIdModel(repliedMessageId.userId, Permlink(repliedMessageId.permlink)), content, attachments)
                     }

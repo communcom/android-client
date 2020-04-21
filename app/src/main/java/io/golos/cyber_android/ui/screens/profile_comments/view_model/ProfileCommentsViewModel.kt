@@ -19,7 +19,8 @@ import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.shared.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.ui.shared.utils.localSize
 import io.golos.cyber_android.ui.shared.utils.toLiveData
-import io.golos.cyber_android.ui.shared.widgets.CommentWidget
+import io.golos.cyber_android.ui.shared.widgets.comment.CommentContent
+import io.golos.cyber_android.ui.shared.widgets.comment.CommentWidget
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommentDomain
 import io.golos.domain.dto.CommunityIdDomain
@@ -96,7 +97,7 @@ class ProfileCommentsViewModel @Inject constructor(
         //Not need use
     }
 
-    fun onSendComment(commentContent: CommentWidget.CommentContent) {
+    fun onSendComment(commentContent: CommentContent) {
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)

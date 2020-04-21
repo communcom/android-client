@@ -38,10 +38,8 @@ import io.golos.posts_editor.components.input.spans.custom.LinkSpan
 import io.golos.posts_editor.components.input.spans.custom.MentionSpan
 import io.golos.posts_editor.components.input.spans.custom.TagSpan
 import io.golos.posts_editor.components.input.spans.spans_worker.SpansWorkerImpl
-import io.golos.posts_editor.components.input.text_tasks.LinksTask
-import io.golos.posts_editor.components.input.text_tasks.MentionsTask
 import io.golos.posts_editor.components.input.text_tasks.dto.TextSlice
-import io.golos.posts_editor.components.input.text_tasks_runner.TasksFactoryImpl
+import io.golos.posts_editor.components.input.text_tasks_runner.TextTasksFactoryImpl
 import io.golos.posts_editor.components.input.text_tasks_runner.TextTasksRunner
 import io.golos.posts_editor.components.util.mapTypefaceToEditorTextStyle
 import io.golos.posts_editor.models.*
@@ -67,7 +65,7 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
 
     private var lastPastedLinkRange: IntRange? = null
 
-    private val taskRunner = TextTasksRunner(TasksFactoryImpl()).apply { setOnPasteListener { onPaste(it) } }
+    private val taskRunner = TextTasksRunner(TextTasksFactoryImpl()).apply { setOnPasteListener { onPaste(it) } }
 
     /**
      * @param the value is true if some text is selected, otherwise it's false

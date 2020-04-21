@@ -1,13 +1,13 @@
 package io.golos.posts_editor.components.input.text_tasks_runner
 
-import com.google.android.material.textfield.TextInputEditText
+import androidx.appcompat.widget.AppCompatEditText
 import io.golos.posts_editor.components.input.text_tasks.TextTask
 import io.golos.posts_editor.components.input.text_tasks.dto.TextSlice
 import kotlinx.coroutines.*
 import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
 
-class TextTasksRunner(private val tasksFactory: TasksFactory) : CoroutineScope {
+class TextTasksRunner(private val textTasksFactory: TextTasksFactory) : CoroutineScope {
     private var processingJob: Job? = null
 
     override val coroutineContext: CoroutineContext
@@ -21,7 +21,7 @@ class TextTasksRunner(private val tasksFactory: TasksFactory) : CoroutineScope {
     /**
      * Starts search
      */
-    fun runDelay(processedText: CharSequence?, editor: TextInputEditText) {
+    fun runDelay(processedText: CharSequence?, editor: AppCompatEditText) {
         processingJob?.cancel()
 
         processingJob = launch {
@@ -63,7 +63,7 @@ class TextTasksRunner(private val tasksFactory: TasksFactory) : CoroutineScope {
         onPasteListener = listener
     }
 
-    private fun getTasks(key: Int): List<TextTask> = tasks[key] ?: tasksFactory.createTasks().also { tasks[key] = it }
+    private fun getTasks(key: Int): List<TextTask> = tasks[key] ?: textTasksFactory.createTasks().also { tasks[key] = it }
 
     private fun getPriorTextLen(key: Int): Int = priorTextLen[key] ?: 0
 
