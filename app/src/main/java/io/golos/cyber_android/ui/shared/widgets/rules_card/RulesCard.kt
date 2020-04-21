@@ -26,10 +26,14 @@ constructor(
                 rulesText.text = item.text
             }
 
-            (!item.title.isNullOrEmpty() && item.text.isNullOrEmpty()) ||
-            (item.title.isNullOrEmpty() && !item.text.isNullOrEmpty()) -> {
+            !item.title.isNullOrEmpty() && item.text.isNullOrEmpty() -> {
                 rulesTitle.visibility = View.GONE
                 rulesText.text = item.title
+            }
+
+            item.title.isNullOrEmpty() && !item.text.isNullOrEmpty() -> {
+                rulesTitle.visibility = View.GONE
+                rulesText.text = item.text
             }
         }
     }
