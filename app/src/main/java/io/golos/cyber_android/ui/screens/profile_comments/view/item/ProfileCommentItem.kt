@@ -21,6 +21,7 @@ import io.golos.utils.format.TimeEstimationFormatter
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.widgets.post_comments.items.*
+import io.golos.domain.use_cases.post.TextStyle
 import io.golos.utils.helpers.appendText
 import io.golos.utils.helpers.setSpan
 import io.golos.domain.use_cases.post.post_dto.*
@@ -115,37 +116,23 @@ class ProfileCommentItem(
 
     private fun addAuthorNameToContent(newContentList: ArrayList<Block>, comment: Comment) {
         val findBlock = newContentList.find { it is TextBlock || it is ParagraphBlock }
-        // In this logic we need add author comment in top block/ If we find this block, than change on SpanableBlock or we add new in top
-        //TODO need write this code better
-        val authorBlock = ParagraphBlock(null,
-            arrayListOf(SpanableBlock(getAuthorAndText(comment.author, "")))
-        ) as Block
+        val authorBlock = ParagraphBlock(null, arrayListOf(SpanableBlock(getAuthorAndText(comment.author, "")))) as Block
+
         if (findBlock == null) {
             newContentList.add(0, authorBlock)
         } else {
             val indexOf = newContentList.indexOf(findBlock)
             if (indexOf == 0) {
                 if (findBlock is TextBlock) {
-                    newContentList[0] =
-                        ParagraphBlock(null, arrayListOf(SpanableBlock(getAuthorAndText(comment.author, findBlock.content)))) as Block
+                    newContentList[0] = ParagraphBlock(null, arrayListOf(SpanableBlock(getAuthorAndText(comment.author, findBlock.content)))) as Block
                 } else {
                     if (findBlock is ParagraphBlock) {
                         if (findBlock.content.isNotEmpty()) {
                             val paragraphContent = mutableListOf<ParagraphItemBlock>()
-                            for (i in findBlock.content.indices) {
-                                val block: ParagraphItemBlock
-                                if (i == 0) {
-                                    val paragraphItemBlock = findBlock.content[0]
-                                    block = if (paragraphItemBlock is TextBlock) {
-                                        SpanableBlock(getAuthorAndText(comment.author, paragraphItemBlock.content))
-                                    } else {
-                                        SpanableBlock(getAuthorAndText(comment.author, ""))
-                                    }
-                                } else {
-                                    block = findBlock.content[0]
-                                }
-                                paragraphContent.add(block)
-                            }
+
+                            paragraphContent.add(TextBlock(IdUtil.generateLongId(), (comment.author.username ?: comment.author.userId)+" ", TextStyle.BOLD, null))
+                            findBlock.content.forEach { block -> paragraphContent.add(block) }
+
                             val newParagraph = ParagraphBlock(null, paragraphContent)
                             newContentList[0] = newParagraph
                         } else {

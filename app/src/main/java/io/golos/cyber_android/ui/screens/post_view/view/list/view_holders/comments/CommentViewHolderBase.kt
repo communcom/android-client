@@ -166,8 +166,7 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
             val indexOf = newContentList.indexOf(findBlock)
             if (indexOf == 0) {
                 if (findBlock is TextBlock) {
-                    newContentList[0] =
-                        ParagraphBlock(null, arrayListOf(SpanableBlock(getAuthorAndText(author, findBlock.content, paragraphWidgetListener)))) as Block
+                    newContentList[0] = ParagraphBlock(null, arrayListOf(SpanableBlock(getAuthorAndText(author, findBlock.content, paragraphWidgetListener)))) as Block
                 } else {
                     if (findBlock is ParagraphBlock) {
                         if (findBlock.content.isNotEmpty()) {
