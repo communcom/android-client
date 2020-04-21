@@ -108,7 +108,7 @@ class MyFeedViewModel @Inject constructor(
     override fun onDownVoteClicked(contentId: ContentId) {
         launch {
             try {
-                _postsListState.value = updateUpVoteCountOfVotes(_postsListState.value, contentId)
+                _postsListState.value = updateDownVoteCountOfVotes(_postsListState.value, contentId)
                 model.downVote(contentId.communityId, contentId.userId, contentId.permlink)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
