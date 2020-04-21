@@ -2,6 +2,9 @@ package io.golos.data.mappers
 
 import io.golos.commun4j.services.model.NotificationEntityContent
 import io.golos.domain.dto.*
+import io.golos.domain.dto.notifications.NotificationCommentDomain
+import io.golos.domain.dto.notifications.NotificationCommentParentsDomain
+import io.golos.domain.dto.notifications.NotificationPostDomain
 
 fun NotificationEntityContent.mapToNotificationCommentDomain(): NotificationCommentDomain {
     val commentContentId = ContentIdDomain(CommunityIdDomain(contentId.communityId?.value ?: ""), this.contentId.permlink, contentId.userId.name)
@@ -10,8 +13,16 @@ fun NotificationEntityContent.mapToNotificationCommentDomain(): NotificationComm
     val parentCommentContentId = entityContentParents.comment?.let {
         ContentIdDomain(CommunityIdDomain(it.communityId!!.value), it.permlink, it.userId.name!!)
     }
-    val parentsDomain = NotificationCommentParentsDomain(parentPostContentId, parentCommentContentId)
-    return NotificationCommentDomain(commentContentId, shortText, imageUrl, parentsDomain)
+    val parentsDomain = NotificationCommentParentsDomain(
+        parentPostContentId,
+        parentCommentContentId
+    )
+    return NotificationCommentDomain(
+        commentContentId,
+        shortText,
+        imageUrl,
+        parentsDomain
+    )
 }
 
 

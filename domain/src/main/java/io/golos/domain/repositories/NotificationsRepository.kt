@@ -1,7 +1,8 @@
 package io.golos.domain.repositories
 
-import io.golos.domain.dto.NotificationsPageDomain
-import io.golos.domain.dto.NotificationsStatusDomain
+import io.golos.domain.dto.notifications.NotificationSettingsDomain
+import io.golos.domain.dto.notifications.NotificationsPageDomain
+import io.golos.domain.dto.notifications.NotificationsStatusDomain
 import kotlinx.coroutines.flow.Flow
 import java.util.*
 
@@ -25,4 +26,14 @@ interface NotificationsRepository {
     suspend fun resetFcmToken()
 
     suspend fun setTimeZoneOffset()
+
+    /**
+     * @return full set of settings and their state
+     */
+    suspend fun getNotificationSettings(): List<NotificationSettingsDomain>
+
+    /**
+     * [settings] full set of settings and their state
+     */
+    suspend fun setNotificationSettings(settings: List<NotificationSettingsDomain>)
 }

@@ -6,6 +6,7 @@ import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.UsersRepository
 import javax.inject.Inject
 import dagger.Lazy
+import io.golos.cyber_android.ui.screens.profile.model.notifications_settings.NotificationsSettingsFacade
 import io.golos.cyber_android.ui.screens.wallet_shared.balance_calculator.BalanceCalculator
 import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.dto.CommunityDomain
@@ -20,7 +21,8 @@ constructor(
     communityRepository: CommunitiesRepository,
     walletRepository: WalletRepository,
     logout: Lazy<LogoutUseCase>,
-    balanceCalculator: BalanceCalculator
+    balanceCalculator: BalanceCalculator,
+    notificationSettings: NotificationsSettingsFacade
 ) : ProfileModelImpl(
     profileUserId,
     currentUserRepository,
@@ -28,7 +30,8 @@ constructor(
     communityRepository,
     walletRepository,
     logout,
-    balanceCalculator
+    balanceCalculator,
+    notificationSettings
 ), ProfileModel {
     override val isBalanceVisible: Boolean
         get() = false

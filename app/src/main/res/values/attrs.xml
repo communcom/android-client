@@ -66,4 +66,9 @@
         <attr name="card_margin_end" format="dimension"/>
         <attr name="card_corner_radius" format="dimension"/>
     </declare-styleable>
+
+    <declare-styleable name="NotificationSettingsItemWidget">
+        <attr name="notification_icon" format="reference"/>
+        <attr name="notification_title" format="string"/>
+    </declare-styleable>
 </resources>

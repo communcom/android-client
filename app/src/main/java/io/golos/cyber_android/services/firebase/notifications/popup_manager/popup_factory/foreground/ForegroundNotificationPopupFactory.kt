@@ -8,7 +8,7 @@ import io.golos.cyber_android.ui.screens.notifications.view.list.items.BaseNotif
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.UnsupportedNotificationItem
 import io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.content_rendering.view.NotificationView
 import io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.content_rendering.view.NotificationViewLayout
-import io.golos.domain.dto.NotificationDomain
+import io.golos.domain.dto.notifications.NotificationDomain
 
 class ForegroundNotificationPopupFactory: NotificationPopupFactoryBase() {
 

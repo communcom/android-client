@@ -11,10 +11,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentProfileNewBinding
-import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
-import io.golos.cyber_android.ui.dialogs.ProfileExternalUserSettingsDialog
-import io.golos.cyber_android.ui.dialogs.ProfileMenuDialog
-import io.golos.cyber_android.ui.dialogs.ProfileSettingsDialog
+import io.golos.cyber_android.ui.dialogs.*
 import io.golos.cyber_android.ui.dto.BlackListFilter
 import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.dto.ProfileCommunities
@@ -42,7 +39,9 @@ import io.golos.cyber_android.ui.shared.widgets.TabLineDrawable
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
+import io.golos.domain.dto.notifications.NotificationSettingsDomain
 import kotlinx.android.synthetic.main.fragment_profile_new.*
+import timber.log.Timber
 import java.io.File
 
 open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewModel>() {
@@ -98,6 +97,7 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
             is NavigateToBioPageCommand -> moveToBioPage(command.text)
             is NavigateToFollowersPageCommand -> moveToFollowersPage(command.filter, command.mutualUsers)
             is ShowSettingsDialogCommand -> showSettingsDialog()
+            is ShowNotificationsSettingsDialogCommand -> showNotificationsSettingsDialog(command.sourceNotifications)
             is ShowExternalUserSettingsDialogCommand -> showExternalUserSettingsDialog(command.isBlocked)
             is ShowConfirmationDialog -> showConfirmationDialog(command.textRes)
             is NavigateToLikedPageCommand -> moveToLikedPage()
@@ -169,7 +169,13 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
                 is ProfileSettingsDialog.Result.Logout -> viewModel.onLogoutSelected()
                 is ProfileSettingsDialog.Result.Liked -> viewModel.onLikedSelected()
                 is ProfileSettingsDialog.Result.BlackList -> viewModel.onBlackListSelected()
+                is ProfileSettingsDialog.Result.Notifications -> viewModel.onNotificationsSettingsSelected()
             }
+        }
+
+    private fun showNotificationsSettingsDialog(sourceNotifications: List<NotificationSettingsDomain>) =
+        ProfileNotificationsDialog.show(this@ProfileFragment, sourceNotifications) {
+            viewModel.saveNotificationsSettings(it!!.settings)
         }
 
     private fun showExternalUserSettingsDialog(isBlocked: Boolean) =

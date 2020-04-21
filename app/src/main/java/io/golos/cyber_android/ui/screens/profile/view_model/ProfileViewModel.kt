@@ -14,6 +14,7 @@ import io.golos.cyber_android.ui.screens.profile.model.ProfileModel
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.dto.notifications.NotificationSettingsDomain
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
@@ -199,6 +200,28 @@ constructor(
 
     fun onBlackListSelected() {
         _command.value = NavigateToBlackListPageCommand()
+    }
+
+    fun onNotificationsSettingsSelected() {
+        launch {
+            try {
+                _command.value = ShowNotificationsSettingsDialogCommand(model.notificationSettings.getSettings())
+            } catch (ex: Exception) {
+                Timber.e(ex)
+                _command.value = ShowMessageResCommand(R.string.common_general_error)
+            }
+        }
+    }
+
+    fun saveNotificationsSettings(settings: List<NotificationSettingsDomain>) {
+        launch {
+            try {
+                model.notificationSettings.updateSettings(settings)
+            } catch (ex: Exception) {
+                Timber.e(ex)
+                _command.value = ShowMessageResCommand(R.string.common_general_error)
+            }
+        }
     }
 
     fun onMoveToBlackListSelected() {

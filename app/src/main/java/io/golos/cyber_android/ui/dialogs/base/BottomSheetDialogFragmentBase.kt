@@ -1,18 +1,22 @@
 package io.golos.cyber_android.ui.dialogs.base
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.DialogFragment
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import io.golos.cyber_android.R
 
 /**
  * Base class for all BottomSheetDialogs
  */
-abstract class BottomSheetDialogFragmentBase<TResult> : BottomSheetDialogFragment() {
+abstract class BottomSheetDialogFragmentBase<TResult>(private val showExpanded: Boolean = false) : BottomSheetDialogFragment() {
     protected lateinit var closeActionListener: (TResult?) -> Unit
 
     private var isItemSelected = false
@@ -31,6 +35,21 @@ abstract class BottomSheetDialogFragmentBase<TResult> : BottomSheetDialogFragmen
         return inflater.inflate(layout, container, false)
     }
 
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = super.onCreateDialog(savedInstanceState)
+
+        if(showExpanded) {
+            dialog.setOnShowListener {
+                (dialog as BottomSheetDialog).let { d ->
+                    val bottomSheet = d.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
+                    BottomSheetBehavior.from(bottomSheet).state = BottomSheetBehavior.STATE_EXPANDED
+                }
+            }
+        }
+
+        return dialog
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -40,10 +59,7 @@ abstract class BottomSheetDialogFragmentBase<TResult> : BottomSheetDialogFragmen
 
     override fun onDestroy() {
         super.onDestroy()
-
-        if(!isItemSelected) {
-            closeActionListener(null)
-        }
+        processDestroy()
     }
 
     protected abstract fun setupView()
@@ -52,5 +68,11 @@ abstract class BottomSheetDialogFragmentBase<TResult> : BottomSheetDialogFragmen
         closeActionListener(item)
         isItemSelected = true
         dismiss()
+    }
+
+    protected open fun processDestroy() {
+        if(!isItemSelected) {
+            closeActionListener(null)
+        }
     }
 }

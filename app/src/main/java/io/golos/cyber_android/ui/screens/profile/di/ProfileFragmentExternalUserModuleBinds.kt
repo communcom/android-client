@@ -7,7 +7,9 @@ import dagger.multibindings.IntoMap
 import io.golos.cyber_android.ui.screens.profile.model.ProfileModel
 import io.golos.cyber_android.ui.screens.profile.model.ProfileModelExternalUserImpl
 import io.golos.cyber_android.ui.screens.profile.model.logout.LogoutUseCase
-import io.golos.cyber_android.ui.screens.profile.model.logout.LogoutUseCaseImpl
+import io.golos.cyber_android.ui.screens.profile.model.logout.LogoutUseCaseExternalUserImpl
+import io.golos.cyber_android.ui.screens.profile.model.notifications_settings.NotificationsSettingsFacade
+import io.golos.cyber_android.ui.screens.profile.model.notifications_settings.NotificationsSettingsFacadeExternalUserImpl
 import io.golos.cyber_android.ui.screens.profile.view_model.ProfileViewModel
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactoryImpl
@@ -27,5 +29,8 @@ abstract class ProfileFragmentExternalUserModuleBinds {
     abstract fun provideProfileModel(model: ProfileModelExternalUserImpl): ProfileModel
 
     @Binds
-    abstract fun provideLogoutUseCase(useCase: LogoutUseCaseImpl): LogoutUseCase
+    abstract fun provideLogoutUseCase(useCase: LogoutUseCaseExternalUserImpl): LogoutUseCase
+
+    @Binds
+    abstract fun provideNotificationsSettingsFacade(facade: NotificationsSettingsFacadeExternalUserImpl): NotificationsSettingsFacade
 }

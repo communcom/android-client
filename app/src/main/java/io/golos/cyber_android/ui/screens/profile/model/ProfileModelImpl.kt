@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.profile.model
 import dagger.Lazy
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.screens.profile.model.logout.LogoutUseCase
+import io.golos.cyber_android.ui.screens.profile.model.notifications_settings.NotificationsSettingsFacade
 import io.golos.cyber_android.ui.screens.wallet_shared.balance_calculator.BalanceCalculator
 import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.dto.*
@@ -22,7 +23,8 @@ constructor(
     private val communityRepository: CommunitiesRepository,
     private val walletRepository: WalletRepository,
     private val logout: Lazy<LogoutUseCase>,
-    private val balanceCalculator: BalanceCalculator
+    private val balanceCalculator: BalanceCalculator,
+    override val notificationSettings: NotificationsSettingsFacade
 ) : ModelBaseImpl(),
     ProfileModel {
 

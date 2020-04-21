@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:background="@drawable/bcg_bottom_sheet_dialog_round_corners"
+
+    android:paddingTop="@dimen/bottom_sheet_dialog_padding_header_top"
+    android:paddingBottom="@dimen/bottom_sheet_dialog_padding_bottom">
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/BottomSheetMenuTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/notifications"
+
+        android:layout_marginStart="@dimen/bottom_sheet_dialog_item_margin_horizontal"
+
+        app:layout_constraintEnd_toStartOf="@+id/buttonClose"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/buttonClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_close_white"
+
+        android:layout_marginEnd="@dimen/bottom_sheet_dialog_item_margin_horizontal"
+
+        app:layout_constraintTop_toTopOf="@+id/title"
+        app:layout_constraintBottom_toBottomOf="@+id/title"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="@dimen/bottom_sheet_dialog_item_margin_horizontal"
+        android:layout_marginEnd="@dimen/bottom_sheet_dialog_item_margin_horizontal"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title">
+
+        <io.golos.cyber_android.ui.dialogs.notifications_settings.NotificationSettingsItemWidget
+            android:id="@+id/upvoteNotification"
+
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/settings_menu_item_height"
+
+            app:notification_icon="@drawable/ic_settings_notifications_upvote"
+            app:notification_title="@string/upvote"
+        />
+
+        <io.golos.cyber_android.ui.dialogs.notifications_settings.NotificationSettingsItemWidget
+            android:id="@+id/transferNotification"
+
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/settings_menu_item_height"
+
+            android:layout_marginTop="10dp"
+
+            app:notification_icon="@drawable/ic_settings_notifications_transfer"
+            app:notification_title="@string/transfer"
+        />
+
+        <io.golos.cyber_android.ui.dialogs.notifications_settings.NotificationSettingsItemWidget
+            android:id="@+id/replyNotification"
+
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/settings_menu_item_height"
+
+            android:layout_marginTop="10dp"
+
+            app:notification_icon="@drawable/ic_settings_notifications_reply"
+            app:notification_title="@string/reply"
+        />
+
+        <io.golos.cyber_android.ui.dialogs.notifications_settings.NotificationSettingsItemWidget
+            android:id="@+id/mentionNotification"
+
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/settings_menu_item_height"
+
+            android:layout_marginTop="10dp"
+
+            app:notification_icon="@drawable/ic_settings_notifications_mention"
+            app:notification_title="@string/mention"
+        />
+
+        <io.golos.cyber_android.ui.dialogs.notifications_settings.NotificationSettingsItemWidget
+            android:id="@+id/rewardNotification"
+
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/settings_menu_item_height"
+
+            android:layout_marginTop="10dp"
+
+            app:notification_icon="@drawable/ic_settings_notifications_reward"
+            app:notification_title="@string/reward"
+        />
+
+        <io.golos.cyber_android.ui.dialogs.notifications_settings.NotificationSettingsItemWidget
+            android:id="@+id/subscribeNotification"
+
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/settings_menu_item_height"
+
+            android:layout_marginTop="10dp"
+
+            app:notification_icon="@drawable/ic_settings_notifications_subscribe"
+            app:notification_title="@string/subsribe"
+        />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
