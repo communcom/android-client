@@ -13,6 +13,7 @@ import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
 import io.golos.cyber_android.ui.shared.characters.SpecialChars
 import io.golos.utils.format.RewardFormatter
 import io.golos.cyber_android.ui.shared.glide.clear
+import io.golos.cyber_android.ui.shared.glide.loadCommunity
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
 import io.golos.cyber_android.ui.shared.utils.adjustSpannableClicks
 import io.golos.cyber_android.ui.shared.utils.toTimeEstimateFormat
@@ -74,13 +75,7 @@ constructor(
 
         authorAndTime.text = getTimeAndAuthor(postHeader)
 
-        postHeader.communityAvatarUrl
-            ?.let {
-                Glide.with(communityAvatar)
-                    .load(it)
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(communityAvatar)
-            }
+        communityAvatar.loadCommunity(postHeader.communityAvatarUrl)
 
         communityAvatar.setOnClickListener {
             postHeader.communityId?.let { id ->

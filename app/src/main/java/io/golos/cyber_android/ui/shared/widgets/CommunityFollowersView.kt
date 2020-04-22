@@ -4,11 +4,9 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.community_page.dto.CommunityFriend
-import io.golos.cyber_android.ui.screens.community_page.dto.CommunityPage
+import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import kotlinx.android.synthetic.main.view_community_followers.view.*
 
 class CommunityFollowersView @JvmOverloads constructor(
@@ -34,10 +32,8 @@ class CommunityFollowersView @JvmOverloads constructor(
             }
         }
         for ((index, follower) in followers.take(3).withIndex()) {
-            Glide.with(this)
-                .load(follower.avatarUrl)
-                .apply(RequestOptions.circleCropTransform())
-                .into(ivFollowers[index])
+            ivFollowers[index].loadAvatar(follower.avatarUrl)
+
             val ivAward = ivFollowersAwards[index]
             if(follower.hasAward){
                 ivAward.visibility = View.VISIBLE
@@ -48,7 +44,6 @@ class CommunityFollowersView @JvmOverloads constructor(
     }
 
     private companion object{
-
         private const val MAX_USERS_COUNT = 3
     }
 }

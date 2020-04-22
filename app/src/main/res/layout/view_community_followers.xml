@@ -44,15 +44,15 @@
 
         <ImageView
             android:id="@+id/ivFollower1"
-            android:padding="@dimen/padding_profile_follower_photo"
-            tools:src="@drawable/img_example_avatar"
-            android:background="@drawable/img_white_circle"
             android:layout_width="@dimen/community_header_follower_size"
             android:layout_height="@dimen/community_header_follower_size"
-            app:layout_constraintStart_toStartOf="parent"
+            android:background="@drawable/img_white_circle"
+            android:padding="@dimen/padding_profile_follower_photo"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            tools:src="@drawable/img_example_avatar" />
 
         <ImageView
             android:id="@+id/ivFollower1Award"
@@ -74,15 +74,15 @@
 
         <ImageView
             android:id="@+id/ivFollower0"
-            android:padding="@dimen/padding_profile_follower_photo"
-            tools:src="@drawable/img_example_avatar"
-            android:background="@drawable/img_white_circle"
             android:layout_width="@dimen/community_header_follower_size"
             android:layout_height="@dimen/community_header_follower_size"
-            app:layout_constraintStart_toStartOf="parent"
+            android:background="@drawable/img_white_circle"
+            android:padding="@dimen/padding_profile_follower_photo"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            tools:src="@drawable/img_example_avatar" />
 
         <ImageView
             android:id="@+id/ivFollower0Award"

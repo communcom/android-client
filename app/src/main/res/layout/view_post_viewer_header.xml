@@ -27,7 +27,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/backButton"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_group_temporary"
+        tools:srcCompat="@drawable/ic_commun"
         app:layout_goneMarginStart="@dimen/padding_horizontal_editor_widget"
         tools:ignore="ContentDescription" />
 
