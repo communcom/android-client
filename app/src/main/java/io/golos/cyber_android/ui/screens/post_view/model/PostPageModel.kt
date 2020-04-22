@@ -13,9 +13,9 @@ import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
 import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
 import io.golos.domain.use_cases.model.CommentModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
-import io.golos.domain.use_cases.post.post_dto.AttachmentsBlock
-import io.golos.domain.use_cases.post.post_dto.Block
-import io.golos.domain.use_cases.post.post_dto.PostMetadata
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.AttachmentsBlock
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.Block
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.PostMetadata
 import java.io.File
 
 interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToCommunityUseCase {
@@ -72,7 +72,7 @@ interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToC
 
     suspend fun retryLoadingSecondLevelCommentsPage(parentCommentId: DiscussionIdModel)
 
-    suspend fun sendComment(content: List<Block>, attachments: AttachmentsBlock?)
+    suspend fun sendComment(jsonBody: String)
 
     suspend fun deleteComment(commentId: DiscussionIdModel)
 
@@ -82,9 +82,9 @@ interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToC
 
     fun getComment(discussionIdModel: DiscussionIdModel): CommentModel?
 
-    suspend fun updateComment(commentId: DiscussionIdModel, content: List<Block>, attachments: AttachmentsBlock?)
+    suspend fun updateComment(commentId: DiscussionIdModel, jsonBody: String)
 
-    suspend fun replyToComment(repliedCommentId: DiscussionIdModel, content: List<Block>, attachments: AttachmentsBlock?)
+    suspend fun replyToComment(repliedCommentId: DiscussionIdModel, jsonBody: String)
 
     suspend fun uploadAttachmentContent(file: File): String
 

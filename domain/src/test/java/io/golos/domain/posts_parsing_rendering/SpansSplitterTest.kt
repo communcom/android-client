@@ -1,8 +1,8 @@
 package io.golos.domain.posts_parsing_rendering
 
-import io.golos.domain.use_cases.post.editor_output.MentionSpanInfo
-import io.golos.domain.use_cases.post.editor_output.ParagraphMetadata
-import io.golos.domain.use_cases.post.editor_output.TagSpanInfo
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.MentionSpanInfo
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.ParagraphMetadata
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.TagSpanInfo
 import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.spans_splitter.SpansSplitter
 import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.spans_splitter.SplittedMention
 import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.spans_splitter.SplittedTag
@@ -14,7 +14,8 @@ class SpansSplitterTest {
     @Test
     fun empty() {
         // Arrange
-        val paragraphMetadata = ParagraphMetadata("", listOf())
+        val paragraphMetadata =
+            ParagraphMetadata("", listOf())
 
         // Act
         val splitResult = SpansSplitter().split(paragraphMetadata)
@@ -26,7 +27,11 @@ class SpansSplitterTest {
     @Test
     fun textOnly() {
         // Arrange
-        val paragraphMetadata = ParagraphMetadata("Some text", listOf())
+        val paragraphMetadata =
+            ParagraphMetadata(
+                "Some text",
+                listOf()
+            )
 
         // Act
         val splitResult = SpansSplitter().split(paragraphMetadata)
@@ -41,7 +46,15 @@ class SpansSplitterTest {
     fun onlySpan() {
         // Arrange
         val paragraphMetadata =
-            ParagraphMetadata("#tag", listOf(TagSpanInfo(0..4, "tag")))
+            ParagraphMetadata(
+                "#tag",
+                listOf(
+                    TagSpanInfo(
+                        0..4,
+                        "tag"
+                    )
+                )
+            )
 
         // Act
         val splitResult = SpansSplitter().split(paragraphMetadata)
@@ -55,10 +68,16 @@ class SpansSplitterTest {
     @Test
     fun one() {
         // Arrange
-        val paragraphMetadata = ParagraphMetadata(
-            "ggg #tag gggg",
-            listOf(TagSpanInfo(4..8, "tag"))
-        )
+        val paragraphMetadata =
+            ParagraphMetadata(
+                "ggg #tag gggg",
+                listOf(
+                    TagSpanInfo(
+                        4..8,
+                        "tag"
+                    )
+                )
+            )
 
         // Act
         val splitResult = SpansSplitter().split(paragraphMetadata)
@@ -79,13 +98,20 @@ class SpansSplitterTest {
     @Test
     fun veryFirstAndLast() {
         // Arrange
-        val paragraphMetadata = ParagraphMetadata(
-            "#tag gggg#tag",
-            listOf(
-                TagSpanInfo(0..4, "tag"),
-                TagSpanInfo(9..13, "tag")
+        val paragraphMetadata =
+            ParagraphMetadata(
+                "#tag gggg#tag",
+                listOf(
+                    TagSpanInfo(
+                        0..4,
+                        "tag"
+                    ),
+                    TagSpanInfo(
+                        9..13,
+                        "tag"
+                    )
+                )
             )
-        )
 
         // Act
         val splitResult = SpansSplitter().split(paragraphMetadata)
@@ -106,13 +132,20 @@ class SpansSplitterTest {
     @Test
     fun variousTypes() {
         // Arrange
-        val paragraphMetadata = ParagraphMetadata(
-            "#tag @mention",
-            listOf(
-                TagSpanInfo(0..4, "tag"),
-                MentionSpanInfo(5..13, "mention")
+        val paragraphMetadata =
+            ParagraphMetadata(
+                "#tag @mention",
+                listOf(
+                    TagSpanInfo(
+                        0..4,
+                        "tag"
+                    ),
+                    MentionSpanInfo(
+                        5..13,
+                        "mention"
+                    )
+                )
             )
-        )
 
         // Act
         val splitResult = SpansSplitter().split(paragraphMetadata)

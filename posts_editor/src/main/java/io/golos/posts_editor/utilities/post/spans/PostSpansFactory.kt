@@ -5,12 +5,12 @@ import android.text.style.CharacterStyle
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import androidx.annotation.ColorInt
-import io.golos.domain.use_cases.post.TextStyle
-import io.golos.domain.use_cases.post.editor_output.LinkInfo
-import io.golos.domain.use_cases.post.toTypeface
-import io.golos.posts_editor.components.input.spans.custom.LinkSpan
-import io.golos.posts_editor.components.input.spans.custom.MentionSpan
-import io.golos.posts_editor.components.input.spans.custom.TagSpan
+import io.golos.domain.posts_parsing_rendering.post_metadata.TextStyle
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.LinkInfo
+import io.golos.domain.posts_parsing_rendering.post_metadata.toTypeface
+import io.golos.domain.posts_parsing_rendering.post_metadata.spans.custom.LinkSpan
+import io.golos.domain.posts_parsing_rendering.post_metadata.spans.custom.MentionSpan
+import io.golos.domain.posts_parsing_rendering.post_metadata.spans.custom.TagSpan
 
 object PostSpansFactory {
     @ColorInt
@@ -20,9 +20,18 @@ object PostSpansFactory {
 
     fun createTextStyle(style: TextStyle): CharacterStyle = StyleSpan(style.toTypeface())
 
-    fun createTag(value: String): CharacterStyle = TagSpan(value, specialSpansColors)
+    fun createTag(value: String): CharacterStyle =
+        TagSpan(value, specialSpansColors)
 
-    fun createMention(value: String): CharacterStyle = MentionSpan(value, specialSpansColors)
+    fun createMention(value: String): CharacterStyle =
+        MentionSpan(
+            value,
+            specialSpansColors
+        )
 
-        fun createLink(value: LinkInfo): CharacterStyle = LinkSpan(value, specialSpansColors)
+        fun createLink(value: LinkInfo): CharacterStyle =
+            LinkSpan(
+                value,
+                specialSpansColors
+            )
 }

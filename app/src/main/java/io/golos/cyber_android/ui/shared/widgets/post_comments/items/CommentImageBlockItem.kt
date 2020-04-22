@@ -7,7 +7,7 @@ import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.shared.base.adapter.RecyclerItem
 import io.golos.cyber_android.ui.shared.widgets.post_comments.EmbedImageWidget
 import io.golos.cyber_android.ui.shared.widgets.post_comments.EmbedImageWidgetListener
-import io.golos.domain.use_cases.post.post_dto.ImageBlock
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ImageBlock
 
 class CommentImageBlockItem(
     val imageBlock: ImageBlock,

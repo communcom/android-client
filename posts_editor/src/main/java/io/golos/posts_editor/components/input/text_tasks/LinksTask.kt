@@ -4,9 +4,9 @@ import android.net.Uri
 import android.text.style.CharacterStyle
 import android.util.Patterns
 import android.webkit.URLUtil
-import io.golos.domain.use_cases.post.editor_output.LinkInfo
-import io.golos.posts_editor.components.input.spans.custom.LinkSpan
-import io.golos.posts_editor.components.input.spans.spans_worker.SpansWorkerImpl
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.LinkInfo
+import io.golos.domain.posts_parsing_rendering.post_metadata.spans.custom.LinkSpan
+import io.golos.domain.posts_parsing_rendering.post_metadata.spans_worker.SpansWorkerImpl
 import io.golos.posts_editor.components.input.text_tasks.dto.TextSlice
 import io.golos.posts_editor.utilities.post.spans.PostSpansFactory
 
@@ -29,7 +29,13 @@ class LinksTask: TextTaskBase() {
     }
 
     override fun getAllSpans(spansWorker: SpansWorkerImpl): List<CharacterStyle> =
-        spansWorker.getAllSpans<LinkSpan>(LinkSpan::class)
+        spansWorker.getAllSpans<LinkSpan>(
+            LinkSpan::class)
 
-    override fun createSpan(text: String): CharacterStyle = PostSpansFactory.createLink(LinkInfo(text, Uri.parse(text)))
+    override fun createSpan(text: String): CharacterStyle = PostSpansFactory.createLink(
+        LinkInfo(
+            text,
+            Uri.parse(text)
+        )
+    )
 }

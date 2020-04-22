@@ -5,7 +5,7 @@ import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.*
 import io.golos.domain.requestmodel.DiscussionCreationRequestEntity
 import io.golos.domain.use_cases.model.PostModel
-import io.golos.domain.use_cases.post.post_dto.ContentBlock
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ContentBlock
 import java.io.File
 
 interface DiscussionRepository {
@@ -38,7 +38,7 @@ interface DiscussionRepository {
 
     suspend fun updateComment(commentDomain: CommentDomain)
 
-    suspend fun replyOnComment(parentCommentId: ContentIdDomain, content: ContentBlock): CommentDomain
+    suspend fun replyOnComment(parentCommentId: ContentIdDomain, jsonBody: String): CommentDomain
 
     @Deprecated("Use getPost method with 3 params")
     fun getPost(user: CyberName, permlink: Permlink): PostModel
@@ -54,5 +54,5 @@ interface DiscussionRepository {
 
     suspend fun updatePost(contentIdDomain: ContentIdDomain, body: String, tags: List<String>): ContentIdDomain
 
-    suspend fun sendComment(postIdDomain: ContentIdDomain, content: ContentBlock): CommentDomain
+    suspend fun sendComment(postIdDomain: ContentIdDomain, jsonBody: String): CommentDomain
 }

@@ -1,11 +1,10 @@
 package io.golos.cyber_android.ui.screens.post_view.dto
 
-import androidx.annotation.StringRes
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.domain.use_cases.model.DiscussionIdModel
-import io.golos.domain.use_cases.post.post_dto.ContentBlock
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ContentBlock
 
 @Deprecated("")
 class StartEditPostViewCommand(val postId: ContentId) : ViewCommand

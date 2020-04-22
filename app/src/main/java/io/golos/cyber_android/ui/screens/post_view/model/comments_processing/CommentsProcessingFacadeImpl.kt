@@ -18,13 +18,11 @@ import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.*
 import io.golos.domain.mappers.new_mappers.CommentToModelMapper
 import io.golos.domain.posts_parsing_rendering.PostGlobalConstants
-import io.golos.domain.posts_parsing_rendering.PostTypeJson
-import io.golos.domain.posts_parsing_rendering.PostTypeJson.DOCUMENT
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.*
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.use_cases.model.CommentModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
-import io.golos.domain.use_cases.post.post_dto.*
 import io.golos.utils.id.IdUtil
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -76,20 +74,14 @@ constructor(
     override suspend fun retryLoadSecondLevelPage(parentCommentId: DiscussionIdModel) =
         getSecondLevelLoader(parentCommentId).retryLoadPage()
 
-    override suspend fun sendComment(content: List<Block>, attachments: AttachmentsBlock?) {
+    override suspend fun sendComment(jsonBody: String) {
         try {
             postListDataSource.addLoadingForNewComment()
+
             val commentDomain = withContext(dispatchersProvider.ioDispatcher) {
-                val contentBlock = ContentBlock(
-                    id = IdUtil.generateLongId(),
-                    type = DOCUMENT,
-                    metadata = PostMetadata(PostGlobalConstants.postFormatVersion, PostType.COMMENT),
-                    title = "",
-                    content = content,
-                    attachments = attachments
-                )
-                discussionRepository.sendComment(postContentId.mapToContentIdDomain(), contentBlock)
+                discussionRepository.sendComment(postContentId.mapToContentIdDomain(), jsonBody)
             }
+
             val commentModel = commentToModelMapper.map(commentDomain)
             postListDataSource.addNewComment(commentModel)
             postListDataSource.removeEmptyCommentsStub()
@@ -131,7 +123,7 @@ constructor(
 
     override fun getComment(discussionIdModel: DiscussionIdModel): CommentModel? = commentsStorage.get().getComment(discussionIdModel)
 
-    override suspend fun updateComment(commentId: DiscussionIdModel, content: List<Block>, attachments: AttachmentsBlock?) {
+    override suspend fun updateComment(commentId: DiscussionIdModel, jsonBody: String) {
         postListDataSource.updateCommentState(commentId, CommentListItemState.PROCESSING)
 
         val oldComment = commentsStorage.get().getComment(commentId)!!
@@ -139,20 +131,6 @@ constructor(
         val authorDomain = AuthorDomain(currentUserRepository.userAvatarUrl, currentUserRepository.userId.userId, currentUserRepository.userName)
         val votesModel = oldComment.votes
         val votesDomain = VotesDomain(votesModel.downCount, votesModel.upCount, votesModel.hasUpVote, votesModel.hasDownVote)
-        val contentBlock = oldComment.body?.copy(
-            id = IdUtil.generateLongId(),
-            metadata = PostMetadata(PostGlobalConstants.postFormatVersion, PostType.COMMENT),
-            content = content,
-            attachments = attachments
-        ) ?:
-        ContentBlock(
-            id = IdUtil.generateLongId(),
-            type = PostTypeJson.COMMENT,
-            metadata = PostMetadata(PostGlobalConstants.postFormatVersion, PostType.COMMENT),
-            title = "",
-            content = content,
-            attachments = attachments
-        )
 
         val parentCommentDomain = if (oldComment.commentLevel == 0) {
             ParentCommentDomain(null, postContentId.mapToContentIdDomain())
@@ -165,7 +143,8 @@ constructor(
             contentId = contentId,
             author = authorDomain,
             votes = votesDomain,
-            body = contentBlock,
+            body = null,
+            jsonBody = jsonBody,
             childCommentsCount = oldComment.childTotal.toInt(),
             community = CommunityDomain(postContentId.communityId, null, "", null, null, 0, 0, false),
             meta = MetaDomain(oldComment.meta.time),
@@ -180,7 +159,7 @@ constructor(
                 discussionRepository.updateComment(commentDomain)
             }
             val newComment = oldComment.copy(
-                body = contentBlock
+//                body = contentBlock
             )
             postListDataSource.updateComment(newComment)
             commentsStorage.get().updateComment(newComment)
@@ -191,22 +170,14 @@ constructor(
         }
     }
 
-    override suspend fun replyToComment(repliedCommentId: DiscussionIdModel, content: List<Block>, attachments: AttachmentsBlock?) {
+    override suspend fun replyToComment(repliedCommentId: DiscussionIdModel, jsonBody: String) {
         postListDataSource.addLoadingForRepliedComment(repliedCommentId)
 
         try {
             val commentDomain = withContext(dispatchersProvider.ioDispatcher) {
                 val parentContentId =
                     ContentIdDomain(postContentId.communityId, repliedCommentId.permlink.value, repliedCommentId.userId)
-                val contentBlock = ContentBlock(
-                    id = IdUtil.generateLongId(),
-                    type = DOCUMENT,
-                    metadata = PostMetadata(PostGlobalConstants.postFormatVersion, PostType.COMMENT),
-                    title = "",
-                    content = content,
-                    attachments = attachments
-                )
-                discussionRepository.replyOnComment(parentContentId, contentBlock)
+                discussionRepository.replyOnComment(parentContentId, jsonBody)
             }
 
             val commentModel = commentToModelMapper.map(commentDomain)

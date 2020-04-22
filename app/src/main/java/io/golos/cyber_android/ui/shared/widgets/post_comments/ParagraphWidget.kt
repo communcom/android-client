@@ -21,11 +21,11 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
 import io.golos.cyber_android.ui.shared.utils.adjustSpannableClicks
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.*
 import io.golos.utils.helpers.appendSpannable
 import io.golos.utils.helpers.appendText
 import io.golos.utils.helpers.setSpan
-import io.golos.domain.use_cases.post.post_dto.*
-import io.golos.domain.use_cases.post.toTypeface
+import io.golos.domain.posts_parsing_rendering.post_metadata.toTypeface
 
 
 class ParagraphWidget

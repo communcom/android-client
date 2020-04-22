@@ -34,7 +34,7 @@ import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.use_cases.UseCase
 import io.golos.domain.use_cases.feed.PostWithCommentUseCaseImpl
 import io.golos.domain.use_cases.model.*
-import io.golos.domain.use_cases.post.editor_output.ControlMetadata
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.ControlMetadata
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch

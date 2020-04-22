@@ -23,14 +23,17 @@ import io.golos.domain.dto.block.ListContentBlockEntity
 import io.golos.domain.mappers.CyberPostToEntityMapper
 import io.golos.domain.mappers.PostEntitiesToModelMapper
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.JsonToDtoMapper
+import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.mappers.MappersFactory
+import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.mappers.PostMapper
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.requestmodel.DeleteDiscussionRequestEntity
 import io.golos.domain.requestmodel.DiscussionCreationRequestEntity
 import io.golos.domain.use_cases.model.PostModel
-import io.golos.domain.use_cases.post.post_dto.ContentBlock
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ContentBlock
 import io.golos.utils.format.DatesServerFormatter
 import kotlinx.coroutines.withContext
+import org.json.JSONObject
 import java.io.File
 import java.util.*
 import javax.inject.Inject
@@ -255,10 +258,7 @@ constructor(
     }
 
     override suspend fun updateComment(commentDomain: CommentDomain) {
-        val body = commentDomain.body
-        val contentEntity = body?.mapToContentBlock()
-        val adapter = moshi.adapter(ListContentBlockEntity::class.java)
-        val jsonBody = adapter.toJson(contentEntity)
+        val jsonBody = commentDomain.jsonBody!!
         val contentId = commentDomain.contentId
         callProxy.callBC {
             commun4j.updatePostOrComment(
@@ -351,10 +351,7 @@ constructor(
         createOrUpdate(request)
     }
 
-    override suspend fun sendComment(postIdDomain: ContentIdDomain, content: ContentBlock): CommentDomain {
-        val contentEntity = content.mapToContentBlock()
-        val adapter = moshi.adapter(ListContentBlockEntity::class.java)
-        val jsonBody = adapter.toJson(contentEntity)
+    override suspend fun sendComment(postIdDomain: ContentIdDomain, jsonBody: String): CommentDomain {
         val author = currentUserRepository.userId.mapToCyberName()
         val response = callProxy.callBC {
             val metadata = DatesServerFormatter.formatToServer(Date())
@@ -376,7 +373,8 @@ constructor(
         return CommentDomain(contentId = ContentIdDomain(postIdDomain.communityId, permlink, currentUserRepository.userId.userId),
             author = AuthorDomain(currentUserRepository.userAvatarUrl, currentUserRepository.userId.userId, currentUserRepository.userName),
             votes = VotesDomain(0, 0, false, false),
-            body = content,
+            body = MappersFactory().getMapper<PostMapper>(PostMapper::class).map(JSONObject(jsonBody)),
+            jsonBody = null,
             childCommentsCount = 0,
             community = CommunityDomain(postIdDomain.communityId, null, "", null, null, 0, 0, false),
             meta = MetaDomain(DatesServerFormatter.formatFromServer(response.metadata)),
@@ -389,10 +387,7 @@ constructor(
     }
 
 
-    override suspend fun replyOnComment(parentCommentId: ContentIdDomain, content: ContentBlock): CommentDomain {
-        val contentEntity = content.mapToContentBlock()
-        val adapter = moshi.adapter(ListContentBlockEntity::class.java)
-        val jsonBody = adapter.toJson(contentEntity)
+    override suspend fun replyOnComment(parentCommentId: ContentIdDomain, jsonBody: String): CommentDomain {
         val author = currentUserRepository.userId.mapToCyberName()
         val communityId = parentCommentId.communityId
         val response = callProxy.callBC {
@@ -415,7 +410,8 @@ constructor(
         return CommentDomain(contentId = ContentIdDomain(communityId, permlink, currentUserRepository.userId.userId),
             author = AuthorDomain(currentUserRepository.userAvatarUrl, currentUserRepository.userId.userId, currentUserRepository.userName),
             votes = VotesDomain(0, 0, false, false),
-            body = content,
+            body = MappersFactory().getMapper<PostMapper>(PostMapper::class).map(JSONObject(jsonBody)),
+            jsonBody = null,
             childCommentsCount = 0,
             community = CommunityDomain(communityId, null, "", null, null, 0, 0, false),
             meta = MetaDomain(DatesServerFormatter.formatFromServer(response.metadata)),

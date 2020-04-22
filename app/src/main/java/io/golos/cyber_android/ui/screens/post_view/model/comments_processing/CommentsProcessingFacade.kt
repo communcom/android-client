@@ -4,8 +4,8 @@ import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.use_cases.model.CommentModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
-import io.golos.domain.use_cases.post.post_dto.AttachmentsBlock
-import io.golos.domain.use_cases.post.post_dto.Block
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.AttachmentsBlock
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.Block
 
 interface CommentsProcessingFacade {
     val pageSize: Int
@@ -20,7 +20,7 @@ interface CommentsProcessingFacade {
 
     suspend fun retryLoadSecondLevelPage(parentCommentId: DiscussionIdModel)
 
-    suspend fun sendComment(content: List<Block>, attachments: AttachmentsBlock?)
+    suspend fun sendComment(jsonBody: String)
 
     suspend fun deleteComment(commentId: DiscussionIdModel, isSingleComment: Boolean)
 
@@ -30,9 +30,9 @@ interface CommentsProcessingFacade {
 
     fun getComment(discussionIdModel: DiscussionIdModel): CommentModel?
 
-    suspend fun updateComment(commentId: DiscussionIdModel, content: List<Block>, attachments: AttachmentsBlock?)
+    suspend fun updateComment(commentId: DiscussionIdModel, jsonBody: String)
 
-    suspend fun replyToComment(repliedCommentId: DiscussionIdModel, content: List<Block>, attachments: AttachmentsBlock?)
+    suspend fun replyToComment(repliedCommentId: DiscussionIdModel, jsonBody: String)
 
     suspend fun vote(communityId: CommunityIdDomain, commentId: DiscussionIdModel, isUpVote: Boolean)
 }

@@ -5,9 +5,9 @@ import io.golos.domain.posts_parsing_rendering.BlockType
 import io.golos.domain.posts_parsing_rendering.CommonType
 import io.golos.domain.posts_parsing_rendering.PostGlobalConstants
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.IncompatibleVersionsException
-import io.golos.domain.use_cases.post.post_dto.AttachmentsBlock
-import io.golos.domain.use_cases.post.post_dto.Block
-import io.golos.domain.use_cases.post.post_dto.ContentBlock
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.AttachmentsBlock
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.Block
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ContentBlock
 import org.json.JSONObject
 
 class PostMapper(mappersFactory: MappersFactory): MapperBase<ContentBlock>(mappersFactory) {
@@ -77,6 +77,13 @@ class PostMapper(mappersFactory: MappersFactory): MapperBase<ContentBlock>(mappe
 
         }
 
-        return ContentBlock(commonId, commonType, metadata, title, content, attachments)
+        return ContentBlock(
+            commonId,
+            commonType,
+            metadata,
+            title,
+            content,
+            attachments
+        )
     }
 }

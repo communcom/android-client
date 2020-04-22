@@ -12,20 +12,16 @@ import io.golos.cyber_android.ui.screens.post_view.model.PostPageModel
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.shared.utils.localSize
 import io.golos.cyber_android.ui.shared.widgets.comment.CommentContent
 import io.golos.cyber_android.ui.shared.widgets.comment.ContentState
 import io.golos.domain.repositories.exceptions.ApiResponseErrorException
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.EditorOutputToJsonMapper
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.EmbedMetadata
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.model.DiscussionIdModel
-import io.golos.domain.use_cases.post.post_dto.AttachmentsBlock
-import io.golos.domain.use_cases.post.post_dto.ImageBlock
-import io.golos.domain.use_cases.post.post_dto.ParagraphBlock
-import io.golos.domain.use_cases.post.post_dto.TextBlock
-import io.golos.utils.id.IdUtil
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 import timber.log.Timber
@@ -295,42 +291,74 @@ constructor(
 
                 val commentState = commentContent.state
 
-                val content = commentContent.message?.let { message ->
-                    listOf(ParagraphBlock(null, listOf(TextBlock(IdUtil.generateLongId(), message, null, null))))
-                } ?: listOf()
-                var imageUri = commentContent.imageUri
-
-                if(imageUri != null){
-                    if(!imageUri.toString().startsWith("http") && !imageUri.toString().startsWith("https")){
-                        //файл выбран локально и должен быть загружен
-                        imageUri = Uri.parse(model.uploadAttachmentContent(File(imageUri.toString())))
+                // Upload images
+                val uploadedImages = mutableListOf<String>()
+                commentContent.metadata
+                    .firstOrNull { it is EmbedMetadata }
+                    ?.let { it as EmbedMetadata }
+                    ?.let {
+                        if(!it.sourceUri.toString().startsWith("http") && !it.sourceUri.toString().startsWith("https")){
+                            uploadedImages.add(model.uploadAttachmentContent(File(it.sourceUri.toString())))
+                        }
                     }
-                }
-                val attachments = imageUri?.let { uri ->
-                    val localSize = commentContent.imageUri?.localSize()
-                    val widthImage = if (localSize?.x == 0) null else localSize?.x
-                    val heightImage = if (localSize?.y == 0) null else localSize?.y
-                    AttachmentsBlock(IdUtil.generateLongId(),
-                        listOf(
-                            ImageBlock(null,
-                                uri,
-                                null,
-                                widthImage,
-                                heightImage)
-                        ))
-                }
+
+                val contentAsJson = EditorOutputToJsonMapper.mapComment(commentContent.metadata, uploadedImages)
+
+                //if(commentContent.metadata.)
+
+
+//                val content = commentContent.message?.let { message ->
+//                    listOf(
+//                        ParagraphBlock(
+//                            null,
+//                            listOf(
+//                                TextBlock(
+//                                    IdUtil.generateLongId(),
+//                                    "test"/*message*/,
+//                                    null,
+//                                    null
+//                                )
+//                            )
+//                        )
+//                    )
+//                } ?: listOf()
+//                var imageUri = commentContent.imageUri
+//
+//                if(imageUri != null){
+//                    if(!imageUri.toString().startsWith("http") && !imageUri.toString().startsWith("https")){
+//                        //файл выбран локально и должен быть загружен
+//                        imageUri = Uri.parse(model.uploadAttachmentContent(File(imageUri.toString())))
+//                    }
+//                }
+//                val attachments = imageUri?.let { uri ->
+//                    val localSize = commentContent.imageUri?.localSize()
+//                    val widthImage = if (localSize?.x == 0) null else localSize?.x
+//                    val heightImage = if (localSize?.y == 0) null else localSize?.y
+//                    AttachmentsBlock(
+//                        IdUtil.generateLongId(),
+//                        listOf(
+//                            ImageBlock(
+//                                null,
+//                                uri,
+//                                null,
+//                                widthImage,
+//                                heightImage
+//                            )
+//                        )
+//                    )
+//                }
 
                 when (commentState) {
                     ContentState.NEW -> {
-                        model.sendComment(content, attachments)
+                        model.sendComment(contentAsJson)
                     }
                     ContentState.EDIT -> {
                         val currentMessageId = commentContent.contentId!!
-                        model.updateComment(DiscussionIdModel(currentMessageId.userId, Permlink(currentMessageId.permlink)), content, attachments)
+                        model.updateComment(DiscussionIdModel(currentMessageId.userId, Permlink(currentMessageId.permlink)), contentAsJson)
                     }
                     ContentState.REPLY -> {
                         val repliedMessageId = commentContent.contentId!!
-                        model.replyToComment(DiscussionIdModel(repliedMessageId.userId, Permlink(repliedMessageId.permlink)), content, attachments)
+                        model.replyToComment(DiscussionIdModel(repliedMessageId.userId, Permlink(repliedMessageId.permlink)), contentAsJson)
                     }
                 }
 

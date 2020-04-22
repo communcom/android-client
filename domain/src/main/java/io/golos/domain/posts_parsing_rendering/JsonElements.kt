@@ -2,6 +2,7 @@ package io.golos.domain.posts_parsing_rendering
 
 enum class BlockType(val value: String) {
     POST("post"),
+    DOCUMENT("document"),
     PARAGRAPH("paragraph"),
     TEXT("text"),
     TAG("tag"),
@@ -41,9 +42,8 @@ enum class CommonType(val value: String) {
     TYPE("type"),
 }
 
-object PostTypeJson {
-    const val BASIC = "basic"
-    const val ARTICLE = "article"
-    const val COMMENT = "comment"
-    const val DOCUMENT = "document"
+enum class DocumentType(val value: String) {
+    BASIC("basic"),
+    ARTICLE("article"),
+    COMMENT("comment")
 }

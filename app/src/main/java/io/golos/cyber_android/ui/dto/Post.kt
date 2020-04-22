@@ -2,7 +2,7 @@ package io.golos.cyber_android.ui.dto
 
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.RewardPostDomain
-import io.golos.domain.use_cases.post.post_dto.ContentBlock
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ContentBlock
 
 data class Post(
     val author: Author,

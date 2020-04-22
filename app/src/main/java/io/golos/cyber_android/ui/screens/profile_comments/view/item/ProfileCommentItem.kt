@@ -21,10 +21,10 @@ import io.golos.utils.format.TimeEstimationFormatter
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.widgets.post_comments.items.*
-import io.golos.domain.use_cases.post.TextStyle
+import io.golos.domain.posts_parsing_rendering.post_metadata.TextStyle
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.*
 import io.golos.utils.helpers.appendText
 import io.golos.utils.helpers.setSpan
-import io.golos.domain.use_cases.post.post_dto.*
 import io.golos.utils.id.IdUtil
 import io.golos.utils.helpers.SPACE
 import io.golos.utils.helpers.positiveValue
@@ -100,7 +100,14 @@ class ProfileCommentItem(
 
             if (newContentList.isEmpty() && comment.isDeleted) {
                 val deleteBlock =
-                    ParagraphBlock(IdUtil.generateLongId(), arrayListOf(SpanableBlock(getAuthorAndText(comment.author, labelCommentDeleted)))) as Block
+                    ParagraphBlock(
+                        IdUtil.generateLongId(),
+                        arrayListOf(
+                            SpanableBlock(
+                                getAuthorAndText(comment.author, labelCommentDeleted)
+                            )
+                        )
+                    ) as Block
                 newContentList.add(deleteBlock)
             } else {
                 addAuthorNameToContent(newContentList, comment)
@@ -116,7 +123,17 @@ class ProfileCommentItem(
 
     private fun addAuthorNameToContent(newContentList: ArrayList<Block>, comment: Comment) {
         val findBlock = newContentList.find { it is TextBlock || it is ParagraphBlock }
-        val authorBlock = ParagraphBlock(null, arrayListOf(SpanableBlock(getAuthorAndText(comment.author, "")))) as Block
+        val authorBlock = ParagraphBlock(
+            null,
+            arrayListOf(
+                SpanableBlock(
+                    getAuthorAndText(
+                        comment.author,
+                        ""
+                    )
+                )
+            )
+        ) as Block
 
         if (findBlock == null) {
             newContentList.add(0, authorBlock)
@@ -124,16 +141,34 @@ class ProfileCommentItem(
             val indexOf = newContentList.indexOf(findBlock)
             if (indexOf == 0) {
                 if (findBlock is TextBlock) {
-                    newContentList[0] = ParagraphBlock(null, arrayListOf(SpanableBlock(getAuthorAndText(comment.author, findBlock.content)))) as Block
+                    newContentList[0] = ParagraphBlock(
+                        null,
+                        arrayListOf(
+                            SpanableBlock(
+                                getAuthorAndText(comment.author, findBlock.content)
+                            )
+                        )
+                    ) as Block
                 } else {
                     if (findBlock is ParagraphBlock) {
                         if (findBlock.content.isNotEmpty()) {
                             val paragraphContent = mutableListOf<ParagraphItemBlock>()
 
-                            paragraphContent.add(TextBlock(IdUtil.generateLongId(), (comment.author.username ?: comment.author.userId)+" ", TextStyle.BOLD, null))
+                            paragraphContent.add(
+                                TextBlock(
+                                    IdUtil.generateLongId(),
+                                    (comment.author.username ?: comment.author.userId) + " ",
+                                    TextStyle.BOLD,
+                                    null
+                                )
+                            )
                             findBlock.content.forEach { block -> paragraphContent.add(block) }
 
-                            val newParagraph = ParagraphBlock(null, paragraphContent)
+                            val newParagraph =
+                                ParagraphBlock(
+                                    null,
+                                    paragraphContent
+                                )
                             newContentList[0] = newParagraph
                         } else {
                             newContentList[0] = authorBlock

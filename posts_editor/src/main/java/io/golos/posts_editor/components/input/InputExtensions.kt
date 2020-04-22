@@ -9,8 +9,6 @@ import android.text.SpannableStringBuilder
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.text.style.CharacterStyle
-import android.text.style.ForegroundColorSpan
-import android.text.style.StyleSpan
 import android.text.util.Linkify
 import android.util.TypedValue
 import android.view.Menu
@@ -23,25 +21,24 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.content.ContextCompat
-import io.golos.domain.use_cases.post.TextStyle
-import io.golos.domain.use_cases.post.editor_output.*
+import io.golos.domain.posts_parsing_rendering.post_metadata.TextStyle
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.*
 import io.golos.posts_editor.EditorComponent
 import io.golos.posts_editor.EditorCore
 import io.golos.posts_editor.R
 import io.golos.posts_editor.components.ComponentsWrapper
 import io.golos.posts_editor.components.input.edit_text.CustomEditText
-import io.golos.posts_editor.components.input.spans.calculators.ColorSpansCalculator
-import io.golos.posts_editor.components.input.spans.calculators.CreateSpanOperation
-import io.golos.posts_editor.components.input.spans.calculators.DeleteSpanOperation
-import io.golos.posts_editor.components.input.spans.calculators.StyleSpansCalculator
-import io.golos.posts_editor.components.input.spans.custom.LinkSpan
-import io.golos.posts_editor.components.input.spans.custom.MentionSpan
-import io.golos.posts_editor.components.input.spans.custom.TagSpan
-import io.golos.posts_editor.components.input.spans.spans_worker.SpansWorkerImpl
+import io.golos.domain.posts_parsing_rendering.post_metadata.spans.calculators.ColorSpansCalculator
+import io.golos.domain.posts_parsing_rendering.post_metadata.spans.calculators.CreateSpanOperation
+import io.golos.domain.posts_parsing_rendering.post_metadata.spans.calculators.DeleteSpanOperation
+import io.golos.domain.posts_parsing_rendering.post_metadata.spans.calculators.StyleSpansCalculator
+import io.golos.domain.posts_parsing_rendering.post_metadata.spans.custom.LinkSpan
+import io.golos.domain.posts_parsing_rendering.post_metadata.spans.custom.MentionSpan
+import io.golos.domain.posts_parsing_rendering.post_metadata.spans.custom.TagSpan
+import io.golos.domain.posts_parsing_rendering.post_metadata.spans_worker.SpansWorkerImpl
 import io.golos.posts_editor.components.input.text_tasks.dto.TextSlice
 import io.golos.posts_editor.components.input.text_tasks_runner.TextTasksFactoryImpl
 import io.golos.posts_editor.components.input.text_tasks_runner.TextTasksRunner
-import io.golos.posts_editor.components.util.mapTypefaceToEditorTextStyle
 import io.golos.posts_editor.models.*
 import io.golos.posts_editor.utilities.MaterialColor
 import io.golos.posts_editor.utilities.Utilities
@@ -76,51 +73,7 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
      * @return null if getting metadata from the view is impossible
      */
     override fun getMetadata(view: View): ParagraphMetadata? =
-        (view as? CustomEditText)?.let { textEdit ->
-            val spansWorker = SpansWorkerImpl(textEdit.text)
-
-            val spans = mutableListOf<SpanInfo<*>>()
-
-            spansWorker.getSpansWithIntervals<CharacterStyle>(CharacterStyle::class)
-                .forEach {
-                    if(it.spanInterval.last != it.spanInterval.first) {
-                        val spanInfo =
-                            when(it.span) {
-                                is ForegroundColorSpan -> ColorSpanInfo(
-                                    it.spanInterval,
-                                    it.span.foregroundColor,
-                                    it.span.foregroundColor
-                                )
-                                is StyleSpan -> StyleSpanInfo(
-                                    it.spanInterval,
-                                    it.span.style.mapTypefaceToEditorTextStyle(),
-                                    it.span.style.mapTypefaceToEditorTextStyle()
-                                )
-                                is LinkSpan -> LinkSpanInfo(it.spanInterval, it.span.value, it.span.value)
-                                is TagSpan -> TagSpanInfo(it.spanInterval, it.span.value, it.span.value)
-                                is MentionSpan -> MentionSpanInfo(
-                                    it.spanInterval,
-                                    it.span.value,
-                                    it.span.value.removeRange(0..0)
-                                )
-                                else -> null
-                            }
-
-                        if(spanInfo != null) {
-                            spans.add(spanInfo)
-                        }
-
-                    }
-                }
-
-            val planText = textEdit.text.toString()
-
-            if(planText.isEmpty()) {
-                null
-            } else {
-                ParagraphMetadata(planText, spans)
-            }
-        }
+        (view as? CustomEditText)?.text?.takeIf { it.isNotEmpty() }?.getParagraphMetadata()
 
     override fun getContent(view: View): Node =
         this.getNodeInstance(view)
@@ -171,7 +124,12 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
     }
 
     fun lastPastedLinkWasValidated(uri: Uri) {
-        setSpanToLastPastedLink(PostSpansFactory.createLink(LinkInfo(uri.toString(), uri)))
+        setSpanToLastPastedLink(PostSpansFactory.createLink(
+            LinkInfo(
+                uri.toString(),
+                uri
+            )
+        ))
     }
 
     /**
@@ -191,7 +149,8 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
     /**
      * Tries to find a link under a cursor and gets a value of it
      */
-    fun tryGetLinkInTextInfo(): LinkInfo? = getSpecialSpanData(LinkSpan::class) {
+    fun tryGetLinkInTextInfo(): LinkInfo? = getSpecialSpanData(
+        LinkSpan::class) {
         (it as LinkSpan).value
     }?.second
 
@@ -202,9 +161,15 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
 
             // Process the operation only if a selection area exists
             editTextLocal.selectionArea?.let { selection ->
-                val spansWorker = SpansWorkerImpl(editTextLocal.text)
+                val spansWorker =
+                    SpansWorkerImpl(
+                        editTextLocal.text
+                    )
 
-                val calculator = ColorSpansCalculator(spansWorker)
+                val calculator =
+                    ColorSpansCalculator(
+                        spansWorker
+                    )
                 val spanOperations = calculator.calculate(selection, MaterialColor.toSystemColor(color, editTextLocal.context))
 
                 spanOperations.forEach { operation ->
@@ -441,9 +406,15 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
 
             // Process the operation only if a selection area exists
             editTextLocal.selectionArea?.let { selection ->
-                val spansWorker = SpansWorkerImpl(editTextLocal.text)
+                val spansWorker =
+                    SpansWorkerImpl(
+                        editTextLocal.text
+                    )
 
-                val calculator = StyleSpansCalculator(spansWorker)
+                val calculator =
+                    StyleSpansCalculator(
+                        spansWorker
+                    )
                 val spanOperations = calculator.calculate(selection, style)
 
                 spanOperations.forEach { operation ->
@@ -562,7 +533,8 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
                 lastPastedLinkRange?.let { linkRange ->
                     textArea.insert(linkRange.last, " ")
 
-                    SpansWorkerImpl(textArea).appendSpan(span, linkRange)
+                    SpansWorkerImpl(textArea)
+                        .appendSpan(span, linkRange)
                 }
                 lastPastedLinkRange = null
             }
@@ -582,7 +554,8 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
             }
 
             editor.text?.let { textArea ->
-                val spansWorker = SpansWorkerImpl(textArea)
+                val spansWorker =
+                    SpansWorkerImpl(textArea)
 
                 spansWorker.getSpanUnderPosition(spanType, editor.cursorPosition)
                     ?.let { span ->

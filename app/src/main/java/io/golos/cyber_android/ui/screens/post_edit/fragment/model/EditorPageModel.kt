@@ -6,11 +6,10 @@ import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.post_edit.fragment.dto.ExternalLinkError
 import io.golos.cyber_android.ui.screens.post_edit.fragment.dto.ExternalLinkInfo
 import io.golos.cyber_android.ui.screens.post_edit.fragment.dto.ValidationResult
-import io.golos.domain.commun_entities.CommunityId
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.*
 import io.golos.domain.use_cases.model.PostModel
-import io.golos.domain.use_cases.post.editor_output.ControlMetadata
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.ControlMetadata
 
 interface EditorPageModel : ModelBase {
     suspend fun getExternalLinkInfo(uri: String): Either<ExternalLinkInfo, ExternalLinkError>

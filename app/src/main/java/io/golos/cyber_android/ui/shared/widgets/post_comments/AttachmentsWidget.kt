@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.utils.prefetchScreenSize
-import io.golos.domain.use_cases.post.post_dto.*
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.*
 import io.golos.posts_editor.utilities.post.PostStubs
 import kotlinx.android.synthetic.main.view_post_attachments.view.*
 

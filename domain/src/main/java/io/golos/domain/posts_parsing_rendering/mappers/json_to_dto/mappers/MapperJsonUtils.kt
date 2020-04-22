@@ -6,7 +6,7 @@ import android.util.Size
 import io.golos.domain.posts_parsing_rendering.Attribute
 import io.golos.domain.posts_parsing_rendering.BlockType
 import io.golos.domain.posts_parsing_rendering.CommonType
-import io.golos.domain.use_cases.post.TextStyle
+import io.golos.domain.posts_parsing_rendering.post_metadata.TextStyle
 import org.json.JSONArray
 import org.json.JSONObject
 import timber.log.Timber

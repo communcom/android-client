@@ -9,7 +9,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.glide.loadWebsiteContent
 import io.golos.cyber_android.ui.shared.utils.prefetchScreenSize
-import io.golos.domain.use_cases.post.post_dto.WebsiteBlock
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.WebsiteBlock
 import kotlinx.android.synthetic.main.view_post_embed_website.view.*
 
 class EmbedWebsiteWidget

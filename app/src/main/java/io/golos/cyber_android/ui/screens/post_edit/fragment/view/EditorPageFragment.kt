@@ -38,8 +38,8 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToMainScreenC
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.shared.utils.TextWatcherBase
-import io.golos.domain.use_cases.post.TextStyle
-import io.golos.domain.use_cases.post.editor_output.EmbedType
+import io.golos.domain.posts_parsing_rendering.post_metadata.TextStyle
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.EmbedType
 import io.golos.posts_editor.dialogs.selectColor.SelectColorDialog
 import io.golos.posts_editor.dto.EditorAction
 import io.golos.posts_editor.utilities.MaterialColor

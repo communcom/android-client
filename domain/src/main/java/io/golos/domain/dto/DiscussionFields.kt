@@ -1,7 +1,7 @@
 package io.golos.domain.dto
 
 import io.golos.domain.Entity
-import io.golos.domain.use_cases.post.post_dto.ContentBlock
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ContentBlock
 import java.math.BigInteger
 import java.util.*
 

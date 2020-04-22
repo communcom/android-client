@@ -5,7 +5,7 @@ import io.golos.cyber_android.ui.shared.base.adapter.RecyclerItem
 import io.golos.cyber_android.ui.shared.widgets.post_comments.EmbedVideoWidget
 import io.golos.cyber_android.ui.shared.widgets.post_comments.EmbedVideoWidgetListener
 import io.golos.cyber_android.ui.dto.ContentId
-import io.golos.domain.use_cases.post.post_dto.VideoBlock
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.VideoBlock
 
 class VideoBlockItem(
     val videoBlock: VideoBlock,

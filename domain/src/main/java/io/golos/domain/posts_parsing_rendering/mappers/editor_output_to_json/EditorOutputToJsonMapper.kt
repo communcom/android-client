@@ -1,23 +1,29 @@
 package io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json
 
-import io.golos.domain.use_cases.post.editor_output.*
-import io.golos.domain.posts_parsing_rendering.Attribute
-import io.golos.domain.posts_parsing_rendering.BlockType
-import io.golos.domain.posts_parsing_rendering.PostGlobalConstants
-import io.golos.domain.posts_parsing_rendering.PostTypeJson
+import io.golos.domain.posts_parsing_rendering.*
 import io.golos.domain.posts_parsing_rendering.json_builder.JsonBuilderBlocks
 import io.golos.domain.posts_parsing_rendering.json_builder.JsonBuilderImpl
 import io.golos.domain.posts_parsing_rendering.json_builder.PostAttribute
 import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.spans_splitter.*
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.ControlMetadata
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.EmbedMetadata
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.EmbedType
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.ParagraphMetadata
 
 object EditorOutputToJsonMapper {
+    fun mapPost(metadata: List<ControlMetadata>, localImagesUri: List<String>) =
+        map(metadata, localImagesUri, BlockType.POST, DocumentType.BASIC)
+
+    fun mapComment(metadata: List<ControlMetadata>, localImagesUri: List<String>) =
+        map(metadata, localImagesUri, BlockType.DOCUMENT, DocumentType.COMMENT)
+
     @Suppress("NestedLambdaShadowedImplicitParameter")
-    fun map(postMetadata: List<ControlMetadata>, localImagesUri: List<String>): String {
+    private fun map(metadata: List<ControlMetadata>, localImagesUri: List<String>, rootBlockType: BlockType, documentType: DocumentType): String {
         val builder = JsonBuilderImpl.create()
         val spansSplitter = SpansSplitter()
 
         builder.putBlock(
-            BlockType.POST,
+            rootBlockType,
             true,
             PostAttribute(
                 Attribute.VERSION,
@@ -25,12 +31,12 @@ object EditorOutputToJsonMapper {
             ),
             PostAttribute(
                 Attribute.TYPE,
-                PostTypeJson.BASIC
+                documentType.value
             )
         ) {
 
-            val paragraphs = postMetadata.filterIsInstance<ParagraphMetadata>()
-            val embeds = postMetadata.filterIsInstance<EmbedMetadata>()
+            val paragraphs = metadata.filterIsInstance<ParagraphMetadata>()
+            val embeds = metadata.filterIsInstance<EmbedMetadata>()
 
             paragraphs.forEachIndexed { index, paragraph ->
                 val isLast = index == paragraphs.lastIndex && embeds.isEmpty()

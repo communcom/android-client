@@ -3,7 +3,7 @@ package io.golos.cyber_android.ui.screens.post_view.dto.post_list_items
 import io.golos.domain.use_cases.model.DiscussionAuthorModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.model.DiscussionMetadataModel
-import io.golos.domain.use_cases.post.post_dto.ContentBlock
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ContentBlock
 
 data class SecondLevelCommentListItem(
     override val id: Long,

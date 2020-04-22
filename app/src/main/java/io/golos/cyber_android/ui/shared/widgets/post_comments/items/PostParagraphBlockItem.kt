@@ -7,7 +7,7 @@ import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.shared.base.adapter.RecyclerItem
 import io.golos.cyber_android.ui.shared.widgets.post_comments.ParagraphWidget
 import io.golos.cyber_android.ui.shared.widgets.post_comments.ParagraphWidgetListener
-import io.golos.domain.use_cases.post.post_dto.ParagraphBlock
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ParagraphBlock
 import kotlinx.android.synthetic.main.item_post_block.view.*
 
 data class PostParagraphBlockItem(

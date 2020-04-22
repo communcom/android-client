@@ -25,6 +25,7 @@ fun Comment.mapToCommentDomain(): CommentDomain = CommentDomain(
         this.votes.hasUpVote,
         this.votes.hasDownVote),
     body = this.body,
+    jsonBody = null,
     childCommentsCount = this.childCommentsCount,
     community = CommunityDomain(
         this.community.communityId,

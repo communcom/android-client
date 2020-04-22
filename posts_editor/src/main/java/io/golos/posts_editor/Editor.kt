@@ -5,9 +5,9 @@ import android.net.Uri
 import android.util.AttributeSet
 import android.view.KeyEvent
 import android.view.View
-import io.golos.domain.use_cases.post.TextStyle
-import io.golos.domain.use_cases.post.editor_output.ControlMetadata
-import io.golos.domain.use_cases.post.editor_output.EmbedType
+import io.golos.domain.posts_parsing_rendering.post_metadata.TextStyle
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.ControlMetadata
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.EmbedType
 import io.golos.posts_editor.components.EmbedWidget
 import io.golos.posts_editor.components.input.edit_text.CustomEditText
 import io.golos.posts_editor.models.EditorContent

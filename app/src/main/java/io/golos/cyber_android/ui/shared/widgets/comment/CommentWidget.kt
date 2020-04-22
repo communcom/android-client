@@ -12,10 +12,14 @@ import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.glide.loadCommentAttachment
 import io.golos.cyber_android.ui.shared.utils.TextWatcherBase
-import io.golos.domain.use_cases.post.post_dto.ContentBlock
-import io.golos.domain.use_cases.post.post_dto.ImageBlock
-import io.golos.domain.use_cases.post.post_dto.ParagraphBlock
-import io.golos.domain.use_cases.post.post_dto.TextBlock
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.ControlMetadata
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.EmbedMetadata
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.EmbedType
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.getParagraphMetadata
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ContentBlock
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ImageBlock
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ParagraphBlock
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.TextBlock
 import io.golos.posts_editor.components.input.text_tasks_runner.TextTasksRunner
 import kotlinx.android.synthetic.main.layout_comment_edit_block.view.*
 import kotlinx.android.synthetic.main.layout_comment_image_attachment.view.*
@@ -60,11 +64,21 @@ class CommentWidget @JvmOverloads constructor(
             }
         })
         sendButton.setOnClickListener {
+            val metadata = mutableListOf<ControlMetadata>()
+
+            comment.text
+                ?.takeIf { it.isNotEmpty() }
+                ?.getParagraphMetadata()
+                ?.also { metadata.add(it) }
+
+            attachmentImageUrl
+                ?.let { Uri.parse(it) }
+                ?.also { metadata.add(EmbedMetadata(EmbedType.LOCAL_IMAGE, it, it, null)) }
+
             onSendClickListener?.invoke(
                 CommentContent(
                     contentId,
-                    comment.text.toString(),
-                    attachmentImageUrl?.let { Uri.parse(it) },
+                    metadata,
                     contentState
                 )
             )

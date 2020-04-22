@@ -26,13 +26,13 @@ import io.golos.domain.dto.UploadedImageEntity
 import io.golos.domain.dto.block.ContentBlockEntity
 import io.golos.domain.dto.block.ListContentBlockEntity
 import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.EditorOutputToJsonMapper
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.*
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.requestmodel.CompressionParams
 import io.golos.domain.requestmodel.ImageUploadRequest
 import io.golos.domain.use_cases.model.PostModel
-import io.golos.domain.use_cases.post.editor_output.*
-import io.golos.domain.use_cases.post.post_dto.ImageBlock
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ImageBlock
 import io.golos.posts_editor.utilities.post.PostStubs
 import io.golos.utils.id.IdUtil
 import kotlinx.coroutines.delay
@@ -117,7 +117,7 @@ constructor(
         communityId: CommunityIdDomain,
         localImagesUri: List<String>
     ): ContentIdDomain {
-        var body = EditorOutputToJsonMapper.map(content, localImagesUri)
+        var body = EditorOutputToJsonMapper.mapPost(content, localImagesUri)
         if (localImagesUri.isNotEmpty()) {
             val adapter = moshi.adapter(ListContentBlockEntity::class.java)
             val listContentBlockEntity = adapter.fromJson(body)
@@ -125,11 +125,13 @@ constructor(
             val imageBlockList = localImagesUri.map { uri ->
                 val imageUri = Uri.parse(uri)
                 val imageSize = imageUri.localSize()
-                ImageBlock(IdUtil.generateLongId(),
+                ImageBlock(
+                    IdUtil.generateLongId(),
                     imageUri,
                     null,
                     imageSize.x,
-                    imageSize.y)
+                    imageSize.y
+                )
             }
             contentBlockEntityList.add(ContentBlockEntity(IdUtil.generateLongId(), "attachments", imageBlockList.mapToBlockEntity()))
             listContentBlockEntity.copy(content = contentBlockEntityList)
@@ -146,7 +148,7 @@ constructor(
         adultOnly: Boolean,
         localImagesUri: List<String>
     ): ContentIdDomain {
-        var body = EditorOutputToJsonMapper.map(content, localImagesUri)
+        var body = EditorOutputToJsonMapper.mapPost(content, localImagesUri)
         val tags = extractTags(content, adultOnly).toList()
         if (localImagesUri.isNotEmpty()) {
             val adapter = moshi.adapter(ListContentBlockEntity::class.java)
@@ -155,7 +157,13 @@ constructor(
             val imageBlockList = localImagesUri.map { uri ->
                 val imageUri = Uri.parse(uri)
                 val imageSize = imageUri.localSize()
-                ImageBlock(IdUtil.generateLongId(), Uri.parse(uri), null, imageSize.x, imageSize.y)
+                ImageBlock(
+                    IdUtil.generateLongId(),
+                    Uri.parse(uri),
+                    null,
+                    imageSize.x,
+                    imageSize.y
+                )
             }
             contentBlockEntityList.add(ContentBlockEntity(IdUtil.generateLongId(), "attachments", imageBlockList.mapToBlockEntity()))
             listContentBlockEntity.copy(content = contentBlockEntityList)

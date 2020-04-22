@@ -1,7 +1,7 @@
 package io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.mappers
 
-import io.golos.domain.use_cases.post.post_dto.ParagraphBlock
-import io.golos.domain.use_cases.post.post_dto.ParagraphItemBlock
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ParagraphBlock
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ParagraphItemBlock
 import io.golos.domain.posts_parsing_rendering.BlockType
 import io.golos.domain.posts_parsing_rendering.CommonType
 import org.json.JSONObject
@@ -38,7 +38,9 @@ class ParagraphMapper(mappersFactory: MappersFactory): MapperBase<ParagraphBlock
                 }
         }
 
-        return ParagraphBlock(source.tryLong(CommonType.ID),
-            content)
+        return ParagraphBlock(
+            source.tryLong(CommonType.ID),
+            content
+        )
     }
 }

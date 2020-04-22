@@ -4,7 +4,7 @@ import android.content.Context
 import io.golos.cyber_android.ui.shared.base.adapter.RecyclerItem
 import io.golos.cyber_android.ui.shared.widgets.post_comments.AttachmentWidgetListener
 import io.golos.cyber_android.ui.shared.widgets.post_comments.AttachmentsWidget
-import io.golos.domain.use_cases.post.post_dto.AttachmentsBlock
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.AttachmentsBlock
 
 class AttachmentBlockItem(
     val attachmentsBlock: AttachmentsBlock,

@@ -16,6 +16,7 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.PostDomain
 import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.PostMetadata
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.repositories.UsersRepository
@@ -23,15 +24,14 @@ import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
 import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
 import io.golos.domain.use_cases.model.CommentModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
-import io.golos.domain.use_cases.post.post_dto.AttachmentsBlock
-import io.golos.domain.use_cases.post.post_dto.Block
-import io.golos.domain.use_cases.post.post_dto.PostMetadata
+import io.golos.use_cases.reward.getRewardValue
+import io.golos.use_cases.reward.isRewarded
+import io.golos.use_cases.reward.isTopReward
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
-import io.golos.use_cases.reward.*
 
 class PostPageModelImpl
 @Inject
@@ -163,10 +163,10 @@ constructor(
     override suspend fun retryLoadingSecondLevelCommentsPage(parentCommentId: DiscussionIdModel) =
         commentsProcessing.retryLoadSecondLevelPage(parentCommentId)
 
-    override suspend fun sendComment(content: List<Block>, attachments: AttachmentsBlock?) {
+    override suspend fun sendComment(jsonBody: String) {
         val totalComments = postDomain.stats?.commentsCount ?: 0
 
-        commentsProcessing.sendComment(content, attachments)
+        commentsProcessing.sendComment(jsonBody)
         postDomain = postDomain.copy(
             stats = postDomain.stats?.copy(
                 commentsCount = totalComments + 1
@@ -207,11 +207,11 @@ constructor(
         return commentsProcessing.getComment(discussionIdModel)
     }
 
-    override suspend fun updateComment(commentId: DiscussionIdModel, content: List<Block>, attachments: AttachmentsBlock?) =
-        commentsProcessing.updateComment(commentId, content, attachments)
+    override suspend fun updateComment(commentId: DiscussionIdModel, jsonBody: String) =
+        commentsProcessing.updateComment(commentId, jsonBody)
 
-    override suspend fun replyToComment(repliedCommentId: DiscussionIdModel, content: List<Block>, attachments: AttachmentsBlock?) =
-        commentsProcessing.replyToComment(repliedCommentId, content, attachments)
+    override suspend fun replyToComment(repliedCommentId: DiscussionIdModel, jsonBody: String) =
+        commentsProcessing.replyToComment(repliedCommentId, jsonBody)
 
     override fun isTopReward(): Boolean? = postDomain.reward.isTopReward()
 }

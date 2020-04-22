@@ -16,7 +16,7 @@ import io.golos.cyber_android.ui.shared.glide.ImageProgressLoadState
 import io.golos.cyber_android.ui.shared.glide.loadContentAttachment
 import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.utils.prefetchScreenSize
-import io.golos.domain.use_cases.post.post_dto.ImageBlock
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ImageBlock
 import kotlinx.android.synthetic.main.layout_image_preload.view.*
 import kotlinx.android.synthetic.main.view_post_embed_image.view.*
 import kotlinx.android.synthetic.main.view_post_embed_image.view.flPreloadImage

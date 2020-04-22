@@ -6,7 +6,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.base.adapter.BaseRecyclerItem
 import io.golos.cyber_android.ui.shared.widgets.post_comments.BasePostBlockWidgetListener
 import io.golos.cyber_android.ui.shared.widgets.post_comments.BlockWidget
-import io.golos.domain.use_cases.post.post_dto.Block
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.Block
 import kotlinx.android.synthetic.main.item_post_block.view.*
 
 abstract class BaseBlockItem<POST_BLOCK : Block, WIDGET_LISTENER : BasePostBlockWidgetListener, WIDGET : BlockWidget<POST_BLOCK, WIDGET_LISTENER>>(

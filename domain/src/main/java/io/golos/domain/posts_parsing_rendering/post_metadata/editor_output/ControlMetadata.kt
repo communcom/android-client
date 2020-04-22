@@ -1,0 +1,3 @@
+package io.golos.domain.posts_parsing_rendering.post_metadata.editor_output
+
+interface ControlMetadata

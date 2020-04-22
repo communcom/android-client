@@ -1,7 +1,7 @@
 package io.golos.domain.posts_parsing_rendering.mappers.json_to_dto
 
-import io.golos.domain.use_cases.post.post_dto.ContentBlock
-import io.golos.domain.use_cases.post.post_dto.PostMetadata
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ContentBlock
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.PostMetadata
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.mappers.MappersFactory
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.mappers.PostMapper
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.mappers.PostMetadataMapper

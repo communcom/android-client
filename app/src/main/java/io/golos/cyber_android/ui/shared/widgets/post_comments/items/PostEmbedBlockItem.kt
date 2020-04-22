@@ -6,7 +6,7 @@ import io.golos.cyber_android.ui.shared.base.adapter.RecyclerItem
 import io.golos.cyber_android.ui.shared.utils.getScreenSize
 import io.golos.cyber_android.ui.shared.widgets.post_comments.EmbedWidget
 import io.golos.cyber_android.ui.shared.widgets.post_comments.EmbedWidgetListener
-import io.golos.domain.use_cases.post.post_dto.EmbedBlock
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.EmbedBlock
 
 class PostEmbedBlockItem(
     val embedBlock: EmbedBlock,

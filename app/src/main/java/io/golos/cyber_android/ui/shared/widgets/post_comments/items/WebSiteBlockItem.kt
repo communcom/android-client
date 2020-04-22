@@ -4,7 +4,7 @@ import android.content.Context
 import io.golos.cyber_android.ui.shared.base.adapter.RecyclerItem
 import io.golos.cyber_android.ui.shared.widgets.post_comments.EmbedWebsiteWidget
 import io.golos.cyber_android.ui.shared.widgets.post_comments.EmbedWebsiteWidgetListener
-import io.golos.domain.use_cases.post.post_dto.WebsiteBlock
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.WebsiteBlock
 
 class WebSiteBlockItem(val websiteBlock: WebsiteBlock, widgetListener: EmbedWebsiteWidgetListener?) :
     BaseBlockItem<WebsiteBlock, EmbedWebsiteWidgetListener, EmbedWebsiteWidget>(websiteBlock, widgetListener) {

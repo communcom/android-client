@@ -9,7 +9,7 @@ import io.golos.cyber_android.ui.screens.post_view.view_model.PostPageViewModelL
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.utils.getScreenSize
 import io.golos.cyber_android.ui.shared.widgets.post_comments.*
-import io.golos.domain.use_cases.post.post_dto.*
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.*
 import kotlinx.android.synthetic.main.item_post_block.view.*
 import timber.log.Timber
 

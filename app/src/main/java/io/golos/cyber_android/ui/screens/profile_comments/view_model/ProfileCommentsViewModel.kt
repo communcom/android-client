@@ -20,12 +20,13 @@ import io.golos.cyber_android.ui.shared.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.ui.shared.utils.localSize
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.cyber_android.ui.shared.widgets.comment.CommentContent
-import io.golos.cyber_android.ui.shared.widgets.comment.CommentWidget
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommentDomain
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserIdDomain
-import io.golos.domain.use_cases.post.post_dto.*
+import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.EditorOutputToJsonMapper
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.EmbedMetadata
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.*
 import io.golos.utils.id.IdUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -103,31 +104,64 @@ class ProfileCommentsViewModel @Inject constructor(
                 _command.value = SetLoadingVisibilityCommand(true)
                 val contentId = commentContent.contentId
                 if (contentId != null) {
+
+                    // Upload images
+                    val uploadedImages = mutableListOf<String>()
+                    commentContent.metadata
+                        .firstOrNull { it is EmbedMetadata }
+                        ?.let { it as EmbedMetadata }
+                        ?.let {
+                            if(!it.sourceUri.toString().startsWith("http") && !it.sourceUri.toString().startsWith("https")){
+                                uploadedImages.add(model.uploadAttachmentContent(File(it.sourceUri.toString())))
+                            }
+                        }
+
+                    val contentAsJson = EditorOutputToJsonMapper.mapComment(commentContent.metadata, uploadedImages)
+
+
+
                     val commentFromState = getCommentFromStateByContentId(_commentListState.value, contentId)
-                    val content = commentContent.message?.let { message ->
-                        listOf(ParagraphBlock(IdUtil.generateLongId(), listOf(TextBlock(IdUtil.generateLongId(), message, null, null))))
-                    } ?: listOf()
-                    var imageUri = commentContent.imageUri
-                    if(imageUri != null && (commentFromState?.body?.attachments?.content?.firstOrNull() as? ImageBlock)?.content != imageUri){
-                        //Обновилось изображение и нужно его загрузить на сервер
-                        imageUri = Uri.parse(model.uploadAttachmentContent(File(imageUri.toString())))
-                    }
-                    val attachments = imageUri?.let { uri ->
-                        val imageSize = commentContent.imageUri?.localSize()
-                        val widthImage = if (imageSize?.x == 0) null else imageSize?.x
-                        val heightImage = if (imageSize?.y == 0) null else imageSize?.y
-                        AttachmentsBlock(IdUtil.generateLongId(),
-                        listOf(ImageBlock(null,
-                            uri,
-                            null,
-                            widthImage,
-                            heightImage))) }
-                    val contentBlock = commentFromState?.body?.copy(
-                        content = content,
-                        attachments = attachments
-                    )
+//                    val content = commentContent.message?.let { message ->
+//                        listOf(
+//                            ParagraphBlock(
+//                                IdUtil.generateLongId(),
+//                                listOf(
+//                                    TextBlock(
+//                                        IdUtil.generateLongId(),
+//                                        "test"/*message*/,
+//                                        null,
+//                                        null
+//                                    )
+//                                )
+//                            )
+//                        )
+//                    } ?: listOf()
+//
+//                    var imageUri = commentContent.imageUri
+//                    if(imageUri != null && (commentFromState?.body?.attachments?.content?.firstOrNull() as? ImageBlock)?.content != imageUri){
+//                        //Обновилось изображение и нужно его загрузить на сервер
+//                        imageUri = Uri.parse(model.uploadAttachmentContent(File(imageUri.toString())))
+//                    }
+//
+//                    val attachments = imageUri?.let { uri ->
+//                        val imageSize = commentContent.imageUri?.localSize()
+//                        val widthImage = if (imageSize?.x == 0) null else imageSize?.x
+//                        val heightImage = if (imageSize?.y == 0) null else imageSize?.y
+//                        AttachmentsBlock(
+//                            IdUtil.generateLongId(),
+//                            listOf(
+//                                ImageBlock(
+//                                    null,
+//                                    uri,
+//                                    null,
+//                                    widthImage,
+//                                    heightImage
+//                                )
+//                            )
+//                        )
+//                    }
                     val commentForUpdate = commentFromState?.mapToCommentDomain()?.copy(
-                        body = contentBlock
+                        jsonBody = contentAsJson
                     )
                     commentForUpdate?.let {
                         model.updateComment(it)

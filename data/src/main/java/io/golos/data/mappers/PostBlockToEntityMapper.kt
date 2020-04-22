@@ -1,8 +1,8 @@
 package io.golos.data.mappers
 
 import io.golos.domain.dto.block.*
-import io.golos.domain.use_cases.post.TextStyle
-import io.golos.domain.use_cases.post.post_dto.*
+import io.golos.domain.posts_parsing_rendering.post_metadata.TextStyle
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.*
 
 fun ContentBlock.mapToContentBlock(): ListContentBlockEntity {
     val contentBlock = mutableListOf<ContentBlockEntity>()
