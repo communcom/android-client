@@ -13,7 +13,7 @@ class PostFiltersHolder
 
     private var myFeedFilters = FeedFilters(UpdateTimeFilter.NEW, PeriodTimeFilter.ALL)
 
-    private var trendingFilters = FeedFilters(UpdateTimeFilter.HOT, PeriodTimeFilter.ALL)
+    private var trendingFilters = FeedFilters(UpdateTimeFilter.POPULAR, PeriodTimeFilter.PAST_24_HOURS)
 
     init {
         feedFiltersChannel = ConflatedBroadcastChannel(myFeedFilters)
