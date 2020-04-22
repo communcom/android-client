@@ -37,10 +37,16 @@ class CommunityUserViewHolder(
         with(listItem) {
             itemView.title.text = user.userName
 
-            val followers = followersFormatter.format(user.followersCount!!)
-            val posts = postsFormatter.format(user.postsCount!!)
+            if(showEmptyFollowersAnsPosts || user.followersCount!! > 0 || user.postsCount!! > 0) {
+                itemView.info.visibility = View.VISIBLE
 
-            itemView.info.text = "$followers ${SpecialChars.BULLET} $posts"
+                val followers = followersFormatter.format(user.followersCount!!)
+                val posts = postsFormatter.format(user.postsCount!!)
+
+                itemView.info.text = "$followers ${SpecialChars.BULLET} $posts"
+            } else {
+                itemView.info.visibility = View.GONE
+            }
 
             itemView.setOnClickListener { listItemEventsProcessor.onUserClick(listItem.user.userId) }
             itemView.joinButton.setOnClickListener { listItemEventsProcessor.onFollowClick(user.userId) }

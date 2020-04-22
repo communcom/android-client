@@ -57,6 +57,7 @@ constructor(
             isFollowing = isSubscribed,
             isLastItem = index == lastIndex,
             canFollow = !isSubscribed,
-            showPosts = true
+            showPosts = true,
+            showEmptyFollowersAnsPosts = true
         )
 }

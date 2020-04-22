@@ -47,7 +47,8 @@ constructor(
                     isFollowing = true,
                     isLastItem = index == friends.lastIndex,
                     canFollow = false,
-                    showPosts = false
+                    showPosts = false,
+                    showEmptyFollowersAnsPosts = false
                 )
             }
         }

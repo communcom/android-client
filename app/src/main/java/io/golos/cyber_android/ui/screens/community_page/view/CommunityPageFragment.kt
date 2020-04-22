@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.lifecycle.Observer
+import com.facebook.appevents.codeless.internal.ViewHierarchy.setOnClickListener
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentCommunityPageBinding
@@ -124,6 +125,7 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
 
                 tvFriendsCountLabel.setOnClickListener { viewModel.onFriendsLabelClick() }
                 tvFriendsLabel.setOnClickListener { viewModel.onFriendsLabelClick() }
+                communityFollowersView.setOnClickListener { viewModel.onFriendsLabelClick() }
             } else {
                 tvFriendsCountLabel.visibility = View.GONE
                 tvFriendsLabel.visibility = View.GONE

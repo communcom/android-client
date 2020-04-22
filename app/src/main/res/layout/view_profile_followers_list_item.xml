@@ -58,10 +58,10 @@
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/title"
-
         app:layout_constraintStart_toStartOf="@+id/title"
         app:layout_constraintTop_toBottomOf="@+id/title"
-        tools:text="52k followers" />
+        tools:text="52k followers"
+        />
 
     <ToggleButton
         android:id="@+id/joinButton"

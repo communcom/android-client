@@ -15,7 +15,9 @@ data class CommunityUserListItem(
 
     val canFollow: Boolean,
 
-    val showPosts: Boolean
+    val showPosts: Boolean,
+
+    val showEmptyFollowersAnsPosts: Boolean
 ) : UserListItem<CommunityUserListItem> {
     override fun updateIsFollowing(value: Boolean): CommunityUserListItem = copy(version = this.version + 1, isFollowing = value)
 
