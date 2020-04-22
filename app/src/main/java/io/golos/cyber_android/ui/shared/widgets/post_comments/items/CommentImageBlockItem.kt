@@ -14,12 +14,9 @@ class CommentImageBlockItem(
     val contentId: ContentId? = null,
     widgetListener: EmbedImageWidgetListener? = null,
     onLongClickListener: View.OnLongClickListener? = null
-) :
-    BaseBlockItem<ImageBlock, EmbedImageWidgetListener, EmbedImageWidget>(imageBlock, widgetListener, onLongClickListener) {
+) : BaseBlockItem<ImageBlock, EmbedImageWidgetListener, EmbedImageWidget>(imageBlock, widgetListener, onLongClickListener) {
 
-    override fun createWidget(
-        context: Context
-    ): EmbedImageWidget = EmbedImageWidget(context).apply {
+    override fun createWidget(context: Context): EmbedImageWidget = EmbedImageWidget(context).apply {
         setContentId(contentId)
         val resources = context.resources
         val cornerRadius = resources.getDimension(R.dimen.comment_background_corners).toInt()

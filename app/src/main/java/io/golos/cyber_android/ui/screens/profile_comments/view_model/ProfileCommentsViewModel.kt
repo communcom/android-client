@@ -121,45 +121,7 @@ class ProfileCommentsViewModel @Inject constructor(
 
 
                     val commentFromState = getCommentFromStateByContentId(_commentListState.value, contentId)
-//                    val content = commentContent.message?.let { message ->
-//                        listOf(
-//                            ParagraphBlock(
-//                                IdUtil.generateLongId(),
-//                                listOf(
-//                                    TextBlock(
-//                                        IdUtil.generateLongId(),
-//                                        "test"/*message*/,
-//                                        null,
-//                                        null
-//                                    )
-//                                )
-//                            )
-//                        )
-//                    } ?: listOf()
-//
-//                    var imageUri = commentContent.imageUri
-//                    if(imageUri != null && (commentFromState?.body?.attachments?.content?.firstOrNull() as? ImageBlock)?.content != imageUri){
-//                        //Обновилось изображение и нужно его загрузить на сервер
-//                        imageUri = Uri.parse(model.uploadAttachmentContent(File(imageUri.toString())))
-//                    }
-//
-//                    val attachments = imageUri?.let { uri ->
-//                        val imageSize = commentContent.imageUri?.localSize()
-//                        val widthImage = if (imageSize?.x == 0) null else imageSize?.x
-//                        val heightImage = if (imageSize?.y == 0) null else imageSize?.y
-//                        AttachmentsBlock(
-//                            IdUtil.generateLongId(),
-//                            listOf(
-//                                ImageBlock(
-//                                    null,
-//                                    uri,
-//                                    null,
-//                                    widthImage,
-//                                    heightImage
-//                                )
-//                            )
-//                        )
-//                    }
+
                     val commentForUpdate = commentFromState?.mapToCommentDomain()?.copy(
                         jsonBody = contentAsJson
                     )

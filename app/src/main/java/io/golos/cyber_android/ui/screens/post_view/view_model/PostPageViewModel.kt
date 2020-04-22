@@ -304,50 +304,6 @@ constructor(
 
                 val contentAsJson = EditorOutputToJsonMapper.mapComment(commentContent.metadata, uploadedImages)
 
-                //if(commentContent.metadata.)
-
-
-//                val content = commentContent.message?.let { message ->
-//                    listOf(
-//                        ParagraphBlock(
-//                            null,
-//                            listOf(
-//                                TextBlock(
-//                                    IdUtil.generateLongId(),
-//                                    "test"/*message*/,
-//                                    null,
-//                                    null
-//                                )
-//                            )
-//                        )
-//                    )
-//                } ?: listOf()
-//                var imageUri = commentContent.imageUri
-//
-//                if(imageUri != null){
-//                    if(!imageUri.toString().startsWith("http") && !imageUri.toString().startsWith("https")){
-//                        //файл выбран локально и должен быть загружен
-//                        imageUri = Uri.parse(model.uploadAttachmentContent(File(imageUri.toString())))
-//                    }
-//                }
-//                val attachments = imageUri?.let { uri ->
-//                    val localSize = commentContent.imageUri?.localSize()
-//                    val widthImage = if (localSize?.x == 0) null else localSize?.x
-//                    val heightImage = if (localSize?.y == 0) null else localSize?.y
-//                    AttachmentsBlock(
-//                        IdUtil.generateLongId(),
-//                        listOf(
-//                            ImageBlock(
-//                                null,
-//                                uri,
-//                                null,
-//                                widthImage,
-//                                heightImage
-//                            )
-//                        )
-//                    )
-//                }
-
                 when (commentState) {
                     ContentState.NEW -> {
                         model.sendComment(contentAsJson)
