@@ -15,8 +15,7 @@ class FtueSearchCommunityModelImpl
 @Inject constructor(
     private val repository: CommunitiesRepository,
     private val dispatchersProvider: DispatchersProvider,
-    private val usersRepository: UsersRepository,
-    private val currentUserRepository: CurrentUserRepository
+    private val usersRepository: UsersRepository
 ) : ModelBaseImpl(), FtueSearchCommunityModel {
 
     override fun saveCommunitySubscriptions(communitySubscriptions: List<CommunityDomain>) {
@@ -35,11 +34,10 @@ class FtueSearchCommunityModelImpl
         }
     }
 
-    override suspend fun getCommunities(query: String?, offset: Int, pageSize: Int): List<CommunityDomain> {
-        return withContext(dispatchersProvider.ioDispatcher) {
-            repository.getCommunitiesList(currentUserRepository.userId, offset, pageSize, true, query)
+    override suspend fun getCommunities(query: String?, offset: Int, pageSize: Int): List<CommunityDomain> =
+        withContext(dispatchersProvider.ioDispatcher) {
+            repository.getFtueCommunitiesList(offset, pageSize, query)
         }
-    }
 
     override suspend fun onFollowToCommunity(communityId: CommunityIdDomain) {
         withContext(dispatchersProvider.ioDispatcher) {

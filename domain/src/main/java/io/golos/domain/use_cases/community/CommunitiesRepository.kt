@@ -22,6 +22,8 @@ interface CommunitiesRepository {
         showAll: Boolean,
         searchQuery: String? = null): List<CommunityDomain>
 
+    suspend fun getFtueCommunitiesList(offset: Int, pageSize: Int, searchQuery: String?): List<CommunityDomain>
+
     suspend fun getCommunityLeads(communityId: CommunityIdDomain): List<CommunityLeaderDomain>
 
     suspend fun getCommunitiesInBlackList(offset: Int, pageSize: Int, userId: UserIdDomain): List<CommunityDomain>

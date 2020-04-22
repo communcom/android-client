@@ -113,9 +113,24 @@ constructor(
                     offset = offset,
                     limit = pageSize)
             }
-                .items
-                .map { it.mapToCommunityDomain() }
+            .items
+            .map { it.mapToCommunityDomain() }
         }
+
+    override suspend fun getFtueCommunitiesList(offset: Int, pageSize: Int, searchQuery: String?): List<CommunityDomain> {
+        Timber.tag("NET_SOCKET").d("CommunitiesRepositoryImpl::getFtueCommunitiesList(offset: $offset; pageSize: $pageSize; searchQuery: $searchQuery)")
+        return callProxy.call {
+            commun4j.getCommunitiesList(
+                type = CommunitiesRequestType.ALL,
+                userId = null,
+                search = searchQuery,
+                offset = offset,
+                limit = pageSize
+            )
+        }
+        .items
+        .map { it.mapToCommunityDomain() }
+    }
 
     override suspend fun getCommunityLeads(communityId: CommunityIdDomain): List<CommunityLeaderDomain> =
         callProxy.call { commun4j.getLeaders(communityId.code, 50, 0) }
