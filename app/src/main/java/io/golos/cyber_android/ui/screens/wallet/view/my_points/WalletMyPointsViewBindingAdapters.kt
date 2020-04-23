@@ -12,10 +12,5 @@ fun setWalletMyPointsViewEventsProcessorBinding(view: WalletMyPointsView, listIt
 }
 
 @BindingAdapter("wallet_my_points_items")
-fun setWalletMyPointsViewItemsBinding(view: WalletMyPointsView, items: LiveData<List<MyPointsListItem>>?) {
-    items?.let { liveValue ->
-        view.parentActivity?.let { activity ->
-            liveValue.observe(activity, Observer { view.setItems(it) })
-        }
-    }
-}
+fun setWalletMyPointsViewItemsBinding(view: WalletMyPointsView, items: LiveData<List<MyPointsListItem>>?) =
+    items?.value?.let { view.setItems(it) }

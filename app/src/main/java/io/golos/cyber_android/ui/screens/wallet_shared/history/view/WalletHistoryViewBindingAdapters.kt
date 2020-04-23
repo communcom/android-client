@@ -17,10 +17,5 @@ fun setWalletHistoryViewEventsProcessorBinding(view: WalletHistoryView, listItem
 }
 
 @BindingAdapter("wallet_history_items")
-fun setWalletHistoryViewItemsBinding(view: WalletHistoryView, items: LiveData<List<VersionedListItem>>?) {
-    items?.let { liveValue ->
-        view.parentActivity?.let { activity ->
-            liveValue.observe(activity, Observer { view.setItems(it) })
-        }
-    }
-}
+fun setWalletHistoryViewItemsBinding(view: WalletHistoryView, items: LiveData<List<VersionedListItem>>?) =
+    items?.value?.let { view.setItems(it) }
