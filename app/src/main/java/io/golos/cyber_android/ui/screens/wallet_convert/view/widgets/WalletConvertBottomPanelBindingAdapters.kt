@@ -8,6 +8,7 @@ import io.golos.cyber_android.ui.screens.wallet_convert.dto.ErrorLabelInfo
 import io.golos.cyber_android.ui.screens.wallet_convert.dto.InputFieldsInfo
 import io.golos.cyber_android.ui.screens.wallet_convert.dto.PointInfo
 import io.golos.cyber_android.ui.shared.extensions.parentActivity
+import timber.log.Timber
 
 @BindingAdapter("wallet_convert_bottom_point_info")
 fun setWalletConvertBottomPanelPointInfo(view: WalletConvertBottomPanel, valueToBind: LiveData<PointInfo>?) {
@@ -47,18 +48,14 @@ fun setWalletConvertBottomPanelErrorInfo(view: WalletConvertBottomPanel, valueTo
 
 @BindingAdapter("wallet_convert_bottom_sell_field")
 fun setWalletConvertBottomPanelSell(view: WalletConvertBottomPanel, valueToBind: LiveData<String>?) {
-    valueToBind?.let { liveValue ->
-        view.parentActivity?.let { activity ->
-            liveValue.observe(activity, Observer { view.sellInputText = it })
-        }
+    valueToBind?.value?.let {
+        view.sellInputText = it
     }
 }
 
 @BindingAdapter("wallet_convert_bottom_buy_field")
 fun setWalletConvertBottomPanelBuy(view: WalletConvertBottomPanel, valueToBind: LiveData<String>?) {
-    valueToBind?.let { liveValue ->
-        view.parentActivity?.let { activity ->
-            liveValue.observe(activity, Observer { view.buyInputText = it })
-        }
+    valueToBind?.value?.let {
+        view.buyInputText = it
     }
 }

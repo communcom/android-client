@@ -24,6 +24,7 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 class WalletConvertViewModel
@@ -72,6 +73,7 @@ constructor(
         }
 
         _buyInputField.value = getBuyAmount()
+
         _convertButtonInfo.value = getConvertButtonInfo()
         _errorLabelInfo.value = getErrorLabelInfo()
     }
@@ -238,7 +240,7 @@ constructor(
 
     private fun getSellAmount() = amountToString(model.amountCalculator.sellAmount)
 
-    private fun getBuyAmount() = amountToString( model.amountCalculator.buyAmount)
+    private fun getBuyAmount() = amountToString(model.amountCalculator.buyAmount)
 
     private fun amountToString(value: Double?): String = value?.toString() ?: ""
 

@@ -15,9 +15,9 @@ object CurrencyFormatter {
 
     fun format(value: Double): String =
         (if(value < 1000.0) {
-            DecimalFormat("#.####")
+            getFormatterFromTemplate("#.####")
         } else {
-            val formatter = DecimalFormat("###,###.##")
+            val formatter = getFormatterFromTemplate("###,###.##")
 
             val symbols = formatter.decimalFormatSymbols
 
@@ -31,7 +31,7 @@ object CurrencyFormatter {
         val basePower = 3.0
 
         return if (value < 10.0.pow(basePower)) {
-            DecimalFormat("#.##").format(value)
+            getFormatterFromTemplate("#.##").format(value)
         } else {
             val unitIndex = (log10(value.toInt().toDouble()) / 3).toInt()
 
@@ -41,7 +41,15 @@ object CurrencyFormatter {
 
             val valueToFormat = intValue + (value - (intValue * base))/base
 
-            "${DecimalFormat("#.#").format(valueToFormat)}${context.resources.getString(sizeUnits[unitIndex - 1])}"
+            "${getFormatterFromTemplate("#.#").format(valueToFormat)}${context.resources.getString(sizeUnits[unitIndex - 1])}"
         }
     }
+
+    fun getFormatterFromTemplate(template: String) =
+        DecimalFormat(template)
+            .apply {
+                val symbols = decimalFormatSymbols
+                symbols.decimalSeparator = '.'
+                decimalFormatSymbols = symbols
+            }
 }

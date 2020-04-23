@@ -2,7 +2,7 @@ package io.golos.cyber_android.ui.shared.text
 
 import android.text.InputFilter
 import android.text.Spanned
-import java.text.DecimalFormat
+import io.golos.utils.format.CurrencyFormatter
 
 class CurrencyInputFilter
 constructor(private val maxLen: Int, private val decimalPointsQuantity: Int): InputFilter {
@@ -33,6 +33,12 @@ constructor(private val maxLen: Int, private val decimalPointsQuantity: Int): In
         if(source.isBlank()) {
             ""
         } else {
-            DecimalFormat("#.${"#".repeat(decimalPointsQuantity)}").format(source.toDouble())
+            CurrencyFormatter.getFormatterFromTemplate("#.${"#".repeat(decimalPointsQuantity)}")
+                .apply {
+                    val symbols = decimalFormatSymbols
+                    symbols.decimalSeparator = '.'
+                    decimalFormatSymbols = symbols
+                }
+                .format(source.toDouble())
         }
 }

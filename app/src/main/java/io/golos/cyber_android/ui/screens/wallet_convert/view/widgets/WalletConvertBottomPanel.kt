@@ -10,12 +10,12 @@ import io.golos.cyber_android.ui.screens.wallet_convert.dto.ConvertButtonInfo
 import io.golos.cyber_android.ui.screens.wallet_convert.dto.ErrorLabelInfo
 import io.golos.cyber_android.ui.screens.wallet_convert.dto.InputFieldsInfo
 import io.golos.cyber_android.ui.screens.wallet_convert.dto.PointInfo
-import io.golos.utils.getFormattedString
 import io.golos.cyber_android.ui.shared.extensions.setTextChangeListener
-import io.golos.utils.format.CurrencyFormatter
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.cyber_android.ui.shared.keyboard.KeyboardUtils
 import io.golos.cyber_android.ui.shared.text.CurrencyInputFilter
+import io.golos.utils.format.CurrencyFormatter
+import io.golos.utils.getFormattedString
 import kotlinx.android.synthetic.main.view_wallet_convert_bottom_panel.view.*
 
 class WalletConvertBottomPanel
