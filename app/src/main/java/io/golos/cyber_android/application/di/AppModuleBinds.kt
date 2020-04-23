@@ -240,10 +240,6 @@ abstract class AppModuleBinds {
     abstract fun provideEmbedsRepository(repository: EmbedsRepository): Repository<ProcessedLinksEntity, EmbedRequest>
 
     @Binds
-    @ApplicationScope
-    abstract fun provideRegistrationRepository(repository: RegistrationRepositoryImpl): RegistrationRepository
-
-    @Binds
     abstract fun provideImageUploadRepositoryLiveData(repository: ImageUploadRepositoryLiveData): Repository<UploadedImagesEntity, ImageUploadRequest>
 
     @Binds

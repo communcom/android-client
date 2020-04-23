@@ -3,7 +3,6 @@ package io.golos.cyber_android.ui.screens.app_start.sign_up.activity
 import android.os.Bundle
 import androidx.annotation.IdRes
 import androidx.navigation.findNavController
-import dagger.Lazy
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.screens.app_start.sign_up.activity.di.SignUpActivityComponent
@@ -18,7 +17,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import java.lang.UnsupportedOperationException
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
@@ -89,6 +87,7 @@ class SignUpActivity : ActivityBase(), CoroutineScope {
             type = null,
             identity = null,
             phoneNumber = null,
+            email = null,
             userName = null,
             userId = null,
             password = null,

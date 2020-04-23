@@ -18,6 +18,7 @@ interface AuthRepository {
     suspend fun writeUserToBlockChain(
         phone: String?,
         identity: String?,
+        email: String?,
         userId: String,
         userName: String,
         owner: String,
@@ -25,11 +26,17 @@ interface AuthRepository {
 
     suspend fun getRegistrationState(phone: String?, identity: String?): UserRegistrationStateResult
 
-    suspend fun firstUserRegistrationStep(captcha: String, phone: String): FirstRegistrationStepResult
+    suspend fun firstPhoneUserRegistrationStep(captcha: String, phone: String): FirstRegistrationStepResult
+
+    suspend fun firstEmailUserRegistrationStep(captcha: String, email: String): FirstRegistrationStepEmailResult
 
     suspend fun verifyPhoneForUserRegistration(phone: String, code: Int): VerifyStepResult
 
-    suspend fun setVerifiedUserName(user: String, phone: String?, identity: String?): SetUserNameStepResult
+    suspend fun verifyEmailForUserRegistration(email: String, code: String): VerifyStepResult
+
+    suspend fun setVerifiedUserName(user: String, phone: String?, identity: String?, email: String?): SetUserNameStepResult
 
     suspend fun resendSmsCode(phone: String)
+
+    suspend fun resendEmail(email: String)
 }

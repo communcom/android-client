@@ -25,6 +25,9 @@ constructor(
             SignUpMessageCode.TOO_MANY_RETRIES -> R.string.too_many_retries_error
             SignUpMessageCode.TRY_LATER -> R.string.try_later_error
             SignUpMessageCode.PHONE_VERIFICATION_CODE_RESENT  -> R.string.verification_code_resent
+            SignUpMessageCode.EMAIL_ALREADY_REGISTERED -> R.string.email_already_taken_error
+            SignUpMessageCode.INVALID_EMAIL_VERIFICATION_CODE -> R.string.wrong_verification_code_error
+            SignUpMessageCode.EMAIL_VERIFICATION_CODE_RESENT -> R.string.verification_code_resent
         }
 
         return appContext.getString(resId)

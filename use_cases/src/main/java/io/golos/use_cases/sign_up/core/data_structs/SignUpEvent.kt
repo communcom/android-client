@@ -10,6 +10,7 @@ sealed class SingUpEvent
 class GoogleSelected: SingUpEvent()
 class FbSelected: SingUpEvent()
 class PhoneSelected: SingUpEvent()
+class EmailSelected: SingUpEvent()
 
 data class TokenReceived(val token: String): SingUpEvent()
 class TokenReceivingError: SingUpEvent()
@@ -19,6 +20,10 @@ data class IdentityRequestCompleted(val identity: SignUpIdentityDomain): SingUpE
 data class PhoneEntered(val phone: String, val captcha: String): SingUpEvent()
 data class PhoneVerificationCodeEntered(val verificationCode: Int): SingUpEvent()
 class PhoneVerificationCodeResend: SingUpEvent()
+
+data class EmailEntered(val email: String, val captcha: String): SingUpEvent()
+data class EmailVerificationCodeEntered(val verificationCode: String): SingUpEvent()
+class EmailVerificationCodeResend: SingUpEvent()
 
 data class UserNameEntered(val userName: String): SingUpEvent()
 

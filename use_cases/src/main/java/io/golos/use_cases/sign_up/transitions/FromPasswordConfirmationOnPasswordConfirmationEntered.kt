@@ -43,6 +43,7 @@ class FromPasswordConfirmationOnPasswordConfirmationEntered(
             val success = authRepository.writeUserToBlockChain(
                 phone = snapshot.phoneNumber,
                 identity = snapshot.identity,
+                email = snapshot.email,
                 userId = userId.userId,
                 userName = userName,
                 owner = keys.ownerPublicKey,

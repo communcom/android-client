@@ -15,6 +15,7 @@ data class SignUpSnapshotDomain(
     val identity: String?,
 
     val phoneNumber: String?,
+    val email: String?,
 
     val userName: String?,
     val userId: UserIdDomain?,

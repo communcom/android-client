@@ -9,9 +9,10 @@ class ShowLoading: SignUpCommand
 class HideLoading: SignUpCommand
 
 class NavigateToPhone: SignUpCommand
+class NavigateToEmail: SignUpCommand
 class NavigateToPhoneVerification: SignUpCommand
+class NavigateToEmailVerification: SignUpCommand
 class NavigateToSelectMethod: SignUpCommand
-class NavigateToWelcome: SignUpCommand
 class NavigateToUserName: SignUpCommand
 class NavigateToGetPassword: SignUpCommand
 class NavigateToConfirmPassword: SignUpCommand
@@ -24,3 +25,4 @@ data class ShowError(val errorCode: SignUpMessageCode): SignUpCommand
 data class ShowMessage(val messageCode: SignUpMessageCode): SignUpCommand
 
 class PhoneVerificationCodeResendCompleted: SignUpCommand
+class EmailVerificationCodeResendCompleted: SignUpCommand

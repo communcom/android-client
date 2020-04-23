@@ -73,6 +73,14 @@ constructor(
             FromPhoneVerificationOnResendCode(parent, authRepository) as SingUpTransition<SingUpEvent>
         }
 
+        matrix[SignUpState.EMAIL_VERIFICATION.index][EmailVerificationCodeEntered::class.index] = {
+            FromEmailVerificationOnCodeEntered(parent, authRepository) as SingUpTransition<SingUpEvent>
+        }
+
+        matrix[SignUpState.EMAIL_VERIFICATION.index][EmailVerificationCodeResend::class.index] = {
+            FromEmailVerificationOnResendCode(parent, authRepository) as SingUpTransition<SingUpEvent>
+        }
+
         matrix[SignUpState.SELECTING_METHOD_TO_UNLOCK.index][UnlockMethodSelected::class.index] = {
             FromSelectingMethodToUnlockOnUnlockMethodSelected(
                 dispatchersProvider,
@@ -91,6 +99,10 @@ constructor(
 
         matrix[SignUpState.SELECTING_SIGN_UP_METHOD.index][PhoneSelected::class.index] = {
             FromSelectingSignUpMethodOnPhoneSelected(parent) as SingUpTransition<SingUpEvent>
+        }
+
+        matrix[SignUpState.SELECTING_SIGN_UP_METHOD.index][EmailSelected::class.index] = {
+            FromSelectingSignUpMethodOnEmailSelected(parent) as SingUpTransition<SingUpEvent>
         }
 
         matrix[SignUpState.WAITING_FOR_FB_TOKEN.index][TokenReceived::class.index] = {
@@ -112,6 +124,10 @@ constructor(
         matrix[SignUpState.WAITING_FOR_PHONE.index][PhoneEntered::class.index] = {
             FromWaitingForPhoneOnPhoneEntered(parent, authRepository) as SingUpTransition<SingUpEvent>
         }
+
+        matrix[SignUpState.WAITING_FOR_EMAIL.index][EmailEntered::class.index] = {
+            FromWaitingForEmailOnEmailEntered(parent, authRepository) as SingUpTransition<SingUpEvent>
+        }
     }
 
     fun getTransition(from: SignUpState, on: SingUpEvent): SingUpTransition<SingUpEvent> = matrix[from.index][on.index]()
@@ -123,12 +139,14 @@ constructor(
             SignUpState.WAITING_FOR_GOOGLE_TOKEN -> 2
             SignUpState.WAITING_FOR_FB_TOKEN -> 3
             SignUpState.WAITING_FOR_PHONE -> 4
-            SignUpState.PHONE_VERIFICATION -> 5
-            SignUpState.ENTERING_USER_NAME -> 6
-            SignUpState.ENTERING_PASSWORD -> 7
-            SignUpState.PASSWORD_CONFIRMATION -> 8
-            SignUpState.ENTERING_PIN -> 9
-            SignUpState.SELECTING_METHOD_TO_UNLOCK -> 10
+            SignUpState.WAITING_FOR_EMAIL -> 5
+            SignUpState.PHONE_VERIFICATION -> 6
+            SignUpState.EMAIL_VERIFICATION -> 7
+            SignUpState.ENTERING_USER_NAME -> 8
+            SignUpState.ENTERING_PASSWORD -> 9
+            SignUpState.PASSWORD_CONFIRMATION -> 10
+            SignUpState.ENTERING_PIN -> 11
+            SignUpState.SELECTING_METHOD_TO_UNLOCK -> 12
         }
 
     private fun getEventIndex(event: KClass<out SingUpEvent>): Int =
@@ -136,17 +154,21 @@ constructor(
             GoogleSelected::class -> 0
             FbSelected::class -> 1
             PhoneSelected::class -> 2
-            TokenReceived::class -> 3
-            TokenReceivingError::class -> 4
-            IdentityRequestCompleted::class -> 5
-            PhoneEntered::class -> 6
-            PhoneVerificationCodeEntered::class -> 7
-            PhoneVerificationCodeResend::class -> 8
-            UserNameEntered::class -> 9
-            PasswordEntered::class -> 10
-            PasswordConfirmationEntered::class -> 11
-            PinCodeEntered::class -> 12
-            UnlockMethodSelected::class -> 13
+            EmailSelected::class -> 3
+            TokenReceived::class -> 4
+            TokenReceivingError::class -> 5
+            IdentityRequestCompleted::class -> 6
+            PhoneEntered::class -> 7
+            PhoneVerificationCodeEntered::class -> 8
+            PhoneVerificationCodeResend::class -> 9
+            EmailEntered::class -> 10
+            EmailVerificationCodeEntered::class -> 11
+            EmailVerificationCodeResend::class -> 12
+            UserNameEntered::class -> 13
+            PasswordEntered::class -> 14
+            PasswordConfirmationEntered::class -> 15
+            PinCodeEntered::class -> 16
+            UnlockMethodSelected::class -> 17
             else -> throw UnsupportedOperationException("This class is not supported: ${event.simpleName}")
          }
 }

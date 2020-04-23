@@ -9,21 +9,21 @@ import io.golos.use_cases.sign_up.core.data_structs.*
 import io.golos.use_cases.sign_up.dto.TransitionResult
 import timber.log.Timber
 
-class FromWaitingForPhoneOnPhoneEntered(
+class FromEmailVerificationOnCodeEntered(
     parent: SignUpSMCoreTransition,
     private val authRepository: AuthRepository
-) : SingUpTransitionBase<PhoneEntered>(parent, SignUpState.WAITING_FOR_PHONE) {
+) : SingUpTransitionBase<EmailVerificationCodeEntered>(parent, SignUpState.EMAIL_VERIFICATION) {
     /**
      * Process event and return new state of the SM
      */
-    override suspend fun process(event: PhoneEntered, snapshot: SignUpSnapshotDomain): TransitionResult =
+    override suspend fun process(event: EmailVerificationCodeEntered, snapshot: SignUpSnapshotDomain): TransitionResult =
         try {
             parent.sendCommand(ShowLoading())
-            authRepository.firstPhoneUserRegistrationStep(event.captcha, event.phone)
+            authRepository.verifyEmailForUserRegistration(snapshot.email!!, event.verificationCode)
             parent.sendCommand(HideLoading())
 
-            parent.sendCommand(NavigateToPhoneVerification())
-            getResult(SignUpState.PHONE_VERIFICATION, snapshot.copy(phoneNumber = event.phone))
+            parent.sendCommand(NavigateToUserName())
+            getResult(SignUpState.ENTERING_USER_NAME)
         } catch (ex: Exception) {
             Timber.e(ex)
 
@@ -31,8 +31,8 @@ class FromWaitingForPhoneOnPhoneEntered(
 
             if(ex is ApiResponseErrorException) {
                 when(ex.errorInfo.code) {
-                    1101L -> {
-                        parent.sendCommand(ShowError(SignUpMessageCode.PHONE_ALREADY_REGISTERED))
+                    1104L -> {
+                        parent.sendCommand(ShowError(SignUpMessageCode.INVALID_EMAIL_VERIFICATION_CODE))
                         getResult()
                     }
                     else -> {

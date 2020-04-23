@@ -39,6 +39,7 @@ class AuthRepositoryImpl
     override suspend fun writeUserToBlockChain(
         phone: String?,
         identity: String?,
+        email: String?,
         userId: String,
         userName: String,
         owner: String,
@@ -48,11 +49,11 @@ class AuthRepositoryImpl
             commun4j.writeUserToBlockChain(
                 phone = phone,
                 identity = identity,
+                email = email,
                 userName = userName,
                 userId = userId,
                 owner = owner,
-                active = active,
-                email = null) }.currentState == UserRegistrationState.REGISTERED
+                active = active) }.currentState == UserRegistrationState.REGISTERED
 
     override suspend fun getRegistrationState(phone: String?, identity: String?): UserRegistrationStateResult =
         callProxy.call {
@@ -60,10 +61,16 @@ class AuthRepositoryImpl
             commun4j.getRegistrationState(phone = phone, identity = identity)
         }
 
-    override suspend fun firstUserRegistrationStep(captcha: String, phone: String): FirstRegistrationStepResult =
+    override suspend fun firstPhoneUserRegistrationStep(captcha: String, phone: String): FirstRegistrationStepResult =
         callProxy.call {
             Timber.tag("NET_SOCKET").d("AuthRepositoryImpl::firstUserRegistrationStep(phone = $phone)")
             commun4j.firstUserRegistrationStep(captcha = captcha, phone = phone, testingPass = null, captchaType = "android")
+        }
+
+    override suspend fun firstEmailUserRegistrationStep(captcha: String, email: String): FirstRegistrationStepEmailResult =
+        callProxy.call {
+            Timber.tag("NET_SOCKET").d("AuthRepositoryImpl::firstUserRegistrationStepEmail(email = $email)")
+            commun4j.firstUserRegistrationStepEmail(captcha = captcha, email = email, testingPass = null, captchaType = "android")
         }
 
     override suspend fun verifyPhoneForUserRegistration(phone: String, code: Int): VerifyStepResult =
@@ -72,16 +79,29 @@ class AuthRepositoryImpl
             commun4j.verifyPhoneForUserRegistration(phone, code)
         }
 
-    override suspend fun setVerifiedUserName(user: String, phone: String?, identity: String?): SetUserNameStepResult =
+    override suspend fun verifyEmailForUserRegistration(email: String, code: String): VerifyStepResult =
         callProxy.call {
-            Timber.tag("NET_SOCKET").d("AuthRepositoryImpl::setVerifiedUserName(user = $user, phone = $phone, identity = $identity)")
-            commun4j.setVerifiedUserName(user = user, phone = phone, identity = identity)
+            Timber.tag("NET_SOCKET").d("AuthRepositoryImpl::verifyEmailForUserRegistration(email = $email, code = $code)")
+            commun4j.verifyEmailForUserRegistration(email, code.toInt())
+        }
+
+    override suspend fun setVerifiedUserName(user: String, phone: String?, identity: String?, email: String?): SetUserNameStepResult =
+        callProxy.call {
+            Timber.tag("NET_SOCKET").d("AuthRepositoryImpl::setVerifiedUserName(user = $user, phone = $phone, identity = $identity, email = $email)")
+            commun4j.setVerifiedUserName(user = user, phone = phone, identity = identity, email = email)
         }
 
     override suspend fun resendSmsCode(phone: String) {
         callProxy.call {
             Timber.tag("NET_SOCKET").d("AuthRepositoryImpl::resendSmsCode(phone = $phone)")
             commun4j.resendSmsCode(phone)
+        }
+    }
+
+    override suspend fun resendEmail(email: String) {
+        callProxy.call {
+            Timber.tag("NET_SOCKET").d("AuthRepositoryImpl::resendEmail(email = $email)")
+            commun4j.resendEmail(email)
         }
     }
 }
