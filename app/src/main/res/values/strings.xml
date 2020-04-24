@@ -122,6 +122,7 @@
     <string name="welcome_slides_text_3_1">by users</string>
     <string name="account_query">Don\'t have an account?</string>
     <string name="continue_with_phone">Continue with Phone</string>
+    <string name="continue_with_email">Continue with Email</string>
     <string name="continue_with_google">Continue with Google</string>
     <string name="continue_with_facebook">Continue with Facebook</string>
 
@@ -162,10 +163,14 @@
     <!--Sign Up-->
     <string name="select_country">Select country</string>
     <string name="phone_number">Phone number</string>
+    <string name="email_address">Your email address</string>
+    <string name="enter_code">Enter code</string>
     <string name="phone_format">+%1$s (___) ___-__-__</string>
     <string name="phone_prefix_format">+%1$s (</string>
-    <string name="verification">Verification</string>
+    <string name="phone_verification">Phone verification</string>
+    <string name="email_verification">Email verification</string>
     <string name="enter_sms_code">Enter SMS-Code</string>
+    <string name="enter_email_code">An email has been sent with the verification code. Please enter the code here</string>
     <string name="resend_verification_code">Resend verification code</string>
     <string name="resend_verification_code_w_time_format">Resend verification code 0:%1$02d</string>
     <string name="next">Next</string>

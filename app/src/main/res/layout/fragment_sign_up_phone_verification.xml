@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        <variable name="viewModel" type="io.golos.cyber_android.ui.screens.app_start.sign_up.phone_verification.view_model.SignUpVerificationViewModel" />
+        <variable name="viewModel" type="io.golos.cyber_android.ui.screens.app_start.sign_up.phone_verification.view_model.SignUpPhoneVerificationViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -11,7 +11,7 @@
             android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".ui.screens.app_start.sign_up.phone_verification.view.SignUpVerificationFragment">
+            tools:context=".ui.screens.app_start.sign_up.phone_verification.view.SignUpPhoneVerificationFragment">
 
         <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/actionBar"
@@ -25,7 +25,7 @@
                 android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:title = "@string/verification"
+                app:title = "@string/phone_verification"
                 app:back_visibility = "@{viewModel.isBackButtonVisible}"
             />
 
@@ -81,6 +81,8 @@
                         android:text="@string/next"
 
                         android:layout_marginTop="40dp"
+                        android:layout_marginStart="26dp"
+                        android:layout_marginEnd="26dp"
 
                         android:layout_gravity="center_horizontal"
                         android:layout_width="match_parent"

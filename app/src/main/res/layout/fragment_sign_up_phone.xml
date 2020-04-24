@@ -38,15 +38,14 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/country"
+                style="@style/SignUp.InputField"
                 android:layout_width="match_parent"
+
                 android:layout_height="@dimen/sign_up_field_height"
 
                 android:layout_marginTop="48dp"
 
-                style="@style/SignUp.InputField"
-
-                android:hint="@string/select_country"
-                />
+                android:hint="@string/select_country" />
 
             <io.golos.cyber_android.ui.shared.widgets.PrefixTextInputEditText
                 android:id="@+id/phone"
@@ -84,7 +83,7 @@
                 android:id="@+id/signUp"
                 style="@style/SignUpButtonStyle"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="@dimen/sign_up_field_height"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginStart="42dp"
                 android:layout_marginTop="@dimen/margin_default"

@@ -4,5 +4,6 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 
 class NavigateToCountriesListCommand : ViewCommand
 class NavigateToPhoneVerificationCommand : ViewCommand
+class NavigateToEmailVerificationCommand : ViewCommand
 class NavigateToSelectSignUpMethodCommand: ViewCommand
 class ShowCaptchaCommand: ViewCommand

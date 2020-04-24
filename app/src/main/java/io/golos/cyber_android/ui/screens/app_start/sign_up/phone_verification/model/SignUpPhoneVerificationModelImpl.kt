@@ -3,9 +3,9 @@ package io.golos.cyber_android.ui.screens.app_start.sign_up.phone_verification.m
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import javax.inject.Inject
 
-class SignUpVerificationModelImpl
+class SignUpPhoneVerificationModelImpl
 @Inject
-constructor() : ModelBaseImpl(), SignUpVerificationModel {
+constructor() : ModelBaseImpl(), SignUpPhoneVerificationModel {
     override var code: String = ""
 
     /**

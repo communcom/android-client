@@ -53,7 +53,7 @@ class AuthRepositoryImpl
                 userName = userName,
                 userId = userId,
                 owner = owner,
-                active = active) }.currentState == UserRegistrationState.REGISTERED
+                active = active) }.currentState == "registered"
 
     override suspend fun getRegistrationState(phone: String?, identity: String?): UserRegistrationStateResult =
         callProxy.call {
@@ -82,7 +82,7 @@ class AuthRepositoryImpl
     override suspend fun verifyEmailForUserRegistration(email: String, code: String): VerifyStepResult =
         callProxy.call {
             Timber.tag("NET_SOCKET").d("AuthRepositoryImpl::verifyEmailForUserRegistration(email = $email, code = $code)")
-            commun4j.verifyEmailForUserRegistration(email, code.toInt())
+            commun4j.verifyEmailForUserRegistration(email, code)
         }
 
     override suspend fun setVerifiedUserName(user: String, phone: String?, identity: String?, email: String?): SetUserNameStepResult =

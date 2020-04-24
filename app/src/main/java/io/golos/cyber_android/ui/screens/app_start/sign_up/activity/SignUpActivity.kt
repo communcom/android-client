@@ -62,7 +62,9 @@ class SignUpActivity : ActivityBase(), CoroutineScope {
             val screenResId = when(signUpSnapshot.state) {
                 SignUpState.SELECTING_SIGN_UP_METHOD -> R.id.signUpSelectMethodFragment
                 SignUpState.WAITING_FOR_PHONE -> R.id.signUpPhoneFragment2
+                SignUpState.WAITING_FOR_EMAIL -> R.id.signUpEmailFragment
                 SignUpState.PHONE_VERIFICATION -> R.id.signUpVerificationFragment2
+                SignUpState.EMAIL_VERIFICATION -> R.id.signUpEmailVerificationFragment
                 SignUpState.ENTERING_USER_NAME -> R.id.signUpNameFragment2
                 SignUpState.ENTERING_PASSWORD -> R.id.signUpCreatePasswordFragment2
                 SignUpState.PASSWORD_CONFIRMATION -> R.id.signUpConfirmPasswordFragment2

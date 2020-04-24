@@ -67,6 +67,7 @@ class SignUpSelectMethodFragment: FragmentBaseCoroutines() {
         header.setOnBackButtonClickListener { findNavController().navigateUp() }
 
         phoneButton.setOnClickListener { singUpCore.process(PhoneSelected()) }
+        emailButton.setOnClickListener { singUpCore.process(EmailSelected()) }
 
         googleButton.setOnClickListener {
             analyticsFacade.openScreen121()
@@ -100,6 +101,7 @@ class SignUpSelectMethodFragment: FragmentBaseCoroutines() {
             is StartGoogleSignIn -> googleAuth.get().startAuth(this)
             is StartFbSignIn -> facebookAuth.get().startAuth(this)
             is NavigateToPhone -> findNavController().navigate(R.id.action_signUpSelectMethodFragment_to_signUpPhoneFragment2)
+            is NavigateToEmail -> findNavController().navigate(R.id.action_signUpSelectMethodFragment_to_signUpEmailFragment)
             is ShowError -> uiHelper.showMessage(signUpMessagesMapper.get().getMessage(command.errorCode))
             is ShowLoading -> showLoading()
             is HideLoading -> hideLoading()

@@ -30,8 +30,8 @@ constructor(
     private val KClass<out SingUpEvent>.index: Int get() = getEventIndex(this)
     private val SingUpEvent.index: Int get() = getEventIndex(this::class)
 
-    private val statesTotal = 11
-    private val eventsTotal = 14
+    private val statesTotal = 13
+    private val eventsTotal = 18
 
     private val matrix = Array(statesTotal) {Array<() -> SingUpTransition<SingUpEvent>>(eventsTotal) {
         { throw UnsupportedOperationException("This transition is not supported") }

@@ -1,16 +1,14 @@
-package io.golos.cyber_android.ui.screens.app_start.sign_up.phone_verification.view_model
+package io.golos.cyber_android.ui.screens.app_start.sign_up.email_verification.view_model
 
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.screens.app_start.sign_up.shared.messages_mapper.SignUpMessagesMapper
+import io.golos.cyber_android.ui.screens.app_start.sign_up.email_verification.model.SignUpEmailVerificationModel
 import io.golos.cyber_android.ui.screens.app_start.sign_up.phone.dto.NavigateToSelectSignUpMethodCommand
-import io.golos.cyber_android.ui.screens.app_start.sign_up.phone_verification.dto.ClearCodeCommand
 import io.golos.cyber_android.ui.screens.app_start.sign_up.phone_verification.dto.NavigateToUserNameCommand
-import io.golos.cyber_android.ui.screens.app_start.sign_up.phone_verification.model.SignUpVerificationModel
+import io.golos.cyber_android.ui.screens.app_start.sign_up.shared.messages_mapper.SignUpMessagesMapper
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageTextCommand
 import io.golos.domain.DispatchersProvider
@@ -24,16 +22,16 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class SignUpVerificationViewModel
+class SignUpEmailVerificationViewModel
 @Inject
 constructor(
     private val appContext: Context,
     dispatchersProvider: DispatchersProvider,
-    model: SignUpVerificationModel,
+    model: SignUpEmailVerificationModel,
     private val singUpCore: SignUpCoreView,
     private val signUpMessagesMapper: SignUpMessagesMapper,
     private val analyticsFacade: AnalyticsFacade
-) : ViewModelBase<SignUpVerificationModel>(dispatchersProvider, model) {
+) : ViewModelBase<SignUpEmailVerificationModel>(dispatchersProvider, model) {
 
     private val resendTimeInSeconds = 59
 
@@ -43,12 +41,18 @@ constructor(
     private val _resendText = MutableLiveData<String>("")
     val resendText: LiveData<String> = _resendText
 
+    val code = MutableLiveData<String>()
+
     val isBackButtonVisible = false
 
     private var timerJob: Job? = null
 
     init {
-        analyticsFacade.openScreen113()
+//        analyticsFacade.openScreen113()
+
+        code.observeForever {
+            _nextButtonEnabled.value = model.isCodeValid(it)
+        }
 
         restartResendTimer()
 
@@ -57,26 +61,17 @@ constructor(
         }
     }
 
-    fun onBackClick() {
-        _command.value = NavigateBackwardCommand()
-    }
-
-    fun onCodeUpdated(code: String) {
-        _nextButtonEnabled.value = model.updateCode(code)
-    }
-
     fun onNextClick() {
-        analyticsFacade.smsCodeEntered(SmsCodeEntered.RIGHT)
-        singUpCore.process(PhoneVerificationCodeEntered(model.code.toInt()))
+//        analyticsFacade.smsCodeEntered(SmsCodeEntered.RIGHT)
+        singUpCore.process(EmailVerificationCodeEntered(code.value!!))
     }
 
     fun onResendClick() {
         timerJob?.let {
             if(!it.isActive) {
-                model.updateCode("")
-                _command.value = ClearCodeCommand()
+                code.value = ""
 
-                singUpCore.process(PhoneVerificationCodeResend())
+                singUpCore.process(EmailVerificationCodeResend())
             }
         }
     }
@@ -87,15 +82,15 @@ constructor(
             is HideLoading -> _command.value = SetLoadingVisibilityCommand(false)
             is NavigateToUserName -> _command.value = NavigateToUserNameCommand()
             is ShowError -> {
-                analyticsFacade.smsCodeEntered(SmsCodeEntered.ERROR)
+                //analyticsFacade.smsCodeEntered(SmsCodeEntered.ERROR)
                 _command.value = ShowMessageTextCommand(signUpMessagesMapper.getMessage(command.errorCode))
-                _command.value = ClearCodeCommand()
+                code.value = ""
             }
             is ShowMessage -> _command.value = ShowMessageTextCommand(signUpMessagesMapper.getMessage(command.messageCode), false)
             is NavigateToSelectMethod -> _command.value = NavigateToSelectSignUpMethodCommand()
 
-            is PhoneVerificationCodeResendCompleted -> {
-                analyticsFacade.smsCodeEntered(SmsCodeEntered.RESEND)
+            is EmailVerificationCodeResendCompleted -> {
+                //analyticsFacade.smsCodeEntered(SmsCodeEntered.RESEND)
                 restartResendTimer()
             }
 

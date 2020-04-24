@@ -16,6 +16,7 @@ import io.golos.domain.dto.*
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.UsersRepository
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
@@ -133,13 +134,22 @@ class UsersRepositoryImpl
      * Update avatar of current user profile
      * @return url of an avatar
      */
-    override suspend fun updateAvatar(avatarFile: File): String =
-        callProxy.callBC { commun4j.uploadImage(avatarFile) }
-            .also { url -> updateCurrentUserMetadata { it.copy(avatarUrl = url) } }
-            .also {
-                currentUserRepository.userAvatarUrl = it
-                currentUserRepository.sendUserAvatarChanges()
-            }
+    override suspend fun updateAvatar(avatarFile: File): String {
+        Timber.tag("NET_SOCKET").d("UsersRepositoryImpl::updateAvatar(${avatarFile.name})")
+        return callProxy.callBC {
+            Timber.tag("NET_SOCKET").d("upload")
+            commun4j.uploadImage(avatarFile)
+        }
+        .also { url ->
+            Timber.tag("NET_SOCKET").d("updateCurrentUserMetadata($url)")
+            updateCurrentUserMetadata { it.copy(avatarUrl = url) }
+        }
+        .also {
+            Timber.tag("NET_SOCKET").d("sendUserAvatarChanges")
+            currentUserRepository.userAvatarUrl = it
+            currentUserRepository.sendUserAvatarChanges()
+        }
+    }
 
     /**
      * Clear cover of current user profile

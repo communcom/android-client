@@ -25,6 +25,15 @@
             app:popExitAnim="@anim/nav_slide_out_right"
             app:popUpTo="@id/graph_sign_up"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_signUpSelectMethodFragment_to_signUpEmailFragment"
+            app:destination="@id/signUpEmailFragment"
+            app:enterAnim="@anim/nav_slide_in_right"
+            app:exitAnim="@anim/nav_slide_out_left"
+            app:popEnterAnim="@anim/nav_slide_in_left"
+            app:popExitAnim="@anim/nav_slide_out_right"
+            app:popUpTo="@id/graph_sign_up"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/signUpPhoneFragment2"
@@ -62,7 +71,7 @@
         android:label="SignUpCountryFragment" />
     <fragment
         android:id="@+id/signUpVerificationFragment2"
-        android:name="io.golos.cyber_android.ui.screens.app_start.sign_up.phone_verification.view.SignUpVerificationFragment"
+        android:name="io.golos.cyber_android.ui.screens.app_start.sign_up.phone_verification.view.SignUpPhoneVerificationFragment"
         android:label="SignUpVerificationFragment" >
         <action
             android:id="@+id/action_signUpVerificationFragment2_to_signUpNameFragment2"
@@ -172,6 +181,52 @@
         android:label="SignUpAppUnlockFragment" >
         <action
             android:id="@+id/action_signUpAppUnlockFragment2_to_signUpSelectMethodFragment"
+            app:destination="@id/signUpSelectMethodFragment"
+            app:enterAnim="@anim/nav_slide_in_right"
+            app:exitAnim="@anim/nav_slide_out_left"
+            app:popEnterAnim="@anim/nav_slide_in_left"
+            app:popExitAnim="@anim/nav_slide_out_right"
+            app:popUpTo="@id/graph_sign_up"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpEmailFragment"
+        android:name="io.golos.cyber_android.ui.screens.app_start.sign_up.email.view.SignUpEmailFragment"
+        android:label="SignUpEmailFragment" >
+        <action
+            android:id="@+id/action_signUpEmailFragment_to_signUpEmailVerificationFragment"
+            app:destination="@id/signUpEmailVerificationFragment"
+            app:enterAnim="@anim/nav_slide_in_right"
+            app:exitAnim="@anim/nav_slide_out_left"
+            app:popEnterAnim="@anim/nav_slide_in_left"
+            app:popExitAnim="@anim/nav_slide_out_right"
+            app:popUpTo="@id/graph_sign_up"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_signUpEmailFragment_to_signUpSelectMethodFragment"
+            app:destination="@id/signUpSelectMethodFragment"
+            app:enterAnim="@anim/nav_slide_in_right"
+            app:exitAnim="@anim/nav_slide_out_left"
+            app:popEnterAnim="@anim/nav_slide_in_left"
+            app:popExitAnim="@anim/nav_slide_out_right"
+            app:popUpTo="@id/graph_sign_up"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpEmailVerificationFragment"
+        android:name="io.golos.cyber_android.ui.screens.app_start.sign_up.email_verification.view.SignUpEmailVerificationFragment"
+        android:label="SignUpEmailVerificationFragment" >
+        <action
+            android:id="@+id/action_signUpEmailVerificationFragment_to_signUpNameFragment2"
+            app:destination="@id/signUpNameFragment2"
+            app:enterAnim="@anim/nav_slide_in_right"
+            app:exitAnim="@anim/nav_slide_out_left"
+            app:popEnterAnim="@anim/nav_slide_in_left"
+            app:popExitAnim="@anim/nav_slide_out_right"
+            app:popUpTo="@id/graph_sign_up"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_signUpEmailVerificationFragment_to_signUpSelectMethodFragment"
             app:destination="@id/signUpSelectMethodFragment"
             app:enterAnim="@anim/nav_slide_in_right"
             app:exitAnim="@anim/nav_slide_out_left"

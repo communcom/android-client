@@ -48,9 +48,11 @@ import io.golos.cyber_android.ui.screens.app_start.sign_up.create_password.di.Si
 import io.golos.cyber_android.ui.screens.app_start.sign_in.keys_backup.di.SignInProtectionKeysFragmentComponent
 import io.golos.cyber_android.ui.screens.app_start.sign_up.username.di.SignUpNameFragmentComponent
 import io.golos.cyber_android.ui.screens.app_start.sign_up.phone.di.SignUpPhoneFragmentComponent
-import io.golos.cyber_android.ui.screens.app_start.sign_up.phone_verification.di.SignUpVerificationFragmentComponent
+import io.golos.cyber_android.ui.screens.app_start.sign_up.phone_verification.di.SignUpPhoneVerificationFragmentComponent
 import io.golos.cyber_android.ui.screens.app_start.sign_in.pin.di.SignInPinCodeFragmentComponent
 import io.golos.cyber_android.ui.screens.app_start.sign_up.activity.di.SignUpActivityComponent
+import io.golos.cyber_android.ui.screens.app_start.sign_up.email.di.SignUpEmailFragmentComponent
+import io.golos.cyber_android.ui.screens.app_start.sign_up.email_verification.di.SignUpEmailVerificationFragmentComponent
 import io.golos.cyber_android.ui.screens.app_start.sign_up.select_method.di.SignUpSelectMethodFragmentComponent
 import io.golos.cyber_android.ui.screens.app_start.sign_up.pin.di.SignUpPinCodeFragmentComponent
 import io.golos.cyber_android.ui.screens.main_activity.di.MainActivityComponent
@@ -431,14 +433,18 @@ class DependencyInjectionStorage(private val app: Application) {
                     .signUpCountryComponent
                     .build()
 
-            SignUpPhoneFragmentComponent::class ->
+            SignUpPhoneFragmentComponent::class -> getBase<SignUpActivityComponent>().signUpPhoneFragmentComponent.build()
+
+            SignUpEmailFragmentComponent::class -> getBase<SignUpActivityComponent>().signUpEmailFragmentComponent.build()
+
+            SignUpPhoneVerificationFragmentComponent::class ->
                 getBase<SignUpActivityComponent>()
-                    .signUpPhoneFragmentComponent
+                    .signUpPhoneVerificationFragmentComponent
                     .build()
 
-            SignUpVerificationFragmentComponent::class ->
+            SignUpEmailVerificationFragmentComponent::class ->
                 getBase<SignUpActivityComponent>()
-                    .signUpVerificationFragmentComponent
+                    .signUpEmailVerificationFragmentComponent
                     .build()
 
             SignUpNameFragmentComponent::class ->
