@@ -17,6 +17,11 @@ import io.golos.posts_editor.utilities.post.spans.PostSpansTextFactory
  */
 object PostToEditorLoader {
     fun load(editor: EditorDataLoader, post: ContentBlock) {
+        // To have an opportunity to insert text before embed
+        if(post.content.isEmpty() || (post.content.isNotEmpty() && post.content.first() !is ParagraphBlock)) {
+            editor.insertEmptyParagraph()
+        }
+
         post.content.forEach { block ->
             when(block) {
                 is ParagraphBlock -> editor.insertParagraph(getParagraphText(block))

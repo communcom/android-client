@@ -302,9 +302,8 @@ constructor(
 
                 if (contentId != null) {
                     // Updated post
-                    val postToEditCall = async { model.getPostToEdit(contentId) }
+                    val postToEdit = model.getPostToEdit(contentId)
 
-                    val postToEdit = postToEditCall.await()
                     val communityDomain = postToEdit.community
                     community.value = CommunityDomain(
                         communityId = communityDomain.communityId,

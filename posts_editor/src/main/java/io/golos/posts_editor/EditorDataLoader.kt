@@ -7,6 +7,8 @@ import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.Embed
  * Set of methods for uploading part of posts to the editor
  */
 interface EditorDataLoader {
+    fun insertEmptyParagraph()
+
     fun insertParagraph(text: CharSequence)
 
     fun insertEmbed(type: EmbedType, sourceUri: Uri, displayUri: Uri, description: String? = null)

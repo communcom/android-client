@@ -67,7 +67,7 @@ class Editor(context: Context, attrs: AttributeSet) : EditorCore(context, attrs)
      */
     fun tryGetTextOfMention(): String? = inputExtensions!!.tryGetTextOfMention()
 
-    fun insertEmptyParagraph() {
+    override fun insertEmptyParagraph() {
         inputExtensions!!.insertEditText(childCount, null)
     }
 
