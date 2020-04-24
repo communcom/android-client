@@ -62,7 +62,11 @@ interface LinkListener {
 }
 
 interface SeeMoreListener {
-    fun onSeeMoreClicked(contentId: ContentId)
+    /**
+     * @return If the value is true the click action'll be processed by some external action (a post opening and so on)
+     * Otherwise it'll be processed inside a widget
+     */
+    fun onSeeMoreClicked(contentId: ContentId) : Boolean
 }
 
 interface BlockBodyListener {

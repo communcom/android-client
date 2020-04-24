@@ -45,6 +45,8 @@ constructor(
     private var startPadding = context.resources.getDimension(R.dimen.post_content_border_horizontal).toInt()
     private var endPadding = context.resources.getDimension(R.dimen.post_content_border_horizontal).toInt()
 
+    private lateinit var block: ParagraphBlock
+
     @ColorInt
     private val spansColor: Int = ContextCompat.getColor(context, R.color.default_clickable_span_color)
 
@@ -52,7 +54,10 @@ constructor(
         onClickProcessor = processor
     }
 
-    override fun render(block: ParagraphBlock) = setText(block)
+    override fun render(block: ParagraphBlock) {
+        this.block = block
+        setText(block)
+    }
 
     override fun release() = setOnClickProcessor(null)
 
@@ -112,7 +117,10 @@ constructor(
             val seeMoreClick = object : ClickableSpan() {
                 override fun onClick(widget: View) {
                     contentId?.let { id ->
-                        onClickProcessor?.onSeeMoreClicked(id)
+                        if(onClickProcessor?.onSeeMoreClicked(id) == false) {
+                            isSeeMoreEnabled = false
+                            setText(block)
+                        }
                     }
                 }
 

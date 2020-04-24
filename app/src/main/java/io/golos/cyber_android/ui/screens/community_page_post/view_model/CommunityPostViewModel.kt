@@ -123,9 +123,10 @@ class CommunityPostViewModel @Inject constructor(
         _command.value = NavigateToImageViewCommand(imageUri)
     }
 
-    override fun onSeeMoreClicked(contentId: ContentId) {
+    override fun onSeeMoreClicked(contentId: ContentId): Boolean {
         val discussionIdModel = DiscussionIdModel(contentId.userId, Permlink(contentId.permlink))
         _command.value = NavigateToPostCommand(discussionIdModel, contentId)
+        return true
     }
 
     override fun onItemClicked(contentId: ContentId) {
