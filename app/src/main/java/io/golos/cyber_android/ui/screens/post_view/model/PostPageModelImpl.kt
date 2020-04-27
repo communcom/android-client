@@ -93,6 +93,7 @@ constructor(
             creationTime = postDomain.meta.creationTime,
             authorUsername = postDomain.author.username,
             authorUserId = postDomain.author.userId,
+            authorAvatarUrl = postDomain.author.avatarUrl,
             shareUrl = postDomain.shareUrl,
             isMyPost = currentUserRepository.userId.userId == postToProcess.userId,
             isSubscribed = postDomain.community.isSubscribed,
@@ -109,6 +110,7 @@ constructor(
 
             postDomain.author.username,
             postDomain.author.userId,
+            postDomain.author.avatarUrl,
 
             canJoinToCommunity = false,
             isJoinedToCommunity = postDomain.community.isSubscribed,

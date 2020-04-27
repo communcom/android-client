@@ -12,6 +12,7 @@ fun Comment.mapToCommentMenu(): CommentMenu = CommentMenu(
     creationTime = meta.creationTime,
     authorUserId = author.userId,
     authorUsername = author.username,
+    authorAvatarUrl = author.avatarUrl,
     permlink = contentId.permlink
 )
 

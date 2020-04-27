@@ -16,6 +16,7 @@ data class PostMenu(
     val creationTime: Date,
     val authorUsername: String?,
     val authorUserId: String,
+    val authorAvatarUrl: String?,
     val shareUrl: String?,
     val isMyPost: Boolean,
     val isSubscribed: Boolean,

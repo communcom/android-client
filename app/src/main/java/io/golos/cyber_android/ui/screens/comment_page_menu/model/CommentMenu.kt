@@ -15,5 +15,6 @@ data class CommentMenu(
     val creationTime: Date,
     val authorUsername: String?,
     val authorUserId: String,
+    val authorAvatarUrl: String?,
     val permlink: String
 ) : Parcelable

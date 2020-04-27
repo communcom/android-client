@@ -75,6 +75,7 @@ class PostPageMenuDialog(
                     actionDateTime = menu.creationTime,
                     userName = menu.authorUsername,
                     userId = menu.authorUserId,
+                    userAvatarUrl = menu.authorAvatarUrl,
                     canJoinToCommunity = false,
                     isBackFeatureEnabled = false,
                     isRewarded = false,

@@ -10,6 +10,7 @@ data class PostHeader(
     val actionDateTime: Date,
     val userName: String?,
     val userId: String,
+    val userAvatarUrl: String?,
     val canJoinToCommunity: Boolean,
     val isJoinedToCommunity: Boolean = false,
     val isBackFeatureEnabled: Boolean = true,

@@ -50,6 +50,7 @@ class CommentPageMenuDialog(
                 actionDateTime = commentMenu.creationTime,
                 userName = commentMenu.authorUsername,
                 userId = commentMenu.authorUserId,
+                userAvatarUrl = commentMenu.authorAvatarUrl,
                 canJoinToCommunity = false,
                 isBackFeatureEnabled = false,
                 isRewarded = false,

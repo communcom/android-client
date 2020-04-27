@@ -13,10 +13,12 @@ import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
 import io.golos.cyber_android.ui.shared.characters.SpecialChars
 import io.golos.utils.format.RewardFormatter
 import io.golos.cyber_android.ui.shared.glide.clear
+import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.cyber_android.ui.shared.glide.loadCommunity
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
 import io.golos.cyber_android.ui.shared.utils.adjustSpannableClicks
 import io.golos.cyber_android.ui.shared.utils.toTimeEstimateFormat
+import io.golos.domain.GlobalConstants
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.utils.helpers.appendText
 import io.golos.utils.helpers.setSpan
@@ -54,32 +56,54 @@ constructor(
         userId = postHeader.userId
         communityTitle.adjustSpannableClicks()
         val builder = SpannableStringBuilder()
-        postHeader.communityName?.let {
-            val textInterval = builder.appendText(it)
-            val communityNameTextColor = ContextCompat.getColor(context, R.color.post_header_community_text)
-            builder.setSpan(object : ColorTextClickableSpan(it, communityNameTextColor) {
 
-                override fun onClick(widget: View) {
-                    postHeader.communityId?.let { id ->
-                        onCommunityClickListener?.invoke(id)
+        if(postHeader.communityId!!.code == GlobalConstants.MY_FEED_COMMUNITY_ID) {
+            (postHeader.userName ?: postHeader.userId).let {
+                val textInterval = builder.appendText(it)
+                val communityNameTextColor = ContextCompat.getColor(context, R.color.post_header_community_text)
+                builder.setSpan(object : ColorTextClickableSpan(it, communityNameTextColor) {
+                    override fun onClick(widget: View) {
+                        postHeader.communityId.let { id ->
+                            onUserClickListener?.invoke(postHeader.userId)
+                        }
                     }
-                }
 
-            }, textInterval)
+                }, textInterval)
+            }
+            communityTitle.text = builder
+        } else {
+            postHeader.communityName?.let {
+                val textInterval = builder.appendText(it)
+                val communityNameTextColor = ContextCompat.getColor(context, R.color.post_header_community_text)
+                builder.setSpan(object : ColorTextClickableSpan(it, communityNameTextColor) {
+                    override fun onClick(widget: View) {
+                        postHeader.communityId.let { id ->
+                            onCommunityClickListener?.invoke(id)
+                        }
+                    }
+
+                }, textInterval)
+            }
+            communityTitle.text = builder
         }
-
-
-        communityTitle.text = builder
 
         authorAndTime.adjustSpannableClicks()
 
         authorAndTime.text = getTimeAndAuthor(postHeader)
 
-        communityAvatar.loadCommunity(postHeader.communityAvatarUrl)
-
-        communityAvatar.setOnClickListener {
-            postHeader.communityId?.let { id ->
-                onCommunityClickListener?.invoke(id)
+        if(postHeader.communityId.code == GlobalConstants.MY_FEED_COMMUNITY_ID) {
+            communityAvatar.loadAvatar(postHeader.userAvatarUrl)
+            communityAvatar.setOnClickListener {
+                postHeader.userId.let { id ->
+                    onUserClickListener?.invoke(id)
+                }
+            }
+        } else {
+            communityAvatar.loadCommunity(postHeader.communityAvatarUrl)
+            communityAvatar.setOnClickListener {
+                postHeader.communityId.let { id ->
+                    onCommunityClickListener?.invoke(id)
+                }
             }
         }
 
@@ -159,16 +183,28 @@ constructor(
 
         }, bulletInterval)
 
-        postHeader.userName?.let {
-            val userNameTextColor = ContextCompat.getColor(context, R.color.post_header_user_name_text)
-            val userNameInterval = result.appendText(it)
-            result.setSpan(object : ColorTextClickableSpan(it, userNameTextColor) {
+        if(postHeader.communityId!!.code == GlobalConstants.MY_FEED_COMMUNITY_ID) {
+            postHeader.communityName?.let {
+                val userNameTextColor = ContextCompat.getColor(context, R.color.post_header_user_name_text)
+                val userNameInterval = result.appendText(it)
+                result.setSpan(object : ColorTextClickableSpan(it, userNameTextColor) {
+                    override fun onClick(widget: View) {
+                        onCommunityClickListener?.invoke(postHeader.communityId)
+                    }
 
-                override fun onClick(widget: View) {
-                    onUserClickListener?.invoke(userId)
-                }
+                }, userNameInterval)
+            }
+        } else {
+            postHeader.userName?.let {
+                val userNameTextColor = ContextCompat.getColor(context, R.color.post_header_user_name_text)
+                val userNameInterval = result.appendText(it)
+                result.setSpan(object : ColorTextClickableSpan(it, userNameTextColor) {
+                    override fun onClick(widget: View) {
+                        onUserClickListener?.invoke(userId)
+                    }
 
-            }, userNameInterval)
+                }, userNameInterval)
+            }
         }
         return result
     }
