@@ -18,6 +18,7 @@ import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.*
 import io.golos.domain.mappers.new_mappers.CommentToModelMapper
 import io.golos.domain.posts_parsing_rendering.PostGlobalConstants
+import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.JsonToDtoMapper
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.*
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.DiscussionRepository
@@ -159,7 +160,7 @@ constructor(
                 discussionRepository.updateComment(commentDomain)
             }
             val newComment = oldComment.copy(
-//                body = contentBlock
+                body = JsonToDtoMapper().map(jsonBody)
             )
             postListDataSource.updateComment(newComment)
             commentsStorage.get().updateComment(newComment)
