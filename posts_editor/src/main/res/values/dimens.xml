@@ -16,7 +16,7 @@
 
     <dimen name="padding_main">20dp</dimen>
 
-    <dimen name="close_image_size">40dp</dimen>
+    <dimen name="close_image_size">30dp</dimen>
     <dimen name="close_image_margin">10dp</dimen>
     <dimen name="image_description_margin">3dp</dimen>
 </resources>

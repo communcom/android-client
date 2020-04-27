@@ -235,10 +235,5 @@ class EmbedExtensions(private val editorCore: EditorCore) : EditorComponent<Embe
             }
             true        //hmmmm....
         })
-
-        imageView.setOnClickListener { btnRemove.visibility = View.VISIBLE }
-        imageView.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            btnRemove.visibility = if (hasFocus) View.VISIBLE else View.GONE
-        }
     }
 }
