@@ -17,11 +17,11 @@ import java.util.*
 
 @BindingAdapter("avatar")
 fun setAvatarBinding(view: ImageView, valueToBind: LiveData<String?>?) =
-    valueToBind?.value?.let { view.loadAvatar(it) }
+    valueToBind?.value.let { view.loadAvatar(it) }
 
 @BindingAdapter("cover")
 fun setCoverBinding(view: ImageView, valueToBind: LiveData<String?>?) =
-    valueToBind?.value?.let { view.loadCover(it) }
+    valueToBind?.value.let { view.loadCover(it) }
 
 @SuppressLint("SetTextI18n")
 @BindingAdapter("joined")
