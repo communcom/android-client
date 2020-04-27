@@ -1,13 +1,12 @@
 package io.golos.cyber_android.ui.screens.communities_list.model
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
-import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.CommunityListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.LoadingListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.RetryListItem
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dependency_injection.Clarification
@@ -123,6 +122,10 @@ constructor(
             isProgress = false
         )
 
+    protected open fun onInitEmptyList(list: MutableList<VersionedListItem>) {
+
+    }
+
     private suspend fun loadData(isRetry: Boolean) {
         currentLoadingState = LoadingState.LOADING
 
@@ -133,9 +136,6 @@ constructor(
         }
 
         val data = getData(loadedItems.size-1)
-        data?.forEach {
-            Log.d("COMMUNITY_TEST", it.community.toString())
-        }
 
         currentLoadingState = if(data != null) {
             addLoadedData(data)
@@ -181,6 +181,10 @@ constructor(
 
     private fun addLoadedData(data: List<CommunityListItem>) = updateData {
         loadedItems.removeAt(loadedItems.lastIndex)
+
+        if(loadedItems.isEmpty()) {
+            onInitEmptyList(loadedItems)
+        }
 
         if(loadedItems.isNotEmpty()) {
             val lastItem = loadedItems.last()

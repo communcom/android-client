@@ -3,6 +3,9 @@ package io.golos.domain
 object GlobalConstants {
     const val COMMUN_CODE = "CMN"
 
+    const val MY_FEED_COMMUNITY_ID = "FEED"
+    const val MY_FEED_COMMUNITY_ALIAS = "feed"
+
     const val USER_ID_PREFIX = "cmn"
 
     const val ALL_COMMUNITIES_CODE = "all"

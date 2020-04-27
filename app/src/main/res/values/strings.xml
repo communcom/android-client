@@ -68,6 +68,7 @@
     <!--Feed Page-->
     <string name="trending">Trending</string>
     <string name="my_feed">My feed</string>
+    <string name="my_feed_community">My Feed</string>
 
     <!--Sorting Widget-->
     <string name="sort">Sort:</string>

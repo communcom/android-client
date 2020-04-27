@@ -11,6 +11,7 @@ import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.CommunityListItem
 import io.golos.cyber_android.ui.screens.communities_list.view.list.CommunityListItemEventsProcessor
+import io.golos.domain.GlobalConstants
 import kotlinx.android.synthetic.main.view_communities_community_list_item_dialog.view.*
 
 class CommunityListItemViewHolderDialog(
@@ -40,7 +41,12 @@ class CommunityListItemViewHolderDialog(
         val followers = followersFormatter.format(listItem.community.subscribersCount)
         val posts = postsFormatter.format(listItem.community.postsCount)
 
-        itemView.leaderPoints.text = "$followers ${SpecialChars.BULLET} $posts"
+        if(listItem.community.communityId.code == GlobalConstants.MY_FEED_COMMUNITY_ID) {
+            itemView.leaderPoints.visibility = View.GONE
+        } else {
+            itemView.leaderPoints.visibility = View.VISIBLE
+            itemView.leaderPoints.text = "$followers ${SpecialChars.BULLET} $posts"
+        }
 
         itemView.setOnClickListener { listItemEventsProcessor.onItemClick(listItem.community) }
 
