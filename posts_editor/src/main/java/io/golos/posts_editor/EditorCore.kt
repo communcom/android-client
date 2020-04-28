@@ -441,16 +441,13 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
     private fun removeParent(view: View): Int {
         val indexOfDeleteItem = this.editorSettings.parentView.indexOfChild(view)
         var nextItem: View? = null
-        var nextFocusIndex = -1
 
         //remove hr if its on top of the delete field
         this.editorSettings.parentView.removeView(view)
-        Log.d("indexOfDeleteItem", "indexOfDeleteItem : $indexOfDeleteItem")
-        for (i in 0 until indexOfDeleteItem) {
-            if (getControlType(this.editorSettings.parentView.getChildAt(i)) === EditorType.INPUT) {
+        for (i in indexOfDeleteItem-1 downTo 0) {
+            if (this.editorSettings.parentView.getChildAt(i) is CustomEditText) {
                 nextItem = this.editorSettings.parentView.getChildAt(i)
-                nextFocusIndex = i
-                continue
+                break
             }
         }
 
