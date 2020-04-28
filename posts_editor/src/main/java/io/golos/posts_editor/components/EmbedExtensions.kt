@@ -215,7 +215,7 @@ class EmbedExtensions(private val editorCore: EditorCore) : EditorComponent<Embe
             val index = editorCore.parentView.indexOfChild(layout)
             editorCore.parentView.removeView(layout)
             hideInputHint(index)
-            componentsWrapper!!.inputExtensions!!.setFocusToPrevious(index)
+//            componentsWrapper!!.inputExtensions!!.setFocusToPrevious(index)
 
             onEmbedAddedOrRemovedListener?.invoke(false)
         }
@@ -235,5 +235,10 @@ class EmbedExtensions(private val editorCore: EditorCore) : EditorComponent<Embe
             }
             true        //hmmmm....
         })
+
+//        imageView.setOnClickListener { btnRemove.visibility = View.VISIBLE }
+//        imageView.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+//            btnRemove.visibility = if (hasFocus) View.VISIBLE else View.GONE
+//        }
     }
 }

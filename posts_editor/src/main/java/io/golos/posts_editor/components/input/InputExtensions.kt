@@ -213,19 +213,16 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
             editorCore.onKey(v, keyCode, event, editText)
         }
 
-        editText.hint = hint
-
         editText.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
             if (!hasFocus) {
                 editText.clearFocus()
-
-//                editText.hint = null
+                editText.hint = null
             } else {
                 editorCore.activeView = v
 
-//                if (hint != null) {
-//                    editText.hint = hint
-//                }
+                if (hint != null) {
+                    editText.hint = hint
+                }
             }
         }
 
