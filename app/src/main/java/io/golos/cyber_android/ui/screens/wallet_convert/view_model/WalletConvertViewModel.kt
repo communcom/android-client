@@ -13,7 +13,6 @@ import io.golos.cyber_android.ui.screens.wallet_send_points.dto.ShowSelectCommun
 import io.golos.cyber_android.ui.screens.wallet_send_points.dto.UpdateCarouselPositionCommand
 import io.golos.cyber_android.ui.screens.wallet_shared.dto.AmountValidationResult
 import io.golos.cyber_android.ui.screens.wallet_shared.getDisplayName
-import io.golos.utils.format.CurrencyFormatter
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.HideKeyboardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
@@ -23,8 +22,8 @@ import io.golos.cyber_android.ui.shared.utils.getFormattedString
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
+import io.golos.utils.format.CurrencyFormatter
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 class WalletConvertViewModel
@@ -35,37 +34,54 @@ constructor(
     model: WalletConvertModel
 ) : ViewModelBase<WalletConvertModel>(dispatchersProvider, model) {
 
-    private val _sellerBalanceRecord = MutableLiveData<WalletCommunityBalanceRecordDomain>(getSellerRecord())
+    private val _sellerBalanceRecord = MutableLiveData<WalletCommunityBalanceRecordDomain>()
     val sellerBalanceRecord: LiveData<WalletCommunityBalanceRecordDomain> = _sellerBalanceRecord
 
-    private val _carouselItems = MutableLiveData<CarouselStartData>(model.carouselItemsData)
+    private val _carouselItems = MutableLiveData<CarouselStartData>()
     val carouselItems: LiveData<CarouselStartData> = _carouselItems
 
     val title: Int = R.string.convert
 
-    private val _isInCarouselMode = MutableLiveData<Boolean>(model.isInSellPointMode)
+    private val _isInCarouselMode = MutableLiveData<Boolean>()
     val isInCarouselMode: LiveData<Boolean> = _isInCarouselMode
 
-    private val _inputFieldInfo = MutableLiveData<InputFieldsInfo>(getInputFieldsInfo())
+    private val _inputFieldInfo = MutableLiveData<InputFieldsInfo>()
     val inputFieldInfo: LiveData<InputFieldsInfo> = _inputFieldInfo
 
-    private val _sellInputField = MutableLiveData<String>(getSellAmount())
+    private val _sellInputField = MutableLiveData<String>()
     val sellInputField: LiveData<String> = _sellInputField
 
-    private val _buyInputField = MutableLiveData<String>(getBuyAmount())
+    private val _buyInputField = MutableLiveData<String>()
     val buyInputField: LiveData<String> = _buyInputField
 
-    private val _convertButtonInfo = MutableLiveData<ConvertButtonInfo>(getConvertButtonInfo())
+    private val _convertButtonInfo = MutableLiveData<ConvertButtonInfo>()
     val convertButtonInfo: LiveData<ConvertButtonInfo> = _convertButtonInfo
 
-    private val _errorLabelInfo = MutableLiveData<ErrorLabelInfo>(getErrorLabelInfo())
+    private val _errorLabelInfo = MutableLiveData<ErrorLabelInfo>()
     val errorLabelInfo: LiveData<ErrorLabelInfo> = _errorLabelInfo
 
-    private val _pointInfo = MutableLiveData<PointInfo>(getPointInfo())
+    private val _pointInfo = MutableLiveData<PointInfo>()
     val pointInfo: LiveData<PointInfo> = _pointInfo
 
-    private val _isMenuVisible = MutableLiveData<Boolean>(model.isInSellPointMode)
+    private val _isMenuVisible = MutableLiveData<Boolean>()
     val isMenuVisible: LiveData<Boolean> = _isMenuVisible
+
+    init {
+        launch {
+            model.init()
+
+            _sellerBalanceRecord.value = getSellerRecord()
+            _carouselItems.value =model.carouselItemsData
+            _isInCarouselMode.value = model.isInSellPointMode
+            _inputFieldInfo.value = getInputFieldsInfo()
+            _sellInputField.value = getSellAmount()
+            _buyInputField.value = getBuyAmount()
+            _convertButtonInfo.value = getConvertButtonInfo()
+            _errorLabelInfo.value = getErrorLabelInfo()
+            _pointInfo.value = getPointInfo()
+            _isMenuVisible.value = model.isInSellPointMode
+        }
+    }
 
     fun onSellInputFieldUpdated(value: String) {
         if(!model.amountCalculator.updateSellAmount(value)) {
@@ -155,23 +171,25 @@ constructor(
     }
 
     private fun updateCurrentCommunity(communityId: CommunityIdDomain, updateCarousel: Boolean) {
-        model.updateCurrentCommunity(communityId)
-            ?.let {
-                _sellInputField.value = getSellAmount()
-                _buyInputField.value = getBuyAmount()
+        launch {
+            model.updateCurrentCommunity(communityId)
+                ?.let {
+                    _sellInputField.value = getSellAmount()
+                    _buyInputField.value = getBuyAmount()
 
-                _sellerBalanceRecord.value = getSellerRecord()
+                    _sellerBalanceRecord.value = getSellerRecord()
 
-                _inputFieldInfo.value = getInputFieldsInfo()
-                _convertButtonInfo.value = getConvertButtonInfo()
-                _errorLabelInfo.value = getErrorLabelInfo()
+                    _inputFieldInfo.value = getInputFieldsInfo()
+                    _convertButtonInfo.value = getConvertButtonInfo()
+                    _errorLabelInfo.value = getErrorLabelInfo()
 
-                _pointInfo.value = getPointInfo()
+                    _pointInfo.value = getPointInfo()
 
-                if(updateCarousel) {
-                    _command.value = UpdateCarouselPositionCommand(it)
+                    if(updateCarousel) {
+                        _command.value = UpdateCarouselPositionCommand(it)
+                    }
                 }
-            }
+        }
     }
 
     private fun getInputFieldsInfo() =

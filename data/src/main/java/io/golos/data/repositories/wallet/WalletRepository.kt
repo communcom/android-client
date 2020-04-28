@@ -9,6 +9,11 @@ import io.golos.domain.dto.WalletTransferHistoryRecordDomain
 interface WalletRepository {
     suspend fun getBalance(): List<WalletCommunityBalanceRecordDomain>
 
+    /**
+     * Returns a quantity of the community points in one commun
+     */
+    suspend fun getExchangeRate(communityId: CommunityIdDomain): Double
+
     suspend fun getTransferHistory(
         offset: Int,
         limit: Int,

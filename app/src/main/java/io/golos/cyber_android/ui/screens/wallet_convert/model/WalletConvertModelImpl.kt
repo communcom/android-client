@@ -34,18 +34,18 @@ constructor(
     ModelBaseImpl() {
 
     @Suppress("JoinDeclarationAndAssignment")
-    private val communBalanceRecord: WalletCommunityBalanceRecordDomain
+    private lateinit var communBalanceRecord: WalletCommunityBalanceRecordDomain
 
     override var currentBalanceRecord = calculateCurrentBalanceRecord()
 
-    override val carouselItemsData: CarouselStartData
+    override lateinit var carouselItemsData: CarouselStartData
 
     override var isInSellPointMode: Boolean = true
 
     override val amountCalculator: AmountCalculatorBrief = _amountCalculator
 
-    init {
-        _amountCalculator.init(currentBalanceRecord.points, currentBalanceRecord.communs!!, false)
+    override suspend fun init() {
+        _amountCalculator.init(currentBalanceRecord.points, currentBalanceRecord.communs!!, false, currentBalanceRecord.communityId)
 
         communBalanceRecord = balance.first { it.communityId.code == GlobalConstants.COMMUN_CODE }
 
@@ -67,7 +67,7 @@ constructor(
     /**
      * @return Index of the community in the balance list
      */
-    override fun updateCurrentCommunity(communityId: CommunityIdDomain): Int? {
+    override suspend fun updateCurrentCommunity(communityId: CommunityIdDomain): Int? {
         if(communityId == currentCommunityId) {
             return null
         }
@@ -75,7 +75,7 @@ constructor(
         currentCommunityId = communityId
         currentBalanceRecord = calculateCurrentBalanceRecord()
 
-        _amountCalculator.init(currentBalanceRecord.points, currentBalanceRecord.communs!!, !isInSellPointMode)
+        _amountCalculator.init(currentBalanceRecord.points, currentBalanceRecord.communs!!, !isInSellPointMode, currentBalanceRecord.communityId)
 
         return balance.indexOf(currentBalanceRecord)
     }

@@ -1,20 +1,29 @@
 package io.golos.cyber_android.ui.screens.wallet_convert.model.amount_calculator
 
+import io.golos.data.repositories.wallet.WalletRepository
+import io.golos.domain.dto.CommunityIdDomain
 import timber.log.Timber
 import javax.inject.Inject
 
 class AmountCalculatorImpl
 @Inject
-constructor(): AmountCalculator {
+constructor(
+    private val walletRepository: WalletRepository
+): AmountCalculator {
     override var sellAmount: Double? = null
     override var buyAmount: Double? = null
+
+    private val rates = mutableMapOf<CommunityIdDomain, Double>()
+    private lateinit var currentCommunityId: CommunityIdDomain
 
     /**
      * In sold coins
      */
     override val fee: Double = 0.0
 
+    @Suppress("SuspiciousVarProperty")
     private var rate: Double = 1.0
+        get() = if(rates.isEmpty()) 1.0 else rates[currentCommunityId]!!
 
     /**
      * false if we sell points and buy Commun
@@ -48,14 +57,20 @@ constructor(): AmountCalculator {
     /**
      * [isInverted] false if we sell points and buy Commun
      */
-    override fun init(points: Double, communs: Double, isInverted: Boolean) {
+    override suspend fun init(points: Double, communs: Double, isInverted: Boolean, communityId: CommunityIdDomain) {
         sellAmount = null
         buyAmount = null
 
-        rate = communs / points
+        currentCommunityId = communityId
+
+        rate = rates[currentCommunityId] ?: calculateRate(points, communs, communityId)
 
         this.isInverted = isInverted
     }
+
+    private suspend fun calculateRate(points: Double, communs: Double, communityId: CommunityIdDomain): Double =
+        (if(communs != 0.0 && points != 0.0) communs / points else (1 / walletRepository.getExchangeRate(communityId)))
+            .also { rates[currentCommunityId] = it }
 
     override fun inverse() {
         isInverted = !isInverted

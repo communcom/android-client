@@ -4,6 +4,7 @@ import io.golos.commun4j.Commun4j
 import io.golos.commun4j.model.BandWidthRequest
 import io.golos.commun4j.services.model.TransferHistoryDirection
 import io.golos.commun4j.services.model.TransferHistoryTransferType
+import io.golos.commun4j.services.model.WalletQuantity
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.sharedmodel.CyberSymbol
 import io.golos.commun4j.sharedmodel.CyberSymbolCode
@@ -15,6 +16,7 @@ import io.golos.domain.UserKeyStore
 import io.golos.domain.dto.*
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.utils.format.DoubleFormatter
+import timber.log.Timber
 import javax.inject.Inject
 
 class WalletRepositoryImpl
@@ -27,7 +29,10 @@ constructor(
 ) : WalletRepository {
 
     override suspend fun getBalance(): List<WalletCommunityBalanceRecordDomain> {
-        val callResult = callProxy.call { commun4j.getBalance(CyberName(currentUserRepository.userId.userId)) }
+        val callResult = callProxy.call {
+            Timber.tag("NET_SOCKET").d("WalletRepositoryImpl::getBalance()")
+            commun4j.getBalance(CyberName(currentUserRepository.userId.userId))
+        }
 
         if(callResult.all { it.symbol.value != GlobalConstants.COMMUN_CODE }) {
             callProxy.callBC {
@@ -43,6 +48,16 @@ constructor(
 
         return callResult.balances.map { it.mapToWalletCommunityBalanceRecordDomain() }
     }
+
+    /**
+     * Returns a quantity of the community points in one commun
+     */
+    override suspend fun getExchangeRate(communityId: CommunityIdDomain): Double =
+        callProxy.call {
+            commun4j.getBuyPrice(
+                pointSymbol = CyberSymbolCode(communityId.code),
+                quantity = WalletQuantity("1 ${GlobalConstants.COMMUN_CODE}"))
+        }.price.quantity
 
     override suspend fun getTransferHistory(offset: Int, limit: Int, communityId: CommunityIdDomain): List<WalletTransferHistoryRecordDomain> =
         callProxy.call {commun4j.getTransferHistory(

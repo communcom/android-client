@@ -19,6 +19,8 @@ interface WalletConvertModel : ModelBase {
 
     val isInSellPointMode: Boolean
 
+    suspend fun init()
+
     fun getSellerRecord(): WalletCommunityBalanceRecordDomain
 
     fun getBuyerRecord(): WalletCommunityBalanceRecordDomain
@@ -26,7 +28,7 @@ interface WalletConvertModel : ModelBase {
     /**
      * @return Index of the community in the balance list
      */
-    fun updateCurrentCommunity(communityId: CommunityIdDomain): Int?
+    suspend fun updateCurrentCommunity(communityId: CommunityIdDomain): Int?
 
     fun swipeSellMode()
 
