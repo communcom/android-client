@@ -11,6 +11,7 @@ import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.profile_followers.dto.FollowersListItem
 import io.golos.cyber_android.ui.screens.profile_followers.view.list.FollowersListItemEventsProcessor
+import io.golos.cyber_android.ui.shared.extensions.setOneClickListener
 import kotlinx.android.synthetic.main.view_profile_followers_list_item.view.*
 
 class FollowerViewHolder(
@@ -36,13 +37,12 @@ class FollowerViewHolder(
 
         with(listItem) {
             itemView.title.text = follower.userName
+            itemView.title.setOnClickListener { listItemEventsProcessor.onUserClick(follower.userId) }
 
             val followers = followersFormatter.format(follower.followersCount!!)
             val posts = postsFormatter.format(follower.postsCount!!)
 
             itemView.info.text = "$followers ${SpecialChars.BULLET} $posts"
-
-            itemView.setOnClickListener { /*listItemEventsProcessor.onItemClick(community)*/ }
 
             itemView.joinButton.isChecked = isFollowing
 
@@ -51,11 +51,13 @@ class FollowerViewHolder(
             itemView.joinButton.setOnClickListener { listItemEventsProcessor.onFollowClick(follower.userId, filter) }
 
             itemView.avatar.loadAvatar(follower.userAvatar)
+            itemView.avatar.setOnClickListener { listItemEventsProcessor.onUserClick(follower.userId) }
         }
     }
 
     override fun release() {
         itemView.joinButton.setOnClickListener(null)
-        itemView.setOnClickListener(null)
+        itemView.title.setOnClickListener(null)
+        itemView.avatar.setOnClickListener(null)
     }
 }

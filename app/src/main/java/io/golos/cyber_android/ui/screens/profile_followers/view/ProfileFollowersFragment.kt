@@ -10,9 +10,12 @@ import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.dto.FollowersFilter
+import io.golos.cyber_android.ui.screens.profile.view.ProfileExternalUserFragment
 import io.golos.cyber_android.ui.screens.profile_followers.view_model.ProfileFollowersViewModel
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToUserProfileCommand
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dto.UserDomain
+import io.golos.domain.dto.UserIdDomain
 import kotlinx.android.synthetic.main.fragment_profile_followers.*
 
 open class ProfileFollowersFragment : FragmentBaseMVVM<FragmentProfileFollowersBinding, ProfileFollowersViewModel>() {
@@ -58,6 +61,13 @@ open class ProfileFollowersFragment : FragmentBaseMVVM<FragmentProfileFollowersB
     override fun processViewCommand(command: ViewCommand) {
         when(command) {
             is NavigateBackwardCommand -> requireActivity().onBackPressed()
+            is NavigateToUserProfileCommand -> openUserProfile(command.userId)
         }
+    }
+
+    private fun openUserProfile(userId: UserIdDomain){
+        getDashboardFragment(this)?.navigateToFragment(
+            ProfileExternalUserFragment.newInstance(userId)
+        )
     }
 }

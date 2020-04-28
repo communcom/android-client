@@ -11,6 +11,7 @@ import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListIte
 import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.screens.profile_followers.model.ProfileFollowersModel
 import io.golos.cyber_android.ui.screens.profile_followers.view.list.FollowersListItemEventsProcessor
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToUserProfileCommand
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
@@ -90,6 +91,10 @@ constructor(
                 _command.value = ShowMessageResCommand(R.string.common_general_error)
             }
         }
+    }
+
+    override fun onUserClick(userId: UserIdDomain) {
+        _command.value = NavigateToUserProfileCommand(userId)
     }
 
     fun onBackClick() {
