@@ -201,7 +201,7 @@ constructor(
         }
     }
 
-    fun onShareClicked(shareUrl: String) {
+    override fun onShareClicked(shareUrl: String) {
         _command.value = SharePostCommand(shareUrl)
     }
 

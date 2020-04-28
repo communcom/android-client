@@ -12,6 +12,6 @@
 
     <include layout="@layout/item_feed_content"/>
 
-    <include layout="@layout/item_post_controls"/>
+    <include layout="@layout/item_post_controls" />
 
 </LinearLayout>

@@ -18,5 +18,8 @@ data class PostControlsListItem(
 
     val totalComments: Int,
     val totalViews: Int,
+
+    val shareUrl: String?,
+
     override val groupId: Int = 2
 ) : GroupListItem, VersionedListItem

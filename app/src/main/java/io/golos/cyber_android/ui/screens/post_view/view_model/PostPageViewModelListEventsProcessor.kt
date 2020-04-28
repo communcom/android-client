@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.post_view.view_model
 
+import io.golos.cyber_android.ui.screens.feed_my.view_model.PostShareListener
 import io.golos.cyber_android.ui.shared.widgets.post_comments.*
 import io.golos.domain.use_cases.model.DiscussionIdModel
 
@@ -16,7 +17,8 @@ interface PostPageViewModelListEventsProcessor :
     PostVoteListener,
     CommentsListener,
     RichWidgetListener,
-    EmbedWidgetListener
+    EmbedWidgetListener,
+    PostShareListener
 
 interface PostCommentVoteListener : BasePostBlockWidgetListener {
 

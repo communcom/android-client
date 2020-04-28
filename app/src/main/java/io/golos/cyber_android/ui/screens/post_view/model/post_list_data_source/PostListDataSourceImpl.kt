@@ -455,8 +455,8 @@ constructor(
             isUpVoteActive = postDomain.votes.hasUpVote,
             isDownVoteActive = postDomain.votes.hasDownVote,
             totalComments = postDomain.stats?.commentsCount ?: 0,
-            totalViews = postDomain.stats?.viewCount ?: 0
-        )
+            totalViews = postDomain.stats?.viewCount ?: 0,
+            shareUrl = postDomain.shareUrl)
 
         if (oldControlsIndex == -1) {
             postList.add(controls)
