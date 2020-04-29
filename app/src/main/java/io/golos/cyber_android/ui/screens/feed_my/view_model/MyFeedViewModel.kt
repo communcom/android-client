@@ -10,6 +10,7 @@ import io.golos.cyber_android.ui.mappers.mapToPostsList
 import io.golos.cyber_android.ui.mappers.mapToTimeFrameDomain
 import io.golos.cyber_android.ui.mappers.mapToTypeFeedDomain
 import io.golos.cyber_android.ui.mappers.mapToUser
+import io.golos.cyber_android.ui.screens.feed_my.dto.SwitchToProfileTab
 import io.golos.cyber_android.ui.screens.feed_my.model.MyFeedModel
 import io.golos.cyber_android.ui.screens.feed_my.view.view_commands.*
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
@@ -148,6 +149,10 @@ class MyFeedViewModel @Inject constructor(
                 _command.value = ShowMessageResCommand(R.string.common_general_error)
             }
         }
+    }
+
+    fun onCurrentUserClicked() {
+        _command.value = SwitchToProfileTab()
     }
 
     override fun onCommunityClicked(communityId: CommunityIdDomain) {

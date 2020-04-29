@@ -31,6 +31,15 @@ class NavigationBottomMenuWidget : LinearLayout {
         }
     }
 
+    fun setCurrentTab(tab: Tab) {
+        when(tab) {
+            Tab.FEED -> homeMenu.performClick()
+            Tab.COMMUNITIES -> communityMenu.performClick()
+            Tab.NOTIFICATIONS -> flNotificationMenu.performClick()
+            Tab.PROFILE -> profileMenu.performClick()
+        }
+    }
+
     private fun init(context: Context) {
         inflate(context, R.layout.view_navigation_bottom_menu, this)
 

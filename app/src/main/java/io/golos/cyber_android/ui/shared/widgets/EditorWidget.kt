@@ -34,8 +34,9 @@ class EditorWidget : LinearLayout {
     private fun init(context: Context) {
         inflate(context, R.layout.view_editor_widget, this)
 
-//        galleryButton.setOnClickListener { listener?.onGalleryClick() }
-        rootView.setOnClickListener { listener?.onWidgetClick() }
+        galleryButton.setOnClickListener { listener?.onGalleryClick() }
+        caption.setOnClickListener { listener?.onCaptionClick() }
+        avatar.setOnClickListener { listener?.onAvatarClick() }
     }
 
     /**
@@ -67,7 +68,8 @@ class EditorWidget : LinearLayout {
         /**
          * Click listener for all of the view except gallery button
          */
-        fun onWidgetClick()
-    }
+        fun onCaptionClick()
 
+        fun onAvatarClick()
+    }
 }

@@ -17,6 +17,7 @@ import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
 import io.golos.cyber_android.ui.screens.feed_my.di.MyFeedFragmentComponent
+import io.golos.cyber_android.ui.screens.feed_my.dto.SwitchToProfileTab
 import io.golos.cyber_android.ui.screens.feed_my.view.items.CreatePostItem
 import io.golos.cyber_android.ui.screens.feed_my.view.list.MyFeedAdapter
 import io.golos.cyber_android.ui.screens.feed_my.view.view_commands.*
@@ -74,9 +75,9 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
                     val contentId = item.post.contentId
                     viewModel.onPostClicked(contentId)
                 }
-                is CreatePostItem -> {
-                    viewModel.onCreatePostClicked()
-                }
+//                is CreatePostItem -> {
+//                    viewModel.onCreatePostClicked()
+//                }
                 else -> Timber.e("Undefined item in adapter {${MyFeedAdapter::class.java}}")
             }
         }
@@ -127,6 +128,8 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
             is ReportPostCommand -> openPostReportDialog(command.post)
 
             is CreatePostCommand -> createPost()
+
+            is SwitchToProfileTab -> switchToProfileTab()
         }
     }
 
@@ -147,6 +150,10 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
         getDashboardFragment(this)?.navigateToFragment(
             CommunityPageFragment.newInstance(communityId)
         )
+    }
+
+    private fun switchToProfileTab() {
+        getDashboardFragment(this)?.switchToProfilePage()
     }
 
     private fun openPostReportDialog(post: Post) {
@@ -365,7 +372,10 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
         })
         viewModel.user.observe(viewLifecycleOwner, Observer {
             val myFeedAdapter = rvPosts.adapter as MyFeedAdapter
-            myFeedAdapter.updateUser(it)
+            myFeedAdapter.updateUser(
+                it,
+                onCreatePostClick = { viewModel.onCreatePostClicked() },
+                onUserClick = { viewModel.onCurrentUserClicked() })
         })
         viewModel.loadUserProgressVisibility.observe(viewLifecycleOwner, Observer {
             if (it) {

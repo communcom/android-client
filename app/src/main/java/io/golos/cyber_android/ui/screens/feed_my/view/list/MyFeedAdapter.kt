@@ -43,13 +43,13 @@ open class MyFeedAdapter(
         updateAdapter(adapterItemsList)
     }
 
-    fun updateUser(user: User) {
+    fun updateUser(user: User, onCreatePostClick: (() -> Unit)?, onUserClick: (() -> Unit)?) {
         val adapterItemsList = ArrayList(items)
         val createPostItem = adapterItemsList.find { it is CreatePostItem }
         if (createPostItem == null) {
-            adapterItemsList.add(0, CreatePostItem(user))
+            adapterItemsList.add(0, CreatePostItem(user, onCreatePostClick, onUserClick))
         } else {
-            adapterItemsList[0] = CreatePostItem(user)
+            adapterItemsList[0] = CreatePostItem(user, onCreatePostClick, onUserClick)
         }
         updateAdapter(adapterItemsList)
     }
