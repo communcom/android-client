@@ -22,6 +22,8 @@ abstract class NotificationPopupFactoryBase {
             is SubscribeNotificationItem -> NotificationContentRenderedSubscribe(viewDescription).init(notification, eventsProcessor)
             is UpVoteNotificationItem -> NotificationContentRenderedUpVote(viewDescription).init(notification, eventsProcessor)
             is ReplyNotificationItem -> NotificationContentRenderedReply(viewDescription).init(notification, eventsProcessor)
+            is ReferralRegistrationBonusNotificationItem -> NotificationContentRendererReferralRegistrationBonus(viewDescription).init(notification, eventsProcessor)
+            is ReferralPurchaseBonusNotificationItem -> NotificationContentRendererReferralPurchaseBonus(viewDescription).init(notification, eventsProcessor)
             else -> throw UnsupportedOperationException("This notification is not supported")
         }
     }

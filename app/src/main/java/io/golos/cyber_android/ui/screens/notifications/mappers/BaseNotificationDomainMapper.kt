@@ -140,5 +140,50 @@ fun NotificationDomain.mapToVersionedListItem(): BaseNotificationItem {
                 userAvatar = null
             )
         }
+        is ReferralPurchaseBonusNotificationDomain ->
+            ReferralPurchaseBonusNotificationItem(
+                version = 0,
+                id = IdUtil.generateLongId(),
+                isFirstItem = false,
+                isLastItem = false,
+
+                notificationId = id,
+                createTime = createTime,
+                isNew = isNew,
+
+                userId = user.id.userId,
+                userName = user.name,
+                userAvatar = user.avatar,
+
+                amount = amount,
+                pointType = pointType,
+                secondUserId = userId,
+                percent = percent,
+
+                currentUserId = currentUserId,
+                currentUserName = currentUserName
+            )
+        is ReferralRegistrationBonusNotificationDomain ->
+            ReferralRegistrationBonusNotificationItem(
+                version = 0,
+                id = IdUtil.generateLongId(),
+                isFirstItem = false,
+                isLastItem = false,
+
+                notificationId = id,
+                createTime = createTime,
+                isNew = isNew,
+
+                userId = user.id.userId,
+                userName = user.name,
+                userAvatar = user.avatar,
+
+                amount = amount,
+                pointType = pointType,
+                secondUserId = userId,
+
+                currentUserId = currentUserId,
+                currentUserName = currentUserName
+            )
     }
 }

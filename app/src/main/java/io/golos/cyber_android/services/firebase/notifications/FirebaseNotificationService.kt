@@ -97,6 +97,8 @@ class FirebaseNotificationService : FirebaseMessagingService(), CoroutineScope {
                         "upvote" -> UpvoteNotification::class.java
                         "mention" -> MentionNotification::class.java
                         "subscribe" -> SubscribeNotification::class.java
+                        "referralRegistrationBonus" -> ReferralRegistrationBonusNotification::class.java
+                        "referralPurchaseBonus" -> ReferralPurchaseBonusNotification::class.java
                         else -> {
                             Timber.w("This notification type is not supported: ${metadata.eventType}")
                             null

@@ -31,7 +31,9 @@ class NotificationsAdapter (
         const val ERROR = 7
         const val TRANSFER = 8
         const val REWARD = 9
-        const val UNSUPPORTED = 10
+        const val REFERRAL_REGISTRATION_BONUS = 10
+        const val REFERRAL_PURCHASE_BONUS = 11
+        const val UNSUPPORTED = 12
     }
 
     override fun onCreateViewHolder(
@@ -49,6 +51,8 @@ class NotificationsAdapter (
             ERROR -> RetryListViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
             TRANSFER -> NotificationTransferViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
             REWARD -> NotificationRewardViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
+            REFERRAL_PURCHASE_BONUS -> NotificationReferralPurchaseBonusViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
+            REFERRAL_REGISTRATION_BONUS -> NotificationReferralRegistrationBonusViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
             UNSUPPORTED -> NotificationUnsupportedViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
             else -> throw UnsupportedOperationException("Undefined view holder")
         }
@@ -66,6 +70,8 @@ class NotificationsAdapter (
             is ProfileCommentErrorListItem -> ERROR
             is TransferNotificationItem -> TRANSFER
             is RewardNotificationItem -> REWARD
+            is ReferralPurchaseBonusNotificationItem -> REFERRAL_PURCHASE_BONUS
+            is ReferralRegistrationBonusNotificationItem -> REFERRAL_REGISTRATION_BONUS
             is RetryListItem -> ERROR
             is UnsupportedNotificationItem -> UNSUPPORTED
             else -> throw UnsupportedOperationException("This type of item is not supported: ${items[position]::class.simpleName}")

@@ -84,6 +84,35 @@ data class RewardNotificationDomain(
     override val currentUserName: String
 ) : NotificationDomain(id, isNew, createTime, user, currentUserId, currentUserName)
 
+data class ReferralPurchaseBonusNotificationDomain(
+    override val id: String,
+    override val isNew: Boolean,
+    override val createTime: Date,
+    override val user: UserNotificationDomain,  // from
+
+    val amount: Double,
+    val pointType: String,
+    val userId: UserIdDomain,
+    val percent: Int,
+
+    override val currentUserId: UserIdDomain,
+    override val currentUserName: String
+) : NotificationDomain(id, isNew, createTime, user, currentUserId, currentUserName)
+
+data class ReferralRegistrationBonusNotificationDomain(
+    override val id: String,
+    override val isNew: Boolean,
+    override val createTime: Date,
+    override val user: UserNotificationDomain,  // from
+
+    val amount: Double,
+    val pointType: String,
+    val userId: UserIdDomain,
+
+    override val currentUserId: UserIdDomain,
+    override val currentUserName: String
+) : NotificationDomain(id, isNew, createTime, user, currentUserId, currentUserName)
+
 data class UnsupportedNotificationDomain(
     override val id: String,
     override val isNew: Boolean,

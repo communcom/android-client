@@ -1,7 +1,11 @@
 package io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.content_rendering
 
+import android.content.Context
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.widget.ImageView
+import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.BaseNotificationItem
 import io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.content_rendering.view.NotificationView
@@ -61,6 +65,9 @@ abstract class NotificationContentRenderedBase<TItem: BaseNotificationItem>(prot
             widget.setImageResource(notificationTypeLabelResId)
         }
     }
+
+    protected fun createColorSpan(context: Context, @ColorRes color: Int) =
+        ForegroundColorSpan(ContextCompat.getColor(context, color))
 
     private fun setCreateTime(listItem: BaseNotificationItem){
         val estimationTime = TimeEstimationFormatter.format(listItem.createTime, viewDescription.creationTimeText.context)

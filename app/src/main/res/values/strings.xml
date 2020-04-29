@@ -1,6 +1,8 @@
 <resources>
     <string name="locale">En</string>
 
+    <string name="commun">commun</string>
+
     <string name="action_settings">Settings</string>
 
     <string name="notification_channel_description">Commun notification</string>
@@ -394,7 +396,6 @@
     <string name="do_you_have_account">Do you have account?</string>
 
     <!--Ftue-->
-    <string name="commun">commun</string>
     <string name="get_you_first_points">Get you first points</string>
     <string name="subscribe_to_3_communities">Subscribe to at least 3 communities and get your first Community Points</string>
     <string name="ftue_finish_description_1">Authorize on web\n</string>
@@ -468,6 +469,11 @@
     <string name="up_vote_message_content">: \u0022%1$s\u0022</string>
     <string name="sent_you">sent you {0} {1}</string>
     <string name="you_have_got">You\'ve got</string>
+    <string name="referral_registration">You received a referral bonus for the registration on</string>
+    <string name="referral_purchase1">You received</string>
+    <string name="referral_purchase2">It\'s a referral bounty -</string>
+    <string name="referral_purchase3">% of</string>
+    <string name="referral_purchase4">\'s purchase</string>
 
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>

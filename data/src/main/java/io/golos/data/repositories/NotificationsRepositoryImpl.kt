@@ -136,14 +136,14 @@ constructor(
         return if(notificationsResponse.items.isNotEmpty()) {
             val lastTimestamp = notificationsResponse.items.last().timestamp.let {
                 DatesServerFormatter.formatToServer(it.add(-1000))
-    }
+            }
 
             val notifications = notificationsResponse.items.map {
                 it.mapToNotificationDomain(
                     currentUserRepository.userId,
                     currentUserRepository.userName
                 )
-    }
+            }
 
             NotificationsPageDomain(notifications, lastTimestamp)
         } else {

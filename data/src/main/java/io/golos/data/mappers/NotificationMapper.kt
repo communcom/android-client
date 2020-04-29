@@ -129,6 +129,39 @@ fun Notification.mapToNotificationDomain(currentUserId: UserIdDomain, currentUse
             )
         }
 
+        is ReferralRegistrationBonusNotification ->
+            ReferralRegistrationBonusNotificationDomain(
+                id = id,
+                isNew = isNew,
+                createTime = timestamp,
+                user = UserNotificationDomain(
+                    id = UserIdDomain(from.userId.name),
+                    name = from.username,
+                    avatar = from.avatarUrl),
+                amount = amount,
+                pointType = pointType,
+                userId = UserIdDomain(userId.name),
+                currentUserId = currentUserId,
+                currentUserName = currentUserName
+            )
+
+        is ReferralPurchaseBonusNotification ->
+            ReferralPurchaseBonusNotificationDomain(
+                id = id,
+                isNew = isNew,
+                createTime = timestamp,
+                user = UserNotificationDomain(
+                    id = UserIdDomain(from.userId.name),
+                    name = from.username,
+                    avatar = from.avatarUrl),
+                amount = amount,
+                pointType = pointType,
+                userId = UserIdDomain(userId.name),
+                percent = percent,
+                currentUserId = currentUserId,
+                currentUserName = currentUserName
+            )
+
         else -> {
             UnsupportedNotificationDomain(
                 id = id,
