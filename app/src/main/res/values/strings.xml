@@ -469,7 +469,7 @@
     <string name="up_vote_message_content">: \u0022%1$s\u0022</string>
     <string name="sent_you">sent you {0} {1}</string>
     <string name="you_have_got">You\'ve got</string>
-    <string name="referral_registration">You received a referral bonus for the registration on</string>
+    <string name="referral_registration">You received a referral bonus for the registration of</string>
     <string name="referral_purchase1">You received</string>
     <string name="referral_purchase2">It\'s a referral bounty -</string>
     <string name="referral_purchase3">% of</string>

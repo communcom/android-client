@@ -24,7 +24,7 @@ class NotificationContentRendererReferralRegistrationBonus(
 
     override fun setNotificationTypeLabel(widget: ImageView, listItem: ReferralRegistrationBonusNotificationItem) {
         widget.setImageResource(R.drawable.ic_commun)
-        widget.visibility = View.VISIBLE
+        widget.visibility = View.INVISIBLE
     }
 
     override fun setUserAvatar(listItem: ReferralRegistrationBonusNotificationItem){
@@ -47,7 +47,7 @@ class NotificationContentRendererReferralRegistrationBonus(
 
         messageStringBuilder.appendSpannedText(context.resources.getString(R.string.referral_registration), createColorSpan(context, colorMessage))
         messageStringBuilder.append(" ")
-        messageStringBuilder.appendSpannedText(listItem.userName ?: listItem.userId, createColorSpan(context, colorUser))
+        messageStringBuilder.appendSpannedText(listItem.referral.name ?: listItem.referral.id.userId, createColorSpan(context, colorUser))
         messageStringBuilder.append(" ")
         messageStringBuilder.appendSpannedText(CurrencyFormatter.format(listItem.amount), createColorSpan(context, colorMessage))
         messageStringBuilder.append(" ")

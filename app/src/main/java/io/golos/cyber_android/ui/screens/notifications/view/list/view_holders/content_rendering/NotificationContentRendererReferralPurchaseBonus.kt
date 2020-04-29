@@ -24,7 +24,7 @@ class NotificationContentRendererReferralPurchaseBonus(
 
     override fun setNotificationTypeLabel(widget: ImageView, listItem: ReferralPurchaseBonusNotificationItem) {
         widget.setImageResource(R.drawable.ic_commun)
-        widget.visibility = View.VISIBLE
+        widget.visibility = View.INVISIBLE
     }
 
     override fun setUserAvatar(listItem: ReferralPurchaseBonusNotificationItem){
@@ -56,7 +56,7 @@ class NotificationContentRendererReferralPurchaseBonus(
         messageStringBuilder.appendSpannedText(listItem.percent.toString(), createColorSpan(context, colorMessage))
         messageStringBuilder.appendSpannedText(context.resources.getString(R.string.referral_purchase3), createColorSpan(context, colorMessage))
         messageStringBuilder.appendSpannedText(" ", createColorSpan(context, colorMessage))
-        messageStringBuilder.appendSpannedText(listItem.userName ?: listItem.userId, createColorSpan(context, colorUser))
+        messageStringBuilder.appendSpannedText(listItem.referral.name ?: listItem.referral.id.userId, createColorSpan(context, colorUser))
         messageStringBuilder.appendSpannedText(context.resources.getString(R.string.referral_purchase4), createColorSpan(context, colorMessage))
 
         viewDescription.messageText.text = messageStringBuilder

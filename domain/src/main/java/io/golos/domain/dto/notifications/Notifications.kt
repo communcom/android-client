@@ -94,6 +94,7 @@ data class ReferralPurchaseBonusNotificationDomain(
     val pointType: String,
     val userId: UserIdDomain,
     val percent: Int,
+    val referral: UserNotificationDomain,
 
     override val currentUserId: UserIdDomain,
     override val currentUserName: String
@@ -108,6 +109,7 @@ data class ReferralRegistrationBonusNotificationDomain(
     val amount: Double,
     val pointType: String,
     val userId: UserIdDomain,
+    val referral: UserNotificationDomain,
 
     override val currentUserId: UserIdDomain,
     override val currentUserName: String

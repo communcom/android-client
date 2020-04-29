@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.notifications.view.list.items
 
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.dto.notifications.UserNotificationDomain
 import java.util.*
 
 data class ReferralRegistrationBonusNotificationItem(
@@ -21,6 +22,8 @@ data class ReferralRegistrationBonusNotificationItem(
     val amount: Double,
     val pointType: String,
     val secondUserId: UserIdDomain,
+
+    val referral: UserNotificationDomain,
 
     val currentUserId: UserIdDomain,
     val currentUserName: String

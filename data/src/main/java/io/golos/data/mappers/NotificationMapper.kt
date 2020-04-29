@@ -142,7 +142,11 @@ fun Notification.mapToNotificationDomain(currentUserId: UserIdDomain, currentUse
                 pointType = pointType,
                 userId = UserIdDomain(userId.name),
                 currentUserId = currentUserId,
-                currentUserName = currentUserName
+                currentUserName = currentUserName,
+                referral = UserNotificationDomain(
+                    id = UserIdDomain(referral.userId.name),
+                    name = referral.username,
+                    avatar = referral.avatarUrl)
             )
 
         is ReferralPurchaseBonusNotification ->
@@ -159,7 +163,11 @@ fun Notification.mapToNotificationDomain(currentUserId: UserIdDomain, currentUse
                 userId = UserIdDomain(userId.name),
                 percent = percent,
                 currentUserId = currentUserId,
-                currentUserName = currentUserName
+                currentUserName = currentUserName,
+                referral = UserNotificationDomain(
+                    id = UserIdDomain(referral.userId.name),
+                    name = referral.username,
+                    avatar = referral.avatarUrl)
             )
 
         else -> {

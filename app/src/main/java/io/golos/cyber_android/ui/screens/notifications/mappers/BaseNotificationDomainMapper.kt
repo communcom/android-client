@@ -161,7 +161,9 @@ fun NotificationDomain.mapToVersionedListItem(): BaseNotificationItem {
                 percent = percent,
 
                 currentUserId = currentUserId,
-                currentUserName = currentUserName
+                currentUserName = currentUserName,
+
+                referral = referral
             )
         is ReferralRegistrationBonusNotificationDomain ->
             ReferralRegistrationBonusNotificationItem(
@@ -183,7 +185,9 @@ fun NotificationDomain.mapToVersionedListItem(): BaseNotificationItem {
                 secondUserId = userId,
 
                 currentUserId = currentUserId,
-                currentUserName = currentUserName
+                currentUserName = currentUserName,
+
+                referral = referral
             )
     }
 }
