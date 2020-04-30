@@ -24,7 +24,6 @@
                 android:id="@+id/appbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fitsSystemWindows="true"
                 app:elevation="0dp"
                 android:visibility="@{viewModel.pageContentVisibility}"
                 tools:visibility="visible">
@@ -32,8 +31,7 @@
                 <com.google.android.material.appbar.CollapsingToolbarLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fitsSystemWindows="true"
-                    app:layout_scrollFlags="scroll|enterAlways"
+                    app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
                     app:titleEnabled="false">
 
                     <FrameLayout
