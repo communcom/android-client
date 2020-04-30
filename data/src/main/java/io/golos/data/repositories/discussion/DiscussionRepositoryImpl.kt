@@ -34,6 +34,7 @@ import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ContentBlo
 import io.golos.utils.format.DatesServerFormatter
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
+import timber.log.Timber
 import java.io.File
 import java.util.*
 import javax.inject.Inject
@@ -276,6 +277,7 @@ constructor(
     }
 
     override suspend fun reportPost(communityId: CommunityIdDomain, authorId: String, permlink: String, reason: String) {
+        Timber.tag("NET_SOCKET").d("DiscussionRepositoryImpl::reportPost(communityId: $communityId, authorId: $authorId, permlink: $permlink, reason: $reason)")
         callProxy.callBC {
             commun4j.reportContent(
                 CyberSymbolCode(communityId.code),

@@ -88,7 +88,7 @@ constructor(
             contentId = ContentId(
                 communityId = postDomain.community.communityId,
                 permlink = postDomain.contentId.permlink,
-                userId = currentUserRepository.userId.userId
+                userId = postDomain.author.userId
             ),
             creationTime = postDomain.meta.creationTime,
             authorUsername = postDomain.author.username,
