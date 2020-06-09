@@ -305,7 +305,7 @@
 
     <!--Communities Page-->
     <string name="recommended">Recommended</string>
-    <string name="missing_description">Missing Description</string>
+    <string name="missing_description">No description</string>
     <string name="no_leaders">There are no leaders in this community</string>
     <string name="leaders">Leaders</string>
     <string name="nominees">Nominees</string>
