@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.post_report.view_model
 
+import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.screens.post_report.model.PostReportModel
@@ -14,6 +15,8 @@ class PostReportViewModel @Inject constructor(
     model: PostReportModel
 ) : ViewModelBase<PostReportModel>(dispatchersProvider, model) {
 
+    val isEnableSendButton: MutableLiveData<Boolean> = MutableLiveData(false)
+
     fun onSendClicked() {
         launch {
             _command.value = SendReportCommand(model.getReport())
@@ -26,5 +29,6 @@ class PostReportViewModel @Inject constructor(
 
     fun collectReason(reasons: PostReportDialog.Type) {
         model.collectReason(reasons)
+        isEnableSendButton.value = model.reasonsCount() > 0
     }
 }
