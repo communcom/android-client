@@ -15,6 +15,7 @@ import io.golos.cyber_android.ui.dialogs.PostRewardBottomSheetDialog
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
+import io.golos.cyber_android.ui.screens.dashboard.view.DashboardFragment
 import io.golos.cyber_android.ui.screens.feed_my.view.list.MyFeedAdapter
 import io.golos.cyber_android.ui.screens.post_edit.activity.EditorPageActivity
 import io.golos.cyber_android.ui.screens.post_edit.fragment.view.EditorPageFragment
@@ -23,6 +24,7 @@ import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
 import io.golos.cyber_android.ui.screens.post_view.view.PostPageFragment
 import io.golos.cyber_android.ui.screens.profile.view.ProfileExternalUserFragment
+import io.golos.cyber_android.ui.screens.profile.view.ProfileFragment
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_posts.view_commands.*
 import io.golos.cyber_android.ui.screens.profile_posts.view_model.ProfilePostsViewModel
@@ -77,24 +79,23 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
     override fun processViewCommand(command: ViewCommand) {
         when (command) {
             is NavigateToImageViewCommand -> requireContext().openImageView(command.imageUri)
-
             is NavigateToLinkViewCommand -> requireContext().openLinkView(command.link)
-
             is NavigateToUserProfileCommand -> openUserProfile(command.userId)
-
+            is ScrollProfileToTopCommand -> scrollProfileToTop()
             is NavigateToCommunityPageCommand -> openCommunityPage(command.communityId)
-
             is NavigateToPostCommand -> openPost(command.discussionIdModel, command.contentId)
-
             is NavigationToPostMenuViewCommand -> openPostMenuDialog(command.post)
-
             is SharePostCommand -> sharePost(command.shareUrl)
-
             is EditPostCommand -> editPost(command.post)
-
             is ReportPostCommand -> openPostReport(command.post)
-
             is ShowPostRewardDialogCommand -> showPostRewardDialog(command.titleResId, command.textResId)
+        }
+    }
+
+    private fun scrollProfileToTop() {
+        when(parentFragment) {
+            is DashboardFragment -> (parentFragment as DashboardFragment).scrollProfileToTop()
+            is ProfileExternalUserFragment -> (parentFragment as ProfileFragment).scrollToTop()
         }
     }
 

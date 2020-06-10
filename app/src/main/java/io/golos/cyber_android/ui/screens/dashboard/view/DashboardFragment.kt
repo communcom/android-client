@@ -248,4 +248,7 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
 //        mainPager.setCurrentItem(NavigationBottomMenuWidget.Tab.PROFILE.index, false)
         navigationMenu.setCurrentTab(NavigationBottomMenuWidget.Tab.PROFILE)
     }
+
+    fun scrollProfileToTop() =
+        (viewPagerFragmentsList[NavigationBottomMenuWidget.Tab.PROFILE.index] as ProfileFragment).scrollToTop()
 }

@@ -129,6 +129,10 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
         }
     }
 
+    fun scrollToTop() {
+        appbar.setExpanded(true)
+    }
+
     protected open fun provideCommunitiesFragment(sourceData: ProfileCommunities): Fragment =
         ProfileCommunitiesFragment.newInstance(sourceData)
 

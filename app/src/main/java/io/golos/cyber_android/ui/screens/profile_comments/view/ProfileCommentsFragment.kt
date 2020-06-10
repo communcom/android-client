@@ -14,6 +14,9 @@ import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.mappers.mapToCommentMenu
 import io.golos.cyber_android.ui.screens.comment_page_menu.view.CommentPageMenuDialog
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
+import io.golos.cyber_android.ui.screens.dashboard.view.DashboardFragment
+import io.golos.cyber_android.ui.screens.profile.view.ProfileExternalUserFragment
+import io.golos.cyber_android.ui.screens.profile.view.ProfileFragment
 import io.golos.cyber_android.ui.screens.profile_comments.di.ProfileCommentsFragmentComponent
 import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentListItem
 import io.golos.cyber_android.ui.screens.profile_comments.view.list.ProfileCommentsAdapter
@@ -98,20 +101,23 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
     override fun processViewCommand(command: ViewCommand) {
         when (command) {
             is NavigateToImageViewCommand -> requireContext().openImageView(command.imageUri)
-
             is NavigateToLinkViewCommand -> requireContext().openLinkView(command.link)
-
-            is NavigateToUserProfileCommand -> openSelectPhotoView(command.userId.userId)
-
+            is NavigateToUserProfileCommand -> navigateToUser(command.userId)
+            is ScrollProfileToTopCommand ->  scrollProfileToTop()
             is NavigateToCommunityPageCommand -> openCommunityPage(command.communityId)
-
             is NavigateToProfileCommentMenuDialogViewCommand -> openProfileCommentMenu(command.comment)
-
             is NavigateToEditComment -> {
                 commentWidget.setCommentForEdit(command.comment.contentId, command.comment.body)
                 commentWidget.visibility = View.VISIBLE
                 collapseListener?.invoke()
             }
+        }
+    }
+
+    private fun scrollProfileToTop() {
+        when(parentFragment) {
+            is DashboardFragment -> (parentFragment as DashboardFragment).scrollProfileToTop()
+            is ProfileExternalUserFragment -> (parentFragment as ProfileFragment).scrollToTop()
         }
     }
 
@@ -124,6 +130,10 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
                     this@ProfileCommentsFragment
                 )
             )
+    }
+
+    private fun navigateToUser(userId: UserIdDomain) {
+        getDashboardFragment(this)?.navigateToFragment(ProfileExternalUserFragment.newInstance(userId))
     }
 
     private fun openCommunityPage(communityId: CommunityIdDomain) {

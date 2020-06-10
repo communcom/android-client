@@ -43,8 +43,7 @@ constructor(
     model: MyFeedModel,
     private val profileUserId: UserIdDomain,
     private val paginator: Paginator.Store<Post>,
-    private val startFeedType: PostsConfigurationDomain.TypeFeedDomain,
-    private val currentUserRepositor: CurrentUserRepositoryRead
+    private val startFeedType: PostsConfigurationDomain.TypeFeedDomain
 ) : ViewModelBase<MyFeedModel>(dispatchersProvider, model), MyFeedListListener {
 
     private val _postsListState: MutableLiveData<Paginator.State> = MutableLiveData(Paginator.State.Empty)
@@ -127,8 +126,10 @@ constructor(
     }
 
     override fun onUserClicked(userId: String) {
-        if(currentUserRepositor.userId.userId != userId) {
-            _command.value = NavigateToUserProfileCommand(UserIdDomain(userId))
+        _command.value = if(profileUserId.userId != userId) {
+            NavigateToUserProfileCommand(UserIdDomain(userId))
+        } else {
+            ScrollProfileToTopCommand()
         }
     }
 

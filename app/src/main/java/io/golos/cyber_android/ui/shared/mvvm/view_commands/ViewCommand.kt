@@ -65,6 +65,8 @@ class NavigateToLinkViewCommand(val link: Uri) : ViewCommand
 
 class NavigateToUserProfileCommand(val userId: UserIdDomain) : ViewCommand
 
+class ScrollProfileToTopCommand : ViewCommand
+
 class NavigateToProfileCommentMenuDialogViewCommand(val comment: Comment) : ViewCommand
 
 class NavigateToPostCommand(

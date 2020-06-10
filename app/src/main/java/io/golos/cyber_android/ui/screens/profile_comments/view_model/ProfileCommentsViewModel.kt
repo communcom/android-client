@@ -27,6 +27,8 @@ import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.EditorOutputToJsonMapper
 import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.EmbedMetadata
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.*
+import io.golos.domain.repositories.CurrentUserRepository
+import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.utils.id.IdUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -38,6 +40,7 @@ import javax.inject.Inject
 class ProfileCommentsViewModel @Inject constructor(
     dispatchersProvider: DispatchersProvider,
     model: ProfileCommentsModel,
+    private val profileUserId: UserIdDomain,
     private val paginator: Paginator.Store<CommentDomain>
 ) : ViewModelBase<ProfileCommentsModel>(dispatchersProvider, model),
     ProfileCommentsModelEventProcessor {
@@ -53,7 +56,11 @@ class ProfileCommentsViewModel @Inject constructor(
     override fun onItemClicked(contentId: ContentId) {}
 
     override fun onUserClicked(userId: String) {
-        _command.value = NavigateToUserProfileCommand(UserIdDomain(userId))
+        _command.value = if(userId != profileUserId.userId) {
+            NavigateToUserProfileCommand(UserIdDomain(userId))
+        } else {
+            ScrollProfileToTopCommand()
+        }
     }
 
     override fun onCommunityClicked(communityId: CommunityIdDomain) {
