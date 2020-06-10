@@ -32,12 +32,12 @@ enum class ImageProgressLoadState{
 }
 
 fun ImageView.loadAvatar(avatarUrlString: String?, @DrawableRes defaultRes: Int = R.drawable.ic_avatar) =
-    this.load(avatarUrlString, defaultRes)
+    this.load(avatarUrlString?.let { Uri.parse(it) }, defaultRes)
 
 fun ImageView.loadAvatar(avatarUri: Uri?, @DrawableRes defaultRes: Int = R.drawable.ic_avatar) =
     this.load(avatarUri, defaultRes)
 
-fun ImageView.loadCommunity(communityUrl: String?) = this.load(communityUrl, R.drawable.ic_commun)
+fun ImageView.loadCommunity(communityUrl: String?) = this.load(communityUrl?.let { Uri.parse(it) }, R.drawable.ic_commun)
 
 fun ImageView.loadLeader(url: String?, percentage: Float) =
     Glide
@@ -76,14 +76,7 @@ fun ImageView.loadCover(url: String?) {
 }
 
 fun ImageView.load(url: String?, @DrawableRes defaultRes: Int): GlideTarget =
-    Glide
-        .with(this)
-        .load(url)
-        .apply(RequestOptions.circleCropTransform())
-        .fallback(defaultRes)
-        .error(defaultRes)
-        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-        .into(this)
+    this.load(url?.let { Uri.parse(it) }, defaultRes)
 
 fun ImageView.load(uri: Uri?, @DrawableRes defaultRes: Int): GlideTarget =
     Glide
@@ -92,6 +85,7 @@ fun ImageView.load(uri: Uri?, @DrawableRes defaultRes: Int): GlideTarget =
         .apply(RequestOptions.circleCropTransform())
         .fallback(defaultRes)
         .error(defaultRes)
+        .placeholder(defaultRes)
         .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
         .into(this)
 

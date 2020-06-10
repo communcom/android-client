@@ -19,8 +19,7 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/avatar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/ic_avatar" />
+            android:layout_height="match_parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/name"
