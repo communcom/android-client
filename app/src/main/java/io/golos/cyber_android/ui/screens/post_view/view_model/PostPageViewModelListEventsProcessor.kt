@@ -35,7 +35,6 @@ interface PostVoteListener : BasePostBlockWidgetListener {
 }
 
 interface CommentsListener : BasePostBlockWidgetListener {
-
     fun onCommentsTitleMenuClick()
 
     fun onNextCommentsPageReached()
@@ -49,4 +48,6 @@ interface CommentsListener : BasePostBlockWidgetListener {
     fun onCommentLongClick(commentId: DiscussionIdModel)
 
     fun startReplyToComment(commentToReplyId: DiscussionIdModel)
+
+    fun onUserClicked(userId: String)
 }

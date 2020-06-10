@@ -97,6 +97,7 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
         itemView.setOnLongClickListener(longClickListener)
         _replyAndTimeText.text = getReplyAndTimeText(_rootView.context.applicationContext, listItem.metadata)
         _replyAndTimeText.setOnClickListener { listItemEventsProcessor.startReplyToComment(listItem.externalId) }
+        _userAvatar.setOnClickListener { listItemEventsProcessor.onUserClicked(listItem.author.userId.userId) }
 
         setupVoting(listItem, listItemEventsProcessor)
 

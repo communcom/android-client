@@ -1,7 +1,9 @@
 package io.golos.cyber_android.ui.shared.widgets.post_comments
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Typeface
 import android.net.Uri
 import android.text.SpannableStringBuilder
 import android.text.Spanned
@@ -20,7 +22,9 @@ import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
+import io.golos.cyber_android.ui.shared.spans.StyledTextClickableSpan
 import io.golos.cyber_android.ui.shared.utils.adjustSpannableClicks
+import io.golos.domain.posts_parsing_rendering.post_metadata.TextStyle
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.*
 import io.golos.utils.helpers.appendSpannable
 import io.golos.utils.helpers.appendText
@@ -28,6 +32,7 @@ import io.golos.utils.helpers.setSpan
 import io.golos.domain.posts_parsing_rendering.post_metadata.toTypeface
 
 
+@SuppressLint("AppCompatCustomView")
 class ParagraphWidget
 @JvmOverloads
 constructor(
@@ -97,22 +102,21 @@ constructor(
     private fun setText(block: ParagraphBlock) {
         val builder = SpannableStringBuilder()
 
-        block.content.forEach { blockItem ->
+        block.content.forEachIndexed { index, blockItem ->
             when (blockItem) {
-                is TextBlock -> addText(blockItem, builder)
+                is TextBlock -> addText(index, blockItem, builder)
                 is TagBlock -> addTag(blockItem, builder)
                 is MentionBlock -> addMention(blockItem, builder)
                 is LinkBlock -> addLink(blockItem, builder)
                 is SpanableBlock -> addSpannable(blockItem, builder)
             }
         }
-        addMore(builder)
-        this.text = builder
+        this.text = addMore(builder)
     }
 
-    private fun addMore(builder: SpannableStringBuilder){
+    private fun addMore(builder: SpannableStringBuilder): CharSequence {
         if (builder.length > 600 && isSeeMoreEnabled) {
-            val withSeeMore = SpannableStringBuilder(builder.substring(0, 400))
+            val withSeeMore = builder.subSequence(0, 400)
             val seeMoreSpannable = SpannableStringBuilder(context.getString(R.string.see_more))
             val seeMoreClick = object : ClickableSpan() {
                 override fun onClick(widget: View) {
@@ -141,20 +145,35 @@ constructor(
                 seeMoreSpannable.length,
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
             )
-            builder.clear()
-            builder.append(SpannableStringBuilder(TextUtils.concat(withSeeMore, "... ", seeMoreSpannable)))
+
+            val result = SpannableStringBuilder(withSeeMore)
+            result.append("...")
+            result.append(seeMoreSpannable)
+            return result
         }
+        return builder
     }
 
     private fun addSpannable(block: SpanableBlock, builder: SpannableStringBuilder) {
         builder.appendSpannable(block.content)
     }
 
-    private fun addText(block: TextBlock, builder: SpannableStringBuilder) {
-        val textInterval = builder.appendText(block.content)
+    private fun addText(index: Int, block: TextBlock, builder: SpannableStringBuilder) {
+        // note[AS] It's a dirty hack - we suppose it's an author name
+        if(index == 0 && !block.content.trim().contains(" ") && block.style == TextStyle.BOLD) {
+            val textInterval = builder.appendText(block.content)
 
-        block.textColor?.let { builder.setSpan(ForegroundColorSpan(it), textInterval) }
-        block.style?.let { builder.setSpan(StyleSpan(it.toTypeface()), textInterval) }
+            builder.setSpan(object : StyledTextClickableSpan(block.content, Typeface.DEFAULT_BOLD) {
+                override fun onClick(spanData: String) {
+                    onClickProcessor?.onUserClicked(spanData.trim())           // User's name
+                }
+            }, textInterval)
+        } else {
+            val textInterval = builder.appendText(block.content)
+
+            block.textColor?.let { builder.setSpan(ForegroundColorSpan(it), textInterval) }
+            block.style?.let { builder.setSpan(StyleSpan(it.toTypeface()), textInterval) }
+        }
     }
 
     private fun addTag(block: TagBlock, builder: SpannableStringBuilder) {
