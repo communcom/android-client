@@ -23,4 +23,9 @@ class PostReportModelImpl @Inject constructor(
             collectedReasons.remove(lowerCaseReason)
         }
     }
+
+    override fun reasonsCount(): Int {
+        return collectedReasons.count()
+    }
+
 }

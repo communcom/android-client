@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
 import android.widget.FrameLayout
+import androidx.lifecycle.Observer
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import io.golos.cyber_android.R
@@ -101,6 +102,7 @@ class PostReportDialog : DialogBaseMVVM<DialogPostReportBinding, PostReportViewM
     override fun getTheme(): Int = R.style.PostFiltersBottomSheet
 
     private fun addListeners() {
+
         cbSpam.setOnCheckedChangeListener { _, _ ->
             viewModel.collectReason(Type.SPAM)
         }
@@ -132,6 +134,7 @@ class PostReportDialog : DialogBaseMVVM<DialogPostReportBinding, PostReportViewM
         cbUnauthorizedSales.setOnCheckedChangeListener { _, _ ->
             viewModel.collectReason(Type.UNAUTHORIZEDSALES)
         }
+
     }
 
     private fun removeListeners() {

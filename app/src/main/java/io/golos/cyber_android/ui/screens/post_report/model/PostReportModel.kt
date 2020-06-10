@@ -8,4 +8,6 @@ interface PostReportModel: ModelBase {
     fun collectReason(report: PostReportDialog.Type)
 
     fun getReport(): PostReportDialog.Report
+
+    fun reasonsCount(): Int
 }
