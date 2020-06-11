@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.profile_followers.model.lists_workers
 
+import android.content.Context
 import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.screens.profile_followers.dto.FollowersListItem
 import io.golos.cyber_android.ui.screens.profile_followers.dto.LoadingListItem
@@ -17,11 +18,13 @@ import javax.inject.Named
 class ListWorkerFollowers
 @Inject
 constructor(
+    private val appContext: Context,
     private val userId: UserIdDomain,
     @Named(Clarification.PAGE_SIZE)
     private val pageSize: Int,
     private val userRepository: UsersRepository
 ) : UsersListWorkerBase<FollowersListItem>(
+    appContext,
     pageSize,
     userRepository
 ), UsersListWorker {

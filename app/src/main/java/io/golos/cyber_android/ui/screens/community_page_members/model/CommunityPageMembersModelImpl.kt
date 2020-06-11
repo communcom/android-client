@@ -8,6 +8,7 @@ import io.golos.cyber_android.ui.screens.profile_followers.model.lists_workers.U
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.dependency_injection.Clarification
+import io.golos.domain.dto.ErrorInfoDomain
 import io.golos.domain.dto.UserIdDomain
 import javax.inject.Inject
 import javax.inject.Named
@@ -39,5 +40,5 @@ constructor(
     /**
      * @return true in case of success
      */
-    override suspend fun subscribeUnsubscribe(userId: UserIdDomain): Boolean = usersListWorker.subscribeUnsubscribe(userId)
+    override suspend fun subscribeUnsubscribe(userId: UserIdDomain): ErrorInfoDomain? = usersListWorker.subscribeUnsubscribe(userId)
 }

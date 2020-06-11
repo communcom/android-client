@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.ErrorInfoDomain
 
 interface CommunitiesListModel: ModelBase {
     val pageSize: Int
@@ -19,5 +20,5 @@ interface CommunitiesListModel: ModelBase {
     /**
      * @return true in case of success
      */
-    suspend fun subscribeUnsubscribe(communityId: CommunityIdDomain): Boolean
+    suspend fun subscribeUnsubscribe(communityId: CommunityIdDomain): ErrorInfoDomain?
 }

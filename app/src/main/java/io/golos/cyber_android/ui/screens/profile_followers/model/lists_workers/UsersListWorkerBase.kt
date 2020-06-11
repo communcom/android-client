@@ -1,10 +1,13 @@
 package io.golos.cyber_android.ui.screens.profile_followers.model.lists_workers
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.screens.profile_followers.dto.UserListItem
+import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.paging.LoadedItemsPagedListBase
+import io.golos.domain.dto.ErrorInfoDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.UsersRepository
 import timber.log.Timber
@@ -13,6 +16,7 @@ import timber.log.Timber
  * [TLI] type of user list item
  */
 abstract class UsersListWorkerBase<TLI : UserListItem<*>>(
+    private val appContext: Context,
     pageSize: Int,
     private val userRepository: UsersRepository
 ) : LoadedItemsPagedListBase<TLI>(pageSize),
@@ -26,9 +30,9 @@ abstract class UsersListWorkerBase<TLI : UserListItem<*>>(
      * @return true in case of success
      */
     @Suppress("UNCHECKED_CAST")
-    override suspend fun subscribeUnsubscribe(userId: UserIdDomain): Boolean {
+    override suspend fun subscribeUnsubscribe(userId: UserIdDomain): ErrorInfoDomain? {
         if(subscribingInProgress) {
-            return true
+            return null
         }
 
         subscribingInProgress = true
@@ -37,24 +41,24 @@ abstract class UsersListWorkerBase<TLI : UserListItem<*>>(
 
         setUserInProgress(userId)
 
-        val isSuccess =
+        val errorInfo =
             try {
                 if(user.isFollowing) {
                     userRepository.unsubscribeToFollower(userId)
                 } else {
                     userRepository.subscribeToFollower(userId)
                 }
-                true
+                null
             } catch (ex: Exception) {
                 Timber.e(ex)
-                false
+                ErrorInfoDomain(ex.getMessage(appContext))
             }
 
-        completeUserInProgress(userId, isSuccess)
+        completeUserInProgress(userId, errorInfo == null)
 
         subscribingInProgress = false
 
-        return isSuccess
+        return errorInfo
     }
 
     /**

@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.notifications.view_model
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.User
@@ -8,10 +9,12 @@ import io.golos.cyber_android.ui.screens.notifications.mappers.mapToVersionedLis
 import io.golos.cyber_android.ui.screens.notifications.model.NotificationsModel
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.BaseNotificationItem
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.SubscribeNotificationItem
+import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToPostCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToUserProfileCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToWalletCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageTextCommand
 import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.shared.utils.PAGINATION_PAGE_SIZE
@@ -33,6 +36,7 @@ import kotlin.properties.Delegates
 
 class NotificationsViewModel
 @Inject constructor(
+    private val appContext: Context,
     notificationsModel: NotificationsModel,
     dispatchersProvider: DispatchersProvider,
     private val paginator: Paginator.Store<VersionedListItem>
@@ -134,7 +138,12 @@ class NotificationsViewModel
 
     override fun onWalletNavigateClicked() {
         launch {
-            _command.value = NavigateToWalletCommand(model.getBalance())
+            try {
+                _command.value = NavigateToWalletCommand(model.getBalance())
+            } catch (ex: Exception) {
+                Timber.e(ex)
+                _command.value = ShowMessageTextCommand(ex.getMessage(appContext))
+            }
         }
     }
 

@@ -11,6 +11,7 @@ import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListIte
 import io.golos.cyber_android.ui.dto.BlackListFilter
 import io.golos.cyber_android.ui.screens.profile_black_list.model.ProfileBlackListModel
 import io.golos.cyber_android.ui.screens.profile_black_list.view.list.BlackListListItemEventsProcessor
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageTextCommand
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserIdDomain
@@ -102,16 +103,16 @@ constructor(
 
     override fun onHideUserClick(userId: UserIdDomain) {
         launch {
-            if(!model.switchUserState(userId)) {
-                _command.value = ShowMessageResCommand(R.string.common_general_error)
+            model.switchUserState(userId)?.let {
+                _command.value = ShowMessageTextCommand(it.message)
             }
         }
     }
 
     override fun onHideCommunityClick(communityId: CommunityIdDomain) {
         launch {
-            if(!model.switchCommunityState(communityId)) {
-                _command.value = ShowMessageResCommand(R.string.common_general_error)
+            model.switchCommunityState(communityId)?.let {
+                _command.value = ShowMessageTextCommand(it.message)
             }
         }
     }

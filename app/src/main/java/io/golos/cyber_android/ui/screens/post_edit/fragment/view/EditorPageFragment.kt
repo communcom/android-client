@@ -37,6 +37,7 @@ import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToMainScreenCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageTextCommand
 import io.golos.cyber_android.ui.shared.utils.TextWatcherBase
 import io.golos.domain.posts_parsing_rendering.post_metadata.TextStyle
 import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.EmbedType
@@ -220,6 +221,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
                 is SetLoadingVisibilityCommand -> setLoadingVisibility(command.isVisible)
 
                 is ShowMessageResCommand -> uiHelper.showMessage(command.textResId, command.isError)
+                is ShowMessageTextCommand -> uiHelper.showMessage(command.text, command.isError)
 
                 is NavigateToMainScreenCommand -> closeEditor()
 

@@ -10,9 +10,10 @@ import io.golos.cyber_android.ui.screens.wallet.model.WalletModel
 import io.golos.cyber_android.ui.screens.wallet.view.my_points.WalletMyPointsListItemEventsProcessor
 import io.golos.cyber_android.ui.screens.wallet_shared.history.view.WalletHistoryListItemEventsProcessor
 import io.golos.cyber_android.ui.screens.wallet_shared.send_points.list.view.WalletSendPointsListItemEventsProcessor
+import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageTextCommand
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.LoadingListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.NoDataListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
@@ -28,7 +29,7 @@ import javax.inject.Inject
 class WalletViewModel
 @Inject
 constructor(
-    appContext: Context,
+    private val appContext: Context,
     dispatchersProvider: DispatchersProvider,
     model: WalletModel
 ) : ViewModelBase<WalletModel>(dispatchersProvider, model),
@@ -146,8 +147,8 @@ constructor(
                 onHistoryNextPageReached()
             } catch (ex: Exception) {
                 Timber.e(ex)
+                _command.value = ShowMessageTextCommand(ex.getMessage(appContext))
 
-                _command.value = ShowMessageResCommand(R.string.common_general_error)
                 _command.value = NavigateBackwardCommand()
             } finally {
                 if(needReload) {

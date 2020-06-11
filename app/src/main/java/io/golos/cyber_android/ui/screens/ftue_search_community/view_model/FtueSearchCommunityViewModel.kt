@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.ftue_search_community.view_model
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.domain.analytics.AnalyticsFacade
@@ -18,6 +19,8 @@ import io.golos.cyber_android.ui.screens.ftue_search_community.model.item.collec
 import io.golos.cyber_android.ui.screens.ftue_search_community.model.item.collection.FtueCommunityCollectionListItem
 import io.golos.cyber_android.ui.screens.ftue_search_community.model.item.community.FtueCommunityListItem
 import io.golos.cyber_android.ui.screens.ftue_search_community.view.view_command.NavigationToFtueFinishFragment
+import io.golos.cyber_android.ui.shared.extensions.getMessage
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageTextCommand
 import io.golos.cyber_android.ui.shared.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
@@ -29,7 +32,10 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
-class FtueSearchCommunityViewModel @Inject constructor(
+class FtueSearchCommunityViewModel
+@Inject
+constructor(
+    private val appContext: Context,
     dispatchersProvider: DispatchersProvider,
     model: FtueSearchCommunityModel,
     private val paginator: Paginator.Store<Community>,
@@ -102,7 +108,7 @@ class FtueSearchCommunityViewModel @Inject constructor(
                 addCommunityToCollection(community)
             } catch (e: Exception) {
                 Timber.e(e)
-                _command.value = ShowMessageResCommand(R.string.loading_error)
+                _command.value = ShowMessageTextCommand(e.getMessage(appContext))
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }
@@ -123,7 +129,7 @@ class FtueSearchCommunityViewModel @Inject constructor(
 
             } catch (e: Exception) {
                 Timber.e(e)
-                _command.value = ShowMessageResCommand(R.string.loading_error)
+                _command.value = ShowMessageResCommand(R.string.common_general_error)
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }

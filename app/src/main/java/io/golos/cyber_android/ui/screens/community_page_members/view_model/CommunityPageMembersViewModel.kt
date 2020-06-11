@@ -10,6 +10,7 @@ import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToUserProfileCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageTextCommand
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.UserIdDomain
@@ -64,8 +65,8 @@ constructor(
 
     override fun onFollowClick(userId: UserIdDomain) {
         launch {
-            if(!model.subscribeUnsubscribe(userId)) {
-                _command.value = ShowMessageResCommand(R.string.common_general_error)
+            model.subscribeUnsubscribe(userId)?.let {
+                _command.value = ShowMessageTextCommand(it.message)
             }
         }
     }

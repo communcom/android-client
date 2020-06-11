@@ -27,6 +27,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dialogs.select_community_dialog.dto.CommunitySelected
 import io.golos.cyber_android.ui.dialogs.select_community_dialog.view_model.SelectCommunityDialogViewModel
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageTextCommand
 import io.golos.domain.dto.CommunityDomain
 import io.golos.utils.id.IdUtil
 import kotlinx.android.synthetic.main.fragment_communities_select_dialog.*
@@ -127,6 +128,8 @@ class SelectCommunityDialog : BottomSheetDialogFragment() {
     private fun processViewCommand(command: ViewCommand) {
         when(command) {
             is ShowMessageResCommand -> uiHelper.showMessage(command.textResId, command.isError)
+            is ShowMessageTextCommand -> uiHelper.showMessage(command.text, command.isError)
+
             is CommunitySelected -> {
                 closeActionListener(command.community)
                 isCommunitySelected = true

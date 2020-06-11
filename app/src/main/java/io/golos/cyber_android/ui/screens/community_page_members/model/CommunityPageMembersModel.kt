@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.community_page_members.model
 import androidx.lifecycle.LiveData
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
+import io.golos.domain.dto.ErrorInfoDomain
 import io.golos.domain.dto.UserIdDomain
 
 interface CommunityPageMembersModel : ModelBase {
@@ -23,5 +24,5 @@ interface CommunityPageMembersModel : ModelBase {
     /**
      * @return true in case of success
      */
-    suspend fun subscribeUnsubscribe(userId: UserIdDomain): Boolean
+    suspend fun subscribeUnsubscribe(userId: UserIdDomain): ErrorInfoDomain?
 }

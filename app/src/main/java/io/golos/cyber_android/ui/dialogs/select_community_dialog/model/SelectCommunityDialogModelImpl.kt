@@ -27,6 +27,7 @@ constructor(
     dispatchersProvider: DispatchersProvider,
     communitiesRepository: CommunitiesRepository
 ) : CommunitiesListModelImpl(
+    appContext,
     currentUserRepository.userId,
     false,
     communitiesRepository,

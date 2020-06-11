@@ -1,7 +1,9 @@
 package io.golos.cyber_android.ui.screens.communities_list.model
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.CommunityListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.LoadingListItem
@@ -12,6 +14,7 @@ import io.golos.domain.GlobalConstants
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.ErrorInfoDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.community.CommunitiesRepository
 import io.golos.utils.id.IdUtil
@@ -24,6 +27,7 @@ import javax.inject.Named
 open class CommunitiesListModelImpl
 @Inject
 constructor(
+    private val appContext: Context,
     private val userId: UserIdDomain,
     @Named(Clarification.SHOW_ALL)
     private val showAll: Boolean,
@@ -79,9 +83,9 @@ constructor(
         }
     }
 
-    override suspend fun subscribeUnsubscribe(communityId: CommunityIdDomain): Boolean {
+    override suspend fun subscribeUnsubscribe(communityId: CommunityIdDomain): ErrorInfoDomain? {
         if(subscribingInProgress) {
-            return true
+            return null
         }
 
         subscribingInProgress = true
@@ -90,25 +94,25 @@ constructor(
 
         setCommunityInProgress(communityId)
 
-        val isSuccess = withContext(dispatchersProvider.ioDispatcher) {
+        val errorInfo = withContext(dispatchersProvider.ioDispatcher) {
             try {
                 if(community.isInPositiveState) {
                     communitiesRepository.unsubscribeToCommunity(communityId)
                 } else {
                     communitiesRepository.subscribeToCommunity(communityId)
                 }
-                true
+                null
             } catch (ex: Exception) {
                 Timber.e(ex)
-                false
+                ErrorInfoDomain(ex.getMessage(appContext))
             }
         }
 
-        completeCommunityInProgress(communityId, isSuccess)
+        completeCommunityInProgress(communityId, errorInfo == null)
 
         subscribingInProgress = false
 
-        return isSuccess
+        return errorInfo
     }
 
     protected fun CommunityDomain.map() =

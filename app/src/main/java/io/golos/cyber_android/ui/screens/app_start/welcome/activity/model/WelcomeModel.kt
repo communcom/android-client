@@ -9,7 +9,7 @@ interface WelcomeModel: ModelBase {
 
     fun closeApp()
 
-    suspend fun login(): Boolean
+    suspend fun login()
 
     suspend fun isOutdated(): Boolean
 }

@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.community_page_post.view_model
 
+import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
@@ -15,6 +16,7 @@ import io.golos.cyber_android.ui.screens.feed_my.view_model.MyFeedListListener
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
+import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.paginator.Paginator
@@ -34,6 +36,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class CommunityPostViewModel @Inject constructor(
+    private val appContext: Context,
     dispatchersProvider: DispatchersProvider,
     model: CommunityPostModel,
     private val currentUserRepository: CurrentUserRepositoryRead,
@@ -168,7 +171,7 @@ class CommunityPostViewModel @Inject constructor(
                 model.upVote(contentId.communityId, contentId.userId, contentId.permlink)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
-                _command.value = ShowMessageResCommand(R.string.unknown_error)
+                _command.value = ShowMessageTextCommand(e.getMessage(appContext))
             }
         }
     }
@@ -180,7 +183,7 @@ class CommunityPostViewModel @Inject constructor(
                 model.downVote(contentId.communityId, contentId.userId, contentId.permlink)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
-                _command.value = ShowMessageResCommand(R.string.unknown_error)
+                _command.value = ShowMessageTextCommand(e.getMessage(appContext))
             }
         }
     }
@@ -235,8 +238,9 @@ class CommunityPostViewModel @Inject constructor(
                 _command.value = SetLoadingVisibilityCommand(true)
                 model.deletePost(permlink, communityId)
                 _postsListState.value = deletePostInState(_postsListState.value, permlink)
-            } catch (e: java.lang.Exception) {
+            } catch (e: Exception) {
                 Timber.e(e)
+                _command.value = ShowMessageTextCommand(e.getMessage(appContext))
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }
@@ -253,8 +257,9 @@ class CommunityPostViewModel @Inject constructor(
                 _command.value = SetLoadingVisibilityCommand(true)
                 model.subscribeToCommunity(communityId)
                 _postsListState.value = changeCommunitySubscriptionStatusInState(_postsListState.value, communityId, true)
-            } catch (e: java.lang.Exception) {
+            } catch (e: Exception) {
                 Timber.e(e)
+                _command.value = ShowMessageTextCommand(e.getMessage(appContext))
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }
@@ -267,8 +272,9 @@ class CommunityPostViewModel @Inject constructor(
                 _command.value = SetLoadingVisibilityCommand(true)
                 model.unsubscribeToCommunity(communityId)
                 _postsListState.value = changeCommunitySubscriptionStatusInState(_postsListState.value, communityId, false)
-            } catch (e: java.lang.Exception) {
+            } catch (e: Exception) {
                 Timber.e(e)
+                _command.value = ShowMessageTextCommand(e.getMessage(appContext))
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }
@@ -294,7 +300,7 @@ class CommunityPostViewModel @Inject constructor(
                 )
             } catch (e: Exception) {
                 Timber.e(e)
-                _command.value = ShowMessageResCommand(R.string.common_general_error)
+                _command.value = ShowMessageTextCommand(e.getMessage(appContext))
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }

@@ -13,11 +13,9 @@ import io.golos.cyber_android.ui.screens.wallet_send_points.dto.ShowSelectCommun
 import io.golos.cyber_android.ui.screens.wallet_send_points.dto.UpdateCarouselPositionCommand
 import io.golos.cyber_android.ui.screens.wallet_shared.dto.AmountValidationResult
 import io.golos.cyber_android.ui.screens.wallet_shared.getDisplayName
+import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.HideKeyboardCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.utils.getFormattedString
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityIdDomain
@@ -152,7 +150,7 @@ constructor(
                     model.convert()
                     _command.value = ShowWalletConversionCompletedDialogCommand(model.getConversionCompletedInfo())
                 } catch(ex: Exception) {
-                    _command.value = ShowMessageResCommand(R.string.common_general_error)
+                    _command.value = ShowMessageTextCommand(ex.getMessage(appContext))
                 } finally {
                     _command.value = SetLoadingVisibilityCommand(false)
                 }

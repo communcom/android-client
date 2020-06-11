@@ -1,20 +1,24 @@
 package io.golos.cyber_android.ui.screens.app_start.welcome.activity.view_model
 
+import android.content.Context
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.app_start.welcome.activity.dto.HideSplashAnimationCommand
 import io.golos.cyber_android.ui.screens.app_start.welcome.activity.dto.NavigateToWelcomeScreenCommand
 import io.golos.cyber_android.ui.screens.app_start.welcome.activity.dto.ShowSplashAnimationCommand
 import io.golos.cyber_android.ui.screens.app_start.welcome.activity.model.WelcomeModel
+import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.lang.Exception
 import javax.inject.Inject
 
 open class WelcomeViewModel
 @Inject
 constructor(
+    private val appContext: Context,
     dispatchersProvider: DispatchersProvider,
     model: WelcomeModel
 ) : ViewModelBase<WelcomeModel>(dispatchersProvider, model) {
@@ -49,12 +53,13 @@ constructor(
                 return@launch
             }
 
-            if(model.login()) {
+            try {
+                model.login()
                 hideSplashAnimation()
                 _command.value = NavigateToMainScreenCommand()
-            } else {
+            } catch (ex: Exception) {
                 hideSplashAnimation()
-                _command.value = ShowMessageResCommand(R.string.common_general_error)
+                _command.value = ShowMessageTextCommand(ex.getMessage(appContext))
                 _command.value = NavigateToWelcomeScreenCommand()
             }
         }

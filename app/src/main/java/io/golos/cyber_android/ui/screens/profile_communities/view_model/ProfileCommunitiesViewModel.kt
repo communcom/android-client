@@ -2,21 +2,19 @@ package io.golos.cyber_android.ui.screens.profile_communities.view_model
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToCommunitiesListPageCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToCommunityPageCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
-import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dto.ProfileCommunities
 import io.golos.cyber_android.ui.screens.profile_communities.dto.CommunitiesCount
 import io.golos.cyber_android.ui.screens.profile_communities.model.ProfileCommunitiesModel
 import io.golos.cyber_android.ui.screens.profile_communities.view.list.CommunityListItemEventsProcessor
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToCommunitiesListPageCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToCommunityPageCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageTextCommand
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserIdDomain
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 class ProfileCommunitiesViewModel
@@ -46,13 +44,8 @@ constructor(
 
     override fun onFolllowUnfollowClick(communityId: CommunityIdDomain) {
         launch {
-            try {
-                if(!model.subscribeUnsubscribe(communityId)) {
-                    _command.value = ShowMessageResCommand(R.string.common_general_error)
-                }
-            } catch (ex: Exception) {
-                Timber.e(ex)
-                _command.value = ShowMessageResCommand(R.string.common_general_error)
+            model.subscribeUnsubscribe(communityId)?.let {
+                _command.value = ShowMessageTextCommand(it.message)
             }
         }
     }

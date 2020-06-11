@@ -55,18 +55,16 @@ constructor(
 
     override fun closeApp() = exitProcess(0)
 
-    override suspend fun login(): Boolean =
+    override suspend fun login() =
         try {
             val masterPassword = withContext(dispatchersProvider.ioDispatcher) {
                 userKeyStore.getKey(UserKeyType.MASTER)
             }
 
             authUseCase.auth(authState.userName, masterPassword)
-
-            true
         } catch (ex: Exception) {
             Timber.e(ex)
-            false
+            throw ex
         }
 
     override suspend fun isOutdated(): Boolean {

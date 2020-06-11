@@ -15,6 +15,7 @@ import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageTextCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.domain.LogTags
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -127,6 +128,10 @@ abstract class DialogBaseMVVM<VDB : ViewDataBinding, VM : ViewModelBase<out Mode
         when (command) {
             is ShowMessageResCommand -> {
                 uiHelper.showMessage(command.textResId, command.isError)
+                true
+            }
+            is ShowMessageTextCommand -> {
+                uiHelper.showMessage(command.text, command.isError)
                 true
             }
             else -> false

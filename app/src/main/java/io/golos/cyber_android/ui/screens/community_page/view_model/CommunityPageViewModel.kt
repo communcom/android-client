@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.community_page.view_model
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
@@ -12,6 +13,8 @@ import io.golos.cyber_android.ui.screens.community_page.dto.NavigateToMembersCom
 import io.golos.cyber_android.ui.screens.community_page.dto.SwitchToLeadsTabCommand
 import io.golos.cyber_android.ui.screens.community_page.mappers.CommunityPageDomainToCommunityPageMapper
 import io.golos.cyber_android.ui.screens.community_page.model.CommunityPageModel
+import io.golos.cyber_android.ui.shared.extensions.getMessage
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageTextCommand
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityIdDomain
@@ -20,7 +23,10 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
-class CommunityPageViewModel @Inject constructor(
+class CommunityPageViewModel
+@Inject
+constructor(
+    private val appContext: Context,
     dispatchersProvider: DispatchersProvider,
     model: CommunityPageModel,
     private val communityId: CommunityIdDomain
@@ -98,7 +104,7 @@ class CommunityPageViewModel @Inject constructor(
                 communityPageMutableLiveData.value = communityPage
                 communityPageIsErrorMutableLiveData.value = false
             } catch (e: Exception){
-                _command.value = ShowMessageResCommand(R.string.loading_error)
+                _command.value = ShowMessageTextCommand(e.getMessage(appContext))
                 communityPageIsErrorMutableLiveData.value = true
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)

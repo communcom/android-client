@@ -9,6 +9,7 @@ import io.golos.cyber_android.ui.screens.profile_black_list.model.lists_workers.
 import io.golos.cyber_android.ui.screens.profile_black_list.model.lists_workers.users.ListWorkerUsers
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.ErrorInfoDomain
 import io.golos.domain.dto.UserIdDomain
 import javax.inject.Inject
 import javax.inject.Named
@@ -28,9 +29,9 @@ constructor(
 
     override suspend fun retry(filter: BlackListFilter) = getWorker(filter).retry()
 
-    override suspend fun switchUserState(userId: UserIdDomain): Boolean = usersWorker.switchState(userId)
+    override suspend fun switchUserState(userId: UserIdDomain): ErrorInfoDomain? = usersWorker.switchState(userId)
 
-    override suspend fun switchCommunityState(communityId: CommunityIdDomain): Boolean = communitiesWorker.switchState(communityId)
+    override suspend fun switchCommunityState(communityId: CommunityIdDomain): ErrorInfoDomain? = communitiesWorker.switchState(communityId)
 
     private fun getWorker(filter: BlackListFilter): ListWorkerBase<*> =
         when(filter) {

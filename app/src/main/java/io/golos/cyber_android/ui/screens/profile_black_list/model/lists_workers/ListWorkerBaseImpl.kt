@@ -1,10 +1,13 @@
 package io.golos.cyber_android.ui.screens.profile_black_list.model.lists_workers
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.LoadingListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.RetryListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
+import io.golos.domain.dto.ErrorInfoDomain
 import io.golos.utils.id.IdUtil
 import timber.log.Timber
 
@@ -13,6 +16,7 @@ import timber.log.Timber
  * [TLI] Type of list item
  */
 abstract class ListWorkerBaseImpl<TID, TLI: VersionedListItem>(
+    private val appContext: Context,
     private val pageSize: Int
 ) : ListWorkerBase<TID> {
 
@@ -55,9 +59,9 @@ abstract class ListWorkerBaseImpl<TID, TLI: VersionedListItem>(
     }
 
     @Suppress("UNCHECKED_CAST")
-    override suspend fun switchState(id: TID): Boolean {
+    override suspend fun switchState(id: TID): ErrorInfoDomain? {
         if(userActionInProgress) {
-            return true
+            return null
         }
 
         userActionInProgress = true
@@ -66,24 +70,24 @@ abstract class ListWorkerBaseImpl<TID, TLI: VersionedListItem>(
 
         setItemInProgress(id)
 
-        val isSuccess =
+        val errorInfo =
             try {
                 if(isItemInPositiveState(item)) {
                     moveItemToNegativeState(id)
                 } else {
                     moveItemToPositiveState(id)
                 }
-                true
+                null
             } catch (ex: Exception) {
                 Timber.e(ex)
-                false
+                ErrorInfoDomain(ex.getMessage(appContext))
             }
 
-        completeItemInProgress(id, isSuccess)
+        completeItemInProgress(id, errorInfo == null)
 
         userActionInProgress = false
 
-        return isSuccess
+        return errorInfo
     }
 
     protected abstract fun isItemInPositiveState(item: TLI): Boolean

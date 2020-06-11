@@ -14,6 +14,7 @@ import io.golos.cyber_android.ui.shared.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageTextCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.domain.LogTags
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -91,6 +92,10 @@ abstract class ActivityBaseMVVM<VDB : ViewDataBinding, VM : ViewModelBase<out Mo
         when (command) {
             is ShowMessageResCommand -> {
                 uiHelper.showMessage(command.textResId, command.isError)
+                true
+            }
+            is ShowMessageTextCommand -> {
+                uiHelper.showMessage(command.text, command.isError)
                 true
             }
             is SetLoadingVisibilityCommand -> {

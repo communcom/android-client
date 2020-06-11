@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.community_page_members.model.list_worker
 
+import android.content.Context
 import io.golos.cyber_android.ui.screens.community_page_members.dto.CommunityUserListItem
 import io.golos.cyber_android.ui.screens.profile_followers.model.lists_workers.UsersListWorker
 import io.golos.cyber_android.ui.screens.profile_followers.model.lists_workers.UsersListWorkerBase
@@ -20,12 +21,14 @@ import javax.inject.Named
 class ListWorkerCommunityMembers
 @Inject
 constructor(
+    private val appContext: Context,
     @Named(Clarification.PAGE_SIZE)
     private val pageSize: Int,
     private val communityId: CommunityIdDomain,
     userRepository: UsersRepository,
     private val communitiesRepository: CommunitiesRepository
 ) : UsersListWorkerBase<CommunityUserListItem>(
+    appContext,
     pageSize,
     userRepository
 ), UsersListWorker {

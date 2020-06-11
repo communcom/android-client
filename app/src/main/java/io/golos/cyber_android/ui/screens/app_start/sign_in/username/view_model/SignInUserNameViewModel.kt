@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.app_start.sign_in.username.view_model
 
+import android.content.Context
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,9 +15,11 @@ import io.golos.cyber_android.ui.screens.app_start.sign_in.username.dto.SetUserN
 import io.golos.cyber_android.ui.screens.app_start.sign_in.username.model.SignInUserNameModel
 import io.golos.cyber_android.ui.screens.app_start.sign_in.username.model.password_validator.validator.PasswordValidationResult
 import io.golos.cyber_android.ui.screens.app_start.sign_in.username.model.password_validator.visializer.PasswordValidationVisualizer
+import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.repositories.exceptions.ApiResponseErrorException
 import io.golos.domain.validation.user_name.UserNameValidationResult
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -25,6 +28,7 @@ import javax.inject.Inject
 class SignInUserNameViewModel
 @Inject
 constructor(
+    private val appContext: Context,
     dispatchersProvider: DispatchersProvider,
     model: SignInUserNameModel,
     private val userNameValidationVisualizer: Lazy<UserNameValidationVisualizer>,
@@ -142,7 +146,7 @@ constructor(
 
     private fun auth(userName: String, password: String) {
         launch {
-            var authSuccess = true
+            var errorMessage: String? = null
 
             _command.value = SetLoadingVisibilityCommand(true)
 
@@ -150,15 +154,15 @@ constructor(
                 model.auth(userName, password)
             } catch (ex: Exception) {
                 Timber.e(ex)
-                authSuccess = false
+                errorMessage = ex.getMessage(appContext)
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }
 
-            if(authSuccess) {
+            if(errorMessage == null) {
                 _command.value = NavigateForwardCommand()
             } else {
-                _command.value = ShowMessageResCommand(R.string.common_general_error)
+                _command.value = ShowMessageTextCommand(errorMessage)
             }
         }
     }

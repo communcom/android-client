@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dto.FollowersFilter
+import io.golos.domain.dto.ErrorInfoDomain
 import io.golos.domain.dto.UserIdDomain
 
 interface ProfileFollowersModel : ModelBase {
@@ -20,5 +21,5 @@ interface ProfileFollowersModel : ModelBase {
     /**
      * @return true in case of success
      */
-    suspend fun subscribeUnsubscribe(userId: UserIdDomain, filter: FollowersFilter): Boolean
+    suspend fun subscribeUnsubscribe(userId: UserIdDomain, filter: FollowersFilter): ErrorInfoDomain?
 }

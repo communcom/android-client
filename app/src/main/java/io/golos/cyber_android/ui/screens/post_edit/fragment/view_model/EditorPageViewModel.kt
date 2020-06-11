@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.post_edit.fragment.view_model
 
+import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -18,11 +19,9 @@ import io.golos.cyber_android.ui.screens.post_edit.fragment.model.EditorPageMode
 import io.golos.cyber_android.ui.screens.post_edit.fragment.view_commands.InsertExternalLinkViewCommand
 import io.golos.cyber_android.ui.screens.post_edit.fragment.view_commands.PastedLinkIsValidViewCommand
 import io.golos.cyber_android.ui.screens.post_edit.fragment.view_commands.PostCreatedViewCommand
+import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToMainScreenCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.data.errors.AppError
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
@@ -56,6 +55,7 @@ data class UserPickedImageModel(val localUri: Uri? = null, val remoteUrl: String
 class EditorPageViewModel
 @Inject
 constructor(
+    private val appContext: Context,
     dispatchersProvider: DispatchersProvider,
     private val embedsUseCase: UseCase<ProccesedLinksModel>,
     private val posterUseCase: UseCase<QueryResult<DiscussionCreationResultModel>>,
@@ -190,12 +190,12 @@ constructor(
                     _command.value = PostCreatedViewCommand(callResult.mapToContentId())
                 } catch (ex: Exception) {
                     Timber.e(ex)
-                    _command.value = getPostErrorCommand(ex)
+                    _command.value = ShowMessageTextCommand(ex.getMessage(appContext))
                 }
 
             } catch (ex: Exception) {
                 Timber.e(ex)
-                _command.value = getPostErrorCommand(ex)
+                _command.value = ShowMessageTextCommand(ex.getMessage(appContext))
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }

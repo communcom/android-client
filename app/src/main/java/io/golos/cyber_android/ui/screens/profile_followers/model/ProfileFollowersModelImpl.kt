@@ -6,6 +6,7 @@ import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListIte
 import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.screens.profile_followers.model.lists_workers.UsersListWorker
 import io.golos.domain.dependency_injection.Clarification
+import io.golos.domain.dto.ErrorInfoDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import javax.inject.Inject
@@ -39,15 +40,15 @@ constructor(
     /**
      * @return true in case of success
      */
-    override suspend fun subscribeUnsubscribe(userId: UserIdDomain, filter: FollowersFilter): Boolean {
-        val isSuccess = getWorker(filter).subscribeUnsubscribe(userId)
+    override suspend fun subscribeUnsubscribe(userId: UserIdDomain, filter: FollowersFilter): ErrorInfoDomain? {
+        val errorInfo = getWorker(filter).subscribeUnsubscribe(userId)
 
         // Sync action to others list
-        if(isSuccess) {
+        if(errorInfo == null) {
             getOppositeWorkers(filter).forEach { it.subscribeUnsubscribeInstant(userId) }
         }
 
-        return isSuccess
+        return errorInfo
     }
 
     private fun getWorker(filter: FollowersFilter): UsersListWorker =

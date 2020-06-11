@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.post_view.view_model
 
+import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,6 +10,7 @@ import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
 import io.golos.cyber_android.ui.screens.post_view.dto.*
 import io.golos.cyber_android.ui.screens.post_view.model.PostPageModel
+import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
@@ -31,6 +33,7 @@ import javax.inject.Inject
 class PostPageViewModel
 @Inject
 constructor(
+    private val appContext: Context,
     dispatchersProvider: DispatchersProvider,
     model: PostPageModel,
     private val currentUserRepository: CurrentUserRepositoryRead,
@@ -132,7 +135,7 @@ constructor(
                     postContentId.permlink
                 )
             } catch (e: java.lang.Exception) {
-                _command.value = ShowMessageResCommand(R.string.common_general_error)
+                _command.value = ShowMessageTextCommand(e.getMessage(appContext))
             }
         }
     }
@@ -145,8 +148,8 @@ constructor(
                     postContentId.userId,
                     postContentId.permlink
                 )
-            } catch (e: java.lang.Exception) {
-                _command.value = ShowMessageResCommand(R.string.common_general_error)
+            } catch (e: Exception) {
+                _command.value = ShowMessageTextCommand(e.getMessage(appContext))
             }
         }
     }
@@ -223,7 +226,7 @@ constructor(
                 _command.value = NavigationToParentScreenWithStringResultCommand(permlink)
             } catch (ex: Exception) {
                 Timber.e(ex)
-                _command.value = ShowMessageResCommand(R.string.common_general_error)
+                _command.value = ShowMessageTextCommand(ex.getMessage(appContext))
                 _command.value = SetLoadingVisibilityCommand(false)
                 _command.value = NavigateToMainScreenCommand()
             }
@@ -238,8 +241,9 @@ constructor(
                 _postHeader.value = _postHeader.value?.copy(
                     isJoinedToCommunity = true
                 )
-            } catch (e: java.lang.Exception) {
+            } catch (e: Exception) {
                 Timber.e(e)
+                _command.value = ShowMessageTextCommand(e.getMessage(appContext))
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }
@@ -254,8 +258,9 @@ constructor(
                 _postHeader.value = _postHeader.value?.copy(
                     isJoinedToCommunity = false
                 )
-            } catch (e: java.lang.Exception) {
+            } catch (e: Exception) {
                 Timber.e(e)
+                _command.value = ShowMessageResCommand(R.string.common_general_error)
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }
@@ -321,7 +326,7 @@ constructor(
 
                 _command.value = ClearCommentInputCommand()
             } catch (ex: Exception) {
-                _command.value = ShowMessageResCommand(R.string.common_general_error)
+                _command.value = ShowMessageTextCommand(ex.getMessage(appContext))
             } finally {
                 _commentFieldEnabled.value = true
             }
@@ -367,7 +372,7 @@ constructor(
                 action()
             } catch (ex: Exception) {
                 Timber.e(ex)
-                _command.value = ShowMessageResCommand(R.string.common_general_error)
+                _command.value = ShowMessageTextCommand(ex.getMessage(appContext))
             }
         }
     }

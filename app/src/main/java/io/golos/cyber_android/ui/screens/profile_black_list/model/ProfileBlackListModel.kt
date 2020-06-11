@@ -5,6 +5,7 @@ import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dto.BlackListFilter
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.ErrorInfoDomain
 import io.golos.domain.dto.UserIdDomain
 
 interface ProfileBlackListModel : ModelBase {
@@ -16,7 +17,7 @@ interface ProfileBlackListModel : ModelBase {
 
     suspend fun retry(filter: BlackListFilter)
 
-    suspend fun switchUserState(userId: UserIdDomain): Boolean
+    suspend fun switchUserState(userId: UserIdDomain): ErrorInfoDomain?
 
-    suspend fun switchCommunityState(communityId: CommunityIdDomain): Boolean
+    suspend fun switchCommunityState(communityId: CommunityIdDomain): ErrorInfoDomain?
 }

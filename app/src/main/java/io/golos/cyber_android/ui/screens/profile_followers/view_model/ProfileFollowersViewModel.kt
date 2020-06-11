@@ -12,6 +12,7 @@ import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.screens.profile_followers.model.ProfileFollowersModel
 import io.golos.cyber_android.ui.screens.profile_followers.view.list.FollowersListItemEventsProcessor
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToUserProfileCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageTextCommand
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
@@ -87,8 +88,8 @@ constructor(
 
     override fun onFollowClick(userId: UserIdDomain, filter: FollowersFilter) {
         launch {
-            if(!model.subscribeUnsubscribe(userId, filter)) {
-                _command.value = ShowMessageResCommand(R.string.common_general_error)
+            model.subscribeUnsubscribe(userId, filter)?.let {
+                _command.value = ShowMessageTextCommand(it.message)
             }
         }
     }

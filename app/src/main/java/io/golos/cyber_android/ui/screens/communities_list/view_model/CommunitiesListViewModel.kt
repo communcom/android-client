@@ -11,6 +11,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.communities_list.model.CommunitiesListModel
 import io.golos.cyber_android.ui.screens.communities_list.view.list.CommunityListItemEventsProcessor
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageTextCommand
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dependency_injection.Clarification
@@ -56,8 +57,8 @@ constructor(
 
     override fun onJoinClick(communityId: CommunityIdDomain) {
         launch {
-            if(!model.subscribeUnsubscribe(communityId)) {
-                _command.value = ShowMessageResCommand(R.string.common_general_error)
+            model.subscribeUnsubscribe(communityId)?.let {
+                _command.value = ShowMessageTextCommand(it.message)
             }
         }
     }

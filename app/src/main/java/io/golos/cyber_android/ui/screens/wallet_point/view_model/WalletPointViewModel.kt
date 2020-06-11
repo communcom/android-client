@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.wallet_point.view_model
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
@@ -10,9 +11,11 @@ import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
 import io.golos.cyber_android.ui.screens.wallet_point.model.WalletPointModel
 import io.golos.cyber_android.ui.screens.wallet_shared.history.view.WalletHistoryListItemEventsProcessor
 import io.golos.cyber_android.ui.screens.wallet_shared.send_points.list.view.WalletSendPointsListItemEventsProcessor
+import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageTextCommand
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityIdDomain
@@ -26,6 +29,7 @@ import javax.inject.Inject
 class WalletPointViewModel
 @Inject
 constructor(
+    private val appContext: Context,
     dispatchersProvider: DispatchersProvider,
     model: WalletPointModel
 ) : ViewModelBase<WalletPointModel>(dispatchersProvider, model),
@@ -143,8 +147,8 @@ constructor(
                 onHistoryNextPageReached()
             } catch (ex: Exception) {
                 Timber.e(ex)
+                _command.value = ShowMessageTextCommand(ex.getMessage(appContext))
 
-                _command.value = ShowMessageResCommand(R.string.common_general_error)
                 _command.value = NavigateBackwardCommand()
             } finally {
                 if(needReload) {

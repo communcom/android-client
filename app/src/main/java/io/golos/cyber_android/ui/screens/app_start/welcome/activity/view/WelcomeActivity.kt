@@ -71,6 +71,7 @@ class WelcomeActivity : ActivityBase(), SplashAnimatorTarget {
         viewModel.command.observe(this, Observer {
             when(it) {
                 is ShowMessageResCommand -> uiHelper.showMessage(it.textResId, it.isError)
+                is ShowMessageTextCommand -> uiHelper.showMessage(it.text, it.isError)
 
                 is ShowSplashAnimationCommand -> splashAnimator.startAnimation(this)
                 is HideSplashAnimationCommand -> splashAnimator.completeAnimation()

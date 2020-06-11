@@ -16,8 +16,8 @@ fun GolosEosError.mapToApiResponseErrorDomain(): ApiResponseErrorDomain {
     val messageToken = "assertion failure with message: "
 
     val extractedMessage = if(error != null && error!!.details.any { it.message!=null }) {
-        val firstMessage = error!!.details.firstOrNull { it.message != null && it.message!!.startsWith(messageToken) }!!.message
-        firstMessage?.replace(messageToken, "")?.capitalize() ?: message
+        val firstMessage = error!!.details.firstOrNull { it.message != null }
+        firstMessage?.message?.replace(messageToken, "")?.capitalize() ?: message
     } else {
         message
     }

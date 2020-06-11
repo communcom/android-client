@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.post_edit.fragment.di
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import dagger.Module
 import dagger.Provides
@@ -37,6 +38,7 @@ class EditorPageFragmentModule(private val contentId: ContentId?) {
     @IntoMap
     @ViewModelKey(EditorPageViewModel::class)
     internal fun provideEditorPageViewModel(
+        appContext: Context,
         embedsUseCase: EmbedsUseCase,
         posterUseCase: DiscussionPosterUseCase,
         imageUploadUseCase: UseCase<UploadedImagesModel>,
@@ -62,6 +64,7 @@ class EditorPageFragmentModule(private val contentId: ContentId?) {
         }
 
         return EditorPageViewModel(
+            appContext,
             dispatchersProvider,
             embedsUseCase,
             posterUseCase,

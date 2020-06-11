@@ -10,6 +10,7 @@ import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
 import io.golos.cyber_android.ui.screens.wallet_send_points.dto.*
 import io.golos.cyber_android.ui.screens.wallet_send_points.model.WalletSendPointsModel
 import io.golos.cyber_android.ui.screens.wallet_shared.dto.AmountValidationResult
+import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.utils.getFormattedString
@@ -115,7 +116,7 @@ constructor(
                     model.makeTransfer()
                     _command.value = ShowWalletTransferCompletedDialogCommand(model.getTransferCompletedInfo())
                 } catch(ex: Exception) {
-                    _command.value = ShowMessageResCommand(R.string.common_general_error)
+                    _command.value = ShowMessageTextCommand(ex.getMessage(appContext))
                 } finally {
                     _command.value = SetLoadingVisibilityCommand(false)
                 }

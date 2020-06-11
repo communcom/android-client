@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.profile_black_list.model.lists_workers.users
 
+import android.content.Context
 import io.golos.cyber_android.ui.screens.profile_black_list.dto.UserListItem
 import io.golos.cyber_android.ui.screens.profile_black_list.model.lists_workers.ListWorkerBaseImpl
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
@@ -15,11 +16,13 @@ import javax.inject.Named
 class ListWorkerUsersImpl
 @Inject
 constructor(
+    private val appContext: Context,
     @Named(Clarification.PAGE_SIZE)
     private val pageSize: Int,
     private val usersRepository: UsersRepository,
     private val currentUserRepository: CurrentUserRepository
 ) : ListWorkerBaseImpl<UserIdDomain, UserListItem>(
+    appContext,
     pageSize
 ), ListWorkerUsers {
     override fun isItemInPositiveState(item: UserListItem): Boolean = item.isInPositiveState

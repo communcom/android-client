@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.dashboard.view_model
 
+import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,11 +9,9 @@ import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.dashboard.dto.DeepLinkInfo
 import io.golos.cyber_android.ui.screens.dashboard.dto.OpenNotificationInfo
 import io.golos.cyber_android.ui.screens.dashboard.model.DashboardModel
+import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToCommunityPageCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToPostCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToUserProfileCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToWalletCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.utils.IntentConstants
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.cyber_android.ui.shared.widgets.NavigationBottomMenuWidget
@@ -30,6 +29,7 @@ import javax.inject.Inject
 class DashboardViewModel
 @Inject
 constructor(
+    private val appContext: Context,
     dispatchersProvider: DispatchersProvider,
     dashboardModel: DashboardModel,
     private val currentUserRepository: CurrentUserRepositoryRead
@@ -125,21 +125,26 @@ constructor(
 
     private fun processNotification(intent: Intent) {
         launch {
-            model.parseOpenNotification(intent)
-                ?.let {
-                    _command.value = when(it) {
-                        is OpenNotificationInfo.OpenProfile -> {
-                            NavigateToUserProfileCommand(it.userId)
-                        }
-                        is OpenNotificationInfo.OpenPost -> {
-                            val discussionId = DiscussionIdModel(it.contentId.userId, Permlink(it.contentId.permlink))
-                            NavigateToPostCommand(discussionId, it.contentId)
-                        }
-                        is OpenNotificationInfo.OpenWallet -> {
-                            NavigateToWalletCommand(it.balance)
+            try {
+                model.parseOpenNotification(intent)
+                    ?.let {
+                        _command.value = when(it) {
+                            is OpenNotificationInfo.OpenProfile -> {
+                                NavigateToUserProfileCommand(it.userId)
+                            }
+                            is OpenNotificationInfo.OpenPost -> {
+                                val discussionId = DiscussionIdModel(it.contentId.userId, Permlink(it.contentId.permlink))
+                                NavigateToPostCommand(discussionId, it.contentId)
+                            }
+                            is OpenNotificationInfo.OpenWallet -> {
+                                NavigateToWalletCommand(it.balance)
+                            }
                         }
                     }
-                }
+            } catch (ex: Exception) {
+                Timber.e(ex)
+                _command.value = ShowMessageTextCommand(ex.getMessage(appContext))
+            }
         }
     }
 

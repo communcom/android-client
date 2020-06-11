@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.profile.view_model
 
+import android.content.Context
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,6 +12,7 @@ import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.mappers.mapToCommunity
 import io.golos.cyber_android.ui.screens.profile.dto.*
 import io.golos.cyber_android.ui.screens.profile.model.ProfileModel
+import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
@@ -24,6 +26,7 @@ import javax.inject.Inject
 class ProfileViewModel
 @Inject
 constructor(
+    private val appContext: Context,
     dispatchersProvider: DispatchersProvider,
     model: ProfileModel
 ) : ViewModelBase<ProfileModel>(dispatchersProvider, model) {
@@ -158,7 +161,7 @@ constructor(
                 model.sendBio(text)
             } catch (ex: Exception) {
                 Timber.e(ex)
-                _command.value = ShowMessageResCommand(R.string.common_general_error)
+                _command.value = ShowMessageTextCommand(ex.getMessage(appContext))
 
                 _bio.value = oldValue
             } finally {
@@ -229,7 +232,7 @@ constructor(
             try {
                 model.moveToBlackList()
             } catch (ex: Exception) {
-                _command.value = ShowMessageResCommand(R.string.common_general_error)
+                _command.value = ShowMessageTextCommand(ex.getMessage(appContext))
             }
         }
     }
@@ -261,9 +264,8 @@ constructor(
                 _followButtonState.value = !model.isSubscribed
 
                 model.subscribeUnsubscribe()
-            } catch(ex: java.lang.Exception) {
-                _command.value = ShowMessageResCommand(R.string.common_general_error)
-
+            } catch(ex: Exception) {
+                _command.value = ShowMessageTextCommand(ex.getMessage(appContext))
                 _followButtonState.value = model.isSubscribed
             }
         }
@@ -322,6 +324,7 @@ constructor(
         } catch (ex: Exception) {
             Timber.e(ex)
             _retryButtonVisibility.value = View.VISIBLE
+            _command.value = ShowMessageTextCommand(ex.getMessage(appContext))
         } finally {
             _loadingProgressVisibility.value = View.INVISIBLE
         }
@@ -335,7 +338,7 @@ constructor(
             model.sendAvatar(avatarFile)
         } catch (ex: Exception) {
             Timber.e(ex)
-            _command.value = ShowMessageResCommand(R.string.common_general_error)
+            _command.value = ShowMessageTextCommand(ex.getMessage(appContext))
             _avatarUrl.value = oldValue
         }
     }
@@ -348,7 +351,7 @@ constructor(
             model.sendCover(coverFile)
         } catch (ex: Exception) {
             Timber.e(ex)
-            _command.value = ShowMessageResCommand(R.string.common_general_error)
+            _command.value = ShowMessageTextCommand(ex.getMessage(appContext))
             _coverUrl.value = oldValue
         }
     }
@@ -360,7 +363,7 @@ constructor(
             model.clearAvatar()
         } catch (ex: Exception) {
             Timber.e(ex)
-            _command.value = ShowMessageResCommand(R.string.common_general_error)
+            _command.value = ShowMessageTextCommand(ex.getMessage(appContext))
             _avatarUrl.value = oldValue
         }
     }
@@ -372,7 +375,7 @@ constructor(
             model.clearCover()
         } catch (ex: Exception) {
             Timber.e(ex)
-            _command.value = ShowMessageResCommand(R.string.common_general_error)
+            _command.value = ShowMessageTextCommand(ex.getMessage(appContext))
             _coverUrl.value = oldValue
         }
     }
@@ -389,7 +392,7 @@ constructor(
                 model.clearBio()
             } catch (ex: Exception) {
                 Timber.e(ex)
-                _command.value = ShowMessageResCommand(R.string.common_general_error)
+                _command.value = ShowMessageTextCommand(ex.getMessage(appContext))
 
                 _bio.value = oldValue
             } finally {

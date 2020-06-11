@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.profile_posts.view_model
 
+import android.content.Context
 import android.net.Uri
 import android.view.View
 import androidx.lifecycle.LiveData
@@ -18,6 +19,7 @@ import io.golos.cyber_android.ui.screens.profile_posts.view_commands.EditPostCom
 import io.golos.cyber_android.ui.screens.profile_posts.view_commands.NavigationToPostMenuViewCommand
 import io.golos.cyber_android.ui.screens.profile_posts.view_commands.ReportPostCommand
 import io.golos.cyber_android.ui.screens.profile_posts.view_commands.SharePostCommand
+import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.paginator.Paginator
@@ -39,6 +41,7 @@ import javax.inject.Inject
 class ProfilePostsViewModel
 @Inject
 constructor(
+    private val appContext: Context,
     dispatchersProvider: DispatchersProvider,
     model: MyFeedModel,
     private val profileUserId: UserIdDomain,
@@ -102,6 +105,7 @@ constructor(
                 model.upVote(contentId.communityId, contentId.userId, contentId.permlink)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
+                _command.value = ShowMessageTextCommand(e.getMessage(appContext))
             }
         }
     }
@@ -113,6 +117,7 @@ constructor(
                 model.downVote(contentId.communityId, contentId.userId, contentId.permlink)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
+                _command.value = ShowMessageTextCommand(e.getMessage(appContext))
             }
         }
     }
@@ -216,9 +221,9 @@ constructor(
                 _command.value = SetLoadingVisibilityCommand(true)
                 model.deletePost(permlink, communityId)
                 _postsListState.value = deletePostInState(_postsListState.value, permlink)
-            } catch (e: java.lang.Exception) {
+            } catch (e: Exception) {
                 Timber.e(e)
-                _command.value = ShowMessageResCommand(R.string.unknown_error)
+                _command.value = ShowMessageTextCommand(e.getMessage(appContext))
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }
@@ -235,8 +240,9 @@ constructor(
                 _command.value = SetLoadingVisibilityCommand(true)
                 model.subscribeToCommunity(communityId)
                 _postsListState.value = changeCommunitySubscriptionStatusInState(_postsListState.value, communityId, true)
-            } catch (e: java.lang.Exception) {
+            } catch (e: Exception) {
                 Timber.e(e)
+                _command.value = ShowMessageTextCommand(e.getMessage(appContext))
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }
@@ -249,8 +255,9 @@ constructor(
                 _command.value = SetLoadingVisibilityCommand(true)
                 model.unsubscribeToCommunity(communityId)
                 _postsListState.value = changeCommunitySubscriptionStatusInState(_postsListState.value, communityId, false)
-            } catch (e: java.lang.Exception) {
+            } catch (e: Exception) {
                 Timber.e(e)
+                _command.value = ShowMessageResCommand(R.string.common_general_error)
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }

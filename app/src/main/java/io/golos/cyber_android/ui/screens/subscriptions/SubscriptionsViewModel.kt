@@ -1,14 +1,13 @@
 package io.golos.cyber_android.ui.screens.subscriptions
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToSearchCommunitiesCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.screens.subscriptions.mappers.CommunityDomainListToCommunityListMapper
+import io.golos.cyber_android.ui.shared.extensions.getMessage
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import io.golos.utils.helpers.EMPTY
@@ -18,6 +17,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class SubscriptionsViewModel @Inject constructor(
+    private val appContext: Context,
     dispatchersProvider: DispatchersProvider,
     model: SubscriptionsModel,
     private val paginatorSubscriptions: Paginator.Store<Community>,
@@ -207,7 +207,7 @@ class SubscriptionsViewModel @Inject constructor(
                 _command.value = SetLoadingVisibilityCommand(false)
             } catch (e: Exception) {
                 Timber.e(e)
-                _command.value = ShowMessageResCommand(R.string.loading_error)
+                _command.value = ShowMessageTextCommand(e.getMessage(appContext))
                 _command.value = SetLoadingVisibilityCommand(false)
             }
         }

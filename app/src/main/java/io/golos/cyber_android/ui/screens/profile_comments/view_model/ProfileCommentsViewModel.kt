@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.profile_comments.view_model
 
+import android.content.Context
 import android.net.Uri
 import android.view.View
 import androidx.lifecycle.LiveData
@@ -13,6 +14,7 @@ import io.golos.cyber_android.ui.mappers.mapToContentIdDomain
 import io.golos.cyber_android.ui.screens.profile_comments.model.ProfileCommentsModel
 import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentListItem
 import io.golos.cyber_android.ui.screens.profile_comments.view.view_commands.NavigateToEditComment
+import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.paginator.Paginator
@@ -38,6 +40,7 @@ import java.io.File
 import javax.inject.Inject
 
 class ProfileCommentsViewModel @Inject constructor(
+    private val appContext: Context,
     dispatchersProvider: DispatchersProvider,
     model: ProfileCommentsModel,
     private val profileUserId: UserIdDomain,
@@ -148,7 +151,7 @@ class ProfileCommentsViewModel @Inject constructor(
                 _command.value = SetLoadingVisibilityCommand(false)
             } catch (e: Exception) {
                 Timber.e(e)
-                _command.value = ShowMessageResCommand(R.string.unknown_error)
+                _command.value = ShowMessageTextCommand(e.getMessage(appContext))
                 _command.value = SetLoadingVisibilityCommand(false)
             }
         }
@@ -169,6 +172,7 @@ class ProfileCommentsViewModel @Inject constructor(
                 _commentListState.value = deletePostInState(_commentListState.value, permlink)
             } catch (e: Exception) {
                 Timber.e(e)
+                _command.value = ShowMessageTextCommand(e.getMessage(appContext))
             } finally {
                 _command.value = SetLoadingVisibilityCommand(false)
             }
@@ -194,7 +198,7 @@ class ProfileCommentsViewModel @Inject constructor(
                 model.commentUpVote(commentId.mapToContentIdDomain())
             } catch (e: Exception) {
                 Timber.e(e)
-                _command.value = ShowMessageResCommand(R.string.unknown_error)
+                _command.value = ShowMessageTextCommand(e.getMessage(appContext))
             }
         }
     }
@@ -206,7 +210,7 @@ class ProfileCommentsViewModel @Inject constructor(
                 model.commentDownVote(commentId.mapToContentIdDomain())
             } catch (e: Exception) {
                 Timber.e(e)
-                _command.value = ShowMessageResCommand(R.string.unknown_error)
+                _command.value = ShowMessageTextCommand(e.getMessage(appContext))
             }
         }
     }
