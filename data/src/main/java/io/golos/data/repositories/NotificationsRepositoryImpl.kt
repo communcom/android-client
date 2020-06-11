@@ -157,7 +157,7 @@ constructor(
     }
 
     override suspend fun resetFcmToken() {
-        callProxy.call { commun4j.resetFcmToken() }
+        callProxy.call { commun4j.logout() }
     }
 
     override suspend fun setTimeZoneOffset() {

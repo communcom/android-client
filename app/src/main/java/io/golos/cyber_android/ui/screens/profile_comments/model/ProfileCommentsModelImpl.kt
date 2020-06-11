@@ -6,12 +6,14 @@ import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.DiscussionRepository
+import io.golos.domain.repositories.UsersRepository
 import java.io.File
 import javax.inject.Inject
 
 class ProfileCommentsModelImpl @Inject constructor(
     private val discussionRepository: DiscussionRepository,
-    private val profileUserId: UserIdDomain
+    private val profileUserId: UserIdDomain,
+    private val usersRepository: UsersRepository
 ) : ProfileCommentsModel, ModelBaseImpl() {
 
     override suspend fun uploadAttachmentContent(file: File): String = discussionRepository.uploadContentAttachment(file)
@@ -40,4 +42,6 @@ class ProfileCommentsModelImpl @Inject constructor(
     override suspend fun updateComment(comment: CommentDomain) {
         discussionRepository.updateComment(comment)
     }
+
+    override suspend fun getUserId(userNameOrId: String): UserIdDomain = usersRepository.getUserId(userNameOrId)
 }

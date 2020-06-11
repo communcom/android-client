@@ -56,10 +56,14 @@ class ProfileCommentsViewModel @Inject constructor(
     override fun onItemClicked(contentId: ContentId) {}
 
     override fun onUserClicked(userId: String) {
-        _command.value = if(userId != profileUserId.userId) {
-            NavigateToUserProfileCommand(UserIdDomain(userId))
-        } else {
-            ScrollProfileToTopCommand()
+        launch {
+            val userIdResolved = model.getUserId(userId)
+
+            _command.value = if(userIdResolved != profileUserId) {
+                NavigateToUserProfileCommand(userIdResolved)
+            } else {
+                ScrollProfileToTopCommand()
+            }
         }
     }
 

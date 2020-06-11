@@ -27,8 +27,6 @@ import io.golos.data.api.user.UsersApi
 import io.golos.data.api.user.UsersApiImpl
 import io.golos.data.api.user_metadata.UserMetadataApi
 import io.golos.data.api.user_metadata.UserMetadataApiImpl
-import io.golos.data.api.vote.VoteApi
-import io.golos.data.api.vote.VoteApiImpl
 import io.golos.data.encryption.aes.EncryptorAES
 import io.golos.data.encryption.aes.EncryptorFingerprint
 import io.golos.data.encryption.rsa.EncryptorRSA
@@ -162,9 +160,6 @@ abstract class AppModuleBinds {
 
     @Binds
     abstract fun provideTransactionsApi(api: TransactionsApiImpl): TransactionsApi
-
-    @Binds
-    abstract fun provideVoteApi(api: VoteApiImpl): VoteApi
 
     @Binds
     abstract fun provideUserMetadataApi(api: UserMetadataApiImpl): UserMetadataApi

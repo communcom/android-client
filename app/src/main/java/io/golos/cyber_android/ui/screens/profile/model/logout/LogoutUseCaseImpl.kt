@@ -19,6 +19,8 @@ constructor(
 ) : LogoutUseCase {
     override suspend fun logout() {
         withContext(dispatchersProvider.ioDispatcher) {
+            notificationsRepository.resetFcmToken()
+
             userKeyStore.clearAllKeys()
 
             keyValueStorage.removeAuthState()
@@ -26,7 +28,6 @@ constructor(
             keyValueStorage.removeAppUnlockWay()
             usersRepository.clearCurrentUserData()
 
-            notificationsRepository.resetFcmToken()
             keyValueStorage.getFcmToken()
                 ?.let {
                     keyValueStorage.saveFcmToken(it.copy(sent = false))

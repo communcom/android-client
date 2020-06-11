@@ -40,7 +40,17 @@ constructor(
                 facebook = "",
                 telegram = "",
                 whatsapp = "",
-                wechat = "")
+                wechat = "",
+                first_name = null,
+                last_name = null,
+                country = null,
+                city = null,
+                birth_date = null,
+                instagram = null,
+                linkedin = null,
+                twitter = null,
+                github = null,
+                website_url = null)
         )
 
         return TransactionCommitted(

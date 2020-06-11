@@ -236,7 +236,17 @@ class UsersRepositoryImpl
                         bandWidthRequest = it.bandWidthRequest,
                         clientAuthRequest = it.clientAuthRequest,
                         user = it.user,
-                        key = it.key
+                        key = it.key,
+                        first_name = null,
+                        last_name = null,
+                        country = null,
+                        city = null,
+                        birth_date = null,
+                        instagram = null,
+                        linkedin = null,
+                        twitter = null,
+                        github = null,
+                        website_url = null
                     )
                 }
             }
