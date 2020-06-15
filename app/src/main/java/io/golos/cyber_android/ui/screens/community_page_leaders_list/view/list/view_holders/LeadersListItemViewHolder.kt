@@ -36,8 +36,10 @@ class LeadersListItemViewHolder(
 
         with(itemView) {
             ivLogo.loadLeader(listItem.avatarUrl, listItem.ratingPercent.toFloat())
+            ivLogo.setOnClickListener { listItemEventsProcessor.onUserClick(listItem.userId) }
 
             leaderName.text = listItem.username
+            leaderName.setOnClickListener { listItemEventsProcessor.onUserClick(listItem.userId) }
 
             leaderPoints.text = getPointsText(context, listItem)
 
@@ -50,6 +52,8 @@ class LeadersListItemViewHolder(
     }
 
     override fun release() {
+        itemView.ivLogo.setOnClickListener(null)
+        itemView.leaderName.setOnClickListener(null)
         itemView.voteButton.setOnClickListener(null)
         itemView.votedButton.setOnClickListener(null)
     }

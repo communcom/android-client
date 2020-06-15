@@ -9,9 +9,11 @@ import io.golos.cyber_android.ui.screens.community_page_leaders_list.dto.VoteRes
 import io.golos.cyber_android.ui.screens.community_page_leaders_list.dto.VoteResultType
 import io.golos.cyber_android.ui.screens.community_page_leaders_list.model.LeadsListModel
 import io.golos.cyber_android.ui.screens.community_page_leaders_list.view.list.LeadsListItemEventsProcessor
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToUserProfileCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageTextCommand
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.repositories.CurrentUserRepositoryRead
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,7 +21,8 @@ class LeadsListViewModel
 @Inject
 constructor(
     dispatchersProvider: DispatchersProvider,
-    model: LeadsListModel
+    model: LeadsListModel,
+    private val currentUserRepository: CurrentUserRepositoryRead
 ) : ViewModelBase<LeadsListModel>(dispatchersProvider, model),
     LeadsListItemEventsProcessor {
 
@@ -47,6 +50,12 @@ constructor(
     override fun unvote(leader: UserIdDomain) {
         launch {
             processVoteResult(model.unvote(leader))
+        }
+    }
+
+    override fun onUserClick(leader: UserIdDomain) {
+        if(leader != currentUserRepository.userId) {
+            _command.value = NavigateToUserProfileCommand(leader)
         }
     }
 

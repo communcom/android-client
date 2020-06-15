@@ -8,4 +8,6 @@ interface LeadsListItemEventsProcessor {
     fun vote(leader: UserIdDomain)
 
     fun unvote(leader: UserIdDomain)
+
+    fun onUserClick(leader: UserIdDomain)
 }
