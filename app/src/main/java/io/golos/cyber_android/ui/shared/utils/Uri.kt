@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Point
 import android.net.Uri
 import java.io.File
+import java.util.*
 
 
 private const val PROXY_PATH = "proxy/"
@@ -20,6 +21,10 @@ fun Uri.localSize(): Point {
 }
 
 fun Uri.prefetchScreenSize(context: Context): Uri{
+    if(this.toString().toLowerCase(Locale.getDefault()).endsWith(".gif")) {
+        return this
+    }
+
     val screenSize = context.getScreenSize()
     val width = screenSize.x
     val urlString = this.toString()
