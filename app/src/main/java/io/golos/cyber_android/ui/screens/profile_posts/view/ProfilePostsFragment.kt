@@ -231,6 +231,7 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
                     btnRetry.visibility = View.INVISIBLE
                 }
                 is Paginator.State.EmptyProgress -> {
+                    myFeedAdapter.updateMyFeedPosts(listOf())
                     emptyPostProgressLoading.visibility = View.VISIBLE
                     btnRetry.visibility = View.INVISIBLE
                 }

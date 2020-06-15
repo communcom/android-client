@@ -19,6 +19,7 @@ import io.golos.cyber_android.ui.screens.profile_posts.view_commands.EditPostCom
 import io.golos.cyber_android.ui.screens.profile_posts.view_commands.NavigationToPostMenuViewCommand
 import io.golos.cyber_android.ui.screens.profile_posts.view_commands.ReportPostCommand
 import io.golos.cyber_android.ui.screens.profile_posts.view_commands.SharePostCommand
+import io.golos.cyber_android.ui.shared.broadcast_actions_registries.PostCreateEditRegistry
 import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
@@ -33,6 +34,7 @@ import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.use_cases.reward.isTopReward
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 import timber.log.Timber
@@ -46,7 +48,9 @@ constructor(
     model: MyFeedModel,
     private val profileUserId: UserIdDomain,
     private val paginator: Paginator.Store<Post>,
-    private val startFeedType: PostsConfigurationDomain.TypeFeedDomain
+    private val startFeedType: PostsConfigurationDomain.TypeFeedDomain,
+    private val postCreateEditRegistry: PostCreateEditRegistry,
+    private val currentUserRepository: CurrentUserRepositoryRead
 ) : ViewModelBase<MyFeedModel>(dispatchersProvider, model), MyFeedListListener {
 
     private val _postsListState: MutableLiveData<Paginator.State> = MutableLiveData(Paginator.State.Empty)
@@ -74,7 +78,6 @@ constructor(
     private var loadPostsJob: Job? = null
 
     init {
-
         paginator.sideEffectListener = {
             when (it) {
                 is Paginator.SideEffect.LoadPage -> loadMorePosts(it.pageCount)
@@ -92,6 +95,8 @@ constructor(
                 View.GONE
             }
         }
+
+        applyPostCreateChangeListener()
     }
 
     override fun onShareClicked(shareUrl: String) {
@@ -268,6 +273,21 @@ constructor(
         val post = getPostFromPostsListState(permlink)
         post?.let {
             _command.value = ReportPostCommand(post)
+        }
+    }
+
+    private fun applyPostCreateChangeListener() {
+        launch {
+            postCreateEditRegistry.createdPosts.collect {
+                if(currentUserRepository.userId == profileUserId) {
+                    it?.let {
+                        Timber.tag("CREATE_POST_FLOW_PR").d("Id: $it")
+
+                        paginator.initState(Paginator.State.Empty)
+                        restartLoadPosts()
+                    }
+                }
+            }
         }
     }
 

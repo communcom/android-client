@@ -48,7 +48,6 @@ constructor(
     val newNotificationsCounter = _newNotificationsCounter.toLiveData()
 
     private val _createTabLiveData = MutableLiveData<Any>()
-
     val createTabLiveData = _createTabLiveData
 
     val currentUser: UserIdDomain

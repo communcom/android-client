@@ -12,6 +12,8 @@ import io.golos.cyber_android.services.firebase.notifications.popup_manager.Fire
 import io.golos.cyber_android.services.firebase.notifications.popup_manager.FirebaseNotificationPopupManagerImpl
 import io.golos.cyber_android.ui.shared.clipboard.ClipboardUtils
 import io.golos.cyber_android.ui.shared.clipboard.ClipboardUtilsImpl
+import io.golos.cyber_android.ui.shared.broadcast_actions_registries.PostCreateEditRegistry
+import io.golos.cyber_android.ui.shared.broadcast_actions_registries.PostCreateEditRegistryImpl
 import io.golos.cyber_android.ui.shared.utils.FromSpannedToHtmlTransformerImpl
 import io.golos.cyber_android.ui.shared.utils.HtmlToSpannableTransformerImpl
 import io.golos.cyber_android.ui.shared.utils.ImageCompressorImpl
@@ -303,4 +305,8 @@ abstract class AppModuleBinds {
     @Binds
     @ApplicationScope
     abstract fun provideFirebaseNotificationPopupManager(manager: FirebaseNotificationPopupManagerImpl): FirebaseNotificationPopupManager
+
+    @Binds
+    @ApplicationScope
+    abstract fun providePostCreateEditDataPass(dataPass: PostCreateEditRegistryImpl): PostCreateEditRegistry
 }

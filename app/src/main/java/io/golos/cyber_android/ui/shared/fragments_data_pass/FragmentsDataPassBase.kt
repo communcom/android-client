@@ -7,7 +7,7 @@ abstract class FragmentsDataPassBase {
     private val dataStorage: MutableMap<Int, Any> by lazy { mutableMapOf<Int, Any>() }
 
     protected fun put(key: Int, value: Any) {
-        dataStorage.put(key, value)
+        dataStorage[key] = value
     }
 
     /**

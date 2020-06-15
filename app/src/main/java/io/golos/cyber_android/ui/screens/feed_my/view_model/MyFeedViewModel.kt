@@ -17,6 +17,7 @@ import io.golos.cyber_android.ui.screens.feed_my.view.view_commands.*
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
+import io.golos.cyber_android.ui.shared.broadcast_actions_registries.PostCreateEditRegistry
 import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
@@ -25,7 +26,10 @@ import io.golos.cyber_android.ui.shared.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
-import io.golos.domain.dto.*
+import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.PostsConfigurationDomain
+import io.golos.domain.dto.RewardPostDomain
+import io.golos.domain.dto.TypeObjectDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.use_cases.reward.isTopReward
@@ -43,7 +47,8 @@ class MyFeedViewModel @Inject constructor(
     dispatchersProvider: DispatchersProvider,
     model: MyFeedModel,
     private val paginator: Paginator.Store<Post>,
-    private val currentUserRepository: CurrentUserRepositoryRead
+    private val currentUserRepository: CurrentUserRepositoryRead,
+    private val postCreateEditRegistry: PostCreateEditRegistry
 ) : ViewModelBase<MyFeedModel>(dispatchersProvider, model),
     MyFeedListListener {
 
@@ -82,7 +87,9 @@ class MyFeedViewModel @Inject constructor(
         paginator.render = { newState, _ ->
             _postsListState.value = newState
         }
+
         applyAvatarChangeListener()
+        applyPostCreateChangeListener()
     }
 
     override fun onShareClicked(shareUrl: String) {
@@ -293,6 +300,19 @@ class MyFeedViewModel @Inject constructor(
                 }
             } catch (e: Exception){
                 Timber.e(e)
+            }
+        }
+    }
+
+    private fun applyPostCreateChangeListener() {
+        launch {
+            postCreateEditRegistry.createdPosts.collect {
+                it?.let {
+                    Timber.tag("CREATE_POST_FLOW_MF").d("Id: $it")
+
+                    paginator.initState(Paginator.State.Empty)
+                    restartLoadPosts()
+                }
             }
         }
     }
