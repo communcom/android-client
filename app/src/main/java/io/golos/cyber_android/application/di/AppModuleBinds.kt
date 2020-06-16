@@ -46,7 +46,6 @@ import io.golos.data.persistence.user_keys_store.UserKeyStoreImpl
 import io.golos.data.repositories.*
 import io.golos.data.repositories.current_user.CurrentUserRepositoryImpl
 import io.golos.data.repositories.discussion.DiscussionRepositoryImpl
-import io.golos.data.repositories.discussion.live_data.DiscussionCreationRepositoryLiveData
 import io.golos.data.repositories.embed.EmbedRepository
 import io.golos.data.repositories.embed.EmbedRepositoryImpl
 import io.golos.data.repositories.images_uploading.ImageUploadRepository
@@ -218,15 +217,7 @@ abstract class AppModuleBinds {
     // region Repositories
     @Binds
     @ApplicationScope
-    abstract fun providePostFeedRepository(repository: PostsFeedRepository): DiscussionsFeedRepository<PostEntity, PostFeedUpdateRequest>
-
-    @Binds
-    @ApplicationScope
     abstract fun provideCommentsRepository(repository: CommentsFeedRepository): DiscussionsFeedRepository<CommentEntity, CommentFeedUpdateRequest>
-
-    @Binds
-    @ApplicationScope
-    abstract fun provideDiscussionCreationRepositoryLiveData(repository: DiscussionCreationRepositoryLiveData): Repository<DiscussionCreationResultEntity, DiscussionCreationRequestEntity>
 
     @Binds
     @ApplicationScope

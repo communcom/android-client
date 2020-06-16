@@ -7,10 +7,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.User
-import io.golos.cyber_android.ui.mappers.mapToPostsList
-import io.golos.cyber_android.ui.mappers.mapToTimeFrameDomain
-import io.golos.cyber_android.ui.mappers.mapToTypeFeedDomain
-import io.golos.cyber_android.ui.mappers.mapToUser
+import io.golos.cyber_android.ui.mappers.*
 import io.golos.cyber_android.ui.screens.feed_my.dto.SwitchToProfileTab
 import io.golos.cyber_android.ui.screens.feed_my.model.MyFeedModel
 import io.golos.cyber_android.ui.screens.feed_my.view.view_commands.*
@@ -89,7 +86,8 @@ class MyFeedViewModel @Inject constructor(
         }
 
         applyAvatarChangeListener()
-        applyPostCreateChangeListener()
+        applyPostCreatedChangeListener()
+        applyPostUpdatedChangeListener()
     }
 
     override fun onShareClicked(shareUrl: String) {
@@ -304,14 +302,22 @@ class MyFeedViewModel @Inject constructor(
         }
     }
 
-    private fun applyPostCreateChangeListener() {
+    private fun applyPostCreatedChangeListener() {
         launch {
             postCreateEditRegistry.createdPosts.collect {
                 it?.let {
-                    Timber.tag("CREATE_POST_FLOW_MF").d("Id: $it")
-
                     paginator.initState(Paginator.State.Empty)
                     restartLoadPosts()
+                }
+            }
+        }
+    }
+
+    private fun applyPostUpdatedChangeListener() {
+        launch {
+            postCreateEditRegistry.updatedPosts.collect {
+                it?.let {
+                    paginator.proceed(Paginator.Action.UpdateItem(it.mapToPost()))
                 }
             }
         }

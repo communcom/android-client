@@ -1,6 +1,5 @@
 package io.golos.data.repositories.discussion
 
-import com.squareup.moshi.Moshi
 import io.golos.commun4j.Commun4j
 import io.golos.commun4j.abi.implementation.c.gallery.MssgidCGalleryStruct
 import io.golos.commun4j.model.BandWidthRequest
@@ -11,7 +10,6 @@ import io.golos.commun4j.services.model.CommentsSortBy
 import io.golos.commun4j.services.model.UserAndPermlinkPair
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.sharedmodel.CyberSymbolCode
-import io.golos.data.api.transactions.TransactionsApi
 import io.golos.data.mappers.*
 import io.golos.data.repositories.network_call.NetworkCallProxy
 import io.golos.data.toCyberName
@@ -19,18 +17,12 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.UserKeyStore
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.*
-import io.golos.domain.dto.block.ListContentBlockEntity
-import io.golos.domain.mappers.CyberPostToEntityMapper
-import io.golos.domain.mappers.PostEntitiesToModelMapper
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.JsonToDtoMapper
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.mappers.MappersFactory
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.mappers.PostMapper
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.DiscussionRepository
-import io.golos.domain.requestmodel.DeleteDiscussionRequestEntity
-import io.golos.domain.requestmodel.DiscussionCreationRequestEntity
 import io.golos.domain.use_cases.model.PostModel
-import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ContentBlock
 import io.golos.utils.format.DatesServerFormatter
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
@@ -44,21 +36,13 @@ class DiscussionRepositoryImpl
 constructor(
     private val callProxy: NetworkCallProxy,
     private val dispatchersProvider: DispatchersProvider,
-//    private val discussionsApi: DiscussionsApi,
-    private val postToEntityMapper: CyberPostToEntityMapper,
-    private val postToModelMapper: PostEntitiesToModelMapper,
     private val currentUserRepository: CurrentUserRepositoryRead,
-    transactionsApi: TransactionsApi,
     private val commun4j: Commun4j,
-    private val userKeyStore: UserKeyStore,
-    private val moshi: Moshi
-) : DiscussionCreationRepositoryBase(
-//    discussionsApi,
-    transactionsApi
-), DiscussionRepository {
+    private val userKeyStore: UserKeyStore
+) : DiscussionRepository {
 
-    override suspend fun updatePost(contentIdDomain: ContentIdDomain, body: String, tags: List<String>): ContentIdDomain {
-        val postDomain = getPost(contentIdDomain.userId.toCyberName(), contentIdDomain.communityId, contentIdDomain.permlink)
+    override suspend fun updatePost(contentIdDomain: ContentIdDomain, body: String, tags: List<String>): PostDomain {
+        val oldPost = getPost(contentIdDomain.userId.toCyberName(), contentIdDomain.communityId, contentIdDomain.permlink)
 
         val updatePostResult = callProxy.callBC {
             commun4j.updatePostOrComment(
@@ -67,7 +51,7 @@ constructor(
                 header = "",
                 body = body,
                 tags = tags,
-                metadata = DatesServerFormatter.formatToServer(postDomain.meta.creationTime),
+                metadata = DatesServerFormatter.formatToServer(oldPost.meta.creationTime),
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
                 clientAuthRequest = ClientAuthRequest.empty,
                 author = currentUserRepository.userId.userId.toCyberName(),
@@ -79,7 +63,7 @@ constructor(
             commun4j.waitForTransaction(updatePostResult.transaction_id)
         }
 
-        return contentIdDomain
+        return getPost(contentIdDomain.userId.toCyberName(), contentIdDomain.communityId, contentIdDomain.permlink)
     }
 
     override suspend fun createPost(communityId: CommunityIdDomain, body: String, tags: List<String>): ContentIdDomain {
@@ -323,9 +307,6 @@ constructor(
 
     private val jsonToDtoMapper: JsonToDtoMapper by lazy { JsonToDtoMapper() }
 
-    override fun createOrUpdate(params: DiscussionCreationRequestEntity): DiscussionCreationResultEntity =
-        createOrUpdateDiscussion(params)
-
     override suspend fun getPost(user: CyberName, communityId: CommunityIdDomain, permlink: String): PostDomain {
         val post = callProxy.call { commun4j.getPostRaw(user, communityId.code, permlink) }
 
@@ -345,12 +326,6 @@ constructor(
 //        return discussionsApi.getPost(user, permlink)
 //            .let { rawPost -> postToEntityMapper.map(rawPost) }
 //            .let { postEntity -> postToModelMapper.map(postEntity) }
-    }
-
-    @Deprecated("")
-    override fun deletePost(postId: ContentIdDomain) {
-        val request = DeleteDiscussionRequestEntity(Permlink(postId.permlink))
-        createOrUpdate(request)
     }
 
     override suspend fun sendComment(postIdDomain: ContentIdDomain, jsonBody: String): CommentDomain {

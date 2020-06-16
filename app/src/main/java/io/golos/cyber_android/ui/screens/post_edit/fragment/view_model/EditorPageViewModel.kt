@@ -58,7 +58,6 @@ constructor(
     private val appContext: Context,
     dispatchersProvider: DispatchersProvider,
     private val embedsUseCase: UseCase<ProccesedLinksModel>,
-    private val posterUseCase: UseCase<QueryResult<DiscussionCreationResultModel>>,
     private val imageUploadUseCase: UseCase<UploadedImagesModel>,
     private val postUseCase: PostWithCommentUseCaseImpl?,
     private val contentId: ContentId?,
@@ -119,7 +118,6 @@ constructor(
 
     init {
         embedsUseCase.subscribe()
-        posterUseCase.subscribe()
 
         imageUploadUseCase.subscribe()
 
@@ -221,7 +219,6 @@ constructor(
     override fun onCleared() {
         super.onCleared()
         embedsUseCase.unsubscribe()
-        posterUseCase.unsubscribe()
         postUseCase?.unsubscribe()
         imageUploadUseCase.unsubscribe()
         getFileUploadingStateLiveData.removeObserver(imageUploadObserver)

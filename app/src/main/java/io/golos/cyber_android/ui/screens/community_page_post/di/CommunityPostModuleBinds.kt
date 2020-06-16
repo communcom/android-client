@@ -36,9 +36,6 @@ interface CommunityPostModuleBinds {
     fun bindModel(model: CommunityPostModelImpl): CommunityPostModel
 
     @Binds
-    fun bindPaginatorSubscriptions(impl: Paginator.Store<VersionedListItem>): Paginator.Store<VersionedListItem>
-
-    @Binds
     fun bindGetPostsUseCase(getPostsUseCaseImpl: GetPostsUseCaseImpl): GetPostsUseCase
 
     @Binds

@@ -3,13 +3,13 @@ package io.golos.cyber_android.ui.shared.paginator
 import timber.log.Timber
 import javax.inject.Inject
 
-object Paginator {
-
+open class Paginator<T> {
     sealed class State {
         object Empty : State()
         object EmptyProgress : State()
         data class EmptyError(val error: Throwable) : State()
         data class Data<T>(val pageCount: Int, val data: List<T>, val pageKey: String? = null) : State()
+        data class ItemUpdated<T>(val data: List<T>) : State()
         data class Refresh<T>(val pageCount: Int, val data: List<T>, val pageKey: String? = null) : State()
         data class NewPageProgress<T>(val pageCount: Int, val data: List<T>, val pageKey: String? = null) : State()
         data class SearchProgress<T>(val pageCount: Int, val data: List<T>, val pageKey: String? = null) : State()
@@ -23,6 +23,7 @@ object Paginator {
         object Restart : Action()
         object LoadMore : Action()
         data class NewPage<T>(val pageCount: Int, val items: List<T>, val pageKey: String? = null) : Action()
+        data class UpdateItem<T>(val item: T) : Action()
         data class PageError(val error: Throwable) : Action()
         object Search : Action()
     }
@@ -32,7 +33,7 @@ object Paginator {
         data class ErrorEvent(val error: Throwable) : SideEffect()
     }
 
-    private fun <T> reducer(
+    private fun reducer(
         action: Action,
         state: State,
         pageSize: Int?,
@@ -150,6 +151,19 @@ object Paginator {
                     else -> state
                 }
             }
+            is Action.UpdateItem<*> -> {
+                val itemToUpdate = action.item as T
+
+                when(state) {
+                    is State.Data<*> -> {
+                        State.ItemUpdated(updateItem(itemToUpdate, state.data as List<T>))
+                    }
+                    is State.FullData<*> -> {
+                        State.ItemUpdated(updateItem(itemToUpdate, state.data as List<T>))
+                    }
+                    else -> state
+                }
+            }
             is Action.PageError -> {
                 when (state) {
                     is State.EmptyProgress -> State.EmptyError(action.error)
@@ -170,7 +184,9 @@ object Paginator {
             }
         }
 
-    class Store<T> @Inject constructor() {
+    open fun updateItem(itemToUpdate: T, items: List<T>): List<T> = items
+
+    class Store<T> (private val paginator: Paginator<T>) {
         private var oldState: State? = null
         private var state: State = State.Empty
 
@@ -203,7 +219,7 @@ object Paginator {
 
         fun proceed(action: Action) {
             Timber.d("paginator: [Action: ${action::class.java.simpleName.toUpperCase()}]")
-            val newState = reducer<T>(action, state, pageSize) { sideEffect ->
+            val newState = paginator.reducer(action, state, pageSize) { sideEffect ->
                 sideEffectListener.invoke(sideEffect)
             }
             Timber.d("paginator: current state -> [${state::class.java.simpleName.toUpperCase()}]")
@@ -223,6 +239,7 @@ object Paginator {
                 is State.EmptyProgress -> emptyList()
                 is State.EmptyError -> emptyList()
                 is State.Data<*> -> currentState.data as List<T>
+                is State.ItemUpdated<*> -> currentState.data as List<T>
                 is State.Refresh<*> -> currentState.data as List<T>
                 is State.NewPageProgress<*> -> currentState.data as List<T>
                 is State.SearchProgress<*> -> currentState.data as List<T>

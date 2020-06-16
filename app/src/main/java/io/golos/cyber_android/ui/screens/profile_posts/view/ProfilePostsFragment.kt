@@ -44,6 +44,7 @@ import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.android.synthetic.main.fragment_profile_posts.*
 import kotlinx.android.synthetic.main.view_search_bar.*
+import timber.log.Timber
 
 open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, ProfilePostsViewModel>() {
     companion object {
@@ -198,6 +199,9 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
                     myFeedAdapter.hideLoadingNextPageProgress()
                     myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)
                     emptyPostProgressLoading.visibility = View.INVISIBLE
+                }
+                is Paginator.State.ItemUpdated<*> -> {
+                    myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)
                 }
                 is Paginator.State.FullData<*> -> {
                     myFeedAdapter.hideLoadingNextPageError()

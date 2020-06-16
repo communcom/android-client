@@ -2,7 +2,6 @@ package io.golos.cyber_android.ui.di
 
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import io.golos.cyber_android.ui.screens.wallet_shared.balance_calculator.BalanceCalculator
 import io.golos.cyber_android.ui.screens.wallet_shared.balance_calculator.BalanceCalculatorImpl
 import io.golos.cyber_android.ui.shared.bitmaps.BitmapsUtilsImpl
@@ -23,11 +22,9 @@ import io.golos.domain.dependency_injection.scopes.UIScope
 import io.golos.domain.use_cases.UseCase
 import io.golos.domain.use_cases.images.ImageUploadUseCase
 import io.golos.domain.use_cases.model.*
-import io.golos.domain.use_cases.publish.DiscussionPosterUseCase
 import io.golos.domain.use_cases.publish.EmbedsUseCase
 import io.golos.domain.mappers.new_mappers.CommentToModelMapper
 import io.golos.domain.mappers.new_mappers.CommentToModelMapperImpl
-import io.golos.domain.requestmodel.QueryResult
 
 @Module
 abstract class UIModuleBinds {
@@ -36,9 +33,6 @@ abstract class UIModuleBinds {
 
     @Binds
     abstract fun provideUIHelper(helper: UIHelperImpl): UIHelper
-
-    @Binds
-    abstract fun provideDiscussionPosterUseCase(useCase: DiscussionPosterUseCase): UseCase<QueryResult<DiscussionCreationResultModel>>
 
     @Binds
     abstract fun provideEmbedsUseCase(useCase: EmbedsUseCase): UseCase<ProccesedLinksModel>

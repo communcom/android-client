@@ -325,6 +325,9 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
                     myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)
                     emptyPostProgressLoading.visibility = View.INVISIBLE
                 }
+                is Paginator.State.ItemUpdated<*> -> {
+                    myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)
+                }
                 is Paginator.State.FullData<*> -> {
                     myFeedAdapter.hideLoadingNextPageError()
                     myFeedAdapter.hideLoadingNextPageProgress()

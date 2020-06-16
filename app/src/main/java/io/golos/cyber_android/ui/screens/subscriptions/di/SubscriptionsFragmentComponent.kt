@@ -4,7 +4,7 @@ import dagger.Subcomponent
 import io.golos.cyber_android.ui.screens.subscriptions.SubscriptionsFragment
 import io.golos.domain.dependency_injection.scopes.FragmentScope
 
-@Subcomponent(modules = [SubscriptionsFragmentModuleBinds::class])
+@Subcomponent(modules = [SubscriptionsFragmentModuleBinds::class, SubscriptionsFragmentModule::class])
 @FragmentScope
 interface SubscriptionsFragmentComponent {
     @Subcomponent.Builder

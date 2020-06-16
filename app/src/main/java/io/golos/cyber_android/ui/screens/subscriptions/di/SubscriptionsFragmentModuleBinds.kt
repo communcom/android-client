@@ -32,14 +32,6 @@ interface SubscriptionsFragmentModuleBinds {
     fun bindModel(model: SubscriptionsModelImpl): SubscriptionsModel
 
     @Binds
-    @Named("PaginatorSubscriptions")
-    fun bindPaginatorSubscriptions(impl: Paginator.Store<Community>): Paginator.Store<Community>
-
-    @Binds
-    @Named("PaginatorRecomendedCommunities")
-    fun bindPaginatorRecomendedCommunities(impl: Paginator.Store<Community>): Paginator.Store<Community>
-
-    @Binds
     fun bindGetCommunitiesUseCase(model: GetCommunitiesUseCaseImpl): GetCommunitiesUseCase
 
     @Binds

@@ -22,7 +22,6 @@ import io.golos.domain.use_cases.UseCase
 import io.golos.domain.use_cases.feed.PostWithCommentUseCaseImpl
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.model.UploadedImagesModel
-import io.golos.domain.use_cases.publish.DiscussionPosterUseCase
 import io.golos.domain.use_cases.publish.EmbedsUseCase
 
 @Module
@@ -40,10 +39,8 @@ class EditorPageFragmentModule(private val contentId: ContentId?) {
     internal fun provideEditorPageViewModel(
         appContext: Context,
         embedsUseCase: EmbedsUseCase,
-        posterUseCase: DiscussionPosterUseCase,
         imageUploadUseCase: UseCase<UploadedImagesModel>,
         postToEdit: DiscussionIdModel?,
-        postFeedRepository: DiscussionsFeedRepository<PostEntity, PostFeedUpdateRequest>,
         postEntityToModelMapper: PostEntitiesToModelMapper,
         commentsRepository: DiscussionsFeedRepository<CommentEntity, CommentFeedUpdateRequest>,
         commentFeeEntityToModelMapper: CommentsFeedEntityToModelMapper,
@@ -53,7 +50,6 @@ class EditorPageFragmentModule(private val contentId: ContentId?) {
         val postUseCase = if (postToEdit != null) {
             getPostWithCommentsUseCase(
                 postToEdit,
-                postFeedRepository,
                 postEntityToModelMapper,
                 commentsRepository,
                 commentFeeEntityToModelMapper,
@@ -67,7 +63,6 @@ class EditorPageFragmentModule(private val contentId: ContentId?) {
             appContext,
             dispatchersProvider,
             embedsUseCase,
-            posterUseCase,
             imageUploadUseCase,
             postUseCase,
             contentId,
@@ -77,7 +72,6 @@ class EditorPageFragmentModule(private val contentId: ContentId?) {
 
     private fun getPostWithCommentsUseCase(
         postId: DiscussionIdModel?,
-        postFeedRepository: DiscussionsFeedRepository<PostEntity, PostFeedUpdateRequest>,
         postEntityToModelMapper: PostEntitiesToModelMapper,
         commentsRepository: DiscussionsFeedRepository<CommentEntity, CommentFeedUpdateRequest>,
         commentFeeEntityToModelMapper: CommentsFeedEntityToModelMapper,
@@ -85,7 +79,6 @@ class EditorPageFragmentModule(private val contentId: ContentId?) {
     ): PostWithCommentUseCaseImpl =
         PostWithCommentUseCaseImpl(
             postId!!,
-            postFeedRepository,
             commentsRepository,
             commentFeeEntityToModelMapper,
             dispatchersProvider

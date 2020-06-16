@@ -10,9 +10,6 @@ import java.io.File
 
 interface DiscussionRepository {
 
-    @Deprecated("For create post need use createPost")
-    fun createOrUpdate(params: DiscussionCreationRequestEntity): DiscussionCreationResultEntity
-
     suspend fun getComments(
         offset: Int,
         pageSize: Int,
@@ -43,16 +40,13 @@ interface DiscussionRepository {
     @Deprecated("Use getPost method with 3 params")
     fun getPost(user: CyberName, permlink: Permlink): PostModel
 
-    @Deprecated("Need use method deletePost with 2 params")
-    fun deletePost(postId: ContentIdDomain)
-
     suspend fun getPosts(postsConfigurationDomain: PostsConfigurationDomain, typeObject: TypeObjectDomain): List<PostDomain>
 
     suspend fun uploadContentAttachment(file: File): String
 
     suspend fun createPost(communityId: CommunityIdDomain, body: String, tags: List<String>): ContentIdDomain
 
-    suspend fun updatePost(contentIdDomain: ContentIdDomain, body: String, tags: List<String>): ContentIdDomain
+    suspend fun updatePost(contentIdDomain: ContentIdDomain, body: String, tags: List<String>): PostDomain
 
     suspend fun sendComment(postIdDomain: ContentIdDomain, jsonBody: String): CommentDomain
 }

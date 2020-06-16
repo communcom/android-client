@@ -9,6 +9,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.User
+import io.golos.cyber_android.ui.mappers.mapToPost
 import io.golos.cyber_android.ui.mappers.mapToPostsList
 import io.golos.cyber_android.ui.mappers.mapToUser
 import io.golos.cyber_android.ui.screens.feed_my.model.MyFeedModel
@@ -96,7 +97,8 @@ constructor(
             }
         }
 
-        applyPostCreateChangeListener()
+        applyPostCreatedChangeListener()
+        applyPostUpdatedChangeListener()
     }
 
     override fun onShareClicked(shareUrl: String) {
@@ -276,15 +278,25 @@ constructor(
         }
     }
 
-    private fun applyPostCreateChangeListener() {
+    private fun applyPostCreatedChangeListener() {
         launch {
             postCreateEditRegistry.createdPosts.collect {
                 if(currentUserRepository.userId == profileUserId) {
                     it?.let {
-                        Timber.tag("CREATE_POST_FLOW_PR").d("Id: $it")
-
                         paginator.initState(Paginator.State.Empty)
                         restartLoadPosts()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun applyPostUpdatedChangeListener() {
+        launch {
+            postCreateEditRegistry.updatedPosts.collect {
+                if(currentUserRepository.userId == profileUserId) {
+                    it?.let {
+                        paginator.proceed(Paginator.Action.UpdateItem(it.mapToPost()))
                     }
                 }
             }

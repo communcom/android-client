@@ -15,12 +15,15 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Named
 
 class SubscriptionsViewModel @Inject constructor(
     private val appContext: Context,
     dispatchersProvider: DispatchersProvider,
     model: SubscriptionsModel,
+    @Named("PaginatorSubscriptions")
     private val paginatorSubscriptions: Paginator.Store<Community>,
+    @Named("PaginatorRecomendedCommunities")
     private val paginatorRecommendedCommunities: Paginator.Store<Community>
 ) :
 

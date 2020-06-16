@@ -24,7 +24,6 @@ import io.golos.domain.use_cases.user.GetLocalUserUseCaseImpl
 
 @Module
 interface MyFeedFragmentModuleBinds {
-
     @Binds
     @ViewModelKey(MyFeedViewModel::class)
     @IntoMap
@@ -36,9 +35,6 @@ interface MyFeedFragmentModuleBinds {
 
     @Binds
     fun bindModel(model: MyFeedModelImpl): MyFeedModel
-
-    @Binds
-    fun bindPaginatorSubscriptions(impl: Paginator.Store<VersionedListItem>): Paginator.Store<VersionedListItem>
 
     @Binds
     fun bindGetPostsUseCase(getPostsUseCaseImpl: GetPostsUseCaseImpl): GetPostsUseCase

@@ -23,46 +23,6 @@ import javax.inject.Inject
  * Created by yuri yurivladdurain@gmail.com on 2019-03-13.
  */
 @ApplicationScope
-class PostsFeedRepository
-@Inject
-constructor(
-//    private val apiService: DiscussionsApi,
-    feedMapper: CyberFeedToEntityMapper,
-    postMapper: CyberPostToEntityMapper,
-    postMerger: EntityMerger<PostEntity>,
-    feedMerger: EntityMerger<FeedRelatedData<PostEntity>>,
-    feedUpdateApprover: RequestApprover<PostFeedUpdateRequest>,
-    emptyFeedProducer: EmptyEntityProducer<FeedEntity<PostEntity>>,
-    dispatchersProvider: DispatchersProvider
-) : AbstractDiscussionsRepository<PostEntity, PostFeedUpdateRequest>(
-        feedMapper,
-        postMapper,
-        postMerger,
-        feedMerger,
-        feedUpdateApprover,
-        emptyFeedProducer,
-        dispatchersProvider
-    ) {
-
-    override suspend fun getDiscussionItem(params: DiscussionIdEntity): CyberDiscussionRaw {
-        throw UnsupportedOperationException("")
-        //return apiService.getPost(CyberName(params.userId), params.permlink)
-    }
-
-    override fun fixOnPositionDiscussion(discussion: PostEntity, parent: DiscussionIdEntity) {
-        //for now works only on comments
-        throw UnsupportedOperationException()
-    }
-
-    override suspend fun getFeedOnBackground(updateRequest: PostFeedUpdateRequest): GetDiscussionsResultRaw {
-        throw UnsupportedOperationException("")
-    }
-
-    override val allDataRequest: PostFeedUpdateRequest =
-        CommunityFeedUpdateRequest("stub", 0, DiscussionsSort.FROM_NEW_TO_OLD, FeedTimeFrameOption.ALL, "stub")
-}
-
-@ApplicationScope
 class CommentsFeedRepository
 @Inject
 constructor(

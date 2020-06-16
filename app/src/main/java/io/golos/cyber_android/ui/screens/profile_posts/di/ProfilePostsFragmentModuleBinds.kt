@@ -30,11 +30,6 @@ interface ProfilePostsFragmentModuleBinds {
     fun bindModel(model: MyFeedModelImpl): MyFeedModel
 
     @Binds
-    fun bindPaginatorSubscriptions(
-        impl: Paginator.Store<VersionedListItem>
-    ): Paginator.Store<VersionedListItem>
-
-    @Binds
     fun bindGetPostsUseCase(
         getPostsUseCaseImpl: GetPostsUseCaseImpl
     ): GetPostsUseCase

@@ -4,12 +4,11 @@ import dagger.Subcomponent
 import io.golos.cyber_android.ui.screens.ftue_search_community.view.FtueSearchCommunityFragment
 import io.golos.domain.dependency_injection.scopes.FragmentScope
 
-@Subcomponent(modules = [FtueSearchCommunityFragmentModuleBinds::class])
+@Subcomponent(modules = [FtueSearchCommunityFragmentModuleBinds::class, FtueSearchCommunityFragmentModule::class])
 @FragmentScope
 interface FtueSearchCommunityFragmentComponent {
     @Subcomponent.Builder
     interface Builder {
-
         fun build(): FtueSearchCommunityFragmentComponent
     }
 

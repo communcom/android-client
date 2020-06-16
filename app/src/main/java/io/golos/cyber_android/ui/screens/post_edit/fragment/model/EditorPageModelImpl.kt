@@ -176,7 +176,12 @@ constructor(
             listContentBlockEntity.copy(content = contentBlockEntityList)
             body = adapter.toJson(listContentBlockEntity)
         }
-        return discussionRepository.updatePost(contentIdDomain, body, tags)
+
+        val updatedPost = discussionRepository.updatePost(contentIdDomain, body, tags)
+
+        postCreateEditRegistry.setPostUpdated(updatedPost)
+
+        return updatedPost.contentId
     }
 
     override suspend fun getPostToEdit(permlink: Permlink): PostModel =

@@ -29,7 +29,6 @@ class PostWithCommentUseCaseImpl
 @Inject
 constructor (
     postId: DiscussionIdModel,
-    private val postFeedRepository: DiscussionsFeedRepository<PostEntity, PostFeedUpdateRequest>,
     commentsFeedRepository: DiscussionsFeedRepository<CommentEntity, CommentFeedUpdateRequest>,
     feedMapper: CommentsFeedEntityToModelMapper,
     dispatchersProvider: DispatchersProvider
@@ -52,10 +51,10 @@ constructor (
     private fun onRelatedDataChanges() {
         job?.cancel()
         job = useCaseScope.launch {
-            val postEntity = getPostEntity() ?: return@launch
+//            val postEntity = getPostEntity() ?: return@launch
 //            val votes = getVotes()
 
-            Log.d("UPDATE_POST", "PostWithCommentUseCaseImpl content: ${postEntity.content.body.postBlock}")
+//            Log.d("UPDATE_POST", "PostWithCommentUseCaseImpl content: ${postEntity.content.body.postBlock}")
 
 //            postLiveData.value = withContext(dispatchersProvider.calculationsDispatcher) {
 //                val mappedPost = toModelMapper.map(
@@ -76,17 +75,17 @@ constructor (
         Log.d("UPDATE_POST", "PostWithCommentUseCaseImpl subscribe()")
 
         super.subscribe()
-        mediator.addSource(postFeedRepository.getDiscussionAsLiveData(DiscussionIdEntity.fromModel(postId))) {
-            onRelatedDataChanges()
-        }
+//        mediator.addSource(postFeedRepository.getDiscussionAsLiveData(DiscussionIdEntity.fromModel(postId))) {
+//            onRelatedDataChanges()
+//        }
 //        mediator.addSource(voteRepository.updateStates) {
 //            onRelatedDataChanges()
 //        }
         mediator.observeForever(observer)
-        postFeedRepository.requestDiscussionUpdate(DiscussionIdEntity.fromModel(postId))
+//        postFeedRepository.requestDiscussionUpdate(DiscussionIdEntity.fromModel(postId))
     }
 
-    private fun getPostEntity() = postFeedRepository.getDiscussionAsLiveData(DiscussionIdEntity.fromModel(postId)).value
+//    private fun getPostEntity() = postFeedRepository.getDiscussionAsLiveData(DiscussionIdEntity.fromModel(postId)).value
 
 //    private fun getVotes() = voteRepository.updateStates.value
 
@@ -94,7 +93,7 @@ constructor (
         Log.d("UPDATE_POST", "PostWithCommentUseCaseImpl unsubscribe()")
 
         super.unsubscribe()
-        mediator.removeSource(postFeedRepository.getDiscussionAsLiveData(DiscussionIdEntity.fromModel(postId)))
+ //       mediator.removeSource(postFeedRepository.getDiscussionAsLiveData(DiscussionIdEntity.fromModel(postId)))
 //        mediator.removeSource(voteRepository.updateStates)
         mediator.removeObserver(observer)
     }
