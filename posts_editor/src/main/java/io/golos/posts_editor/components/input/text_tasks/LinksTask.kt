@@ -29,13 +29,7 @@ class LinksTask: TextTaskBase() {
     }
 
     override fun getAllSpans(spansWorker: SpansWorkerImpl): List<CharacterStyle> =
-        spansWorker.getAllSpans<LinkSpan>(
-            LinkSpan::class)
+        spansWorker.getAllSpans<LinkSpan>(LinkSpan::class)
 
-    override fun createSpan(text: String): CharacterStyle = PostSpansFactory.createLink(
-        LinkInfo(
-            text,
-            Uri.parse(text)
-        )
-    )
+    override fun createSpan(text: String): CharacterStyle = PostSpansFactory.createLink(LinkInfo(text, Uri.parse(text)))
 }

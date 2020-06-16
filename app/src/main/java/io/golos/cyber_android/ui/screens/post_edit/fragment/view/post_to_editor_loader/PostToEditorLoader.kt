@@ -89,15 +89,17 @@ object PostToEditorLoader {
     }
 
     private fun addTag(block: TagBlock, builder: SpannableStringBuilder) {
-        val textInterval = builder.appendText(PostSpansTextFactory.createTagText(block.content))
+        val tagText = PostSpansTextFactory.createTagText(block.content)
+        val textInterval = builder.appendText(tagText)
 
-        builder.setSpan(PostSpansFactory.createTag(block.content), textInterval)
+        builder.setSpan(PostSpansFactory.createTag(tagText), textInterval)
     }
 
     private fun addMention(block: MentionBlock, builder: SpannableStringBuilder) {
-        val textInterval = builder.appendText(PostSpansTextFactory.createMentionText(block.content))
+        val mentionText = PostSpansTextFactory.createMentionText(block.content)
+        val textInterval = builder.appendText(mentionText)
 
-        builder.setSpan(PostSpansFactory.createMention(block.content), textInterval)
+        builder.setSpan(PostSpansFactory.createMention(mentionText), textInterval)
     }
 
     private fun addLink(block: LinkBlock, builder: SpannableStringBuilder) {

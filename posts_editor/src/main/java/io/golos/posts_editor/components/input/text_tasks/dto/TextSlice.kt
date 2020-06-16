@@ -10,4 +10,9 @@ sealed class TextSlice(val text: String, val range: IntRange) {
         text: String,
         range: IntRange
     ) : TextSlice(text, range)
+
+    class TagSlice (
+        text: String,
+        range: IntRange
+    ) : TextSlice(text, range)
 }

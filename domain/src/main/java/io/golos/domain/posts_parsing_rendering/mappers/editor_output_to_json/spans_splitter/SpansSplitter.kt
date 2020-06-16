@@ -40,7 +40,7 @@ class SpansSplitter {
 
             val spanToAdd = when(span) {
                 is TagSpanInfo -> SplittedTag(
-                    span.displayValue
+                    span.value
                 )
                 is MentionSpanInfo -> SplittedMention(
                     span.value
