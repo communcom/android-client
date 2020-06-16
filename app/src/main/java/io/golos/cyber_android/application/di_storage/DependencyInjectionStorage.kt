@@ -9,6 +9,24 @@ import io.golos.cyber_android.ui.di.UIComponent
 import io.golos.cyber_android.ui.dialogs.select_community_dialog.di.SelectCommunityDialogComponent
 import io.golos.cyber_android.ui.dto.*
 import io.golos.cyber_android.ui.screens.app_start.sign_in.activity.di.SignInActivityComponent
+import io.golos.cyber_android.ui.screens.app_start.sign_in.app_unlock.di.SignInAppUnlockFragmentComponent
+import io.golos.cyber_android.ui.screens.app_start.sign_in.keys_backup.di.SignInProtectionKeysFragmentComponent
+import io.golos.cyber_android.ui.screens.app_start.sign_in.pin.di.SignInPinCodeFragmentComponent
+import io.golos.cyber_android.ui.screens.app_start.sign_in.qr_code.di.SignInQrCodeFragmentComponent
+import io.golos.cyber_android.ui.screens.app_start.sign_in.username.di.SignInUserNameFragmentComponent
+import io.golos.cyber_android.ui.screens.app_start.sign_up.activity.di.SignUpActivityComponent
+import io.golos.cyber_android.ui.screens.app_start.sign_up.app_unlock.di.SignUpAppUnlockFragmentComponent
+import io.golos.cyber_android.ui.screens.app_start.sign_up.confirm_password.di.SignUpConfirmPasswordFragmentComponent
+import io.golos.cyber_android.ui.screens.app_start.sign_up.countries.di.SignUpCountryComponent
+import io.golos.cyber_android.ui.screens.app_start.sign_up.create_password.di.SignUpCreatePasswordFragmentComponent
+import io.golos.cyber_android.ui.screens.app_start.sign_up.email.di.SignUpEmailFragmentComponent
+import io.golos.cyber_android.ui.screens.app_start.sign_up.email_verification.di.SignUpEmailVerificationFragmentComponent
+import io.golos.cyber_android.ui.screens.app_start.sign_up.phone.di.SignUpPhoneFragmentComponent
+import io.golos.cyber_android.ui.screens.app_start.sign_up.phone_verification.di.SignUpPhoneVerificationFragmentComponent
+import io.golos.cyber_android.ui.screens.app_start.sign_up.pin.di.SignUpPinCodeFragmentComponent
+import io.golos.cyber_android.ui.screens.app_start.sign_up.select_method.di.SignUpSelectMethodFragmentComponent
+import io.golos.cyber_android.ui.screens.app_start.sign_up.username.di.SignUpNameFragmentComponent
+import io.golos.cyber_android.ui.screens.app_start.welcome.activity.di.WelcomeActivityComponent
 import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentComponent
 import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentModule
 import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentTabComponent
@@ -37,24 +55,6 @@ import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.fingerpr
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.fingerprint.di.FingerprintAuthFragmentModule
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.pin_code.di.PinCodeAuthFragmentComponent
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.pin_code.di.PinCodeAuthFragmentModule
-import io.golos.cyber_android.ui.screens.app_start.welcome.activity.di.WelcomeActivityComponent
-import io.golos.cyber_android.ui.screens.app_start.sign_in.app_unlock.di.SignInAppUnlockFragmentComponent
-import io.golos.cyber_android.ui.screens.app_start.sign_up.app_unlock.di.SignUpAppUnlockFragmentComponent
-import io.golos.cyber_android.ui.screens.app_start.sign_in.qr_code.di.SignInQrCodeFragmentComponent
-import io.golos.cyber_android.ui.screens.app_start.sign_in.username.di.SignInUserNameFragmentComponent
-import io.golos.cyber_android.ui.screens.app_start.sign_up.confirm_password.di.SignUpConfirmPasswordFragmentComponent
-import io.golos.cyber_android.ui.screens.app_start.sign_up.countries.di.SignUpCountryComponent
-import io.golos.cyber_android.ui.screens.app_start.sign_up.create_password.di.SignUpCreatePasswordFragmentComponent
-import io.golos.cyber_android.ui.screens.app_start.sign_in.keys_backup.di.SignInProtectionKeysFragmentComponent
-import io.golos.cyber_android.ui.screens.app_start.sign_up.username.di.SignUpNameFragmentComponent
-import io.golos.cyber_android.ui.screens.app_start.sign_up.phone.di.SignUpPhoneFragmentComponent
-import io.golos.cyber_android.ui.screens.app_start.sign_up.phone_verification.di.SignUpPhoneVerificationFragmentComponent
-import io.golos.cyber_android.ui.screens.app_start.sign_in.pin.di.SignInPinCodeFragmentComponent
-import io.golos.cyber_android.ui.screens.app_start.sign_up.activity.di.SignUpActivityComponent
-import io.golos.cyber_android.ui.screens.app_start.sign_up.email.di.SignUpEmailFragmentComponent
-import io.golos.cyber_android.ui.screens.app_start.sign_up.email_verification.di.SignUpEmailVerificationFragmentComponent
-import io.golos.cyber_android.ui.screens.app_start.sign_up.select_method.di.SignUpSelectMethodFragmentComponent
-import io.golos.cyber_android.ui.screens.app_start.sign_up.pin.di.SignUpPinCodeFragmentComponent
 import io.golos.cyber_android.ui.screens.main_activity.di.MainActivityComponent
 import io.golos.cyber_android.ui.screens.notifications.di.NotificationsFragmentComponent
 import io.golos.cyber_android.ui.screens.post_edit.activity.di.EditorPageActivityComponent
@@ -129,6 +129,7 @@ class DependencyInjectionStorage(private val app: Application) {
 
             component = provideComponent<T>(type, args)
             componentsSet[key] = component as Any
+
             component
         }
     }
@@ -150,7 +151,7 @@ class DependencyInjectionStorage(private val app: Application) {
         val componentsSet = components[type]
 
         return if(componentsSet != null) {
-            componentsSet.entries.first().value as T
+            componentsSet.entries.last().value as T
         } else {
             val component = provideComponent<T>(type, arrayOfNulls(0))
             components[type] = mutableMapOf(IdUtil.generateStringId() to component as Any)
@@ -239,11 +240,12 @@ class DependencyInjectionStorage(private val app: Application) {
                     )
                     .build()
 
-            ProfilePostsExternalUserFragmentComponent::class ->
-                getBase<ProfileExternalUserFragmentComponent>()
+            ProfilePostsExternalUserFragmentComponent::class -> {
+                val base = getBase<ProfileExternalUserFragmentComponent>()
+                base
                     .profilePostsFragment
-                    .init(ProfilePostsFragmentModule(args[0] as PostsConfigurationDomain.TypeFeedDomain))
-                    .build()
+                    .init(ProfilePostsFragmentModule(args[0] as PostsConfigurationDomain.TypeFeedDomain)).build()
+            }
 
             ProfileBlackListFragmentComponent::class ->
                 getBase<ProfileFragmentComponent>()
