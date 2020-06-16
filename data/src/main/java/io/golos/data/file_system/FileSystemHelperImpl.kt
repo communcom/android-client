@@ -9,6 +9,7 @@ import io.golos.utils.id.IdUtil
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
+import java.util.*
 import javax.inject.Inject
 
 class FileSystemHelperImpl
@@ -28,14 +29,20 @@ constructor(
                     return@withContext null
                 }
 
-                val target = File(getCacheFolder(junkFolderName), "${IdUtil.generateStringId()}.jpg")
+                val isGif = bitmapUtils.isGif(sourceUri)
+                val fileExt = if(isGif) ".gif" else ".jpg"
+
+                val target = File(getCacheFolder(junkFolderName), "${IdUtil.generateStringId()}$fileExt")
 
                 appContext.contentResolver.openInputStream(sourceUri).use { input ->
                     target.outputStream().use { fileOut ->
                         input?.copyTo(fileOut)
                     }
                 }
-                bitmapUtils.correctOrientation(target)
+
+                if(!isGif) {
+                    bitmapUtils.correctOrientation(target)
+                }
 
                 Uri.fromFile(target)
             } catch (ex: Exception) {

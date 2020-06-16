@@ -21,11 +21,12 @@ constructor() : ImageCompressor {
 
 
     @Throws(IOException::class)
-    override fun compressImageFile(
-        file: File
-    ): File {
-        file.inputStream().use { originalFileStream ->
+    override fun compressImageFile(file: File): File {
+        if(file.extension == "gif") {       // We don't need to compress gif
+            return file
+        }
 
+        file.inputStream().use { originalFileStream ->
             val opts = getDecodeOptions(originalFileStream, MAX_SIZE.toInt(), MAX_SIZE.toInt())
 
             val bitmap = file.inputStream().use {

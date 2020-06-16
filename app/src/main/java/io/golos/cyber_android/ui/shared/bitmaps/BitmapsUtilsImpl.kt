@@ -1,21 +1,27 @@
 package io.golos.cyber_android.ui.shared.bitmaps
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.media.ExifInterface
+import android.net.Uri
 import io.golos.domain.BitmapsUtils
 import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.nio.ByteBuffer
+import java.nio.charset.Charset
 import javax.inject.Inject
 
 
 /** */
 class BitmapsUtilsImpl
 @Inject
-constructor(): BitmapsUtils {
+constructor(
+    private val appContext: Context
+): BitmapsUtils {
     /** Correct image rotation direction */
     override fun correctOrientation(file: File): File {
             val degrees = when (getOrientation(file)) {
@@ -40,6 +46,16 @@ constructor(): BitmapsUtils {
             source.compress(Bitmap.CompressFormat.JPEG, quality, stream)
         }
     }
+
+    override fun isGif(sourceUri: Uri): Boolean =
+        appContext.contentResolver.openInputStream(sourceUri).use { input ->
+            input?.let {
+                val buffer = ByteArray(3)
+                it.read(buffer)
+                val type = String(buffer, java.nio.charset.StandardCharsets.UTF_8)
+                type == "GIF"
+            } ?: false
+        }
 
     /**
      * Get rotation angle for saved bitmap
