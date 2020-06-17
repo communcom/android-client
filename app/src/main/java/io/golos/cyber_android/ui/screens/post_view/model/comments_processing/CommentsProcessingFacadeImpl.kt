@@ -1,8 +1,6 @@
 package io.golos.cyber_android.ui.screens.post_view.model.comments_processing
 
 import dagger.Lazy
-import io.golos.cyber_android.ui.dto.ContentId
-import io.golos.cyber_android.ui.mappers.mapToContentIdDomain
 import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.CommentListItemState
 import io.golos.cyber_android.ui.screens.post_view.helpers.CommentTextRenderer
 import io.golos.cyber_android.ui.screens.post_view.model.comments_processing.comments_storage.CommentsStorage
@@ -17,14 +15,11 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.*
 import io.golos.domain.mappers.new_mappers.CommentToModelMapper
-import io.golos.domain.posts_parsing_rendering.PostGlobalConstants
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.JsonToDtoMapper
-import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.*
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.use_cases.model.CommentModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
-import io.golos.utils.id.IdUtil
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
@@ -32,7 +27,7 @@ import javax.inject.Inject
 class CommentsProcessingFacadeImpl
 @Inject
 constructor(
-    private val postContentId: ContentId,
+    private val postContentId: ContentIdDomain,
     private val postListDataSource: PostListDataSourceComments,
     private val discussionRepository: DiscussionRepository,
     private val dispatchersProvider: DispatchersProvider,
@@ -49,7 +44,7 @@ constructor(
 
     private val firstLevelCommentsLoader: FirstLevelLoader by lazy {
         FirstLevelLoaderImpl(
-            postContentId.mapToContentIdDomain(),
+            postContentId,
             postListDataSource,
             discussionRepository,
             dispatchersProvider,
@@ -80,7 +75,7 @@ constructor(
             postListDataSource.addLoadingForNewComment()
 
             val commentDomain = withContext(dispatchersProvider.ioDispatcher) {
-                discussionRepository.sendComment(postContentId.mapToContentIdDomain(), jsonBody)
+                discussionRepository.sendComment(postContentId, jsonBody)
             }
 
             val commentModel = commentToModelMapper.map(commentDomain)
@@ -116,7 +111,7 @@ constructor(
     override fun getCommentText(commentId: DiscussionIdModel): List<CharSequence> =
         commentTextRenderer.render(commentsStorage.get().getComment(commentId)!!.body!!.content)
 
-    override fun getComment(commentId: ContentId): CommentModel? {
+    override fun getComment(commentId: ContentIdDomain): CommentModel? {
         val discussion = DiscussionIdModel(commentId.userId, Permlink(commentId.permlink))
         val comment = commentsStorage.get().getComment(discussion)
         return comment
@@ -134,7 +129,7 @@ constructor(
         val votesDomain = VotesDomain(votesModel.downCount, votesModel.upCount, votesModel.hasUpVote, votesModel.hasDownVote)
 
         val parentCommentDomain = if (oldComment.commentLevel == 0) {
-            ParentCommentDomain(null, postContentId.mapToContentIdDomain())
+            ParentCommentDomain(null, postContentId)
         } else {
             val parentContentId =
                 ContentIdDomain(postContentId.communityId, oldComment.parentId!!.permlink.value, oldComment.parentId!!.userId)
@@ -215,7 +210,7 @@ constructor(
     private fun getSecondLevelLoader(parentCommentId: DiscussionIdModel): SecondLevelLoader {
         return secondLevelLoaders[parentCommentId]
             ?: SecondLevelLoaderImpl(
-                postContentId.mapToContentIdDomain(),
+                postContentId,
                 parentCommentId,
                 firstLevelCommentsLoader.getLoadedComment(parentCommentId).childTotal.toInt(),
                 postListDataSource,

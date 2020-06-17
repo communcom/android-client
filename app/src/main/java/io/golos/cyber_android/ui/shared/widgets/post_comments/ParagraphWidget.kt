@@ -8,7 +8,6 @@ import android.net.Uri
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.TextPaint
-import android.text.TextUtils
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
@@ -20,10 +19,10 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
 import io.golos.cyber_android.ui.shared.spans.StyledTextClickableSpan
 import io.golos.cyber_android.ui.shared.utils.adjustSpannableClicks
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.posts_parsing_rendering.post_metadata.TextStyle
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.*
 import io.golos.utils.helpers.appendSpannable
@@ -44,7 +43,7 @@ constructor(
 
     private var onClickProcessor: ParagraphWidgetListener? = null
     private var isSeeMoreEnabled: Boolean = false
-    private var contentId: ContentId? = null
+    private var contentId: ContentIdDomain? = null
     private var topPadding = context.resources.getDimension(R.dimen.content_block_default_margin).toInt()
     private var bottomPadding = context.resources.getDimension(R.dimen.content_block_default_margin).toInt()
     private var startPadding = context.resources.getDimension(R.dimen.post_content_border_horizontal).toInt()
@@ -75,7 +74,7 @@ constructor(
         isSeeMoreEnabled = isEnabled
     }
 
-    fun setContentId(postContentId: ContentId) {
+    fun setContentId(postContentId: ContentIdDomain) {
         contentId = postContentId
     }
 

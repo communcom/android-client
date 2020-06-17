@@ -5,7 +5,6 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.Votes
 import io.golos.cyber_android.ui.screens.feed_my.view_model.MyFeedListListener
@@ -15,6 +14,7 @@ import io.golos.cyber_android.ui.shared.base.adapter.BaseRecyclerItem
 import io.golos.cyber_android.ui.shared.base.adapter.RecyclerAdapter
 import io.golos.cyber_android.ui.shared.base.adapter.RecyclerItem
 import io.golos.cyber_android.ui.shared.widgets.post_comments.VotingWidget
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.*
 import io.golos.use_cases.reward.getRewardValue
 import io.golos.use_cases.reward.isRewarded
@@ -171,7 +171,7 @@ class PostItem(
                     communityId = community.communityId,
                     communityName = community.name,
                     communityAvatarUrl = community.avatarUrl,
-                    contentId = ContentId(
+                    contentId = ContentIdDomain(
                         communityId = community.communityId,
                         permlink = post.contentId.permlink,
                         userId = author.userId

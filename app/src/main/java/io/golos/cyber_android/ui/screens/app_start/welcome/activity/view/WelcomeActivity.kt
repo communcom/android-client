@@ -2,14 +2,12 @@ package io.golos.cyber_android.ui.screens.app_start.welcome.activity.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.app_start.welcome.activity.di.WelcomeActivityComponent
 import io.golos.cyber_android.ui.screens.app_start.welcome.activity.dto.HideSplashAnimationCommand
 import io.golos.cyber_android.ui.screens.app_start.welcome.activity.dto.NavigateToWelcomeScreenCommand
@@ -115,7 +113,7 @@ class WelcomeActivity : ActivityBase(), SplashAnimatorTarget {
                         newIntent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
 
                         if(oldIntent.extras!!.containsKey(IntentConstants.POST_CONTENT_ID)) {
-                            newIntent.putExtra(IntentConstants.POST_CONTENT_ID, oldIntent.getParcelableExtra<ContentId>(IntentConstants.POST_CONTENT_ID))
+                            newIntent.putExtra(IntentConstants.POST_CONTENT_ID, oldIntent.getParcelableExtra<ContentIdDomain>(IntentConstants.POST_CONTENT_ID))
                         }
                         if(oldIntent.extras!!.containsKey(IntentConstants.USER_ID)) {
                             newIntent.putExtra(IntentConstants.USER_ID, oldIntent.getParcelableExtra<UserIdDomain>(IntentConstants.USER_ID))

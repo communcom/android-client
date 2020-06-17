@@ -4,7 +4,6 @@ import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.User
 import io.golos.cyber_android.ui.mappers.*
@@ -23,10 +22,7 @@ import io.golos.cyber_android.ui.shared.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
-import io.golos.domain.dto.CommunityIdDomain
-import io.golos.domain.dto.PostsConfigurationDomain
-import io.golos.domain.dto.RewardPostDomain
-import io.golos.domain.dto.TypeObjectDomain
+import io.golos.domain.dto.*
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.use_cases.reward.isTopReward
@@ -94,15 +90,15 @@ class MyFeedViewModel @Inject constructor(
         _command.value = SharePostCommand(shareUrl)
     }
 
-    override fun onBodyClicked(postContentId: ContentId?) {
+    override fun onBodyClicked(postContentId: ContentIdDomain?) {
         openPost(postContentId)
     }
 
-    fun onPostClicked(postContentId: ContentId?) {
+    fun onPostClicked(postContentId: ContentIdDomain?) {
         openPost(postContentId)
     }
 
-    override fun onUpVoteClicked(contentId: ContentId) {
+    override fun onUpVoteClicked(contentId: ContentIdDomain) {
         launch {
             try {
                 _postsListState.value = updateUpVoteCountOfVotes(_postsListState.value, contentId)
@@ -114,7 +110,7 @@ class MyFeedViewModel @Inject constructor(
         }
     }
 
-    override fun onDownVoteClicked(contentId: ContentId) {
+    override fun onDownVoteClicked(contentId: ContentIdDomain) {
         launch {
             try {
                 _postsListState.value = updateDownVoteCountOfVotes(_postsListState.value, contentId)
@@ -134,13 +130,13 @@ class MyFeedViewModel @Inject constructor(
         _command.value = NavigateToImageViewCommand(imageUri)
     }
 
-    override fun onSeeMoreClicked(contentId: ContentId): Boolean {
+    override fun onSeeMoreClicked(contentId: ContentIdDomain): Boolean {
         val discussionIdModel = DiscussionIdModel(contentId.userId, Permlink(contentId.permlink))
         _command.value = NavigateToPostCommand(discussionIdModel, contentId)
         return true
     }
 
-    override fun onItemClicked(contentId: ContentId) {
+    override fun onItemClicked(contentId: ContentIdDomain) {
         val discussionIdModel = DiscussionIdModel(contentId.userId, Permlink(contentId.permlink))
         _command.value = NavigateToPostCommand(discussionIdModel, contentId)
     }
@@ -179,11 +175,11 @@ class MyFeedViewModel @Inject constructor(
         }
     }
 
-    override fun onCommentsClicked(postContentId: ContentId) {
+    override fun onCommentsClicked(postContentId: ContentIdDomain) {
         openPost(postContentId)
     }
 
-    private fun openPost(postContentId: ContentId?){
+    private fun openPost(postContentId: ContentIdDomain?){
         postContentId?.let {
             val discussionIdModel = DiscussionIdModel(it.userId, Permlink(it.permlink))
             _command.value = NavigateToPostCommand(discussionIdModel, it)
@@ -325,7 +321,7 @@ class MyFeedViewModel @Inject constructor(
 
     private fun updateUpVoteCountOfVotes(
         state: Paginator.State?,
-        contentId: ContentId
+        contentId: ContentIdDomain
     ): Paginator.State? {
         when (state) {
             is Paginator.State.Data<*> -> {
@@ -346,7 +342,7 @@ class MyFeedViewModel @Inject constructor(
         return state
     }
 
-    private fun updateUpVoteInPostsByContentId(posts: ArrayList<Post>, contentId: ContentId) {
+    private fun updateUpVoteInPostsByContentId(posts: ArrayList<Post>, contentId: ContentIdDomain) {
         val foundedPost = posts.find { post ->
             post.contentId == contentId
         }
@@ -367,7 +363,7 @@ class MyFeedViewModel @Inject constructor(
 
     private fun updateDownVoteCountOfVotes(
         state: Paginator.State?,
-        contentId: ContentId
+        contentId: ContentIdDomain
     ): Paginator.State? {
         when (state) {
             is Paginator.State.Data<*> -> {
@@ -388,7 +384,7 @@ class MyFeedViewModel @Inject constructor(
         return state
     }
 
-    private fun updateDownVoteInPostsByContentId(posts: ArrayList<Post>, contentId: ContentId) {
+    private fun updateDownVoteInPostsByContentId(posts: ArrayList<Post>, contentId: ContentIdDomain) {
         val foundedPost = posts.find { post ->
             post.contentId == contentId
         }

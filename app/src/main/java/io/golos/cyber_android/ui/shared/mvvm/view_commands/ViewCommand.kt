@@ -6,8 +6,8 @@ import androidx.annotation.IdRes
 import androidx.annotation.NavigationRes
 import androidx.annotation.StringRes
 import io.golos.cyber_android.ui.dto.Comment
-import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
@@ -71,7 +71,7 @@ class NavigateToProfileCommentMenuDialogViewCommand(val comment: Comment) : View
 
 class NavigateToPostCommand(
     val discussionIdModel: DiscussionIdModel,
-    val contentId: ContentId
+    val contentId: ContentIdDomain
 ) : ViewCommand
 
 class NavigateToNextScreen() : ViewCommand

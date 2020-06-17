@@ -1,16 +1,16 @@
 package io.golos.cyber_android.ui.shared.widgets.post_comments.items
 
 import android.content.Context
-import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.shared.base.adapter.RecyclerItem
 import io.golos.cyber_android.ui.shared.utils.getScreenSize
 import io.golos.cyber_android.ui.shared.widgets.post_comments.RichWidget
 import io.golos.cyber_android.ui.shared.widgets.post_comments.RichWidgetListener
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.RichBlock
 
 class PostRichBlockItem(
     val richBlock: RichBlock,
-    val contentId: ContentId,
+    val contentId: ContentIdDomain,
     widgetListener: RichWidgetListener? = null
 ) : BaseBlockItem<RichBlock, RichWidgetListener, RichWidget>(
     richBlock,

@@ -2,7 +2,6 @@ package io.golos.cyber_android.ui.screens.post_edit.fragment.model
 
 import io.golos.commun4j.sharedmodel.Either
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
-import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.post_edit.fragment.dto.ExternalLinkError
 import io.golos.cyber_android.ui.screens.post_edit.fragment.dto.ExternalLinkInfo
 import io.golos.cyber_android.ui.screens.post_edit.fragment.dto.ValidationResult
@@ -36,7 +35,7 @@ interface EditorPageModel : ModelBase {
         localImagesUri: List<String> = emptyList()
     ): ContentIdDomain
 
-    suspend fun getPostToEdit(contentId: ContentId): PostDomain
+    suspend fun getPostToEdit(contentId: ContentIdDomain): PostDomain
 
     @Deprecated("Use getPostToEdit with contentId param")
     suspend fun getPostToEdit(permlink: Permlink): PostModel

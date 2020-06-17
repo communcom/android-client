@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
 import android.widget.FrameLayout
-import androidx.lifecycle.Observer
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import io.golos.cyber_android.R
@@ -14,10 +13,10 @@ import io.golos.cyber_android.ui.shared.Tags
 import io.golos.cyber_android.ui.shared.mvvm.DialogBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
-import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.post_report.di.PostReportFragmentComponent
 import io.golos.cyber_android.ui.screens.post_report.view.view_commands.SendReportCommand
 import io.golos.cyber_android.ui.screens.post_report.view_model.PostReportViewModel
+import io.golos.domain.dto.ContentIdDomain
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.dialog_post_report.*
 
@@ -27,7 +26,7 @@ class PostReportDialog : DialogBaseMVVM<DialogPostReportBinding, PostReportViewM
 
     @Parcelize
     data class Args(
-        val contentId: ContentId
+        val contentId: ContentIdDomain
     ) : Parcelable
 
     companion object {
@@ -180,7 +179,7 @@ class PostReportDialog : DialogBaseMVVM<DialogPostReportBinding, PostReportViewM
         behaviour?.state = state
     }
 
-    data class Report(val reasons: List<String>, val contentId: ContentId)
+    data class Report(val reasons: List<String>, val contentId: ContentIdDomain)
 
     enum class Type {
         SPAM,

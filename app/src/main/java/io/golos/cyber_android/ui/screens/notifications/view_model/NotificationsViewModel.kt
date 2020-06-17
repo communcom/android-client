@@ -2,7 +2,6 @@ package io.golos.cyber_android.ui.screens.notifications.view_model
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.User
 import io.golos.cyber_android.ui.mappers.mapToUser
 import io.golos.cyber_android.ui.screens.notifications.mappers.mapToVersionedListItem
@@ -21,6 +20,7 @@ import io.golos.cyber_android.ui.shared.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.coroutines.Dispatchers
@@ -131,7 +131,7 @@ class NotificationsViewModel
         }
     }
 
-    override fun onPostNavigateClicked(contentId: ContentId) {
+    override fun onPostNavigateClicked(contentId: ContentIdDomain) {
         val discussionIdModel = DiscussionIdModel(contentId.userId, Permlink(contentId.permlink))
         _command.value = NavigateToPostCommand(discussionIdModel, contentId)
     }

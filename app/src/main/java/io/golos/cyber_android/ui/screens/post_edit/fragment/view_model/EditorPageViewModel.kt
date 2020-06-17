@@ -3,14 +3,11 @@ package io.golos.cyber_android.ui.screens.post_edit.fragment.view_model
 import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import io.golos.commun4j.sharedmodel.Either
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.mappers.mapToContentId
-import io.golos.cyber_android.ui.mappers.mapToContentIdDomain
 import io.golos.cyber_android.ui.screens.post_edit.fragment.dto.ExternalLinkError
 import io.golos.cyber_android.ui.screens.post_edit.fragment.dto.ExternalLinkInfo
 import io.golos.cyber_android.ui.screens.post_edit.fragment.dto.ShowCloseConfirmationDialogCommand
@@ -26,6 +23,7 @@ import io.golos.data.errors.AppError
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.CommunityDomain
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.PostDomain
 import io.golos.domain.dto.UploadedImageEntity
 import io.golos.domain.extensions.map
@@ -35,7 +33,6 @@ import io.golos.domain.use_cases.feed.PostWithCommentUseCaseImpl
 import io.golos.domain.use_cases.model.*
 import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.ControlMetadata
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
@@ -60,7 +57,7 @@ constructor(
     private val embedsUseCase: UseCase<ProccesedLinksModel>,
     private val imageUploadUseCase: UseCase<UploadedImagesModel>,
     private val postUseCase: PostWithCommentUseCaseImpl?,
-    private val contentId: ContentId?,
+    private val contentId: ContentIdDomain?,
     model: EditorPageModel
 ) : ViewModelBase<EditorPageModel>(
     dispatchersProvider,
@@ -178,7 +175,7 @@ constructor(
                         )
                     } else {
                         model.updatePost(
-                            contentId!!.mapToContentIdDomain(),
+                            contentId!!,
                             content,
                             Permlink(contentId.permlink),
                             adultOnly,

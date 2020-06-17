@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,13 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentMyFeedBinding
-import io.golos.cyber_android.ui.dialogs.PostRewardBottomSheetDialog
-import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
 import io.golos.cyber_android.ui.screens.feed_my.di.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.feed_my.dto.SwitchToProfileTab
-import io.golos.cyber_android.ui.screens.feed_my.view.items.CreatePostItem
 import io.golos.cyber_android.ui.screens.feed_my.view.list.MyFeedAdapter
 import io.golos.cyber_android.ui.screens.feed_my.view.view_commands.*
 import io.golos.cyber_android.ui.screens.feed_my.view_model.MyFeedViewModel
@@ -40,6 +36,7 @@ import io.golos.cyber_android.ui.shared.utils.shareMessage
 import io.golos.cyber_android.ui.shared.widgets.post_comments.items.PostItem
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.android.synthetic.main.fragment_my_feed.*
@@ -252,7 +249,7 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
                         data?.action?.let { action ->
                             when (action) {
                                 Tags.ACTION_EDIT_SUCCESS -> {
-                                    val contentId = data.getParcelableExtra<ContentId>(Tags.CONTENT_ID)
+                                    val contentId = data.getParcelableExtra<ContentIdDomain>(Tags.CONTENT_ID)
                                     val discussionIdModel = DiscussionIdModel(
                                         contentId.userId,
                                         Permlink(contentId.permlink)
@@ -270,7 +267,7 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
                         data?.action?.let { action ->
                             when (action) {
                                 Tags.ACTION_EDIT_SUCCESS -> {
-                                    val contentId = data.getParcelableExtra<ContentId>(Tags.CONTENT_ID)
+                                    val contentId = data.getParcelableExtra<ContentIdDomain>(Tags.CONTENT_ID)
                                     val discussionIdModel = DiscussionIdModel(
                                         contentId.userId,
                                         Permlink(contentId.permlink)
@@ -302,7 +299,7 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
 
     private fun openPost(
         discussionIdModel: DiscussionIdModel,
-        contentId: ContentId
+        contentId: ContentIdDomain
     ) {
         getDashboardFragment(this)?.navigateToFragment(
             PostPageFragment.newInstance(

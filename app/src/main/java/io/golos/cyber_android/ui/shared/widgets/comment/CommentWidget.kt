@@ -8,10 +8,10 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.glide.loadCommentAttachment
 import io.golos.cyber_android.ui.shared.utils.TextWatcherBase
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.ControlMetadata
 import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.EmbedMetadata
 import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.EmbedType
@@ -40,7 +40,7 @@ class CommentWidget @JvmOverloads constructor(
 
     var onAttachImageListener: ((String?) -> Unit)? = null
 
-    private var contentId: ContentId? = null
+    private var contentId: ContentIdDomain? = null
 
     private val taskRunner = TextTasksRunner(CommentTextTasksFactoryImpl())
 
@@ -109,7 +109,7 @@ class CommentWidget @JvmOverloads constructor(
         sendButton.isEnabled = enabled
     }
 
-    fun setCommentForEdit(id: ContentId?, body: ContentBlock?) {
+    fun setCommentForEdit(id: ContentIdDomain?, body: ContentBlock?) {
         contentState = ContentState.EDIT
         contentId = id
         val content = body?.content ?: listOf()
@@ -138,7 +138,7 @@ class CommentWidget @JvmOverloads constructor(
         commentEdit.visibility = View.VISIBLE
     }
 
-    fun setCommentForReply(id: ContentId?, body: ContentBlock?) {
+    fun setCommentForReply(id: ContentIdDomain?, body: ContentBlock?) {
         contentState = ContentState.REPLY
         contentId = id
         val content = body?.content ?: listOf()

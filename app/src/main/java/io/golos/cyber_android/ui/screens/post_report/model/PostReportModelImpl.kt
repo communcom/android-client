@@ -1,13 +1,12 @@
 package io.golos.cyber_android.ui.screens.post_report.model
 
 import android.annotation.SuppressLint
-import io.golos.cyber_android.ui.dto.ContentId
-import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
+import io.golos.domain.dto.ContentIdDomain
 import javax.inject.Inject
 
 class PostReportModelImpl @Inject constructor(
-    private val contentId: ContentId
+    private val contentId: ContentIdDomain
 ) : PostReportModel {
 
     override fun getReport(): PostReportDialog.Report = PostReportDialog.Report(collectedReasons, contentId)

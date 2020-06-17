@@ -5,7 +5,6 @@ import android.content.Intent
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.dashboard.dto.DeepLinkInfo
 import io.golos.cyber_android.ui.screens.dashboard.dto.OpenNotificationInfo
 import io.golos.cyber_android.ui.screens.dashboard.model.DashboardModel
@@ -17,6 +16,7 @@ import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.cyber_android.ui.shared.widgets.NavigationBottomMenuWidget
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.model.DiscussionIdModel
@@ -114,7 +114,7 @@ constructor(
                         }
                         is DeepLinkInfo.PostDeepLink -> {
                             val discussionId = DiscussionIdModel(linkInfo.userId.userId, Permlink(linkInfo.postId))
-                            val contentId = ContentId(linkInfo.communityId, linkInfo.postId, linkInfo.userId.userId)
+                            val contentId = ContentIdDomain(linkInfo.communityId, linkInfo.postId, linkInfo.userId.userId)
                             NavigateToPostCommand(discussionId, contentId)
                         }
                     }

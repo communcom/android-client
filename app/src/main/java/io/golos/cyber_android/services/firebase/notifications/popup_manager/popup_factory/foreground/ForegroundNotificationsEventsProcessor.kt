@@ -3,11 +3,11 @@ package io.golos.cyber_android.services.firebase.notifications.popup_manager.pop
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import com.skydoves.balloon.Balloon
-import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.BaseNotificationItem
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModelListEventsProcessor
 import io.golos.cyber_android.ui.shared.utils.IntentConstants
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.UserIdDomain
 import timber.log.Timber
 import java.lang.ref.WeakReference
@@ -28,7 +28,7 @@ class ForegroundNotificationsEventsProcessor(
         openNotification { intent -> intent.putExtra(IntentConstants.USER_ID, userId) }
     }
 
-    override fun onPostNavigateClicked(contentId: ContentId) {
+    override fun onPostNavigateClicked(contentId: ContentIdDomain) {
         openNotification { intent -> intent.putExtra(IntentConstants.POST_CONTENT_ID, contentId) }
     }
 

@@ -5,7 +5,7 @@ import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.dto.ContentId
+import io.golos.cyber_android.services.post_view.RecordPostViewService
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
 import io.golos.cyber_android.ui.screens.post_view.dto.*
@@ -20,6 +20,7 @@ import io.golos.domain.repositories.exceptions.ApiResponseErrorException
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.EditorOutputToJsonMapper
 import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.EmbedMetadata
 import io.golos.domain.repositories.CurrentUserRepositoryRead
@@ -37,7 +38,7 @@ constructor(
     dispatchersProvider: DispatchersProvider,
     model: PostPageModel,
     private val currentUserRepository: CurrentUserRepositoryRead,
-    private val postContentId: ContentId
+    private val postContentId: ContentIdDomain
 ) : ViewModelBase<PostPageModel>(dispatchersProvider, model),
     PostPageViewModelListEventsProcessor {
 
@@ -59,6 +60,10 @@ constructor(
 
     private val _commentFieldEnabled = MutableLiveData<Boolean>(false)
     val commentFieldEnabled = _commentFieldEnabled as LiveData<Boolean>
+
+    init {
+        RecordPostViewService.record(appContext, postContentId)
+    }
 
     fun setup() {
         if (wasMovedToChild) {
@@ -99,11 +104,11 @@ constructor(
         _command.value = NavigateToLinkViewCommand(linkUri)
     }
 
-    override fun onSeeMoreClicked(contentId: ContentId) = false
+    override fun onSeeMoreClicked(contentId: ContentIdDomain) = false
 
-    override fun onItemClicked(contentId: ContentId) {}
+    override fun onItemClicked(contentId: ContentIdDomain) {}
 
-    override fun onBodyClicked(postContentId: ContentId?) {
+    override fun onBodyClicked(postContentId: ContentIdDomain?) {
         //Not need use
     }
 
@@ -208,12 +213,12 @@ constructor(
         _command.value = SharePostCommand(shareUrl)
     }
 
-    fun editPost(contentId: ContentId) {
+    fun editPost(contentId: ContentIdDomain) {
         _command.value =
             NavigationToEditPostViewCommand(contentId)
     }
 
-    fun reportPost(contentId: ContentId) {
+    fun reportPost(contentId: ContentIdDomain) {
         _command.value = ReportPostCommand(contentId)
     }
 
@@ -343,7 +348,7 @@ constructor(
         comment?.let {
             val contentBlock = comment.body
             val discussionIdModel = comment.contentId
-            val commentContentId = ContentId(postContentId.communityId, discussionIdModel.permlink.value, discussionIdModel.userId)
+            val commentContentId = ContentIdDomain(postContentId.communityId, discussionIdModel.permlink.value, discussionIdModel.userId)
             _command.value = NavigateToEditComment(
                 commentContentId,
                 contentBlock
@@ -355,7 +360,7 @@ constructor(
         val comment = model.getComment(commentToReplyId)
         comment?.let {
             val contentBlock = comment.body
-            val parentContentId = ContentId(postContentId.communityId, commentToReplyId.permlink.value, commentToReplyId.userId)
+            val parentContentId = ContentIdDomain(postContentId.communityId, commentToReplyId.permlink.value, commentToReplyId.userId)
             _command.value = NavigateToReplyCommentViewCommand(
                 parentContentId,
                 contentBlock

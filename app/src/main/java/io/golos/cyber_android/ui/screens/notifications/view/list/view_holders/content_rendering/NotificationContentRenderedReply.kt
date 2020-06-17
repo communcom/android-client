@@ -7,13 +7,13 @@ import android.text.style.StyleSpan
 import android.view.View
 import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.mappers.mapToContentId
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.ReplyNotificationItem
 import io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.content_rendering.view.NotificationView
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModelListEventsProcessor
 import io.golos.cyber_android.ui.shared.glide.loadNotificationImageContent
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.utils.helpers.SPACE
 import io.golos.utils.helpers.appendText
@@ -105,7 +105,7 @@ class NotificationContentRenderedReply(viewDescription: NotificationView) : Noti
     }
 
     private fun onItemClicked(listItem: ReplyNotificationItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor){
-        val postContentId: ContentId = listItem.comment.parents.post.mapToContentId()
+        val postContentId: ContentIdDomain = listItem.comment.parents.post.mapToContentId()
         listItemEventsProcessor.onPostNavigateClicked(postContentId)
     }
 }

@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentNotificationsBinding
-import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.feed_my.di.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.notifications.di.NotificationsFragmentComponent
 import io.golos.cyber_android.ui.screens.notifications.view.list.NotificationsAdapter
@@ -26,6 +25,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.shared.utils.*
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
@@ -152,10 +152,7 @@ class NotificationsFragment : FragmentBaseMVVM<FragmentNotificationsBinding, Not
         )
     }
 
-    private fun openPost(
-        discussionIdModel: DiscussionIdModel,
-        contentId: ContentId
-    ) {
+    private fun openPost(discussionIdModel: DiscussionIdModel, contentId: ContentIdDomain) {
         getDashboardFragment(this)?.navigateToFragment(
             PostPageFragment.newInstance(
                 PostPageFragment.Args(

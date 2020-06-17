@@ -1,16 +1,16 @@
 package io.golos.cyber_android.ui.shared.widgets.post_comments.items
 
 import android.content.Context
-import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.shared.base.adapter.RecyclerItem
 import io.golos.cyber_android.ui.shared.utils.getScreenSize
 import io.golos.cyber_android.ui.shared.widgets.post_comments.EmbedWidget
 import io.golos.cyber_android.ui.shared.widgets.post_comments.EmbedWidgetListener
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.EmbedBlock
 
 class PostEmbedBlockItem(
     val embedBlock: EmbedBlock,
-    val contentId: ContentId,
+    val contentId: ContentIdDomain,
     widgetListener: EmbedWidgetListener? = null
 ) : BaseBlockItem<EmbedBlock, EmbedWidgetListener, EmbedWidget>(
     embedBlock,

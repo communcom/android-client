@@ -1,9 +1,10 @@
 package io.golos.cyber_android.ui.dto
 
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ContentBlock
 
 data class Comment(
-    val contentId: ContentId,
+    val contentId: ContentIdDomain,
     val author: Author,
     var votes: Votes,
     val body: ContentBlock?,

@@ -1,13 +1,14 @@
 package io.golos.cyber_android.ui.dto
 
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.RewardPostDomain
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ContentBlock
 
 data class Post(
     val author: Author,
     val community: Community,
-    val contentId: ContentId,
+    val contentId: ContentIdDomain,
     val body: ContentBlock?,
     val meta: Meta,
     val stats: Stats?,

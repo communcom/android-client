@@ -11,11 +11,11 @@ import androidx.annotation.ColorRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.shared.glide.ImageProgressLoadState
 import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.glide.loadContentAttachment
 import io.golos.cyber_android.ui.shared.utils.prefetchScreenSize
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ImageBlock
 import kotlinx.android.synthetic.main.layout_image_preload.view.*
 import kotlinx.android.synthetic.main.view_post_embed_image.view.*
@@ -33,7 +33,7 @@ constructor(
     private var onClickProcessor: EmbedImageWidgetListener? = null
     private var imageUri: Uri? = null
 
-    private var postContentId: ContentId? = null
+    private var postContentId: ContentIdDomain? = null
     private var cornerRadius: Int = 0
     private var widthBlock: Int = 0
     private @ColorRes var preloadFrameColorId: Int = R.color.post_empty_place_holder
@@ -42,7 +42,7 @@ constructor(
         inflate(context, R.layout.view_post_embed_image, this)
     }
 
-    fun setContentId(contentId: ContentId?) {
+    fun setContentId(contentId: ContentIdDomain?) {
         postContentId = contentId
     }
 

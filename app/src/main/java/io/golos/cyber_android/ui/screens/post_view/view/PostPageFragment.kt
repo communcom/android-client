@@ -4,13 +4,11 @@ import android.animation.AnimatorInflater
 import android.animation.StateListAnimator
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
 import androidx.annotation.StringRes
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -20,7 +18,6 @@ import io.golos.cyber_android.databinding.FragmentPostBinding
 import io.golos.cyber_android.ui.dialogs.CommentsActionsDialog
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
 import io.golos.cyber_android.ui.dialogs.PostRewardBottomSheetDialog
-import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
 import io.golos.cyber_android.ui.screens.post_edit.activity.EditorPageActivity
@@ -34,7 +31,6 @@ import io.golos.cyber_android.ui.screens.post_view.view.list.PostPageAdapter
 import io.golos.cyber_android.ui.screens.post_view.view_model.PostPageViewModel
 import io.golos.cyber_android.ui.screens.profile.view.ProfileExternalUserFragment
 import io.golos.cyber_android.ui.screens.profile_photos.view.ProfilePhotosFragment
-import io.golos.cyber_android.ui.shared.ImageViewerActivity
 import io.golos.cyber_android.ui.shared.Tags
 import io.golos.cyber_android.ui.shared.extensions.reduceDragSensitivity
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
@@ -45,6 +41,7 @@ import io.golos.cyber_android.ui.shared.utils.openLinkView
 import io.golos.cyber_android.ui.shared.utils.shareMessage
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.model.PostModel
@@ -73,7 +70,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
     @Parcelize
     data class Args(
         val id: DiscussionIdModel,
-        val contentId: ContentId? = null,
+        val contentId: ContentIdDomain? = null,
         val scrollToComments: Boolean = false
     ) : Parcelable
 
@@ -252,7 +249,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
                         data?.action?.let { action ->
                             when (action) {
                                 Tags.ACTION_EDIT_SUCCESS -> {
-                                    val contentId = data.getParcelableExtra<ContentId>(Tags.CONTENT_ID)
+                                    val contentId = data.getParcelableExtra<ContentIdDomain>(Tags.CONTENT_ID)
                                     val discussionIdModel = DiscussionIdModel(
                                         contentId.userId,
                                         Permlink(contentId.permlink)
@@ -273,7 +270,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
 
     private fun openPost(
         discussionIdModel: DiscussionIdModel,
-        contentId: ContentId
+        contentId: ContentIdDomain
     ) {
         getDashboardFragment(this)?.navigateToFragment(
             newInstance(
@@ -286,7 +283,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
         )
     }
 
-    private fun showReportPost(contentId: ContentId) {
+    private fun showReportPost(contentId: ContentIdDomain) {
         val tag = PostReportDialog::class.java.name
         if (childFragmentManager.findFragmentByTag(tag) == null) {
             val dialog = PostReportDialog.newInstance(PostReportDialog.Args(contentId))
@@ -301,7 +298,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
         ConfirmationDialog.newInstance(R.string.delete_post_confirmation, this@PostPageFragment)
             .show(requireFragmentManager(), "menu")
 
-    private fun openEditPost(contentId: ContentId) {
+    private fun openEditPost(contentId: ContentIdDomain) {
         startActivityForResult(
             EditorPageActivity.getIntent(
                 requireContext(),

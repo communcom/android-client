@@ -17,7 +17,7 @@ fun Comment.mapToCommentMenu(): CommentMenu = CommentMenu(
 )
 
 fun Comment.mapToCommentDomain(): CommentDomain = CommentDomain(
-    contentId = this.contentId.mapToContentIdDomain(),
+    contentId = this.contentId,
     author = AuthorDomain(this.author.avatarUrl,
         this.author.userId,
         this.author.username),

@@ -2,13 +2,13 @@ package io.golos.cyber_android.ui.screens.dashboard.model
 
 import android.content.Intent
 import android.net.Uri
-import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.dashboard.dto.DeepLinkInfo
 import io.golos.cyber_android.ui.screens.dashboard.dto.OpenNotificationInfo
 import io.golos.cyber_android.ui.screens.dashboard.model.deep_links.DeepLinksParser
 import io.golos.cyber_android.ui.shared.utils.IntentConstants
 import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.notifications.NotificationsStatusDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.NotificationsRepository
@@ -34,7 +34,7 @@ constructor(
     override suspend fun parseOpenNotification(intent: Intent): OpenNotificationInfo? =
         intent.takeIf { it.action == IntentConstants.ACTION_OPEN_NOTIFICATION }
             ?.let {
-                it.getParcelableExtra<ContentId>(IntentConstants.POST_CONTENT_ID)?.let { contentId ->
+                it.getParcelableExtra<ContentIdDomain>(IntentConstants.POST_CONTENT_ID)?.let { contentId ->
                     OpenNotificationInfo.OpenPost(contentId)
                 }
                 ?: it.getParcelableExtra<UserIdDomain>(IntentConstants.USER_ID)?.let { userId ->

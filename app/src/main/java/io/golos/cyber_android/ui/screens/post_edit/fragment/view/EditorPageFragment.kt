@@ -20,7 +20,6 @@ import io.golos.cyber_android.databinding.FragmentEditorPageBinding
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
 import io.golos.cyber_android.ui.dialogs.ImagePickerDialog
 import io.golos.cyber_android.ui.dialogs.select_community_dialog.view.SelectCommunityDialog
-import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.post_edit.fragment.di.EditorPageFragmentComponent
 import io.golos.cyber_android.ui.screens.post_edit.fragment.dto.ExternalLinkType
 import io.golos.cyber_android.ui.screens.post_edit.fragment.dto.ShowCloseConfirmationDialogCommand
@@ -39,6 +38,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityC
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageTextCommand
 import io.golos.cyber_android.ui.shared.utils.TextWatcherBase
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.posts_parsing_rendering.post_metadata.TextStyle
 import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.EmbedType
 import io.golos.posts_editor.dialogs.selectColor.SelectColorDialog
@@ -52,7 +52,7 @@ import javax.inject.Inject
 class EditorPageFragment : ImagePickerFragmentBase() {
     @Parcelize
     data class Args(
-        val contentId: ContentId? = null,
+        val contentId: ContentIdDomain? = null,
         val initialImageSource: ImageSource = ImageSource.NONE
     ) : Parcelable
 
@@ -263,7 +263,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
         })
     }
 
-    private fun onPostResult(contentId: ContentId) {
+    private fun onPostResult(contentId: ContentIdDomain) {
         hideLoading()
         val intent = Intent(Tags.ACTION_EDIT_SUCCESS).apply {
             putExtra(Tags.CONTENT_ID, contentId)

@@ -1,20 +1,18 @@
 package io.golos.cyber_android.ui.screens.post_view.model
 
 import androidx.lifecycle.LiveData
-import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
 import io.golos.cyber_android.ui.screens.post_view.dto.SortingType
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
 import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
 import io.golos.domain.use_cases.model.CommentModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
-import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.AttachmentsBlock
-import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.Block
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.PostMetadata
 import java.io.File
 
@@ -78,7 +76,7 @@ interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToC
 
     fun getCommentText(commentId: DiscussionIdModel): List<CharSequence>
 
-    fun getComment(commentId: ContentId): CommentModel?
+    fun getComment(commentId: ContentIdDomain): CommentModel?
 
     fun getComment(discussionIdModel: DiscussionIdModel): CommentModel?
 

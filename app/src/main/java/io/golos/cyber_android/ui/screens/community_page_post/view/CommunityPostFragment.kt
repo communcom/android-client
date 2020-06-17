@@ -12,7 +12,6 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentCommunityPostBinding
 import io.golos.cyber_android.ui.dialogs.PostRewardBottomSheetDialog
-import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.community_page_post.di.CommunityPostFragmentComponent
 import io.golos.cyber_android.ui.screens.community_page_post.view_model.CommunityPostViewModel
@@ -40,6 +39,7 @@ import io.golos.cyber_android.ui.shared.utils.shareMessage
 import io.golos.cyber_android.ui.shared.widgets.post_comments.items.PostItem
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.android.synthetic.main.fragment_community_post.*
 import kotlinx.android.synthetic.main.fragment_community_post.btnRetry
@@ -154,7 +154,7 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
                         data?.action?.let { action ->
                             when (action) {
                                 Tags.ACTION_EDIT_SUCCESS -> {
-                                    val contentId = data.getParcelableExtra<ContentId>(Tags.CONTENT_ID)
+                                    val contentId = data.getParcelableExtra<ContentIdDomain>(Tags.CONTENT_ID)
                                     val discussionIdModel = DiscussionIdModel(
                                         contentId.userId,
                                         Permlink(contentId.permlink)
@@ -284,7 +284,7 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
 
     private fun openPost(
         discussionIdModel: DiscussionIdModel,
-        contentId: ContentId
+        contentId: ContentIdDomain
     ) {
         getDashboardFragment(this)?.navigateToFragment(
             PostPageFragment.newInstance(

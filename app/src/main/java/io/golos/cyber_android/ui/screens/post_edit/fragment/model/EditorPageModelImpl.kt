@@ -2,12 +2,10 @@ package io.golos.cyber_android.ui.screens.post_edit.fragment.model
 
 import android.net.Uri
 import com.squareup.moshi.Moshi
-import dagger.Lazy
 import io.golos.commun4j.services.model.OEmbedResult
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.sharedmodel.Either
 import io.golos.commun4j.utils.toCyberName
-import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.post_edit.fragment.dto.ExternalLinkError
 import io.golos.cyber_android.ui.screens.post_edit.fragment.dto.ExternalLinkInfo
 import io.golos.cyber_android.ui.screens.post_edit.fragment.dto.ExternalLinkType
@@ -190,7 +188,7 @@ constructor(
             discussionRepository.getPost(CyberName(currentUserRepository.authState!!.user.userId), permlink)
         }
 
-    override suspend fun getPostToEdit(contentId: ContentId): PostDomain =
+    override suspend fun getPostToEdit(contentId: ContentIdDomain): PostDomain =
         withContext(dispatchersProvider.ioDispatcher) {
             discussionRepository.getPost(
                 contentId.userId.toCyberName(),

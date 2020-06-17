@@ -4,12 +4,12 @@ import android.content.Context
 import io.golos.cyber_android.ui.shared.base.adapter.RecyclerItem
 import io.golos.cyber_android.ui.shared.widgets.post_comments.EmbedVideoWidget
 import io.golos.cyber_android.ui.shared.widgets.post_comments.EmbedVideoWidgetListener
-import io.golos.cyber_android.ui.dto.ContentId
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.VideoBlock
 
 class VideoBlockItem(
     val videoBlock: VideoBlock,
-    val contentId: ContentId? = null,
+    val contentId: ContentIdDomain? = null,
     widgetListener: EmbedVideoWidgetListener? = null
 ) : BaseBlockItem<VideoBlock, EmbedVideoWidgetListener, EmbedVideoWidget>(videoBlock, widgetListener) {
 

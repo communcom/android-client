@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.Author
-import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.CommentListItem
 import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.CommentListItemState
 import io.golos.cyber_android.ui.screens.post_view.helpers.CommentTextRenderer
@@ -33,6 +32,7 @@ import io.golos.cyber_android.ui.shared.widgets.post_comments.ParagraphWidgetLis
 import io.golos.cyber_android.ui.shared.widgets.post_comments.VotingWidget
 import io.golos.cyber_android.ui.shared.widgets.post_comments.items.*
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.utils.helpers.appendSpannedText
 import io.golos.utils.helpers.appendText
 import io.golos.utils.helpers.setSpan
@@ -155,7 +155,7 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
             addAuthorNameToContent(newContentList, author, listItemEventsProcessor)
         }
         val discussionId = listItem.externalId
-        val contentId = ContentId(CommunityIdDomain(""), discussionId.permlink.value, discussionId.userId)
+        val contentId = ContentIdDomain(CommunityIdDomain(""), discussionId.permlink.value, discussionId.userId)
         val contentItems = newContentList
             .filter { createPostBodyItem(contentId, it, listItemEventsProcessor, longClickListener) != null }
             .map {
@@ -226,7 +226,7 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
     }
 
     private fun createPostBodyItem(
-        contentId: ContentId,
+        contentId: ContentIdDomain,
         block: Block,
         listItemEventsProcessor: PostPageViewModelListEventsProcessor,
         longClickListener: View.OnLongClickListener

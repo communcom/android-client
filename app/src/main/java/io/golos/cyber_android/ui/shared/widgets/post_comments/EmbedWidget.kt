@@ -12,11 +12,11 @@ import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.shared.glide.ImageProgressLoadState
 import io.golos.cyber_android.ui.shared.glide.loadContentAttachment
 import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.utils.prefetchScreenSize
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.EmbedBlock
 import kotlinx.android.synthetic.main.layout_image_preload.view.*
 import kotlinx.android.synthetic.main.view_attachment_rich.view.*
@@ -35,7 +35,7 @@ constructor(
 
     private var linkUri: Uri? = null
 
-    private var contentId: ContentId? = null
+    private var contentId: ContentIdDomain? = null
 
     private var cornerRadius: Int = 0
 
@@ -47,7 +47,7 @@ constructor(
         inflate(context, R.layout.view_attachment_rich, this)
     }
 
-    fun setContentId(postContentId: ContentId) {
+    fun setContentId(postContentId: ContentIdDomain) {
         contentId = postContentId
     }
 

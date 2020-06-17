@@ -6,9 +6,9 @@ import android.view.View
 import android.widget.LinearLayout
 import com.bumptech.glide.Glide
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.shared.glide.loadVideoContent
 import io.golos.cyber_android.ui.shared.utils.prefetchScreenSize
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.VideoBlock
 import kotlinx.android.synthetic.main.view_post_embed_video.view.*
 
@@ -22,7 +22,7 @@ constructor(
     BlockWidget<VideoBlock, EmbedVideoWidgetListener> {
 
     private var isNeedToShowHtmlContent: Boolean = true
-    private var postContentId: ContentId? = null
+    private var postContentId: ContentIdDomain? = null
 
     init {
         inflate(context, R.layout.view_post_embed_video, this)
@@ -32,7 +32,7 @@ constructor(
         isNeedToShowHtmlContent = false
     }
 
-    fun setContentId(contentId: ContentId?) {
+    fun setContentId(contentId: ContentIdDomain?) {
         postContentId = contentId
     }
 

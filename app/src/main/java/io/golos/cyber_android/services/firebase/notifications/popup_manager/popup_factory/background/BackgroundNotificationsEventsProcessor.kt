@@ -1,8 +1,8 @@
 package io.golos.cyber_android.services.firebase.notifications.popup_manager.popup_factory.background
 
-import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.BaseNotificationItem
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModelListEventsProcessor
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.UserIdDomain
 
 class BackgroundNotificationsEventsProcessor : NotificationsViewModelListEventsProcessor {
@@ -18,7 +18,7 @@ class BackgroundNotificationsEventsProcessor : NotificationsViewModelListEventsP
         // do nothing
     }
 
-    override fun onPostNavigateClicked(contentId: ContentId) {
+    override fun onPostNavigateClicked(contentId: ContentIdDomain) {
         // do nothing
     }
 

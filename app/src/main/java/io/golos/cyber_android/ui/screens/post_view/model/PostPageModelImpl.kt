@@ -3,7 +3,6 @@ package io.golos.cyber_android.ui.screens.post_view.model
 import androidx.lifecycle.LiveData
 import dagger.Lazy
 import io.golos.commun4j.utils.toCyberName
-import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
 import io.golos.cyber_android.ui.screens.post_view.dto.SortingType
@@ -14,6 +13,7 @@ import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.PostDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.PostMetadata
@@ -45,7 +45,7 @@ constructor(
     private val commentsProcessing: CommentsProcessingFacade,
     private val subscribeToCommunityUseCase: SubscribeToCommunityUseCase,
     private val unsubscribeToCommunityUseCase: UnsubscribeToCommunityUseCase,
-    private val contentId: ContentId?,
+    private val contentId: ContentIdDomain?,
     private val usersRepository: Lazy<UsersRepository>
 ) : ModelBaseImpl(),
     PostPageModel,
@@ -85,7 +85,7 @@ constructor(
             communityId = postDomain.community.communityId,
             communityName = postDomain.community.name,
             communityAvatarUrl = postDomain.community.avatarUrl,
-            contentId = ContentId(
+            contentId = ContentIdDomain(
                 communityId = postDomain.community.communityId,
                 permlink = postDomain.contentId.permlink,
                 userId = postDomain.author.userId
@@ -201,7 +201,7 @@ constructor(
     override fun getCommentText(commentId: DiscussionIdModel): List<CharSequence> =
         commentsProcessing.getCommentText(commentId)
 
-    override fun getComment(commentId: ContentId): CommentModel? {
+    override fun getComment(commentId: ContentIdDomain): CommentModel? {
         return commentsProcessing.getComment(commentId)
     }
 

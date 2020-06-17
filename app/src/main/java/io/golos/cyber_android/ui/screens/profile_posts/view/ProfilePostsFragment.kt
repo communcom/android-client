@@ -12,7 +12,6 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentProfilePostsBinding
 import io.golos.cyber_android.ui.dialogs.PostRewardBottomSheetDialog
-import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
 import io.golos.cyber_android.ui.screens.dashboard.view.DashboardFragment
@@ -39,12 +38,12 @@ import io.golos.cyber_android.ui.shared.utils.shareMessage
 import io.golos.cyber_android.ui.shared.widgets.post_comments.items.PostItem
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.PostsConfigurationDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.android.synthetic.main.fragment_profile_posts.*
 import kotlinx.android.synthetic.main.view_search_bar.*
-import timber.log.Timber
 
 open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, ProfilePostsViewModel>() {
     companion object {
@@ -128,7 +127,7 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
                         data?.action?.let { action ->
                             when (action) {
                                 Tags.ACTION_EDIT_SUCCESS -> {
-                                    val contentId = data.getParcelableExtra<ContentId>(Tags.CONTENT_ID)
+                                    val contentId = data.getParcelableExtra<ContentIdDomain>(Tags.CONTENT_ID)
                                     val discussionIdModel = DiscussionIdModel(
                                         contentId.userId,
                                         Permlink(contentId.permlink)
@@ -308,7 +307,7 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
             }
         }
 
-    private fun openPost(discussionIdModel: DiscussionIdModel, contentId: ContentId) {
+    private fun openPost(discussionIdModel: DiscussionIdModel, contentId: ContentIdDomain) {
         getDashboardFragment(this)?.navigateToFragment(
             PostPageFragment.newInstance(
                 PostPageFragment.Args(

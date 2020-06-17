@@ -6,7 +6,6 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.User
 import io.golos.cyber_android.ui.mappers.mapToPost
@@ -105,7 +104,7 @@ constructor(
         _command.value = SharePostCommand(shareUrl)
     }
 
-    override fun onUpVoteClicked(contentId: ContentId) {
+    override fun onUpVoteClicked(contentId: ContentIdDomain) {
         launch {
             try {
                 _postsListState.value = updateUpVoteCountOfVotes(_postsListState.value, contentId)
@@ -117,7 +116,7 @@ constructor(
         }
     }
 
-    override fun onDownVoteClicked(contentId: ContentId) {
+    override fun onDownVoteClicked(contentId: ContentIdDomain) {
         launch {
             try {
                 _postsListState.value = updateDownVoteCountOfVotes(_postsListState.value, contentId)
@@ -149,13 +148,13 @@ constructor(
         _command.value = NavigateToCommunityPageCommand(communityId)
     }
 
-    override fun onSeeMoreClicked(contentId: ContentId): Boolean {
+    override fun onSeeMoreClicked(contentId: ContentIdDomain): Boolean {
         val discussionIdModel = DiscussionIdModel(contentId.userId, Permlink(contentId.permlink))
         _command.value = NavigateToPostCommand(discussionIdModel, contentId)
         return true
     }
 
-    override fun onItemClicked(contentId: ContentId) {
+    override fun onItemClicked(contentId: ContentIdDomain) {
         val discussionIdModel = DiscussionIdModel(contentId.userId, Permlink(contentId.permlink))
         _command.value = NavigateToPostCommand(discussionIdModel, contentId)
     }
@@ -172,15 +171,15 @@ constructor(
         }
     }
 
-    override fun onCommentsClicked(postContentId: ContentId) {
+    override fun onCommentsClicked(postContentId: ContentIdDomain) {
         openPost(postContentId)
     }
 
-    override fun onBodyClicked(postContentId: ContentId?) {
+    override fun onBodyClicked(postContentId: ContentIdDomain?) {
         openPost(postContentId)
     }
 
-    private fun openPost(postContentId: ContentId?){
+    private fun openPost(postContentId: ContentIdDomain?){
         postContentId?.let {
             val discussionIdModel = DiscussionIdModel(it.userId, Permlink(it.permlink))
             _command.value = NavigateToPostCommand(discussionIdModel, it)
@@ -463,7 +462,7 @@ constructor(
 
     private fun updateUpVoteCountOfVotes(
         state: Paginator.State?,
-        contentId: ContentId
+        contentId: ContentIdDomain
     ): Paginator.State? {
         when (state) {
             is Paginator.State.Data<*> -> {
@@ -483,7 +482,7 @@ constructor(
         return state
     }
 
-    private fun updateUpVoteInPostsByContentId(posts: ArrayList<Post>, contentId: ContentId){
+    private fun updateUpVoteInPostsByContentId(posts: ArrayList<Post>, contentId: ContentIdDomain){
         val foundedPost = posts.find { post ->
             post.contentId == contentId
         }
@@ -504,7 +503,7 @@ constructor(
 
     private fun updateDownVoteCountOfVotes(
         state: Paginator.State?,
-        contentId: ContentId
+        contentId: ContentIdDomain
     ): Paginator.State? {
         when (state) {
             is Paginator.State.Data<*> -> {
@@ -525,7 +524,7 @@ constructor(
         return state
     }
 
-    private fun updateDownVoteInPostsByContentId(posts: ArrayList<Post>, contentId: ContentId){
+    private fun updateDownVoteInPostsByContentId(posts: ArrayList<Post>, contentId: ContentIdDomain) {
         val foundedPost = posts.find { post ->
             post.contentId == contentId
         }

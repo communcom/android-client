@@ -2,10 +2,8 @@ package io.golos.cyber_android.ui.screens.dashboard.view
 
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
@@ -14,7 +12,6 @@ import androidx.viewpager2.widget.ViewPager2
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentDashboardBinding
-import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.screens.communities_list.view.CommunitiesListFragmentTab
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
 import io.golos.cyber_android.ui.screens.dashboard.di.DashboardFragmentComponent
@@ -32,6 +29,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.utils.setStatusBarColor
 import io.golos.cyber_android.ui.shared.widgets.NavigationBottomMenuWidget
 import io.golos.domain.commun_entities.Permlink
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.android.synthetic.main.fragment_dashboard.*
@@ -103,7 +101,7 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
                         data?.action?.let { action ->
                             when (action) {
                                 Tags.ACTION_EDIT_SUCCESS -> {
-                                    val contentId = data.getParcelableExtra<ContentId>(Tags.CONTENT_ID)
+                                    val contentId = data.getParcelableExtra<ContentIdDomain>(Tags.CONTENT_ID)
                                     val discussionIdModel = DiscussionIdModel(
                                         contentId.userId,
                                         Permlink(contentId.permlink)
@@ -129,7 +127,7 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
 
     fun processIntent(intent: Intent) = viewModel.processIntent(intent)
 
-    private fun openPost(discussionIdModel: DiscussionIdModel, contentId: ContentId) {
+    private fun openPost(discussionIdModel: DiscussionIdModel, contentId: ContentIdDomain) {
         navigateToFragment(PostPageFragment.newInstance(PostPageFragment.Args(discussionIdModel, contentId)),tag = contentId.permlink)
     }
 

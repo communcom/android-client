@@ -1,12 +1,12 @@
 package io.golos.cyber_android.ui.screens.dashboard.dto
 
-import io.golos.cyber_android.ui.dto.ContentId
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 
 sealed class OpenNotificationInfo {
     data class OpenPost(
-        val contentId: ContentId
+        val contentId: ContentIdDomain
     ): OpenNotificationInfo()
 
     data class OpenProfile(

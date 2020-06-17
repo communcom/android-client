@@ -7,10 +7,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.Comment
-import io.golos.cyber_android.ui.dto.ContentId
 import io.golos.cyber_android.ui.mappers.mapToComment
 import io.golos.cyber_android.ui.mappers.mapToCommentDomain
-import io.golos.cyber_android.ui.mappers.mapToContentIdDomain
 import io.golos.cyber_android.ui.screens.profile_comments.model.ProfileCommentsModel
 import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentListItem
 import io.golos.cyber_android.ui.screens.profile_comments.view.view_commands.NavigateToEditComment
@@ -19,19 +17,16 @@ import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.shared.utils.PAGINATION_PAGE_SIZE
-import io.golos.cyber_android.ui.shared.utils.localSize
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.cyber_android.ui.shared.widgets.comment.CommentContent
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommentDomain
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.EditorOutputToJsonMapper
 import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.EmbedMetadata
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.*
-import io.golos.domain.repositories.CurrentUserRepository
-import io.golos.domain.repositories.CurrentUserRepositoryRead
-import io.golos.utils.id.IdUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -56,7 +51,7 @@ class ProfileCommentsViewModel @Inject constructor(
         _command.value = NavigateToImageViewCommand(imageUri)
     }
 
-    override fun onItemClicked(contentId: ContentId) {}
+    override fun onItemClicked(contentId: ContentIdDomain) {}
 
     override fun onUserClicked(userId: String) {
         launch {
@@ -74,7 +69,7 @@ class ProfileCommentsViewModel @Inject constructor(
         _command.value = NavigateToCommunityPageCommand(communityId)
     }
 
-    override fun onSeeMoreClicked(contentId: ContentId) = false
+    override fun onSeeMoreClicked(contentId: ContentIdDomain) = false
 
     private var loadCommentsJob: Job? = null
 
@@ -108,7 +103,7 @@ class ProfileCommentsViewModel @Inject constructor(
         loadInitialComments()
     }
 
-    override fun onBodyClicked(postContentId: ContentId?) {
+    override fun onBodyClicked(postContentId: ContentIdDomain?) {
         //Not need use
     }
 
@@ -157,7 +152,7 @@ class ProfileCommentsViewModel @Inject constructor(
         }
     }
 
-    fun editComment(contentId: ContentId) {
+    fun editComment(contentId: ContentIdDomain) {
         val comment = getCommentFromStateByContentId(_commentListState.value, contentId)
         comment?.let {
             _command.value = NavigateToEditComment(it)
@@ -191,11 +186,11 @@ class ProfileCommentsViewModel @Inject constructor(
         _command.value = NavigateToProfileCommentMenuDialogViewCommand(comment)
     }
 
-    override fun onCommentUpVoteClick(commentId: ContentId) {
+    override fun onCommentUpVoteClick(commentId: ContentIdDomain) {
         launch {
             try {
                 _commentListState.value = updateUpVoteCountOfVotes(_commentListState.value, commentId)
-                model.commentUpVote(commentId.mapToContentIdDomain())
+                model.commentUpVote(commentId)
             } catch (e: Exception) {
                 Timber.e(e)
                 _command.value = ShowMessageTextCommand(e.getMessage(appContext))
@@ -203,11 +198,11 @@ class ProfileCommentsViewModel @Inject constructor(
         }
     }
 
-    override fun onCommentDownVoteClick(commentId: ContentId) {
+    override fun onCommentDownVoteClick(commentId: ContentIdDomain) {
         launch {
             try {
                 _commentListState.value = updateDownVoteCountOfVotes(_commentListState.value, commentId)
-                model.commentDownVote(commentId.mapToContentIdDomain())
+                model.commentDownVote(commentId)
             } catch (e: Exception) {
                 Timber.e(e)
                 _command.value = ShowMessageTextCommand(e.getMessage(appContext))
@@ -217,7 +212,7 @@ class ProfileCommentsViewModel @Inject constructor(
 
     private fun updateUpVoteCountOfVotes(
         state: Paginator.State?,
-        contentId: ContentId
+        contentId: ContentIdDomain
     ): Paginator.State? {
         when (state) {
             is Paginator.State.Data<*> -> {
@@ -241,7 +236,7 @@ class ProfileCommentsViewModel @Inject constructor(
     }
 
 
-    private fun getCommentFromStateByContentId(state: Paginator.State?, contentId: ContentId): Comment? {
+    private fun getCommentFromStateByContentId(state: Paginator.State?, contentId: ContentIdDomain): Comment? {
         return when (state) {
             is Paginator.State.Data<*> -> {
                 val comments = (state).data as ArrayList<ProfileCommentListItem>
@@ -263,7 +258,7 @@ class ProfileCommentsViewModel @Inject constructor(
         }
     }
 
-    private fun updateUpVoteInMessagesByContentId(contentId: ContentId, comments: ArrayList<ProfileCommentListItem>) {
+    private fun updateUpVoteInMessagesByContentId(contentId: ContentIdDomain, comments: ArrayList<ProfileCommentListItem>) {
         val foundedComment = comments.find { comment ->
             comment.comment.contentId == contentId
         }
@@ -284,7 +279,7 @@ class ProfileCommentsViewModel @Inject constructor(
 
     private fun updateDownVoteCountOfVotes(
         state: Paginator.State?,
-        contentId: ContentId
+        contentId: ContentIdDomain
     ): Paginator.State? {
         when (state) {
             is Paginator.State.Data<*> -> {
@@ -307,7 +302,7 @@ class ProfileCommentsViewModel @Inject constructor(
         return state
     }
 
-    private fun updateDownVoteInMessagesByContentId(contentId: ContentId, comments: ArrayList<ProfileCommentListItem>) {
+    private fun updateDownVoteInMessagesByContentId(contentId: ContentIdDomain, comments: ArrayList<ProfileCommentListItem>) {
         val foundedComment = comments.find { comment ->
             comment.comment.contentId == contentId
         }
@@ -328,7 +323,7 @@ class ProfileCommentsViewModel @Inject constructor(
 
     private fun updateCommentAfterEdit(
         state: Paginator.State?,
-        contentId: ContentId,
+        contentId: ContentIdDomain,
         body: ContentBlock?
     ): Paginator.State? {
         when (state) {
@@ -353,7 +348,7 @@ class ProfileCommentsViewModel @Inject constructor(
     }
 
     private fun updateCommentByContentId(
-        contentId: ContentId,
+        contentId: ContentIdDomain,
         comments: ArrayList<ProfileCommentListItem>,
         body: ContentBlock?
     ) {
