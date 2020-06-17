@@ -43,13 +43,13 @@
         <activity
             android:name=".ui.screens.in_app_auth_activity.InAppAuthActivity"
             android:screenOrientation="portrait"
-                android:theme="@style/AppTheme.Login"
+            android:theme="@style/AppTheme.Login"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.screens.app_start.welcome.activity.view.WelcomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Login"
-                android:windowSoftInputMode="adjustUnspecified"
+            android:windowSoftInputMode="adjustUnspecified"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -80,19 +80,18 @@
         <activity
             android:name=".ui.screens.post_edit.activity.EditorPageActivity"
             android:screenOrientation="portrait"
-                android:windowSoftInputMode="adjustResize"
+            android:windowSoftInputMode="adjustResize"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.screens.main_activity.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-                android:windowSoftInputMode="adjustResize"
-                android:theme="@style/AppTheme.NoActionBar"
-            tools:ignore="LockedOrientationActivity">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize"
+            tools:ignore="LockedOrientationActivity"></activity>
         <activity
             android:name=".ui.shared.ImageViewerActivity"
-                android:screenOrientation="portrait"
+            android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.facebook.FacebookActivity"
@@ -120,13 +119,17 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
         </provider>
+
         <service
-            android:name="io.golos.cyber_android.services.firebase.notifications.FirebaseNotificationService"
+            android:name=".services.firebase.notifications.FirebaseNotificationService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+        <service
+            android:name=".services.post_view.RecordPostViewService"
+            android:exported="false" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />

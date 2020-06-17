@@ -8,4 +8,9 @@ interface NetworkCallProxy {
     suspend fun <TR>call(action: suspend () -> Either<TR, ApiResponseError>): TR
 
     suspend fun <TR>callBC(action: suspend () -> Either<TR, GolosEosError>): TR
+
+    /**
+     * Provides call in internal thread without result returning
+     */
+    fun callSilent(action: () -> Unit)
 }

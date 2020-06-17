@@ -49,4 +49,6 @@ interface DiscussionRepository {
     suspend fun updatePost(contentIdDomain: ContentIdDomain, body: String, tags: List<String>): PostDomain
 
     suspend fun sendComment(postIdDomain: ContentIdDomain, jsonBody: String): CommentDomain
+
+    fun recordPostView(postId: ContentIdDomain, deviceId: String)
 }

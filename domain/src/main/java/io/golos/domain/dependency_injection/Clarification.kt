@@ -29,4 +29,6 @@ object Clarification {
     const val FACEBOOK = "FACEBOOK"
 
     const val FIREBASE_MESSAGES = "FIREBASE_MESSAGES"
+
+    const val DEVICE_ID = "DEVICE_ID"
 }

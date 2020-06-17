@@ -363,7 +363,6 @@ constructor(
 
     }
 
-
     override suspend fun replyOnComment(parentCommentId: ContentIdDomain, jsonBody: String): CommentDomain {
         val author = currentUserRepository.userId.mapToCyberName()
         val communityId = parentCommentId.communityId
@@ -398,5 +397,11 @@ constructor(
             isMyComment = true,
             commentLevel = 1)
     }
-}
 
+    override fun recordPostView(postId: ContentIdDomain, deviceId: String) {
+        Timber.tag("NET_SOCKET").d("DiscussionRepositoryImpl::recordPostView(postId: $postId, deviceId: $deviceId)")
+        callProxy.callSilent {
+            commun4j.recordPostView(CyberName(postId.userId), postId.communityId.code, postId.permlink, deviceId)
+        }
+    }
+}

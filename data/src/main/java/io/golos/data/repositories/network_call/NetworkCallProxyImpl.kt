@@ -31,6 +31,21 @@ constructor(
 
     override suspend fun <TR>callBC(action: suspend () -> Either<TR, GolosEosError>): TR = callInternal { action().getOrThrow() }
 
+    /**
+     * Provides call in internal thread without result returning
+     */
+    override fun callSilent(action: () -> Unit) {
+        try {
+            if(!networkStateChecker.isConnected) {
+                return
+            }
+
+            action()
+        } catch (ex: Exception) {
+            Timber.e(ex)
+        }
+    }
+
     private suspend fun <TR>callInternal(action: suspend () -> TR): TR =
         try {
             if(!networkStateChecker.isConnected) {
