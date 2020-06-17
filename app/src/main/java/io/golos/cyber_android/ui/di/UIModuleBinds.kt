@@ -16,6 +16,8 @@ import io.golos.cyber_android.ui.shared.helper.UIHelper
 import io.golos.cyber_android.ui.shared.helper.UIHelperImpl
 import io.golos.cyber_android.ui.shared.keyboard.KeyboardVisibilityListener
 import io.golos.cyber_android.ui.shared.keyboard.KeyboardVisibilityListenerImpl
+import io.golos.cyber_android.ui.shared.post_view.RecordPostViewManager
+import io.golos.cyber_android.ui.shared.post_view.RecordPostViewManagerImpl
 import io.golos.domain.BitmapsUtils
 import io.golos.domain.FileSystemHelper
 import io.golos.domain.dependency_injection.scopes.UIScope
@@ -63,4 +65,8 @@ abstract class UIModuleBinds {
 
     @Binds
     abstract fun provideBalanceCalculator(calculator: BalanceCalculatorImpl): BalanceCalculator
+
+    @Binds
+    @UIScope
+    abstract fun provideRecordPostViewManager(manager: RecordPostViewManagerImpl): RecordPostViewManager
 }

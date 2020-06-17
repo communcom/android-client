@@ -148,7 +148,7 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
     }
 
     private fun setupPostsList() {
-        val profilePostAdapter = MyFeedAdapter(viewModel, PostItem.Type.PROFILE)
+        val profilePostAdapter = MyFeedAdapter(viewModel, PostItem.Type.PROFILE, viewModel.recordPostViewManager)
         val lManager = LinearLayoutManager(context)
 
         profilePostAdapter.click = { item ->

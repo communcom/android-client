@@ -65,7 +65,7 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
     }
 
     private fun setupPostsList() {
-        val myFeedAdapter = MyFeedAdapter(viewModel, PostItem.Type.FEED)
+        val myFeedAdapter = MyFeedAdapter(viewModel, PostItem.Type.FEED, viewModel.recordPostViewManager)
         myFeedAdapter.click = { item ->
             when(item){
                 is PostItem -> {

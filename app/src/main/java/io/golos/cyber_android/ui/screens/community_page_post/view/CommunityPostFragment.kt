@@ -48,7 +48,6 @@ import kotlinx.android.synthetic.main.fragment_my_feed.*
 import kotlinx.android.synthetic.main.view_search_bar.*
 
 class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, CommunityPostViewModel>() {
-
     companion object {
         private const val COMMUNITY_ID_EXTRA = "community_id"
 
@@ -65,11 +64,10 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
 
     override fun layoutResId(): Int = R.layout.fragment_community_post
 
-    override fun inject(key: String) = App.injections
-        .get<CommunityPostFragmentComponent>(
-            key,
-            arguments!!.getParcelable<CommunityIdDomain>(COMMUNITY_ID_EXTRA)
-    ).inject(this)
+    override fun inject(key: String) =
+        App.injections
+            .get<CommunityPostFragmentComponent>(key,arguments!!.getParcelable<CommunityIdDomain>(COMMUNITY_ID_EXTRA))
+            .inject(this)
 
     override fun releaseInjection(key: String) = App.injections.release<CommunityPostFragmentComponent>(key)
 
@@ -170,7 +168,7 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
     }
 
     private fun setupPostList() {
-        val postAdapter = MyFeedAdapter(viewModel, PostItem.Type.FEED)
+        val postAdapter = MyFeedAdapter(viewModel, PostItem.Type.FEED, viewModel.recordPostViewManager)
         postAdapter.click = { item ->
             val postItem = item as? PostItem
             postItem?.let { post ->

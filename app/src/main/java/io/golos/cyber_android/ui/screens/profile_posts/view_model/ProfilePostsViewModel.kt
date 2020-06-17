@@ -24,6 +24,7 @@ import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.paginator.Paginator
+import io.golos.cyber_android.ui.shared.post_view.RecordPostViewManager
 import io.golos.cyber_android.ui.shared.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
@@ -50,7 +51,8 @@ constructor(
     private val paginator: Paginator.Store<Post>,
     private val startFeedType: PostsConfigurationDomain.TypeFeedDomain,
     private val postCreateEditRegistry: PostCreateEditRegistry,
-    private val currentUserRepository: CurrentUserRepositoryRead
+    private val currentUserRepository: CurrentUserRepositoryRead,
+    val recordPostViewManager: RecordPostViewManager
 ) : ViewModelBase<MyFeedModel>(dispatchersProvider, model), MyFeedListListener {
 
     private val _postsListState: MutableLiveData<Paginator.State> = MutableLiveData(Paginator.State.Empty)

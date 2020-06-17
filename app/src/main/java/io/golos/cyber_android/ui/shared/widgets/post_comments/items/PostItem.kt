@@ -13,6 +13,7 @@ import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
 import io.golos.cyber_android.ui.shared.base.adapter.BaseRecyclerItem
 import io.golos.cyber_android.ui.shared.base.adapter.RecyclerAdapter
 import io.golos.cyber_android.ui.shared.base.adapter.RecyclerItem
+import io.golos.cyber_android.ui.shared.post_view.RecordPostViewManager
 import io.golos.cyber_android.ui.shared.widgets.post_comments.VotingWidget
 import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.*
@@ -25,11 +26,13 @@ import kotlinx.android.synthetic.main.item_post_content.view.*
 import kotlinx.android.synthetic.main.item_post_controls.view.*
 import kotlinx.android.synthetic.main.item_post_controls.view.votesArea
 import kotlinx.android.synthetic.main.view_post_voting.view.*
+import timber.log.Timber
 
 class PostItem(
     val post: Post,
     private val type: Type,
-    private val listener: MyFeedListListener
+    private val listener: MyFeedListListener,
+    private val recordPostViewManager: RecordPostViewManager
 ) : BaseRecyclerItem() {
 
     enum class Type {
@@ -54,12 +57,24 @@ class PostItem(
 
     override fun initView(context: Context, view: View) {
         super.initView(context, view)
+
+        recordPostViewManager.onPostShow(post.contentId)
+
         view.feedContent.apply {
             adapter = feedAdapter
             layoutManager = LinearLayoutManager(view.context)
             setRecycledViewPool(contentViewPool)
             setItemViewCacheSize(MAX_OFFSCREEN_VIEWS)
         }
+    }
+
+    override fun onViewRecycled(view: View) {
+        super.onViewRecycled(view)
+
+        recordPostViewManager.onPostHide(post.contentId)
+
+        view.postHeader.release()
+        view.votesArea.release()
     }
 
     fun setRecycledViewPool(recycledViewPool: RecyclerView.RecycledViewPool) {
@@ -191,12 +206,6 @@ class PostItem(
             listener.onBodyClicked(post.contentId)
         }
         view.postHeader.setOnRewardButtonClickListener { listener.onRewardClick(post.reward) }
-    }
-
-    override fun onViewRecycled(view: View) {
-        super.onViewRecycled(view)
-        view.postHeader.release()
-        view.votesArea.release()
     }
 
     private fun setVotesCounter(view: View, votes: Votes) {

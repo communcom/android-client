@@ -19,6 +19,7 @@ import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.paginator.Paginator
+import io.golos.cyber_android.ui.shared.post_view.RecordPostViewManager
 import io.golos.cyber_android.ui.shared.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
@@ -34,13 +35,16 @@ import org.json.JSONArray
 import timber.log.Timber
 import javax.inject.Inject
 
-class CommunityPostViewModel @Inject constructor(
+class CommunityPostViewModel
+@Inject
+constructor(
     private val appContext: Context,
     dispatchersProvider: DispatchersProvider,
     model: CommunityPostModel,
     private val currentUserRepository: CurrentUserRepositoryRead,
     private val communityId: CommunityIdDomain,
-    private val paginator: Paginator.Store<Post>
+    private val paginator: Paginator.Store<Post>,
+    val recordPostViewManager: RecordPostViewManager
 ) : ViewModelBase<CommunityPostModel>(dispatchersProvider, model), MyFeedListListener {
 
     private val _postsListState: MutableLiveData<Paginator.State> = MutableLiveData(Paginator.State.Empty)

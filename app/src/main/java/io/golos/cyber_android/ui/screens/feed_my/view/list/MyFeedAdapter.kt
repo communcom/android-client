@@ -11,10 +11,12 @@ import io.golos.cyber_android.ui.dto.User
 import io.golos.cyber_android.ui.screens.feed_my.view.items.CreatePostItem
 import io.golos.cyber_android.ui.shared.widgets.post_comments.items.PostItem
 import io.golos.cyber_android.ui.screens.feed_my.view_model.MyFeedListListener
+import io.golos.cyber_android.ui.shared.post_view.RecordPostViewManager
 
 open class MyFeedAdapter(
     private val eventsProcessor: MyFeedListListener,
-    private val type: PostItem.Type
+    private val type: PostItem.Type,
+    private val recordPostViewManager: RecordPostViewManager
 ) : RecyclerAdapter() {
 
     private val rvViewPool = RecyclerView.RecycledViewPool()
@@ -23,7 +25,7 @@ open class MyFeedAdapter(
 
     fun updateMyFeedPosts(posts: List<Post>) {
         val postsItems = posts.map {
-            val postItem = PostItem(it, type, eventsProcessor)
+            val postItem = PostItem(it, type, eventsProcessor, recordPostViewManager)
             postItem.setRecycledViewPool(rvViewPool)
             postItem
         }
