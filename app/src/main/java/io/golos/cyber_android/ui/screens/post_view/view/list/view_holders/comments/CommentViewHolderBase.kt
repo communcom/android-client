@@ -29,7 +29,7 @@ import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
 import io.golos.cyber_android.ui.shared.widgets.post_comments.ParagraphWidgetListener
-import io.golos.cyber_android.ui.shared.widgets.post_comments.VotingWidget
+import io.golos.cyber_android.ui.shared.widgets.post_comments.voting.VotingWidget
 import io.golos.cyber_android.ui.shared.widgets.post_comments.items.*
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.ContentIdDomain

@@ -3,80 +3,113 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="44dp">
+    android:layout_height="@dimen/donates_popup_height"
+    tools:background="@drawable/bcg_donate_popup">
 
     <TextView
         android:id="@+id/donateLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Donate:"
-        app:layout_constraintBottom_toTopOf="@+id/textView9"
+        android:text="@string/donate_popup"
+        app:layout_constraintBottom_toTopOf="@+id/pointsLabel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintVertical_chainStyle="packed"
+
+        android:lineSpacingMultiplier="0"
+        android:layout_marginStart="15dp"
+        style="@style/Text12.White.Bold.SingleLine"
+        />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/pointsLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="points"
+        android:text="@string/donate_points_popup"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/donateLabel"
-        app:layout_constraintTop_toBottomOf="@+id/donateLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/donateLabel"
+
+        style="@style/Text12.White.Bold.SingleLine"
+        android:alpha="0.75"
+        />
 
     <Button
-        android:id="@+id/button10"
+        android:id="@+id/buttonPoints10"
         android:layout_width="60dp"
         android:layout_height="35dp"
         android:text="+10"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button11"
+        app:layout_constraintEnd_toStartOf="@+id/buttonPoints100"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/donateLabel"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+
+        style = "@style/BlueWhite.RoundCorners.Button"
+        android:background="@drawable/bcg_white_opacity_round_corners_button"
+        tools:ignore="HardcodedText" />
 
     <Button
-        android:id="@+id/button11"
+        android:id="@+id/buttonPoints100"
         android:layout_width="60dp"
         android:layout_height="35dp"
 
         android:text="+100"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button12"
+        app:layout_constraintEnd_toStartOf="@+id/buttonPoints1000"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/button10"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/buttonPoints10"
+        app:layout_constraintTop_toTopOf="parent"
+
+        style = "@style/BlueWhite.RoundCorners.Button"
+        android:background="@drawable/bcg_white_opacity_round_corners_button"
+        tools:ignore="HardcodedText" />
 
     <Button
-        android:id="@+id/button12"
+        android:id="@+id/buttonPoints1000"
         android:layout_width="60dp"
         android:layout_height="35dp"
 
         android:text="+1000"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button13"
+        app:layout_constraintEnd_toStartOf="@+id/buttonPointsOther"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/button11"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/buttonPoints100"
+        app:layout_constraintTop_toTopOf="parent"
+
+        style = "@style/BlueWhite.RoundCorners.Button"
+        android:background="@drawable/bcg_white_opacity_round_corners_button"
+        tools:ignore="HardcodedText" />
 
     <Button
-        android:id="@+id/button13"
+        android:id="@+id/buttonPointsOther"
         android:layout_width="60dp"
         android:layout_height="35dp"
-        android:text="Other"
+        android:text="@string/other"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton"
+        app:layout_constraintEnd_toStartOf="@+id/buttonClose"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/button12"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/buttonPoints1000"
+        app:layout_constraintTop_toTopOf="parent"
 
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style = "@style/BlueWhite.RoundCorners.Button"
+        android:background="@drawable/bcg_white_opacity_round_corners_button"
+        />
+
+    <ImageView
+        android:id="@+id/buttonClose"
+        android:layout_width="@dimen/donates_popup_button_size"
+        android:layout_height="@dimen/donates_popup_button_size"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_close" />
+
+        app:srcCompat="@drawable/ic_close"
+        app:tint="@color/white"
+        android:background="@null"
+        android:padding="15dp"
+
+        tools:ignore="ContentDescription" />
 </androidx.constraintlayout.widget.ConstraintLayout>

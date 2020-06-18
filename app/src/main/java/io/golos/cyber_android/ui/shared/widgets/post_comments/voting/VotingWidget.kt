@@ -1,8 +1,10 @@
-package io.golos.cyber_android.ui.shared.widgets.post_comments
+package io.golos.cyber_android.ui.shared.widgets.post_comments.voting
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import android.widget.LinearLayout
+import androidx.annotation.DimenRes
 import com.skydoves.balloon.Balloon
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.extensions.parentActivity
@@ -20,11 +22,15 @@ constructor(
     private var onUpVoteButtonClickListener: (() -> Unit)? = null
     private var onDownVoteButtonClickListener: (() -> Unit)? = null
 
+    private val donatePopup: VotingDonatePopup by lazy { VotingDonatePopup() }
+
     init {
         inflate(getContext(), R.layout.view_post_voting, this)
 
         upvoteButton.setOnClickListener {
-            showDonate()
+            donatePopup.show(this) {
+                // DonateType
+            }
             onUpVoteButtonClickListener?.invoke()
         }
 
@@ -54,26 +60,5 @@ constructor(
     fun release() {
         onUpVoteButtonClickListener = null
         onDownVoteButtonClickListener = null
-    }
-
-    private fun showDonate() {
-        val balloon = Balloon.Builder(context)
-            .setArrowVisible(true)
-            .setArrowPosition(0.15f)
-            .setLifecycleOwner(parentActivity)
-            .setWidthRatio(0.98f)
-            .setHeight(100)
-            .setPadding(0)
-            .setElevation(10f)
-            .setAutoDismissDuration(5_000L)
-            .setDismissWhenTouchOutside(true)
-            .setCornerRadius(11f)
-            .setLayout(R.layout.view_donat_popup)
-            .build()
-
-        val contentView = balloon.getContentView()
-        contentView.setBackgroundResource(R.drawable.bcg_thin_gray_stroke_ripple_6)
-
-        balloon.showAlignTop(this)
     }
 }

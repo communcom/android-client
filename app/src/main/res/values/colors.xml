@@ -31,6 +31,7 @@
     <color name="grey">#A5A7BD</color>
     <color name="blue_light">#d2d9fc</color>
     <color name="white_opacity_50">#80FFFFFF</color>
+    <color name="white_opacity_10">#1AFFFFFF</color>
 
     <color name="pale_black">#8A000000</color>
     <color name="transparent">#00000000</color>

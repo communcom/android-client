@@ -14,7 +14,7 @@ import io.golos.cyber_android.ui.shared.base.adapter.BaseRecyclerItem
 import io.golos.cyber_android.ui.shared.base.adapter.RecyclerAdapter
 import io.golos.cyber_android.ui.shared.base.adapter.RecyclerItem
 import io.golos.cyber_android.ui.shared.post_view.RecordPostViewManager
-import io.golos.cyber_android.ui.shared.widgets.post_comments.VotingWidget
+import io.golos.cyber_android.ui.shared.widgets.post_comments.voting.VotingWidget
 import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.*
 import io.golos.use_cases.reward.getRewardValue
@@ -26,7 +26,6 @@ import kotlinx.android.synthetic.main.item_post_content.view.*
 import kotlinx.android.synthetic.main.item_post_controls.view.*
 import kotlinx.android.synthetic.main.item_post_controls.view.votesArea
 import kotlinx.android.synthetic.main.view_post_voting.view.*
-import timber.log.Timber
 
 class PostItem(
     val post: Post,

@@ -626,4 +626,7 @@
     <string name="upvote">Upvote</string>
     <string name="mention">Mention</string>
     <string name="subsribe">Subsribe</string>
+
+    <string name="donate_popup">Donate:</string>
+    <string name="donate_points_popup">points</string>
 </resources>

@@ -479,4 +479,10 @@
     <dimen name="wallet_dialog_transfer_points_margin_end">3dp</dimen>
 
     <dimen name="settings_menu_item_height">55dp</dimen>
+
+    <dimen name="donates_popup_height">50dp</dimen>
+    <dimen name="donates_popup_height_full">70dp</dimen>
+    <dimen name="donates_popup_arrow_height">10dp</dimen>
+    <dimen name="donates_popup_corners">35dp</dimen>
+    <dimen name="donates_popup_button_size">44dp</dimen>
 </resources>
