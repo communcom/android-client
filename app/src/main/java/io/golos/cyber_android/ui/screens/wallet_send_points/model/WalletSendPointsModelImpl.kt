@@ -20,12 +20,13 @@ import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
 
-class WalletSendPointsModelImpl
+@Suppress("LeakingThis")
+open class WalletSendPointsModelImpl
 @Inject
 constructor(
     private val appContext: Context,
     override var sendToUser: UserDomain?,
-    private var currentCommunityId: CommunityIdDomain,
+    protected var currentCommunityId: CommunityIdDomain,
     @Named(Clarification.WALLET_POINT_BALANCE)
     override var balance: List<WalletCommunityBalanceRecordDomain>,
     private val walletRepository: WalletRepository,
@@ -48,7 +49,7 @@ constructor(
             }
     }
 
-    override var currentBalanceRecord: WalletCommunityBalanceRecordDomain = calculateCurrentBalanceRecord()
+    override var currentBalanceRecord: WalletCommunityBalanceRecordDomain = initCurrentBalanceRecord()
 
     override val carouselItemsData: CarouselStartData = CarouselStartData(
         startIndex = balance.indexOfFirst { it.communityId == currentCommunityId },
@@ -76,6 +77,7 @@ constructor(
             return null
         }
 
+        Timber.tag("633_DONATE").d("Current community is: $communityId")
         currentCommunityId = communityId
         currentBalanceRecord = calculateCurrentBalanceRecord()
         return balance.indexOf(currentBalanceRecord)
@@ -106,6 +108,8 @@ constructor(
             showFee = hasFee
         )
     }
+
+    protected open fun initCurrentBalanceRecord() = calculateCurrentBalanceRecord()
 
     private fun calculateCurrentBalanceRecord() = balance.first { it.communityId == currentCommunityId }
 

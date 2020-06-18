@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.dto.DonateType
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.mappers.mapToPostsList
 import io.golos.cyber_android.ui.mappers.mapToTimeFrameDomain
@@ -188,6 +189,12 @@ constructor(
                 Timber.e(e)
                 _command.value = ShowMessageTextCommand(e.getMessage(appContext))
             }
+        }
+    }
+
+    override fun onDonateClick(donate: DonateType, post: Post) {
+        launch {
+            _command.value = NavigateToDonateCommand.build(donate, post, model.getWalletBalance())
         }
     }
 

@@ -26,6 +26,7 @@ import kotlinx.android.synthetic.main.item_post_content.view.*
 import kotlinx.android.synthetic.main.item_post_controls.view.*
 import kotlinx.android.synthetic.main.item_post_controls.view.votesArea
 import kotlinx.android.synthetic.main.view_post_voting.view.*
+import timber.log.Timber
 
 class PostItem(
     val post: Post,
@@ -220,12 +221,9 @@ class PostItem(
             view.votesArea.upvoteButton.isEnabled = true
             view.votesArea.downvoteButton.isEnabled = true
 
-            view.votesArea.setOnUpVoteButtonClickListener {
-                listener.onUpVoteClicked(post.contentId)
-            }
-            view.votesArea.setOnDownVoteButtonClickListener {
-                listener.onDownVoteClicked(post.contentId)
-            }
+            view.votesArea.setOnUpVoteButtonClickListener { listener.onUpVoteClicked(post.contentId) }
+            view.votesArea.setOnDownVoteButtonClickListener { listener.onDownVoteClicked(post.contentId) }
+            view.votesArea.setOnDonateClickListener { listener.onDonateClick(it, post) }
         } else {
             view.votesArea.upvoteButton.isEnabled = false
             view.votesArea.downvoteButton.isEnabled = false

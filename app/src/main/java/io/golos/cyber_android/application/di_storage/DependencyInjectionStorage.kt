@@ -46,6 +46,8 @@ import io.golos.cyber_android.ui.screens.community_page_post.di.CommunityPostFra
 import io.golos.cyber_android.ui.screens.community_page_rules.di.CommunityPageRulesFragmentComponent
 import io.golos.cyber_android.ui.screens.community_page_rules.di.CommunityPageRulesFragmentModule
 import io.golos.cyber_android.ui.screens.dashboard.di.DashboardFragmentComponent
+import io.golos.cyber_android.ui.screens.donate_send_points.di.DonateSendPointsFragmentComponent
+import io.golos.cyber_android.ui.screens.donate_send_points.di.DonateSendPointsFragmentModule
 import io.golos.cyber_android.ui.screens.feed.di.FeedFragmentComponent
 import io.golos.cyber_android.ui.screens.feed_my.di.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.ftue.di.FtueFragmentComponent
@@ -310,6 +312,18 @@ class DependencyInjectionStorage(private val app: Application) {
                 getBase<MainActivityComponent>()
                     .walletFragmentComponent
                     .init(WalletFragmentModule(args[0] as Int, args[1] as List<WalletCommunityBalanceRecordDomain>))
+                    .build()
+
+            DonateSendPointsFragmentComponent::class ->
+                getBase<MainActivityComponent>()
+                    .donateSendPointsFragmentComponent
+                    .init(DonateSendPointsFragmentModule(
+                        args[0] as ContentIdDomain,
+                        args[1] as CommunityIdDomain,
+                        args[2] as UserDomain,
+                        args[3] as List<WalletCommunityBalanceRecordDomain>,
+                        args[4] as Float?
+                    ))
                     .build()
 
             WalletPointFragmentComponent::class ->

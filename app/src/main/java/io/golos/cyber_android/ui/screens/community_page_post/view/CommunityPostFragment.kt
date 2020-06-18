@@ -13,8 +13,10 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentCommunityPostBinding
 import io.golos.cyber_android.ui.dialogs.PostRewardBottomSheetDialog
 import io.golos.cyber_android.ui.dto.Post
+import io.golos.cyber_android.ui.screens.community_page.child_pages.community_post.model.TimeConfigurationDomain
 import io.golos.cyber_android.ui.screens.community_page_post.di.CommunityPostFragmentComponent
 import io.golos.cyber_android.ui.screens.community_page_post.view_model.CommunityPostViewModel
+import io.golos.cyber_android.ui.screens.donate_send_points.view.DonateSendPointsFragment
 import io.golos.cyber_android.ui.screens.feed_my.view.list.MyFeedAdapter
 import io.golos.cyber_android.ui.screens.post_edit.activity.EditorPageActivity
 import io.golos.cyber_android.ui.screens.post_edit.fragment.view.EditorPageFragment
@@ -26,11 +28,7 @@ import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
 import io.golos.cyber_android.ui.screens.post_view.view.PostPageFragment
 import io.golos.cyber_android.ui.shared.Tags
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToImageViewCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToLinkViewCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowPostRewardDialogCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToPostCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.shared.utils.DividerPostDecoration
 import io.golos.cyber_android.ui.shared.utils.openImageView
@@ -92,36 +90,15 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
     override fun processViewCommand(command: ViewCommand) {
         when (command) {
             is NavigationToPostMenuViewCommand -> openPostMenuDialog(command.post)
-
             is NavigateToPostCommand -> openPost(command.discussionIdModel, command.contentId)
-
             is SharePostCommand -> requireContext().shareMessage(command.shareUrl)
-
             is EditPostCommand -> openEditPost(command.post)
-
             is ReportPostCommand -> openPostReportDialog(command.post)
-
             is NavigateToImageViewCommand -> requireContext().openImageView(command.imageUri)
-
             is NavigateToLinkViewCommand -> requireContext().openLinkView(command.link)
-
-            is NavigateToFilterDialogViewCommand -> {
-                val timeFilter = command.config.timeFilter
-                val periodFilter = command.config.periodFilter
-
-                val tag = CommunityPostFragment::class.java.name
-                val postFiltersBottomSheetDialog =
-                    PostFiltersDialog.newInstance(
-                        isNeedToSaveGlobalFilter = false,
-                        timeFilter = timeFilter,
-                        periodFilter = periodFilter
-                    ).apply {
-                        setTargetFragment(this@CommunityPostFragment, PostFiltersDialog.REQUEST)
-                    }
-                postFiltersBottomSheetDialog.show(requireFragmentManager(), tag)
-            }
-
+            is NavigateToFilterDialogViewCommand -> openFilterDialog(command.config)
             is ShowPostRewardDialogCommand -> showPostRewardDialog(command.titleResId, command.textResId)
+            is NavigateToDonateCommand -> moveToDonate(command)
         }
     }
 
@@ -335,4 +312,26 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
 
     private fun showPostRewardDialog(@StringRes titleResId: Int, @StringRes textResId: Int) =
         PostRewardBottomSheetDialog.show(this, titleResId, textResId) { }
+
+    private fun openFilterDialog(timeConfig: TimeConfigurationDomain) {
+        val tag = CommunityPostFragment::class.java.name
+        val postFiltersBottomSheetDialog =
+            PostFiltersDialog.newInstance(
+                isNeedToSaveGlobalFilter = false,
+                timeFilter = timeConfig.timeFilter,
+                periodFilter =timeConfig.periodFilter
+            ).apply {
+                setTargetFragment(this@CommunityPostFragment, PostFiltersDialog.REQUEST)
+            }
+        postFiltersBottomSheetDialog.show(requireFragmentManager(), tag)
+    }
+
+    private fun moveToDonate(command: NavigateToDonateCommand) =
+        getDashboardFragment(this)?.navigateToFragment(
+            DonateSendPointsFragment.newInstance(
+                command.postId,
+                command.communityId,
+                command.postAuthor,
+                command.balance,
+                command.amount))
 }

@@ -30,6 +30,7 @@ import io.golos.utils.helpers.SPACE
 import io.golos.utils.helpers.positiveValue
 import kotlinx.android.synthetic.main.item_comment.view.*
 import kotlinx.android.synthetic.main.view_post_voting.view.*
+import timber.log.Timber
 
 class ProfileCommentItem(
     parentView: ViewGroup,

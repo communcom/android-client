@@ -6,10 +6,9 @@ import androidx.annotation.IdRes
 import androidx.annotation.NavigationRes
 import androidx.annotation.StringRes
 import io.golos.cyber_android.ui.dto.Comment
-import io.golos.domain.dto.CommunityIdDomain
-import io.golos.domain.dto.ContentIdDomain
-import io.golos.domain.dto.UserIdDomain
-import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
+import io.golos.cyber_android.ui.dto.DonateType
+import io.golos.cyber_android.ui.dto.Post
+import io.golos.domain.dto.*
 import io.golos.domain.use_cases.model.DiscussionIdModel
 
 interface ViewCommand
@@ -84,3 +83,37 @@ class HideNoConnectionDialogCommand() : ViewCommand
 class ShowUpdateAppDialogCommand() : ViewCommand
 
 class NavigateToWalletCommand(val balance: List<WalletCommunityBalanceRecordDomain>) : ViewCommand
+
+data class NavigateToDonateCommand(
+    val postId: ContentIdDomain,
+    val communityId: CommunityIdDomain,
+    val postAuthor: UserDomain,
+    val balance: List<WalletCommunityBalanceRecordDomain>,
+    val amount: Float?
+) : ViewCommand {
+    companion object {
+        fun build(donate: DonateType, post: Post, balance: List<WalletCommunityBalanceRecordDomain>): NavigateToDonateCommand {
+            val amount = when(donate) {
+                DonateType.DONATE_10 -> 10f
+                DonateType.DONATE_100 -> 100f
+                DonateType.DONATE_1000 -> 1000f
+                DonateType.DONATE_OTHER -> null
+            }
+
+            return NavigateToDonateCommand(
+                postId = post.contentId,
+                communityId = post.community.communityId,
+                postAuthor = UserDomain(
+                    userId = UserIdDomain(post.author.userId),
+                    userName = post.author.username!!,
+                    userAvatar = post.author.avatarUrl,
+                    postsCount = null,
+                    followersCount = null,
+                    isSubscribed = false
+                ),
+                balance = balance,
+                amount = amount
+            )
+        }
+    }
+}

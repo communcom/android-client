@@ -7,6 +7,7 @@ import android.widget.LinearLayout
 import androidx.annotation.DimenRes
 import com.skydoves.balloon.Balloon
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.dto.DonateType
 import io.golos.cyber_android.ui.shared.extensions.parentActivity
 import kotlinx.android.synthetic.main.view_post_voting.view.*
 import timber.log.Timber
@@ -21,6 +22,7 @@ constructor(
 
     private var onUpVoteButtonClickListener: (() -> Unit)? = null
     private var onDownVoteButtonClickListener: (() -> Unit)? = null
+    private var onDonateClickListener: ((DonateType) -> Unit)? = null
 
     private val donatePopup: VotingDonatePopup by lazy { VotingDonatePopup() }
 
@@ -28,10 +30,11 @@ constructor(
         inflate(getContext(), R.layout.view_post_voting, this)
 
         upvoteButton.setOnClickListener {
-            donatePopup.show(this) {
-                // DonateType
-            }
             onUpVoteButtonClickListener?.invoke()
+
+            if(onDonateClickListener != null) {
+                donatePopup.show(this) { onDonateClickListener?.invoke(it) }
+            }
         }
 
         downvoteButton.setOnClickListener { onDownVoteButtonClickListener?.invoke() }
@@ -43,6 +46,10 @@ constructor(
 
     fun setOnDownVoteButtonClickListener(listener: (() -> Unit)?) {
         onDownVoteButtonClickListener = listener
+    }
+
+    fun setOnDonateClickListener(listener: ((DonateType) -> Unit)?) {
+        onDonateClickListener = listener
     }
 
     fun setUpVoteButtonSelected(isSelected: Boolean) {
@@ -60,5 +67,6 @@ constructor(
     fun release() {
         onUpVoteButtonClickListener = null
         onDownVoteButtonClickListener = null
+        onDonateClickListener = null
     }
 }

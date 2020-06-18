@@ -1,0 +1,31 @@
+package io.golos.cyber_android.ui.screens.donate_send_points.di
+
+import androidx.lifecycle.ViewModel
+import dagger.Binds
+import dagger.Module
+import dagger.multibindings.IntoMap
+import io.golos.cyber_android.ui.screens.donate_send_points.model.DonateSendPointsModelImpl
+import io.golos.cyber_android.ui.screens.wallet_send_points.model.WalletSendPointsModel
+import io.golos.cyber_android.ui.screens.wallet_send_points.view_model.WalletSendPointsViewModel
+import io.golos.cyber_android.ui.screens.wallet_shared.amount_validator.AmountValidator
+import io.golos.cyber_android.ui.screens.wallet_shared.amount_validator.AmountValidatorImpl
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactory
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactoryImpl
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelKey
+
+@Module
+abstract class DonateSendPointsFragmentModuleBinds {
+    @Binds
+    abstract fun provideViewModelFactory(factory: FragmentViewModelFactoryImpl): FragmentViewModelFactory
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(WalletSendPointsViewModel::class)
+    abstract fun provideWalletSendPointsViewModel(viewModel: WalletSendPointsViewModel): ViewModel
+
+    @Binds
+    abstract fun provideDonateSendPointsModel(model: DonateSendPointsModelImpl): WalletSendPointsModel
+
+    @Binds
+    abstract fun provideAmountValidator(validator: AmountValidatorImpl): AmountValidator
+}

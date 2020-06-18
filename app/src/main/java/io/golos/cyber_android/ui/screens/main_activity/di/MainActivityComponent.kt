@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.main_activity.di
 import dagger.Subcomponent
 import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentComponent
 import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentTabComponent
+import io.golos.cyber_android.ui.screens.donate_send_points.di.DonateSendPointsFragmentComponent
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity
 import io.golos.cyber_android.ui.screens.wallet.di.WalletFragmentComponent
 import io.golos.domain.dependency_injection.scopes.ActivityScope
@@ -23,6 +24,7 @@ interface MainActivityComponent {
     val communitiesFragmentComponent: CommunitiesListFragmentComponent.Builder
     val communitiesFragmentTabComponent: CommunitiesListFragmentTabComponent.Builder
     val walletFragmentComponent: WalletFragmentComponent.Builder
+    val donateSendPointsFragmentComponent: DonateSendPointsFragmentComponent.Builder
 
     fun inject(activity: MainActivity)
 }

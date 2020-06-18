@@ -30,7 +30,7 @@ import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import kotlinx.android.synthetic.main.fragment_wallet_send_points.*
 import javax.inject.Inject
 
-class WalletSendPointsFragment : FragmentBaseMVVM<FragmentWalletSendPointsBinding, WalletSendPointsViewModel>() {
+open class WalletSendPointsFragment : FragmentBaseMVVM<FragmentWalletSendPointsBinding, WalletSendPointsViewModel>() {
     companion object {
         private const val COMMUNITY_ID = "COMMUNITY_ID"
         private const val USER = "USER"

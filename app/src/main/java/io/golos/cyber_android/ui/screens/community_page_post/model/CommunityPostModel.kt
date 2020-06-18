@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.community_page_post.model
 
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
 import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
 import io.golos.domain.use_cases.posts.GetPostsUseCase
@@ -23,4 +24,5 @@ interface CommunityPostModel : ModelBase,
 
     suspend fun reportPost(authorPostId: String, communityId: CommunityIdDomain, permlink: String, reason: String)
 
+    suspend fun getWalletBalance(): List<WalletCommunityBalanceRecordDomain>
 }

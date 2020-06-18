@@ -18,7 +18,6 @@ data class Post(
     val isMyPost: Boolean,
     val reward: RewardPostDomain?
 ) {
-
     data class Community(
         val alias: String?,
         val communityId: CommunityIdDomain,

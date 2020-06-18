@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.dto.DonateType
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.User
 import io.golos.cyber_android.ui.mappers.*
@@ -36,7 +37,9 @@ import org.json.JSONArray
 import timber.log.Timber
 import javax.inject.Inject
 
-class MyFeedViewModel @Inject constructor(
+class MyFeedViewModel
+@Inject
+constructor(
     private val appContext: Context,
     dispatchersProvider: DispatchersProvider,
     model: MyFeedModel,
@@ -122,6 +125,10 @@ class MyFeedViewModel @Inject constructor(
                 _command.value = ShowMessageTextCommand(e.getMessage(appContext))
             }
         }
+    }
+
+    override fun onDonateClick(donate: DonateType, post: Post) {
+        return
     }
 
     override fun onLinkClicked(linkUri: Uri) {

@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.services.post_view.RecordPostViewService
+import io.golos.cyber_android.ui.dto.DonateType
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
 import io.golos.cyber_android.ui.screens.post_view.dto.*
@@ -157,6 +158,10 @@ constructor(
                 _command.value = ShowMessageTextCommand(e.getMessage(appContext))
             }
         }
+    }
+
+    override fun onDonateClick(donate: DonateType) {
+        return
     }
 
     override fun onCommentUpVoteClick(commentId: DiscussionIdModel) = voteForComment(commentId, true)

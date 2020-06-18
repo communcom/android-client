@@ -1,8 +1,10 @@
 package io.golos.cyber_android.ui.screens.community_page_post.model
 
+import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.ContentIdDomain
+import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
 import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
@@ -11,12 +13,15 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class CommunityPostModelImpl @Inject constructor(
+class CommunityPostModelImpl
+@Inject
+constructor(
     private val getPostsUseCase: GetPostsUseCase,
     private val subscribeToCommunityUseCase: SubscribeToCommunityUseCase,
     private val unsubscribeToCommunityUseCase: UnsubscribeToCommunityUseCase,
     private val discussionRepository: DiscussionRepository,
-    private val dispatchersProvider: DispatchersProvider
+    private val dispatchersProvider: DispatchersProvider,
+    private val walletRepository: WalletRepository
 ) : CommunityPostModel,
     GetPostsUseCase by getPostsUseCase,
     SubscribeToCommunityUseCase by subscribeToCommunityUseCase,
@@ -70,4 +75,5 @@ class CommunityPostModelImpl @Inject constructor(
         }
     }
 
+    override suspend fun getWalletBalance(): List<WalletCommunityBalanceRecordDomain> = walletRepository.getBalance()
 }

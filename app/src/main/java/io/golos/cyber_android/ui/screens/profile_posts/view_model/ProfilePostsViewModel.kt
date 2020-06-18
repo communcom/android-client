@@ -6,6 +6,7 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.dto.DonateType
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.User
 import io.golos.cyber_android.ui.mappers.mapToPost
@@ -128,6 +129,10 @@ constructor(
                 _command.value = ShowMessageTextCommand(e.getMessage(appContext))
             }
         }
+    }
+
+    override fun onDonateClick(donate: DonateType, post: Post) {
+        return
     }
 
     override fun onLinkClicked(linkUri: Uri) {
