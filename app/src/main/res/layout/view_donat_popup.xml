@@ -36,9 +36,12 @@
 
     <Button
         android:id="@+id/buttonPoints10"
-        android:layout_width="60dp"
-        android:layout_height="35dp"
+        android:layout_width="@dimen/donates_popup_dialog_button_width"
+        android:layout_height="@dimen/donates_popup_dialog_button_height"
         android:text="+10"
+
+        android:layout_marginStart="@dimen/margin_default"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonPoints100"
         app:layout_constraintHorizontal_bias="0.5"
@@ -51,8 +54,8 @@
 
     <Button
         android:id="@+id/buttonPoints100"
-        android:layout_width="60dp"
-        android:layout_height="35dp"
+        android:layout_width="@dimen/donates_popup_dialog_button_width"
+        android:layout_height="@dimen/donates_popup_dialog_button_height"
 
         android:text="+100"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -67,8 +70,8 @@
 
     <Button
         android:id="@+id/buttonPoints1000"
-        android:layout_width="60dp"
-        android:layout_height="35dp"
+        android:layout_width="@dimen/donates_popup_dialog_button_width"
+        android:layout_height="@dimen/donates_popup_dialog_button_height"
 
         android:text="+1000"
         android:textSize="12sp"
@@ -84,8 +87,8 @@
 
     <Button
         android:id="@+id/buttonPointsOther"
-        android:layout_width="60dp"
-        android:layout_height="35dp"
+        android:layout_width="@dimen/donates_popup_dialog_button_width"
+        android:layout_height="@dimen/donates_popup_dialog_button_height"
         android:text="@string/other"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonClose"

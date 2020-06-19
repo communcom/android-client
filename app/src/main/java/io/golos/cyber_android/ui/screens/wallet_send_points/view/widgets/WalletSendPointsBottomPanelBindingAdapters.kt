@@ -35,3 +35,7 @@ fun setWalletSendPointsBottomPanelAmount(view: WalletSendPointsBottomPanel, valu
         view.setOnAmountChangeListener { valueToBind.value = it }
     }
 }
+
+@BindingAdapter("wallet_send_points_user_selection_is_enabled")
+fun setWalletSendPointsUserSelectionIsEnabled(view: WalletSendPointsBottomPanel, valueToBind: Boolean?) =
+    valueToBind?.let { view.setUserSelectionIsEnabled(it) }

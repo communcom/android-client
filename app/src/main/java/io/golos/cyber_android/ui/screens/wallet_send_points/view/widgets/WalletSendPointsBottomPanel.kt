@@ -103,4 +103,8 @@ constructor(
         sendButtonLabel.text = sendButtonInfo.sendText
         sendButton.isEnabled = sendButtonInfo.isEnabled
     }
+
+    fun setUserSelectionIsEnabled(isEnabled: Boolean) {
+        selectedUserPanel.isEnabled = isEnabled
+    }
 }

@@ -1,10 +1,7 @@
 package io.golos.data.repositories.wallet
 
 import io.golos.domain.GlobalConstants
-import io.golos.domain.dto.CommunityIdDomain
-import io.golos.domain.dto.UserIdDomain
-import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
-import io.golos.domain.dto.WalletTransferHistoryRecordDomain
+import io.golos.domain.dto.*
 
 interface WalletRepository {
     suspend fun getBalance(): List<WalletCommunityBalanceRecordDomain>
@@ -21,6 +18,8 @@ interface WalletRepository {
     ): List<WalletTransferHistoryRecordDomain>
 
     suspend fun sendToUser(toUser: UserIdDomain, amount: Double, communityId: CommunityIdDomain)
+
+    suspend fun donate(postId: ContentIdDomain, amount: Double, communityId: CommunityIdDomain)
 
     suspend fun convertPointsToCommun(amount: Double, communityId: CommunityIdDomain)
 

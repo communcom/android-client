@@ -89,14 +89,14 @@ data class NavigateToDonateCommand(
     val communityId: CommunityIdDomain,
     val postAuthor: UserDomain,
     val balance: List<WalletCommunityBalanceRecordDomain>,
-    val amount: Float?
+    val amount: Double?
 ) : ViewCommand {
     companion object {
         fun build(donate: DonateType, post: Post, balance: List<WalletCommunityBalanceRecordDomain>): NavigateToDonateCommand {
             val amount = when(donate) {
-                DonateType.DONATE_10 -> 10f
-                DonateType.DONATE_100 -> 100f
-                DonateType.DONATE_1000 -> 1000f
+                DonateType.DONATE_10 -> 10.0
+                DonateType.DONATE_100 -> 100.0
+                DonateType.DONATE_1000 -> 1000.0
                 DonateType.DONATE_OTHER -> null
             }
 

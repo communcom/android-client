@@ -223,7 +223,10 @@ class PostItem(
 
             view.votesArea.setOnUpVoteButtonClickListener { listener.onUpVoteClicked(post.contentId) }
             view.votesArea.setOnDownVoteButtonClickListener { listener.onDownVoteClicked(post.contentId) }
-            view.votesArea.setOnDonateClickListener { listener.onDonateClick(it, post) }
+            view.votesArea.setOnDonateClickListener {
+                Timber.tag("633_DONATE").d("before listener.onDonateClick(it, post)")
+                listener.onDonateClick(it, post)
+            }
         } else {
             view.votesArea.upvoteButton.isEnabled = false
             view.votesArea.downvoteButton.isEnabled = false

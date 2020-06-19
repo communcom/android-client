@@ -54,7 +54,7 @@
 
         android:layout_height="wrap_content"
 
-        android:text="@string/send_points"
+        tools:text="@string/send_points"
         app:layout_constraintBottom_toBottomOf="@+id/backButton"
         app:layout_constraintEnd_toStartOf="@+id/selectCommunityButton"
         app:layout_constraintStart_toEndOf="@+id/backButton"

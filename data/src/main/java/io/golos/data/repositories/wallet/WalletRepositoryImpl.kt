@@ -71,39 +71,16 @@ constructor(
         )}
         .items.map { it.mapToWalletTransferHistoryRecordDomain() }
 
-    override suspend fun sendToUser(toUser: UserIdDomain, amount: Double, communityId: CommunityIdDomain) {
-        if(communityId.code != GlobalConstants.COMMUN_CODE) {
-            callProxy.callBC {
-                commun4j.transfer(
-                    to = CyberName(toUser.userId),
-                    amount = DoubleFormatter.formatToServerPoints(amount),
-                    currency = communityId.code,
-                    memo = "",
-                    bandWidthRequest = BandWidthRequest.bandWidthFromComn,
-                    key = userKeyStore.getKey(UserKeyType.ACTIVE),
-                    from = CyberName(currentUserRepository.userId.userId)
-                )
-            }
-            .let {
-                callProxy.call { commun4j.waitForTransaction(it.transaction_id) }
-            }
-        } else {
-            callProxy.callBC {
-                commun4j.exchange(
-                    to = CyberName(toUser.userId),
-                    amount = DoubleFormatter.formatToServerTokens(amount),
-                    currency = communityId.code,
-                    memo = "",
-                    bandWidthRequest = BandWidthRequest.bandWidthFromComn,
-                    key = userKeyStore.getKey(UserKeyType.ACTIVE),
-                    from = CyberName(currentUserRepository.userId.userId)
-                )
-            }
-            .let {
-                callProxy.call { commun4j.waitForTransaction(it.transaction_id) }
-            }
-        }
-    }
+    override suspend fun sendToUser(toUser: UserIdDomain, amount: Double, communityId: CommunityIdDomain) =
+        sendToUser(toUser, amount, communityId, "")
+
+    override suspend fun donate(postId: ContentIdDomain, amount: Double, communityId: CommunityIdDomain) =
+        sendToUser(
+            toUser = UserIdDomain(postId.userId),
+            amount = amount,
+            communityId = communityId,
+            memo = "donation for ${postId.communityId.code}:${postId.userId}:${postId.permlink}"
+        )
 
     override suspend fun convertPointsToCommun(amount: Double, communityId: CommunityIdDomain) {
         val amountAsString = DoubleFormatter.formatToServerPoints(amount)
@@ -138,6 +115,40 @@ constructor(
         }
         .let {
             callProxy.call { commun4j.waitForTransaction(it.transaction_id) }
+        }
+    }
+
+    private suspend fun sendToUser(toUser: UserIdDomain, amount: Double, communityId: CommunityIdDomain, memo: String) {
+        if(communityId.code != GlobalConstants.COMMUN_CODE) {
+            callProxy.callBC {
+                commun4j.transfer(
+                    to = CyberName(toUser.userId),
+                    amount = DoubleFormatter.formatToServerPoints(amount),
+                    currency = communityId.code,
+                    memo = memo,
+                    bandWidthRequest = BandWidthRequest.bandWidthFromComn,
+                    key = userKeyStore.getKey(UserKeyType.ACTIVE),
+                    from = CyberName(currentUserRepository.userId.userId)
+                )
+            }
+                .let {
+                    callProxy.call { commun4j.waitForTransaction(it.transaction_id) }
+                }
+        } else {
+            callProxy.callBC {
+                commun4j.exchange(
+                    to = CyberName(toUser.userId),
+                    amount = DoubleFormatter.formatToServerTokens(amount),
+                    currency = communityId.code,
+                    memo = memo,
+                    bandWidthRequest = BandWidthRequest.bandWidthFromComn,
+                    key = userKeyStore.getKey(UserKeyType.ACTIVE),
+                    from = CyberName(currentUserRepository.userId.userId)
+                )
+            }
+                .let {
+                    callProxy.call { commun4j.waitForTransaction(it.transaction_id) }
+                }
         }
     }
 }

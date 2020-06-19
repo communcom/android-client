@@ -90,4 +90,8 @@ constructor(
     fun setOnSelectCommunityButtonClickListener(listener: (() -> Unit)?){
         onSelectCommunityButtonClickListener = listener
     }
+
+    fun setTitleText(@StringRes titleResId: Int) {
+        title.setText(titleResId)
+    }
 }

@@ -29,11 +29,13 @@ constructor(
     protected var currentCommunityId: CommunityIdDomain,
     @Named(Clarification.WALLET_POINT_BALANCE)
     override var balance: List<WalletCommunityBalanceRecordDomain>,
-    private val walletRepository: WalletRepository,
+    protected val walletRepository: WalletRepository,
     private val amountValidator: AmountValidator
 ) : ModelBaseImpl(), WalletSendPointsModel {
 
-    private var amount: Double? = null
+    override val canSelectUser = true
+
+    protected open var amount: Double? = null
 
     private val communName: String by lazy { appContext.getString(R.string.commun).capitalize(Locale.getDefault()) }
 
@@ -58,6 +60,8 @@ constructor(
 
     override val hasFee: Boolean
         get() = currentBalanceRecord.communityId.code != GlobalConstants.COMMUN_CODE
+
+    override val titleTextResId: Int = R.string.send_points
 
     override fun updateAmount(amountAsString: String?): Boolean =
         try {
@@ -108,6 +112,8 @@ constructor(
             showFee = hasFee
         )
     }
+
+    override fun getAmountAsString(): String? = amount?.toString()
 
     protected open fun initCurrentBalanceRecord() = calculateCurrentBalanceRecord()
 

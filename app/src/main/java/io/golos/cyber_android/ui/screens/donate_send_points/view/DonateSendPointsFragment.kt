@@ -1,8 +1,11 @@
 package io.golos.cyber_android.ui.screens.donate_send_points.view
 
 import android.os.Bundle
+import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.screens.donate_send_points.di.DonateSendPointsFragmentComponent
+import io.golos.cyber_android.ui.screens.wallet_dialogs.transfer_completed.TransferCompletedInfo
+import io.golos.cyber_android.ui.screens.wallet_dialogs.transfer_completed.WalletTransferCompletedDialog
 import io.golos.cyber_android.ui.screens.wallet_send_points.view.WalletSendPointsFragment
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.ContentIdDomain
@@ -22,14 +25,14 @@ class DonateSendPointsFragment : WalletSendPointsFragment() {
             communityId: CommunityIdDomain,
             sendToUser: UserDomain?,
             balance: List<WalletCommunityBalanceRecordDomain>,
-            amount: Float?) =
+            amount: Double?) =
             DonateSendPointsFragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(POST_ID, postId)
                     putParcelable(COMMUNITY_ID, communityId)
                     putParcelable(USER, sendToUser)
                     putParcelableArray(BALANCE, balance.toTypedArray())
-                    amount?.let { putFloat(AMOUNT, it) }
+                    amount?.let { putDouble(AMOUNT, it) }
                 }
 
             }
@@ -42,8 +45,13 @@ class DonateSendPointsFragment : WalletSendPointsFragment() {
             arguments!!.getParcelable<CommunityIdDomain>(COMMUNITY_ID),
             arguments!!.getParcelable<UserDomain>(USER),
             arguments!!.getParcelableArray(BALANCE)!!.toList(),
-            arguments!!.getFloat(AMOUNT).takeIf { it > 0f })
+            arguments!!.getDouble(AMOUNT).takeIf { it > 0.0 })
             .inject(this)
 
     override fun releaseInjection(key: String) = App.injections.release<DonateSendPointsFragmentComponent>(key)
+
+    override fun showWalletTransferCompletedDialog(data: TransferCompletedInfo) {
+        uiHelper.showMessage(R.string.donate_successful, false)
+        getDashboardFragment(this)?.navigateBack(null)
+    }
 }

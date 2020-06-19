@@ -9,6 +9,8 @@ import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 
 interface WalletSendPointsModel : ModelBase {
+    val canSelectUser: Boolean
+
     var sendToUser: UserDomain?
 
     val balance: List<WalletCommunityBalanceRecordDomain>
@@ -18,6 +20,8 @@ interface WalletSendPointsModel : ModelBase {
     val carouselItemsData: CarouselStartData
 
     val hasFee: Boolean
+
+    val titleTextResId: Int
 
     fun updateAmount(amountAsString: String?): Boolean
 
@@ -31,4 +35,6 @@ interface WalletSendPointsModel : ModelBase {
     suspend fun makeTransfer()
 
     fun getTransferCompletedInfo(): TransferCompletedInfo
+
+    fun getAmountAsString(): String?
 }

@@ -8,6 +8,7 @@ import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import javax.inject.Inject
@@ -22,7 +23,10 @@ constructor(
     @Named(Clarification.WALLET_POINT_BALANCE)
     balance: List<WalletCommunityBalanceRecordDomain>,
     walletRepository: WalletRepository,
-    amountValidator: AmountValidator
+    amountValidator: AmountValidator,
+    @Named(Clarification.AMOUNT)
+    override var amount: Double?,
+    private val postId: ContentIdDomain
 ) : WalletSendPointsModelImpl(
         appContext,
         sendToUser,
@@ -32,9 +36,15 @@ constructor(
         amountValidator
 ), WalletSendPointsModel {
 
+    override val canSelectUser = false
+
+    override val titleTextResId: Int = io.golos.cyber_android.R.string.donate_title
+
     override fun initCurrentBalanceRecord(): WalletCommunityBalanceRecordDomain =
         balance.firstOrNull { it.communityId == currentCommunityId } ?: run {
             currentCommunityId = CommunityIdDomain(GlobalConstants.COMMUN_CODE)
             initCurrentBalanceRecord()
         }
+
+    override suspend fun makeTransfer() = walletRepository.donate(postId, amount!!, currentCommunityId)
 }

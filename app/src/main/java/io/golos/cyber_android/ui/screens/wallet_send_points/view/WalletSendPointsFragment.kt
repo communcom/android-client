@@ -138,7 +138,7 @@ open class WalletSendPointsFragment : FragmentBaseMVVM<FragmentWalletSendPointsB
         }
     }
 
-    private fun showWalletTransferCompletedDialog(data: TransferCompletedInfo) {
+    protected open fun showWalletTransferCompletedDialog(data: TransferCompletedInfo) {
         WalletTransferCompletedDialog.show(this, data) {
             when(it) {
                 null,

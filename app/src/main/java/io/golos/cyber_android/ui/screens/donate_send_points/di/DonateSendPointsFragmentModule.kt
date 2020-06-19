@@ -15,7 +15,7 @@ class DonateSendPointsFragmentModule(
     private val communityId: CommunityIdDomain,
     private val sendToUser: UserDomain,
     private val balance: List<WalletCommunityBalanceRecordDomain>,
-    private val amount: Float?) {
+    private val amount: Double?) {
 
     @Provides
     fun providePostId(): ContentIdDomain = postId
@@ -32,5 +32,5 @@ class DonateSendPointsFragmentModule(
 
     @Provides
     @Named(Clarification.AMOUNT)
-    fun provideAmount(): Float? = amount
+    fun provideAmount(): Double? = amount
 }

@@ -194,6 +194,7 @@ constructor(
 
     override fun onDonateClick(donate: DonateType, post: Post) {
         launch {
+            Timber.tag("633_DONATE").d("onDonateClick(donate: $donate, post: ${post.contentId})")
             _command.value = NavigateToDonateCommand.build(donate, post, model.getWalletBalance())
         }
     }

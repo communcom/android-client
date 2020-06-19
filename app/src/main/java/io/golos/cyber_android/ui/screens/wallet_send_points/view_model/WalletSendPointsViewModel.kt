@@ -44,10 +44,14 @@ constructor(
     private val _amountFieldInfo = MutableLiveData<AmountFieldInfo>(getAmountFieldInfo())
     val amountFieldInfo: LiveData<AmountFieldInfo> = _amountFieldInfo
 
-    val amountInputField = MutableLiveData<String>()
+    val amountInputField = model.getAmountAsString()?.let { MutableLiveData(it) } ?: MutableLiveData()
 
     private val _sendButtonInfo = MutableLiveData<SendButtonInfo>(getSendButtonInfo(amountInputField.value))
     val sendButtonInfo: LiveData<SendButtonInfo> = _sendButtonInfo
+
+    val userSelectionIsEnabled = model.canSelectUser
+
+    val title = model.titleTextResId
 
     init {
         amountInputField.observeForever {

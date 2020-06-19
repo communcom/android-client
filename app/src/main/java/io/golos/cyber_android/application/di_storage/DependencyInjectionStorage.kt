@@ -322,7 +322,7 @@ class DependencyInjectionStorage(private val app: Application) {
                         args[1] as CommunityIdDomain,
                         args[2] as UserDomain,
                         args[3] as List<WalletCommunityBalanceRecordDomain>,
-                        args[4] as Float?
+                        args[4] as Double?
                     ))
                     .build()
 

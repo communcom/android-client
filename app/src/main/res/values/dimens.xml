@@ -485,4 +485,6 @@
     <dimen name="donates_popup_arrow_height">10dp</dimen>
     <dimen name="donates_popup_corners">35dp</dimen>
     <dimen name="donates_popup_button_size">44dp</dimen>
+    <dimen name="donates_popup_dialog_button_width">60dp</dimen>
+    <dimen name="donates_popup_dialog_button_height">35dp</dimen>
 </resources>
