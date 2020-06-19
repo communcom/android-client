@@ -15,6 +15,7 @@ import io.golos.cyber_android.ui.dialogs.PostRewardBottomSheetDialog
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
 import io.golos.cyber_android.ui.screens.dashboard.view.DashboardFragment
+import io.golos.cyber_android.ui.screens.donate_send_points.view.DonateSendPointsFragment
 import io.golos.cyber_android.ui.screens.feed_my.view.list.MyFeedAdapter
 import io.golos.cyber_android.ui.screens.post_edit.activity.EditorPageActivity
 import io.golos.cyber_android.ui.screens.post_edit.fragment.view.EditorPageFragment
@@ -89,6 +90,7 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
             is EditPostCommand -> editPost(command.post)
             is ReportPostCommand -> openPostReport(command.post)
             is ShowPostRewardDialogCommand -> showPostRewardDialog(command.titleResId, command.textResId)
+            is NavigateToDonateCommand -> moveToDonate(command)
         }
     }
 
@@ -321,4 +323,13 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
 
     private fun showPostRewardDialog(@StringRes titleResId: Int, @StringRes textResId: Int) =
         PostRewardBottomSheetDialog.show(this, titleResId, textResId) {}
+
+    private fun moveToDonate(command: NavigateToDonateCommand) =
+        getDashboardFragment(this)?.navigateToFragment(
+            DonateSendPointsFragment.newInstance(
+                command.postId,
+                command.communityId,
+                command.postAuthor,
+                command.balance,
+                command.amount))
 }

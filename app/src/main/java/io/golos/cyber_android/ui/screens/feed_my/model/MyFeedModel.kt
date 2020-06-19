@@ -4,6 +4,7 @@ import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
 import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
 import io.golos.domain.use_cases.posts.GetPostsUseCase
@@ -48,4 +49,6 @@ interface MyFeedModel : ModelBase,
     val userAvatarFlow: Flow<String?>
 
     suspend fun getUserId(userNameOrId: String): UserIdDomain
+
+    suspend fun getWalletBalance(): List<WalletCommunityBalanceRecordDomain>
 }

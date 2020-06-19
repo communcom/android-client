@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.services.post_view.RecordPostViewService
 import io.golos.cyber_android.ui.dto.DonateType
+import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
 import io.golos.cyber_android.ui.screens.post_view.dto.*
@@ -160,8 +161,10 @@ constructor(
         }
     }
 
-    override fun onDonateClick(donate: DonateType) {
-        return
+    override fun onDonateClick(donate: DonateType, post: Post) {
+        launch {
+            _command.value = NavigateToDonateCommand.build(donate, post, model.getWalletBalance())
+        }
     }
 
     override fun onCommentUpVoteClick(commentId: DiscussionIdModel) = voteForComment(commentId, true)

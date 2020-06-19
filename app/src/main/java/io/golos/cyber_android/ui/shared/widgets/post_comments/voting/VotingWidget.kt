@@ -31,8 +31,6 @@ constructor(
 
         upvoteButton.setOnClickListener {
             onUpVoteButtonClickListener?.invoke()
-
-            Timber.tag("633_DONATE").d("onDonateClickListener is not null: ${onDonateClickListener != null}")
             onDonateClickListener?.let { donatePopup.show(this, it) }
         }
 

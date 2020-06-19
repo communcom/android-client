@@ -132,7 +132,9 @@ constructor(
     }
 
     override fun onDonateClick(donate: DonateType, post: Post) {
-        return
+        launch {
+            _command.value = NavigateToDonateCommand.build(donate, post, model.getWalletBalance())
+        }
     }
 
     override fun onLinkClicked(linkUri: Uri) {

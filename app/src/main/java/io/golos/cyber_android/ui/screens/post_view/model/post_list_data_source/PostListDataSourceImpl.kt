@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.post_view.model.post_list_data_source
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import io.golos.cyber_android.ui.mappers.mapToPost
 import io.golos.cyber_android.ui.screens.post_view.dto.SortingType
 import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.*
 import io.golos.cyber_android.ui.shared.recycler_view.GroupListItem
@@ -456,7 +457,8 @@ constructor(
             isDownVoteActive = postDomain.votes.hasDownVote,
             totalComments = postDomain.stats?.commentsCount ?: 0,
             totalViews = postDomain.stats?.viewCount ?: 0,
-            shareUrl = postDomain.shareUrl)
+            shareUrl = postDomain.shareUrl,
+            post = postDomain.mapToPost())
 
         if (oldControlsIndex == -1) {
             postList.add(controls)

@@ -20,6 +20,7 @@ import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
 import io.golos.cyber_android.ui.dialogs.PostRewardBottomSheetDialog
 import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
+import io.golos.cyber_android.ui.screens.donate_send_points.view.DonateSendPointsFragment
 import io.golos.cyber_android.ui.screens.post_edit.activity.EditorPageActivity
 import io.golos.cyber_android.ui.screens.post_edit.fragment.view.EditorPageFragment
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
@@ -169,32 +170,20 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
             }
 
             is NavigateToImageViewCommand -> requireContext().openImageView(command.imageUri)
-
             is NavigateToLinkViewCommand -> requireContext().openLinkView(command.link)
-
             is NavigateToUserProfileCommand -> openUserProfile(command.userId)
-
             is NavigateToCommunityPageCommand -> openCommunityPage(command.communityId)
-
             is NavigationToEditPostViewCommand -> openEditPost(command.contentId)
-
             is NavigateToEditComment -> commentWidget.setCommentForEdit(command.contentId, command.body)
-
             is NavigationToPostMenuViewCommand -> openPostMenuDialog(command.postMenu)
-
             is ClearCommentInputCommand -> commentWidget.clear()
-
             is ShowCommentMenuViewCommand -> showCommentMenu(command.commentId)
-
             is SharePostCommand -> sharePost(command.shareUrl)
-
             is ReportPostCommand -> showReportPost(command.contentId)
-
             is DeletePostCommand -> deletePost()
-
             is NavigateToReplyCommentViewCommand -> commentWidget.setCommentForReply(command.contentId, command.body)
-
             is ShowPostRewardDialogCommand -> showPostRewardDialog(command.titleResId, command.textResId)
+            is NavigateToDonateCommand -> moveToDonate(command)
 
             else -> throw UnsupportedOperationException("This command is not supported")
         }
@@ -336,4 +325,13 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
 
     private fun showPostRewardDialog(@StringRes titleResId: Int, @StringRes textResId: Int) =
         PostRewardBottomSheetDialog.show(this@PostPageFragment, titleResId, textResId) {}
+
+    private fun moveToDonate(command: NavigateToDonateCommand) =
+        getDashboardFragment(this)?.navigateToFragment(
+            DonateSendPointsFragment.newInstance(
+                command.postId,
+                command.communityId,
+                command.postAuthor,
+                command.balance,
+                command.amount))
 }

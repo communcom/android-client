@@ -11,11 +11,9 @@ import io.golos.cyber_android.ui.screens.post_view.model.post_list_data_source.P
 import io.golos.cyber_android.ui.screens.post_view.model.voting.post.PostPageVotingUseCase
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
+import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.dto.CommunityIdDomain
-import io.golos.domain.dto.ContentIdDomain
-import io.golos.domain.dto.PostDomain
-import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.dto.*
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.PostMetadata
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.DiscussionRepository
@@ -46,7 +44,8 @@ constructor(
     private val subscribeToCommunityUseCase: SubscribeToCommunityUseCase,
     private val unsubscribeToCommunityUseCase: UnsubscribeToCommunityUseCase,
     private val contentId: ContentIdDomain?,
-    private val usersRepository: Lazy<UsersRepository>
+    private val usersRepository: Lazy<UsersRepository>,
+    private val walletRepository: WalletRepository
 ) : ModelBaseImpl(),
     PostPageModel,
     SubscribeToCommunityUseCase by subscribeToCommunityUseCase,
@@ -216,4 +215,6 @@ constructor(
         commentsProcessing.replyToComment(repliedCommentId, jsonBody)
 
     override fun isTopReward(): Boolean? = postDomain.reward.isTopReward()
+
+    override suspend fun getWalletBalance(): List<WalletCommunityBalanceRecordDomain> = walletRepository.getBalance()
 }

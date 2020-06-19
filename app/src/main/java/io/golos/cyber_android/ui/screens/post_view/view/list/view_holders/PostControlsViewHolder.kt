@@ -27,7 +27,7 @@ class PostControlsViewHolder(
 
             votesArea.setOnUpVoteButtonClickListener { listItemEventsProcessor.onUpVoteClick() }
             votesArea.setOnDownVoteButtonClickListener { listItemEventsProcessor.onDownVoteClick() }
-            votesArea.setOnDonateClickListener { listItemEventsProcessor.onDonateClick(it) }
+            votesArea.setOnDonateClickListener { listItemEventsProcessor.onDonateClick(it, listItem.post) }
 
             ivShare.setOnClickListener {
                 listItem.shareUrl?.let {

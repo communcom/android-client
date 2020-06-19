@@ -13,6 +13,7 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentMyFeedBinding
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
+import io.golos.cyber_android.ui.screens.donate_send_points.view.DonateSendPointsFragment
 import io.golos.cyber_android.ui.screens.feed_my.di.MyFeedFragmentComponent
 import io.golos.cyber_android.ui.screens.feed_my.dto.SwitchToProfileTab
 import io.golos.cyber_android.ui.screens.feed_my.view.list.MyFeedAdapter
@@ -44,6 +45,14 @@ import kotlinx.android.synthetic.main.view_search_bar.*
 import timber.log.Timber
 
 class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>() {
+    companion object {
+        private const val REQUEST_FOR_RESULT_FROM_EDIT = 41522
+        private const val REQUEST_FOR_RESULT_FROM_CREATE_POST = 41523
+
+        fun newInstance(): Fragment {
+            return MyFeedFragment()
+        }
+    }
 
     override fun linkViewModel(binding: FragmentMyFeedBinding, viewModel: MyFeedViewModel) {
         binding.viewModel = viewModel
@@ -107,26 +116,17 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
     override fun processViewCommand(command: ViewCommand) {
         when (command) {
             is NavigateToImageViewCommand -> requireContext().openImageView(command.imageUri)
-
             is NavigateToLinkViewCommand -> requireContext().openLinkView(command.link)
-
             is NavigateToUserProfileCommand -> openUserProfile(command.userId)
-
             is NavigateToCommunityPageCommand -> openCommunityPage(command.communityId)
-
             is NavigateToPostCommand -> openPost(command.discussionIdModel, command.contentId)
-
             is NavigationToPostMenuViewCommand -> openPostMenuDialog(command.post)
-
             is SharePostCommand -> sharePost(command.shareUrl)
-
             is EditPostCommand -> editPost(command.post)
-
             is ReportPostCommand -> openPostReportDialog(command.post)
-
             is CreatePostCommand -> createPost()
-
             is SwitchToProfileTab -> switchToProfileTab()
+            is NavigateToDonateCommand -> moveToDonate(command)
         }
     }
 
@@ -398,15 +398,12 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
         super.onDestroyView()
     }
 
-    companion object {
-
-        private const val REQUEST_FOR_RESULT_FROM_EDIT = 41522
-
-        private const val REQUEST_FOR_RESULT_FROM_CREATE_POST = 41523
-
-        fun newInstance(): Fragment {
-
-            return MyFeedFragment()
-        }
-    }
+    private fun moveToDonate(command: NavigateToDonateCommand) =
+        getDashboardFragment(this)?.navigateToFragment(
+            DonateSendPointsFragment.newInstance(
+                command.postId,
+                command.communityId,
+                command.postAuthor,
+                command.balance,
+                command.amount))
 }

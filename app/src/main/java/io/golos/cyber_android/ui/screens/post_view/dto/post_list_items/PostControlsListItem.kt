@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.post_view.dto.post_list_items
 
+import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.shared.recycler_view.GroupListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 
@@ -20,6 +21,8 @@ data class PostControlsListItem(
     val totalViews: Int,
 
     val shareUrl: String?,
+
+    val post: Post,
 
     override val groupId: Int = 2
 ) : GroupListItem, VersionedListItem

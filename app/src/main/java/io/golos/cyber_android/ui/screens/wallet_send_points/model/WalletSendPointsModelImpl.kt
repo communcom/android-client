@@ -81,7 +81,6 @@ constructor(
             return null
         }
 
-        Timber.tag("633_DONATE").d("Current community is: $communityId")
         currentCommunityId = communityId
         currentBalanceRecord = calculateCurrentBalanceRecord()
         return balance.indexOf(currentBalanceRecord)

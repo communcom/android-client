@@ -1,10 +1,12 @@
 package io.golos.cyber_android.ui.screens.feed_my.model
 
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
+import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.repositories.UsersRepository
@@ -17,7 +19,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class MyFeedModelImpl @Inject constructor(
+class MyFeedModelImpl
+@Inject
+constructor(
     private val getPostsUseCase: GetPostsUseCase,
     private val getUserProfileUseCase: GetLocalUserUseCase,
     private val subscribeToCommunityUseCase: SubscribeToCommunityUseCase,
@@ -26,6 +30,7 @@ class MyFeedModelImpl @Inject constructor(
     private val discussionRepository: DiscussionRepository,
     private val dispatchersProvider: DispatchersProvider,
     private val usersRepository: UsersRepository,
+    private val walletRepository: WalletRepository,
     currentUserRepository: CurrentUserRepository
 ) : MyFeedModel,
     GetPostsUseCase by getPostsUseCase,
@@ -74,4 +79,5 @@ class MyFeedModelImpl @Inject constructor(
     override val feedFiltersFlow: Flow<PostFiltersHolder.FeedFilters>
         get() = postFilter.feedFiltersFlow
 
+    override suspend fun getWalletBalance(): List<WalletCommunityBalanceRecordDomain> = walletRepository.getBalance()
 }
