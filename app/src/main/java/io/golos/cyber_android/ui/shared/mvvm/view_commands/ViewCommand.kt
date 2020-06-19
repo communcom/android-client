@@ -104,7 +104,7 @@ data class NavigateToDonateCommand(
                 postId = post.contentId,
                 communityId = post.community.communityId,
                 postAuthor = UserDomain(
-                    userId = UserIdDomain(post.author.userId),
+                    userId = post.author.userId,
                     userName = post.author.username!!,
                     userAvatar = post.author.avatarUrl,
                     postsCount = null,

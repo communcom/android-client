@@ -40,18 +40,18 @@ interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToC
 
     suspend fun upVote(
         communityId: CommunityIdDomain,
-        userId: String,
+        userId: UserIdDomain,
         permlink: String
     )
 
     suspend fun downVote(
         communityId: CommunityIdDomain,
-        userId: String,
+        userId: UserIdDomain,
         permlink: String
     )
 
     suspend fun reportPost(
-        authorPostId: String,
+        authorPostId: UserIdDomain,
         communityId: CommunityIdDomain,
         permlink: String,
         reason: String

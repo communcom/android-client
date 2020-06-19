@@ -114,7 +114,7 @@ constructor(
                         }
                         is DeepLinkInfo.PostDeepLink -> {
                             val discussionId = DiscussionIdModel(linkInfo.userId.userId, Permlink(linkInfo.postId))
-                            val contentId = ContentIdDomain(linkInfo.communityId, linkInfo.postId, linkInfo.userId.userId)
+                            val contentId = ContentIdDomain(linkInfo.communityId, linkInfo.postId, linkInfo.userId)
                             NavigateToPostCommand(discussionId, contentId)
                         }
                     }
@@ -132,7 +132,7 @@ constructor(
                                 NavigateToUserProfileCommand(it.userId)
                             }
                             is OpenNotificationInfo.OpenPost -> {
-                                val discussionId = DiscussionIdModel(it.contentId.userId, Permlink(it.contentId.permlink))
+                                val discussionId = DiscussionIdModel(it.contentId.userId.userId, Permlink(it.contentId.permlink))
                                 NavigateToPostCommand(discussionId, it.contentId)
                             }
                             is OpenNotificationInfo.OpenWallet -> {

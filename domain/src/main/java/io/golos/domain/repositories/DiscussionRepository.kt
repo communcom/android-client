@@ -25,7 +25,7 @@ interface DiscussionRepository {
 
     suspend fun downVote(contentIdDomain: ContentIdDomain)
 
-    suspend fun reportPost(communityId: CommunityIdDomain, authorId: String, permlink: String, reason: String)
+    suspend fun reportPost(communityId: CommunityIdDomain, authorId: UserIdDomain, permlink: String, reason: String)
 
     suspend fun getPost(user: CyberName, communityId: CommunityIdDomain, permlink: String): PostDomain
 
@@ -36,9 +36,6 @@ interface DiscussionRepository {
     suspend fun updateComment(commentDomain: CommentDomain)
 
     suspend fun replyOnComment(parentCommentId: ContentIdDomain, jsonBody: String): CommentDomain
-
-    @Deprecated("Use getPost method with 3 params")
-    fun getPost(user: CyberName, permlink: Permlink): PostModel
 
     suspend fun getPosts(postsConfigurationDomain: PostsConfigurationDomain, typeObject: TypeObjectDomain): List<PostDomain>
 

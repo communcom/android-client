@@ -58,19 +58,19 @@ constructor(
         delay(1000)
     }
 
-    override suspend fun upVote(communityId: CommunityIdDomain, userId: String, permlink: String) {
+    override suspend fun upVote(communityId: CommunityIdDomain, userId: UserIdDomain, permlink: String) {
         withContext(dispatchersProvider.ioDispatcher) {
             discussionRepository.upVote(ContentIdDomain(communityId = communityId, permlink = permlink, userId = userId))
         }
     }
 
-    override suspend fun downVote(communityId: CommunityIdDomain, userId: String, permlink: String) {
+    override suspend fun downVote(communityId: CommunityIdDomain, userId: UserIdDomain, permlink: String) {
         withContext(dispatchersProvider.ioDispatcher) {
             discussionRepository.downVote(ContentIdDomain(communityId = communityId, permlink = permlink, userId = userId))
         }
     }
 
-    override suspend fun reportPost(authorPostId: String, communityId: CommunityIdDomain, permlink: String, reason: String) {
+    override suspend fun reportPost(authorPostId: UserIdDomain, communityId: CommunityIdDomain, permlink: String, reason: String) {
         withContext(dispatchersProvider.ioDispatcher) {
             discussionRepository.reportPost(communityId, authorPostId, permlink, reason)
         }

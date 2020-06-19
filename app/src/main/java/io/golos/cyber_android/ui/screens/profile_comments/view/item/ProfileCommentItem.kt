@@ -10,7 +10,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.dto.Author
 import io.golos.cyber_android.ui.dto.Comment
 import io.golos.cyber_android.ui.dto.Meta
 import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentListItem
@@ -21,6 +20,7 @@ import io.golos.utils.format.TimeEstimationFormatter
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.widgets.post_comments.items.*
+import io.golos.domain.dto.UserBriefDomain
 import io.golos.domain.posts_parsing_rendering.post_metadata.TextStyle
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.*
 import io.golos.utils.helpers.appendText
@@ -30,7 +30,6 @@ import io.golos.utils.helpers.SPACE
 import io.golos.utils.helpers.positiveValue
 import kotlinx.android.synthetic.main.item_comment.view.*
 import kotlinx.android.synthetic.main.view_post_voting.view.*
-import timber.log.Timber
 
 class ProfileCommentItem(
     parentView: ViewGroup,
@@ -66,11 +65,11 @@ class ProfileCommentItem(
         itemView.replyAndTimeText.text = time
     }
 
-    private fun setupUserAvatar(author: Author, listItemEventsProcessor: ProfileCommentsModelEventProcessor) {
+    private fun setupUserAvatar(author: UserBriefDomain, listItemEventsProcessor: ProfileCommentsModelEventProcessor) {
         val userAvatarView = itemView.ivAvatar
         userAvatarView.loadAvatar(author.avatarUrl)
         userAvatarView.setOnClickListener {
-            listItemEventsProcessor.onUserClicked(author.userId)
+            listItemEventsProcessor.onUserClicked(author.userId.userId)
         }
     }
 
@@ -158,7 +157,7 @@ class ProfileCommentItem(
                             paragraphContent.add(
                                 TextBlock(
                                     IdUtil.generateLongId(),
-                                    (comment.author.username ?: comment.author.userId) + " ",
+                                    (comment.author.username ?: comment.author.userId.userId) + " ",
                                     TextStyle.BOLD,
                                     null
                                 )
@@ -182,7 +181,7 @@ class ProfileCommentItem(
         }
     }
 
-    private fun getAuthorAndText(author: Author, text: String): SpannableStringBuilder {
+    private fun getAuthorAndText(author: UserBriefDomain, text: String): SpannableStringBuilder {
         val result = SpannableStringBuilder()
         author.username?.let {
             val userNameInterval = result.appendText(it)

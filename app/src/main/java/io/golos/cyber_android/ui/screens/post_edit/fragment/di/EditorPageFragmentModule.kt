@@ -29,7 +29,8 @@ class EditorPageFragmentModule(private val contentId: ContentIdDomain?) {
     internal fun provideContentId(): ContentIdDomain? = contentId
 
     @Provides
-    internal fun provideDiscussionModelId(contentId: ContentIdDomain?): DiscussionIdModel? = contentId?.let { DiscussionIdModel(contentId.userId, Permlink(contentId.permlink)) }
+    internal fun provideDiscussionModelId(contentId: ContentIdDomain?): DiscussionIdModel? =
+        contentId?.let { DiscussionIdModel(contentId.userId.userId, Permlink(contentId.permlink)) }
 
     @Provides
     @IntoMap

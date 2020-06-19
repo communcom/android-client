@@ -3,6 +3,7 @@ package io.golos.use_cases.voting
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.ContentIdDomain
+import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.dto.VotesDomain
 import io.golos.domain.repositories.DiscussionRepository
 import kotlinx.coroutines.withContext
@@ -17,7 +18,7 @@ abstract class VotingUseCaseImplBase(
 
     private lateinit var oldVotesState: VotesDomain
 
-    override suspend fun upVote(communityId: CommunityIdDomain, userId: String, permlink: String) {
+    override suspend fun upVote(communityId: CommunityIdDomain, userId: UserIdDomain, permlink: String) {
         if(voteInProgress) {
             return
         }
@@ -47,7 +48,7 @@ abstract class VotingUseCaseImplBase(
         }
     }
 
-    override suspend fun downVote(communityId: CommunityIdDomain, userId: String, permlink: String) {
+    override suspend fun downVote(communityId: CommunityIdDomain, userId: UserIdDomain, permlink: String) {
         if(voteInProgress) {
             return
         }

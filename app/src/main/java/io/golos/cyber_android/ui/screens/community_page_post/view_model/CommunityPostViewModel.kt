@@ -131,13 +131,13 @@ constructor(
     }
 
     override fun onSeeMoreClicked(contentId: ContentIdDomain): Boolean {
-        val discussionIdModel = DiscussionIdModel(contentId.userId, Permlink(contentId.permlink))
+        val discussionIdModel = DiscussionIdModel(contentId.userId.userId, Permlink(contentId.permlink))
         _command.value = NavigateToPostCommand(discussionIdModel, contentId)
         return true
     }
 
     override fun onItemClicked(contentId: ContentIdDomain) {
-        val discussionIdModel = DiscussionIdModel(contentId.userId, Permlink(contentId.permlink))
+        val discussionIdModel = DiscussionIdModel(contentId.userId.userId, Permlink(contentId.permlink))
         _command.value = NavigateToPostCommand(discussionIdModel, contentId)
     }
 
@@ -159,7 +159,7 @@ constructor(
 
     private fun openPost(postContentId: ContentIdDomain?){
         postContentId?.let {
-            val discussionIdModel = DiscussionIdModel(it.userId, Permlink(it.permlink))
+            val discussionIdModel = DiscussionIdModel(it.userId.userId, Permlink(it.permlink))
             _command.value = NavigateToPostCommand(discussionIdModel, it)
         }
     }

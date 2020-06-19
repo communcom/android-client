@@ -23,12 +23,12 @@ constructor() : CommentToModelMapper {
         val author = commentDomain.author
         val votes = commentDomain.votes
         val parentContentId = commentDomain.parent.comment?.let {
-            DiscussionIdModel(it.userId, Permlink(it.permlink))
+            DiscussionIdModel(it.userId.userId, Permlink(it.permlink))
         }
 
         return CommentModel(
-            DiscussionIdModel(commentDomain.contentId.userId, Permlink(commentDomain.contentId.permlink)),
-            DiscussionAuthorModel(CyberUser(author.userId), author.username ?: "", author.avatarUrl),
+            DiscussionIdModel(commentDomain.contentId.userId.userId, Permlink(commentDomain.contentId.permlink)),
+            DiscussionAuthorModel(CyberUser(author.userId.userId), author.username ?: "", author.avatarUrl),
             CommentContentModel(ContentBodyModel(commentDomain.body), commentDomain.commentLevel),
             commentDomain.body,
             DiscussionVotesModel(votes.hasUpVote, votes.hasDownVote, votes.upCount, votes.downCount),

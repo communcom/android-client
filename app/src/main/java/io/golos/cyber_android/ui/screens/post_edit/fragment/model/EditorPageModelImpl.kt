@@ -3,7 +3,6 @@ package io.golos.cyber_android.ui.screens.post_edit.fragment.model
 import android.net.Uri
 import com.squareup.moshi.Moshi
 import io.golos.commun4j.services.model.OEmbedResult
-import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.sharedmodel.Either
 import io.golos.commun4j.utils.toCyberName
 import io.golos.cyber_android.ui.screens.post_edit.fragment.dto.ExternalLinkError
@@ -15,6 +14,7 @@ import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.shared.utils.localSize
 import io.golos.data.errors.CyberServicesError
 import io.golos.data.mappers.mapToBlockEntity
+import io.golos.data.mappers.mapToCyberName
 import io.golos.data.repositories.embed.EmbedRepository
 import io.golos.data.repositories.images_uploading.ImageUploadRepository
 import io.golos.domain.DispatchersProvider
@@ -27,15 +27,13 @@ import io.golos.domain.dto.block.ContentBlockEntity
 import io.golos.domain.dto.block.ListContentBlockEntity
 import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.EditorOutputToJsonMapper
 import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.*
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ImageBlock
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.requestmodel.CompressionParams
 import io.golos.domain.requestmodel.ImageUploadRequest
-import io.golos.domain.use_cases.model.PostModel
-import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ImageBlock
 import io.golos.posts_editor.utilities.post.PostStubs
 import io.golos.utils.id.IdUtil
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
@@ -182,16 +180,10 @@ constructor(
         return updatedPost.contentId
     }
 
-    override suspend fun getPostToEdit(permlink: Permlink): PostModel =
-        withContext(dispatchersProvider.ioDispatcher) {
-            delay(500)
-            discussionRepository.getPost(CyberName(currentUserRepository.authState!!.user.userId), permlink)
-        }
-
     override suspend fun getPostToEdit(contentId: ContentIdDomain): PostDomain =
         withContext(dispatchersProvider.ioDispatcher) {
             discussionRepository.getPost(
-                contentId.userId.toCyberName(),
+                contentId.userId.mapToCyberName(),
                 contentId.communityId,
                 contentId.permlink
             )

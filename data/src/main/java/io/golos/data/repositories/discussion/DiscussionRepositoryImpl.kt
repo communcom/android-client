@@ -7,6 +7,7 @@ import io.golos.commun4j.model.ClientAuthRequest
 import io.golos.commun4j.model.FeedTimeFrame
 import io.golos.commun4j.model.FeedType
 import io.golos.commun4j.services.model.CommentsSortBy
+import io.golos.commun4j.services.model.DonationPostModel
 import io.golos.commun4j.services.model.UserAndPermlinkPair
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.sharedmodel.CyberSymbolCode
@@ -15,14 +16,12 @@ import io.golos.data.repositories.network_call.NetworkCallProxy
 import io.golos.data.toCyberName
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.UserKeyStore
-import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.*
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.JsonToDtoMapper
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.mappers.MappersFactory
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.mappers.PostMapper
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.DiscussionRepository
-import io.golos.domain.use_cases.model.PostModel
 import io.golos.utils.format.DatesServerFormatter
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
@@ -90,7 +89,7 @@ constructor(
             ContentIdDomain(
                 communityId,
                 getMessageId.getPermlink,
-                getMessageId.getAuthor.name
+                getMessageId.getAuthor.mapToUserIdDomain()
             )
         }
     }
@@ -131,7 +130,7 @@ constructor(
             return withContext(dispatchersProvider.calculationsDispatcher) {
                 posts.items.map { post ->
                     val userId = post.author.userId.name
-                    val reward = rewards.firstOrNull { it.contentId.userId == post.contentId.userId.name && it.contentId.permlink == post.contentId.permlink }
+                    val reward = rewards.firstOrNull { it.contentId.userId.userId == post.contentId.userId.name && it.contentId.permlink == post.contentId.permlink }
                     post.mapToPostDomain(userId == currentUserRepository.userId.userId, reward )
                 }
             }
@@ -260,7 +259,7 @@ constructor(
         }
     }
 
-    override suspend fun reportPost(communityId: CommunityIdDomain, authorId: String, permlink: String, reason: String) {
+    override suspend fun reportPost(communityId: CommunityIdDomain, authorId: UserIdDomain, permlink: String, reason: String) {
         Timber.tag("NET_SOCKET").d("DiscussionRepositoryImpl::reportPost(communityId: $communityId, authorId: $authorId, permlink: $permlink, reason: $reason)")
         callProxy.callBC {
             commun4j.reportContent(
@@ -311,6 +310,9 @@ constructor(
         val post = callProxy.call { commun4j.getPostRaw(user, communityId.code, permlink) }
 
         val contentIds = listOf(UserAndPermlinkPair(post.contentId.userId, post.contentId.permlink))
+        val donationQuery = listOf(DonationPostModel(post.contentId.userId.name, post.contentId.permlink))
+
+//        commun4j.getDonations()
 
         val rewards = callProxy.call {
             commun4j.getStateBulk(contentIds) }
@@ -319,13 +321,6 @@ constructor(
         }
 
         return post.mapToPostDomain(user.name, rewards.firstOrNull())
-    }
-
-    override fun getPost(user: CyberName, permlink: Permlink): PostModel {
-        throw UnsupportedOperationException("")
-//        return discussionsApi.getPost(user, permlink)
-//            .let { rawPost -> postToEntityMapper.map(rawPost) }
-//            .let { postEntity -> postToModelMapper.map(postEntity) }
     }
 
     override suspend fun sendComment(postIdDomain: ContentIdDomain, jsonBody: String): CommentDomain {
@@ -347,8 +342,8 @@ constructor(
             )
         }.resolvedResponse
         val permlink = response!!.message_id.permlink
-        return CommentDomain(contentId = ContentIdDomain(postIdDomain.communityId, permlink, currentUserRepository.userId.userId),
-            author = AuthorDomain(currentUserRepository.userAvatarUrl, currentUserRepository.userId.userId, currentUserRepository.userName),
+        return CommentDomain(contentId = ContentIdDomain(postIdDomain.communityId, permlink, currentUserRepository.userId),
+            author = UserBriefDomain(currentUserRepository.userAvatarUrl, currentUserRepository.userId, currentUserRepository.userName),
             votes = VotesDomain(0, 0, false, false),
             body = MappersFactory().getMapper<PostMapper>(PostMapper::class).map(JSONObject(jsonBody)),
             jsonBody = null,
@@ -383,8 +378,8 @@ constructor(
             )
         }.resolvedResponse
         val permlink = response!!.message_id.permlink
-        return CommentDomain(contentId = ContentIdDomain(communityId, permlink, currentUserRepository.userId.userId),
-            author = AuthorDomain(currentUserRepository.userAvatarUrl, currentUserRepository.userId.userId, currentUserRepository.userName),
+        return CommentDomain(contentId = ContentIdDomain(communityId, permlink, currentUserRepository.userId),
+            author = UserBriefDomain(currentUserRepository.userAvatarUrl, currentUserRepository.userId, currentUserRepository.userName),
             votes = VotesDomain(0, 0, false, false),
             body = MappersFactory().getMapper<PostMapper>(PostMapper::class).map(JSONObject(jsonBody)),
             jsonBody = null,
@@ -401,7 +396,7 @@ constructor(
     override fun recordPostView(postId: ContentIdDomain, deviceId: String) {
         Timber.tag("NET_SOCKET").d("DiscussionRepositoryImpl::recordPostView(postId: $postId, deviceId: $deviceId)")
         callProxy.callSilent {
-            commun4j.recordPostView(CyberName(postId.userId), postId.communityId.code, postId.permlink, deviceId)
+            commun4j.recordPostView(postId.userId.toCyberName(), postId.communityId.code, postId.permlink, deviceId)
         }
     }
 }

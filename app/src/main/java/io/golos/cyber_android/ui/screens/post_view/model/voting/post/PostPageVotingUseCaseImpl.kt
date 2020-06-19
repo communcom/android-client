@@ -5,6 +5,7 @@ import io.golos.use_cases.voting.VotingUseCaseImplBase
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.PostDomain
+import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.dto.VotesDomain
 import io.golos.domain.repositories.DiscussionRepository
 import javax.inject.Inject
@@ -29,13 +30,13 @@ constructor(
         postListDataSource.createOrUpdatePostData(post)
     }
 
-    override suspend fun upVote(post: PostDomain, communityId: CommunityIdDomain, userId: String, permlink: String): PostDomain {
+    override suspend fun upVote(post: PostDomain, communityId: CommunityIdDomain, userId: UserIdDomain, permlink: String): PostDomain {
         this.post = post
         upVote(communityId, userId, permlink)
         return this.post
     }
 
-    override suspend fun downVote(post: PostDomain, communityId: CommunityIdDomain, userId: String, permlink: String): PostDomain {
+    override suspend fun downVote(post: PostDomain, communityId: CommunityIdDomain, userId: UserIdDomain, permlink: String): PostDomain {
         this.post = post
         downVote(communityId, userId, permlink)
         return this.post

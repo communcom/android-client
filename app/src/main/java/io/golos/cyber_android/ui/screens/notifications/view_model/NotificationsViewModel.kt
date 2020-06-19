@@ -132,7 +132,7 @@ class NotificationsViewModel
     }
 
     override fun onPostNavigateClicked(contentId: ContentIdDomain) {
-        val discussionIdModel = DiscussionIdModel(contentId.userId, Permlink(contentId.permlink))
+        val discussionIdModel = DiscussionIdModel(contentId.userId.userId, Permlink(contentId.permlink))
         _command.value = NavigateToPostCommand(discussionIdModel, contentId)
     }
 

@@ -4,7 +4,7 @@ import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ContentBlo
 
 data class CommentDomain(
     val contentId: ContentIdDomain,
-    val author: AuthorDomain,
+    val author: UserBriefDomain,
     var votes: VotesDomain,
     val body: ContentBlock?,
     val jsonBody: String?,

@@ -251,7 +251,7 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
                                 Tags.ACTION_EDIT_SUCCESS -> {
                                     val contentId = data.getParcelableExtra<ContentIdDomain>(Tags.CONTENT_ID)
                                     val discussionIdModel = DiscussionIdModel(
-                                        contentId.userId,
+                                        contentId.userId.userId,
                                         Permlink(contentId.permlink)
                                     )
                                     openPost(discussionIdModel, contentId)
@@ -269,7 +269,7 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
                                 Tags.ACTION_EDIT_SUCCESS -> {
                                     val contentId = data.getParcelableExtra<ContentIdDomain>(Tags.CONTENT_ID)
                                     val discussionIdModel = DiscussionIdModel(
-                                        contentId.userId,
+                                        contentId.userId.userId,
                                         Permlink(contentId.permlink)
                                     )
                                     openPost(discussionIdModel, contentId)

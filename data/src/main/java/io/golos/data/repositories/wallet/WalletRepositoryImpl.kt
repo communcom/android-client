@@ -76,7 +76,7 @@ constructor(
 
     override suspend fun donate(postId: ContentIdDomain, amount: Double, communityId: CommunityIdDomain) =
         sendToUser(
-            toUser = UserIdDomain(postId.userId),
+            toUser = postId.userId,
             amount = amount,
             communityId = communityId,
             memo = "donation for ${postId.communityId.code}:${postId.userId}:${postId.permlink}"

@@ -112,7 +112,7 @@ constructor(
         commentTextRenderer.render(commentsStorage.get().getComment(commentId)!!.body!!.content)
 
     override fun getComment(commentId: ContentIdDomain): CommentModel? {
-        val discussion = DiscussionIdModel(commentId.userId, Permlink(commentId.permlink))
+        val discussion = DiscussionIdModel(commentId.userId.userId, Permlink(commentId.permlink))
         val comment = commentsStorage.get().getComment(discussion)
         return comment
     }
@@ -123,8 +123,8 @@ constructor(
         postListDataSource.updateCommentState(commentId, CommentListItemState.PROCESSING)
 
         val oldComment = commentsStorage.get().getComment(commentId)!!
-        val contentId = ContentIdDomain(postContentId.communityId, commentId.permlink.value, commentId.userId)
-        val authorDomain = AuthorDomain(currentUserRepository.userAvatarUrl, currentUserRepository.userId.userId, currentUserRepository.userName)
+        val contentId = ContentIdDomain(postContentId.communityId, commentId.permlink.value, UserIdDomain(commentId.userId))
+        val authorDomain = UserBriefDomain(currentUserRepository.userAvatarUrl, currentUserRepository.userId, currentUserRepository.userName)
         val votesModel = oldComment.votes
         val votesDomain = VotesDomain(votesModel.downCount, votesModel.upCount, votesModel.hasUpVote, votesModel.hasDownVote)
 
@@ -132,7 +132,7 @@ constructor(
             ParentCommentDomain(null, postContentId)
         } else {
             val parentContentId =
-                ContentIdDomain(postContentId.communityId, oldComment.parentId!!.permlink.value, oldComment.parentId!!.userId)
+                ContentIdDomain(postContentId.communityId, oldComment.parentId!!.permlink.value, UserIdDomain(oldComment.parentId!!.userId))
             ParentCommentDomain(parentContentId, null)
         }
         val commentDomain = CommentDomain(
@@ -172,7 +172,7 @@ constructor(
         try {
             val commentDomain = withContext(dispatchersProvider.ioDispatcher) {
                 val parentContentId =
-                    ContentIdDomain(postContentId.communityId, repliedCommentId.permlink.value, repliedCommentId.userId)
+                    ContentIdDomain(postContentId.communityId, repliedCommentId.permlink.value, UserIdDomain(repliedCommentId.userId))
                 discussionRepository.replyOnComment(parentContentId, jsonBody)
             }
 
@@ -199,9 +199,9 @@ constructor(
         val votingUseCase = getVoteUseCase(commentId)
 
         val newComment = if(isUpVote) {
-            votingUseCase.upVote(oldComment, communityId, commentId.userId, commentId.permlink.value)
+            votingUseCase.upVote(oldComment, communityId, UserIdDomain(commentId.userId), commentId.permlink.value)
         } else {
-            votingUseCase.downVote(oldComment, communityId, commentId.userId, commentId.permlink.value)
+            votingUseCase.downVote(oldComment, communityId, UserIdDomain(commentId.userId), commentId.permlink.value)
         }
 
         commentsStorage.get().updateComment(oldComment.copy(votes = newComment.votes))

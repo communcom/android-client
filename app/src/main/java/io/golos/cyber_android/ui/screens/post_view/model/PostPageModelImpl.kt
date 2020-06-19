@@ -11,6 +11,7 @@ import io.golos.cyber_android.ui.screens.post_view.model.post_list_data_source.P
 import io.golos.cyber_android.ui.screens.post_view.model.voting.post.PostPageVotingUseCase
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
+import io.golos.data.mappers.mapToCyberName
 import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.*
@@ -67,10 +68,7 @@ constructor(
         try {
             withContext(dispatchersProvider.ioDispatcher) {
                 postDomain = discussionRepository.getPost(
-                    contentId?.userId.orEmpty().toCyberName(),
-                    contentId?.communityId!!,
-                    contentId.permlink
-                )
+                    contentId!!.userId.mapToCyberName(), contentId.communityId, contentId.permlink)
                 postListDataSource.createOrUpdatePostData(postDomain)
             }
         } catch (e: Exception){
@@ -91,7 +89,7 @@ constructor(
             ),
             creationTime = postDomain.meta.creationTime,
             authorUsername = postDomain.author.username,
-            authorUserId = postDomain.author.userId,
+            authorUserId = postDomain.author.userId.userId,
             authorAvatarUrl = postDomain.author.avatarUrl,
             shareUrl = postDomain.shareUrl,
             isMyPost = currentUserRepository.userId.userId == postToProcess.userId,
@@ -108,7 +106,7 @@ constructor(
             postDomain.meta.creationTime,
 
             postDomain.author.username,
-            postDomain.author.userId,
+            postDomain.author.userId.userId,
             postDomain.author.avatarUrl,
 
             canJoinToCommunity = false,
@@ -139,11 +137,11 @@ constructor(
         return postDomain.contentId.permlink
     }
 
-    override suspend fun upVote(communityId: CommunityIdDomain, userId: String, permlink: String) {
+    override suspend fun upVote(communityId: CommunityIdDomain, userId: UserIdDomain, permlink: String) {
         postDomain = postPageVotingUseCase.get().upVote(postDomain, communityId, userId, permlink)
     }
 
-    override suspend fun downVote(communityId: CommunityIdDomain, userId: String, permlink: String) {
+    override suspend fun downVote(communityId: CommunityIdDomain, userId: UserIdDomain, permlink: String) {
         postDomain = postPageVotingUseCase.get().downVote(postDomain, communityId, userId, permlink)
     }
 
@@ -187,7 +185,7 @@ constructor(
     }
 
     override suspend fun reportPost(
-        authorPostId: String,
+        authorPostId: UserIdDomain,
         communityId: CommunityIdDomain,
         permlink: String,
         reason: String

@@ -3,6 +3,7 @@ package io.golos.data
 import androidx.lifecycle.MutableLiveData
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.domain.dto.CyberUser
+import io.golos.domain.dto.UserIdDomain
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 11/03/2019.
@@ -24,3 +25,5 @@ internal fun <E> List<E>.replace(
 }
 
 internal fun String.toCyberName() = CyberName(this)
+
+internal fun UserIdDomain.toCyberName() = this.userId.toCyberName()

@@ -70,7 +70,7 @@ constructor(
                 offset = pageOffset,
                 pageSize = pageSize,
                 commentType = CommentDomain.CommentTypeDomain.POST,
-                userId = UserIdDomain(postToProcess.userId),
+                userId = postToProcess.userId,
                 permlink = postToProcess.permlink,
                 communityId = postToProcess.communityId)
 

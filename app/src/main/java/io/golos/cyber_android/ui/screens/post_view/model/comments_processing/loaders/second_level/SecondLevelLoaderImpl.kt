@@ -55,7 +55,7 @@ constructor(
                 offset = pageOffset,
                 pageSize = pageSize + 1,
                 commentType = CommentDomain.CommentTypeDomain.POST,
-                userId = UserIdDomain(postIdDomain.userId),
+                userId = postIdDomain.userId,
                 permlink = postIdDomain.permlink,
                 parentComment = ParentCommentIdentifierDomain(parentComment.permlink.value, UserIdDomain(parentComment.userId)),
                 communityId = postIdDomain.communityId

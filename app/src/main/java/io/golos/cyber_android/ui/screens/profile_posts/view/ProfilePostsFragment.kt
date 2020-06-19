@@ -131,7 +131,7 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
                                 Tags.ACTION_EDIT_SUCCESS -> {
                                     val contentId = data.getParcelableExtra<ContentIdDomain>(Tags.CONTENT_ID)
                                     val discussionIdModel = DiscussionIdModel(
-                                        contentId.userId,
+                                        contentId.userId.userId,
                                         Permlink(contentId.permlink)
                                     )
                                     openPost(discussionIdModel, contentId)
@@ -157,7 +157,7 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
             item as PostItem
             val contentId = item.post.contentId
             val discussionIdModel = DiscussionIdModel(
-                contentId.userId,
+                contentId.userId.userId,
                 Permlink(contentId.permlink)
             )
 

@@ -36,7 +36,4 @@ interface EditorPageModel : ModelBase {
     ): ContentIdDomain
 
     suspend fun getPostToEdit(contentId: ContentIdDomain): PostDomain
-
-    @Deprecated("Use getPostToEdit with contentId param")
-    suspend fun getPostToEdit(permlink: Permlink): PostModel
 }

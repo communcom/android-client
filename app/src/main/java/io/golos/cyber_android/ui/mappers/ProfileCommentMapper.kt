@@ -10,7 +10,7 @@ fun Comment.mapToCommentMenu(): CommentMenu = CommentMenu(
     communityName = community.name,
     communityAvatarUrl = community.avatarUrl,
     creationTime = meta.creationTime,
-    authorUserId = author.userId,
+    authorUserId = author.userId.userId,
     authorUsername = author.username,
     authorAvatarUrl = author.avatarUrl,
     permlink = contentId.permlink
@@ -18,7 +18,7 @@ fun Comment.mapToCommentMenu(): CommentMenu = CommentMenu(
 
 fun Comment.mapToCommentDomain(): CommentDomain = CommentDomain(
     contentId = this.contentId,
-    author = AuthorDomain(this.author.avatarUrl,
+    author = UserBriefDomain(this.author.avatarUrl,
         this.author.userId,
         this.author.username),
     votes = VotesDomain(this.votes.downCount,

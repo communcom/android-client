@@ -23,6 +23,7 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.ContentIdDomain
+import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.EditorOutputToJsonMapper
 import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.EmbedMetadata
 import io.golos.domain.repositories.CurrentUserRepositoryRead
@@ -328,11 +329,11 @@ constructor(
                     }
                     ContentState.EDIT -> {
                         val currentMessageId = commentContent.contentId!!
-                        model.updateComment(DiscussionIdModel(currentMessageId.userId, Permlink(currentMessageId.permlink)), contentAsJson)
+                        model.updateComment(DiscussionIdModel(currentMessageId.userId.userId, Permlink(currentMessageId.permlink)), contentAsJson)
                     }
                     ContentState.REPLY -> {
                         val repliedMessageId = commentContent.contentId!!
-                        model.replyToComment(DiscussionIdModel(repliedMessageId.userId, Permlink(repliedMessageId.permlink)), contentAsJson)
+                        model.replyToComment(DiscussionIdModel(repliedMessageId.userId.userId, Permlink(repliedMessageId.permlink)), contentAsJson)
                     }
                 }
 
@@ -356,7 +357,8 @@ constructor(
         comment?.let {
             val contentBlock = comment.body
             val discussionIdModel = comment.contentId
-            val commentContentId = ContentIdDomain(postContentId.communityId, discussionIdModel.permlink.value, discussionIdModel.userId)
+            val commentContentId = ContentIdDomain(
+                postContentId.communityId, discussionIdModel.permlink.value, UserIdDomain(discussionIdModel.userId))
             _command.value = NavigateToEditComment(
                 commentContentId,
                 contentBlock
@@ -368,7 +370,10 @@ constructor(
         val comment = model.getComment(commentToReplyId)
         comment?.let {
             val contentBlock = comment.body
-            val parentContentId = ContentIdDomain(postContentId.communityId, commentToReplyId.permlink.value, commentToReplyId.userId)
+            val parentContentId = ContentIdDomain(
+                postContentId.communityId,
+                commentToReplyId.permlink.value,
+                UserIdDomain(commentToReplyId.userId))
             _command.value = NavigateToReplyCommentViewCommand(
                 parentContentId,
                 contentBlock

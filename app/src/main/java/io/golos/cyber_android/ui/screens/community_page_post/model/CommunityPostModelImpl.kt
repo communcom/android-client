@@ -4,6 +4,7 @@ import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.ContentIdDomain
+import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
@@ -45,7 +46,7 @@ constructor(
         }
     }
 
-    override suspend fun upVote(communityId: CommunityIdDomain, userId: String, permlink: String) {
+    override suspend fun upVote(communityId: CommunityIdDomain, userId: UserIdDomain, permlink: String) {
         withContext(dispatchersProvider.ioDispatcher) {
             discussionRepository.upVote(
                 ContentIdDomain(
@@ -57,7 +58,7 @@ constructor(
         }
     }
 
-    override suspend fun downVote(communityId: CommunityIdDomain, userId: String, permlink: String) {
+    override suspend fun downVote(communityId: CommunityIdDomain, userId: UserIdDomain, permlink: String) {
         withContext(dispatchersProvider.ioDispatcher) {
             discussionRepository.downVote(
                 ContentIdDomain(
@@ -69,7 +70,7 @@ constructor(
         }
     }
 
-    override suspend fun reportPost(authorPostId: String, communityId: CommunityIdDomain, permlink: String, reason: String) {
+    override suspend fun reportPost(authorPostId: UserIdDomain, communityId: CommunityIdDomain, permlink: String, reason: String) {
         withContext(dispatchersProvider.ioDispatcher) {
             discussionRepository.reportPost(communityId, authorPostId, permlink, reason)
         }

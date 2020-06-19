@@ -15,7 +15,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.dto.Author
 import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.CommentListItem
 import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.CommentListItemState
 import io.golos.cyber_android.ui.screens.post_view.helpers.CommentTextRenderer
@@ -33,6 +32,8 @@ import io.golos.cyber_android.ui.shared.widgets.post_comments.voting.VotingWidge
 import io.golos.cyber_android.ui.shared.widgets.post_comments.items.*
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.ContentIdDomain
+import io.golos.domain.dto.UserBriefDomain
+import io.golos.domain.dto.UserIdDomain
 import io.golos.utils.helpers.appendSpannedText
 import io.golos.utils.helpers.appendText
 import io.golos.utils.helpers.setSpan
@@ -139,7 +140,7 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
             newContentList.add(it)
         }
 
-        val author = Author(listItem.author.avatarUrl, listItem.author.userId.userId, listItem.author.username)
+        val author = UserBriefDomain(listItem.author.avatarUrl, UserIdDomain(listItem.author.userId.userId), listItem.author.username)
         if (newContentList.isEmpty() && listItem.isDeleted) {
             val deleteBlock =
                 ParagraphBlock(
@@ -155,7 +156,7 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
             addAuthorNameToContent(newContentList, author, listItemEventsProcessor)
         }
         val discussionId = listItem.externalId
-        val contentId = ContentIdDomain(CommunityIdDomain(""), discussionId.permlink.value, discussionId.userId)
+        val contentId = ContentIdDomain(CommunityIdDomain(""), discussionId.permlink.value, UserIdDomain(discussionId.userId))
         val contentItems = newContentList
             .filter { createPostBodyItem(contentId, it, listItemEventsProcessor, longClickListener) != null }
             .map {
@@ -164,7 +165,7 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
         commentContentAdapter.updateAdapter(contentItems)
     }
 
-    private fun addAuthorNameToContent(newContentList: ArrayList<Block>, author: Author, paragraphWidgetListener: ParagraphWidgetListener) {
+    private fun addAuthorNameToContent(newContentList: ArrayList<Block>, author: UserBriefDomain, paragraphWidgetListener: ParagraphWidgetListener) {
         val findBlock = newContentList.find { it is TextBlock || it is ParagraphBlock }
         val authorBlock = ParagraphBlock(
             null,
@@ -201,7 +202,7 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
                             paragraphContent.add(
                                 TextBlock(
                                     IdUtil.generateLongId(),
-                                    (author.username ?: author.userId) + " ",
+                                    (author.username ?: author.userId.userId) + " ",
                                     TextStyle.BOLD,
                                     null
                                 )
@@ -284,13 +285,13 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
         }
     }
 
-    private fun getAuthorAndText(author: Author, text: String, paragraphWidgetListener: ParagraphWidgetListener): SpannableStringBuilder {
+    private fun getAuthorAndText(author: UserBriefDomain, text: String, paragraphWidgetListener: ParagraphWidgetListener): SpannableStringBuilder {
         val result = SpannableStringBuilder()
         author.username?.let {
             val userNameInterval = result.appendText(it)
             result.setSpan(StyleSpan(Typeface.BOLD), userNameInterval)
             val colorUserName = ContextCompat.getColor(itemView.context, R.color.comment_user_name)
-            result.setSpan(object : ColorTextClickableSpan(author.userId, colorUserName){
+            result.setSpan(object : ColorTextClickableSpan(author.userId.userId, colorUserName){
 
                 override fun onClick(spanData: String) {
                     super.onClick(spanData)

@@ -103,7 +103,7 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
                                 Tags.ACTION_EDIT_SUCCESS -> {
                                     val contentId = data.getParcelableExtra<ContentIdDomain>(Tags.CONTENT_ID)
                                     val discussionIdModel = DiscussionIdModel(
-                                        contentId.userId,
+                                        contentId.userId.userId,
                                         Permlink(contentId.permlink)
                                     )
                                     openPost(discussionIdModel, contentId)

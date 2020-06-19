@@ -131,7 +131,7 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
                                 Tags.ACTION_EDIT_SUCCESS -> {
                                     val contentId = data.getParcelableExtra<ContentIdDomain>(Tags.CONTENT_ID)
                                     val discussionIdModel = DiscussionIdModel(
-                                        contentId.userId,
+                                        contentId.userId.userId,
                                         Permlink(contentId.permlink)
                                     )
                                     openPost(discussionIdModel, contentId)
@@ -151,7 +151,7 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
             postItem?.let { post ->
                 val contentId = post.post.contentId
                 val discussionIdModel = DiscussionIdModel(
-                    contentId.userId,
+                    contentId.userId.userId,
                     Permlink(contentId.permlink)
                 )
                 openPost(discussionIdModel, contentId)

@@ -7,5 +7,5 @@ import kotlinx.android.parcel.Parcelize
 data class ContentIdDomain(
     val communityId: CommunityIdDomain,
     val permlink: String,
-    val userId: String
+    val userId: UserIdDomain
 ): Parcelable
