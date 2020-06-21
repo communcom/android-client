@@ -23,6 +23,9 @@ import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.mappers.PostM
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.utils.format.DatesServerFormatter
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import timber.log.Timber
@@ -98,10 +101,11 @@ constructor(
         return callProxy.callBC { commun4j.uploadImage(file) }
     }
 
+    @Suppress("UNCHECKED_CAST")
     override suspend fun getPosts(
         postsConfigurationDomain: PostsConfigurationDomain,
         typeObject: TypeObjectDomain
-    ): List<PostDomain> {
+    ): List<PostDomain> = coroutineScope {
         val type = getFeedType(postsConfigurationDomain.typeFeed, typeObject)
         val timeFrame = getFeedTimeFrame(postsConfigurationDomain.timeFrame, postsConfigurationDomain.typeFeed)
 
@@ -119,22 +123,42 @@ constructor(
             )
         }
 
-        return if(posts.isNotEmpty()) {
+        if(posts.isNotEmpty()) {
             val contentIds = posts.map { UserAndPermlinkPair(it.contentId.userId, it.contentId.permlink) }
+            val donationQuery = posts.map { DonationPostModel(it.contentId.userId.name, it.contentId.permlink) }
 
-            val rewards = callProxy.call {
-                commun4j.getStateBulk(contentIds) }
-                .flatMap { it.value }
-                .map { it.mapToRewardPostDomain() }
-
-            return withContext(dispatchersProvider.calculationsDispatcher) {
-                posts.items.map { post ->
-                    val userId = post.author.userId.name
-                    val reward = rewards.firstOrNull { it.contentId.userId.userId == post.contentId.userId.name && it.contentId.permlink == post.contentId.permlink }
-                    post.mapToPostDomain(userId == currentUserRepository.userId.userId, reward )
-                }
+            val rewardsAsync = async {
+                callProxy.call {
+                    commun4j.getStateBulk(contentIds) }
+                    .flatMap { it.value }
+                    .map { it.mapToRewardPostDomain() }
             }
 
+            val donationsAsync = async {
+                callProxy.call { commun4j.getDonations(donationQuery) }.map { it.mapToDonationsDomain() }
+            }
+
+            awaitAll(rewardsAsync, donationsAsync).let { callResult ->
+                val rewards = callResult[0] as Iterable<RewardPostDomain>
+                val donations = callResult[1] as Iterable<DonationsDomain>
+
+                withContext(dispatchersProvider.calculationsDispatcher) {
+                    posts.items.map { post ->
+                        val userId = post.author.userId.name
+
+                        val reward = rewards.firstOrNull {
+                            it.contentId.userId.userId == post.contentId.userId.name &&
+                                    it.contentId.permlink == post.contentId.permlink }
+
+                        val donation = donations.firstOrNull {
+                            it.contentId.userId.userId == post.contentId.userId.name &&
+                            it.contentId.permlink == post.contentId.permlink
+                        }
+
+                        post.mapToPostDomain(userId == currentUserRepository.userId.userId, reward, donation)
+                    }
+                }
+            }
         } else {
             listOf()
         }
@@ -306,21 +330,23 @@ constructor(
 
     private val jsonToDtoMapper: JsonToDtoMapper by lazy { JsonToDtoMapper() }
 
-    override suspend fun getPost(user: CyberName, communityId: CommunityIdDomain, permlink: String): PostDomain {
+    override suspend fun getPost(user: CyberName, communityId: CommunityIdDomain, permlink: String): PostDomain = coroutineScope {
         val post = callProxy.call { commun4j.getPostRaw(user, communityId.code, permlink) }
 
         val contentIds = listOf(UserAndPermlinkPair(post.contentId.userId, post.contentId.permlink))
         val donationQuery = listOf(DonationPostModel(post.contentId.userId.name, post.contentId.permlink))
 
-//        commun4j.getDonations()
+        val donations = async { callProxy.call { commun4j.getDonations(donationQuery) }.mapToDonationsDomain() }
 
-        val rewards = callProxy.call {
-            commun4j.getStateBulk(contentIds) }
-            .flatMap { it.value }
-            .map { it.mapToRewardPostDomain()
+        val rewards = async {
+            callProxy.call {
+                commun4j.getStateBulk(contentIds) }
+                .flatMap { it.value }
+                .map { it.mapToRewardPostDomain()
+            }
         }
 
-        return post.mapToPostDomain(user.name, rewards.firstOrNull())
+        post.mapToPostDomain(user.name, rewards.await().firstOrNull(), donations.await())
     }
 
     override suspend fun sendComment(postIdDomain: ContentIdDomain, jsonBody: String): CommentDomain {
