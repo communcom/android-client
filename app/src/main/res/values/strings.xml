@@ -36,6 +36,12 @@
     </plurals>
     <!--Size formatting - end -->
 
+    <plurals name="plural_points_formatted_post">
+        <item quantity="zero">points</item>
+        <item quantity="one">point</item>
+        <item quantity="other">points</item>
+    </plurals>
+
     <string name="common_general_error">Unfortunately, an error was encountered during the operation.</string>
     <string name="token_receiving_error">Can\'t receive a token. The operation has been canceled</string>
     <string name="account_registered_error">Account already registered</string>

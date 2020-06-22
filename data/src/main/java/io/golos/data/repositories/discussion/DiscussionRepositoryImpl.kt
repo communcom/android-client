@@ -135,7 +135,7 @@ constructor(
             }
 
             val donationsAsync = async {
-                callProxy.call { commun4j.getDonations(donationQuery) }.map { it.mapToDonationsDomain() }
+                callProxy.call { commun4j.getDonations(donationQuery) }.items.map { it.mapToDonationsDomain() }
             }
 
             awaitAll(rewardsAsync, donationsAsync).let { callResult ->
@@ -336,17 +336,19 @@ constructor(
         val contentIds = listOf(UserAndPermlinkPair(post.contentId.userId, post.contentId.permlink))
         val donationQuery = listOf(DonationPostModel(post.contentId.userId.name, post.contentId.permlink))
 
-        val donations = async { callProxy.call { commun4j.getDonations(donationQuery) }.mapToDonationsDomain() }
+        val donations = async {
+            callProxy.call { commun4j.getDonations(donationQuery) }.items.firstOrNull()?.mapToDonationsDomain()
+        }
 
         val rewards = async {
             callProxy.call {
                 commun4j.getStateBulk(contentIds) }
                 .flatMap { it.value }
-                .map { it.mapToRewardPostDomain()
-            }
+                .map { it.mapToRewardPostDomain() }
+                .firstOrNull()
         }
 
-        post.mapToPostDomain(user.name, rewards.await().firstOrNull(), donations.await())
+        post.mapToPostDomain(user.name, rewards.await(), donations.await())
     }
 
     override suspend fun sendComment(postIdDomain: ContentIdDomain, jsonBody: String): CommentDomain {

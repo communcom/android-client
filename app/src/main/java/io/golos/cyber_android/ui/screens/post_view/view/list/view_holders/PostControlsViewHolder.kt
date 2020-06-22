@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.post_view.view.list.view_holders
 
+import android.view.View
 import android.view.ViewGroup
 import io.golos.cyber_android.R
 import io.golos.utils.format.KiloCounterFormatter
@@ -7,7 +8,6 @@ import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.PostControlsListItem
 import io.golos.cyber_android.ui.screens.post_view.view_model.PostPageViewModelListEventsProcessor
 import kotlinx.android.synthetic.main.item_post_controls.view.*
-import timber.log.Timber
 
 class PostControlsViewHolder(
     parentView: ViewGroup
@@ -28,6 +28,13 @@ class PostControlsViewHolder(
             votesArea.setOnUpVoteButtonClickListener { listItemEventsProcessor.onUpVoteClick() }
             votesArea.setOnDownVoteButtonClickListener { listItemEventsProcessor.onDownVoteClick() }
             votesArea.setOnDonateClickListener { listItemEventsProcessor.onDonateClick(it, listItem.post) }
+
+            if(listItem.post.donation != null) {
+                donationPanel.setAmount(listItem.post.donation.totalAmount)
+                donationPanel.visibility = View.VISIBLE
+            } else {
+                donationPanel.visibility = View.INVISIBLE
+            }
 
             ivShare.setOnClickListener {
                 listItem.shareUrl?.let {

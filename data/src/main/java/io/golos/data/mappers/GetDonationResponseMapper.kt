@@ -1,9 +1,9 @@
 package io.golos.data.mappers
 
-import io.golos.commun4j.services.model.GetDonationResponse
+import io.golos.commun4j.services.model.DonationItem
 import io.golos.domain.dto.DonationsDomain
 
-fun GetDonationResponse.mapToDonationsDomain() =
+fun DonationItem.mapToDonationsDomain() =
     DonationsDomain(
         contentId = this.contentId!!.mapToContentIdDomain(),
         totalAmount = totalAmount!!

@@ -97,6 +97,13 @@ class PostItem(
         view.setOnClickListener {
             listener.onBodyClicked(post.contentId)
         }
+
+        if(post.donation != null) {
+            view.donationPanel.setAmount(post.donation.totalAmount)
+            view.donationPanel.visibility = View.VISIBLE
+        } else {
+            view.donationPanel.visibility = View.INVISIBLE
+        }
     }
 
     private fun setUpViewCount(view: View, count: Int?, isNeedToShow: Boolean) {
