@@ -83,6 +83,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/post_controls_icons_text_gap"
+        app:layout_goneMarginEnd="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/viewCountsText"
         app:layout_constraintTop_toTopOf="parent"
@@ -98,6 +99,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+
+        android:visibility="gone"
+
         tools:text="278" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

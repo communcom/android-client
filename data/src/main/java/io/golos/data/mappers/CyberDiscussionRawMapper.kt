@@ -20,7 +20,8 @@ fun CyberDiscussionRaw.mapToPostDomain(isMyPost: Boolean, reward: RewardPostDoma
         votes = this.votes.mapToVotesDomain(),
         isMyPost = isMyPost,
         reward = reward,
-        donation = donation
+        donation = donation,
+        viewCount = viewsCount ?: 0
     )
 }
 

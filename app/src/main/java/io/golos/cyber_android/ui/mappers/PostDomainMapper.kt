@@ -16,6 +16,7 @@ fun PostDomain.mapToPost(): Post {
         votes = this.votes.mapToVotes(),
         isMyPost = this.isMyPost,
         reward = this.reward,
-        donation = this.donation
+        donation = this.donation,
+        viewCount = this.viewCount
     )
 }

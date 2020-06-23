@@ -328,8 +328,6 @@ constructor(
         }
     }
 
-    private val jsonToDtoMapper: JsonToDtoMapper by lazy { JsonToDtoMapper() }
-
     override suspend fun getPost(user: CyberName, communityId: CommunityIdDomain, permlink: String): PostDomain = coroutineScope {
         val post = callProxy.call { commun4j.getPostRaw(user, communityId.code, permlink) }
 

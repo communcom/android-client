@@ -87,7 +87,7 @@ class PostItem(
         setPostHeader(view, post)
         setVotesCounter(view, post.votes)
         setUpVotesButton(view, post.isMyPost)
-        setUpViewCount(view, post.stats?.viewCount, type == Type.PROFILE)
+        setUpViewCount(view, post.viewCount, true)
         setCommentsCounter(view, post.stats?.commentsCount)
         view.ivShare.setOnClickListener {
             post.shareUrl?.let {

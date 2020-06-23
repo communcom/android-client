@@ -14,5 +14,6 @@ data class PostDomain(
     val votes: VotesDomain,
     val isMyPost: Boolean,
     val reward: RewardPostDomain?,
-    val donation: DonationsDomain?
+    val donation: DonationsDomain?,
+    val viewCount: Int
 )
