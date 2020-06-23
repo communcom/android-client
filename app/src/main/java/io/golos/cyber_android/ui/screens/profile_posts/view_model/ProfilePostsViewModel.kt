@@ -20,7 +20,7 @@ import io.golos.cyber_android.ui.screens.profile_posts.view_commands.EditPostCom
 import io.golos.cyber_android.ui.screens.profile_posts.view_commands.NavigationToPostMenuViewCommand
 import io.golos.cyber_android.ui.screens.profile_posts.view_commands.ReportPostCommand
 import io.golos.cyber_android.ui.screens.profile_posts.view_commands.SharePostCommand
-import io.golos.cyber_android.ui.shared.broadcast_actions_registries.PostCreateEditRegistry
+import io.golos.cyber_android.ui.shared.broadcast_actions_registries.PostUpdateRegistry
 import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
@@ -51,7 +51,7 @@ constructor(
     private val profileUserId: UserIdDomain,
     private val paginator: Paginator.Store<Post>,
     private val startFeedType: PostsConfigurationDomain.TypeFeedDomain,
-    private val postCreateEditRegistry: PostCreateEditRegistry,
+    private val postUpdateRegistry: PostUpdateRegistry,
     private val currentUserRepository: CurrentUserRepositoryRead,
     val recordPostViewManager: RecordPostViewManager
 ) : ViewModelBase<MyFeedModel>(dispatchersProvider, model), MyFeedListListener {
@@ -101,6 +101,7 @@ constructor(
 
         applyPostCreatedChangeListener()
         applyPostUpdatedChangeListener()
+        applyPostDonationSendListener()
     }
 
     override fun onShareClicked(shareUrl: String) {
@@ -288,7 +289,7 @@ constructor(
 
     private fun applyPostCreatedChangeListener() {
         launch {
-            postCreateEditRegistry.createdPosts.collect {
+            postUpdateRegistry.createdPosts.collect {
                 if(currentUserRepository.userId == profileUserId) {
                     it?.let {
                         paginator.initState(Paginator.State.Empty)
@@ -301,11 +302,23 @@ constructor(
 
     private fun applyPostUpdatedChangeListener() {
         launch {
-            postCreateEditRegistry.updatedPosts.collect {
+            postUpdateRegistry.updatedPosts.collect {
                 if(currentUserRepository.userId == profileUserId) {
                     it?.let {
                         paginator.proceed(Paginator.Action.UpdateItem(it.mapToPost()))
                     }
+                }
+            }
+        }
+    }
+
+    private fun applyPostDonationSendListener() {
+        launch {
+            postUpdateRegistry.donationSend.collect {
+                it?.let { donationInfo ->
+                    paginator.proceed(Paginator.Action.UpdateItemById<Post>(donationInfo.postId) { post ->
+                        post.copy(donation = donationInfo.donation )
+                    })
                 }
             }
         }

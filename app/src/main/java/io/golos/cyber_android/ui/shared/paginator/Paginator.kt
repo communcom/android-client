@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.shared.paginator
 
+import io.golos.domain.dto.ContentIdDomain
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -24,6 +25,7 @@ open class Paginator<T> {
         object LoadMore : Action()
         data class NewPage<T>(val pageCount: Int, val items: List<T>, val pageKey: String? = null) : Action()
         data class UpdateItem<T>(val item: T) : Action()
+        data class UpdateItemById<T>(val id: ContentIdDomain, val updateAction: (T) -> T) : Action()
         data class PageError(val error: Throwable) : Action()
         object Search : Action()
     }
@@ -156,10 +158,28 @@ open class Paginator<T> {
 
                 when(state) {
                     is State.Data<*> -> {
-                        State.ItemUpdated(updateItem(itemToUpdate, state.data as List<T>))
+                        //State.ItemUpdated(updateItem(itemToUpdate, state.data as List<T>))
+                        State.Data(state.pageCount, updateItem(itemToUpdate, state.data as List<T>), state.pageKey)
                     }
                     is State.FullData<*> -> {
-                        State.ItemUpdated(updateItem(itemToUpdate, state.data as List<T>))
+                        //State.ItemUpdated(updateItem(itemToUpdate, state.data as List<T>))
+                        State.FullData(state.pageCount, updateItem(itemToUpdate, state.data as List<T>), state.pageKey)
+                    }
+                    else -> state
+                }
+            }
+            is Action.UpdateItemById<*> -> {
+                val id = action.id
+                val updateAction = action.updateAction as (T) -> T
+
+                when(state) {
+                    is State.Data<*> -> {
+                        //State.ItemUpdated(updateItemById(id, state.data as List<T>, updateAction))
+                        State.Data(state.pageCount, updateItemById(id, state.data as List<T>, updateAction), state.pageKey)
+                    }
+                    is State.FullData<*> -> {
+                        //State.ItemUpdated(updateItemById(id, state.data as List<T>, updateAction))
+                        State.FullData(state.pageCount, updateItemById(id, state.data as List<T>, updateAction), state.pageKey)
                     }
                     else -> state
                 }
@@ -185,6 +205,8 @@ open class Paginator<T> {
         }
 
     open fun updateItem(itemToUpdate: T, items: List<T>): List<T> = items
+
+    open fun updateItemById(id: ContentIdDomain, items: List<T>, updateAction: (T) -> T): List<T> = items
 
     class Store<T> (private val paginator: Paginator<T>) {
         private var oldState: State? = null
@@ -226,11 +248,11 @@ open class Paginator<T> {
             Timber.d("paginator: new state -> [${newState::class.java.simpleName.toUpperCase()}]")
 
             oldState = state
-            if (newState != state) {
+//            if (newState != state) {
                 state = newState
                 Timber.d("[New state: $state]")
                 render.invoke(state, oldState)
-            }
+//            }
         }
 
         fun getStoredItems(): List<T> {

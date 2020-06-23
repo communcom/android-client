@@ -14,7 +14,7 @@ import io.golos.cyber_android.ui.screens.feed_my.view.view_commands.*
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
-import io.golos.cyber_android.ui.shared.broadcast_actions_registries.PostCreateEditRegistry
+import io.golos.cyber_android.ui.shared.broadcast_actions_registries.PostUpdateRegistry
 import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
@@ -45,7 +45,7 @@ constructor(
     model: MyFeedModel,
     private val paginator: Paginator.Store<Post>,
     private val currentUserRepository: CurrentUserRepositoryRead,
-    private val postCreateEditRegistry: PostCreateEditRegistry,
+    private val postUpdateRegistry: PostUpdateRegistry,
     val recordPostViewManager: RecordPostViewManager
 ) : ViewModelBase<MyFeedModel>(dispatchersProvider, model),
     MyFeedListListener {
@@ -89,6 +89,7 @@ constructor(
         applyAvatarChangeListener()
         applyPostCreatedChangeListener()
         applyPostUpdatedChangeListener()
+        applyPostDonationSendListener()
     }
 
     override fun onShareClicked(shareUrl: String) {
@@ -311,7 +312,7 @@ constructor(
 
     private fun applyPostCreatedChangeListener() {
         launch {
-            postCreateEditRegistry.createdPosts.collect {
+            postUpdateRegistry.createdPosts.collect {
                 it?.let {
                     paginator.initState(Paginator.State.Empty)
                     restartLoadPosts()
@@ -322,9 +323,22 @@ constructor(
 
     private fun applyPostUpdatedChangeListener() {
         launch {
-            postCreateEditRegistry.updatedPosts.collect {
+            postUpdateRegistry.updatedPosts.collect {
                 it?.let {
                     paginator.proceed(Paginator.Action.UpdateItem(it.mapToPost()))
+                }
+            }
+        }
+    }
+
+    private fun applyPostDonationSendListener() {
+        launch {
+            postUpdateRegistry.donationSend.collect {
+                it?.let { donationInfo ->
+                    Timber.tag("NET_SOCKET_634").d("MyFeedViewModel::applyPostDonationSendListener(postId: ${donationInfo.postId}); donation: ${donationInfo.donation}")
+                    paginator.proceed(Paginator.Action.UpdateItemById<Post>(donationInfo.postId) { post ->
+                        post.copy(donation = donationInfo.donation )
+                    })
                 }
             }
         }

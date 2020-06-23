@@ -1,9 +1,11 @@
 package io.golos.cyber_android.ui.screens.donate_send_points.model
 
 import android.content.Context
+import io.golos.cyber_android.ui.dto.PostDonation
 import io.golos.cyber_android.ui.screens.wallet_send_points.model.WalletSendPointsModel
 import io.golos.cyber_android.ui.screens.wallet_send_points.model.WalletSendPointsModelImpl
 import io.golos.cyber_android.ui.screens.wallet_shared.amount_validator.AmountValidator
+import io.golos.cyber_android.ui.shared.broadcast_actions_registries.PostUpdateRegistry
 import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dependency_injection.Clarification
@@ -26,7 +28,8 @@ constructor(
     amountValidator: AmountValidator,
     @Named(Clarification.AMOUNT)
     override var amount: Double?,
-    private val postId: ContentIdDomain
+    private val postId: ContentIdDomain,
+    private val postUpdateRegistry: PostUpdateRegistry
 ) : WalletSendPointsModelImpl(
         appContext,
         sendToUser,
@@ -46,5 +49,10 @@ constructor(
             initCurrentBalanceRecord()
         }
 
-    override suspend fun makeTransfer() = walletRepository.donate(postId, amount!!, currentCommunityId)
+    override suspend fun makeTransfer() {
+        val serverDonation = walletRepository.donate(postId, amount!!, currentCommunityId)
+        if(serverDonation != null) {
+            postUpdateRegistry.setDonationSend(PostDonation(postId, serverDonation))
+        }
+    }
 }

@@ -16,6 +16,7 @@ import io.golos.cyber_android.ui.screens.feed_my.view_model.MyFeedListListener
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
+import io.golos.cyber_android.ui.shared.broadcast_actions_registries.PostUpdateRegistry
 import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
@@ -31,6 +32,7 @@ import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.use_cases.reward.isTopReward
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 import timber.log.Timber
@@ -45,7 +47,8 @@ constructor(
     private val currentUserRepository: CurrentUserRepositoryRead,
     private val communityId: CommunityIdDomain,
     private val paginator: Paginator.Store<Post>,
-    val recordPostViewManager: RecordPostViewManager
+    val recordPostViewManager: RecordPostViewManager,
+    private val postUpdateRegistry: PostUpdateRegistry
 ) : ViewModelBase<CommunityPostModel>(dispatchersProvider, model), MyFeedListListener {
 
     private val _postsListState: MutableLiveData<Paginator.State> = MutableLiveData(Paginator.State.Empty)
@@ -77,12 +80,26 @@ constructor(
         }
 
         updateFilterAndLoadPosts()
+        applyPostDonationSendListener()
     }
 
     fun loadFilter() {
         val configuration = _filterUpdateTime.value
         configuration?.let { config ->
             _command.value = NavigateToFilterDialogViewCommand(config)
+        }
+    }
+
+    private fun applyPostDonationSendListener() {
+        launch {
+            postUpdateRegistry.donationSend.collect {
+                it?.let { donationInfo ->
+                    Timber.tag("NET_SOCKET_634").d("CommunityPostViewModel::applyPostDonationSendListener(postId: ${donationInfo.postId}); donation: ${donationInfo.donation}")
+                    paginator.proceed(Paginator.Action.UpdateItemById<Post>(donationInfo.postId) { post ->
+                        post.copy(donation = donationInfo.donation )
+                    })
+                }
+            }
         }
     }
 

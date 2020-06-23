@@ -4,12 +4,11 @@ import android.net.Uri
 import com.squareup.moshi.Moshi
 import io.golos.commun4j.services.model.OEmbedResult
 import io.golos.commun4j.sharedmodel.Either
-import io.golos.commun4j.utils.toCyberName
 import io.golos.cyber_android.ui.screens.post_edit.fragment.dto.ExternalLinkError
 import io.golos.cyber_android.ui.screens.post_edit.fragment.dto.ExternalLinkInfo
 import io.golos.cyber_android.ui.screens.post_edit.fragment.dto.ExternalLinkType
 import io.golos.cyber_android.ui.screens.post_edit.fragment.dto.ValidationResult
-import io.golos.cyber_android.ui.shared.broadcast_actions_registries.PostCreateEditRegistry
+import io.golos.cyber_android.ui.shared.broadcast_actions_registries.PostUpdateRegistry
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.shared.utils.localSize
 import io.golos.data.errors.CyberServicesError
@@ -49,7 +48,7 @@ constructor(
     private val discussionRepository: DiscussionRepository,
     private val currentUserRepository: CurrentUserRepositoryRead,
     private val moshi: Moshi,
-    private val postCreateEditRegistry: PostCreateEditRegistry
+    private val postUpdateRegistry: PostUpdateRegistry
 ) : ModelBaseImpl(), EditorPageModel {
 
     override suspend fun getExternalLinkInfo(uri: String): Either<ExternalLinkInfo, ExternalLinkError> =
@@ -139,7 +138,7 @@ constructor(
         val tags = extractTags(content, adultOnly)
         val contentId = discussionRepository.createPost(communityId, body, tags.toList())
 
-        postCreateEditRegistry.setPostCreated(contentId)
+        postUpdateRegistry.setPostCreated(contentId)
 
         return contentId
     }
@@ -175,7 +174,7 @@ constructor(
 
         val updatedPost = discussionRepository.updatePost(contentIdDomain, body, tags)
 
-        postCreateEditRegistry.setPostUpdated(updatedPost)
+        postUpdateRegistry.setPostUpdated(updatedPost)
 
         return updatedPost.contentId
     }
