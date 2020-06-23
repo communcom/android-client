@@ -84,6 +84,7 @@ constructor(
                 _command.value = PassResultCommand(imageFile, profileItem)
                 _command.value = NavigateBackwardCommand()
             } catch (ex: Exception) {
+                Timber.e(ex)
                 _command.value = SetLoadingVisibilityCommand(false)
                 _command.value = ShowMessageResCommand(R.string.common_general_error)
             }
