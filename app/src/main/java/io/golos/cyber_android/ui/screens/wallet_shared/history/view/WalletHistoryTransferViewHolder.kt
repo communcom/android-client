@@ -44,6 +44,7 @@ class WalletHistoryTransferViewHolder(
             WalletHistoryTransferType.REWARD -> resources.getString(R.string.reward)
             WalletHistoryTransferType.CONVERT -> resources.getString(R.string.convert)
             WalletHistoryTransferType.TRANSFER -> resources.getString(R.string.transfer)
+            WalletHistoryTransferType.DONATION -> resources.getString(R.string.donation)
             WalletHistoryTransferType.NONE -> ""
         }
 

@@ -12,6 +12,7 @@ object WalletHistoryConstants {
     const val ACTION_CONVERT = "CONVERT"
     const val ACTION_HOLD = "HOLD"
     const val ACTION_UNHOLD = "UNHOLD"
+    const val ACTION_DONATION = "DONATION"
 
     const val TRANSFER_TYPE_TRANSFER = "TRANSFER"
     const val TRANSFER_TYPE_CONVERT = "CONVERT"

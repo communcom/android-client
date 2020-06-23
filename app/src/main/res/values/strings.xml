@@ -508,6 +508,7 @@
     <string name="tokens">Tokens</string>
     <string name="reward">Reward</string>
     <string name="transfer">Transfer</string>
+    <string name="donation">Donation</string>
 
     <string name="on_hold_format">{0} on hold</string>
     <string name="commun_format">= {0} Commun</string>
