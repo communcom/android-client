@@ -18,7 +18,7 @@ class VotingDonatePopup {
             .setWidthRatio(0.98f)
             .setHeight(getDimenValue(R.dimen.donates_popup_height_full, anchorView))
             .setPadding(0)
-            .setAutoDismissDuration(15_000L)
+            .setAutoDismissDuration(10_000L)
             .setDismissWhenTouchOutside(true)
             .setCornerRadius(getDimenValue(R.dimen.donates_popup_corners, anchorView).toFloat())
             .setLayout(R.layout.view_donat_popup)

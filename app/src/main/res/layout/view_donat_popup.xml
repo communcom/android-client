@@ -48,7 +48,7 @@
         app:layout_constraintStart_toEndOf="@+id/donateLabel"
         app:layout_constraintTop_toTopOf="parent"
 
-        style = "@style/BlueWhite.RoundCorners.Button"
+        style = "@style/BlueWhite.RoundCorners.Button.TextSmall"
         android:background="@drawable/bcg_white_opacity_round_corners_button"
         tools:ignore="HardcodedText" />
 
@@ -64,7 +64,7 @@
         app:layout_constraintStart_toEndOf="@+id/buttonPoints10"
         app:layout_constraintTop_toTopOf="parent"
 
-        style = "@style/BlueWhite.RoundCorners.Button"
+        style = "@style/BlueWhite.RoundCorners.Button.TextSmall"
         android:background="@drawable/bcg_white_opacity_round_corners_button"
         tools:ignore="HardcodedText" />
 
@@ -74,14 +74,13 @@
         android:layout_height="@dimen/donates_popup_dialog_button_height"
 
         android:text="+1000"
-        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonPointsOther"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/buttonPoints100"
         app:layout_constraintTop_toTopOf="parent"
 
-        style = "@style/BlueWhite.RoundCorners.Button"
+        style = "@style/BlueWhite.RoundCorners.Button.TextSmall"
         android:background="@drawable/bcg_white_opacity_round_corners_button"
         tools:ignore="HardcodedText" />
 
@@ -96,7 +95,7 @@
         app:layout_constraintStart_toEndOf="@+id/buttonPoints1000"
         app:layout_constraintTop_toTopOf="parent"
 
-        style = "@style/BlueWhite.RoundCorners.Button"
+        style = "@style/BlueWhite.RoundCorners.Button.TextSmall"
         android:background="@drawable/bcg_white_opacity_round_corners_button"
         />
 
