@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.post_view.model
 import androidx.lifecycle.LiveData
 import dagger.Lazy
 import io.golos.commun4j.utils.toCyberName
+import io.golos.cyber_android.ui.dto.PostDonation
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
 import io.golos.cyber_android.ui.screens.post_view.dto.SortingType
@@ -215,4 +216,10 @@ constructor(
     override fun isTopReward(): Boolean? = postDomain.reward.isTopReward()
 
     override suspend fun getWalletBalance(): List<WalletCommunityBalanceRecordDomain> = walletRepository.getBalance()
+
+    override suspend fun updateDonation(donation: PostDonation) {
+        if(donation.postId == postDomain.contentId) {
+            postListDataSource.updateDonation(donation.donation)
+        }
+    }
 }

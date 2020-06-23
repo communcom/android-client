@@ -1,15 +1,13 @@
 package io.golos.cyber_android.ui.screens.post_view.model
 
 import androidx.lifecycle.LiveData
+import io.golos.cyber_android.ui.dto.PostDonation
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
 import io.golos.cyber_android.ui.screens.post_view.dto.SortingType
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
-import io.golos.domain.dto.CommunityIdDomain
-import io.golos.domain.dto.ContentIdDomain
-import io.golos.domain.dto.UserIdDomain
-import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
+import io.golos.domain.dto.*
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
 import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
 import io.golos.domain.use_cases.model.CommentModel
@@ -90,4 +88,6 @@ interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToC
     fun isTopReward(): Boolean?
 
     suspend fun getWalletBalance(): List<WalletCommunityBalanceRecordDomain>
+
+    suspend fun updateDonation(donation: PostDonation)
 }

@@ -9,6 +9,7 @@ import io.golos.cyber_android.ui.shared.recycler_view.GroupListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dependency_injection.scopes.FragmentScope
+import io.golos.domain.dto.DonationsDomain
 import io.golos.domain.dto.PostDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.model.CommentModel
@@ -281,6 +282,17 @@ constructor(
                 sortPostItems()
             }
         }
+
+    override suspend fun updateDonation(donation: DonationsDomain) {
+        updateSafe {
+            val controlsIndex = postList.indexOfFirst { it is PostControlsListItem }
+
+            if (controlsIndex != -1) {
+                val controls = postList[controlsIndex] as PostControlsListItem
+                postList[controlsIndex] = controls.copy(version = controls.version+1, post = controls.post.copy(donation = donation))
+            }
+        }
+    }
 
     /**
      * Adds new first-level comment (the loader'll be replaced)

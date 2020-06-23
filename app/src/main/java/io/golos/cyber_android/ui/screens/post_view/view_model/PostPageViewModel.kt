@@ -12,9 +12,11 @@ import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
 import io.golos.cyber_android.ui.screens.post_view.dto.*
 import io.golos.cyber_android.ui.screens.post_view.model.PostPageModel
+import io.golos.cyber_android.ui.shared.broadcast_actions_registries.PostUpdateRegistry
 import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
+import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.shared.widgets.comment.CommentContent
 import io.golos.cyber_android.ui.shared.widgets.comment.ContentState
@@ -28,6 +30,7 @@ import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.Edi
 import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.EmbedMetadata
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.model.DiscussionIdModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 import timber.log.Timber
@@ -41,7 +44,8 @@ constructor(
     dispatchersProvider: DispatchersProvider,
     model: PostPageModel,
     private val currentUserRepository: CurrentUserRepositoryRead,
-    private val postContentId: ContentIdDomain
+    private val postContentId: ContentIdDomain,
+    private val postUpdateRegistry: PostUpdateRegistry
 ) : ViewModelBase<PostPageModel>(dispatchersProvider, model),
     PostPageViewModelListEventsProcessor {
 
@@ -66,6 +70,7 @@ constructor(
 
     init {
         RecordPostViewService.record(appContext, postContentId)
+        applyPostDonationSendListener()
     }
 
     fun setup() {
@@ -378,6 +383,17 @@ constructor(
                 parentContentId,
                 contentBlock
             )
+        }
+    }
+
+    private fun applyPostDonationSendListener() {
+        launch {
+            postUpdateRegistry.donationSend.collect {
+                it?.let { donationInfo ->
+                    Timber.tag("NET_SOCKET_634").d("MyFeedViewModel::applyPostDonationSendListener(postId: ${donationInfo.postId}); donation: ${donationInfo.donation}")
+                    model.updateDonation(donationInfo)
+                }
+            }
         }
     }
 
