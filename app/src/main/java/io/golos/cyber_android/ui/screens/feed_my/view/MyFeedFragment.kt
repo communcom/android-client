@@ -315,7 +315,6 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
     private fun observeViewModel() {
         viewModel.postsListState.observe(viewLifecycleOwner, Observer {
             val myFeedAdapter = rvPosts.adapter as MyFeedAdapter
-            Timber.tag("NET_SOCKET_634").d("observeViewModel($it)")
             when (it) {
                 is Paginator.State.Data<*> -> {
                     myFeedAdapter.hideLoadingNextPageError()

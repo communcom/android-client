@@ -16,11 +16,9 @@ import io.golos.cyber_android.ui.shared.broadcast_actions_registries.PostUpdateR
 import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
-import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.shared.widgets.comment.CommentContent
 import io.golos.cyber_android.ui.shared.widgets.comment.ContentState
-import io.golos.domain.repositories.exceptions.ApiResponseErrorException
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.CommunityIdDomain
@@ -29,6 +27,7 @@ import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.EditorOutputToJsonMapper
 import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.EmbedMetadata
 import io.golos.domain.repositories.CurrentUserRepositoryRead
+import io.golos.domain.repositories.exceptions.ApiResponseErrorException
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -390,7 +389,6 @@ constructor(
         launch {
             postUpdateRegistry.donationSend.collect {
                 it?.let { donationInfo ->
-                    Timber.tag("NET_SOCKET_634").d("MyFeedViewModel::applyPostDonationSendListener(postId: ${donationInfo.postId}); donation: ${donationInfo.donation}")
                     model.updateDonation(donationInfo)
                 }
             }

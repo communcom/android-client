@@ -335,7 +335,6 @@ constructor(
         launch {
             postUpdateRegistry.donationSend.collect {
                 it?.let { donationInfo ->
-                    Timber.tag("NET_SOCKET_634").d("MyFeedViewModel::applyPostDonationSendListener(postId: ${donationInfo.postId}); donation: ${donationInfo.donation}")
                     paginator.proceed(Paginator.Action.UpdateItemById<Post>(donationInfo.postId) { post ->
                         post.copy(donation = donationInfo.donation )
                     })
