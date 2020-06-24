@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
 import io.golos.cyber_android.R
 import io.golos.utils.format.CurrencyFormatter
-import kotlinx.android.synthetic.main.view_post_donation.view.*
+import kotlinx.android.synthetic.main.view_donation_post.view.*
 
 class DonationPanelWidget
 @JvmOverloads
@@ -16,7 +16,7 @@ constructor(
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
     init {
-        inflate(getContext(), R.layout.view_post_donation, this)
+        inflate(getContext(), R.layout.view_donation_post, this)
     }
 
     fun setAmount(amount: Double) {

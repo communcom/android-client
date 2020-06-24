@@ -2,15 +2,11 @@ package io.golos.cyber_android.ui.shared.widgets.post_comments.voting
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
 import android.widget.LinearLayout
-import androidx.annotation.DimenRes
-import com.skydoves.balloon.Balloon
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.DonateType
-import io.golos.cyber_android.ui.shared.extensions.parentActivity
+import io.golos.cyber_android.ui.shared.widgets.post_comments.donation.VotingDonatePopup
 import kotlinx.android.synthetic.main.view_post_voting.view.*
-import timber.log.Timber
 
 class VotingWidget
 @JvmOverloads

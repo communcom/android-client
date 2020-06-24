@@ -14,6 +14,7 @@ import io.golos.cyber_android.ui.shared.base.adapter.BaseRecyclerItem
 import io.golos.cyber_android.ui.shared.base.adapter.RecyclerAdapter
 import io.golos.cyber_android.ui.shared.base.adapter.RecyclerItem
 import io.golos.cyber_android.ui.shared.post_view.RecordPostViewManager
+import io.golos.cyber_android.ui.shared.widgets.post_comments.donation.DonatePersonsPopup
 import io.golos.cyber_android.ui.shared.widgets.post_comments.voting.VotingWidget
 import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.*
@@ -101,6 +102,7 @@ class PostItem(
         if(post.donation != null) {
             view.donationPanel.setAmount(post.donation.totalAmount)
             view.donationPanel.visibility = View.VISIBLE
+            view.donationPanel.setOnClickListener { DonatePersonsPopup().show(view.donationPanel, post.donation) }
         } else {
             view.donationPanel.visibility = View.INVISIBLE
         }

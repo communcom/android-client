@@ -1,4 +1,4 @@
-package io.golos.cyber_android.ui.shared.widgets.post_comments.voting
+package io.golos.cyber_android.ui.shared.widgets.post_comments.donation
 
 import android.view.View
 import androidx.annotation.DimenRes
@@ -21,7 +21,7 @@ class VotingDonatePopup {
             .setAutoDismissDuration(10_000L)
             .setDismissWhenTouchOutside(true)
             .setCornerRadius(getDimenValue(R.dimen.donates_popup_corners, anchorView).toFloat())
-            .setLayout(R.layout.view_donat_popup)
+            .setLayout(R.layout.view_donation_popup)
             .build()
 
         val contentView = balloon.getContentView()
