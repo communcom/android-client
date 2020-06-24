@@ -2,5 +2,6 @@ package io.golos.domain.dto
 
 data class DonationsDomain(
     val contentId: ContentIdDomain,
-    val totalAmount: Double
+    val totalAmount: Double,
+    val donators: List<DonatorDomain>
 )

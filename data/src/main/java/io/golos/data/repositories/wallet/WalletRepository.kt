@@ -24,4 +24,6 @@ interface WalletRepository {
     suspend fun convertPointsToCommun(amount: Double, communityId: CommunityIdDomain)
 
     suspend fun convertCommunToPoints(amount: Double, communityId: CommunityIdDomain)
+
+    suspend fun getDonations(postId: ContentIdDomain): DonationsDomain?
 }

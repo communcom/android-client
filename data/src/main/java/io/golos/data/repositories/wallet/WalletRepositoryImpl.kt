@@ -124,6 +124,11 @@ constructor(
         }
     }
 
+    override suspend fun getDonations(postId: ContentIdDomain): DonationsDomain? {
+        val donationQuery = listOf(DonationPostModel(postId.userId.userId, postId.permlink))
+        return callProxy.call { commun4j.getDonations(donationQuery) }.items.firstOrNull()?.mapToDonationsDomain()
+    }
+
     private suspend fun sendToUser(toUser: UserIdDomain, amount: Double, communityId: CommunityIdDomain, memo: String) {
         Timber.tag("NET_SOCKET").d("WalletRepositoryImpl::sendToUser(memo: $memo)")
         if(communityId.code != GlobalConstants.COMMUN_CODE) {
