@@ -137,7 +137,10 @@ constructor(
 
                 WalletHistoryConstants.ACTION_HOLD -> serverItem.holdType?.capitalize(Locale.getDefault()) ?: ""
 
-                WalletHistoryConstants.ACTION_DONATION -> serverItem.senderName ?: serverItem.senderId.userId
+                WalletHistoryConstants.ACTION_DONATION -> when(direction) {
+                    WalletHistoryTransferDirection.SEND -> serverItem.receiverName ?: serverItem.receiverId.userId
+                    WalletHistoryTransferDirection.RECEIVE -> serverItem.senderName ?: serverItem.senderId.userId
+                }
 
                 else -> return null
             }
@@ -153,8 +156,7 @@ constructor(
             WalletHistoryConstants.ACTION_REWARD,
             WalletHistoryConstants.ACTION_UNHOLD -> serverItem.communityAvatarUrl
 
-            WalletHistoryConstants.ACTION_TRANSFER ->
-                when(direction) {
+            WalletHistoryConstants.ACTION_TRANSFER -> when(direction) {
                     WalletHistoryTransferDirection.SEND -> serverItem.receiverAvatarUrl ?: WalletHistoryConstants.ICON_COMMUN
                     WalletHistoryTransferDirection.RECEIVE -> serverItem.senderAvatarUrl ?: WalletHistoryConstants.ICON_COMMUN
                 }
@@ -168,7 +170,11 @@ constructor(
 
             WalletHistoryConstants.ACTION_HOLD -> WalletHistoryConstants.ICON_LIKE
 
-            WalletHistoryConstants.ACTION_DONATION -> serverItem.senderAvatarUrl ?: WalletHistoryConstants.ICON_COMMUN
+            WalletHistoryConstants.ACTION_DONATION -> when(direction) {
+                WalletHistoryTransferDirection.SEND -> serverItem.receiverAvatarUrl ?: WalletHistoryConstants.ICON_COMMUN
+                WalletHistoryTransferDirection.RECEIVE -> serverItem.senderAvatarUrl ?: WalletHistoryConstants.ICON_COMMUN
+            }
+
             else -> return null
         }
 
