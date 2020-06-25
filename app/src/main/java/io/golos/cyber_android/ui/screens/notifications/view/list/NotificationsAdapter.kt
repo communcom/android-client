@@ -10,7 +10,6 @@ import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.*
 import io.golos.utils.id.IdUtil
 
-
 class NotificationsAdapter (
     private val listEventsProcessor: NotificationsViewModelListEventsProcessor,
     pageSize:Int): VersionedListAdapterBase<NotificationsViewModelListEventsProcessor>(listEventsProcessor,pageSize) {
@@ -34,6 +33,7 @@ class NotificationsAdapter (
         const val REFERRAL_REGISTRATION_BONUS = 10
         const val REFERRAL_PURCHASE_BONUS = 11
         const val UNSUPPORTED = 12
+        const val DONATION = 13
     }
 
     override fun onCreateViewHolder(
@@ -53,6 +53,7 @@ class NotificationsAdapter (
             REWARD -> NotificationRewardViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
             REFERRAL_PURCHASE_BONUS -> NotificationReferralPurchaseBonusViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
             REFERRAL_REGISTRATION_BONUS -> NotificationReferralRegistrationBonusViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
+            DONATION -> NotificationDonationViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
             UNSUPPORTED -> NotificationUnsupportedViewHolder(parent) as ViewHolderBase<NotificationsViewModelListEventsProcessor, VersionedListItem>
             else -> throw UnsupportedOperationException("Undefined view holder")
         }
@@ -72,6 +73,7 @@ class NotificationsAdapter (
             is RewardNotificationItem -> REWARD
             is ReferralPurchaseBonusNotificationItem -> REFERRAL_PURCHASE_BONUS
             is ReferralRegistrationBonusNotificationItem -> REFERRAL_REGISTRATION_BONUS
+            is DonationNotificationItem -> DONATION
             is RetryListItem -> ERROR
             is UnsupportedNotificationItem -> UNSUPPORTED
             else -> throw UnsupportedOperationException("This type of item is not supported: ${items[position]::class.simpleName}")
