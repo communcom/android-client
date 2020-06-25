@@ -31,6 +31,32 @@ fun Notification.mapToNotificationDomain(currentUserId: UserIdDomain, currentUse
             )
         }
 
+        is DonationNotification -> {
+            DonationNotificationDomain(
+                id = id,
+                isNew = isNew,
+                createTime = timestamp,
+                user = from.mapToUserNotificationDomain(),
+                amount = amount ?: 0.0,
+                pointType = pointType,
+                community = CommunityDomain(
+                    communityId = CommunityIdDomain(if (pointType == "token") GlobalConstants.COMMUN_CODE else community!!.communityId.value),
+                    alias = if (pointType == "token") GlobalConstants.COMMUN_CODE else community!!.alias,
+                    name = if (pointType == "token") GlobalConstants.COMMUN_CODE else community!!.name!!,
+                    avatarUrl = if (pointType == "token") null else community!!.avatarUrl,
+                    coverUrl = null,
+                    subscribersCount = 0,
+                    isSubscribed = false,
+                    postsCount = 0
+                ),
+                postId = contentId!!.mapToContentIdDomain(),
+                postTextBrief = this.post?.shortText,
+                postImageUrl = this.post?.imageUrl,
+                currentUserId = currentUserId,
+                currentUserName = currentUserName
+            )
+        }
+
         is RewardNotification -> {
             RewardNotificationDomain(
                 id = id,

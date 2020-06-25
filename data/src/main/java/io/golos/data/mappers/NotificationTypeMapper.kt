@@ -13,6 +13,7 @@ fun NotificationType.mapToNotificationTypeDomain() =
         NotificationType.REWARD -> NotificationTypeDomain.REWARD
         NotificationType.REFERRAL_REG_BONUS -> NotificationTypeDomain.REFERRAL_REG_BONUS
         NotificationType.REFERRAL_PURCH_BONUS -> NotificationTypeDomain.REFERRAL_PURCHASE_BONUS
+        NotificationType.DONATION -> NotificationTypeDomain.DONATION
     }
 
 fun NotificationTypeDomain.mapToNotificationType() =
@@ -25,4 +26,5 @@ fun NotificationTypeDomain.mapToNotificationType() =
         NotificationTypeDomain.REWARD -> NotificationType.REWARD
         NotificationTypeDomain.REFERRAL_REG_BONUS -> NotificationType.REFERRAL_REG_BONUS
         NotificationTypeDomain.REFERRAL_PURCHASE_BONUS -> NotificationType.REFERRAL_PURCH_BONUS
+        NotificationTypeDomain.DONATION -> NotificationType.DONATION
     }

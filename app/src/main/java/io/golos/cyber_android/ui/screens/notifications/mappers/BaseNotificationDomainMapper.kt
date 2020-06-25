@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.notifications.mappers
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.*
 import io.golos.domain.dto.notifications.*
 import io.golos.utils.id.IdUtil
+import java.lang.UnsupportedOperationException
 
 fun NotificationDomain.mapToVersionedListItem(): BaseNotificationItem {
     return when(this){
@@ -24,6 +25,38 @@ fun NotificationDomain.mapToVersionedListItem(): BaseNotificationItem {
                 receiver = receiver,
                 amount = amount,
                 pointType = pointType,
+
+                communityId = community.communityId,
+                communityAlias = community.alias!!,
+                communityName = community.name,
+                communityAvatarUrl = community.avatarUrl,
+
+                currentUserId = currentUserId,
+                currentUserName = currentUserName
+            )
+        }
+
+        is DonationNotificationDomain -> {
+            DonationNotificationItem(
+                version = 0,
+                id = IdUtil.generateLongId(),
+                isFirstItem = false,
+                isLastItem = false,
+
+                notificationId = id,
+                createTime = createTime,
+                isNew = isNew,
+
+                userId = user.id.userId,
+                userName = user.name,
+                userAvatar = user.avatar,
+
+                amount = amount,
+                pointType = pointType,
+
+                postId = postId,
+                postTextBrief = postTextBrief,
+                postImageUrl = postImageUrl,
 
                 communityId = community.communityId,
                 communityAlias = community.alias!!,
@@ -189,5 +222,6 @@ fun NotificationDomain.mapToVersionedListItem(): BaseNotificationItem {
 
                 referral = referral
             )
+        else -> throw UnsupportedOperationException("")     // TEMPORARY!!!
     }
 }

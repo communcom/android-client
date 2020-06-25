@@ -131,7 +131,10 @@ constructor(
     }
 
     override suspend fun getNotifications(beforeThanDate: String?, limit: Int): NotificationsPageDomain {
-        val notificationsResponse = callProxy.call{ commun4j.getNotificationsSkipUnrecognized(limit, beforeThanDate) }
+        val notificationsResponse = callProxy.call{
+            val ttt = commun4j.getNotificationsSkipUnrecognized(limit, beforeThanDate)
+            ttt
+        }
 
         return if(notificationsResponse.items.isNotEmpty()) {
             val lastTimestamp = notificationsResponse.items.last().timestamp.let {

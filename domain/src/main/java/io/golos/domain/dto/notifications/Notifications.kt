@@ -1,6 +1,7 @@
 package io.golos.domain.dto.notifications
 
 import io.golos.domain.dto.CommunityDomain
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.UserIdDomain
 import java.util.*
 
@@ -120,6 +121,25 @@ data class UnsupportedNotificationDomain(
     override val isNew: Boolean,
     override val createTime: Date,
     override val user: UserNotificationDomain,
+
+    override val currentUserId: UserIdDomain,
+    override val currentUserName: String
+) : NotificationDomain(id, isNew, createTime, user, currentUserId, currentUserName)
+
+data class DonationNotificationDomain(
+    override val id: String,
+    override val isNew: Boolean,
+    override val createTime: Date,
+    override val user: UserNotificationDomain,      // From
+
+    val postId: ContentIdDomain,
+    val postTextBrief: String?,
+    val postImageUrl: String?,
+
+    val amount: Double,
+    val pointType: String?,
+
+    val community: CommunityDomain,
 
     override val currentUserId: UserIdDomain,
     override val currentUserName: String
