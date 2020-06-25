@@ -42,6 +42,12 @@
         <item quantity="other">points</item>
     </plurals>
 
+    <plurals name="plural_donations">
+        <item quantity="zero">donations</item>
+        <item quantity="one">donation</item>
+        <item quantity="other">donations</item>
+    </plurals>
+
     <string name="common_general_error">Unfortunately, an error was encountered during the operation.</string>
     <string name="token_receiving_error">Can\'t receive a token. The operation has been canceled</string>
     <string name="account_registered_error">Account already registered</string>

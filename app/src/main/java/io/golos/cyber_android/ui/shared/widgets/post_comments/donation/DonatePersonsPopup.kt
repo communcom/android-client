@@ -11,23 +11,29 @@ import io.golos.cyber_android.ui.shared.extensions.parentActivity
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.domain.dto.DonationsDomain
 import io.golos.domain.dto.DonatorDomain
+import io.golos.utils.helpers.capitalize
 
 class DonatePersonsPopup {
     fun show(anchorView: View, donations: DonationsDomain, actionOnClick: () -> Unit) {
-        val panelSize = when(donations.donators.size) {
-            1 -> 0.275f
-            2 -> 0.35f
-            3 -> 0.425f
-            else -> 0.65f
+        val panelSize = when(donations.donators.size) {     // dp
+            1 -> 113
+            2 -> 144
+            3 -> 175
+            else -> 275
+        }
+
+        val arrowPosition = when(donations.donators.size) {
+            1, 2, 3 -> 0.55f
+            else -> 0.5f
         }
 
         val balloon = Balloon.Builder(anchorView.context)
             .setArrowVisible(true)
-            .setArrowPosition(0.525f)
+            .setArrowPosition(arrowPosition)
             .setArrowSize(getDimenValue(R.dimen.donates_popup_arrow_height, anchorView))
             .setArrowColorResource(R.color.blue_button)
             .setLifecycleOwner(anchorView.parentActivity)
-            .setWidthRatio(panelSize)
+            .setWidth(panelSize)
             .setHeight(getDimenValue(R.dimen.donates_popup_height_full, anchorView))
             .setPadding(0)
             .setAutoDismissDuration(5_000L)
@@ -60,7 +66,9 @@ class DonatePersonsPopup {
         val donationLabel = contentView.findViewById<TextView>(R.id.donationLabel)
 
         if(donators.size > 3) {
-            donationLabel.text = "+${donators.size - 3} ${contentView.context.getString(R.string.donate_title)}"
+            val extraDonations = donators.size - 3
+            val donationsText = contentView.context.resources.getQuantityString(R.plurals.plural_donations, extraDonations).capitalize()
+            donationLabel.text = "+${extraDonations} $donationsText"
             donationLabel.visibility = View.VISIBLE
         } else {
             donationLabel.visibility = View.INVISIBLE
