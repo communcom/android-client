@@ -23,6 +23,7 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.ContentIdDomain
+import io.golos.domain.dto.DonationsDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.EditorOutputToJsonMapper
 import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.EmbedMetadata
@@ -170,6 +171,10 @@ constructor(
         launch {
             _command.value = NavigateToDonateCommand.build(donate, post, model.getWalletBalance())
         }
+    }
+
+    override fun onDonatePopupClick(donates: DonationsDomain) {
+        _command.value = ShowDonationUsersDialogCommand(donates)
     }
 
     override fun onCommentUpVoteClick(commentId: DiscussionIdModel) = voteForComment(commentId, true)

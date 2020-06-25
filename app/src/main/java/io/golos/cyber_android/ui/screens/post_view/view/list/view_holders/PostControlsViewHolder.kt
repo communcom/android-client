@@ -36,7 +36,9 @@ class PostControlsViewHolder(
             if(listItem.post.donation != null) {
                 donationPanel.setAmount(listItem.post.donation.totalAmount)
                 donationPanel.visibility = View.VISIBLE
-                donationPanel.setOnClickListener { DonatePersonsPopup().show(donationPanel, listItem.post.donation) }
+                donationPanel.setOnClickListener { DonatePersonsPopup().show(donationPanel, listItem.post.donation) {
+                    listItemEventsProcessor.onDonatePopupClick(listItem.post.donation)
+                }}
             } else {
                 donationPanel.visibility = View.INVISIBLE
             }

@@ -27,7 +27,6 @@ import kotlinx.android.synthetic.main.item_post_content.view.*
 import kotlinx.android.synthetic.main.item_post_controls.view.*
 import kotlinx.android.synthetic.main.item_post_controls.view.votesArea
 import kotlinx.android.synthetic.main.view_post_voting.view.*
-import timber.log.Timber
 
 class PostItem(
     val post: Post,
@@ -102,7 +101,9 @@ class PostItem(
         if(post.donation != null) {
             view.donationPanel.setAmount(post.donation.totalAmount)
             view.donationPanel.visibility = View.VISIBLE
-            view.donationPanel.setOnClickListener { DonatePersonsPopup().show(view.donationPanel, post.donation) }
+            view.donationPanel.setOnClickListener { DonatePersonsPopup().show(view.donationPanel, post.donation) {
+                listener.onDonatePopupClick(post.donation)
+            }}
         } else {
             view.donationPanel.visibility = View.INVISIBLE
         }

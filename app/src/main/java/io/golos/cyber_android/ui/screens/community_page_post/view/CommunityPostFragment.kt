@@ -12,6 +12,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentCommunityPostBinding
 import io.golos.cyber_android.ui.dialogs.PostRewardBottomSheetDialog
+import io.golos.cyber_android.ui.dialogs.donation.DonationUsersDialog
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.community_page.child_pages.community_post.model.TimeConfigurationDomain
 import io.golos.cyber_android.ui.screens.community_page_post.di.CommunityPostFragmentComponent
@@ -38,6 +39,7 @@ import io.golos.cyber_android.ui.shared.widgets.post_comments.items.PostItem
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.ContentIdDomain
+import io.golos.domain.dto.DonationsDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.android.synthetic.main.fragment_community_post.*
 import kotlinx.android.synthetic.main.fragment_community_post.btnRetry
@@ -99,6 +101,7 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
             is NavigateToFilterDialogViewCommand -> openFilterDialog(command.config)
             is ShowPostRewardDialogCommand -> showPostRewardDialog(command.titleResId, command.textResId)
             is NavigateToDonateCommand -> moveToDonate(command)
+            is ShowDonationUsersDialogCommand -> showDonationUsersDialogCommand(command.donation)
         }
     }
 
@@ -334,4 +337,9 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
                 command.postAuthor,
                 command.balance,
                 command.amount))
+
+    private fun showDonationUsersDialogCommand(donations: DonationsDomain) =
+        DonationUsersDialog.show(this, donations) {
+            viewModel.onUserClicked((it as DonationUsersDialog.Result.ItemSelected).user.userId)
+        }
 }

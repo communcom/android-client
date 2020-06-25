@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentMyFeedBinding
+import io.golos.cyber_android.ui.dialogs.donation.DonationUsersDialog
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
 import io.golos.cyber_android.ui.screens.donate_send_points.view.DonateSendPointsFragment
@@ -38,6 +39,7 @@ import io.golos.cyber_android.ui.shared.widgets.post_comments.items.PostItem
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.ContentIdDomain
+import io.golos.domain.dto.DonationsDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.android.synthetic.main.fragment_my_feed.*
@@ -127,6 +129,7 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
             is CreatePostCommand -> createPost()
             is SwitchToProfileTab -> switchToProfileTab()
             is NavigateToDonateCommand -> moveToDonate(command)
+            is ShowDonationUsersDialogCommand -> showDonationUsersDialogCommand(command.donation)
         }
     }
 
@@ -406,4 +409,8 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
                 command.postAuthor,
                 command.balance,
                 command.amount))
+
+    private fun showDonationUsersDialogCommand(donations: DonationsDomain) = DonationUsersDialog.show(this, donations) {
+        viewModel.onUserClicked((it as DonationUsersDialog.Result.ItemSelected).user.userId)
+    }
 }

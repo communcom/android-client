@@ -12,6 +12,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentProfilePostsBinding
 import io.golos.cyber_android.ui.dialogs.PostRewardBottomSheetDialog
+import io.golos.cyber_android.ui.dialogs.donation.DonationUsersDialog
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
 import io.golos.cyber_android.ui.screens.dashboard.view.DashboardFragment
@@ -38,10 +39,7 @@ import io.golos.cyber_android.ui.shared.utils.openLinkView
 import io.golos.cyber_android.ui.shared.utils.shareMessage
 import io.golos.cyber_android.ui.shared.widgets.post_comments.items.PostItem
 import io.golos.domain.commun_entities.Permlink
-import io.golos.domain.dto.CommunityIdDomain
-import io.golos.domain.dto.ContentIdDomain
-import io.golos.domain.dto.PostsConfigurationDomain
-import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.dto.*
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.android.synthetic.main.fragment_profile_posts.*
 import kotlinx.android.synthetic.main.view_search_bar.*
@@ -91,6 +89,7 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
             is ReportPostCommand -> openPostReport(command.post)
             is ShowPostRewardDialogCommand -> showPostRewardDialog(command.titleResId, command.textResId)
             is NavigateToDonateCommand -> moveToDonate(command)
+            is ShowDonationUsersDialogCommand -> showDonationUsersDialogCommand(command.donation)
         }
     }
 
@@ -332,4 +331,8 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
                 command.postAuthor,
                 command.balance,
                 command.amount))
+
+    private fun showDonationUsersDialogCommand(donations: DonationsDomain) = DonationUsersDialog.show(this, donations) {
+        viewModel.onUserClicked((it as DonationUsersDialog.Result.ItemSelected).user.userId)
+    }
 }

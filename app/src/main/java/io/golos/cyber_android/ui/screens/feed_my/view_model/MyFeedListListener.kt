@@ -4,6 +4,7 @@ import io.golos.cyber_android.ui.dto.DonateType
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.shared.widgets.post_comments.*
 import io.golos.domain.dto.ContentIdDomain
+import io.golos.domain.dto.DonationsDomain
 
 interface MyFeedListListener :
     RichWidgetListener,
@@ -37,4 +38,6 @@ interface PostVotesListener {
     fun onDownVoteClicked(contentId: ContentIdDomain)
 
     fun onDonateClick(donate: DonateType, post: Post)
+
+    fun onDonatePopupClick(donates: DonationsDomain)
 }

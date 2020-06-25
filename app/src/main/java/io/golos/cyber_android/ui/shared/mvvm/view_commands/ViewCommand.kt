@@ -117,3 +117,5 @@ data class NavigateToDonateCommand(
         }
     }
 }
+
+data class ShowDonationUsersDialogCommand(val donation: DonationsDomain) :ViewCommand

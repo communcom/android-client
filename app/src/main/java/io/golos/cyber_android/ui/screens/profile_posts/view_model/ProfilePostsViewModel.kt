@@ -138,6 +138,10 @@ constructor(
         }
     }
 
+    override fun onDonatePopupClick(donates: DonationsDomain) {
+        _command.value = ShowDonationUsersDialogCommand(donates)
+    }
+
     override fun onLinkClicked(linkUri: Uri) {
         _command.value = NavigateToLinkViewCommand(linkUri)
     }

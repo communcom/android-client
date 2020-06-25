@@ -214,6 +214,10 @@ constructor(
         }
     }
 
+    override fun onDonatePopupClick(donates: DonationsDomain) {
+        _command.value = ShowDonationUsersDialogCommand(donates)
+    }
+
     fun loadInitialPosts() {
         val postsListState = _postsListState.value
         if (postsListState is Paginator.State.Empty || postsListState is Paginator.State.EmptyError) {

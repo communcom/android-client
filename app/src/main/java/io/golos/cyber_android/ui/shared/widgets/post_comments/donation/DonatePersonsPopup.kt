@@ -13,7 +13,7 @@ import io.golos.domain.dto.DonationsDomain
 import io.golos.domain.dto.DonatorDomain
 
 class DonatePersonsPopup {
-    fun show(anchorView: View, donations: DonationsDomain) {
+    fun show(anchorView: View, donations: DonationsDomain, actionOnClick: () -> Unit) {
         val panelSize = when(donations.donators.size) {
             1 -> 0.275f
             2 -> 0.35f
@@ -39,6 +39,10 @@ class DonatePersonsPopup {
         val contentView = balloon.getContentView()
         contentView.setBackgroundResource(R.drawable.bcg_donate_popup)
 
+        contentView.setOnClickListener {
+            actionOnClick()
+            balloon.dismiss()
+        }
         contentView.findViewById<View>(R.id.buttonClose).setOnClickListener { balloon.dismiss() }
         initDonationInfo(contentView, donations.donators)
 

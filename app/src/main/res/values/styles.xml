@@ -759,6 +759,10 @@
         <item name="android:textSize">15sp</item>
     </style>
 
+    <style name="Text15.GreenBright.Bold.SingleLine" parent="Text15.Black.Bold.SingleLine">
+        <item name="android:textColor">@color/green_bright</item>
+    </style>
+
     <style name="Text15.White.Bold.SingleLine" parent="Text12.White.Bold.SingleLine">
         <item name="android:textSize">15sp</item>
     </style>
