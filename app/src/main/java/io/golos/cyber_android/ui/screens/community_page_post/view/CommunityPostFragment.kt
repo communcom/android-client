@@ -40,6 +40,7 @@ import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.DonationsDomain
+import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.android.synthetic.main.fragment_community_post.*
 import kotlinx.android.synthetic.main.fragment_community_post.btnRetry
@@ -340,6 +341,6 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
 
     private fun showDonationUsersDialogCommand(donations: DonationsDomain) =
         DonationUsersDialog.show(this, donations) {
-            viewModel.onUserClicked((it as DonationUsersDialog.Result.ItemSelected).user.userId)
+            (it as? DonationUsersDialog.Result.ItemSelected)?.user?.let { viewModel.onUserClicked(it.userId) }
         }
 }

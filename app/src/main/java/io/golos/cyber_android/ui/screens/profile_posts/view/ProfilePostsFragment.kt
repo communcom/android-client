@@ -333,6 +333,6 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
                 command.amount))
 
     private fun showDonationUsersDialogCommand(donations: DonationsDomain) = DonationUsersDialog.show(this, donations) {
-        viewModel.onUserClicked((it as DonationUsersDialog.Result.ItemSelected).user.userId)
+        (it as? DonationUsersDialog.Result.ItemSelected)?.user?.let { viewModel.onUserClicked(it.userId) }
     }
 }
