@@ -23,6 +23,7 @@ import io.golos.cyber_android.ui.shared.utils.IntentConstants
 import io.golos.domain.dto.notifications.NotificationDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.utils.id.IdUtil
+import timber.log.Timber
 
 class BackgroundNotificationPopupFactory(
     private val appContext: Context
@@ -47,7 +48,9 @@ class BackgroundNotificationPopupFactory(
 
         val notification = NotificationCompat.Builder(appContext, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_splash_icon)
-            .setLargeIcon(getLargeIcon(stubView))
+            .apply {
+                getLargeIcon(stubView)?.let { setLargeIcon(it) }
+            }
             .setContentText(stubView.messageText.text)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(createClickAction(listItem))
@@ -70,22 +73,27 @@ class BackgroundNotificationPopupFactory(
         }
     }
 
-    private fun getLargeIcon(view: NotificationView): Bitmap {
-        val mainDrawable = view.userIcon.drawable ?: return BitmapFactory.decodeResource(appContext.resources, R.drawable.ic_commun)
-        val secondDrawable = view.notificationTypeIcon.drawable
+    private fun getLargeIcon(view: NotificationView): Bitmap? {
+        try {
+            val mainDrawable = view.userIcon.drawable ?: return BitmapFactory.decodeResource(appContext.resources, R.drawable.ic_commun)
+            val secondDrawable = view.notificationTypeIcon.drawable
 
-        val mainBitmap = mainDrawable.toBitmap(60, 60)
+            val mainBitmap = mainDrawable.toBitmap(60, 60)
 
-        return if(secondDrawable == null) {
-            mainBitmap
-        } else {
-            val secondBitmap = secondDrawable.toBitmap(30, 30)
+            return if(secondDrawable == null) {
+                mainBitmap
+            } else {
+                val secondBitmap = secondDrawable.toBitmap(30, 30)
 
-            val combinedBitmap = Bitmap.createBitmap(mainBitmap.width, mainBitmap.height,  mainBitmap.config)
-            val canvas = Canvas(combinedBitmap)
-            canvas.drawBitmap(mainBitmap, 0f, 0f, null)
-            canvas.drawBitmap(secondBitmap, 30f, 30f, null)
-            combinedBitmap
+                val combinedBitmap = Bitmap.createBitmap(mainBitmap.width, mainBitmap.height,  mainBitmap.config)
+                val canvas = Canvas(combinedBitmap)
+                canvas.drawBitmap(mainBitmap, 0f, 0f, null)
+                canvas.drawBitmap(secondBitmap, 30f, 30f, null)
+                combinedBitmap
+            }
+        } catch (ex: Exception) {
+            Timber.e(ex)
+            return null
         }
     }
 
