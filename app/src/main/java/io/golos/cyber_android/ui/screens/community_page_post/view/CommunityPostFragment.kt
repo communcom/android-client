@@ -27,6 +27,7 @@ import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
 import io.golos.cyber_android.ui.screens.post_view.view.PostPageFragment
+import io.golos.cyber_android.ui.screens.profile.view.ProfileExternalUserFragment
 import io.golos.cyber_android.ui.shared.Tags
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
@@ -103,6 +104,7 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
             is ShowPostRewardDialogCommand -> showPostRewardDialog(command.titleResId, command.textResId)
             is NavigateToDonateCommand -> moveToDonate(command)
             is ShowDonationUsersDialogCommand -> showDonationUsersDialogCommand(command.donation)
+            is NavigateToUserProfileCommand -> openUserProfile(command.userId)
         }
     }
 
@@ -343,4 +345,10 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
         DonationUsersDialog.show(this, donations) {
             (it as? DonationUsersDialog.Result.ItemSelected)?.user?.let { viewModel.onUserClicked(it.userId) }
         }
+
+    private fun openUserProfile(userId: UserIdDomain) {
+        getDashboardFragment(this)?.navigateToFragment(
+            ProfileExternalUserFragment.newInstance(userId)
+        )
+    }
 }
