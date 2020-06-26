@@ -17,6 +17,7 @@ abstract class NotificationPopupFactoryBase {
 
         when (notification) {
             is TransferNotificationItem -> NotificationContentRenderedTransfer(viewDescription).init(notification, eventsProcessor)
+            is DonationNotificationItem -> NotificationContentRenderedDonation(viewDescription).init(notification, eventsProcessor)
             is RewardNotificationItem -> NotificationContentRenderedReward(viewDescription).init(notification, eventsProcessor)
             is MentionNotificationItem -> NotificationContentRenderedMention(viewDescription).init(notification, eventsProcessor)
             is SubscribeNotificationItem -> NotificationContentRenderedSubscribe(viewDescription).init(notification, eventsProcessor)
