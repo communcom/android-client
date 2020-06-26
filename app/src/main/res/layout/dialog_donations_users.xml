@@ -38,36 +38,31 @@
         app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="ContentDescription" />
 
-    <LinearLayout
-        android:id="@+id/itemsList"
-
-        android:orientation="vertical"
-
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="300dp"
+
+        android:background="@color/light_gray"
 
         android:paddingTop="20dp"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
         android:paddingBottom="5dp"
 
-        android:background="@color/light_gray"
-
         app:layout_constraintTop_toBottomOf="@+id/ivClose"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="7dp"
-            android:background="@drawable/bcg_white_top_round_rect_7"
-        />
-        
-        <androidx.core.widget.NestedScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            tools:layout_height="300dp">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="7dp"
+                android:background="@drawable/bcg_white_top_round_rect_7"
+                />
 
             <LinearLayout
                 android:id="@+id/itemsContainer"
@@ -75,14 +70,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                />
-        </androidx.core.widget.NestedScrollView>
+            />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="7dp"
-            android:background="@drawable/bcg_white_bottom_round_rect_7"
-        />
-    </LinearLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="7dp"
+                android:background="@drawable/bcg_white_bottom_round_rect_7"
+            />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
