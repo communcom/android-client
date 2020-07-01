@@ -29,16 +29,21 @@ class App : Application() {
         @SuppressLint("StaticFieldLeak")
         lateinit var injections : DependencyInjectionStorage
             private set
+
+        val appInstanceId = IdUtil.generateStringId()
     }
 
     override fun onCreate() {
         super.onCreate()
 
+        val key = IdUtil.generateStringId()
         injections = DependencyInjectionStorage(this)
-        injections.get<AppComponent>(IdUtil.generateStringId()).inject(this)
+        injections.get<AppComponent>(key).inject(this)
 
         Timber.plant(timberTree)
         Timber.tag(LogTags.NAVIGATION).d("The app is started")
+
+        Timber.tag("676_BUG").d("The app is started. InstanceId is: $appInstanceId")
 
         initRemoteLogging()
 
