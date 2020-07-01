@@ -44,7 +44,7 @@ constructor(
     override val titleTextResId: Int = io.golos.cyber_android.R.string.donate_title
 
     override fun initCurrentBalanceRecord(): WalletCommunityBalanceRecordDomain =
-        balance.firstOrNull { it.communityId == currentCommunityId } ?: run {
+        balance.firstOrNull { it.communityId == currentCommunityId && it.points != 0.0 } ?: run {
             currentCommunityId = CommunityIdDomain(GlobalConstants.COMMUN_CODE)
             initCurrentBalanceRecord()
         }
