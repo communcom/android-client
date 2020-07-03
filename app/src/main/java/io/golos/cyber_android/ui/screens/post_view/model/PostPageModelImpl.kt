@@ -126,7 +126,8 @@ constructor(
         delay(100)
     }
 
-    override suspend fun getUserId(userNameOrId: String): UserIdDomain = usersRepository.get().getUserId(userNameOrId)
+    override suspend fun getUserId(userNameOrId: String): UserIdDomain =
+        usersRepository.get().getUserId(userNameOrId)
 
     override suspend fun deletePost(): String {
         withContext(dispatchersProvider.ioDispatcher) {

@@ -110,7 +110,7 @@ class Editor(context: Context, attrs: AttributeSet) : EditorCore(context, attrs)
         for(i in 0 until parentView.childCount) {
             parentView.getChildAt(i)
                 .let { inputExtensions!!.getMetadata(it) ?: embedExtensions!!.getMetadata(it) }
-                ?.let { result.add(it) }
+                ?.let { result.addAll(it) }
         }
 
         return result

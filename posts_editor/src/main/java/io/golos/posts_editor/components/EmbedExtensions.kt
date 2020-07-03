@@ -60,8 +60,10 @@ class EmbedExtensions(private val editorCore: EditorCore) : EditorComponent<Embe
         return node
     }
 
-    override fun getMetadata(view: View): EmbedMetadata? =
-        (view.tag as? EmbedMetadata)?.copy(description = getDescription(view).text.toString())
+    override fun getMetadata(view: View): List<EmbedMetadata>? =
+        (view.tag as? EmbedMetadata)
+            ?.copy(description = getDescription(view).text.toString())
+            ?.let { listOf(it) }
 
     override fun getContentAsHTML(node: Node, content: EditorContent): String = ""
 

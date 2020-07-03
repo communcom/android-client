@@ -43,5 +43,6 @@ class ProfileCommentsModelImpl @Inject constructor(
         discussionRepository.updateComment(comment)
     }
 
-    override suspend fun getUserId(userNameOrId: String): UserIdDomain = usersRepository.getUserId(userNameOrId)
+    override suspend fun getUserId(userNameOrId: String): UserIdDomain =
+        usersRepository.getUserId(userNameOrId)
 }

@@ -69,7 +69,7 @@ class CommentWidget @JvmOverloads constructor(
             comment.text
                 ?.takeIf { it.isNotEmpty() }
                 ?.getParagraphMetadata()
-                ?.also { metadata.add(it) }
+                ?.also { metadata.addAll(it) }
 
             attachmentImageUrl
                 ?.let { Uri.parse(it) }

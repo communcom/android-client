@@ -130,7 +130,11 @@ constructor(
                 }
             } catch (ex: Exception) {
                 Timber.e(ex)
-                _command.value = ShowMessageResCommand(R.string.common_general_error)
+                _command.value = if(ex is ApiResponseErrorException && ex.message != null) {
+                    ShowMessageTextCommand(ex.message!!)
+                } else {
+                    ShowMessageResCommand(R.string.common_general_error)
+                }
             }
         }
     }

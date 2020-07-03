@@ -5,8 +5,7 @@ import android.text.Spanned
 import android.text.style.CharacterStyle
 import kotlin.reflect.KClass
 
-class SpansWorkerImpl(text: CharSequence?) :
-    SpansWorker {
+class SpansWorkerImpl(text: CharSequence?) : SpansWorker {
     private val spannableString = text as SpannableStringBuilder
 
     @Suppress("UNCHECKED_CAST")

@@ -42,7 +42,8 @@ constructor(
 
     override val userAvatarFlow: Flow<String?> = currentUserRepository.userAvatarFlow
 
-    override suspend fun getUserId(userNameOrId: String): UserIdDomain = usersRepository.getUserId(userNameOrId)
+    override suspend fun getUserId(userNameOrId: String): UserIdDomain =
+        usersRepository.getUserId(userNameOrId)
 
     override suspend fun deletePost(permlink: String, communityId: CommunityIdDomain) {
         withContext(dispatchersProvider.ioDispatcher) {

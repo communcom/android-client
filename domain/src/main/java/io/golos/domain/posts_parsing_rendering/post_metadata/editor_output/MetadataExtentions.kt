@@ -7,33 +7,38 @@ import io.golos.domain.posts_parsing_rendering.post_metadata.spans.custom.LinkSp
 import io.golos.domain.posts_parsing_rendering.post_metadata.spans.custom.MentionSpan
 import io.golos.domain.posts_parsing_rendering.post_metadata.spans.custom.TagSpan
 import io.golos.domain.posts_parsing_rendering.post_metadata.spans_worker.SpansWorkerImpl
+import io.golos.utils.helpers.splitToCharSequences
 
-fun CharSequence.getParagraphMetadata(): ParagraphMetadata {
-    val spansWorker = SpansWorkerImpl(this)
+fun CharSequence.getParagraphMetadata(): List<ParagraphMetadata>? =
+    this.splitToCharSequences("\n")            // Split to CharSequence
+        .filter { it.isNotEmpty() }
+        .takeIf { it.isNotEmpty() }
+        ?.map { paragraph ->
+            val spansWorker = SpansWorkerImpl(paragraph)
 
-    val spans = mutableListOf<SpanInfo<*>>()
+            val spans = mutableListOf<SpanInfo<*>>()
 
-    spansWorker.getSpansWithIntervals<CharacterStyle>(CharacterStyle::class)
-        .forEach {
-            if(it.spanInterval.last != it.spanInterval.first) {
-                val spanInfo =
-                    when(it.span) {
-                        is LinkSpan -> LinkSpanInfo(it.spanInterval, it.span.value, it.span.value)
-                        is TagSpan -> TagSpanInfo(it.spanInterval, it.span.value, it.span.value.removeRange(0..0))
-                        is MentionSpan -> MentionSpanInfo(it.spanInterval, it.span.value, it.span.value.removeRange(0..0))
-                        else -> null
+            spansWorker.getSpansWithIntervals<CharacterStyle>(CharacterStyle::class)
+                .forEach {
+                    if(it.spanInterval.last != it.spanInterval.first) {
+                        val spanInfo =
+                            when(it.span) {
+                                is LinkSpan -> LinkSpanInfo(it.spanInterval, it.span.value, it.span.value)
+                                is TagSpan -> TagSpanInfo(it.spanInterval, it.span.value, it.span.value.removeRange(0..0))
+                                is MentionSpan -> MentionSpanInfo(it.spanInterval, it.span.value, it.span.value.removeRange(0..0))
+                                else -> null
+                            }
+
+                        if(spanInfo != null) {
+                            spans.add(spanInfo)
+                        }
+
                     }
-
-                if(spanInfo != null) {
-                    spans.add(spanInfo)
                 }
 
-            }
+            val planText = paragraph.toString()
+            ParagraphMetadata(planText, spans)
         }
-
-    val planText = this.toString()
-    return ParagraphMetadata(planText, spans)
-}
 
 fun Int.mapTypefaceToEditorTextStyle(): TextStyle =
     when(this) {

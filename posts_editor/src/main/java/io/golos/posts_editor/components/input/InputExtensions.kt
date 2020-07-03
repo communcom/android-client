@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Handler
 import android.text.Editable
-import android.text.SpannableStringBuilder
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.text.style.CharacterStyle
@@ -22,12 +21,9 @@ import android.widget.TextView
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.content.ContextCompat
 import io.golos.domain.posts_parsing_rendering.post_metadata.TextStyle
-import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.*
-import io.golos.posts_editor.EditorComponent
-import io.golos.posts_editor.EditorCore
-import io.golos.posts_editor.R
-import io.golos.posts_editor.components.ComponentsWrapper
-import io.golos.posts_editor.components.input.edit_text.CustomEditText
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.LinkInfo
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.ParagraphMetadata
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.getParagraphMetadata
 import io.golos.domain.posts_parsing_rendering.post_metadata.spans.calculators.ColorSpansCalculator
 import io.golos.domain.posts_parsing_rendering.post_metadata.spans.calculators.CreateSpanOperation
 import io.golos.domain.posts_parsing_rendering.post_metadata.spans.calculators.DeleteSpanOperation
@@ -36,6 +32,11 @@ import io.golos.domain.posts_parsing_rendering.post_metadata.spans.custom.LinkSp
 import io.golos.domain.posts_parsing_rendering.post_metadata.spans.custom.MentionSpan
 import io.golos.domain.posts_parsing_rendering.post_metadata.spans.custom.TagSpan
 import io.golos.domain.posts_parsing_rendering.post_metadata.spans_worker.SpansWorkerImpl
+import io.golos.posts_editor.EditorComponent
+import io.golos.posts_editor.EditorCore
+import io.golos.posts_editor.R
+import io.golos.posts_editor.components.ComponentsWrapper
+import io.golos.posts_editor.components.input.edit_text.CustomEditText
 import io.golos.posts_editor.components.input.text_tasks.dto.TextSlice
 import io.golos.posts_editor.components.input.text_tasks_runner.TextTasksFactoryImpl
 import io.golos.posts_editor.components.input.text_tasks_runner.TextTasksRunner
@@ -72,8 +73,10 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
     /**
      * @return null if getting metadata from the view is impossible
      */
-    override fun getMetadata(view: View): ParagraphMetadata? =
-        (view as? CustomEditText)?.text?.takeIf { it.isNotEmpty() }?.getParagraphMetadata()
+    override fun getMetadata(view: View): List<ParagraphMetadata>? =
+        (view as? CustomEditText)?.text
+            ?.takeIf { it.isNotEmpty() }
+            ?.getParagraphMetadata()
 
     override fun getContent(view: View): Node =
         this.getNodeInstance(view)
@@ -227,102 +230,22 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
         }
 
         editText.addTextChangedListener(object : TextWatcher {
-//            private var updateRange: IntRange? = null
-//
-//            private lateinit var tagSpanToRemove: List<TagSpan>
-//            private lateinit var mentionSpanToRemove: List<MentionSpan>
-//            private lateinit var linkSpanToRemove: List<LinkSpan>
-
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-//                if(tasksAreRun) {
-//                    return
-//                }
-
-//                val pastedText = s.substring(start until start+count)
-//
-//                // The text contains a link only
-//
-//                val emailMatcher = Patterns.EMAIL_ADDRESS
-//
-//                if(URLUtil.isValidUrl(pastedText)) {
-//                    lastPastedLinkRange = start..start+count
-//
-//                    if(!emailMatcher.isMatch(pastedText)) {
-//                        editorCore.linkWasPasted(Uri.parse(pastedText))
-//                    }
-//                    return
-//                }
-//
-//                // Try to locate links in the text
-//                val matcher = Patterns.WEB_URL.matcher(pastedText)
-//                val allLinks = mutableListOf<Pair<String, IntRange>>()
-//                while (matcher.find()) {
-//                    allLinks.add(Pair(matcher.group(), IntRange(matcher.start()+start, matcher.end()+start)))
-//                }
-//
-//                // The text contains links and some other text
-//                if(allLinks.size > 0) {
-//                    lastPastedLinkRange = allLinks[0].second
-//
-//                    if(!emailMatcher.isMatch(allLinks[0].first)) {
-//                        editorCore.linkWasPasted(Uri.parse(allLinks[0].first))
-//                    }
-//                }
+                // do nothing
             }
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-//                if(tasksAreRun) {
-//                    return
-//                }
-//
-//                updateRange = start..start+count
-//
-//                val spansWorker = SpansWorkerImpl(s)
-//
-//                // Collect spans in edited interval
-//                tagSpanToRemove = spansWorker.getSpans(TagSpan::class, updateRange!!)
-//                mentionSpanToRemove = spansWorker.getSpans(MentionSpan::class, updateRange!!)
-//                linkSpanToRemove = spansWorker.getSpans(LinkSpan::class, updateRange!!)
+                // do nothing
             }
 
             override fun afterTextChanged(s: Editable) {
                 val tag = editText.getTag(R.id.control_tag)
 
-                if (s.isEmpty() && tag != null)
+                if (s.isEmpty() && tag != null) {
                     editText.hint = tag.toString()
-
-                var isEnterPressed = false
-
-                if (s.isNotEmpty()) {
-                    // if user had pressed enter, replace it with br
-                    for (i in s.indices) {
-                        if (s[i] == '\n') {
-                            isEnterPressed = true
-
-                            s.delete(i, i+1)
-
-                            val index = editorCore.parentView.indexOfChild(editText)
-                            val position = index + 1
-                            val editable = SpannableStringBuilder()
-
-                            insertEditText(position, editable)      // Add new paragraph by Enter
-                            break
-                        }
-                    }
-
-                    if(!isEnterPressed) {
-                        runTextTasksDelay(s)
-                    }
-
-//                    if(!isEnterPressed) {
-//                        val spansWorker = SpansWorkerImpl(s)
-//
-//                        // If a span is edited by user we should remove it
-//                        tagSpanToRemove.forEach { spansWorker.removeSpan(it) }
-//                        mentionSpanToRemove.forEach { spansWorker.removeSpan(it) }
-//                        linkSpanToRemove.forEach { spansWorker.removeSpan(it) }
-//                    }
                 }
+
+                runTextTasksDelay(s)
                 editorCore.editorListener?.onTextChanged(editText, s)
             }
         })

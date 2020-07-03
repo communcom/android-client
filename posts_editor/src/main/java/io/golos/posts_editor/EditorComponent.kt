@@ -25,7 +25,7 @@ abstract class EditorComponent<TM: ControlMetadata>(private val editorCore: Edit
     /**
      * @return null if getting metadata from the view is impossible
      */
-    abstract fun getMetadata(view: View): TM?
+    abstract fun getMetadata(view: View): List<TM>?
 
     protected fun getNodeInstance(view: View): Node {
         val node = Node()
