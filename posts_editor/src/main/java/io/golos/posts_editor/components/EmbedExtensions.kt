@@ -1,8 +1,6 @@
 package io.golos.posts_editor.components
 
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.MotionEvent
@@ -122,7 +120,7 @@ class EmbedExtensions(private val editorCore: EditorCore) : EditorComponent<Embe
 
         // Put a new paragraph under the embed (for long read editor only)
         if (editorCore.isLastRow(childLayout) && !editorCore.isSimpleEditor) {
-            componentsWrapper!!.inputExtensions!!.insertEditText(embedIndex + 1, null)
+            componentsWrapper!!.inputExtensions!!.insertNewParagraph(embedIndex + 1, null)
         }
 
         if (!description.isNullOrEmpty()) {

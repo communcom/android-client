@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.Rect
 import android.net.Uri
-import android.preference.PreferenceManager
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.util.Log
@@ -177,13 +176,13 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
     fun onViewTouched(hotspot: Int, viewPosition: Int) {
         if (hotspot == 0) {
             if (!inputExtensions!!.isInputTextAtPosition(viewPosition - 1)) {
-                inputExtensions!!.insertEditText(viewPosition, null)
+                inputExtensions!!.insertNewParagraph(viewPosition, null)
             } else {
                 Log.d(TAG, "not adding another edittext since already an edittext on the top")
             }
         } else if (hotspot == 1) {
             if (!inputExtensions!!.isInputTextAtPosition(viewPosition + 1)) {
-                inputExtensions!!.insertEditText(viewPosition + 1, null)
+                inputExtensions!!.insertNewParagraph(viewPosition + 1, null)
             } else {
                 Log.d(TAG, "not adding another edittext since already an edittext below")
             }
@@ -231,7 +230,7 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
         val count = parentView.childCount
 
         if ("br" == tag.name || "<br>" == element.html().replace("\\s+".toRegex(), "") || "<br/>" == element.html().replace("\\s+".toRegex(), "")) {
-            inputExtensions!!.insertEditText(count, null)
+            inputExtensions!!.insertNewParagraph(count, null)
             return
         }
 
@@ -423,7 +422,7 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
                 }
             }
             if (doInsert)
-                inputExtensions!!.insertEditText(childCount, null)
+                inputExtensions!!.insertNewParagraph(childCount, null)
         }
     }
 

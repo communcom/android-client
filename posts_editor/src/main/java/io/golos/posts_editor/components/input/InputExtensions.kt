@@ -88,7 +88,7 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
 
     override fun renderEditorFromState(node: Node, content: EditorContent) {
         val text = node.content!![0]
-        val view = insertEditText(editorCore.childCount, text)
+        val view = insertNewParagraph(editorCore.childCount, text)
         applyTextSettings(node, view)
     }
 
@@ -101,7 +101,7 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
             HtmlTag.p, HtmlTag.div -> {
                 text = element.html()
                 count = editorCore.parentView.childCount
-                tv = insertEditText(count, text)
+                tv = insertNewParagraph(count, text)
             }
 
             else -> {}
@@ -287,7 +287,7 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
     }
 
 
-    fun insertEditText(position: Int, text: CharSequence?): TextView {
+    fun insertNewParagraph(position: Int, text: CharSequence?): TextView {
         val nextHint = if (isLastText(position)) null else editorCore.placeHolder
         if (editorCore.renderType === RenderType.EDITOR) {
 
@@ -318,6 +318,13 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
             val view = getNewTextView(text)
             editorCore.parentView.addView(view)
             return view
+        }
+    }
+
+    fun insertTextIntoParagraph(text: CharSequence?) {
+        editor.text?.let {
+            it.appendln()
+            it.append(text)
         }
     }
 

@@ -43,7 +43,7 @@ class Editor(context: Context, attrs: AttributeSet) : EditorCore(context, attrs)
     public override fun clearAllContents() {
         super.clearAllContents()
         if (renderType === RenderType.EDITOR) {
-            inputExtensions!!.insertEditText(0, null)
+            inputExtensions!!.insertNewParagraph(0, null)
         }
     }
 
@@ -68,11 +68,17 @@ class Editor(context: Context, attrs: AttributeSet) : EditorCore(context, attrs)
     fun tryGetTextOfMention(): String? = inputExtensions!!.tryGetTextOfMention()
 
     override fun insertEmptyParagraph() {
-        inputExtensions!!.insertEditText(childCount, null)
+        if(childCount == 0) {       // Since task 605 the editor has only one paragraph
+            inputExtensions!!.insertNewParagraph(childCount, null)
+        }
     }
 
     override fun insertParagraph(text: CharSequence) {
-        inputExtensions!!.insertEditText(childCount, text)
+        if(childCount == 0) {       // Since task 605 the editor has only one paragraph
+            inputExtensions!!.insertNewParagraph(childCount, text)
+        } else {
+            inputExtensions!!.insertTextIntoParagraph(text)
+        }
     }
 
     override fun insertEmbed(type: EmbedType, sourceUri: Uri, displayUri: Uri, description: String?) =
@@ -130,7 +136,7 @@ class Editor(context: Context, attrs: AttributeSet) : EditorCore(context, attrs)
 
     private fun render() {
         if (renderType === RenderType.EDITOR) {
-            inputExtensions!!.insertEditText(0, null)
+            inputExtensions!!.insertNewParagraph(0, null)
         }
     }
 }
