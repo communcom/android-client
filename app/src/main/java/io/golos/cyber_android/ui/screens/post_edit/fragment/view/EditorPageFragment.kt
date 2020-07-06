@@ -137,6 +137,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
         leaderName.filters = arrayOf(InputFilter.LengthFilter(io.golos.utils.PostConstants.MAX_POST_TITLE_LENGTH))
 
         setupEditorToolButtons()
+        showImagePickerDialog()
     }
 
     private fun showDialog(showDialogAction: () -> Unit) {
@@ -184,12 +185,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
                 EditorAction.LOCAL_IMAGE -> {
                     photoButton.visibility = View.VISIBLE
                     photoButton.setOnClickListener {
-                        ImagePickerDialog.show(this) {
-                            when(it) {
-                                ImagePickerDialog.Result.Camera -> takeCameraPhoto()
-                                ImagePickerDialog.Result.Gallery -> pickGalleryPhoto()
-                            }
-                        }
+                        showImagePickerDialog()
                     }
                 }
             }
@@ -310,5 +306,14 @@ class EditorPageFragment : ImagePickerFragmentBase() {
     private fun showCloseConfirmationDialog() =
         ConfirmationDialog.newInstance(R.string.close_editor_confirmation, this@EditorPageFragment)
             .show(requireFragmentManager(), "menu")
+
+    private fun showImagePickerDialog() {
+        ImagePickerDialog.show(this) {
+            when(it) {
+                ImagePickerDialog.Result.Camera -> takeCameraPhoto()
+                ImagePickerDialog.Result.Gallery -> pickGalleryPhoto()
+            }
+        }
+    }
 }
 
