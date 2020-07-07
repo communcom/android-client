@@ -12,6 +12,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentCommunityPostBinding
 import io.golos.cyber_android.ui.dialogs.PostRewardBottomSheetDialog
+import io.golos.cyber_android.ui.dialogs.SelectRewardCurrencyDialog
 import io.golos.cyber_android.ui.dialogs.donation.DonationUsersDialog
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.community_page.child_pages.community_post.model.TimeConfigurationDomain
@@ -38,10 +39,7 @@ import io.golos.cyber_android.ui.shared.utils.openLinkView
 import io.golos.cyber_android.ui.shared.utils.shareMessage
 import io.golos.cyber_android.ui.shared.widgets.post_comments.items.PostItem
 import io.golos.domain.commun_entities.Permlink
-import io.golos.domain.dto.CommunityIdDomain
-import io.golos.domain.dto.ContentIdDomain
-import io.golos.domain.dto.DonationsDomain
-import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.dto.*
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.android.synthetic.main.fragment_community_post.*
 import kotlinx.android.synthetic.main.fragment_community_post.btnRetry
@@ -105,6 +103,7 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
             is NavigateToDonateCommand -> moveToDonate(command)
             is ShowDonationUsersDialogCommand -> showDonationUsersDialogCommand(command.donation)
             is NavigateToUserProfileCommand -> openUserProfile(command.userId)
+            is SelectRewardCurrencyDialogCommand -> showSelectRewardCurrencyDialog(command.startCurrency)
         }
     }
 
@@ -351,4 +350,9 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
             ProfileExternalUserFragment.newInstance(userId)
         )
     }
+
+    private fun showSelectRewardCurrencyDialog(currency: RewardCurrency) =
+        SelectRewardCurrencyDialog.show(this, currency) {
+            it?.rewardCurrency?.let { currency -> viewModel.updateRewardCurrency(currency) }
+        }
 }

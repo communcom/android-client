@@ -18,6 +18,7 @@ import io.golos.cyber_android.databinding.FragmentPostBinding
 import io.golos.cyber_android.ui.dialogs.CommentsActionsDialog
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
 import io.golos.cyber_android.ui.dialogs.PostRewardBottomSheetDialog
+import io.golos.cyber_android.ui.dialogs.SelectRewardCurrencyDialog
 import io.golos.cyber_android.ui.dialogs.donation.DonationUsersDialog
 import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
@@ -42,10 +43,7 @@ import io.golos.cyber_android.ui.shared.utils.openImageView
 import io.golos.cyber_android.ui.shared.utils.openLinkView
 import io.golos.cyber_android.ui.shared.utils.shareMessage
 import io.golos.domain.commun_entities.Permlink
-import io.golos.domain.dto.CommunityIdDomain
-import io.golos.domain.dto.ContentIdDomain
-import io.golos.domain.dto.DonationsDomain
-import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.dto.*
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.model.PostModel
 import kotlinx.android.parcel.Parcelize
@@ -187,6 +185,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
             is ShowPostRewardDialogCommand -> showPostRewardDialog(command.titleResId, command.textResId)
             is NavigateToDonateCommand -> moveToDonate(command)
             is ShowDonationUsersDialogCommand -> showDonationUsersDialogCommand(command.donation)
+            is SelectRewardCurrencyDialogCommand -> showSelectRewardCurrencyDialog(command.startCurrency)
 
             else -> throw UnsupportedOperationException("This command is not supported")
         }
@@ -341,4 +340,9 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
     private fun showDonationUsersDialogCommand(donations: DonationsDomain) = DonationUsersDialog.show(this, donations) {
         (it as? DonationUsersDialog.Result.ItemSelected)?.user?.let { viewModel.onUserClicked(it.userId) }
     }
+
+    private fun showSelectRewardCurrencyDialog(currency: RewardCurrency) =
+        SelectRewardCurrencyDialog.show(this, currency) {
+            it?.rewardCurrency?.let { currency -> viewModel.updateRewardCurrency(currency) }
+        }
 }

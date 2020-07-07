@@ -417,7 +417,8 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
         (it as? DonationUsersDialog.Result.ItemSelected)?.user?.let { viewModel.onUserClicked(it.userId) }
     }
 
-    private fun showSelectRewardCurrencyDialog(currency: RewardCurrency) = SelectRewardCurrencyDialog.show(this, currency) {
-
-    }
+    private fun showSelectRewardCurrencyDialog(currency: RewardCurrency) =
+        SelectRewardCurrencyDialog.show(this, currency) {
+            it?.rewardCurrency?.let { currency -> viewModel.updateRewardCurrency(currency) }
+        }
 }

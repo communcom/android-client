@@ -3,12 +3,10 @@ package io.golos.cyber_android.ui.screens.feed_my.model
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
 import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.dto.CommunityIdDomain
-import io.golos.domain.dto.ContentIdDomain
-import io.golos.domain.dto.UserIdDomain
-import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
+import io.golos.domain.dto.*
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.DiscussionRepository
+import io.golos.domain.repositories.GlobalSettingsRepository
 import io.golos.domain.repositories.UsersRepository
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
 import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
@@ -31,6 +29,7 @@ constructor(
     private val dispatchersProvider: DispatchersProvider,
     private val usersRepository: UsersRepository,
     private val walletRepository: WalletRepository,
+    private val globalSettingsRepository: GlobalSettingsRepository,
     currentUserRepository: CurrentUserRepository
 ) : MyFeedModel,
     GetPostsUseCase by getPostsUseCase,
@@ -41,6 +40,9 @@ constructor(
     override val openFeedTypeFlow: Flow<PostFiltersHolder.CurrentOpenTypeFeed> = postFilter.openTypeFeedFlow
 
     override val userAvatarFlow: Flow<String?> = currentUserRepository.userAvatarFlow
+
+    override val rewardCurrency: RewardCurrency
+        get() = globalSettingsRepository.rewardCurrency
 
     override suspend fun getUserId(userNameOrId: String): UserIdDomain =
         usersRepository.getUserId(userNameOrId)
@@ -81,4 +83,8 @@ constructor(
         get() = postFilter.feedFiltersFlow
 
     override suspend fun getWalletBalance(): List<WalletCommunityBalanceRecordDomain> = walletRepository.getBalance()
+
+    override suspend fun updateRewardCurrency(currency: RewardCurrency) {
+        globalSettingsRepository.updateRewardCurrency(currency)
+    }
 }

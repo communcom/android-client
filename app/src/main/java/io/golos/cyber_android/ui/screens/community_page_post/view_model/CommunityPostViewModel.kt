@@ -131,11 +131,7 @@ constructor(
     }
 
     override fun onRewardClick(reward: RewardPostDomain?) {
-        reward.isTopReward()?.let {
-            val title = if(it) R.string.post_reward_top_title else R.string.post_reward_not_top_title
-            val text = if(it) R.string.post_reward_top_text else R.string.post_reward_not_top_text
-            _command.value = ShowPostRewardDialogCommand(title, text)
-        }
+        _command.value = SelectRewardCurrencyDialogCommand(model.rewardCurrency)
     }
 
     override fun onLinkClicked(linkUri: Uri) {
@@ -171,6 +167,12 @@ constructor(
 
     override fun onBodyClicked(postContentId: ContentIdDomain?) {
         openPost(postContentId)
+    }
+
+    fun updateRewardCurrency(currency: RewardCurrency) {
+        launch {
+            model.updateRewardCurrency(currency)
+        }
     }
 
     private fun openPost(postContentId: ContentIdDomain?){

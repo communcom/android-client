@@ -2,11 +2,9 @@ package io.golos.cyber_android.ui.screens.community_page_post.model
 
 import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.dto.CommunityIdDomain
-import io.golos.domain.dto.ContentIdDomain
-import io.golos.domain.dto.UserIdDomain
-import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
+import io.golos.domain.dto.*
 import io.golos.domain.repositories.DiscussionRepository
+import io.golos.domain.repositories.GlobalSettingsRepository
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
 import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
 import io.golos.domain.use_cases.posts.GetPostsUseCase
@@ -22,11 +20,15 @@ constructor(
     private val unsubscribeToCommunityUseCase: UnsubscribeToCommunityUseCase,
     private val discussionRepository: DiscussionRepository,
     private val dispatchersProvider: DispatchersProvider,
-    private val walletRepository: WalletRepository
+    private val walletRepository: WalletRepository,
+    private val globalSettingsRepository: GlobalSettingsRepository
 ) : CommunityPostModel,
     GetPostsUseCase by getPostsUseCase,
     SubscribeToCommunityUseCase by subscribeToCommunityUseCase,
     UnsubscribeToCommunityUseCase by unsubscribeToCommunityUseCase {
+
+    override val rewardCurrency: RewardCurrency
+        get() = globalSettingsRepository.rewardCurrency
 
     override suspend fun addToFavorite(permlink: String) {
         withContext(dispatchersProvider.ioDispatcher) {
@@ -77,4 +79,6 @@ constructor(
     }
 
     override suspend fun getWalletBalance(): List<WalletCommunityBalanceRecordDomain> = walletRepository.getBalance()
+
+    override suspend fun updateRewardCurrency(currency: RewardCurrency) = globalSettingsRepository.updateRewardCurrency(currency)
 }

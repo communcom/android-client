@@ -19,6 +19,7 @@ import io.golos.domain.dto.*
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.PostMetadata
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.DiscussionRepository
+import io.golos.domain.repositories.GlobalSettingsRepository
 import io.golos.domain.repositories.UsersRepository
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
 import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
@@ -47,7 +48,8 @@ constructor(
     private val unsubscribeToCommunityUseCase: UnsubscribeToCommunityUseCase,
     private val contentId: ContentIdDomain?,
     private val usersRepository: Lazy<UsersRepository>,
-    private val walletRepository: WalletRepository
+    private val walletRepository: WalletRepository,
+    private val globalSettingsRepository: GlobalSettingsRepository
 ) : ModelBaseImpl(),
     PostPageModel,
     SubscribeToCommunityUseCase by subscribeToCommunityUseCase,
@@ -64,6 +66,9 @@ constructor(
 
     override val commentsPageSize: Int
         get() = commentsProcessing.pageSize
+
+    override val rewardCurrency: RewardCurrency
+        get() = globalSettingsRepository.rewardCurrency
 
     override suspend fun loadPost() {
         try {
@@ -223,4 +228,6 @@ constructor(
             postListDataSource.updateDonation(donation.donation)
         }
     }
+
+    override suspend fun updateRewardCurrency(currency: RewardCurrency) = globalSettingsRepository.updateRewardCurrency(currency)
 }

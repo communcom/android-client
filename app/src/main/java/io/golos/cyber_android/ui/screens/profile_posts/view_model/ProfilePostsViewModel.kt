@@ -33,7 +33,6 @@ import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.*
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.model.DiscussionIdModel
-import io.golos.use_cases.reward.isTopReward
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
@@ -178,11 +177,7 @@ constructor(
     }
 
     override fun onRewardClick(reward: RewardPostDomain?) {
-        reward.isTopReward()?.let {
-            val title = if(it) R.string.post_reward_top_title else R.string.post_reward_not_top_title
-            val text = if(it) R.string.post_reward_top_text else R.string.post_reward_not_top_text
-            _command.value = ShowPostRewardDialogCommand(title, text)
-        }
+        _command.value = SelectRewardCurrencyDialogCommand(model.rewardCurrency)
     }
 
     override fun onCommentsClicked(postContentId: ContentIdDomain) {
@@ -191,6 +186,12 @@ constructor(
 
     override fun onBodyClicked(postContentId: ContentIdDomain?) {
         openPost(postContentId)
+    }
+
+    fun updateRewardCurrency(currency: RewardCurrency) {
+        launch {
+            model.updateRewardCurrency(currency)
+        }
     }
 
     private fun openPost(postContentId: ContentIdDomain?){

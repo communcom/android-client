@@ -189,11 +189,17 @@ constructor(
     }
 
     override fun onRewardClick(reward: RewardPostDomain?) {
-        _command.value = SelectRewardCurrencyDialogCommand(RewardCurrency.POINTS)
+        _command.value = SelectRewardCurrencyDialogCommand(model.rewardCurrency)
     }
 
     override fun onCommentsClicked(postContentId: ContentIdDomain) {
         openPost(postContentId)
+    }
+
+    fun updateRewardCurrency(currency: RewardCurrency) {
+        launch {
+            model.updateRewardCurrency(currency)
+        }
     }
 
     private fun openPost(postContentId: ContentIdDomain?){

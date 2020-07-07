@@ -22,6 +22,8 @@ interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToC
 
     val commentsPageSize: Int
 
+    val rewardCurrency: RewardCurrency
+
     suspend fun loadPost()
 
     fun getPostMenu(): PostMenu
@@ -90,4 +92,6 @@ interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToC
     suspend fun getWalletBalance(): List<WalletCommunityBalanceRecordDomain>
 
     suspend fun updateDonation(donation: PostDonation)
+
+    suspend fun updateRewardCurrency(currency: RewardCurrency)
 }

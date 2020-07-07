@@ -21,10 +21,7 @@ import io.golos.cyber_android.ui.shared.widgets.comment.CommentContent
 import io.golos.cyber_android.ui.shared.widgets.comment.ContentState
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
-import io.golos.domain.dto.CommunityIdDomain
-import io.golos.domain.dto.ContentIdDomain
-import io.golos.domain.dto.DonationsDomain
-import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.dto.*
 import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.EditorOutputToJsonMapper
 import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.EmbedMetadata
 import io.golos.domain.repositories.CurrentUserRepositoryRead
@@ -194,15 +191,17 @@ constructor(
     }
 
     fun onPostRewardClick() {
-        model.isTopReward()?.let {
-            val title = if(it) R.string.post_reward_top_title else R.string.post_reward_not_top_title
-            val text = if(it) R.string.post_reward_top_text else R.string.post_reward_not_top_text
-            _command.value = ShowPostRewardDialogCommand(title, text)
-        }
+        _command.value = SelectRewardCurrencyDialogCommand(model.rewardCurrency)
     }
 
     override fun onCommentsTitleMenuClick() {
         _command.value = ShowCommentsSortingMenuViewCommand()
+    }
+
+    fun updateRewardCurrency(currency: RewardCurrency) {
+        launch {
+            model.updateRewardCurrency(currency)
+        }
     }
 
     fun addToFavorite(permlink: String) {
