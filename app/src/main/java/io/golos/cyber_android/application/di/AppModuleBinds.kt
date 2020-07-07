@@ -48,6 +48,7 @@ import io.golos.data.repositories.current_user.CurrentUserRepositoryImpl
 import io.golos.data.repositories.discussion.DiscussionRepositoryImpl
 import io.golos.data.repositories.embed.EmbedRepository
 import io.golos.data.repositories.embed.EmbedRepositoryImpl
+import io.golos.data.repositories.global_settings_repository.GlobalSettingsRepositoryImpl
 import io.golos.data.repositories.images_uploading.ImageUploadRepository
 import io.golos.data.repositories.images_uploading.ImageUploadRepositoryImpl
 import io.golos.data.repositories.images_uploading.ImageUploadRepositoryLiveData
@@ -71,6 +72,8 @@ import io.golos.domain.repositories.*
 import io.golos.domain.requestmodel.*
 import io.golos.domain.rules.*
 import io.golos.domain.use_cases.community.CommunitiesRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import javax.inject.Named
 
 @Suppress("unused")
@@ -273,6 +276,12 @@ abstract class AppModuleBinds {
     @Binds
     @ApplicationScope
     abstract fun provideCurrentUserRepositoryRead(repository: CurrentUserRepositoryImpl): CurrentUserRepositoryRead
+
+    @ExperimentalCoroutinesApi
+    @FlowPreview
+    @Binds
+    @ApplicationScope
+    abstract fun provideGlobalSettingsRepository(repository: GlobalSettingsRepositoryImpl): GlobalSettingsRepository
 
     @Binds
     @ApplicationScope

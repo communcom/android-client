@@ -7,10 +7,7 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.UserKeyStore
 import io.golos.domain.dto.*
-import io.golos.domain.repositories.AuthRepository
-import io.golos.domain.repositories.CurrentUserRepository
-import io.golos.domain.repositories.NotificationsRepository
-import io.golos.domain.repositories.UsersRepository
+import io.golos.domain.repositories.*
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
@@ -25,7 +22,8 @@ constructor(
     private val crashlytics: CrashlyticsFacade,
     private val keyValueStorage: KeyValueStorageFacade,
     private val currentUserRepository: CurrentUserRepository,
-    private val notificationsRepository: NotificationsRepository
+    private val notificationsRepository: NotificationsRepository,
+    private val globalSettingsRepository: GlobalSettingsRepository
 ) : AuthUseCase {
 
     override suspend fun auth(userName: String, password: String) {
@@ -49,6 +47,8 @@ constructor(
 
             currentUserRepository.authState = authState
             currentUserRepository.userAvatarUrl = userProfile.avatarUrl
+
+            globalSettingsRepository.loadValues()
         }
     }
 
