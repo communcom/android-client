@@ -12,11 +12,13 @@ import io.golos.cyber_android.ui.screens.feed_my.view.items.CreatePostItem
 import io.golos.cyber_android.ui.shared.widgets.post_comments.items.PostItem
 import io.golos.cyber_android.ui.screens.feed_my.view_model.MyFeedListListener
 import io.golos.cyber_android.ui.shared.post_view.RecordPostViewManager
+import io.golos.domain.dto.RewardCurrency
 
 open class MyFeedAdapter(
     private val eventsProcessor: MyFeedListListener,
     private val type: PostItem.Type,
-    private val recordPostViewManager: RecordPostViewManager
+    private val recordPostViewManager: RecordPostViewManager,
+    private var rewardCurrency: RewardCurrency
 ) : RecyclerAdapter() {
 
     private val rvViewPool = RecyclerView.RecycledViewPool()
@@ -25,7 +27,7 @@ open class MyFeedAdapter(
 
     fun updateMyFeedPosts(posts: List<Post>) {
         val postsItems = posts.map {
-            val postItem = PostItem(it, type, eventsProcessor, recordPostViewManager)
+            val postItem = PostItem(it, type, eventsProcessor, recordPostViewManager, rewardCurrency)
             postItem.setRecycledViewPool(rvViewPool)
             postItem
         }
@@ -54,6 +56,22 @@ open class MyFeedAdapter(
             adapterItemsList[0] = CreatePostItem(user, onCreatePostClick, onUserClick)
         }
         updateAdapter(adapterItemsList)
+    }
+
+    fun updateRewardCurrency(newRewardCurrency: RewardCurrency) {
+        if(rewardCurrency == newRewardCurrency) {
+            return
+        }
+
+        rewardCurrency = newRewardCurrency
+
+        val newItems = items.map {
+            if(it is PostItem) {
+                it.copy(newRewardCurrency)
+            } else it
+        }
+
+        updateAdapter(newItems)
     }
 
     fun showLoadingNextPageProgress() {

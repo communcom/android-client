@@ -2,10 +2,10 @@ package io.golos.cyber_android.ui.screens.post_view.model
 
 import androidx.lifecycle.LiveData
 import dagger.Lazy
-import io.golos.commun4j.utils.toCyberName
 import io.golos.cyber_android.ui.dto.PostDonation
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
+import io.golos.cyber_android.ui.screens.post_view.dto.RewardInfo
 import io.golos.cyber_android.ui.screens.post_view.dto.SortingType
 import io.golos.cyber_android.ui.screens.post_view.model.comments_processing.CommentsProcessingFacade
 import io.golos.cyber_android.ui.screens.post_view.model.post_list_data_source.PostListDataSource
@@ -118,8 +118,15 @@ constructor(
             canJoinToCommunity = false,
             isJoinedToCommunity = postDomain.community.isSubscribed,
             isBackFeatureEnabled = true,
-            isRewarded = postDomain.reward.isRewarded(),
-            rewardValue = postDomain.reward.getRewardValue()
+
+            reward = takeIf { postDomain.reward.isRewarded() }?.let {
+                RewardInfo(
+                    rewardValueInPoints = postDomain.reward.getRewardValue(),
+                    rewardValueInCommun = postDomain.reward?.rewardValueCommun,
+                    rewardValueInUSD = postDomain.reward?.rewardValueUSD,
+                    rewardCurrency = rewardCurrency
+                )
+            }
         )
     }
 

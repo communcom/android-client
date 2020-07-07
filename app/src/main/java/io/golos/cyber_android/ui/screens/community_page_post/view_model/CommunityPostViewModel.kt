@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.community_page_post.view_model
 
 import android.content.Context
 import android.net.Uri
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.DonateType
@@ -65,6 +66,9 @@ constructor(
 
     private var loadPostsJob: Job? = null
     private lateinit var postsConfigurationDomain: PostsConfigurationDomain
+
+    private val _rewardCurrency = MutableLiveData<RewardCurrency>(model.rewardCurrency)
+    val rewardCurrency: LiveData<RewardCurrency> =_rewardCurrency
 
     init {
         paginator.sideEffectListener = {

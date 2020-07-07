@@ -6,10 +6,9 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
+import io.golos.cyber_android.ui.screens.post_view.dto.RewardInfo
 import io.golos.cyber_android.ui.shared.characters.SpecialChars
 import io.golos.utils.format.RewardFormatter
 import io.golos.cyber_android.ui.shared.glide.clear
@@ -20,6 +19,7 @@ import io.golos.cyber_android.ui.shared.utils.adjustSpannableClicks
 import io.golos.cyber_android.ui.shared.utils.toTimeEstimateFormat
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.RewardCurrency
 import io.golos.utils.helpers.appendText
 import io.golos.utils.helpers.setSpan
 import kotlinx.android.synthetic.main.view_post_viewer_header.view.*
@@ -109,9 +109,9 @@ constructor(
             }
         }
 
-        if (postHeader.isRewarded) {
+        if (postHeader.reward != null) {
             rewardButton.visibility = View.VISIBLE
-            rewardButton.text = postHeader.rewardValue?.let { RewardFormatter.format(it) } ?: context.getString(R.string.post_reward_top)
+            rewardButton.text = getRewardAsString(postHeader.reward)
         } else {
             rewardButton.visibility = View.GONE
         }
@@ -157,6 +157,13 @@ constructor(
         setOnBackButtonClickListener(null)
         communityAvatar.clear()
     }
+
+    private fun getRewardAsString(reward: RewardInfo): String =
+        when(reward.rewardCurrency) {
+            RewardCurrency.POINTS -> reward.rewardValueInPoints?.let { RewardFormatter.formatPoints(it) }
+            RewardCurrency.COMMUNS -> reward.rewardValueInCommun?.let { "${RewardFormatter.formatCommun(it)} ${context.getString(R.string.commun_currency_brief)}" }
+            RewardCurrency.USD -> reward.rewardValueInUSD?.let { "$${RewardFormatter.formatUSD(it)}" }
+        } ?: context.getString(R.string.post_reward_top)
 
     private fun getTimeAndAuthor(postHeader: PostHeader): SpannableStringBuilder {
         val result = SpannableStringBuilder()

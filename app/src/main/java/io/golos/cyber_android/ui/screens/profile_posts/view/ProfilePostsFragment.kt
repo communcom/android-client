@@ -71,7 +71,7 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupPostsList()
+        setupPostsList(viewModel.rewardCurrency.value!!)
         observeViewModel()
         viewModel.start()
     }
@@ -150,8 +150,8 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
         super.onDestroyView()
     }
 
-    private fun setupPostsList() {
-        val profilePostAdapter = MyFeedAdapter(viewModel, PostItem.Type.PROFILE, viewModel.recordPostViewManager)
+    private fun setupPostsList(rewardCurrency: RewardCurrency) {
+        val profilePostAdapter = MyFeedAdapter(viewModel, PostItem.Type.PROFILE, viewModel.recordPostViewManager, rewardCurrency)
         val lManager = LinearLayoutManager(context)
 
         profilePostAdapter.click = { item ->

@@ -78,8 +78,7 @@ class PostPageMenuDialog(
                     userAvatarUrl = menu.authorAvatarUrl,
                     canJoinToCommunity = false,
                     isBackFeatureEnabled = false,
-                    isRewarded = false,
-                    rewardValue = null
+                    reward = null
                 )
             )
             postMenuHeader.hideActionMenu()

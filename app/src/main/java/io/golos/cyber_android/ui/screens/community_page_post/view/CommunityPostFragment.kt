@@ -77,7 +77,7 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupPostList()
+        setupPostList(viewModel.rewardCurrency.value!!)
         observeViewModel()
 
         btnRetry.setOnClickListener {
@@ -149,8 +149,8 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
         }
     }
 
-    private fun setupPostList() {
-        val postAdapter = MyFeedAdapter(viewModel, PostItem.Type.FEED, viewModel.recordPostViewManager)
+    private fun setupPostList(rewardCurrency: RewardCurrency) {
+        val postAdapter = MyFeedAdapter(viewModel, PostItem.Type.FEED, viewModel.recordPostViewManager, rewardCurrency)
         postAdapter.click = { item ->
             val postItem = item as? PostItem
             postItem?.let { post ->

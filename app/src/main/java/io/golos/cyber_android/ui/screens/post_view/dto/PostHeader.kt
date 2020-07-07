@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.screens.post_view.dto
 
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.RewardCurrency
 import java.util.*
 
 data class PostHeader(
@@ -15,6 +16,5 @@ data class PostHeader(
     val isJoinedToCommunity: Boolean = false,
     val isBackFeatureEnabled: Boolean = true,
 
-    val isRewarded: Boolean = true,
-    val rewardValue: Double?
+    val reward: RewardInfo?
 )

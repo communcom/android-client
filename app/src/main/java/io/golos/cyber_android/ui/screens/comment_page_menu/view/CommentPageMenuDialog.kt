@@ -53,8 +53,7 @@ class CommentPageMenuDialog(
                 userAvatarUrl = commentMenu.authorAvatarUrl,
                 canJoinToCommunity = false,
                 isBackFeatureEnabled = false,
-                isRewarded = false,
-                rewardValue = null
+                reward = null
             )
         )
         commentMenuHeader.hideActionMenu()

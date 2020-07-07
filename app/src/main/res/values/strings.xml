@@ -649,5 +649,6 @@
     <string name="show_in">Show in</string>
     <string name="usd_currency">USD</string>
     <string name="commun_currency">Commun</string>
+    <string name="commun_currency_brief">CMN</string>
     <string name="points_currency">Community points</string>
 </resources>

@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.feed_my.view_model
 
 import android.content.Context
 import android.net.Uri
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.DonateType
@@ -68,6 +69,9 @@ constructor(
 
     private val _swipeRefreshing = MutableLiveData<Boolean>(false)
     val swipeRefreshing get() = _swipeRefreshing.toLiveData()
+
+    private val _rewardCurrency = MutableLiveData<RewardCurrency>(model.rewardCurrency)
+    val rewardCurrency: LiveData<RewardCurrency> =_rewardCurrency
 
     private var loadPostsJob: Job? = null
 

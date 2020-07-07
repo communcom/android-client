@@ -10,6 +10,7 @@ import io.golos.cyber_android.ui.dto.Votes
 import io.golos.cyber_android.ui.screens.feed_my.view_model.MyFeedListListener
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
+import io.golos.cyber_android.ui.screens.post_view.dto.RewardInfo
 import io.golos.cyber_android.ui.shared.base.adapter.BaseRecyclerItem
 import io.golos.cyber_android.ui.shared.base.adapter.RecyclerAdapter
 import io.golos.cyber_android.ui.shared.base.adapter.RecyclerItem
@@ -17,6 +18,7 @@ import io.golos.cyber_android.ui.shared.post_view.RecordPostViewManager
 import io.golos.cyber_android.ui.shared.widgets.post_comments.donation.DonatePersonsPopup
 import io.golos.cyber_android.ui.shared.widgets.post_comments.voting.VotingWidget
 import io.golos.domain.dto.ContentIdDomain
+import io.golos.domain.dto.RewardCurrency
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.*
 import io.golos.use_cases.reward.getRewardValue
 import io.golos.use_cases.reward.isRewarded
@@ -32,7 +34,8 @@ class PostItem(
     val post: Post,
     private val type: Type,
     private val listener: MyFeedListListener,
-    private val recordPostViewManager: RecordPostViewManager
+    private val recordPostViewManager: RecordPostViewManager,
+    private val rewardCurrency: RewardCurrency
 ) : BaseRecyclerItem() {
 
     enum class Type {
@@ -50,7 +53,7 @@ class PostItem(
 
     override fun areContentsSame(item: RecyclerItem): Boolean {
         if (item is PostItem) {
-            return post == item.post
+            return post == item.post && rewardCurrency == item.rewardCurrency
         }
         return false
     }
@@ -80,6 +83,9 @@ class PostItem(
     fun setRecycledViewPool(recycledViewPool: RecyclerView.RecycledViewPool) {
         this.contentViewPool = recycledViewPool
     }
+
+    fun copy(newRewardCurrency: RewardCurrency): PostItem =
+        PostItem(post, type, listener, recordPostViewManager, newRewardCurrency)
 
     override fun renderView(context: Context, view: View) {
         super.renderView(context, view)
@@ -179,8 +185,15 @@ class PostItem(
             author.avatarUrl,
             canJoinToCommunity = false,
             isBackFeatureEnabled = false,
-            isRewarded = post.reward.isRewarded(),
-            rewardValue = post.reward.getRewardValue()
+
+            reward = takeIf { post.reward.isRewarded() }?.let {
+                RewardInfo(
+                    rewardValueInPoints = post.reward.getRewardValue(),
+                    rewardValueInCommun = post.reward?.rewardValueCommun,
+                    rewardValueInUSD = post.reward?.rewardValueUSD,
+                    rewardCurrency = rewardCurrency
+                )
+            }
         )
 
         view.postHeader.setHeader(postHeader)

@@ -77,6 +77,9 @@ constructor(
     private val _noDataStubVisibility = MutableLiveData<Int>(View.GONE)
     val noDataStubVisibility: LiveData<Int> get() = _noDataStubVisibility
 
+    private val _rewardCurrency = MutableLiveData<RewardCurrency>(model.rewardCurrency)
+    val rewardCurrency: LiveData<RewardCurrency> = _rewardCurrency
+
     private var loadPostsJob: Job? = null
 
     init {

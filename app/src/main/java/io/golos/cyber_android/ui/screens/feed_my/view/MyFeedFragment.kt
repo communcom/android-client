@@ -72,13 +72,13 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupPostsList()
+        setupPostsList(viewModel.rewardCurrency.value!!)
         observeViewModel()
         viewModel.start()
     }
 
-    private fun setupPostsList() {
-        val myFeedAdapter = MyFeedAdapter(viewModel, PostItem.Type.FEED, viewModel.recordPostViewManager)
+    private fun setupPostsList(rewardCurrency: RewardCurrency) {
+        val myFeedAdapter = MyFeedAdapter(viewModel, PostItem.Type.FEED, viewModel.recordPostViewManager, rewardCurrency)
         myFeedAdapter.click = { item ->
             when(item){
                 is PostItem -> {
