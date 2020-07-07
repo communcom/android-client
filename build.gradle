@@ -13,9 +13,8 @@ buildscript {
     }
 
     ext {
-        appVesrionCode = 1449
-        appVersionName = "1.2.1"
-
+        appVesrionCode = 1451
+        appVersionName = "1.3.0"
         archCoreTesting = "2.0.0"
     }
 
