@@ -24,6 +24,7 @@ import io.golos.cyber_android.ui.screens.feed_my.view.view_commands.*
 import io.golos.cyber_android.ui.screens.feed_my.view_model.MyFeedViewModel
 import io.golos.cyber_android.ui.screens.post_edit.activity.EditorPageActivity
 import io.golos.cyber_android.ui.screens.post_edit.fragment.view.EditorPageFragment
+import io.golos.cyber_android.ui.screens.post_edit.fragment.view.EditorPageFragment.Companion.EXTRA_SHOULD_SHOW_IMAGE_PICKER_DIALOG
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
@@ -138,7 +139,7 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
 
     private fun createPost(){
         startActivityForResult(
-            EditorPageActivity.getIntent(requireContext()),
+            EditorPageActivity.getIntent(requireContext()).putExtra(EXTRA_SHOULD_SHOW_IMAGE_PICKER_DIALOG, true),
             REQUEST_FOR_RESULT_FROM_CREATE_POST
         )
     }

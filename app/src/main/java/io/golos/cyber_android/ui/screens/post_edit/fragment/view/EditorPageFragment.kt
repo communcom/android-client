@@ -50,6 +50,11 @@ import kotlinx.android.synthetic.main.fragment_editor_page.*
 import javax.inject.Inject
 
 class EditorPageFragment : ImagePickerFragmentBase() {
+
+    companion object {
+        const val EXTRA_SHOULD_SHOW_IMAGE_PICKER_DIALOG = "EXTRA_SHOULD_SHOW_IMAGE_PICKER_DIALOG"
+    }
+
     @Parcelize
     data class Args(
         val contentId: ContentIdDomain? = null,
@@ -137,7 +142,9 @@ class EditorPageFragment : ImagePickerFragmentBase() {
         leaderName.filters = arrayOf(InputFilter.LengthFilter(io.golos.utils.PostConstants.MAX_POST_TITLE_LENGTH))
 
         setupEditorToolButtons()
-        showImagePickerDialog()
+
+        if(activity?.intent?.getBooleanExtra(EXTRA_SHOULD_SHOW_IMAGE_PICKER_DIALOG, false) == true)
+            showImagePickerDialog()
     }
 
     private fun showDialog(showDialogAction: () -> Unit) {
