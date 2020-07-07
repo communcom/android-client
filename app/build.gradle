@@ -55,6 +55,8 @@ android {
 
             buildConfigField "String", 'GOOGLE_ACCESS_TOKEN_CLIENT_ID', "\"537042616174-bl79mf0b039i8f6emh5bia6klm18nih3.apps.googleusercontent.com\""
             buildConfigField "String",  'GOOGLE_RECAPTCHA_KEY', "\"6LdIAcAUAAAAANtWk2WpvZ0jMqX58NB3QDpgZR2S\""
+
+            buildConfigField "String",  'POINTS_URI', "\"https://commun.com/faq#What%20else%20can%20you%20do%20with%20the%20points\""
         }
         dev {
             dimension "cyber4j-config-type"
@@ -75,6 +77,8 @@ android {
 
             buildConfigField "String", 'GOOGLE_ACCESS_TOKEN_CLIENT_ID', "\"537042616174-jr6forf8aon2j7sj09flm39mgvg8ip0l.apps.googleusercontent.com\""
             buildConfigField "String",  'GOOGLE_RECAPTCHA_KEY', "\"6LdIAcAUAAAAANtWk2WpvZ0jMqX58NB3QDpgZR2S\""
+
+            buildConfigField "String",  'POINTS_URI', "\"https://commun.com/faq#What%20else%20can%20you%20do%20with%20the%20points\""
         }
         checking {
             dimension "cyber4j-config-type"
@@ -95,6 +99,8 @@ android {
 
             buildConfigField "String", 'GOOGLE_ACCESS_TOKEN_CLIENT_ID', "\"537042616174-jr6forf8aon2j7sj09flm39mgvg8ip0l.apps.googleusercontent.com\""
             buildConfigField "String",  'GOOGLE_RECAPTCHA_KEY', "\"6LdIAcAUAAAAANtWk2WpvZ0jMqX58NB3QDpgZR2S\""
+
+            buildConfigField "String",  'POINTS_URI', "\"https://commun.com/faq#What%20else%20can%20you%20do%20with%20the%20points\""
         }
     }
 

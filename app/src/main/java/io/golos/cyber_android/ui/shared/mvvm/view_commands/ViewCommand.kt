@@ -8,6 +8,7 @@ import androidx.annotation.StringRes
 import io.golos.cyber_android.ui.dto.Comment
 import io.golos.cyber_android.ui.dto.DonateType
 import io.golos.cyber_android.ui.dto.Post
+import io.golos.domain.dto.RewardCurrency
 import io.golos.domain.dto.*
 import io.golos.domain.use_cases.model.DiscussionIdModel
 
@@ -76,6 +77,8 @@ class NavigateToPostCommand(
 class NavigateToNextScreen() : ViewCommand
 
 class ShowPostRewardDialogCommand(@StringRes val titleResId: Int, @StringRes val textResId: Int) : ViewCommand
+
+data class SelectRewardCurrencyDialogCommand(val startCurrency: RewardCurrency) : ViewCommand
 
 class ShowNoConnectionDialogCommand() : ViewCommand
 class HideNoConnectionDialogCommand() : ViewCommand

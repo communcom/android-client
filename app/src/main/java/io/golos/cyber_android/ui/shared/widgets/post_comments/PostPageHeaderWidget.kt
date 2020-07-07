@@ -47,7 +47,9 @@ constructor(
         inflate(getContext(), R.layout.view_post_viewer_header, this)
         backButton.setOnClickListener { onBackButtonClickListener?.invoke() }
 
-        rewardButton.setOnClickListener { onRewardClickListener?.invoke() }
+        rewardButton.setOnClickListener {
+            onRewardClickListener?.invoke()
+        }
 
         menuButton.setOnClickListener { onMenuButtonClickListener?.invoke() }
     }

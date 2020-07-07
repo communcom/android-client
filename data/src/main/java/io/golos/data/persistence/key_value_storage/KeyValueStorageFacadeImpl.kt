@@ -38,6 +38,8 @@ constructor(
 
         private const val FCM_TOKEN_KEY = "FCM_TOKEN"
         private const val SIGN_UP_SNAPSHOT_KEY = "SIGN_UP_SNAPSHOT"
+
+        private const val DISPLAYED_REWARD_CURRENCY_KEY = "DISPLAYED_REWARD_CURRENCY"
     }
 
     // To provide compatibility to WebView application
@@ -200,6 +202,18 @@ constructor(
     override fun removeSignUpSnapshot() =
         keyValueStorage.update {
             it.remove(SIGN_UP_SNAPSHOT_KEY)
+        }
+
+    override fun saveDisplayedRewardCurrency(currency: RewardCurrency) {
+        keyValueStorage.update {
+            it.putString(DISPLAYED_REWARD_CURRENCY_KEY, currency.toString())
+        }
+    }
+
+    @Suppress("NestedLambdaShadowedImplicitParameter")
+    override fun getDisplayedRewardCurrency(): RewardCurrency =
+        keyValueStorage.read {
+            it.readString(DISPLAYED_REWARD_CURRENCY_KEY)?.let { RewardCurrency.createFrom(it) } ?: RewardCurrency.POINTS
         }
 
     private fun getInternalKeyForUserKey(keyType: UserKeyType) =

@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.DonateType
 import io.golos.cyber_android.ui.dto.Post
+import io.golos.domain.dto.RewardCurrency
 import io.golos.cyber_android.ui.dto.User
 import io.golos.cyber_android.ui.mappers.*
 import io.golos.cyber_android.ui.screens.feed_my.dto.SwitchToProfileTab
@@ -28,7 +29,6 @@ import io.golos.domain.dto.*
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.exceptions.ApiResponseErrorException
 import io.golos.domain.use_cases.model.DiscussionIdModel
-import io.golos.use_cases.reward.isTopReward
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
@@ -189,11 +189,7 @@ constructor(
     }
 
     override fun onRewardClick(reward: RewardPostDomain?) {
-        reward.isTopReward()?.let {
-            val title = if(it) R.string.post_reward_top_title else R.string.post_reward_not_top_title
-            val text = if(it) R.string.post_reward_top_text else R.string.post_reward_not_top_text
-            _command.value = ShowPostRewardDialogCommand(title, text)
-        }
+        _command.value = SelectRewardCurrencyDialogCommand(RewardCurrency.POINTS)
     }
 
     override fun onCommentsClicked(postContentId: ContentIdDomain) {

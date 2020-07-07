@@ -645,4 +645,9 @@
     <string name="donate_points_popup">points</string>
     <string name="donate_title">Donate</string>
     <string name="donate_successful">Donate is successful</string>
+
+    <string name="show_in">Show in</string>
+    <string name="usd_currency">USD</string>
+    <string name="commun_currency">Commun</string>
+    <string name="points_currency">Community points</string>
 </resources>

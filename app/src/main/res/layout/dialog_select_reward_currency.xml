@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_marginBottom="16dp"
+
+        android:background="@drawable/bcg_dialog_round_corners_white"
+        android:paddingStart="20dp"
+
+        android:paddingEnd="20dp">
+
+        <ImageView
+            android:id="@+id/rewardCurrencyButton"
+            android:layout_width="@dimen/tool_button_size"
+            android:layout_height="@dimen/tool_button_size"
+
+            android:background="?selectableItemBackgroundBorderless"
+
+            android:padding="5dp"
+            android:src="@drawable/ic_right_gray"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/showInLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="@string/show_in"
+
+            style="@style/Text15.Black.Bold.SingleLine"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/rewardCurrencyLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            tools:text="Community points"
+
+            style="@style/Text15.Gray.Bold.SingleLine"
+
+            android:layout_marginEnd="10dp"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/rewardCurrencyButton"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:background="@drawable/bcg_dialog_round_corners_white"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="20dp">
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/UserName.Restriction.Dialog.Title.TextStyle"
+            android:layout_width="0dp"
+
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="18dp"
+
+            android:text="@string/post_reward_not_top_title"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/explanationText"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="13dp"
+
+            android:lineSpacingExtra="7dp"
+            android:text="@string/post_reward_not_top_text"
+
+            android:textColor="@color/grey"
+            android:textSize="15sp"
+            android:gravity="start"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title" />
+
+        <TextView
+            android:id="@+id/learnMoreButton"
+
+            style="@style/BlueWhite.RoundCorners.Button"
+
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+
+            android:layout_marginTop="20dp"
+
+            android:text="@string/post_reward_main_button_text"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.825"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/explanationText" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

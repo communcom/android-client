@@ -4,6 +4,7 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
+import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.utils.openLinkView
 import kotlinx.android.synthetic.main.dialog_simple_text.*
@@ -29,7 +30,7 @@ class PostRewardBottomSheetDialog(
 
         mainButton.setOnClickListener {
             closeOnItemSelected(Result.Ok)
-            this@PostRewardBottomSheetDialog.context!!.openLinkView(Uri.parse("https://commun.com/faq#What%20else%20can%20you%20do%20with%20the%20points"))
+            this@PostRewardBottomSheetDialog.context!!.openLinkView(Uri.parse(BuildConfig.POINTS_URI))
         }
     }
 }

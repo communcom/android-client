@@ -128,10 +128,21 @@ constructor(
             val donationQuery = posts.map { DonationPostModel(it.contentId.userId.name, it.contentId.permlink) }
 
             val rewardsAsync = async {
-                callProxy.call {
-                    commun4j.getStateBulk(contentIds) }
-                    .flatMap { it.value }
-                    .map { it.mapToRewardPostDomain() }
+                contentIds.map {
+                    RewardPostDomain(
+                        topCount = 2,
+                        collectionEnd = Date(),
+                        rewardValue = RewardValueDomain(1438.648, "CAT"),
+                        rewardValueCommun = 101.42,
+                        rewardValueUSD = 14.42,
+                        isClosed = true,
+                        contentId = ContentIdDomain(CommunityIdDomain(""), it.permlink, UserIdDomain(it.userId.name))
+                    )
+                }
+//                callProxy.call {
+//                    commun4j.getStateBulk(contentIds) }
+//                    .flatMap { it.value }
+//                    .map { it.mapToRewardPostDomain() }
             }
 
             val donationsAsync = async {

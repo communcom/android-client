@@ -44,4 +44,7 @@ interface KeyValueStorageFacade {
     fun saveSignUpSnapshot(snapshot: SignUpSnapshotDomain)
     fun getSignUpSnapshot(): SignUpSnapshotDomain?
     fun removeSignUpSnapshot()
+
+    fun saveDisplayedRewardCurrency(currency: RewardCurrency)
+    fun getDisplayedRewardCurrency(): RewardCurrency
 }

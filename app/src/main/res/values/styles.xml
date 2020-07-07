@@ -775,6 +775,11 @@
         <item name="android:textColor">@color/blue</item>
     </style>
 
+    <style name="Text15.Gray.Bold.SingleLine" parent="Text15.Blue.Bold.SingleLine">
+        <item name="android:textColor">@color/grey</item>
+    </style>
+
+
     <style name="Text17.Black.Bold.SingleLine" parent="Text12.Black.Bold.SingleLine">
         <item name="android:textSize">17sp</item>
     </style>

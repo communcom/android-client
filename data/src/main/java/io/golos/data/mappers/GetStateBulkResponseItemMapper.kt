@@ -12,6 +12,8 @@ fun GetStateBulkResponseItem.mapToRewardPostDomain(): RewardPostDomain {
         topCount = this.topCount,
         collectionEnd = DatesServerFormatter.formatFromServer(this.collectionEnd),
         rewardValue = this.reward.mapToRewardValueDomain(),
+        rewardValueCommun = this.convertedReward?.cmn,
+        rewardValueUSD = this.convertedReward?.usd,
         isClosed = this.isClosed,
         contentId = ContentIdDomain(CommunityIdDomain(""), this.contentId.permlink, UserIdDomain(this.contentId.userId.name))
     )
