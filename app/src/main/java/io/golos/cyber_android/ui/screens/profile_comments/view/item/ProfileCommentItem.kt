@@ -99,6 +99,9 @@ class ProfileCommentItem(
             }
 
             if (newContentList.isEmpty() && comment.isDeleted) {
+                voting.visibility = View.GONE
+                replyAndTimeText.visibility = View.GONE
+
                 val deleteBlock =
                     ParagraphBlock(
                         IdUtil.generateLongId(),

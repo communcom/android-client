@@ -142,6 +142,8 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
 
         val author = UserBriefDomain(listItem.author.avatarUrl, UserIdDomain(listItem.author.userId.userId), listItem.author.username)
         if (newContentList.isEmpty() && listItem.isDeleted) {
+            _voting.visibility = View.GONE
+            _replyAndTimeText.visibility = View.GONE
             val deleteBlock =
                 ParagraphBlock(
                     IdUtil.generateLongId(),
