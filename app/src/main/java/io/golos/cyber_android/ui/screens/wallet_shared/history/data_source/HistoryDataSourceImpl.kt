@@ -212,7 +212,8 @@ constructor(
             isOnHold = serverActionType == "HOLD",
             timeStamp = timeStamp,
             coinsQuantity = serverItem.coinsQuantity,
-            coinsSymbol = serverItem.coinsSymbol
+            coinsSymbol = serverItem.coinsSymbol,
+            coinsFullName = serverItem.communityName ?: serverItem.coinsSymbol
         )
     }
     override fun markAsFirst(item: VersionedListItem) = item

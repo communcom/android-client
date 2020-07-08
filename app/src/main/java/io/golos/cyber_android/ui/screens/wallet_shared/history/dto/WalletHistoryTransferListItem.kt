@@ -23,5 +23,6 @@ data class WalletHistoryTransferListItem(
     val timeStamp: String,          // Formatted
 
     val coinsQuantity: Double,
-    val coinsSymbol: String
+    val coinsSymbol: String,
+    val coinsFullName: String
 ): VersionedListItem

@@ -67,21 +67,26 @@
 
     <TextView
         android:id="@+id/amount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-
-        android:text=""
-        tools:text="500 Commun"
-
         style="@style/Text15.Black.Bold.SingleLine"
+        android:layout_width="0dp"
 
-        android:layout_marginEnd="15dp"
+
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
 
+        android:layout_marginEnd="15dp"
+
+        android:textAlignment="textEnd"
+
+        android:layout_marginStart="10dp"
+
+        android:text=""
         app:layout_constraintBottom_toTopOf="@+id/dateTime"
+
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/name"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="500 Commun" />
 
     <TextView
         android:id="@+id/dateTime"

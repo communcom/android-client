@@ -61,7 +61,7 @@ class WalletHistoryTransferViewHolder(
                 WalletHistoryTransferDirection.RECEIVE -> "+"
             }
         }
-        itemView.amount.text = "$amountSign ${CurrencyFormatter.formatShort(context, listItem.coinsQuantity)} ${listItem.coinsSymbol}"
+        itemView.amount.text = "$amountSign ${CurrencyFormatter.formatShort(context, listItem.coinsQuantity)} ${listItem.coinsFullName}"
 
         itemView.smallIcon.visibility = if(listItem.isSmallIconVisible) View.VISIBLE else View.GONE
 
