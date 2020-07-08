@@ -8,6 +8,7 @@ import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
 import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
 import io.golos.domain.use_cases.posts.GetPostsUseCase
+import kotlinx.coroutines.flow.Flow
 
 interface CommunityPostModel : ModelBase,
     GetPostsUseCase,
@@ -15,6 +16,8 @@ interface CommunityPostModel : ModelBase,
     UnsubscribeToCommunityUseCase {
 
     val rewardCurrency: RewardCurrency
+
+    val rewardCurrencyUpdates: Flow<RewardCurrency?>
 
     suspend fun addToFavorite(permlink: String)
 

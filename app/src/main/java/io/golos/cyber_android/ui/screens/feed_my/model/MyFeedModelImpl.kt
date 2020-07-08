@@ -44,6 +44,9 @@ constructor(
     override val rewardCurrency: RewardCurrency
         get() = globalSettingsRepository.rewardCurrency
 
+    override val rewardCurrencyUpdates: Flow<RewardCurrency?>
+        get() = globalSettingsRepository.rewardCurrencyUpdates
+
     override suspend fun getUserId(userNameOrId: String): UserIdDomain =
         usersRepository.getUserId(userNameOrId)
 

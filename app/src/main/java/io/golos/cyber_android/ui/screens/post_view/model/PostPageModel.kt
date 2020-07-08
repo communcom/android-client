@@ -13,6 +13,7 @@ import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
 import io.golos.domain.use_cases.model.CommentModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.PostMetadata
+import kotlinx.coroutines.flow.Flow
 import java.io.File
 
 interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToCommunityUseCase {
@@ -23,6 +24,8 @@ interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToC
     val commentsPageSize: Int
 
     val rewardCurrency: RewardCurrency
+
+    val rewardCurrencyUpdates: Flow<RewardCurrency?>
 
     suspend fun loadPost()
 

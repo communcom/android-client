@@ -85,6 +85,7 @@ constructor(
 
         updateFilterAndLoadPosts()
         applyPostDonationSendListener()
+        applyRewardCurrencyListener()
     }
 
     fun loadFilter() {
@@ -102,6 +103,14 @@ constructor(
                         post.copy(donation = donationInfo.donation )
                     })
                 }
+            }
+        }
+    }
+
+    private fun applyRewardCurrencyListener() {
+        launch {
+            model.rewardCurrencyUpdates.collect {
+                it?.let { newRewardCurrency -> _rewardCurrency.value = newRewardCurrency }
             }
         }
     }

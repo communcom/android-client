@@ -68,6 +68,7 @@ constructor(
     init {
         RecordPostViewService.record(appContext, postContentId)
         applyPostDonationSendListener()
+        applyRewardCurrencyListener()
     }
 
     fun setup() {
@@ -398,6 +399,19 @@ constructor(
             postUpdateRegistry.donationSend.collect {
                 it?.let { donationInfo ->
                     model.updateDonation(donationInfo)
+                }
+            }
+        }
+    }
+
+    private fun applyRewardCurrencyListener() {
+        launch {
+            model.rewardCurrencyUpdates.collect {
+                it?.let { newRewardCurrency ->
+                    _postHeader.value?.reward?.let { oldReward ->
+                        val newReward = oldReward.copy(rewardCurrency = newRewardCurrency)
+                        _postHeader.value = _postHeader.value!!.copy(reward = newReward)
+                    }
                 }
             }
         }

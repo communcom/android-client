@@ -20,6 +20,8 @@ interface MyFeedModel : ModelBase,
 
     val rewardCurrency: RewardCurrency
 
+    val rewardCurrencyUpdates: Flow<RewardCurrency?>
+
     suspend fun addToFavorite(permlink: String)
 
     suspend fun removeFromFavorite(permlink: String)

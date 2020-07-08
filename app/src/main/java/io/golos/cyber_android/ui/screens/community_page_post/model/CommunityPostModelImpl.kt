@@ -9,6 +9,7 @@ import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
 import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
 import io.golos.domain.use_cases.posts.GetPostsUseCase
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -29,6 +30,9 @@ constructor(
 
     override val rewardCurrency: RewardCurrency
         get() = globalSettingsRepository.rewardCurrency
+
+    override val rewardCurrencyUpdates: Flow<RewardCurrency?>
+        get() = globalSettingsRepository.rewardCurrencyUpdates
 
     override suspend fun addToFavorite(permlink: String) {
         withContext(dispatchersProvider.ioDispatcher) {

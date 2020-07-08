@@ -95,6 +95,7 @@ constructor(
         applyPostCreatedChangeListener()
         applyPostUpdatedChangeListener()
         applyPostDonationSendListener()
+        applyRewardCurrencyListener()
     }
 
     override fun onShareClicked(shareUrl: String) {
@@ -354,6 +355,14 @@ constructor(
                         post.copy(donation = donationInfo.donation )
                     })
                 }
+            }
+        }
+    }
+
+    private fun applyRewardCurrencyListener() {
+        launch {
+            model.rewardCurrencyUpdates.collect {
+                it?.let { newRewardCurrency -> _rewardCurrency.value = newRewardCurrency }
             }
         }
     }

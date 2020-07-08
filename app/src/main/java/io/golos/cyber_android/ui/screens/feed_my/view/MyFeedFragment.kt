@@ -397,6 +397,10 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
                 btnRetry.visibility = View.INVISIBLE
             }
         })
+
+        viewModel.rewardCurrency.observe(viewLifecycleOwner, Observer {
+            (rvPosts.adapter as MyFeedAdapter).updateRewardCurrency(it)
+        })
     }
 
     override fun onDestroyView() {

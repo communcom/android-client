@@ -260,6 +260,10 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
                 }
             }
         })
+
+        viewModel.rewardCurrency.observe(viewLifecycleOwner, Observer {
+            (rvCommunityPosts.adapter as MyFeedAdapter).updateRewardCurrency(it)
+        })
     }
 
     private fun openPost(

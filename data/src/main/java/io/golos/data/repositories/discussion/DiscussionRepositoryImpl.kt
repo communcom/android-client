@@ -128,21 +128,10 @@ constructor(
             val donationQuery = posts.map { DonationPostModel(it.contentId.userId.name, it.contentId.permlink) }
 
             val rewardsAsync = async {
-                contentIds.map {
-                    RewardPostDomain(
-                        topCount = 2,
-                        collectionEnd = Date(),
-                        rewardValue = RewardValueDomain(1438.648, "CAT"),
-                        rewardValueCommun = 101.42,
-                        rewardValueUSD = 14.42,
-                        isClosed = true,
-                        contentId = ContentIdDomain(CommunityIdDomain(""), it.permlink, UserIdDomain(it.userId.name))
-                    )
-                }
-//                callProxy.call {
-//                    commun4j.getStateBulk(contentIds) }
-//                    .flatMap { it.value }
-//                    .map { it.mapToRewardPostDomain() }
+                callProxy
+                    .call { commun4j.getStateBulk(contentIds) }
+                    .flatMap { it.value }
+                    .map { it.mapToRewardPostDomain() }
             }
 
             val donationsAsync = async {
@@ -350,22 +339,11 @@ constructor(
         }
 
         val rewards = async {
-            contentIds.map {
-                RewardPostDomain(
-                    topCount = 2,
-                    collectionEnd = Date(),
-                    rewardValue = RewardValueDomain(1438.648, "CAT"),
-                    rewardValueCommun = 101.42,
-                    rewardValueUSD = 14.42,
-                    isClosed = true,
-                    contentId = ContentIdDomain(CommunityIdDomain(""), it.permlink, UserIdDomain(it.userId.name)))
-            }.first()
-
-                //            callProxy.call {
-//                commun4j.getStateBulk(contentIds) }
-//                .flatMap { it.value }
-//                .map { it.mapToRewardPostDomain() }
-//                .firstOrNull()
+            callProxy
+                .call { commun4j.getStateBulk(contentIds) }
+                .flatMap { it.value }
+                .map { it.mapToRewardPostDomain() }
+                .firstOrNull()
         }
 
         post.mapToPostDomain(user.name, rewards.await(), donations.await())

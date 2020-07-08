@@ -267,6 +267,10 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
                 btnRetry.visibility = View.INVISIBLE
             }
         })
+
+        viewModel.rewardCurrency.observe(viewLifecycleOwner, Observer {
+            (rvPosts.adapter as MyFeedAdapter).updateRewardCurrency(it)
+        })
     }
 
     private fun openPostReport(post: Post) {

@@ -29,6 +29,7 @@ import io.golos.use_cases.reward.getRewardValue
 import io.golos.use_cases.reward.isRewarded
 import io.golos.use_cases.reward.isTopReward
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
@@ -69,6 +70,9 @@ constructor(
 
     override val rewardCurrency: RewardCurrency
         get() = globalSettingsRepository.rewardCurrency
+
+    override val rewardCurrencyUpdates: Flow<RewardCurrency?>
+        get() = globalSettingsRepository.rewardCurrencyUpdates
 
     override suspend fun loadPost() {
         try {
