@@ -31,7 +31,7 @@ object CurrencyFormatter {
         val basePower = 3.0
 
         return if (value < 10.0.pow(basePower)) {
-            getFormatterFromTemplate("#.##").format(value)
+            getFormatterFromTemplate("#.###").format(value)
         } else {
             val unitIndex = (log10(value.toInt().toDouble()) / 3).toInt()
 

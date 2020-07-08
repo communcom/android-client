@@ -105,10 +105,14 @@ constructor(
         val serverActionType = serverItem.actionType.toUpperCase(Locale.getDefault())
         val serverTransferType = serverItem.transferType.toUpperCase(Locale.getDefault())
 
-        val direction = when(serverItem.directionType.toUpperCase(Locale.getDefault())) {
-            WalletHistoryConstants.DIRECTION_SEND -> WalletHistoryTransferDirection.SEND
-            WalletHistoryConstants.DIRECTION_RECEIVE -> WalletHistoryTransferDirection.RECEIVE
-             else -> return null
+        val direction = if(serverActionType == WalletHistoryConstants.ACTION_UNHOLD) {
+            WalletHistoryTransferDirection.RECEIVE
+        } else {
+            when(serverItem.directionType.toUpperCase(Locale.getDefault())) {
+                WalletHistoryConstants.DIRECTION_SEND -> WalletHistoryTransferDirection.SEND
+                WalletHistoryConstants.DIRECTION_RECEIVE -> WalletHistoryTransferDirection.RECEIVE
+                else -> return null
+            }
         }
 
         val transferType = when(serverActionType) {
