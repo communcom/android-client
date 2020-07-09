@@ -207,7 +207,7 @@ constructor(
         return when (typeObject) {
             TypeObjectDomain.USER -> FeedType.BY_USER
             TypeObjectDomain.COMMUNITY -> FeedType.TOP_LIKES
-            TypeObjectDomain.TRENDING -> FeedType.SUBSCRIPTION_POPULAR
+            TypeObjectDomain.TRENDING -> FeedType.TOP_LIKES
             TypeObjectDomain.MY_FEED -> FeedType.SUBSCRIPTION_POPULAR
         }
     }
