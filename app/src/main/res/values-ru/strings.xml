@@ -180,7 +180,6 @@
     <string name="phone_number">Номер телефона</string>
     <string name="phone_format">+%1$s (___) ___-__-__</string>
     <string name="phone_prefix_format">+%1$s (</string>
-    <string name="verification">Проверка</string>
     <string name="enter_sms_code">Введите SMS-код</string>
     <string name="resend_verification_code">Отправить проверочный код</string>
     <string name="resend_verification_code_w_time_format">Отправить проверочный код 0:%1$02d</string>
@@ -386,7 +385,7 @@
     <string name="voting_in_progress">Подожди, идет голосование</string>
     <string name="voting_one_leader">Ты можешь голосовать только за одного лидера</string>
     <string name="follow">Подписаться</string>
-    <string name="following">Подписчик</string>
+    <string name="following">Подписан</string>
     <string name="friends">Друзей</string>
     <string name="members">Участников</string>
     <string name="no_members">Нет участников</string>
