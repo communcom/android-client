@@ -135,10 +135,12 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
         val body = listItem.content
         val labelCommentDeleted = itemView.context.getString(R.string.comment_deleted)
         val contentList: List<Block> = body?.content ?: arrayListOf()
-        val newContentList = ArrayList<Block>(contentList)
+        var newContentList = contentList.toMutableList()
+
         ((body?.attachments) as? Block)?.let {
             newContentList.add(it)
         }
+
 
         val author = UserBriefDomain(listItem.author.avatarUrl, UserIdDomain(listItem.author.userId.userId), listItem.author.username)
         if (newContentList.isEmpty() && listItem.isDeleted) {
@@ -159,15 +161,41 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
         }
         val discussionId = listItem.externalId
         val contentId = ContentIdDomain(CommunityIdDomain(""), discussionId.permlink.value, UserIdDomain(discussionId.userId))
+
+        newContentList = joinParagraphs(newContentList)
+
         val contentItems = newContentList
             .filter { createPostBodyItem(contentId, it, listItemEventsProcessor, longClickListener) != null }
             .map {
                 createPostBodyItem(contentId, it, listItemEventsProcessor, longClickListener)!!
             }
+
         commentContentAdapter.updateAdapter(contentItems)
     }
 
-    private fun addAuthorNameToContent(newContentList: ArrayList<Block>, author: UserBriefDomain, paragraphWidgetListener: ParagraphWidgetListener) {
+    private fun joinParagraphs(source: List<Block>): MutableList<Block> {
+        val result = mutableListOf<Block>()
+
+        var blocksList: MutableList<ParagraphBlock>? = null
+        var blocksSet: ParagraphSet? = null
+
+        source.forEach {
+            if(it is ParagraphBlock) {
+                if(blocksSet == null) {
+                    blocksList = mutableListOf()
+                    blocksSet = ParagraphSet(blocksList!!)
+                    result.add(blocksSet!!)
+                }
+                blocksList!!.add(it)
+            } else {
+                result.add(it)
+            }
+        }
+
+        return result
+    }
+
+    private fun addAuthorNameToContent(newContentList: MutableList<Block>, author: UserBriefDomain, paragraphWidgetListener: ParagraphWidgetListener) {
         val findBlock = newContentList.find { it is TextBlock || it is ParagraphBlock }
         val authorBlock = ParagraphBlock(
             null,
@@ -264,7 +292,7 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
                 listItemEventsProcessor
             )
 
-            is ParagraphBlock -> CommentParagraphBlockItem(
+            is ParagraphSet -> CommentParagraphSetItem(
                 block,
                 listItemEventsProcessor,
                 contentId,
