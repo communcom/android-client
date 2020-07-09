@@ -399,16 +399,23 @@
     <string name="no_posts_not_found">Сообщения не найдены</string>
     <string name="no_comments_written">Ты еще не написал ни одного комментария</string>
     <string name="new_notifications_label">%1$d новые уведомления</string>
-    <string name="subscribed_to_you">подписан на тебя</string>
+    <string name="subscribed_to_you">подписался на тебя</string>
     <string name="no_notifications">Нет уведомлений</string>
     <string name="no_notifications_explanation">Ты еще не получили никаких уведомлений</string>
     <string name="mention_on_comment">упомянул тебя в комментарии:</string>
     <string name="mention_on_post">упомянул тебя в посте:</string>
-    <string name="left_comment">оставил комментарий:</string>
-    <string name="liked_your_post">понравился твой пост</string>
-    <string name="liked_your_comment">понравился твой комментарий</string>
+    <string name="left_comment">прокомментировал:</string>
+    <string name="liked_your_post">лайкнул твой пост:</string>
+    <string name="liked_your_comment">лайкнул твой комментарий:</string>
     <string name="up_vote_message_content">: \u0022%1$s\u0022</string>
-    <string name="sent_you">отправил вам {0} {1}</string>
+    <string name="sent_you">Получено {0} поинтов {1}</string>
+    <string name="referral_registration">Получены реферальные бонусы за регистрацию</string>
+    <string name="referral_purchase1">Получено</string>
+    <string name="referral_purchase2">Реферальный бонус -</string>
+    <string name="referral_purchase3">% от покупки</string>
+    <string name="referral_purchase4"></string>
+    <string name="donate_your_post">задонатил вашему посту: \"{0}…\"</string>
+
     <string name="you_have_got">У тебя есть</string>
     <string name="today">Cегодня</string>
     <string name="yesterday">Вчера</string>
@@ -529,4 +536,5 @@
     <string name="upvote">Лайк</string>
     <string name="mention">Упоминание</string>
     <string name="subsribe">Подписаться</string>
+
 </resources>
