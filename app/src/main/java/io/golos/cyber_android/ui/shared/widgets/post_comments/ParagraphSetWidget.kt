@@ -113,6 +113,7 @@ constructor(
 
             if(paragraphSetIndex < block.paragraphs.indices.last) {
                 builder.appendln()
+                builder.appendln()
             }
         }
 

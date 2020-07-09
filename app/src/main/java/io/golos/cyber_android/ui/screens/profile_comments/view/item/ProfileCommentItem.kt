@@ -93,7 +93,8 @@ class ProfileCommentItem(
             val body = comment.body
             val labelCommentDeleted = itemView.context.getString(R.string.comment_deleted)
             val contentList: List<Block> = body?.content ?: arrayListOf()
-            val newContentList = ArrayList(contentList)
+            var newContentList = contentList.toMutableList()
+
             ((body?.attachments) as? Block)?.let {
                 newContentList.add(it)
             }
@@ -115,6 +116,9 @@ class ProfileCommentItem(
             } else {
                 addAuthorNameToContent(newContentList, comment)
             }
+
+            newContentList = joinParagraphs(newContentList)
+
             val contentItems = newContentList
                 .filter { createPostBodyItem(listItem.comment, it, listItemEventsProcessor, longClickListener) != null }
                 .map {
@@ -124,7 +128,29 @@ class ProfileCommentItem(
         }
     }
 
-    private fun addAuthorNameToContent(newContentList: ArrayList<Block>, comment: Comment) {
+    private fun joinParagraphs(source: List<Block>): MutableList<Block> {
+        val result = mutableListOf<Block>()
+
+        var blocksList: MutableList<ParagraphBlock>? = null
+        var blocksSet: ParagraphSet? = null
+
+        source.forEach {
+            if(it is ParagraphBlock) {
+                if(blocksSet == null) {
+                    blocksList = mutableListOf()
+                    blocksSet = ParagraphSet(blocksList!!)
+                    result.add(blocksSet!!)
+                }
+                blocksList!!.add(it)
+            } else {
+                result.add(it)
+            }
+        }
+
+        return result
+    }
+
+    private fun addAuthorNameToContent(newContentList: MutableList<Block>, comment: Comment) {
         val findBlock = newContentList.find { it is TextBlock || it is ParagraphBlock }
         val authorBlock = ParagraphBlock(
             null,
@@ -234,7 +260,7 @@ class ProfileCommentItem(
                 listItemEventsProcessor
             )
 
-            is ParagraphBlock -> CommentParagraphBlockItem(
+            is ParagraphSet -> CommentParagraphSetItem(
                 block,
                 listItemEventsProcessor,
                 comment.contentId,
