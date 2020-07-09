@@ -537,4 +537,23 @@
     <string name="mention">Упоминание</string>
     <string name="subsribe">Подписаться</string>
 
+    <string name="email_already_taken_error">Этот email уже зарегистрирован</string>
+    <string name="my_feed_community">Моя лента</string>
+    <string name="continue_with_email">Использовать Email</string>
+    <string name="email_address">Твой email</string>
+    <string name="enter_code">Введи код</string>
+    <string name="phone_verification">Подтверждение телефона</string>
+    <string name="email_verification">Подтверждение email</string>
+    <string name="enter_email_code">Письмо с кодом подтверждения было отправлено. Пожалуйста, введи этот код</string>
+    <string name="donation">Донаты</string>
+    <string name="donate_popup">Донат:</string>
+    <string name="donate_points_popup">поинтов</string>
+    <string name="donate_title">Донат</string>
+    <string name="donate_successful">Донат успешен</string>
+    <string name="show_in">Показать в</string>
+    <string name="usd_currency">USD</string>
+    <string name="commun_currency">Commun</string>
+    <string name="commun_currency_brief">CMN</string>
+    <string name="points_currency">Поинты сообщества</string>
+
 </resources>
