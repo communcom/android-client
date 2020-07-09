@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
+import io.golos.cyber_android.ui.screens.app_start.data.enums.Languages
 import io.golos.cyber_android.ui.screens.app_start.sign_in.activity.SignInActivity
 import io.golos.cyber_android.ui.screens.app_start.sign_up.activity.SignUpActivity
 import io.golos.domain.analytics.AnalyticsFacade
@@ -24,6 +25,7 @@ import io.golos.cyber_android.ui.screens.app_start.welcome.activity.di.WelcomeAc
 import io.golos.cyber_android.ui.shared.base.FragmentBaseCoroutines
 import io.golos.cyber_android.ui.shared.utils.ViewUtils
 import kotlinx.android.synthetic.main.fragment_welcome.*
+import java.util.*
 import javax.inject.Inject
 
 class WelcomeFragment : FragmentBaseCoroutines() {
@@ -134,48 +136,97 @@ class WelcomeFragment : FragmentBaseCoroutines() {
     private fun getFirstSlideText(): Spannable {
         val text = SpannableStringBuilder(getString(R.string.welcome_slides_sub_text_1))
 
-        val blueColor = ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.blue))
-        val blackColor = ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.dark_gray_2))
+        when (getLanguage()) {
+            Languages.RUSSIAN -> {
+                // Maybe we can get the color code and use it instead of using a double overlay ?
+                val blackColor = ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.dark_gray_2))
 
-        text.setSpan(blackColor, 0, text.length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
-        text.setSpan(blueColor, 45, 53, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+                text.setSpan(blackColor, 0, text.length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+                text.setSpan(blackColor, 0, text.length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+            }
+            else -> {
+                val blueColor = ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.blue))
+                val blackColor = ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.dark_gray_2))
+
+                text.setSpan(blackColor, 0, text.length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+                text.setSpan(blueColor, 45, 53, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+            }
+        }
 
         return text
     }
 
     private fun getSecondSlideHeaderText(): Spannable {
-        val secondSlideTextBegin = SpannableStringBuilder(getString(R.string.welcome_slides_text_1))
-        secondSlideTextBegin.setSpan(
-            StyleSpan(BOLD),
-            0,
-            secondSlideTextBegin.length,
-            Spannable.SPAN_INCLUSIVE_EXCLUSIVE
-        )
-        val secondSlideTextEnd = SpannableStringBuilder(getString(R.string.welcome_slides_text_1_1))
-        return SpannableStringBuilder(TextUtils.concat(secondSlideTextBegin, secondSlideTextEnd))
+        return when (getLanguage()) {
+            Languages.RUSSIAN -> {
+                val secondSlideTextBegin = SpannableStringBuilder(getString(R.string.welcome_slides_text_1))
+                val secondSlideTextEnd = SpannableStringBuilder(getString(R.string.welcome_slides_text_1_1))
+                secondSlideTextEnd.setSpan(StyleSpan(BOLD), 1, secondSlideTextBegin.length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+                SpannableStringBuilder(TextUtils.concat(secondSlideTextBegin, secondSlideTextEnd))
+            }
+            else -> {
+                val secondSlideTextBegin = SpannableStringBuilder(getString(R.string.welcome_slides_text_1))
+                secondSlideTextBegin.setSpan(StyleSpan(BOLD), 0, secondSlideTextBegin.length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+                val secondSlideTextEnd = SpannableStringBuilder(getString(R.string.welcome_slides_text_1_1))
+                SpannableStringBuilder(TextUtils.concat(secondSlideTextBegin, secondSlideTextEnd))
+            }
+        }
     }
 
     private fun getSecondSlideText(): Spannable {
         val text = SpannableStringBuilder(getString(R.string.welcome_slides_sub_text_2))
 
-        val blueColor = ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.blue))
-        val blackColor = ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.dark_gray_2))
+        when (getLanguage()) {
+            Languages.RUSSIAN -> {
+                val blackColor = ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.dark_gray_2))
 
-        text.setSpan(blackColor, 0, text.length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
-        text.setSpan(blueColor, 38, 47, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+                text.setSpan(blackColor, 0, text.length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+                text.setSpan(blackColor, 0, text.length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+            }
+            else -> {
+                val blueColor = ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.blue))
+                val blackColor = ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.dark_gray_2))
+
+                text.setSpan(blackColor, 0, text.length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+                text.setSpan(blueColor, 38, 47, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+            }
+        }
+
         return text
     }
 
     private fun getFourthSlideHeaderText(): Spannable {
-        val fourthSlideTextBegin = SpannableStringBuilder(getString(R.string.welcome_slides_text_3))
-        fourthSlideTextBegin.setSpan(
-            StyleSpan(BOLD),
-            0,
-            fourthSlideTextBegin.length,
-            Spannable.SPAN_INCLUSIVE_EXCLUSIVE
-        )
-        val fourthSlideTextEnd = SpannableStringBuilder(getString(R.string.welcome_slides_text_3_1))
-        return SpannableStringBuilder(TextUtils.concat(fourthSlideTextBegin, " ", fourthSlideTextEnd))
+        when(getLanguage()) {
+            Languages.RUSSIAN -> {
+                val fourthSlideTextBegin = SpannableStringBuilder(getString(R.string.welcome_slides_text_3))
+                fourthSlideTextBegin.setSpan(
+                    StyleSpan(BOLD),
+                    0,
+                    fourthSlideTextBegin.length,
+                    Spannable.SPAN_INCLUSIVE_EXCLUSIVE
+                )
+                val fourthSlideTextEnd = SpannableStringBuilder(getString(R.string.welcome_slides_text_3_1))
+                fourthSlideTextEnd.setSpan(
+                    StyleSpan(BOLD),
+                    0,
+                    fourthSlideTextBegin.length,
+                    Spannable.SPAN_INCLUSIVE_EXCLUSIVE
+                )
+                return SpannableStringBuilder(TextUtils.concat(fourthSlideTextBegin, " ", fourthSlideTextEnd))
+            }
+            else -> {
+                val fourthSlideTextBegin = SpannableStringBuilder(getString(R.string.welcome_slides_text_3))
+                fourthSlideTextBegin.setSpan(
+                    StyleSpan(BOLD),
+                    0,
+                    fourthSlideTextBegin.length,
+                    Spannable.SPAN_INCLUSIVE_EXCLUSIVE
+                )
+                val fourthSlideTextEnd = SpannableStringBuilder(getString(R.string.welcome_slides_text_3_1))
+                return SpannableStringBuilder(TextUtils.concat(fourthSlideTextBegin, " ", fourthSlideTextEnd))
+            }
+        }
+
     }
 
     private fun getFourthSlideText(): Spannable {
@@ -197,6 +248,10 @@ class WelcomeFragment : FragmentBaseCoroutines() {
         val startMainScreenIntent = Intent(requireActivity(), SignUpActivity::class.java)
         requireActivity().startActivity(startMainScreenIntent)
         requireActivity().finish()
+    }
+
+    private fun getLanguage(): Languages? {
+        return Languages.getLanguageName(Locale.getDefault().language)
     }
 }
 

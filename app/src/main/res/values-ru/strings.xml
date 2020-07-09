@@ -131,21 +131,21 @@
     <string name="sign_in">Войти</string>
     <string name="start_and_get">Начать и получить 30 поинтов</string>
     <string name="welcome">Добро пожаловать</string>
-    <string name="welcome_slides_text_0_0"></string>
-    <string name="welcome_slides_text_0_1"></string>
-    <string name="welcome_slides_text_1"></string>
-    <string name="welcome_slides_text_1_1"></string>
-    <string name="welcome_slides_text_2"></string>
-    <string name="welcome_slides_text_2_1"></string>
-    <string name="welcome_slides_text_3"></string>
-    <string name="welcome_slides_text_3_1"></string>
+    <string name="welcome_slides_text_0_0">Добро пожаловать\n</string>
+    <string name="welcome_slides_text_0_1">на Commun /</string>
+    <string name="welcome_slides_text_1">Весь контент\n</string>
+    <string name="welcome_slides_text_1_1">в одном месте!</string>
+    <string name="welcome_slides_text_2">Monetize\n</string>
+    <string name="welcome_slides_text_2_1">your socialization</string>
+    <string name="welcome_slides_text_3">Принадлежит\n</string>
+    <string name="welcome_slides_text_3_1">пользователям</string>
     <string name="account_query">Нет аккаунта?</string>
     <string name="continue_with_phone">Использовать телефон</string>
     <string name="continue_with_google">Использовать Google</string>
     <string name="continue_with_facebook">Использовать Facebook</string>
-    <string name="welcome_slides_sub_text_1">Найдите свою сообщество и сделайте ее центром вашего общения с единомышленниками.</string>
-    <string name="welcome_slides_sub_text_2">Создавайте посты, комментарии, лайки и получайте \nпоинты сообщества</string>
-    <string name="welcome_slides_sub_text_4"></string>
+    <string name="welcome_slides_sub_text_1">Социальную сеть на технологиях Блокчейн\nЗдесь вы зарабатываете награды за посты лайки и комментарии.</string>
+    <string name="welcome_slides_sub_text_2">Подписывайся на лучшие сообщества и\nзарабатывай награды</string>
+    <string name="welcome_slides_sub_text_4">Благодаря блокчейну Commun полностью\nпринадлежит и управляется пользователями</string>
 
     <!--Sign In-->
     <string name="login">Войти</string>
