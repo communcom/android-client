@@ -22,27 +22,23 @@ import io.golos.cyber_android.ui.screens.post_view.view_model.PostPageViewModelL
 import io.golos.cyber_android.ui.shared.base.adapter.BaseRecyclerItem
 import io.golos.cyber_android.ui.shared.base.adapter.RecyclerAdapter
 import io.golos.cyber_android.ui.shared.characters.SpecialChars
-import io.golos.utils.getColorRes
-import io.golos.utils.format.TimeEstimationFormatter
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
 import io.golos.cyber_android.ui.shared.widgets.post_comments.ParagraphWidgetListener
-import io.golos.cyber_android.ui.shared.widgets.post_comments.voting.VotingWidget
 import io.golos.cyber_android.ui.shared.widgets.post_comments.items.*
-import io.golos.domain.dto.CommunityIdDomain
-import io.golos.domain.dto.ContentIdDomain
-import io.golos.domain.dto.UserBriefDomain
-import io.golos.domain.dto.UserIdDomain
+import io.golos.cyber_android.ui.shared.widgets.post_comments.voting.VotingWidget
+import io.golos.domain.dto.*
+import io.golos.domain.posts_parsing_rendering.post_metadata.TextStyle
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.*
+import io.golos.domain.use_cases.model.DiscussionAuthorModel
+import io.golos.utils.format.TimeEstimationFormatter
+import io.golos.utils.getColorRes
+import io.golos.utils.helpers.SPACE
 import io.golos.utils.helpers.appendSpannedText
 import io.golos.utils.helpers.appendText
 import io.golos.utils.helpers.setSpan
-import io.golos.domain.use_cases.model.DiscussionAuthorModel
-import io.golos.domain.use_cases.model.DiscussionMetadataModel
-import io.golos.domain.posts_parsing_rendering.post_metadata.TextStyle
-import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.*
 import io.golos.utils.id.IdUtil
-import io.golos.utils.helpers.SPACE
 import javax.inject.Inject
 
 @Suppress("PropertyName")
@@ -113,7 +109,7 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
 
     abstract fun inject()
 
-    abstract fun getParentAuthor(listItem: T): DiscussionAuthorModel?
+    abstract fun getParentAuthor(listItem: T): UserBriefDomain?
 
     private fun loadAvatarIcon(avatarUrl: String?) = _userAvatar.loadAvatar(avatarUrl)
 
@@ -160,7 +156,7 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
             addAuthorNameToContent(newContentList, author, listItemEventsProcessor)
         }
         val discussionId = listItem.externalId
-        val contentId = ContentIdDomain(CommunityIdDomain(""), discussionId.permlink.value, UserIdDomain(discussionId.userId))
+        val contentId = ContentIdDomain(CommunityIdDomain(""), discussionId.permlink, discussionId.userId)
 
         newContentList = joinParagraphs(newContentList)
 
@@ -343,15 +339,15 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
         _voting.setOnUpVoteButtonClickListener { eventsProcessor.onCommentUpVoteClick(listItem.externalId) }
         _voting.setOnDownVoteButtonClickListener { eventsProcessor.onCommentDownVoteClick(listItem.externalId) }
 
-        val contentId = ContentIdDomain(
-            communityId = ,
-            permlink: String,
-            userId: UserIdDomain
-        )
-        _voting.setOnDonateClickListener { eventsProcessor.onDonateClick(it, ) }
+//        val contentId = ContentIdDomain(
+//            communityId = ,
+//            permlink: String,
+//            userId: UserIdDomain
+//        )
+//        _voting.setOnDonateClickListener { eventsProcessor.onDonateClick(it, ) }
     }
 
-    private fun getReplyAndTimeText(context: Context, metadata: DiscussionMetadataModel): SpannableStringBuilder {
+    private fun getReplyAndTimeText(context: Context, metadata: MetaDomain): SpannableStringBuilder {
         val result = SpannableStringBuilder()
 
         // Reply label
@@ -363,7 +359,7 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
         result.appendSpannedText(context.resources.getString(R.string.reply), replySpan)
 
         // Time
-        val time = TimeEstimationFormatter.format(metadata.time, context)
+        val time = TimeEstimationFormatter.format(metadata.creationTime, context)
         result.append(" ${SpecialChars.BULLET} ")
         result.append(time)
 

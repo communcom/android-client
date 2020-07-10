@@ -19,13 +19,11 @@ import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListIte
 import io.golos.cyber_android.ui.shared.widgets.comment.CommentContent
 import io.golos.cyber_android.ui.shared.widgets.comment.ContentState
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.*
 import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.EditorOutputToJsonMapper
 import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.EmbedMetadata
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.exceptions.ApiResponseErrorException
-import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.json.JSONArray
@@ -182,9 +180,9 @@ constructor(
         _command.value = ShowDonationUsersDialogCommand(donates)
     }
 
-    override fun onCommentUpVoteClick(commentId: DiscussionIdModel) = voteForComment(commentId, true)
+    override fun onCommentUpVoteClick(commentId: ContentIdDomain) = voteForComment(commentId, true)
 
-    override fun onCommentDownVoteClick(commentId: DiscussionIdModel) = voteForComment(commentId, false)
+    override fun onCommentDownVoteClick(commentId: ContentIdDomain) = voteForComment(commentId, false)
 
     fun onUserInHeaderClick(userId: String) = onUserClicked(userId)
 
@@ -301,17 +299,17 @@ constructor(
 
     override fun onRetryLoadingFirstLevelCommentButtonClick() = processSimple { model.retryLoadingFirstLevelCommentsPage() }
 
-    override fun onCollapsedCommentsClick(parentCommentId: DiscussionIdModel) =
+    override fun onCollapsedCommentsClick(parentCommentId: ContentIdDomain) =
         processSimple {
             model.loadNextSecondLevelCommentsPage(parentCommentId)
         }
 
-    override fun onRetryLoadingSecondLevelCommentButtonClick(parentCommentId: DiscussionIdModel) =
+    override fun onRetryLoadingSecondLevelCommentButtonClick(parentCommentId: ContentIdDomain) =
         processSimple {
             model.retryLoadingSecondLevelCommentsPage(parentCommentId)
         }
 
-    override fun onCommentLongClick(commentId: DiscussionIdModel) {
+    override fun onCommentLongClick(commentId: ContentIdDomain) {
         val comment = model.getComment(commentId)
         if(comment?.isMyComment == true){
             _command.value =
@@ -344,12 +342,10 @@ constructor(
                         model.sendComment(contentAsJson)
                     }
                     ContentState.EDIT -> {
-                        val currentMessageId = commentContent.contentId!!
-                        model.updateComment(DiscussionIdModel(currentMessageId.userId.userId, Permlink(currentMessageId.permlink)), contentAsJson)
+                        model.updateComment(commentContent.contentId!!, contentAsJson)
                     }
                     ContentState.REPLY -> {
-                        val repliedMessageId = commentContent.contentId!!
-                        model.replyToComment(DiscussionIdModel(repliedMessageId.userId.userId, Permlink(repliedMessageId.permlink)), contentAsJson)
+                        model.replyToComment(commentContent.contentId!!, contentAsJson)
                     }
                 }
 
@@ -363,18 +359,17 @@ constructor(
         }
     }
 
-    fun deleteComment(commentId: DiscussionIdModel) =
+    fun deleteComment(commentId: ContentIdDomain) =
         processSimple {
             model.deleteComment(commentId)
         }
 
-    fun startEditComment(commentId: DiscussionIdModel) = startReplyOrEditComment {
+    fun startEditComment(commentId: ContentIdDomain) = startReplyOrEditComment {
         val comment = model.getComment(commentId)
         comment?.let {
             val contentBlock = comment.body
             val discussionIdModel = comment.contentId
-            val commentContentId = ContentIdDomain(
-                postContentId.communityId, discussionIdModel.permlink.value, UserIdDomain(discussionIdModel.userId))
+            val commentContentId = ContentIdDomain(postContentId.communityId, discussionIdModel.permlink, discussionIdModel.userId)
             _command.value = NavigateToEditComment(
                 commentContentId,
                 contentBlock
@@ -382,14 +377,14 @@ constructor(
         }
     }
 
-    override fun startReplyToComment(commentToReplyId: DiscussionIdModel) = startReplyOrEditComment {
+    override fun startReplyToComment(commentToReplyId: ContentIdDomain) = startReplyOrEditComment {
         val comment = model.getComment(commentToReplyId)
         comment?.let {
             val contentBlock = comment.body
             val parentContentId = ContentIdDomain(
                 postContentId.communityId,
-                commentToReplyId.permlink.value,
-                UserIdDomain(commentToReplyId.userId))
+                commentToReplyId.permlink,
+                commentToReplyId.userId)
             _command.value = NavigateToReplyCommentViewCommand(
                 parentContentId,
                 contentBlock
@@ -420,7 +415,7 @@ constructor(
         }
     }
 
-    private fun voteForComment(commentId: DiscussionIdModel, isUpVote: Boolean) =
+    private fun voteForComment(commentId: ContentIdDomain, isUpVote: Boolean) =
         processSimple { model.voteForComment(postContentId.communityId, commentId, isUpVote) }
 
     private fun processSimple(action: suspend () -> Unit) {

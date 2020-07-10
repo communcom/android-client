@@ -25,8 +25,6 @@ import io.golos.domain.use_cases.UseCase
 import io.golos.domain.use_cases.images.ImageUploadUseCase
 import io.golos.domain.use_cases.model.*
 import io.golos.domain.use_cases.publish.EmbedsUseCase
-import io.golos.domain.mappers.new_mappers.CommentToModelMapper
-import io.golos.domain.mappers.new_mappers.CommentToModelMapperImpl
 
 @Module
 abstract class UIModuleBinds {
@@ -41,10 +39,6 @@ abstract class UIModuleBinds {
 
     @Binds
     abstract fun getImageUploadUseCase(useCase: ImageUploadUseCase): UseCase<UploadedImagesModel>
-
-    @UIScope
-    @Binds
-    abstract fun provideCommentToModelMapper(mapper: CommentToModelMapperImpl): CommentToModelMapper
 
     @Binds
     abstract fun provideBitmapUtils(utils: BitmapsUtilsImpl): BitmapsUtils

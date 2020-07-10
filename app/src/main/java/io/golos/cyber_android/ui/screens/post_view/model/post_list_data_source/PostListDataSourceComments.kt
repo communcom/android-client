@@ -1,9 +1,9 @@
 package io.golos.cyber_android.ui.screens.post_view.model.post_list_data_source
 
 import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.CommentListItemState
-import io.golos.domain.use_cases.model.CommentModel
-import io.golos.domain.use_cases.model.DiscussionAuthorModel
-import io.golos.domain.use_cases.model.DiscussionIdModel
+import io.golos.domain.dto.CommentDomain
+import io.golos.domain.dto.ContentIdDomain
+import io.golos.domain.dto.UserBriefDomain
 
 interface PostListDataSourceComments {
     /**
@@ -20,29 +20,29 @@ interface PostListDataSourceComments {
 
     suspend fun removeEmptyCommentsStub()
 
-    suspend fun addFirstLevelComments(comments: List<CommentModel>)
+    suspend fun addFirstLevelComments(comments: List<CommentDomain>)
 
     /**
      * Adds second-level Loading indicator
      */
-    suspend fun addLoadingCommentsIndicator(parentCommentId: DiscussionIdModel, commentsAdded: Int)
+    suspend fun addLoadingCommentsIndicator(parentCommentId: ContentIdDomain, commentsAdded: Int)
 
     /**
      * Adds second-level Retry button
      */
-    suspend fun addRetryLoadingComments(parentCommentId: DiscussionIdModel, commentsAdded: Int)
+    suspend fun addRetryLoadingComments(parentCommentId: ContentIdDomain, commentsAdded: Int)
 
     /**
      * [repliedAuthors] - id of all loaded comments and their authors
      */
     suspend fun addSecondLevelComments(
-        parentCommentId: DiscussionIdModel,
-        comments: List<CommentModel>,
-        repliedAuthors: Map<DiscussionIdModel, DiscussionAuthorModel>,
+        parentCommentId: ContentIdDomain,
+        comments: List<CommentDomain>,
+        repliedAuthors: Map<ContentIdDomain, UserBriefDomain>,
         commentsAdded: Int,
         totalComments: Int,
         isEndOfDataReached: Boolean,
-        nextTopCommentAuthor: DiscussionAuthorModel?
+        nextTopCommentAuthor: UserBriefDomain?
     )
 
     /**
@@ -55,28 +55,28 @@ interface PostListDataSourceComments {
      */
     suspend fun removeLoadingForNewComment()
 
-    suspend fun addNewComment(comment: CommentModel)
+    suspend fun addNewComment(comment: CommentDomain)
 
-    suspend fun updateCommentState(commentId: DiscussionIdModel, state: CommentListItemState)
+    suspend fun updateCommentState(commentId: ContentIdDomain, state: CommentListItemState)
 
-    suspend fun deleteComment(commentId: DiscussionIdModel)
+    suspend fun deleteComment(commentId: ContentIdDomain)
 
     suspend fun deleteCommentsHeader()
 
-    suspend fun updateComment(newComment: CommentModel)
+    suspend fun updateComment(newComment: CommentDomain)
 
-    suspend fun addLoadingForRepliedComment(repliedCommentId: DiscussionIdModel)
+    suspend fun addLoadingForRepliedComment(repliedCommentId: ContentIdDomain)
 
     suspend fun addReplyComment(
-        repliedCommentId: DiscussionIdModel,
-        repliedCommentAuthor: DiscussionAuthorModel,
+        repliedCommentId: ContentIdDomain,
+        repliedCommentAuthor: UserBriefDomain,
         repliedCommentLevel: Int,
-        commentModel: CommentModel)
+        commentModel: CommentDomain)
 
-    suspend fun removeLoadingForRepliedComment(repliedCommentId: DiscussionIdModel)
+    suspend fun removeLoadingForRepliedComment(repliedCommentId: ContentIdDomain)
 
     suspend fun updateCommentVoteStatus(
-        commentId: DiscussionIdModel,
+        commentId: ContentIdDomain,
         isUpVoteActive: Boolean?,
         isDownVoteActive: Boolean?,
         voteBalanceDelta: Long)

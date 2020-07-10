@@ -27,14 +27,9 @@ import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCaseImpl
 import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
 import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCaseImpl
-import io.golos.domain.use_cases.feed.PostWithCommentUseCase
-import io.golos.domain.use_cases.feed.PostWithCommentUseCaseImpl
 
 @Module
 abstract class PostPageFragmentModuleBinds {
-    @Binds
-    abstract fun providePostWithCommentsUseCase(useCase: PostWithCommentUseCaseImpl): PostWithCommentUseCase
-
     @Binds
     abstract fun bindViewModelFactory(factory: FragmentViewModelFactoryImpl): FragmentViewModelFactory
 

@@ -23,7 +23,6 @@ import io.golos.domain.repositories.GlobalSettingsRepository
 import io.golos.domain.repositories.UsersRepository
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
 import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
-import io.golos.domain.use_cases.model.CommentModel
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.use_cases.reward.getRewardValue
 import io.golos.use_cases.reward.isRewarded
@@ -163,7 +162,7 @@ constructor(
         postDomain = postPageVotingUseCase.get().downVote(postDomain, communityId, userId, permlink)
     }
 
-    override suspend fun voteForComment(communityId: CommunityIdDomain, commentId: DiscussionIdModel, isUpVote: Boolean) =
+    override suspend fun voteForComment(communityId: CommunityIdDomain, commentId: ContentIdDomain, isUpVote: Boolean) =
         commentsProcessing.vote(communityId, commentId, isUpVote)
 
     override suspend fun updateCommentsSorting(sortingType: SortingType) = postListDataSource.updateCommentsSorting(sortingType)
@@ -174,10 +173,10 @@ constructor(
 
     override suspend fun retryLoadingFirstLevelCommentsPage() = commentsProcessing.retryLoadFirstLevelPage()
 
-    override suspend fun loadNextSecondLevelCommentsPage(parentCommentId: DiscussionIdModel) =
+    override suspend fun loadNextSecondLevelCommentsPage(parentCommentId: ContentIdDomain) =
         commentsProcessing.loadNextSecondLevelPage(parentCommentId)
 
-    override suspend fun retryLoadingSecondLevelCommentsPage(parentCommentId: DiscussionIdModel) =
+    override suspend fun retryLoadingSecondLevelCommentsPage(parentCommentId: ContentIdDomain) =
         commentsProcessing.retryLoadSecondLevelPage(parentCommentId)
 
     override suspend fun sendComment(jsonBody: String) {
@@ -191,7 +190,7 @@ constructor(
         )
     }
 
-    override suspend fun deleteComment(commentId: DiscussionIdModel) {
+    override suspend fun deleteComment(commentId: ContentIdDomain) {
         val totalComments = postDomain.stats?.commentsCount ?: 0
 
         commentsProcessing.deleteComment(commentId, totalComments == 1)
@@ -213,21 +212,17 @@ constructor(
         }
     }
 
-    override fun getCommentText(commentId: DiscussionIdModel): List<CharSequence> =
+    override fun getCommentText(commentId: ContentIdDomain): List<CharSequence> =
         commentsProcessing.getCommentText(commentId)
 
-    override fun getComment(commentId: ContentIdDomain): CommentModel? {
+    override fun getComment(commentId: ContentIdDomain): CommentDomain? {
         return commentsProcessing.getComment(commentId)
     }
 
-    override fun getComment(discussionIdModel: DiscussionIdModel): CommentModel? {
-        return commentsProcessing.getComment(discussionIdModel)
-    }
-
-    override suspend fun updateComment(commentId: DiscussionIdModel, jsonBody: String) =
+    override suspend fun updateComment(commentId: ContentIdDomain, jsonBody: String) =
         commentsProcessing.updateComment(commentId, jsonBody)
 
-    override suspend fun replyToComment(repliedCommentId: DiscussionIdModel, jsonBody: String) =
+    override suspend fun replyToComment(repliedCommentId: ContentIdDomain, jsonBody: String) =
         commentsProcessing.replyToComment(repliedCommentId, jsonBody)
 
     override fun isTopReward(): Boolean? = postDomain.reward.isTopReward()

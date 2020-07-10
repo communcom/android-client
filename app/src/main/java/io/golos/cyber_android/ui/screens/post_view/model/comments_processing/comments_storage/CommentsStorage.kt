@@ -1,16 +1,16 @@
 package io.golos.cyber_android.ui.screens.post_view.model.comments_processing.comments_storage
 
-import io.golos.domain.use_cases.model.CommentModel
-import io.golos.domain.use_cases.model.DiscussionIdModel
+import io.golos.domain.dto.CommentDomain
+import io.golos.domain.dto.ContentIdDomain
 
 interface CommentsStorage {
-    fun addPostedComment(comment: CommentModel)
+    fun addPostedComment(comment: CommentDomain)
 
-    fun addComment(comment: CommentModel)
+    fun addComment(comment: CommentDomain)
 
-    fun isCommentPosted(id: DiscussionIdModel): Boolean
+    fun isCommentPosted(id: ContentIdDomain): Boolean
 
-    fun getComment(id: DiscussionIdModel): CommentModel?
+    fun getComment(id: ContentIdDomain): CommentDomain?
 
-    fun updateComment(newComment: CommentModel)
+    fun updateComment(newComment: CommentDomain)
 }

@@ -29,7 +29,6 @@ import io.golos.domain.dto.UploadedImageEntity
 import io.golos.domain.extensions.map
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.use_cases.UseCase
-import io.golos.domain.use_cases.feed.PostWithCommentUseCaseImpl
 import io.golos.domain.use_cases.model.*
 import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.ControlMetadata
 import kotlinx.coroutines.Job
@@ -56,7 +55,6 @@ constructor(
     dispatchersProvider: DispatchersProvider,
     private val embedsUseCase: UseCase<ProccesedLinksModel>,
     private val imageUploadUseCase: UseCase<UploadedImagesModel>,
-    private val postUseCase: PostWithCommentUseCaseImpl?,
     private val contentId: ContentIdDomain?,
     model: EditorPageModel
 ) : ViewModelBase<EditorPageModel>(
@@ -216,7 +214,6 @@ constructor(
     override fun onCleared() {
         super.onCleared()
         embedsUseCase.unsubscribe()
-        postUseCase?.unsubscribe()
         imageUploadUseCase.unsubscribe()
         getFileUploadingStateLiveData.removeObserver(imageUploadObserver)
         //postUseCase?.getPostAsLiveData?.removeObserver(postToEditObserver)

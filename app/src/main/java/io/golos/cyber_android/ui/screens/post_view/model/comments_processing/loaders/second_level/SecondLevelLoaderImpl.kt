@@ -4,30 +4,21 @@ import io.golos.cyber_android.ui.screens.post_view.model.comments_processing.com
 import io.golos.cyber_android.ui.screens.post_view.model.comments_processing.loaders.CommentsLoaderBase
 import io.golos.cyber_android.ui.screens.post_view.model.post_list_data_source.PostListDataSourceComments
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.dto.CommentDomain
-import io.golos.domain.dto.ContentIdDomain
-import io.golos.domain.dto.ParentCommentIdentifierDomain
-import io.golos.domain.dto.UserIdDomain
-import io.golos.domain.mappers.new_mappers.CommentToModelMapper
-import io.golos.domain.repositories.CurrentUserRepository
+import io.golos.domain.dto.*
 import io.golos.domain.repositories.DiscussionRepository
-import io.golos.domain.use_cases.model.DiscussionAuthorModel
-import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 class SecondLevelLoaderImpl
 constructor(
     private val postIdDomain: ContentIdDomain,
-    private val parentComment: DiscussionIdModel,
+    private val parentComment: ContentIdDomain,
     private val totalComments: Int,
     private val postListDataSource: PostListDataSourceComments,
     private val discussionRepository: DiscussionRepository,
     private val dispatchersProvider: DispatchersProvider,
-    private val commentToModelMapper: CommentToModelMapper,
     private val pageSize: Int,
-    commentsStorage: CommentsStorage,
-    currentUserRepository: CurrentUserRepository
+    commentsStorage: CommentsStorage
 ) : CommentsLoaderBase(
     dispatchersProvider,
     commentsStorage
@@ -35,7 +26,7 @@ constructor(
     SecondLevelLoader {
 
     // Loaded comments and their author
-    private val authors = mutableMapOf<DiscussionIdModel, DiscussionAuthorModel>()
+    private val authors = mutableMapOf<ContentIdDomain, UserBriefDomain>()
 
     /**
      * Loads a next comments page
@@ -57,7 +48,7 @@ constructor(
                 commentType = CommentDomain.CommentTypeDomain.POST,
                 userId = postIdDomain.userId,
                 permlink = postIdDomain.permlink,
-                parentComment = ParentCommentIdentifierDomain(parentComment.permlink.value, UserIdDomain(parentComment.userId)),
+                parentComment = ParentCommentIdentifierDomain(parentComment.permlink, parentComment.userId),
                 communityId = postIdDomain.communityId
             )
 
@@ -67,15 +58,11 @@ constructor(
 
             @Suppress("NestedLambdaShadowedImplicitParameter")
             val mapperComments = withContext(dispatchersProvider.calculationsDispatcher) {
-                comments
-                    .map {
-                        commentToModelMapper.map(it)
-                            .also {
-                                authors[it.contentId] = it.author
-                                storeComment(it)
-                            }
-                    }
-                    .filter { !wasCommentPosted(it.contentId) }
+                comments.forEach {
+                    authors[it.contentId] = it.author
+                    storeComment(it)
+                }
+                comments.filter { !wasCommentPosted(it.contentId) }
             }
 
             postListDataSource.addSecondLevelComments(

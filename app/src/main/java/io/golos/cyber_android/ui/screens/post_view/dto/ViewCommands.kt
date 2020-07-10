@@ -3,7 +3,6 @@ package io.golos.cyber_android.ui.screens.post_view.dto
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.domain.dto.ContentIdDomain
-import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ContentBlock
 
 @Deprecated("")
@@ -25,6 +24,6 @@ class ShowCommentsSortingMenuViewCommand : ViewCommand
 
 class ClearCommentInputCommand : ViewCommand
 
-class ShowCommentMenuViewCommand(val commentId: DiscussionIdModel) : ViewCommand
+class ShowCommentMenuViewCommand(val commentId: ContentIdDomain) : ViewCommand
 
 class NavigateToReplyCommentViewCommand(val contentId: ContentIdDomain, val body: ContentBlock?): ViewCommand

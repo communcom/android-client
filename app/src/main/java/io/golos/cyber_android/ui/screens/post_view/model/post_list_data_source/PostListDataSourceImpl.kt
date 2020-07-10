@@ -9,12 +9,8 @@ import io.golos.cyber_android.ui.shared.recycler_view.GroupListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dependency_injection.scopes.FragmentScope
-import io.golos.domain.dto.DonationsDomain
-import io.golos.domain.dto.PostDomain
+import io.golos.domain.dto.*
 import io.golos.domain.repositories.CurrentUserRepositoryRead
-import io.golos.domain.use_cases.model.CommentModel
-import io.golos.domain.use_cases.model.DiscussionAuthorModel
-import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.utils.id.IdUtil
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -75,7 +71,7 @@ constructor(
             }
         }
 
-    override suspend fun addFirstLevelComments(comments: List<CommentModel>) =
+    override suspend fun addFirstLevelComments(comments: List<CommentDomain>) =
         updateSafe {
             postList.removeAll { it is EmptyCommentsListItem }
 
@@ -99,14 +95,14 @@ constructor(
                 }
 
                 // Add collapsed comments list item
-                if (rawComment.childTotal > 0) {
+                if (rawComment.childCommentsCount > 0) {
                     postList.add(
                         SecondLevelCommentCollapsedListItem(
                             id = IdUtil.generateLongId(),
                             version = 0,
                             isFirstItem = false,
                             isLastItem = false,
-                            totalChild = rawComment.childTotal,
+                            totalChild = rawComment.childCommentsCount.toLong(),
                             parentCommentId = commentListItem.externalId
                         )
                     )
@@ -176,7 +172,7 @@ constructor(
     /**
      * Adds second-level Loading indicator
      */
-    override suspend fun addLoadingCommentsIndicator(parentCommentId: DiscussionIdModel, commentsAdded: Int) =
+    override suspend fun addLoadingCommentsIndicator(parentCommentId: ContentIdDomain, commentsAdded: Int) =
         updateSafe {
             val parentCommentIndex = getCommentIndex(parentCommentId)
             if (parentCommentIndex == -1) {
@@ -191,7 +187,7 @@ constructor(
     /**
      * Adds second-level Retry button
      */
-    override suspend fun addRetryLoadingComments(parentCommentId: DiscussionIdModel, commentsAdded: Int) =
+    override suspend fun addRetryLoadingComments(parentCommentId: ContentIdDomain, commentsAdded: Int) =
         updateSafe {
             val parentCommentIndex = getCommentIndex(parentCommentId)
             if (parentCommentIndex == -1) {
@@ -207,13 +203,13 @@ constructor(
      * [repliedAuthors] - id of all loaded comments and their repliedAuthors
      */
     override suspend fun addSecondLevelComments(
-        parentCommentId: DiscussionIdModel,
-        comments: List<CommentModel>,
-        repliedAuthors: Map<DiscussionIdModel, DiscussionAuthorModel>,
+        parentCommentId: ContentIdDomain,
+        comments: List<CommentDomain>,
+        repliedAuthors: Map<ContentIdDomain, UserBriefDomain>,
         commentsAdded: Int,
         totalComments: Int,
         isEndOfDataReached: Boolean,
-        nextTopCommentAuthor: DiscussionAuthorModel?
+        nextTopCommentAuthor: UserBriefDomain?
     ) =
 
         updateSafe {
@@ -297,13 +293,13 @@ constructor(
     /**
      * Adds new first-level comment (the loader'll be replaced)
      */
-    override suspend fun addNewComment(comment: CommentModel) =
+    override suspend fun addNewComment(comment: CommentDomain) =
         updateSafe {
             postList.add(CommentsMapper.mapToFirstLevel(comment, currentUserRepository.userId.userId))
             sortPostItems()
         }
 
-    override suspend fun updateCommentState(commentId: DiscussionIdModel, state: CommentListItemState) =
+    override suspend fun updateCommentState(commentId: ContentIdDomain, state: CommentListItemState) =
         updateComment(commentId) {
             when (it) {
                 is FirstLevelCommentListItem -> it.copy(version = it.version + 1, state = state)
@@ -312,7 +308,7 @@ constructor(
             }
         }
 
-    override suspend fun deleteComment(commentId: DiscussionIdModel) =
+    override suspend fun deleteComment(commentId: ContentIdDomain) =
         updateSafe {
             postList.removeAt(getCommentIndex(commentId))
         }
@@ -322,7 +318,7 @@ constructor(
             postList.removeAll { it -> it is CommentsTitleListItem }
         }
 
-    override suspend fun updateComment(newComment: CommentModel) =
+    override suspend fun updateComment(newComment: CommentDomain) =
         updateComment(newComment.contentId) {
             when (it) {
                 is FirstLevelCommentListItem ->
@@ -343,17 +339,17 @@ constructor(
             }
         }
 
-    override suspend fun addLoadingForRepliedComment(repliedCommentId: DiscussionIdModel) =
+    override suspend fun addLoadingForRepliedComment(repliedCommentId: ContentIdDomain) =
         updateSafe {
             postList.add(getCommentIndex(repliedCommentId) + 1, SecondLevelCommentLoadingListItem(IdUtil.generateLongId(), 0))
             sortPostItems()
         }
 
     override suspend fun addReplyComment(
-        repliedCommentId: DiscussionIdModel,
-        repliedCommentAuthor: DiscussionAuthorModel,
+        repliedCommentId: ContentIdDomain,
+        repliedCommentAuthor: UserBriefDomain,
         repliedCommentLevel: Int,
-        commentModel: CommentModel
+        commentModel: CommentDomain
     ) =
         updateSafe {
             postList[getCommentIndex(repliedCommentId) + 1] =
@@ -366,14 +362,14 @@ constructor(
             sortPostItems()
         }
 
-    override suspend fun removeLoadingForRepliedComment(repliedCommentId: DiscussionIdModel) =
+    override suspend fun removeLoadingForRepliedComment(repliedCommentId: ContentIdDomain) =
         updateSafe {
             postList.removeAt(getCommentIndex(repliedCommentId) + 1)
             sortPostItems()
         }
 
     override suspend fun updateCommentVoteStatus(
-        commentId: DiscussionIdModel,
+        commentId: ContentIdDomain,
         isUpVoteActive: Boolean?,
         isDownVoteActive: Boolean?,
         voteBalanceDelta: Long
@@ -495,7 +491,7 @@ constructor(
         }
     }
 
-    private suspend fun updateComment(commentId: DiscussionIdModel, updateAction: (CommentListItem) -> CommentListItem) {
+    private suspend fun updateComment(commentId: ContentIdDomain, updateAction: (CommentListItem) -> CommentListItem) {
         updateSafe {
             val commentIndex = getCommentIndex(commentId)
             if(commentIndex != -1){
@@ -504,8 +500,8 @@ constructor(
         }
     }
 
-    private fun getCommentIndex(commentId: DiscussionIdModel) =
-        postList.indexOfFirst { it is CommentListItem && it.externalId == commentId }
+    private fun getCommentIndex(commentId: ContentIdDomain) =
+        postList.indexOfFirst { it is CommentListItem && it .externalId == commentId }
 
     private fun sortPostItems() {
         (postList as MutableList<GroupListItem>).sortWith(Comparator<GroupListItem> { item1, item2 ->

@@ -12,6 +12,7 @@ import io.golos.cyber_android.ui.screens.post_view.di.PostPageFragmentComponent
 import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.SecondLevelCommentListItem
 import io.golos.cyber_android.ui.screens.post_view.view_model.PostPageViewModelListEventsProcessor
 import io.golos.cyber_android.ui.shared.widgets.post_comments.voting.VotingWidget
+import io.golos.domain.dto.UserBriefDomain
 import io.golos.domain.use_cases.model.DiscussionAuthorModel
 import kotlinx.android.synthetic.main.item_comment.view.*
 
@@ -54,6 +55,6 @@ class SecondLevelCommentViewHolder(
         super.init(listItem, listItemEventsProcessor)
     }
 
-    override fun getParentAuthor(listItem: SecondLevelCommentListItem): DiscussionAuthorModel? =
+    override fun getParentAuthor(listItem: SecondLevelCommentListItem): UserBriefDomain? =
         if(listItem.repliedCommentLevel == 0) null else listItem.repliedAuthor
 }

@@ -28,9 +28,9 @@ interface PostPageViewModelListEventsProcessor :
 
 interface PostCommentVoteListener : BasePostBlockWidgetListener {
 
-    fun onCommentUpVoteClick(commentId: DiscussionIdModel)
+    fun onCommentUpVoteClick(commentId: ContentIdDomain)
 
-    fun onCommentDownVoteClick(commentId: DiscussionIdModel)
+    fun onCommentDownVoteClick(commentId: ContentIdDomain)
 }
 
 interface PostVoteListener : BasePostBlockWidgetListener {
@@ -50,13 +50,13 @@ interface CommentsListener : BasePostBlockWidgetListener {
 
     fun onRetryLoadingFirstLevelCommentButtonClick()
 
-    fun onCollapsedCommentsClick(parentCommentId: DiscussionIdModel)
+    fun onCollapsedCommentsClick(parentCommentId: ContentIdDomain)
 
-    fun onRetryLoadingSecondLevelCommentButtonClick(parentCommentId: DiscussionIdModel)
+    fun onRetryLoadingSecondLevelCommentButtonClick(parentCommentId: ContentIdDomain)
 
-    fun onCommentLongClick(commentId: DiscussionIdModel)
+    fun onCommentLongClick(commentId: ContentIdDomain)
 
-    fun startReplyToComment(commentToReplyId: DiscussionIdModel)
+    fun startReplyToComment(commentToReplyId: ContentIdDomain)
 
     fun onUserClicked(userId: String)
 }

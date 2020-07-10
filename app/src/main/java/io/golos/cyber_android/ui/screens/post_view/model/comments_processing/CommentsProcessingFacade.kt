@@ -1,9 +1,8 @@
 package io.golos.cyber_android.ui.screens.post_view.model.comments_processing
 
+import io.golos.domain.dto.CommentDomain
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.ContentIdDomain
-import io.golos.domain.use_cases.model.CommentModel
-import io.golos.domain.use_cases.model.DiscussionIdModel
 
 interface CommentsProcessingFacade {
     val pageSize: Int
@@ -14,23 +13,21 @@ interface CommentsProcessingFacade {
 
     suspend fun retryLoadFirstLevelPage()
 
-    suspend fun loadNextSecondLevelPage(parentCommentId: DiscussionIdModel)
+    suspend fun loadNextSecondLevelPage(parentCommentId: ContentIdDomain)
 
-    suspend fun retryLoadSecondLevelPage(parentCommentId: DiscussionIdModel)
+    suspend fun retryLoadSecondLevelPage(parentCommentId: ContentIdDomain)
 
     suspend fun sendComment(jsonBody: String)
 
-    suspend fun deleteComment(commentId: DiscussionIdModel, isSingleComment: Boolean)
+    suspend fun deleteComment(commentId: ContentIdDomain, isSingleComment: Boolean)
 
-    fun getCommentText(commentId: DiscussionIdModel): List<CharSequence>
+    fun getCommentText(commentId: ContentIdDomain): List<CharSequence>
 
-    fun getComment(commentId: ContentIdDomain): CommentModel?
+    fun getComment(commentId: ContentIdDomain): CommentDomain?
 
-    fun getComment(discussionIdModel: DiscussionIdModel): CommentModel?
+    suspend fun updateComment(commentId: ContentIdDomain, jsonBody: String)
 
-    suspend fun updateComment(commentId: DiscussionIdModel, jsonBody: String)
+    suspend fun replyToComment(repliedCommentId: ContentIdDomain, jsonBody: String)
 
-    suspend fun replyToComment(repliedCommentId: DiscussionIdModel, jsonBody: String)
-
-    suspend fun vote(communityId: CommunityIdDomain, commentId: DiscussionIdModel, isUpVote: Boolean)
+    suspend fun vote(communityId: CommunityIdDomain, commentId: ContentIdDomain, isUpVote: Boolean)
 }

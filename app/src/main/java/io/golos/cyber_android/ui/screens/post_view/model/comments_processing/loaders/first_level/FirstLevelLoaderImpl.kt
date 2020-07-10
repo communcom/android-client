@@ -6,12 +6,7 @@ import io.golos.cyber_android.ui.screens.post_view.model.post_list_data_source.P
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommentDomain
 import io.golos.domain.dto.ContentIdDomain
-import io.golos.domain.dto.UserIdDomain
-import io.golos.domain.mappers.new_mappers.CommentToModelMapper
-import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.DiscussionRepository
-import io.golos.domain.use_cases.model.CommentModel
-import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.util.concurrent.ConcurrentHashMap
@@ -22,17 +17,15 @@ constructor(
     private val postListDataSource: PostListDataSourceComments,
     private val discussionRepository: DiscussionRepository,
     private val dispatchersProvider: DispatchersProvider,
-    private val commentToModelMapper: CommentToModelMapper,
     private val pageSize: Int,
-    commentsStorage: CommentsStorage,
-    currentUserRepository: CurrentUserRepository
+    commentsStorage: CommentsStorage
 ) : CommentsLoaderBase(
     dispatchersProvider,
     commentsStorage
 ),
     FirstLevelLoader {
 
-    private val loadedComments = ConcurrentHashMap<DiscussionIdModel, CommentModel>()
+    private val loadedComments = ConcurrentHashMap<ContentIdDomain, CommentDomain>()
 
     /**
      * Loads the very first first-levels comments page
@@ -51,7 +44,7 @@ constructor(
      */
     override suspend fun loadNextPageByScroll() = loadNext()
 
-    override fun getLoadedComment(commentId: DiscussionIdModel): CommentModel = loadedComments[commentId]!!
+    override fun getLoadedComment(commentId: ContentIdDomain): CommentDomain = loadedComments[commentId]!!
 
     /**
      * Try to reload
@@ -82,18 +75,13 @@ constructor(
                 postListDataSource.addEmptyCommentsStub()
             } else {
                 @Suppress("NestedLambdaShadowedImplicitParameter")
-                val mapperComments =
-                    withContext(dispatchersProvider.calculationsDispatcher) {
-                        comments
-                            .map {
-                                commentToModelMapper.map(it)
-                                    .also {
-                                        loadedComments[it.contentId] = it
-                                        storeComment(it)
-                                    }
-                            }
-                            .filter { !wasCommentPosted(it.contentId) }
+                val mapperComments = withContext(dispatchersProvider.calculationsDispatcher) {
+                    comments.forEach {
+                        loadedComments[it.contentId] = it
+                        storeComment(it)
                     }
+                    comments.filter { !wasCommentPosted(it.contentId) }
+                }
 
                 postListDataSource.addFirstLevelComments(mapperComments)
 

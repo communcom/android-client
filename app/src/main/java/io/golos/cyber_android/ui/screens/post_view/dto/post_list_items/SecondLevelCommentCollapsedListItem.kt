@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.post_view.dto.post_list_items
 
 import io.golos.cyber_android.ui.shared.recycler_view.GroupListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 
 data class SecondLevelCommentCollapsedListItem(
@@ -11,6 +12,6 @@ data class SecondLevelCommentCollapsedListItem(
     override val isLastItem: Boolean,
 
     val totalChild: Long,
-    val parentCommentId: DiscussionIdModel,
+    val parentCommentId: ContentIdDomain,
     override val groupId: Int = 5
 ) : GroupListItem, VersionedListItem

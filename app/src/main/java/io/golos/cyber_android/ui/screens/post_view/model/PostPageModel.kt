@@ -8,11 +8,9 @@ import io.golos.cyber_android.ui.screens.post_view.dto.SortingType
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.dto.*
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.PostMetadata
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
 import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
-import io.golos.domain.use_cases.model.CommentModel
-import io.golos.domain.use_cases.model.DiscussionIdModel
-import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.PostMetadata
 import kotlinx.coroutines.flow.Flow
 import java.io.File
 
@@ -60,7 +58,7 @@ interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToC
         reason: String
     )
 
-    suspend fun voteForComment(communityId: CommunityIdDomain, commentId: DiscussionIdModel, isUpVote: Boolean)
+    suspend fun voteForComment(communityId: CommunityIdDomain, commentId: ContentIdDomain, isUpVote: Boolean)
 
     suspend fun updateCommentsSorting(sortingType: SortingType)
 
@@ -70,23 +68,21 @@ interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToC
 
     suspend fun retryLoadingFirstLevelCommentsPage()
 
-    suspend fun loadNextSecondLevelCommentsPage(parentCommentId: DiscussionIdModel)
+    suspend fun loadNextSecondLevelCommentsPage(parentCommentId: ContentIdDomain)
 
-    suspend fun retryLoadingSecondLevelCommentsPage(parentCommentId: DiscussionIdModel)
+    suspend fun retryLoadingSecondLevelCommentsPage(parentCommentId: ContentIdDomain)
 
     suspend fun sendComment(jsonBody: String)
 
-    suspend fun deleteComment(commentId: DiscussionIdModel)
+    suspend fun deleteComment(commentId: ContentIdDomain)
 
-    fun getCommentText(commentId: DiscussionIdModel): List<CharSequence>
+    fun getCommentText(commentId: ContentIdDomain): List<CharSequence>
 
-    fun getComment(commentId: ContentIdDomain): CommentModel?
+    fun getComment(commentId: ContentIdDomain): CommentDomain?
 
-    fun getComment(discussionIdModel: DiscussionIdModel): CommentModel?
+    suspend fun updateComment(commentId: ContentIdDomain, jsonBody: String)
 
-    suspend fun updateComment(commentId: DiscussionIdModel, jsonBody: String)
-
-    suspend fun replyToComment(repliedCommentId: DiscussionIdModel, jsonBody: String)
+    suspend fun replyToComment(repliedCommentId: ContentIdDomain, jsonBody: String)
 
     suspend fun uploadAttachmentContent(file: File): String
 

@@ -316,7 +316,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
         }
     }
 
-    private fun showCommentMenu(commentId: DiscussionIdModel) {
+    private fun showCommentMenu(commentId: ContentIdDomain) {
         CommentsActionsDialog.show(this@PostPageFragment, commentId) {
             when(it) {
                 is CommentsActionsDialog.Result.Edit -> viewModel.startEditComment(it.commentId)

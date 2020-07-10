@@ -2,7 +2,7 @@ package io.golos.cyber_android.ui.screens.post_view.dto.post_list_items
 
 import io.golos.cyber_android.ui.shared.recycler_view.GroupListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
-import io.golos.domain.use_cases.model.DiscussionIdModel
+import io.golos.domain.dto.ContentIdDomain
 
 data class SecondLevelCommentRetryListItem(
     override val id: Long,
@@ -10,6 +10,6 @@ data class SecondLevelCommentRetryListItem(
     override val isFirstItem: Boolean,
     override val isLastItem: Boolean,
 
-    val parentCommentId: DiscussionIdModel,
+    val parentCommentId: ContentIdDomain,
     override val groupId: Int = 5
 ) : GroupListItem, VersionedListItem

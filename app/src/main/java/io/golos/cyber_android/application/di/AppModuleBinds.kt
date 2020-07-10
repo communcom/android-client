@@ -130,13 +130,6 @@ abstract class AppModuleBinds {
     abstract fun provideFeedEntityToModelMapper(mapper: PostFeedEntityToModelMapperImpl): PostFeedEntityToModelMapper
 
     @Binds
-    @ApplicationScope
-    abstract fun provideCommentEntityToModelMapper(mapper: CommentEntityToModelMapperImpl): CommentEntityToModelMapper
-
-    @Binds
-    abstract fun provideCommentFeeEntityToModelMapper(mapper: CommentsFeedEntityToModelMapperImpl): CommentsFeedEntityToModelMapper
-
-    @Binds
     abstract fun provideCyberCommentToEntityMapper(mapper: CyberCommentToEntityMapperImpl): CyberCommentToEntityMapper
 
     @Binds

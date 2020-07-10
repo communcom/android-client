@@ -1,7 +1,7 @@
 package io.golos.cyber_android.ui.screens.post_view.model.comments_processing.loaders.first_level
 
-import io.golos.domain.use_cases.model.CommentModel
-import io.golos.domain.use_cases.model.DiscussionIdModel
+import io.golos.domain.dto.CommentDomain
+import io.golos.domain.dto.ContentIdDomain
 
 interface FirstLevelLoader {
     /**
@@ -19,5 +19,5 @@ interface FirstLevelLoader {
      */
     suspend fun retryLoadPage()
 
-    fun getLoadedComment(commentId: DiscussionIdModel): CommentModel
+    fun getLoadedComment(commentId: ContentIdDomain): CommentDomain
 }

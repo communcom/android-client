@@ -2,8 +2,8 @@ package io.golos.cyber_android.ui.screens.post_view.model.comments_processing.lo
 
 import io.golos.cyber_android.ui.screens.post_view.model.comments_processing.comments_storage.CommentsStorage
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.use_cases.model.CommentModel
-import io.golos.domain.use_cases.model.DiscussionIdModel
+import io.golos.domain.dto.CommentDomain
+import io.golos.domain.dto.ContentIdDomain
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
@@ -56,7 +56,7 @@ abstract class CommentsLoaderBase(
     /**
      * Was the comment with such id have been posted in this post viewing/editing session
      */
-    protected fun wasCommentPosted(id: DiscussionIdModel) = commentsStorage.isCommentPosted(id)
+    protected fun wasCommentPosted(id: ContentIdDomain) = commentsStorage.isCommentPosted(id)
 
-    protected fun storeComment(comment: CommentModel) = commentsStorage.addComment(comment)
+    protected fun storeComment(comment: CommentDomain) = commentsStorage.addComment(comment)
 }

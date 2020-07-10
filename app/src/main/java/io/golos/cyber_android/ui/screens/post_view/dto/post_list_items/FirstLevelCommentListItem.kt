@@ -1,9 +1,9 @@
 package io.golos.cyber_android.ui.screens.post_view.dto.post_list_items
 
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
-import io.golos.domain.use_cases.model.DiscussionAuthorModel
-import io.golos.domain.use_cases.model.DiscussionIdModel
-import io.golos.domain.use_cases.model.DiscussionMetadataModel
+import io.golos.domain.dto.ContentIdDomain
+import io.golos.domain.dto.MetaDomain
+import io.golos.domain.dto.UserBriefDomain
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ContentBlock
 
 data class FirstLevelCommentListItem(
@@ -12,9 +12,9 @@ data class FirstLevelCommentListItem(
     override val isFirstItem: Boolean,
     override val isLastItem: Boolean,
 
-    override val externalId: DiscussionIdModel,          // Id of an entity on the backend
+    override val externalId: ContentIdDomain,          // Id of an entity on the backend
 
-    override val author: DiscussionAuthorModel,
+    override val author: UserBriefDomain,
     override val currentUserId: String,
 
     override val content: ContentBlock?,
@@ -23,7 +23,7 @@ data class FirstLevelCommentListItem(
     override val isUpVoteActive: Boolean,
     override val isDownVoteActive: Boolean,
 
-    override val metadata: DiscussionMetadataModel,
+    override val metadata: MetaDomain,
 
     override val state: CommentListItemState,
     override val groupId: Int = 5,
