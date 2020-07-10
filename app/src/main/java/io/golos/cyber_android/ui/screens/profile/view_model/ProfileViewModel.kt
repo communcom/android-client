@@ -1,9 +1,13 @@
 package io.golos.cyber_android.ui.screens.profile.view_model
 
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.dto.ProfileCommunities
@@ -11,6 +15,7 @@ import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.mappers.mapToCommunity
 import io.golos.cyber_android.ui.screens.profile.dto.*
 import io.golos.cyber_android.ui.screens.profile.model.ProfileModel
+import io.golos.cyber_android.ui.screens.wallet_convert.view_model.WalletConvertViewModel
 import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
@@ -101,6 +106,16 @@ constructor(
                         View.GONE
                 }
         }
+
+        LocalBroadcastManager.getInstance(appContext).registerReceiver(object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                launch {
+                    if (model.isBalanceVisible) {
+                        _walletValue.value = model.getTotalBalance()
+                    }
+                }
+            }
+        }, IntentFilter(WalletConvertViewModel.BALANCE_UPDATED_EVENT))
     }
 
     fun start() = loadPage()

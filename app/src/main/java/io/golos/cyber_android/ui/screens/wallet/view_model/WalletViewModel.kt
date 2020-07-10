@@ -1,13 +1,18 @@
 package io.golos.cyber_android.ui.screens.wallet.view_model
 
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.wallet.dto.*
 import io.golos.cyber_android.ui.screens.wallet.model.WalletModel
 import io.golos.cyber_android.ui.screens.wallet.view.my_points.WalletMyPointsListItemEventsProcessor
+import io.golos.cyber_android.ui.screens.wallet_convert.view_model.WalletConvertViewModel
 import io.golos.cyber_android.ui.screens.wallet_shared.history.view.WalletHistoryListItemEventsProcessor
 import io.golos.cyber_android.ui.screens.wallet_shared.send_points.list.view.WalletSendPointsListItemEventsProcessor
 import io.golos.cyber_android.ui.shared.extensions.getMessage
@@ -66,6 +71,12 @@ constructor(
         }
 
         loadPage(false)
+
+        LocalBroadcastManager.getInstance(appContext).registerReceiver(object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                loadPage(true)
+            }
+        }, IntentFilter(WalletConvertViewModel.BALANCE_UPDATED_EVENT))
     }
 
     fun onSwipeRefresh() = loadPage(true)

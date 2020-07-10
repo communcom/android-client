@@ -1,11 +1,14 @@
 package io.golos.cyber_android.ui.screens.wallet_send_points.view_model
 
 import android.content.Context
+import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.profile.dto.NavigateToHomeBackCommand
 import io.golos.cyber_android.ui.screens.profile.dto.NavigateToWalletBackCommand
+import io.golos.cyber_android.ui.screens.wallet_convert.view_model.WalletConvertViewModel
 import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
 import io.golos.cyber_android.ui.screens.wallet_send_points.dto.*
 import io.golos.cyber_android.ui.screens.wallet_send_points.model.WalletSendPointsModel
@@ -118,6 +121,7 @@ constructor(
                 _command.value = SetLoadingVisibilityCommand(true)
                 try {
                     model.makeTransfer()
+                    sendBalanceUpdateEvent()
                     _command.value = ShowWalletTransferCompletedDialogCommand(model.getTransferCompletedInfo())
                 } catch(ex: Exception) {
                     _command.value = ShowMessageTextCommand(ex.getMessage(appContext))
@@ -128,6 +132,11 @@ constructor(
                 showAmountValidationResult(validationResult)
             }
         }
+    }
+
+    private fun sendBalanceUpdateEvent() {
+        val intent = Intent(WalletConvertViewModel.BALANCE_UPDATED_EVENT)
+        LocalBroadcastManager.getInstance(appContext).sendBroadcast(intent)
     }
 
     fun onBackToWalletSelected() {

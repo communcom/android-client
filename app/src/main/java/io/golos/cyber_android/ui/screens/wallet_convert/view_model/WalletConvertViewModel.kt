@@ -1,8 +1,10 @@
 package io.golos.cyber_android.ui.screens.wallet_convert.view_model
 
 import android.content.Context
+import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.profile.dto.NavigateToHomeBackCommand
 import io.golos.cyber_android.ui.screens.profile.dto.NavigateToWalletBackCommand
@@ -31,6 +33,10 @@ constructor(
     dispatchersProvider: DispatchersProvider,
     model: WalletConvertModel
 ) : ViewModelBase<WalletConvertModel>(dispatchersProvider, model) {
+
+    companion object {
+        val BALANCE_UPDATED_EVENT = "balance_updated"
+    }
 
     private val _sellerBalanceRecord = MutableLiveData<WalletCommunityBalanceRecordDomain>()
     val sellerBalanceRecord: LiveData<WalletCommunityBalanceRecordDomain> = _sellerBalanceRecord
@@ -148,6 +154,7 @@ constructor(
                 _command.value = SetLoadingVisibilityCommand(true)
                 try {
                     model.convert()
+                    sendBalanceUpdateEvent()
                     _command.value = ShowWalletConversionCompletedDialogCommand(model.getConversionCompletedInfo())
                 } catch(ex: Exception) {
                     _command.value = ShowMessageTextCommand(ex.getMessage(appContext))
@@ -158,6 +165,11 @@ constructor(
                 showAmountValidationResult(validationResult)
             }
         }
+    }
+
+    private fun sendBalanceUpdateEvent() {
+        val intent = Intent(BALANCE_UPDATED_EVENT)
+        LocalBroadcastManager.getInstance(appContext).sendBroadcast(intent)
     }
 
     fun onBackToWalletSelected() {
