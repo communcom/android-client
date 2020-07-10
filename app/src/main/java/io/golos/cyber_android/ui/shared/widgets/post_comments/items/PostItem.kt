@@ -246,7 +246,9 @@ class PostItem(
 
             view.votesArea.setOnUpVoteButtonClickListener { listener.onUpVoteClicked(post.contentId) }
             view.votesArea.setOnDownVoteButtonClickListener { listener.onDownVoteClicked(post.contentId) }
-            view.votesArea.setOnDonateClickListener { listener.onDonateClick(it, post) }
+            view.votesArea.setOnDonateClickListener {
+                listener.onDonateClick(it, post.contentId, post.community.communityId, post.author)
+            }
         } else {
             view.votesArea.upvoteButton.isEnabled = false
             view.votesArea.downvoteButton.isEnabled = false

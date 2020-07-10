@@ -76,15 +76,15 @@ constructor(
     override suspend fun sendToUser(toUser: UserIdDomain, amount: Double, communityId: CommunityIdDomain) =
         sendToUser(toUser, amount, communityId, "")
 
-    override suspend fun donate(postId: ContentIdDomain, amount: Double, communityId: CommunityIdDomain): DonationsDomain? {
-        Timber.tag("NET_SOCKET").d("WalletRepositoryImpl::donate(postId: $postId)")
+    override suspend fun donate(contentId: ContentIdDomain, amount: Double, communityId: CommunityIdDomain): DonationsDomain? {
+        Timber.tag("NET_SOCKET").d("WalletRepositoryImpl::donate(postId: $contentId)")
         sendToUser(
-            toUser = postId.userId,
+            toUser = contentId.userId,
             amount = amount,
             communityId = communityId,
-            memo = "donation for ${postId.communityId.code}:${postId.userId.userId}:${postId.permlink}")
+            memo = "donation for ${contentId.communityId.code}:${contentId.userId.userId}:${contentId.permlink}")
 
-        val donationQuery = listOf(DonationPostModel(postId.userId.userId, postId.permlink))
+        val donationQuery = listOf(DonationPostModel(contentId.userId.userId, contentId.permlink))
         return callProxy.call { commun4j.getDonations(donationQuery) }.items.firstOrNull()?.mapToDonationsDomain()
     }
 

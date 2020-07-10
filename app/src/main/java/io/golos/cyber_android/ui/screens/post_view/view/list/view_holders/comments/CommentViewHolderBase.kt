@@ -342,6 +342,13 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
 
         _voting.setOnUpVoteButtonClickListener { eventsProcessor.onCommentUpVoteClick(listItem.externalId) }
         _voting.setOnDownVoteButtonClickListener { eventsProcessor.onCommentDownVoteClick(listItem.externalId) }
+
+        val contentId = ContentIdDomain(
+            communityId = ,
+            permlink: String,
+            userId: UserIdDomain
+        )
+        _voting.setOnDonateClickListener { eventsProcessor.onDonateClick(it, ) }
     }
 
     private fun getReplyAndTimeText(context: Context, metadata: DiscussionMetadataModel): SpannableStringBuilder {

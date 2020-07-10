@@ -4,7 +4,10 @@ import io.golos.cyber_android.ui.dto.DonateType
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.feed_my.view_model.PostShareListener
 import io.golos.cyber_android.ui.shared.widgets.post_comments.*
+import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.DonationsDomain
+import io.golos.domain.dto.UserBriefDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 
 /**
@@ -35,7 +38,7 @@ interface PostVoteListener : BasePostBlockWidgetListener {
 
     fun onDownVoteClick()
 
-    fun onDonateClick(donate: DonateType, post: Post)
+    fun onDonateClick(donate: DonateType, contentId: ContentIdDomain, communityId: CommunityIdDomain, contentAuthor: UserBriefDomain)
 
     fun onDonatePopupClick(donates: DonationsDomain)
 }

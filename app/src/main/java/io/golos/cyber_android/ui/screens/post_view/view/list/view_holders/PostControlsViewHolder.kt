@@ -29,7 +29,13 @@ class PostControlsViewHolder(
 
             votesArea.setOnUpVoteButtonClickListener { listItemEventsProcessor.onUpVoteClick() }
             votesArea.setOnDownVoteButtonClickListener { listItemEventsProcessor.onDownVoteClick() }
-            votesArea.setOnDonateClickListener { listItemEventsProcessor.onDonateClick(it, listItem.post) }
+            votesArea.setOnDonateClickListener {
+                listItemEventsProcessor.onDonateClick(
+                    it,
+                    listItem.post.contentId,
+                    listItem.post.community.communityId,
+                    listItem.post.author)
+            }
 
             viewCountText.text = KiloCounterFormatter.format(listItem.post.viewCount)
 

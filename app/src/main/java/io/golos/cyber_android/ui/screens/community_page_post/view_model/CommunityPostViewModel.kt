@@ -4,7 +4,6 @@ import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.DonateType
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.mappers.mapToPostsList
@@ -30,7 +29,6 @@ import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.*
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.model.DiscussionIdModel
-import io.golos.use_cases.reward.isTopReward
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
@@ -223,9 +221,9 @@ constructor(
         }
     }
 
-    override fun onDonateClick(donate: DonateType, post: Post) {
+    override fun onDonateClick(donate: DonateType, contentId: ContentIdDomain, communityId: CommunityIdDomain, contentAuthor: UserBriefDomain) {
         launch {
-            _command.value = NavigateToDonateCommand.build(donate, post, model.getWalletBalance())
+            _command.value = NavigateToDonateCommand.build(donate, contentId, communityId, contentAuthor, model.getWalletBalance())
         }
     }
 

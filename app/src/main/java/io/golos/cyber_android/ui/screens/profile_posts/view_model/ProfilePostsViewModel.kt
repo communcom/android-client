@@ -135,9 +135,13 @@ constructor(
         }
     }
 
-    override fun onDonateClick(donate: DonateType, post: Post) {
+    override fun onDonateClick(
+        donate: DonateType,
+        contentId: ContentIdDomain,
+        communityId: CommunityIdDomain,
+        contentAuthor: UserBriefDomain) {
         launch {
-            _command.value = NavigateToDonateCommand.build(donate, post, model.getWalletBalance())
+            _command.value = NavigateToDonateCommand.build(donate, contentId, communityId, contentAuthor, model.getWalletBalance())
         }
     }
 
