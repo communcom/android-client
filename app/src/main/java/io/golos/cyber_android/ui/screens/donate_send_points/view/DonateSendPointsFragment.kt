@@ -7,10 +7,7 @@ import io.golos.cyber_android.ui.screens.donate_send_points.di.DonateSendPointsF
 import io.golos.cyber_android.ui.screens.wallet_dialogs.transfer_completed.TransferCompletedInfo
 import io.golos.cyber_android.ui.screens.wallet_dialogs.transfer_completed.WalletTransferCompletedDialog
 import io.golos.cyber_android.ui.screens.wallet_send_points.view.WalletSendPointsFragment
-import io.golos.domain.dto.CommunityIdDomain
-import io.golos.domain.dto.ContentIdDomain
-import io.golos.domain.dto.UserDomain
-import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
+import io.golos.domain.dto.*
 
 class DonateSendPointsFragment : WalletSendPointsFragment() {
     companion object {
@@ -23,7 +20,7 @@ class DonateSendPointsFragment : WalletSendPointsFragment() {
         fun newInstance(
             postId: ContentIdDomain,
             communityId: CommunityIdDomain,
-            sendToUser: UserDomain?,
+            sendToUser: UserBriefDomain,
             balance: List<WalletCommunityBalanceRecordDomain>,
             amount: Double?) =
             DonateSendPointsFragment().apply {
@@ -43,7 +40,7 @@ class DonateSendPointsFragment : WalletSendPointsFragment() {
             key,
             arguments!!.getParcelable<ContentIdDomain>(POST_ID),
             arguments!!.getParcelable<CommunityIdDomain>(COMMUNITY_ID),
-            arguments!!.getParcelable<UserDomain>(USER),
+            arguments!!.getParcelable<UserBriefDomain>(USER),
             arguments!!.getParcelableArray(BALANCE)!!.toList(),
             arguments!!.getDouble(AMOUNT).takeIf { it > 0.0 })
             .inject(this)

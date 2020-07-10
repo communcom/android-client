@@ -25,6 +25,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardComma
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToInAppAuthScreenCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.UserBriefDomain
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import kotlinx.android.synthetic.main.fragment_wallet_send_points.*
@@ -35,7 +36,7 @@ open class WalletSendPointsFragment : FragmentBaseMVVM<FragmentWalletSendPointsB
         private const val COMMUNITY_ID = "COMMUNITY_ID"
         private const val USER = "USER"
         private const val BALANCE = "BALANCE"
-        fun newInstance(communityId: CommunityIdDomain, sendToUser: UserDomain?, balance: List<WalletCommunityBalanceRecordDomain>) =
+        fun newInstance(communityId: CommunityIdDomain, sendToUser: UserBriefDomain?, balance: List<WalletCommunityBalanceRecordDomain>) =
             WalletSendPointsFragment().apply {
                 arguments = Bundle().apply {
                     putParcelable(COMMUNITY_ID, communityId)

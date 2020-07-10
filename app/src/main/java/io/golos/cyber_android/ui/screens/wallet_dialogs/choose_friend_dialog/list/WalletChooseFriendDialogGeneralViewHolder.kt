@@ -25,9 +25,9 @@ class WalletChooseFriendDialogGeneralViewHolder(
         }
 
         with(listItem) {
-            logoGlideTarget = itemView.logo.loadAvatar(user.userAvatar)
+            logoGlideTarget = itemView.logo.loadAvatar(user.avatarUrl)
 
-            itemView.name.text = user.userName
+            itemView.name.text = user.username
 
             itemView.points.visibility = View.GONE
             itemView.onHold.visibility = View.GONE

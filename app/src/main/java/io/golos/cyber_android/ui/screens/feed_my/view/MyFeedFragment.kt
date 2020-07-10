@@ -412,9 +412,9 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
     private fun moveToDonate(command: NavigateToDonateCommand) =
         getDashboardFragment(this)?.navigateToFragment(
             DonateSendPointsFragment.newInstance(
-                command.postId,
+                command.contentId,
                 command.communityId,
-                command.postAuthor,
+                command.contentAuthor,
                 command.balance,
                 command.amount))
 

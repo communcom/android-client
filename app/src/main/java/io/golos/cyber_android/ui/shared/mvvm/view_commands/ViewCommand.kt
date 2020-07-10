@@ -88,9 +88,9 @@ class ShowUpdateAppDialogCommand() : ViewCommand
 class NavigateToWalletCommand(val balance: List<WalletCommunityBalanceRecordDomain>) : ViewCommand
 
 data class NavigateToDonateCommand(
-    val postId: ContentIdDomain,
+    val contentId: ContentIdDomain,
     val communityId: CommunityIdDomain,
-    val postAuthor: UserDomain,
+    val contentAuthor: UserBriefDomain,
     val balance: List<WalletCommunityBalanceRecordDomain>,
     val amount: Double?
 ) : ViewCommand {
@@ -104,16 +104,9 @@ data class NavigateToDonateCommand(
             }
 
             return NavigateToDonateCommand(
-                postId = post.contentId,
+                contentId = post.contentId,
                 communityId = post.community.communityId,
-                postAuthor = UserDomain(
-                    userId = post.author.userId,
-                    userName = post.author.username!!,
-                    userAvatar = post.author.avatarUrl,
-                    postsCount = null,
-                    followersCount = null,
-                    isSubscribed = false
-                ),
+                contentAuthor = post.author,
                 balance = balance,
                 amount = amount
             )

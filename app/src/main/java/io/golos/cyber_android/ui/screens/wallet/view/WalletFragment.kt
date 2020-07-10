@@ -19,6 +19,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardComma
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.UserBriefDomain
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import kotlinx.android.synthetic.main.fragment_wallet.*
@@ -88,7 +89,7 @@ class WalletFragment : FragmentBaseMVVM<FragmentWalletBinding, WalletViewModel>(
 
     private fun moveToWalletSendPoints(
         selectedCommunityId: CommunityIdDomain,
-        sendToUser: UserDomain?,
+        sendToUser: UserBriefDomain?,
         balance: List<WalletCommunityBalanceRecordDomain>) =
         getDashboardFragment(this)?.navigateToFragment(WalletSendPointsFragment.newInstance(selectedCommunityId, sendToUser, balance))
 

@@ -12,7 +12,7 @@ import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.CommunityIdDomain
-import io.golos.domain.dto.UserDomain
+import io.golos.domain.dto.UserBriefDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.domain.repositories.GlobalSettingsRepository
 import io.golos.utils.helpers.capitalize
@@ -23,7 +23,16 @@ import javax.inject.Named
 
 @Suppress("LeakingThis")
 open class WalletSendPointsModelImpl
-@Inject constructor(private val appContext: Context, override var sendToUser: UserDomain?, protected var currentCommunityId: CommunityIdDomain, @Named(Clarification.WALLET_POINT_BALANCE) override var balance: List<WalletCommunityBalanceRecordDomain>, protected val walletRepository: WalletRepository, private val amountValidator: AmountValidator, private val globalSettingsRepository: GlobalSettingsRepository) : ModelBaseImpl(), WalletSendPointsModel {
+@Inject
+constructor(
+    private val appContext: Context,
+    override var sendToUser: UserBriefDomain?,
+    protected var currentCommunityId: CommunityIdDomain,
+    @Named(Clarification.WALLET_POINT_BALANCE)
+    override var balance: List<WalletCommunityBalanceRecordDomain>,
+    protected val walletRepository: WalletRepository,
+    private val amountValidator: AmountValidator
+) : ModelBaseImpl(), WalletSendPointsModel {
 
     override val canSelectUser = true
 
@@ -51,12 +60,12 @@ open class WalletSendPointsModelImpl
 
     override fun updateAmount(amountAsString: String?): Boolean = try {
         amount = if (amountAsString.isNullOrBlank()) null else amountAsString.toDouble()
-        true
-    } catch (ex: NumberFormatException) {
-        Timber.e(ex)
-        amount = null
-        false
-    }
+            true
+        } catch (ex: NumberFormatException) {
+            Timber.e(ex)
+            amount = null
+            false
+        }
 
     /**
      * @return Index of the community in the balance list
@@ -89,7 +98,16 @@ open class WalletSendPointsModelImpl
             communName
         }
 
-        return TransferCompletedInfo(date = Date(), amountTransfered = amount!!, amountRemain = currentBalanceRecord.points - calculateFee() - amount!!, userLogoUrl = sendToUser!!.userAvatar, userName = sendToUser!!.userName, pointsLogoUrl = currentBalanceRecord.communityLogoUrl, pointsName = pointsName, showFee = hasFee)
+        return TransferCompletedInfo(
+            date = Date(),
+            amountTransfered = amount!!,
+            amountRemain = currentBalanceRecord.points - calculateFee() - amount!!,
+            userLogoUrl = sendToUser!!.avatarUrl,
+            userName = sendToUser!!.username!!,
+            pointsLogoUrl = currentBalanceRecord.communityLogoUrl,
+            pointsName = pointsName,
+            showFee = hasFee
+        )
     }
 
     override fun getAmountAsString(): String? = amount?.toString()

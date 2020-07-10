@@ -320,7 +320,7 @@ class DependencyInjectionStorage(private val app: Application) {
                     .init(DonateSendPointsFragmentModule(
                         args[0] as ContentIdDomain,
                         args[1] as CommunityIdDomain,
-                        args[2] as UserDomain,
+                        args[2] as UserBriefDomain,
                         args[3] as List<WalletCommunityBalanceRecordDomain>,
                         args[4] as Double?
                     ))
@@ -340,7 +340,7 @@ class DependencyInjectionStorage(private val app: Application) {
                     .init(
                         WalletSendPointsFragmentModule(
                         communityId = args[0] as CommunityIdDomain,
-                        sendToUser = args[1] as UserDomain?,
+                        sendToUser = args[1] as UserBriefDomain?,
                         balance = args[2] as List<WalletCommunityBalanceRecordDomain>)
                     )
                     .build()

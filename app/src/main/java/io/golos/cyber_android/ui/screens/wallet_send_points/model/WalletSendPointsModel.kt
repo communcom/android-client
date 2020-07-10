@@ -5,13 +5,14 @@ import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
 import io.golos.cyber_android.ui.screens.wallet_shared.dto.AmountValidationResult
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.UserBriefDomain
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 
 interface WalletSendPointsModel : ModelBase {
     val canSelectUser: Boolean
 
-    var sendToUser: UserDomain?
+    var sendToUser: UserBriefDomain?
 
     val balance: List<WalletCommunityBalanceRecordDomain>
 

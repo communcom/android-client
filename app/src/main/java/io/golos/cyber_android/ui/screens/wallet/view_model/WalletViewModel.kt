@@ -20,7 +20,7 @@ import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListIte
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dto.CommunityIdDomain
-import io.golos.domain.dto.UserDomain
+import io.golos.domain.dto.UserBriefDomain
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -124,7 +124,7 @@ class WalletViewModel
         _command.value = NavigateToWalletPoint(communityId, model.balance)
     }
 
-    override fun onSendPointsItemClick(user: UserDomain?) {
+    override fun onSendPointsItemClick(user: UserBriefDomain?) {
         model.balance.let {
             _command.value = NavigateToWalletSendPoints(it.first().communityId, user, it)
         }

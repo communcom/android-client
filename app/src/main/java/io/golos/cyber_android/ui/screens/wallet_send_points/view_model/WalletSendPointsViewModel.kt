@@ -20,7 +20,7 @@ import io.golos.cyber_android.ui.shared.utils.getFormattedString
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dto.CommunityIdDomain
-import io.golos.domain.dto.UserDomain
+import io.golos.domain.dto.UserBriefDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.utils.helpers.capitalize
 import kotlinx.coroutines.launch
@@ -82,7 +82,7 @@ constructor(
         _command.value = ShowSelectCommunityDialogCommand(model.balance)
     }
 
-    fun onUserSelected(user: UserDomain) {
+    fun onUserSelected(user: UserBriefDomain) {
         model.sendToUser = user
         _selectedUser.value = getUserInfo(user)
         _sendButtonInfo.value = getSendButtonInfo(amountInputField.value)
@@ -148,10 +148,10 @@ constructor(
         _command.value = NavigateToHomeBackCommand()
     }
 
-    private fun getUserInfo(user: UserDomain?) =
+    private fun getUserInfo(user: UserBriefDomain?) =
         UserInfo(
-            name = user?.userName ?: appContext.getString(R.string.select_user),
-            avatar = user?.userAvatar,
+            name = user?.username ?: appContext.getString(R.string.select_user),
+            avatar = user?.avatarUrl,
             isFound = user != null
         )
 

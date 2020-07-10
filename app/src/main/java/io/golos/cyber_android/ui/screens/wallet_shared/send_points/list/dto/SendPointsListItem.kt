@@ -1,7 +1,7 @@
 package io.golos.cyber_android.ui.screens.wallet_shared.send_points.list.dto
 
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
-import io.golos.domain.dto.UserDomain
+import io.golos.domain.dto.UserBriefDomain
 
 data class SendPointsListItem(
     override val id: Long,
@@ -9,5 +9,5 @@ data class SendPointsListItem(
     override val isFirstItem: Boolean,
     override val isLastItem: Boolean,
 
-    val user: UserDomain
+    val user: UserBriefDomain
 ): VersionedListItem

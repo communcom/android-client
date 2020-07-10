@@ -3,7 +3,6 @@ package io.golos.cyber_android.ui.screens.wallet_point.view_model
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.wallet.dto.NavigateToWalletConvertCommand
 import io.golos.cyber_android.ui.screens.wallet.dto.NavigateToWalletSendPoints
 import io.golos.cyber_android.ui.screens.wallet.dto.ShowSendPointsDialog
@@ -14,12 +13,11 @@ import io.golos.cyber_android.ui.screens.wallet_shared.send_points.list.view.Wal
 import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageTextCommand
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityIdDomain
-import io.golos.domain.dto.UserDomain
+import io.golos.domain.dto.UserBriefDomain
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -92,7 +90,7 @@ constructor(
 
     fun onSwipeRefresh() = loadPage(true)
 
-    override fun onSendPointsItemClick(user: UserDomain?) {
+    override fun onSendPointsItemClick(user: UserBriefDomain?) {
         _command.value = NavigateToWalletSendPoints(model.currentBalanceRecord.communityId, user, model.sourceBalance)
     }
 

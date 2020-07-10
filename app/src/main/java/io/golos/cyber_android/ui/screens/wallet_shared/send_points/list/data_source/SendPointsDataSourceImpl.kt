@@ -4,6 +4,7 @@ import io.golos.cyber_android.ui.screens.wallet_shared.send_points.list.dto.Send
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.paging.LoadedItemsPagedListBase
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.FollowingUserDomain
+import io.golos.domain.dto.UserBriefDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.UsersRepository
 import io.golos.utils.id.MurmurHash
@@ -33,7 +34,11 @@ constructor(
             version = 0,
             isFirstItem = false,
             isLastItem = false,
-            user = user
+            user = UserBriefDomain(
+                avatarUrl = user.userAvatar,
+                userId = user.userId,
+                username = user.userName
+            )
         )
 
     override fun markAsFirst(item: SendPointsListItem) = item.copy(isFirstItem = true)

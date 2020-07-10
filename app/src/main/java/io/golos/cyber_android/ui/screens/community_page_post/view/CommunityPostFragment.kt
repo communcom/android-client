@@ -338,9 +338,9 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
     private fun moveToDonate(command: NavigateToDonateCommand) =
         getDashboardFragment(this)?.navigateToFragment(
             DonateSendPointsFragment.newInstance(
-                command.postId,
+                command.contentId,
                 command.communityId,
-                command.postAuthor,
+                command.contentAuthor,
                 command.balance,
                 command.amount))
 
