@@ -4,6 +4,7 @@ import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListIte
 import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.MetaDomain
 import io.golos.domain.dto.UserBriefDomain
+import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ContentBlock
 
 data class FirstLevelCommentListItem(
@@ -15,7 +16,7 @@ data class FirstLevelCommentListItem(
     override val externalId: ContentIdDomain,          // Id of an entity on the backend
 
     override val author: UserBriefDomain,
-    override val currentUserId: String,
+    override val currentUserId: UserIdDomain,
 
     override val content: ContentBlock?,
 

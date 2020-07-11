@@ -10,6 +10,8 @@ import io.golos.cyber_android.ui.screens.post_view.view_model.PostPageViewModelL
 import io.golos.cyber_android.ui.shared.widgets.post_comments.donation.DonatePersonsPopup
 import io.golos.utils.helpers.positiveValue
 import kotlinx.android.synthetic.main.item_post_controls.view.*
+import kotlinx.android.synthetic.main.item_post_controls.view.votesArea
+import kotlinx.android.synthetic.main.view_post_voting.view.*
 
 class PostControlsViewHolder(
     parentView: ViewGroup
@@ -27,14 +29,18 @@ class PostControlsViewHolder(
             votesArea.setUpVoteButtonSelected(listItem.isUpVoteActive)
             votesArea.setDownVoteButtonSelected(listItem.isDownVoteActive)
 
-            votesArea.setOnUpVoteButtonClickListener { listItemEventsProcessor.onUpVoteClick() }
-            votesArea.setOnDownVoteButtonClickListener { listItemEventsProcessor.onDownVoteClick() }
-            votesArea.setOnDonateClickListener {
-                listItemEventsProcessor.onDonateClick(
-                    it,
-                    listItem.post.contentId,
-                    listItem.post.community.communityId,
-                    listItem.post.author)
+            if(!listItem.post.isMyPost) {
+                votesArea.upvoteButton.isEnabled = true
+                votesArea.downvoteButton.isEnabled = true
+
+                votesArea.setOnUpVoteButtonClickListener { listItemEventsProcessor.onUpVoteClick() }
+                votesArea.setOnDownVoteButtonClickListener { listItemEventsProcessor.onDownVoteClick() }
+                votesArea.setOnDonateClickListener {
+                    listItemEventsProcessor.onDonateClick(it, listItem.post.contentId, listItem.post.community.communityId, listItem.post.author)
+                }
+            } else {
+                votesArea.upvoteButton.isEnabled = false
+                votesArea.downvoteButton.isEnabled = false
             }
 
             viewCountText.text = KiloCounterFormatter.format(listItem.post.viewCount)

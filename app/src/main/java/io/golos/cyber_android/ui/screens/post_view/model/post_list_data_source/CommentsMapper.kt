@@ -6,10 +6,11 @@ import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.SecondLev
 import io.golos.domain.dto.CommentDomain
 import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.UserBriefDomain
+import io.golos.domain.dto.UserIdDomain
 import io.golos.utils.id.IdUtil
 
 object CommentsMapper {
-    fun mapToFirstLevel(model: CommentDomain, currentUserId: String): FirstLevelCommentListItem {
+    fun mapToFirstLevel(model: CommentDomain, currentUserId: UserIdDomain): FirstLevelCommentListItem {
         if(model.commentLevel != 0) {
             throw UnsupportedOperationException("This level of comment is not supported: ${model.commentLevel}")
         }
@@ -34,7 +35,7 @@ object CommentsMapper {
 
     fun mapToSecondLevel(
         model: CommentDomain,
-        currentUserId: String,
+        currentUserId: UserIdDomain,
         parentAuthors: Map<ContentIdDomain, UserBriefDomain>): SecondLevelCommentListItem {
         if(model.commentLevel != 1) {
             throw UnsupportedOperationException("This level of comment is not supported: ${model.commentLevel}")
@@ -48,7 +49,7 @@ object CommentsMapper {
 
     fun mapToSecondLevel(
         model: CommentDomain,
-        currentUserId: String,
+        currentUserId: UserIdDomain,
         repliedAuthor: UserBriefDomain?,
         repliedCommentLevel: Int): SecondLevelCommentListItem {
         if(model.commentLevel != 1) {

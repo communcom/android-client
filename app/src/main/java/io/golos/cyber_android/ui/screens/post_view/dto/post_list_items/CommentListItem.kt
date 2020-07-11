@@ -5,13 +5,14 @@ import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListIte
 import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.MetaDomain
 import io.golos.domain.dto.UserBriefDomain
+import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ContentBlock
 
 interface CommentListItem : GroupListItem, VersionedListItem {
     val externalId: ContentIdDomain          // Id of an entity on the backend
 
     val author: UserBriefDomain
-    val currentUserId: String
+    val currentUserId: UserIdDomain
 
     val content: ContentBlock?
 

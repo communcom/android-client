@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.Comment
+import io.golos.cyber_android.ui.dto.DonateType
 import io.golos.cyber_android.ui.mappers.mapToComment
 import io.golos.cyber_android.ui.mappers.mapToCommentDomain
 import io.golos.cyber_android.ui.screens.profile_comments.model.ProfileCommentsModel
@@ -20,11 +21,7 @@ import io.golos.cyber_android.ui.shared.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.cyber_android.ui.shared.widgets.comment.CommentContent
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.commun_entities.Permlink
-import io.golos.domain.dto.CommentDomain
-import io.golos.domain.dto.CommunityIdDomain
-import io.golos.domain.dto.ContentIdDomain
-import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.dto.*
 import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.EditorOutputToJsonMapper
 import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.EmbedMetadata
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.*
@@ -36,7 +33,9 @@ import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
-class ProfileCommentsViewModel @Inject constructor(
+class ProfileCommentsViewModel
+@Inject
+constructor(
     private val appContext: Context,
     dispatchersProvider: DispatchersProvider,
     model: ProfileCommentsModel,
@@ -210,6 +209,16 @@ class ProfileCommentsViewModel @Inject constructor(
                 _command.value = ShowMessageTextCommand(e.getMessage(appContext))
             }
         }
+    }
+
+    override fun onDonateClick(donate: DonateType, contentId: ContentIdDomain, communityId: CommunityIdDomain, contentAuthor: UserBriefDomain) {
+        launch {
+            _command.value = NavigateToDonateCommand.build(donate, contentId, communityId, contentAuthor, model.getWalletBalance())
+        }
+    }
+
+    fun onDonatePopupClick(donates: DonationsDomain) {
+        _command.value = ShowDonationUsersDialogCommand(donates)
     }
 
     private fun updateUpVoteCountOfVotes(

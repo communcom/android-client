@@ -9,13 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentProfileCommentsBinding
+import io.golos.cyber_android.ui.dialogs.donation.DonationUsersDialog
 import io.golos.cyber_android.ui.dto.Comment
 import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.mappers.mapToCommentMenu
 import io.golos.cyber_android.ui.screens.comment_page_menu.view.CommentPageMenuDialog
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
 import io.golos.cyber_android.ui.screens.dashboard.view.DashboardFragment
-import io.golos.cyber_android.ui.screens.post_view.view.PostPageFragment
+import io.golos.cyber_android.ui.screens.donate_send_points.view.DonateSendPointsFragment
 import io.golos.cyber_android.ui.screens.profile.view.ProfileExternalUserFragment
 import io.golos.cyber_android.ui.screens.profile.view.ProfileFragment
 import io.golos.cyber_android.ui.screens.profile_comments.di.ProfileCommentsFragmentComponent
@@ -30,12 +31,21 @@ import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.shared.utils.openImageView
 import io.golos.cyber_android.ui.shared.utils.openLinkView
 import io.golos.domain.dto.CommunityIdDomain
-import io.golos.domain.dto.ContentIdDomain
+import io.golos.domain.dto.DonationsDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.android.synthetic.main.fragment_profile_comments.*
 
 class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding, ProfileCommentsViewModel>() {
+    companion object {
+        private const val USER_ID_EXTRA = "user_id"
+
+        fun newInstance(userId: UserIdDomain) = ProfileCommentsFragment().apply {
+            arguments = Bundle().apply {
+                putParcelable(USER_ID_EXTRA, userId)
+            }
+        }
+    }
 
     private var collapseListener: (() -> Unit)? = null
 
@@ -115,6 +125,8 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
                 commentWidget.visibility = View.VISIBLE
                 collapseListener?.invoke()
             }
+            is NavigateToDonateCommand -> moveToDonate(command)
+            is ShowDonationUsersDialogCommand -> showDonationUsersDialogCommand(command.donation)
         }
     }
 
@@ -222,16 +234,16 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
         })
     }
 
-    companion object {
+    private fun moveToDonate(command: NavigateToDonateCommand) =
+        getDashboardFragment(this)?.navigateToFragment(
+            DonateSendPointsFragment.newInstance(
+                command.contentId,
+                command.communityId,
+                command.contentAuthor,
+                command.balance,
+                command.amount))
 
-        private const val USER_ID_EXTRA = "user_id"
-
-        fun newInstance(
-            userId: UserIdDomain
-        ) = ProfileCommentsFragment().apply {
-            arguments = Bundle().apply {
-                putParcelable(USER_ID_EXTRA, userId)
-            }
-        }
+    private fun showDonationUsersDialogCommand(donations: DonationsDomain) = DonationUsersDialog.show(this, donations) {
+        (it as? DonationUsersDialog.Result.ItemSelected)?.user?.let { viewModel.onUserClicked(it.userId) }
     }
 }

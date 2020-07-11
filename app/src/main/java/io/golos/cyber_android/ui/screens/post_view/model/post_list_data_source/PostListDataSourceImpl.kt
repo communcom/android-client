@@ -87,7 +87,7 @@ constructor(
                 }
 
                 // Add comment
-                val commentListItem = CommentsMapper.mapToFirstLevel(rawComment, currentUserRepository.userId.userId)
+                val commentListItem = CommentsMapper.mapToFirstLevel(rawComment, currentUserRepository.userId)
                 if (commentPosition != -1) {
                     postList.add(commentPosition, commentListItem)
                 } else {
@@ -225,7 +225,7 @@ constructor(
 
             // Add comments
             comments
-                .map { CommentsMapper.mapToSecondLevel(it, currentUserRepository.userId.userId, repliedAuthors) }
+                .map { CommentsMapper.mapToSecondLevel(it, currentUserRepository.userId, repliedAuthors) }
                 .union(
                     if (isEndOfDataReached) {
                         listOf()
@@ -295,7 +295,7 @@ constructor(
      */
     override suspend fun addNewComment(comment: CommentDomain) =
         updateSafe {
-            postList.add(CommentsMapper.mapToFirstLevel(comment, currentUserRepository.userId.userId))
+            postList.add(CommentsMapper.mapToFirstLevel(comment, currentUserRepository.userId))
             sortPostItems()
         }
 
@@ -355,7 +355,7 @@ constructor(
             postList[getCommentIndex(repliedCommentId) + 1] =
                 CommentsMapper.mapToSecondLevel(
                     commentModel,
-                    currentUserRepository.userId.userId,
+                    currentUserRepository.userId,
                     repliedCommentAuthor,
                     repliedCommentLevel
                 )

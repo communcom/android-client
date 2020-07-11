@@ -39,6 +39,7 @@ import io.golos.utils.helpers.appendSpannedText
 import io.golos.utils.helpers.appendText
 import io.golos.utils.helpers.setSpan
 import io.golos.utils.id.IdUtil
+import kotlinx.android.synthetic.main.view_post_voting.view.*
 import javax.inject.Inject
 
 @Suppress("PropertyName")
@@ -336,15 +337,19 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
         _voting.setUpVoteButtonSelected(listItem.isUpVoteActive)
         _voting.setDownVoteButtonSelected(listItem.isDownVoteActive)
 
-        _voting.setOnUpVoteButtonClickListener { eventsProcessor.onCommentUpVoteClick(listItem.externalId) }
-        _voting.setOnDownVoteButtonClickListener { eventsProcessor.onCommentDownVoteClick(listItem.externalId) }
+        if(listItem.currentUserId != listItem.author.userId) {
+            _voting.upvoteButton.isEnabled = true
+            _voting.upvoteButton.isEnabled = true
 
-//        val contentId = ContentIdDomain(
-//            communityId = ,
-//            permlink: String,
-//            userId: UserIdDomain
-//        )
-//        _voting.setOnDonateClickListener { eventsProcessor.onDonateClick(it, ) }
+            _voting.setOnUpVoteButtonClickListener { eventsProcessor.onCommentUpVoteClick(listItem.externalId) }
+            _voting.setOnDownVoteButtonClickListener { eventsProcessor.onCommentDownVoteClick(listItem.externalId) }
+            _voting.setOnDonateClickListener {
+                eventsProcessor.onDonateClick(it, listItem.externalId, listItem.externalId.communityId, listItem.author)
+            }
+        } else {
+            _voting.upvoteButton.isEnabled = false
+            _voting.upvoteButton.isEnabled = false
+        }
     }
 
     private fun getReplyAndTimeText(context: Context, metadata: MetaDomain): SpannableStringBuilder {

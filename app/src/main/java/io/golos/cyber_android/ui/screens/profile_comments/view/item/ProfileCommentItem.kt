@@ -316,6 +316,10 @@ class ProfileCommentItem(
                         listItemEventsProcessor.onCommentDownVoteClick(listItem.comment.contentId)
                     }
                 }
+
+                voting.setOnDonateClickListener {
+                    listItemEventsProcessor.onDonateClick(it, listItem.comment.contentId, listItem.comment.contentId.communityId, listItem.comment.author)
+                }
             } else{
                 itemView.voting.upvoteButton.isEnabled = false
                 itemView.voting.downvoteButton.isEnabled = false
