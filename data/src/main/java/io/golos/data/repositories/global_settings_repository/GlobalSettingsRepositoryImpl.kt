@@ -17,13 +17,10 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 @ApplicationScope
 class GlobalSettingsRepositoryImpl
-@Inject
-constructor(
-    private val dispatchersProvider: DispatchersProvider,
-    private val keyValueStorageFacade: KeyValueStorageFacade
-) : GlobalSettingsRepository {
+@Inject constructor(private val dispatchersProvider: DispatchersProvider, private val keyValueStorageFacade: KeyValueStorageFacade) : GlobalSettingsRepository {
 
     private val rewardCurrencyUpdatesChannel: ConflatedBroadcastChannel<RewardCurrency?> = ConflatedBroadcastChannel(null)
+    private val balanceUpdatesChannel: ConflatedBroadcastChannel<Boolean?> = ConflatedBroadcastChannel(null)
 
     override var rewardCurrency: RewardCurrency = RewardCurrency.POINTS
         private set
@@ -38,7 +35,7 @@ constructor(
     }
 
     override suspend fun updateRewardCurrency(currency: RewardCurrency) {
-        if(currency == rewardCurrency) {
+        if (currency == rewardCurrency) {
             return
         }
 
@@ -48,5 +45,12 @@ constructor(
 
         rewardCurrency = currency
         rewardCurrencyUpdatesChannel.send(currency)
+    }
+
+    override val isBalanceUpdated: Flow<Boolean?>
+        get() = balanceUpdatesChannel.asFlow()
+
+    override suspend fun notifyBalanceUpdate(isBalanceUpdated: Boolean?) {
+        balanceUpdatesChannel.send(isBalanceUpdated)
     }
 }

@@ -34,10 +34,6 @@ constructor(
     model: WalletConvertModel
 ) : ViewModelBase<WalletConvertModel>(dispatchersProvider, model) {
 
-    companion object {
-        val BALANCE_UPDATED_EVENT = "balance_updated"
-    }
-
     private val _sellerBalanceRecord = MutableLiveData<WalletCommunityBalanceRecordDomain>()
     val sellerBalanceRecord: LiveData<WalletCommunityBalanceRecordDomain> = _sellerBalanceRecord
 
@@ -168,8 +164,9 @@ constructor(
     }
 
     private fun sendBalanceUpdateEvent() {
-        val intent = Intent(BALANCE_UPDATED_EVENT)
-        LocalBroadcastManager.getInstance(appContext).sendBroadcast(intent)
+        launch {
+            model.notifyBalanceUpdate(true)
+        }
     }
 
     fun onBackToWalletSelected() {

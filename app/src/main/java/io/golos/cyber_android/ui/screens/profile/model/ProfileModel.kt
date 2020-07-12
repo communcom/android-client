@@ -6,6 +6,7 @@ import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.UserProfileDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
+import kotlinx.coroutines.flow.Flow
 import java.io.File
 
 interface ProfileModel: ModelBase {
@@ -23,6 +24,8 @@ interface ProfileModel: ModelBase {
 
     val coverUrl: String?
 
+    val isBalanceUpdated: Flow<Boolean?>
+
     val balanceData: List<WalletCommunityBalanceRecordDomain>
 
     val notificationSettings: NotificationsSettingsFacade
@@ -30,6 +33,8 @@ interface ProfileModel: ModelBase {
     suspend fun loadProfileInfo(): UserProfileDomain
 
     suspend fun getHighlightCommunities(): List<CommunityDomain>
+
+    suspend fun clearBalanceUpdateLastCallback()
 
     /**
      * @return url of a cover

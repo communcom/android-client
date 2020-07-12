@@ -7,6 +7,7 @@ import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
+import kotlinx.coroutines.flow.Flow
 
 interface WalletConvertModel : ModelBase {
     val amountCalculator: AmountCalculatorBrief
@@ -18,6 +19,10 @@ interface WalletConvertModel : ModelBase {
     val carouselItemsData: CarouselStartData
 
     val isInSellPointMode: Boolean
+
+    val isBalanceUpdated: Flow<Boolean?>
+
+    suspend fun notifyBalanceUpdate(isBalanceUpdated:Boolean)
 
     suspend fun init()
 

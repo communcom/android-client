@@ -11,4 +11,8 @@ interface GlobalSettingsRepository {
     suspend fun loadValues()
 
     suspend fun updateRewardCurrency(currency: RewardCurrency)
+
+    val isBalanceUpdated: Flow<Boolean?>
+
+    suspend fun notifyBalanceUpdate(isBalanceUpdated:Boolean?)
 }

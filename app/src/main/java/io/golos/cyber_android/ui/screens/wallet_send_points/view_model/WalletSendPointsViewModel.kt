@@ -135,8 +135,9 @@ constructor(
     }
 
     private fun sendBalanceUpdateEvent() {
-        val intent = Intent(WalletConvertViewModel.BALANCE_UPDATED_EVENT)
-        LocalBroadcastManager.getInstance(appContext).sendBroadcast(intent)
+        launch {
+            model.notifyBalanceUpdate(true)
+        }
     }
 
     fun onBackToWalletSelected() {

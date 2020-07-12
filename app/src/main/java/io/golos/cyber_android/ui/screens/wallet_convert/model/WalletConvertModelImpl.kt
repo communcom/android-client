@@ -16,6 +16,8 @@ import io.golos.domain.GlobalConstants
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
+import io.golos.domain.repositories.GlobalSettingsRepository
+import kotlinx.coroutines.flow.Flow
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
@@ -29,7 +31,8 @@ constructor(
     override var balance: List<WalletCommunityBalanceRecordDomain>,
     private val _amountCalculator: AmountCalculator,
     private val amountValidator: AmountValidator,
-    private val walletRepository: WalletRepository
+    private val walletRepository: WalletRepository,
+    private val globalSettingsRepository: GlobalSettingsRepository
 ) : WalletConvertModel,
     ModelBaseImpl() {
 
@@ -41,6 +44,13 @@ constructor(
     override lateinit var carouselItemsData: CarouselStartData
 
     override var isInSellPointMode: Boolean = true
+
+    override val isBalanceUpdated: Flow<Boolean?>
+        get() =globalSettingsRepository.isBalanceUpdated
+
+    override suspend fun notifyBalanceUpdate(isBalanceUpdated:Boolean) {
+        globalSettingsRepository.notifyBalanceUpdate(isBalanceUpdated)
+    }
 
     override val amountCalculator: AmountCalculatorBrief = _amountCalculator
 

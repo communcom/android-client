@@ -34,6 +34,8 @@ interface WalletSendPointsModel : ModelBase {
 
     suspend fun makeTransfer()
 
+    suspend fun notifyBalanceUpdate(isBalanceUpdated:Boolean)
+
     fun getTransferCompletedInfo(): TransferCompletedInfo
 
     fun getAmountAsString(): String?

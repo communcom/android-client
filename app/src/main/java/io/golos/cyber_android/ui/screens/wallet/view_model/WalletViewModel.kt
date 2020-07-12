@@ -1,18 +1,13 @@
 package io.golos.cyber_android.ui.screens.wallet.view_model
 
-import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.wallet.dto.*
 import io.golos.cyber_android.ui.screens.wallet.model.WalletModel
 import io.golos.cyber_android.ui.screens.wallet.view.my_points.WalletMyPointsListItemEventsProcessor
-import io.golos.cyber_android.ui.screens.wallet_convert.view_model.WalletConvertViewModel
 import io.golos.cyber_android.ui.screens.wallet_shared.history.view.WalletHistoryListItemEventsProcessor
 import io.golos.cyber_android.ui.screens.wallet_shared.send_points.list.view.WalletSendPointsListItemEventsProcessor
 import io.golos.cyber_android.ui.shared.extensions.getMessage
@@ -27,20 +22,13 @@ import io.golos.domain.GlobalConstants
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserDomain
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
 class WalletViewModel
-@Inject
-constructor(
-    private val appContext: Context,
-    dispatchersProvider: DispatchersProvider,
-    model: WalletModel
-) : ViewModelBase<WalletModel>(dispatchersProvider, model),
-    WalletMyPointsListItemEventsProcessor,
-    WalletSendPointsListItemEventsProcessor,
-    WalletHistoryListItemEventsProcessor {
+@Inject constructor(private val appContext: Context, dispatchersProvider: DispatchersProvider, model: WalletModel) : ViewModelBase<WalletModel>(dispatchersProvider, model), WalletMyPointsListItemEventsProcessor, WalletSendPointsListItemEventsProcessor, WalletHistoryListItemEventsProcessor {
 
     private val _swipeRefreshing = MutableLiveData<Boolean>(false)
     val swipeRefreshing: LiveData<Boolean> get() = _swipeRefreshing
@@ -67,16 +55,19 @@ constructor(
 
     init {
         sendPointItems.observeForever {
-            _sendPointsVisibility.value = if(isSendPointsListEmpty(it)) View.GONE else View.VISIBLE
+            _sendPointsVisibility.value = if (isSendPointsListEmpty(it)) View.GONE else View.VISIBLE
         }
 
         loadPage(false)
 
-        LocalBroadcastManager.getInstance(appContext).registerReceiver(object : BroadcastReceiver() {
-            override fun onReceive(context: Context, intent: Intent) {
-                loadPage(true)
+        launch {
+            model.isBalanceUpdated.collect {
+                it?.let {
+                    loadPage(true)
+                    model.clearBalanceUpdateLastCallback()
+                }
             }
-        }, IntentFilter(WalletConvertViewModel.BALANCE_UPDATED_EVENT))
+        }
     }
 
     fun onSwipeRefresh() = loadPage(true)
@@ -118,7 +109,7 @@ constructor(
     }
 
     override fun onMyPointItemClick(communityId: CommunityIdDomain) {
-        if(communityId.code == GlobalConstants.COMMUN_CODE) {
+        if (communityId.code == GlobalConstants.COMMUN_CODE) {
             return
         }
 
@@ -133,9 +124,8 @@ constructor(
 
     fun onConvertClick() {
         model.balance.let { balance ->
-            _command.value = NavigateToWalletConvertCommand(
-                balance.first { it.communityId.code != GlobalConstants.COMMUN_CODE}.communityId,
-                balance)
+            _command.value =
+                NavigateToWalletConvertCommand(balance.first { it.communityId.code != GlobalConstants.COMMUN_CODE }.communityId, balance)
         }
     }
 
@@ -143,7 +133,7 @@ constructor(
         loadPageJob?.cancel()
         loadPageJob = launch {
             try {
-                if(needReload) {
+                if (needReload) {
                     model.clearSendPoints()
                     model.clearHistory()
                 }
@@ -162,7 +152,7 @@ constructor(
 
                 _command.value = NavigateBackwardCommand()
             } finally {
-                if(needReload) {
+                if (needReload) {
                     _swipeRefreshing.value = false
                 }
             }
@@ -170,7 +160,6 @@ constructor(
     }
 
     private fun isSendPointsListEmpty(items: List<VersionedListItem>) =
-        items.isEmpty() ||
-        (items.size == 1 && (items[0] is NoDataListItem || items[0] is LoadingListItem))
+        items.isEmpty() || (items.size == 1 && (items[0] is NoDataListItem || items[0] is LoadingListItem))
 
 }

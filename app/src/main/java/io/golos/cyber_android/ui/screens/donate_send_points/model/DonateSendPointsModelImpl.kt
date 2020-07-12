@@ -13,6 +13,7 @@ import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
+import io.golos.domain.repositories.GlobalSettingsRepository
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -29,14 +30,16 @@ constructor(
     @Named(Clarification.AMOUNT)
     override var amount: Double?,
     private val postId: ContentIdDomain,
-    private val postUpdateRegistry: PostUpdateRegistry
+    private val postUpdateRegistry: PostUpdateRegistry,
+    globalSettingsRepository: GlobalSettingsRepository
 ) : WalletSendPointsModelImpl(
-        appContext,
-        sendToUser,
-        currentCommunityId,
-        balance,
-        walletRepository,
-        amountValidator
+    appContext,
+    sendToUser,
+    currentCommunityId,
+    balance,
+    walletRepository,
+    amountValidator,
+    globalSettingsRepository
 ), WalletSendPointsModel {
 
     override val canSelectUser = false

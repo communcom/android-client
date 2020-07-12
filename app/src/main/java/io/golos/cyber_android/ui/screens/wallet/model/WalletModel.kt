@@ -5,6 +5,7 @@ import io.golos.cyber_android.ui.screens.wallet.dto.MyPointsListItem
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
+import kotlinx.coroutines.flow.Flow
 
 interface WalletModel : ModelBase {
     val balance: List<WalletCommunityBalanceRecordDomain>
@@ -12,6 +13,8 @@ interface WalletModel : ModelBase {
     val totalBalance: Double
 
     val pageSize: Int
+
+    val isBalanceUpdated: Flow<Boolean?>
 
     val sendPointItems: LiveData<List<VersionedListItem>>
 
@@ -22,6 +25,8 @@ interface WalletModel : ModelBase {
     suspend fun getMyPointsItems(): List<MyPointsListItem>
 
     suspend fun loadSendPointsPage()
+
+    suspend fun clearBalanceUpdateLastCallback()
 
     suspend fun retrySendPointsPage()
 

@@ -13,7 +13,9 @@ import io.golos.domain.GlobalConstants
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
+import io.golos.domain.repositories.GlobalSettingsRepository
 import io.golos.utils.id.IdUtil
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Named
@@ -29,7 +31,8 @@ constructor(
     private val walletRepository: WalletRepository,
     private val sendPointsDataSource: SendPointsDataSource,
     private val historyDataSource: HistoryDataSource,
-    private val balanceCalculator: BalanceCalculator
+    private val balanceCalculator: BalanceCalculator,
+    private val globalSettingsRepository: GlobalSettingsRepository
 ) : ModelBaseImpl(),
     WalletModel {
 
@@ -43,6 +46,13 @@ constructor(
 
     override val historyItems: LiveData<List<VersionedListItem>>
         get() = historyDataSource.items
+
+    override val isBalanceUpdated: Flow<Boolean?>
+        get() = globalSettingsRepository.isBalanceUpdated
+
+    override suspend fun clearBalanceUpdateLastCallback() {
+        globalSettingsRepository.notifyBalanceUpdate(null)
+    }
 
     override suspend fun initBalance(needReload: Boolean) {
         balance = if(needReload) {

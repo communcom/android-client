@@ -1,13 +1,9 @@
 package io.golos.cyber_android.ui.screens.profile.view_model
 
-import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.dto.ProfileCommunities
@@ -15,13 +11,13 @@ import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.mappers.mapToCommunity
 import io.golos.cyber_android.ui.screens.profile.dto.*
 import io.golos.cyber_android.ui.screens.profile.model.ProfileModel
-import io.golos.cyber_android.ui.screens.wallet_convert.view_model.WalletConvertViewModel
 import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.notifications.NotificationSettingsDomain
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
@@ -29,12 +25,7 @@ import java.util.*
 import javax.inject.Inject
 
 class ProfileViewModel
-@Inject
-constructor(
-    private val appContext: Context,
-    dispatchersProvider: DispatchersProvider,
-    model: ProfileModel
-) : ViewModelBase<ProfileModel>(dispatchersProvider, model) {
+@Inject constructor(private val appContext: Context, dispatchersProvider: DispatchersProvider, model: ProfileModel) : ViewModelBase<ProfileModel>(dispatchersProvider, model) {
 
     private val _coverUrl: MutableLiveData<String?> = MutableLiveData()
     val coverUrl: LiveData<String?> get() = _coverUrl
@@ -75,9 +66,9 @@ constructor(
     private val _loadingProgressVisibility: MutableLiveData<Int> = MutableLiveData(View.VISIBLE)
     val loadingProgressVisibility: LiveData<Int> get() = _loadingProgressVisibility
 
-    val backButtonVisibility = if(model.isCurrentUser) View.INVISIBLE else View.VISIBLE
-    val followButtonVisibility = if(model.isCurrentUser) View.GONE else View.VISIBLE
-    val photoButtonsVisibility = if(model.isCurrentUser) View.VISIBLE else View.INVISIBLE
+    val backButtonVisibility = if (model.isCurrentUser) View.INVISIBLE else View.VISIBLE
+    val followButtonVisibility = if (model.isCurrentUser) View.GONE else View.VISIBLE
+    val photoButtonsVisibility = if (model.isCurrentUser) View.VISIBLE else View.INVISIBLE
 
     private val _followButtonState = MutableLiveData<Boolean>()
     val followButtonState get() = _followButtonState.toLiveData()
@@ -85,7 +76,7 @@ constructor(
     private val _swipeRefreshing = MutableLiveData<Boolean>(false)
     val swipeRefreshing get() = _swipeRefreshing.toLiveData()
 
-    val walletVisibility = if(model.isBalanceVisible) View.VISIBLE else View.GONE
+    val walletVisibility = if (model.isBalanceVisible) View.VISIBLE else View.GONE
 
     private val _walletValue = MutableLiveData<Double>(0.0)
     val walletValue: LiveData<Double> get() = _walletValue
@@ -94,28 +85,26 @@ constructor(
 
     init {
         _bio.observeForever {
-            _bioVisibility.value = if(it.isNullOrEmpty()) View.GONE else View.VISIBLE
+            _bioVisibility.value = if (it.isNullOrEmpty()) View.GONE else View.VISIBLE
 
-            _addBioVisibility.value =
-                if(!model.isCurrentUser) {
-                    View.GONE
-                } else {
-                    if(it.isNullOrEmpty())
-                        View.VISIBLE
-                    else
-                        View.GONE
-                }
+            _addBioVisibility.value = if (!model.isCurrentUser) {
+                View.GONE
+            } else {
+                if (it.isNullOrEmpty()) View.VISIBLE
+                else View.GONE
+            }
         }
 
-        LocalBroadcastManager.getInstance(appContext).registerReceiver(object : BroadcastReceiver() {
-            override fun onReceive(context: Context, intent: Intent) {
-                launch {
+        launch {
+            model.isBalanceUpdated.collect {
+                it?.let {
                     if (model.isBalanceVisible) {
                         _walletValue.value = model.getTotalBalance()
+                        model.clearBalanceUpdateLastCallback()
                     }
                 }
             }
-        }, IntentFilter(WalletConvertViewModel.BALANCE_UPDATED_EVENT))
+        }
     }
 
     fun start() = loadPage()
@@ -131,7 +120,7 @@ constructor(
     }
 
     fun onSelectMenuChosen(item: ProfileItem) {
-        _command.value = when(item) {
+        _command.value = when (item) {
             ProfileItem.AVATAR -> NavigateToSelectPhotoPageCommand(item, model.avatarUrl)
             ProfileItem.COVER -> NavigateToSelectPhotoPageCommand(item, model.coverUrl)
             ProfileItem.BIO -> NavigateToBioPageCommand(_bio.value)
@@ -141,11 +130,12 @@ constructor(
 
     fun onDeleteMenuChosen(place: ProfileItem) {
         launch {
-            when(place) {
+            when (place) {
                 ProfileItem.COVER -> deleteCover()
                 ProfileItem.AVATAR -> deleteAvatar()
                 ProfileItem.BIO -> deleteBio()
-                else -> {}
+                else -> {
+                }
             }
         }
     }
@@ -156,7 +146,7 @@ constructor(
 
     fun updatePhoto(imageFile: File, item: ProfileItem) {
         launch {
-            when(item) {
+            when (item) {
                 ProfileItem.COVER -> updateCover(imageFile)
                 ProfileItem.AVATAR -> updateAvatar(imageFile)
                 else -> throw UnsupportedOperationException("This item is not supported: $item")
@@ -186,7 +176,7 @@ constructor(
     }
 
     fun onBioClick() {
-        if(bioUpdateInProgress || !model.isCurrentUser) {
+        if (bioUpdateInProgress || !model.isCurrentUser) {
             return
         }
         _command.value = ShowEditBioDialogCommand()
@@ -201,7 +191,7 @@ constructor(
     }
 
     fun onSettingsClick() {
-        _command.value = if(model.isCurrentUser) {
+        _command.value = if (model.isCurrentUser) {
             ShowSettingsDialogCommand()
         } else {
             ShowExternalUserSettingsDialogCommand(model.isInBlackList)
@@ -267,7 +257,7 @@ constructor(
                 _command.value = SetLoadingVisibilityCommand(false)
             }
 
-            if(isSuccess) {
+            if (isSuccess) {
                 _command.value = RestartAppCommand()
             }
         }
@@ -279,7 +269,7 @@ constructor(
                 _followButtonState.value = !model.isSubscribed
 
                 model.subscribeUnsubscribe()
-            } catch(ex: Exception) {
+            } catch (ex: Exception) {
                 _command.value = ShowMessageTextCommand(ex.getMessage(appContext))
                 _followButtonState.value = model.isSubscribed
             }
@@ -323,8 +313,9 @@ constructor(
                 _followingsCount.value = followingsCount
 
                 val highlightCommunities = model.getHighlightCommunities()
-                if(highlightCommunities.isNotEmpty()) {
-                    _communities.value = ProfileCommunities(communitiesSubscribedCount, highlightCommunities.map { it.mapToCommunity() })
+                if (highlightCommunities.isNotEmpty()) {
+                    _communities.value =
+                        ProfileCommunities(communitiesSubscribedCount, highlightCommunities.map { it.mapToCommunity() })
                 }
 
                 _followButtonState.value = isSubscribed

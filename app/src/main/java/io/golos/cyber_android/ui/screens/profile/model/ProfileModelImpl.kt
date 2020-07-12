@@ -8,8 +8,10 @@ import io.golos.cyber_android.ui.screens.wallet_shared.balance_calculator.Balanc
 import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.dto.*
 import io.golos.domain.repositories.CurrentUserRepository
+import io.golos.domain.repositories.GlobalSettingsRepository
 import io.golos.domain.repositories.UsersRepository
 import io.golos.domain.use_cases.community.CommunitiesRepository
+import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
@@ -24,7 +26,8 @@ constructor(
     private val walletRepository: WalletRepository,
     private val logout: Lazy<LogoutUseCase>,
     private val balanceCalculator: BalanceCalculator,
-    override val notificationSettings: NotificationsSettingsFacade
+    override val notificationSettings: NotificationsSettingsFacade,
+    private val globalSettingsRepository: GlobalSettingsRepository
 ) : ModelBaseImpl(),
     ProfileModel {
 
@@ -54,7 +57,14 @@ constructor(
     override val coverUrl: String?
         get() = userProfile.coverUrl
 
+    override val isBalanceUpdated: Flow<Boolean?>
+        get() = globalSettingsRepository.isBalanceUpdated
+
     override var balanceData: List<WalletCommunityBalanceRecordDomain> = listOf()
+
+    override suspend fun clearBalanceUpdateLastCallback() {
+        globalSettingsRepository.notifyBalanceUpdate(null)
+    }
 
     override suspend fun loadProfileInfo(): UserProfileDomain {
         userProfile = usersRepository.getUserProfile(profileUserId)
