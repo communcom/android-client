@@ -77,7 +77,7 @@ class WalletViewModel
     }
 
     fun onSeeAllMyPointsClick() {
-        _command.value = ShowMyPointsDialog(model.balance)
+        _command.value = ShowMyPointsDialog(model.balance.sortedByDescending { it.points })
     }
 
     fun onSeeAllSendPointsClick() {
