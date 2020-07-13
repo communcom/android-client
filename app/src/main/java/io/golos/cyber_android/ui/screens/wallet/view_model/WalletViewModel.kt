@@ -141,7 +141,7 @@ class WalletViewModel
                 model.initBalance(needReload)
 
                 _totalValue.value = model.totalBalance
-                _myPointsItems.value = model.getMyPointsItems()
+                _myPointsItems.value = model.getMyPointsItems().sortedByDescending { it.data.points }
 
                 // To load the very first page
                 onSendPointsNextPageReached()
