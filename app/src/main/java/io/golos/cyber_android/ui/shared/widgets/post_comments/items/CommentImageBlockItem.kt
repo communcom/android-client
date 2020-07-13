@@ -13,8 +13,9 @@ class CommentImageBlockItem(
     val imageBlock: ImageBlock,
     val contentId: ContentIdDomain? = null,
     widgetListener: EmbedImageWidgetListener? = null,
-    onLongClickListener: View.OnLongClickListener? = null
-) : BaseBlockItem<ImageBlock, EmbedImageWidgetListener, EmbedImageWidget>(imageBlock, widgetListener, onLongClickListener) {
+    onLongClickListener: View.OnLongClickListener? = null,
+    onClickListener: View.OnClickListener? = null
+) : BaseBlockItem<ImageBlock, EmbedImageWidgetListener, EmbedImageWidget>(imageBlock, widgetListener, onLongClickListener,onClickListener) {
 
     override fun createWidget(context: Context): EmbedImageWidget = EmbedImageWidget(context).apply {
         setContentId(contentId)

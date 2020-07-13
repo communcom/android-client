@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.shared.widgets.post_comments.items
 
 import android.content.Context
+import android.view.View
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.base.adapter.RecyclerItem
 import io.golos.cyber_android.ui.shared.widgets.post_comments.RichWidget
@@ -11,10 +12,12 @@ import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.RichBlock
 class CommentRichBlockItem(
     val richBlock: RichBlock,
     val contentId: ContentIdDomain,
-    widgetListener: RichWidgetListener? = null
+    widgetListener: RichWidgetListener? = null,
+    onClickListener: View.OnClickListener? = null
 ) : BaseBlockItem<RichBlock, RichWidgetListener, RichWidget>(
     richBlock,
-    widgetListener
+    widgetListener,
+    onClickListener = onClickListener
 ) {
 
     override fun createWidget(

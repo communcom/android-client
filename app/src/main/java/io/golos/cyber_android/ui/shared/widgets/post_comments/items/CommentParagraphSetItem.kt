@@ -15,11 +15,12 @@ data class CommentParagraphSetItem(
     val paragraphSet: ParagraphSet,
     val widgetListener: ParagraphWidgetListener?,
     val contentId: ContentIdDomain,
-    val onLongClickListener: View.OnLongClickListener? = null
+    val onLongClickListener: View.OnLongClickListener? = null,
+    val onClickListener: View.OnClickListener? = null
 ) : BaseBlockItem<ParagraphSet, ParagraphWidgetListener, ParagraphSetWidget>(
     paragraphSet,
     widgetListener,
-    onLongClickListener) {
+    onLongClickListener, onClickListener) {
 
     override fun createWidget(context: Context): ParagraphSetWidget = ParagraphSetWidget(context).apply {
         setSeeMoreEnabled(true)

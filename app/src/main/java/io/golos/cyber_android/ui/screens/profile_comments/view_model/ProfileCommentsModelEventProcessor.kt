@@ -14,7 +14,8 @@ interface ProfileCommentsModelEventProcessor :
     EmbedWebsiteWidgetListener,
     EmbedVideoWidgetListener,
     ParagraphWidgetListener,
-    CommentLongClickListener
+    CommentLongClickListener,
+    CommentClickListener
 
 interface ProfileCommentsProgressEventProcessor {
     fun onRetryLoadComments()
@@ -32,4 +33,8 @@ interface CommentLongClickListener {
 
     fun onCommentLongClick(comment: Comment)
 
+}
+
+interface CommentClickListener{
+    fun onCommentClicked(comment: Comment)
 }

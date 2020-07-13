@@ -20,6 +20,7 @@ import io.golos.cyber_android.ui.shared.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.cyber_android.ui.shared.widgets.comment.CommentContent
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.CommentDomain
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.ContentIdDomain
@@ -27,6 +28,7 @@ import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.EditorOutputToJsonMapper
 import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.EmbedMetadata
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.*
+import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -467,6 +469,13 @@ class ProfileCommentsViewModel @Inject constructor(
     override fun onCleared() {
         loadCommentsJob?.cancel()
         super.onCleared()
+    }
+
+    override fun onCommentClicked(comment: Comment) {
+        _command.value =
+            NavigateToPostCommand(DiscussionIdModel(comment.parent.post!!.userId.userId, Permlink(comment.parent.post!!.permlink)),
+                ContentIdDomain(comment.community.communityId, comment.parent.post.permlink,
+                    comment.parent.post.userId))
     }
 
 }

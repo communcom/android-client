@@ -56,8 +56,12 @@ class ProfileCommentItem(
             }
             true
         }
-        setupCommentContent(listItem, listItemEventsProcessor, longClickListener)
-        itemView.setOnLongClickListener(longClickListener)
+        val commentClickListener = View.OnClickListener {
+            if(!comment.isDeleted){
+                listItemEventsProcessor.onCommentClicked(comment)
+            }
+        }
+        setupCommentContent(listItem, listItemEventsProcessor, longClickListener,commentClickListener)
     }
 
     private fun setupCommentTime(meta: Meta) {
@@ -76,7 +80,8 @@ class ProfileCommentItem(
     private fun setupCommentContent(
         listItem: ProfileCommentListItem,
         listItemEventsProcessor: ProfileCommentsModelEventProcessor,
-        longClickListener: View.OnLongClickListener
+        longClickListener: View.OnLongClickListener,
+        commentClickListener:View.OnClickListener
     ) {
         with(itemView) {
             rvCommentContent.apply {
@@ -120,9 +125,9 @@ class ProfileCommentItem(
             newContentList = joinParagraphs(newContentList)
 
             val contentItems = newContentList
-                .filter { createPostBodyItem(listItem.comment, it, listItemEventsProcessor, longClickListener) != null }
+                .filter { createPostBodyItem(listItem.comment, it, listItemEventsProcessor, longClickListener,commentClickListener) != null }
                 .map {
-                    createPostBodyItem(listItem.comment, it, listItemEventsProcessor, longClickListener)!!
+                    createPostBodyItem(listItem.comment, it, listItemEventsProcessor, longClickListener,commentClickListener)!!
                 }
             commentContentAdapter.updateAdapter(contentItems)
         }
@@ -228,7 +233,8 @@ class ProfileCommentItem(
         comment: Comment,
         block: Block,
         listItemEventsProcessor: ProfileCommentsModelEventProcessor,
-        longClickListener: View.OnLongClickListener
+        longClickListener: View.OnLongClickListener,
+        commentClickListener: View.OnClickListener
     ): BaseRecyclerItem? {
         return when (block) {
             is AttachmentsBlock -> {
@@ -237,7 +243,8 @@ class ProfileCommentItem(
                         comment,
                         block.content.single(),
                         listItemEventsProcessor,
-                        longClickListener
+                        longClickListener,
+                        commentClickListener
                     ) // A single attachment is shown as embed block
                 } else {
                     AttachmentBlockItem(block, listItemEventsProcessor)
@@ -264,7 +271,8 @@ class ProfileCommentItem(
                 block,
                 listItemEventsProcessor,
                 comment.contentId,
-                onLongClickListener = longClickListener
+                onLongClickListener = longClickListener,
+                onClickListener = commentClickListener
             )
 
             is RichBlock -> CommentRichBlockItem(

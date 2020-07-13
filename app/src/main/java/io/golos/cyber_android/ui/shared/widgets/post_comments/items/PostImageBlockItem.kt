@@ -13,9 +13,10 @@ class PostImageBlockItem(
     val imageBlock: ImageBlock,
     val contentId: ContentIdDomain? = null,
     widgetListener: EmbedImageWidgetListener? = null,
-    onLongClickListener: View.OnLongClickListener? = null
+    onLongClickListener: View.OnLongClickListener? = null,
+    onClickListener: View.OnClickListener?=null
 ) :
-    BaseBlockItem<ImageBlock, EmbedImageWidgetListener, EmbedImageWidget>(imageBlock, widgetListener, onLongClickListener) {
+    BaseBlockItem<ImageBlock, EmbedImageWidgetListener, EmbedImageWidget>(imageBlock, widgetListener, onLongClickListener,onClickListener) {
 
     override fun createWidget(
         context: Context

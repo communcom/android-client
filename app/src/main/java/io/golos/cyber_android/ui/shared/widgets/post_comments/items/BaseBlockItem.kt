@@ -12,7 +12,8 @@ import kotlinx.android.synthetic.main.item_post_block.view.*
 abstract class BaseBlockItem<POST_BLOCK : Block, WIDGET_LISTENER : BasePostBlockWidgetListener, WIDGET : BlockWidget<POST_BLOCK, WIDGET_LISTENER>>(
     private val postBlock: POST_BLOCK,
     private val widgetListener: WIDGET_LISTENER? = null,
-    private val onLongClickLister: View.OnLongClickListener? = null
+    private val onLongClickLister: View.OnLongClickListener? = null,
+    private val onClickListener: View.OnClickListener? = null
 ) : BaseRecyclerItem() {
 
     override fun getLayoutId(): Int = R.layout.item_post_block
@@ -32,6 +33,7 @@ abstract class BaseBlockItem<POST_BLOCK : Block, WIDGET_LISTENER : BasePostBlock
         widget.setOnLongClickListener(onLongClickLister)
         //only work on [io.golos.cyber_android.ui.shared.widgets.post_comments.ParagraphWidget]
         val postWidgetContainer = view.postWidgetContainer
+        postWidgetContainer.setOnClickListener(onClickListener)
         postWidgetContainer.setOnLongClickListener(onLongClickLister)
         postWidgetContainer.addView(widgetView)
 

@@ -15,6 +15,7 @@ import io.golos.cyber_android.ui.mappers.mapToCommentMenu
 import io.golos.cyber_android.ui.screens.comment_page_menu.view.CommentPageMenuDialog
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
 import io.golos.cyber_android.ui.screens.dashboard.view.DashboardFragment
+import io.golos.cyber_android.ui.screens.post_view.view.PostPageFragment
 import io.golos.cyber_android.ui.screens.profile.view.ProfileExternalUserFragment
 import io.golos.cyber_android.ui.screens.profile.view.ProfileFragment
 import io.golos.cyber_android.ui.screens.profile_comments.di.ProfileCommentsFragmentComponent
@@ -29,7 +30,9 @@ import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.shared.utils.openImageView
 import io.golos.cyber_android.ui.shared.utils.openLinkView
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.android.synthetic.main.fragment_profile_comments.*
 
 class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding, ProfileCommentsViewModel>() {
@@ -103,6 +106,7 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
             is NavigateToImageViewCommand -> requireContext().openImageView(command.imageUri)
             is NavigateToLinkViewCommand -> requireContext().openLinkView(command.link)
             is NavigateToUserProfileCommand -> navigateToUser(command.userId)
+            is NavigateToPostCommand -> openPost(command.discussionIdModel, command.contentId)
             is ScrollProfileToTopCommand ->  scrollProfileToTop()
             is NavigateToCommunityPageCommand -> openCommunityPage(command.communityId)
             is NavigateToProfileCommentMenuDialogViewCommand -> openProfileCommentMenu(command.comment)
@@ -112,6 +116,10 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
                 collapseListener?.invoke()
             }
         }
+    }
+
+    private fun openPost(discussionIdModel: DiscussionIdModel, contentId: ContentIdDomain) {
+        getDashboardFragment(this)?.navigateToFragment(PostPageFragment.newInstance(PostPageFragment.Args(discussionIdModel, contentId)), tag = contentId.permlink)
     }
 
     private fun scrollProfileToTop() {
