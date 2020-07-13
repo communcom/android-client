@@ -57,6 +57,8 @@ class WalletFragment : FragmentBaseMVVM<FragmentWalletBinding, WalletViewModel>(
         super.onViewCreated(view, savedInstanceState)
 
         primePanel.setOnBackButtonClickListener { viewModel.onBackClick() }
+        primePanel.setOnUsdButtonClickListener { viewModel.onUsdClick() }
+        primePanel.setOnCommunButtonClickListener { viewModel.onCommunClick() }
         primePanel.setOnMenuButtonClickListener { viewModel.onSettingsClick() }
         primePanel.setOnSendClickListener { viewModel.onSendPointsItemClick(null) }
         primePanel.setOnConvertClickListener { viewModel.onConvertClick() }

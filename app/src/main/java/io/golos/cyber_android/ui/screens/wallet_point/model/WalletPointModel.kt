@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.wallet_point.model
 import androidx.lifecycle.LiveData
+import io.golos.cyber_android.ui.screens.wallet.data.enums.Currencies
 import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
@@ -12,6 +13,8 @@ interface WalletPointModel : ModelBase {
     val title: String?
 
     val balanceInPoints: Double
+
+    val balanceCurrency: Currencies
 
     val holdPoints: Double
 

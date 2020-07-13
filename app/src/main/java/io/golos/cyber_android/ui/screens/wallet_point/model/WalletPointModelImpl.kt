@@ -1,12 +1,15 @@
 package io.golos.cyber_android.ui.screens.wallet_point.model
 
 import androidx.lifecycle.LiveData
+import io.golos.cyber_android.ui.screens.wallet.data.enums.Currencies
+import io.golos.cyber_android.ui.screens.wallet.model.WalletModelImpl
 import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
 import io.golos.cyber_android.ui.screens.wallet_shared.carousel.CarouselListItem
 import io.golos.cyber_android.ui.screens.wallet_shared.history.data_source.HistoryDataSource
 import io.golos.cyber_android.ui.screens.wallet_shared.send_points.list.data_source.SendPointsDataSource
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
+import io.golos.data.persistence.key_value_storage.storages.shared_preferences.SharedPreferencesStorage
 import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dependency_injection.Clarification
@@ -25,7 +28,8 @@ constructor(
     override var sourceBalance: List<WalletCommunityBalanceRecordDomain>,
     private val walletRepository: WalletRepository,
     private val sendPointsDataSource: SendPointsDataSource,
-    private val historyDataSource: HistoryDataSource
+    private val historyDataSource: HistoryDataSource,
+    private val sharedPreferencesStorage: SharedPreferencesStorage
 ) : ModelBaseImpl(), WalletPointModel {
 
     init {
@@ -40,7 +44,7 @@ constructor(
         get() = currentBalanceRecord.communityName
 
     override val balanceInPoints: Double
-        get() = currentBalanceRecord.points
+        get() = currentBalanceRecord.points * getCurrency().coefficient
 
     override val holdPoints: Double
         get() = currentBalanceRecord.frozenPoints ?: 0.0
@@ -53,6 +57,9 @@ constructor(
 
     override val historyItems: LiveData<List<VersionedListItem>>
         get() = historyDataSource.items
+
+    override val balanceCurrency: Currencies
+        get() = getCurrency()
 
     override suspend fun initBalance(needReload: Boolean) {
         if(needReload) {
@@ -91,4 +98,9 @@ constructor(
     override suspend fun retryHistoryPage() = historyDataSource.retry()
 
     override suspend fun clearHistory() = historyDataSource.clear()
+
+    private fun getCurrency(): Currencies {
+        return sharedPreferencesStorage.createReadOperationsInstance().readString(WalletModelImpl.PREF_BALANCE_CURRENCY_COEFFICIENT)?.let { Currencies.getCurrency(it) }
+            ?: Currencies.COMMUN
+    }
 }

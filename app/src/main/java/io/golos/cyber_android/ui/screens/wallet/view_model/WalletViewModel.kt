@@ -5,7 +5,9 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.screens.wallet.data.enums.Currencies
 import io.golos.cyber_android.ui.screens.wallet.dto.*
+import io.golos.cyber_android.ui.screens.wallet.model.CurrencyBalance
 import io.golos.cyber_android.ui.screens.wallet.model.WalletModel
 import io.golos.cyber_android.ui.screens.wallet.view.my_points.WalletMyPointsListItemEventsProcessor
 import io.golos.cyber_android.ui.screens.wallet_shared.history.view.WalletHistoryListItemEventsProcessor
@@ -35,6 +37,9 @@ class WalletViewModel
 
     private val _totalValue = MutableLiveData<Double>(0.0)
     val totalValue: LiveData<Double> = _totalValue
+
+    private val _currencyBalance = MutableLiveData(CurrencyBalance(0.0, Currencies.COMMUN))
+    val currencyBalance: LiveData<CurrencyBalance> = _currencyBalance
 
     private val _collapsedPanelTitle = MutableLiveData<String>(appContext.resources.getString(R.string.profile_wallet_title))
     val collapsedPanelTitle: LiveData<String> = _collapsedPanelTitle
@@ -76,8 +81,18 @@ class WalletViewModel
         _command.value = NavigateBackwardCommand()
     }
 
-    fun onSettingsClick() {
-        _command.value = ShowSettingsDialog(model.getEmptyBalanceVisibility())
+    fun onUsdClick() {
+        launch {
+            model.saveBalanceCurrency(Currencies.USD)
+            _currencyBalance.value = CurrencyBalance(model.totalBalance, model.balanceCurrency)
+        }
+    }
+
+    fun onCommunClick() {
+        launch {
+            model.saveBalanceCurrency(Currencies.COMMUN)
+            _currencyBalance.value = CurrencyBalance(model.totalBalance, model.balanceCurrency)
+        }
     }
 
     fun onSeeAllMyPointsClick() {
@@ -157,6 +172,8 @@ class WalletViewModel
 
                 _totalValue.value = model.totalBalance
                 setupPointsItems()
+
+                _currencyBalance.value = CurrencyBalance(model.totalBalance, model.balanceCurrency)
 
                 // To load the very first page
                 onSendPointsNextPageReached()

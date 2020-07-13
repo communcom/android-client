@@ -4,7 +4,10 @@ import dagger.Lazy
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.screens.profile.model.logout.LogoutUseCase
 import io.golos.cyber_android.ui.screens.profile.model.notifications_settings.NotificationsSettingsFacade
+import io.golos.cyber_android.ui.screens.wallet.data.enums.Currencies
+import io.golos.cyber_android.ui.screens.wallet.model.WalletModelImpl
 import io.golos.cyber_android.ui.screens.wallet_shared.balance_calculator.BalanceCalculator
+import io.golos.data.persistence.key_value_storage.storages.shared_preferences.SharedPreferencesStorage
 import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.dto.*
 import io.golos.domain.repositories.CurrentUserRepository
@@ -26,8 +29,8 @@ constructor(
     private val walletRepository: WalletRepository,
     private val logout: Lazy<LogoutUseCase>,
     private val balanceCalculator: BalanceCalculator,
-    override val notificationSettings: NotificationsSettingsFacade,
-    private val globalSettingsRepository: GlobalSettingsRepository
+    private val sharedPreferencesStorage: SharedPreferencesStorage,
+    override val notificationSettings: NotificationsSettingsFacade
 ) : ModelBaseImpl(),
     ProfileModel {
 
@@ -145,6 +148,11 @@ constructor(
 
     override suspend fun getTotalBalance(): Double {
         balanceData = walletRepository.getBalance()
-        return balanceCalculator.getTotalBalance(balanceData)
+        return balanceCalculator.getTotalBalance(balanceData) * getCurrency().coefficient
+    }
+
+    override fun getCurrency(): Currencies {
+        return sharedPreferencesStorage.createReadOperationsInstance().readString(WalletModelImpl.PREF_BALANCE_CURRENCY_COEFFICIENT)?.let { Currencies.getCurrency(it) }
+            ?: Currencies.COMMUN
     }
 }

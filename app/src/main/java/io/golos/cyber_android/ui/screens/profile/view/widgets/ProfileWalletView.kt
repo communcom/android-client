@@ -4,8 +4,12 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.screens.wallet.data.enums.Currencies
+import io.golos.cyber_android.ui.screens.wallet.model.CurrencyBalance
 import io.golos.utils.format.CurrencyFormatter
 import kotlinx.android.synthetic.main.view_profile_wallet.view.*
+import kotlinx.android.synthetic.main.view_profile_wallet.view.textValue
+import kotlinx.android.synthetic.main.view_profile_wallet.view.title
 
 class ProfileWalletView
 @JvmOverloads
@@ -24,8 +28,17 @@ constructor(
         walletButton.setOnClickListener { onWalletClickListener?.invoke() }
     }
 
-    fun setValue(value: Double) {
-        textValue.text = CurrencyFormatter.format(value)
+    fun setValue(currencyBalance: CurrencyBalance) {
+        when(currencyBalance.currency) {
+            Currencies.USD -> {
+                title.text = String.format(resources.getString(R.string.profile_wallet_title_var), resources.getString(R.string.usd_currency))
+                textValue.text = StringBuilder("$").append(CurrencyFormatter.format(currencyBalance.balance))
+            }
+            Currencies.COMMUN -> {
+                title.text = String.format(resources.getString(R.string.profile_wallet_title_var), resources.getString(R.string.commun_currency))
+                textValue.text = CurrencyFormatter.format(currencyBalance.balance)
+            }
+        }
     }
 
     fun setOnWalletClickListener(listener: (() -> Unit)?) {

@@ -59,7 +59,7 @@
                             android:fitsSystemWindows="true"
                             app:layout_collapseMode="none"
 
-                            app:wallet_prime_panel_view_value="@{viewModel.totalValue}"
+                            app:wallet_prime_panel_view_value="@{viewModel.currencyBalance}"
                             />
 
                         <io.golos.cyber_android.ui.screens.wallet.view.my_points.WalletMyPointsView
@@ -120,7 +120,7 @@
                             android:alpha="0"
                             tools:alpha="1"
 
-                            app:wallet_collapsed_panel_view_value="@{viewModel.totalValue}"
+                            app:wallet_collapsed_panel_view_value="@{viewModel.currencyBalance}"
                             app:wallet_collapsed_panel_view_title="@{viewModel.collapsedPanelTitle}"
                         />
                     </androidx.appcompat.widget.Toolbar>

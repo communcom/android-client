@@ -11,6 +11,8 @@ import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.mappers.mapToCommunity
 import io.golos.cyber_android.ui.screens.profile.dto.*
 import io.golos.cyber_android.ui.screens.profile.model.ProfileModel
+import io.golos.cyber_android.ui.screens.wallet.data.enums.Currencies
+import io.golos.cyber_android.ui.screens.wallet.model.CurrencyBalance
 import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
@@ -82,6 +84,9 @@ class ProfileViewModel
     val walletValue: LiveData<Double> get() = _walletValue
 
     private var bioUpdateInProgress = false
+
+    private val _currencyBalance = MutableLiveData(CurrencyBalance(0.0, Currencies.COMMUN))
+    val currencyBalance: LiveData<CurrencyBalance> = _currencyBalance
 
     init {
         _bio.observeForever {
@@ -325,6 +330,7 @@ class ProfileViewModel
 
             if (model.isBalanceVisible) {
                 _walletValue.value = model.getTotalBalance()
+                _currencyBalance.value = CurrencyBalance(model.getTotalBalance(), model.getCurrency())
             }
 
         } catch (ex: Exception) {

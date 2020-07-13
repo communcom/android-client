@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.screens.profile.model
 
 import io.golos.cyber_android.ui.screens.profile.model.notifications_settings.NotificationsSettingsFacade
+import io.golos.cyber_android.ui.screens.wallet.data.enums.Currencies
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
 import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.dto.UserDomain
@@ -61,4 +62,6 @@ interface ProfileModel: ModelBase {
     suspend fun moveToBlackList()
 
     suspend fun getTotalBalance(): Double
+
+    fun getCurrency(): Currencies
 }

@@ -505,6 +505,7 @@
     <string name="post_reward_main_button_text">Learn more about reward</string>
 
     <string name="profile_wallet_title">Equity Value Commun</string>
+    <string name="profile_wallet_title_var">Equity Value %1$s</string>
 
     <string name="send">Send</string>
     <string name="buy">Buy</string>

@@ -3,9 +3,11 @@ package io.golos.cyber_android.ui.screens.wallet_point.view_model
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import io.golos.cyber_android.ui.screens.wallet.data.enums.Currencies
 import io.golos.cyber_android.ui.screens.wallet.dto.NavigateToWalletConvertCommand
 import io.golos.cyber_android.ui.screens.wallet.dto.NavigateToWalletSendPoints
 import io.golos.cyber_android.ui.screens.wallet.dto.ShowSendPointsDialog
+import io.golos.cyber_android.ui.screens.wallet.model.CurrencyBalance
 import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
 import io.golos.cyber_android.ui.screens.wallet_point.model.WalletPointModel
 import io.golos.cyber_android.ui.screens.wallet_shared.history.view.WalletHistoryListItemEventsProcessor
@@ -48,6 +50,9 @@ constructor(
 
     private val _title = MutableLiveData<String>()
     val title: LiveData<String> = _title
+
+    private val _currencyBalance = MutableLiveData(CurrencyBalance(0.0, Currencies.COMMUN))
+    val currencyBalance: LiveData<CurrencyBalance> = _currencyBalance
 
     private val _balanceInCommuns = MutableLiveData<Double>(0.0)
     val balanceInCommuns: LiveData<Double> = _balanceInCommuns
@@ -157,7 +162,7 @@ constructor(
     }
 
     private fun updateHeaders(initCarousel: Boolean) {
-        _balanceInPoints.value = model.balanceInPoints
+        _currencyBalance.value = CurrencyBalance(model.balanceInPoints, model.balanceCurrency)
         _availablePoints.value = model.balanceInPoints - model.holdPoints
         _holdPoints.value = model.holdPoints
 

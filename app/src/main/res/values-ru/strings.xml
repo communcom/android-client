@@ -431,6 +431,7 @@
     <string name="post_reward_not_top_text">Эта публикация была интересна членам Сообщества</string>
     <string name="post_reward_main_button_text">Узнать больше о наградах</string>
     <string name="profile_wallet_title">Капитализация в Commun</string>
+    <string name="profile_wallet_title_var">Капитализация в %1$s</string>
     <string name="send">Отправить</string>
     <string name="buy">Купить</string>
     <string name="convert">Конвертировать</string>

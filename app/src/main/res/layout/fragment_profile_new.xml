@@ -268,7 +268,7 @@
 
                                 tools:visibility="visible"
                                 android:visibility="@{viewModel.walletVisibility}"
-                                app:profile_wallet_view_value = "@{viewModel.walletValue}"
+                                app:profile_wallet_view_value = "@{viewModel.currencyBalance}"
                                 app:onWalletClickListener = "@{() -> viewModel.onWalletButtonClick() }"
                             />
 

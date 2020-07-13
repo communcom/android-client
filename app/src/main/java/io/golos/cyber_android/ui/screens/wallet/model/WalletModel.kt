@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.screens.wallet.model
 
 import androidx.lifecycle.LiveData
+import io.golos.cyber_android.ui.screens.wallet.data.enums.Currencies
 import io.golos.cyber_android.ui.screens.wallet.dto.MyPointsListItem
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
@@ -12,6 +13,8 @@ interface WalletModel : ModelBase {
 
     val totalBalance: Double
 
+    val balanceCurrency: Currencies
+
     val pageSize: Int
 
     val isBalanceUpdated: Flow<Boolean?>
@@ -21,6 +24,8 @@ interface WalletModel : ModelBase {
     val historyItems: LiveData<List<VersionedListItem>>
 
     suspend fun initBalance(needReload: Boolean)
+
+    suspend fun saveBalanceCurrency(currency: Currencies)
 
     suspend fun getMyPointsItems(): List<MyPointsListItem>
 

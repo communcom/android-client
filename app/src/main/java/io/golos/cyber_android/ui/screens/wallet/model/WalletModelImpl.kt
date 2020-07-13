@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.screens.wallet.model
 
 import androidx.lifecycle.LiveData
+import io.golos.cyber_android.ui.screens.wallet.data.enums.Currencies
 import io.golos.cyber_android.ui.screens.wallet.dto.MyPointsListItem
 import io.golos.cyber_android.ui.screens.wallet_shared.balance_calculator.BalanceCalculator
 import io.golos.cyber_android.ui.screens.wallet_shared.history.data_source.HistoryDataSource
@@ -8,6 +9,7 @@ import io.golos.cyber_android.ui.screens.wallet_shared.send_points.list.data_sou
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.data.persistence.key_value_storage.storages.shared_preferences.SharedPreferencesStorage
+import io.golos.data.repositories.NotificationsRepositoryImpl
 import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.GlobalConstants
@@ -33,19 +35,21 @@ constructor(
     private val sendPointsDataSource: SendPointsDataSource,
     private val historyDataSource: HistoryDataSource,
     private val balanceCalculator: BalanceCalculator,
-    private val sharedPreferencesStorage: SharedPreferencesStorage,
-    private val globalSettingsRepository: GlobalSettingsRepository
+    private val sharedPreferencesStorage: SharedPreferencesStorage
 ) : ModelBaseImpl(),
     WalletModel {
 
-    private companion object{
-        private const val PREF_SHOW_HIDE_EMPTY_BALANCES = "PREF_SHOW_HIDE_EMPTY_BALANCES"
+    companion object{
+        const val PREF_BALANCE_CURRENCY_COEFFICIENT = "PREF_BALANCE_CURRENCY_COEFFICIENT"
     }
 
     override lateinit var balance: List<WalletCommunityBalanceRecordDomain>
 
+    override val balanceCurrency: Currencies
+        get() = getCurrency()
+
     override val totalBalance: Double
-        get() = balanceCalculator.getTotalBalance(balance)
+        get() = (balanceCalculator.getTotalBalance(balance) * getCurrency().coefficient)
 
     override val sendPointItems: LiveData<List<VersionedListItem>>
         get() = sendPointsDataSource.items
@@ -97,6 +101,29 @@ constructor(
     override suspend fun retryHistoryPage() = historyDataSource.retry()
 
     override suspend fun clearHistory() = historyDataSource.clear()
+
+    override suspend fun saveBalanceCurrency(currency: Currencies) {
+        if(getCurrency() != currency) {
+            saveCurrency(currency)
+            initBalance(true)
+        }
+    }
+
+    private fun getCurrency(): Currencies {
+        var result = sharedPreferencesStorage.createReadOperationsInstance().readString(PREF_BALANCE_CURRENCY_COEFFICIENT)?.let { Currencies.getCurrency(it) }
+        if(result == null) {
+            saveCurrency(Currencies.COMMUN)
+            result = Currencies.COMMUN
+        }
+        return result
+    }
+
+    private fun saveCurrency(currency: Currencies){
+        val createWriteOperationsInstance = sharedPreferencesStorage.createWriteOperationsInstance()
+        createWriteOperationsInstance.putString(PREF_BALANCE_CURRENCY_COEFFICIENT, currency.currencyName)
+        createWriteOperationsInstance.commit()
+    }
+
 
     override suspend fun toggleShowHideEmptyBalances(isShow: Boolean) {
         saveShowHideEmptyBalancesState(isShow)
