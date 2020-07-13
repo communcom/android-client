@@ -65,7 +65,7 @@ class WalletViewModel
                 it?.let {
                     loadPage(true)
                     model.clearBalanceUpdateLastCallback()
-                }
+    }
             }
         }
     }
@@ -76,8 +76,16 @@ class WalletViewModel
         _command.value = NavigateBackwardCommand()
     }
 
+    fun onSettingsClick() {
+        _command.value = ShowSettingsDialog(model.getEmptyBalanceVisibility())
+    }
+
     fun onSeeAllMyPointsClick() {
-        _command.value = ShowMyPointsDialog(model.balance.sortedByDescending { it.points })
+        val balancesList = if(model.getEmptyBalanceVisibility())
+            model.balance.filter { it.points > 0 }.sortedByDescending { it.points }
+        else
+            model.balance.sortedByDescending { it.points }
+        _command.value = ShowMyPointsDialog(balancesList)
     }
 
     fun onSeeAllSendPointsClick() {
@@ -122,6 +130,13 @@ class WalletViewModel
         }
     }
 
+    fun onEmptyBalancesShowHide(isVisible: Boolean) {
+        launch {
+            model.toggleShowHideEmptyBalances(isVisible)
+            setupPointsItems()
+        }
+    }
+
     fun onConvertClick() {
         model.balance.let { balance ->
             _command.value =
@@ -141,7 +156,7 @@ class WalletViewModel
                 model.initBalance(needReload)
 
                 _totalValue.value = model.totalBalance
-                _myPointsItems.value = model.getMyPointsItems().sortedByDescending { it.data.points }
+                setupPointsItems()
 
                 // To load the very first page
                 onSendPointsNextPageReached()
@@ -157,6 +172,13 @@ class WalletViewModel
                 }
             }
         }
+    }
+
+    private suspend fun setupPointsItems() {
+        _myPointsItems.value = if(model.getEmptyBalanceVisibility())
+            model.getMyPointsItems().filter { it.data.points > 0 }.sortedByDescending { it.data.points }
+        else
+            model.getMyPointsItems().sortedByDescending { it.data.points }
     }
 
     private fun isSendPointsListEmpty(items: List<VersionedListItem>) =

@@ -37,4 +37,9 @@ interface WalletModel : ModelBase {
     suspend fun retryHistoryPage()
 
     suspend fun clearHistory()
+
+    suspend fun toggleShowHideEmptyBalances(isShow: Boolean)
+
+    fun getEmptyBalanceVisibility(): Boolean
+
 }

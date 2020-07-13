@@ -7,6 +7,7 @@ import io.golos.cyber_android.ui.screens.wallet_shared.history.data_source.Histo
 import io.golos.cyber_android.ui.screens.wallet_shared.send_points.list.data_source.SendPointsDataSource
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
+import io.golos.data.persistence.key_value_storage.storages.shared_preferences.SharedPreferencesStorage
 import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.GlobalConstants
@@ -32,9 +33,13 @@ constructor(
     private val sendPointsDataSource: SendPointsDataSource,
     private val historyDataSource: HistoryDataSource,
     private val balanceCalculator: BalanceCalculator,
-    private val globalSettingsRepository: GlobalSettingsRepository
+    private val sharedPreferencesStorage: SharedPreferencesStorage
 ) : ModelBaseImpl(),
     WalletModel {
+
+    private companion object{
+        private const val PREF_SHOW_HIDE_EMPTY_BALANCES = "PREF_SHOW_HIDE_EMPTY_BALANCES"
+    }
 
     override lateinit var balance: List<WalletCommunityBalanceRecordDomain>
 
@@ -91,4 +96,18 @@ constructor(
     override suspend fun retryHistoryPage() = historyDataSource.retry()
 
     override suspend fun clearHistory() = historyDataSource.clear()
+
+    override suspend fun toggleShowHideEmptyBalances(isShow: Boolean) {
+        saveShowHideEmptyBalancesState(isShow)
+    }
+
+    override fun getEmptyBalanceVisibility(): Boolean {
+        return sharedPreferencesStorage.createReadOperationsInstance().readBoolean(PREF_SHOW_HIDE_EMPTY_BALANCES) ?: false
+    }
+
+    private fun saveShowHideEmptyBalancesState(isShow: Boolean){
+        val createWriteOperationsInstance = sharedPreferencesStorage.createWriteOperationsInstance()
+        createWriteOperationsInstance.putBoolean(PREF_SHOW_HIDE_EMPTY_BALANCES, isShow)
+        createWriteOperationsInstance.commit()
+    }
 }

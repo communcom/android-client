@@ -554,5 +554,5 @@
     <string name="commun_currency">Commun</string>
     <string name="commun_currency_brief">CMN</string>
     <string name="points_currency">Поинты сообщества</string>
-
+    <string name="hide_empty">Скрыть пустые</string>
 </resources>

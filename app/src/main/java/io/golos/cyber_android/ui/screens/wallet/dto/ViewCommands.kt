@@ -19,3 +19,5 @@ class NavigateToWalletConvertCommand(
 class ShowMyPointsDialog(val balance: List<WalletCommunityBalanceRecordDomain>): ViewCommand
 
 class ShowSendPointsDialog(): ViewCommand
+
+class ShowSettingsDialog(val emptyBalanceVisibility: Boolean): ViewCommand

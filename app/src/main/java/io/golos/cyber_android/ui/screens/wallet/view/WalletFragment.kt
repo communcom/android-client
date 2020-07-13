@@ -5,6 +5,7 @@ import android.view.View
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentWalletBinding
+import io.golos.cyber_android.ui.dialogs.WalletSettingsDialog
 import io.golos.cyber_android.ui.screens.wallet.di.WalletFragmentComponent
 import io.golos.cyber_android.ui.screens.wallet.dto.*
 import io.golos.cyber_android.ui.screens.wallet.view_model.WalletViewModel
@@ -55,6 +56,7 @@ class WalletFragment : FragmentBaseMVVM<FragmentWalletBinding, WalletViewModel>(
         super.onViewCreated(view, savedInstanceState)
 
         primePanel.setOnBackButtonClickListener { viewModel.onBackClick() }
+        primePanel.setOnMenuButtonClickListener { viewModel.onSettingsClick() }
         primePanel.setOnSendClickListener { viewModel.onSendPointsItemClick(null) }
         primePanel.setOnConvertClickListener { viewModel.onConvertClick() }
 
@@ -77,6 +79,7 @@ class WalletFragment : FragmentBaseMVVM<FragmentWalletBinding, WalletViewModel>(
 
             is ShowMyPointsDialog -> showMyPointsDialog(command.balance)
             is ShowSendPointsDialog -> showSendPointsDialog()
+            is ShowSettingsDialog -> showSettingsDialog(command.emptyBalanceVisibility)
         }
     }
 
@@ -100,4 +103,12 @@ class WalletFragment : FragmentBaseMVVM<FragmentWalletBinding, WalletViewModel>(
 
     private fun showSendPointsDialog() =
         WalletChooseFriendDialog.show(this) { userId -> userId?.let { viewModel.onSendPointsItemClick(it) } }
+
+    private fun showSettingsDialog(isVisible: Boolean) {
+        WalletSettingsDialog.show(this@WalletFragment, isVisible) {
+            when(it) {
+                is WalletSettingsDialog.Result.StateSelected -> viewModel.onEmptyBalancesShowHide(it.emptyBalanceVisibility)
+            }
+        }
+    }
 }

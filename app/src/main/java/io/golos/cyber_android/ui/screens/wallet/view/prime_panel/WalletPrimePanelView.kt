@@ -16,10 +16,12 @@ constructor(
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
     private var onBackButtonClickListener: (() -> Unit)? = null
+    private var onMenuButtonClickListener: (() -> Unit)? = null
 
     init {
         inflate(context, R.layout.view_wallet_prime_panel, this)
         backButton.setOnClickListener { onBackButtonClickListener?.invoke() }
+        menuButton.setOnClickListener { onMenuButtonClickListener?.invoke() }
     }
 
     fun setValue(value: Double) {
@@ -28,6 +30,10 @@ constructor(
 
     fun setOnBackButtonClickListener(listener: (() -> Unit)?) {
         onBackButtonClickListener = listener
+    }
+
+    fun setOnMenuButtonClickListener(listener: (() -> Unit)?) {
+        onMenuButtonClickListener = listener
     }
 
     fun setOnSendClickListener(listener: (() -> Unit)?) = bottomArea.setOnSendClickListener(listener)
