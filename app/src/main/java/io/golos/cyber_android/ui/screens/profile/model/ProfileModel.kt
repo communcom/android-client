@@ -19,6 +19,8 @@ interface ProfileModel: ModelBase {
 
     val isBalanceVisible: Boolean
 
+    val isCurrencyUpdated: Flow<Boolean?>
+
     val mutualUsers: List<UserDomain>
 
     val avatarUrl: String?
@@ -37,6 +39,7 @@ interface ProfileModel: ModelBase {
 
     suspend fun clearBalanceUpdateLastCallback()
 
+    suspend fun clearCurrencyUpdateLastCallback()
     /**
      * @return url of a cover
      */

@@ -62,6 +62,10 @@ constructor(
     override val isBalanceUpdated: Flow<Boolean?>
         get() = globalSettingsRepository.isBalanceUpdated
 
+    override suspend fun notifyCurrencyUpdate(isCurrencyUpdated: Boolean) {
+        globalSettingsRepository.notifyCurrencyUpdate(isCurrencyUpdated)
+    }
+
     override suspend fun clearBalanceUpdateLastCallback() {
         globalSettingsRepository.notifyBalanceUpdate(null)
     }

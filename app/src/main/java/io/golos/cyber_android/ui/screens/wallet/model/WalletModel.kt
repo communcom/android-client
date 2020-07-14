@@ -31,6 +31,8 @@ interface WalletModel : ModelBase {
 
     suspend fun loadSendPointsPage()
 
+    suspend fun notifyCurrencyUpdate(isCurrencyUpdated:Boolean)
+
     suspend fun clearBalanceUpdateLastCallback()
 
     suspend fun retrySendPointsPage()

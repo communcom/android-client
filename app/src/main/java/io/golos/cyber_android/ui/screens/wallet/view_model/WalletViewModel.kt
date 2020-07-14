@@ -85,6 +85,7 @@ class WalletViewModel
         launch {
             model.saveBalanceCurrency(Currencies.USD)
             _currencyBalance.value = CurrencyBalance(model.totalBalance, model.balanceCurrency)
+            model.notifyCurrencyUpdate(true)
         }
     }
 
@@ -92,6 +93,7 @@ class WalletViewModel
         launch {
             model.saveBalanceCurrency(Currencies.COMMUN)
             _currencyBalance.value = CurrencyBalance(model.totalBalance, model.balanceCurrency)
+            model.notifyCurrencyUpdate(true)
         }
     }
 

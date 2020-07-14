@@ -14,5 +14,9 @@ interface GlobalSettingsRepository {
 
     val isBalanceUpdated: Flow<Boolean?>
 
-    suspend fun notifyBalanceUpdate(isBalanceUpdated:Boolean?)
+    suspend fun notifyBalanceUpdate(isBalanceUpdated: Boolean?)
+
+    val isCurrencyUpdated: Flow<Boolean?>
+
+    suspend fun notifyCurrencyUpdate(isCurrencyUpdated: Boolean?)
 }

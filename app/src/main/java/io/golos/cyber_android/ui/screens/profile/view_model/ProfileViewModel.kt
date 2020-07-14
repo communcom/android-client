@@ -110,6 +110,15 @@ class ProfileViewModel
                 }
             }
         }
+
+        launch {
+            model.isCurrencyUpdated.collect {
+                it?.let {
+                    loadPage()
+                    model.clearCurrencyUpdateLastCallback()
+                }
+            }
+        }
     }
 
     fun start() = loadPage()

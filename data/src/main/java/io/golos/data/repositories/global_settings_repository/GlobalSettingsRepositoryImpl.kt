@@ -21,6 +21,7 @@ class GlobalSettingsRepositoryImpl
 
     private val rewardCurrencyUpdatesChannel: ConflatedBroadcastChannel<RewardCurrency?> = ConflatedBroadcastChannel(null)
     private val balanceUpdatesChannel: ConflatedBroadcastChannel<Boolean?> = ConflatedBroadcastChannel(null)
+    private val currencyUpdatesChannel: ConflatedBroadcastChannel<Boolean?> = ConflatedBroadcastChannel(null)
 
     override var rewardCurrency: RewardCurrency = RewardCurrency.POINTS
         private set
@@ -52,5 +53,12 @@ class GlobalSettingsRepositoryImpl
 
     override suspend fun notifyBalanceUpdate(isBalanceUpdated: Boolean?) {
         balanceUpdatesChannel.send(isBalanceUpdated)
+    }
+
+    override val isCurrencyUpdated: Flow<Boolean?>
+        get() = currencyUpdatesChannel.asFlow()
+
+    override suspend fun notifyCurrencyUpdate(isCurrencyUpdated: Boolean?) {
+        currencyUpdatesChannel.send(isCurrencyUpdated)
     }
 }

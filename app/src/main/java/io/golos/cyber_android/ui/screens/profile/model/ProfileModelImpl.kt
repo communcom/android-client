@@ -65,9 +65,16 @@ constructor(
     override val isBalanceUpdated: Flow<Boolean?>
         get() = globalSettingsRepository.isBalanceUpdated
 
+    override val isCurrencyUpdated: Flow<Boolean?>
+        get() = globalSettingsRepository.isCurrencyUpdated
+
     override var balanceData: List<WalletCommunityBalanceRecordDomain> = listOf()
 
     override suspend fun clearBalanceUpdateLastCallback() {
+        globalSettingsRepository.notifyBalanceUpdate(null)
+    }
+
+    override suspend fun clearCurrencyUpdateLastCallback() {
         globalSettingsRepository.notifyBalanceUpdate(null)
     }
 
