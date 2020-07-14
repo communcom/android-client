@@ -17,6 +17,7 @@ import io.golos.cyber_android.ui.screens.comment_page_menu.view.CommentPageMenuD
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
 import io.golos.cyber_android.ui.screens.dashboard.view.DashboardFragment
 import io.golos.cyber_android.ui.screens.donate_send_points.view.DonateSendPointsFragment
+import io.golos.cyber_android.ui.screens.post_view.view.PostPageFragment
 import io.golos.cyber_android.ui.screens.profile.view.ProfileExternalUserFragment
 import io.golos.cyber_android.ui.screens.profile.view.ProfileFragment
 import io.golos.cyber_android.ui.screens.profile_comments.di.ProfileCommentsFragmentComponent
@@ -31,6 +32,7 @@ import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.shared.utils.openImageView
 import io.golos.cyber_android.ui.shared.utils.openLinkView
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.DonationsDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel

@@ -31,7 +31,8 @@ constructor(
     @Named(Clarification.WALLET_POINT_BALANCE)
     override var balance: List<WalletCommunityBalanceRecordDomain>,
     protected val walletRepository: WalletRepository,
-    private val amountValidator: AmountValidator
+    private val amountValidator: AmountValidator,
+    private val globalSettingsRepository: GlobalSettingsRepository
 ) : ModelBaseImpl(), WalletSendPointsModel {
 
     override val canSelectUser = true
