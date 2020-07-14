@@ -250,7 +250,7 @@ class PostItem(
                 listener.onDonateClick(it, post.contentId, post.community.communityId, post.author)
             }
         } else {
-            view.votesArea.upvoteButton.isEnabled = false
+            view.votesArea.setUpVoteButtonSelected(true)
             view.votesArea.downvoteButton.isEnabled = false
         }
     }
