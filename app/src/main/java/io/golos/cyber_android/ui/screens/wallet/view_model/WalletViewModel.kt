@@ -96,11 +96,22 @@ class WalletViewModel
     }
 
     fun onSeeAllMyPointsClick() {
-        val balancesList = if(model.getEmptyBalanceVisibility())
+        val balanceItems = if(model.getEmptyBalanceVisibility())
             model.balance.filter { it.points > 0 }.sortedByDescending { it.points }
         else
             model.balance.sortedByDescending { it.points }
-        _command.value = ShowMyPointsDialog(balancesList)
+
+        val communIndex = balanceItems.indexOfFirst { it.communityId.code == GlobalConstants.COMMUN_CODE }
+        if(communIndex != -1) {
+            val mutableItems = balanceItems.toMutableList()
+            val communItem = balanceItems[communIndex]
+            mutableItems.removeAt(communIndex)
+            mutableItems.add(0, communItem)
+
+            _command.value = ShowMyPointsDialog(mutableItems)
+        } else {
+            _command.value = ShowMyPointsDialog(balanceItems)
+        }
     }
 
     fun onSeeAllSendPointsClick() {
@@ -192,10 +203,22 @@ class WalletViewModel
     }
 
     private suspend fun setupPointsItems() {
-        _myPointsItems.value = if(model.getEmptyBalanceVisibility())
+        val items = if(model.getEmptyBalanceVisibility())
             model.getMyPointsItems().filter { it.data.points > 0 }.sortedByDescending { it.data.points }
         else
             model.getMyPointsItems().sortedByDescending { it.data.points }
+
+        val communIndex = items.indexOfFirst { it.isCommun }
+        if(communIndex != -1) {
+            val mutableItems = items.toMutableList()
+            val communItem = items[communIndex]
+            mutableItems.removeAt(communIndex)
+            mutableItems.add(0, communItem)
+
+            _myPointsItems.value = mutableItems
+        } else {
+            _myPointsItems.value = items
+        }
     }
 
     private fun isSendPointsListEmpty(items: List<VersionedListItem>) =
