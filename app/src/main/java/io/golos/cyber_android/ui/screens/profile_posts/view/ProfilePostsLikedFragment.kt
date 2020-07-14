@@ -7,7 +7,7 @@ import io.golos.domain.dto.PostsConfigurationDomain
 class ProfilePostsLikedFragment : ProfilePostsFragment() {
     override fun inject(key: String) {
         App.injections
-            .get<ProfilePostsLikedFragmentComponent>(key, PostsConfigurationDomain.TypeFeedDomain.NEW)
+            .get<ProfilePostsLikedFragmentComponent>(key, PostsConfigurationDomain.TypeFeedDomain.VOTED)
             .inject(this)
     }
 

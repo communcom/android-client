@@ -14,7 +14,8 @@ data class PostsConfigurationDomain(
     enum class TypeFeedDomain {
         NEW,
         HOT,
-        POPULAR
+        POPULAR,
+        VOTED
     }
 
     enum class SortByDomain {

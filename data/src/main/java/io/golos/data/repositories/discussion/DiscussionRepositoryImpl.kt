@@ -181,6 +181,7 @@ constructor(
             PostsConfigurationDomain.TypeFeedDomain.NEW -> getNewFeedTypeForObject(typeObject)
             PostsConfigurationDomain.TypeFeedDomain.HOT -> getHotForObject(typeObject)
             PostsConfigurationDomain.TypeFeedDomain.POPULAR -> getPopularForObject(typeObject)
+            PostsConfigurationDomain.TypeFeedDomain.VOTED -> FeedType.VOTED
         }
     }
 
