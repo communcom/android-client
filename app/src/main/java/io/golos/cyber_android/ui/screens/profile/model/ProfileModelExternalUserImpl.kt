@@ -25,7 +25,8 @@ constructor(
     logout: Lazy<LogoutUseCase>,
     balanceCalculator: BalanceCalculator,
     sharedPreferencesStorage: SharedPreferencesStorage,
-    notificationSettings: NotificationsSettingsFacade
+    notificationSettings: NotificationsSettingsFacade,
+    globalSettingsRepository: GlobalSettingsRepository
 ) : ProfileModelImpl(
     profileUserId,
     currentUserRepository,
@@ -35,7 +36,8 @@ constructor(
     logout,
     balanceCalculator,
     sharedPreferencesStorage,
-    notificationSettings
+    notificationSettings,
+    globalSettingsRepository
 ), ProfileModel {
     override val isBalanceVisible: Boolean
         get() = false

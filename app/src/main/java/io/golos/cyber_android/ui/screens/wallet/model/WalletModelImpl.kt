@@ -9,7 +9,6 @@ import io.golos.cyber_android.ui.screens.wallet_shared.send_points.list.data_sou
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.data.persistence.key_value_storage.storages.shared_preferences.SharedPreferencesStorage
-import io.golos.data.repositories.NotificationsRepositoryImpl
 import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.GlobalConstants
@@ -35,12 +34,14 @@ constructor(
     private val sendPointsDataSource: SendPointsDataSource,
     private val historyDataSource: HistoryDataSource,
     private val balanceCalculator: BalanceCalculator,
-    private val sharedPreferencesStorage: SharedPreferencesStorage
+    private val sharedPreferencesStorage: SharedPreferencesStorage,
+    private val globalSettingsRepository: GlobalSettingsRepository
 ) : ModelBaseImpl(),
     WalletModel {
 
     companion object{
         const val PREF_BALANCE_CURRENCY_COEFFICIENT = "PREF_BALANCE_CURRENCY_COEFFICIENT"
+        private const val PREF_SHOW_HIDE_EMPTY_BALANCES = "PREF_SHOW_HIDE_EMPTY_BALANCES"
     }
 
     override lateinit var balance: List<WalletCommunityBalanceRecordDomain>

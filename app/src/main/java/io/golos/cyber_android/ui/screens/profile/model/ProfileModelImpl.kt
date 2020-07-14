@@ -30,7 +30,8 @@ constructor(
     private val logout: Lazy<LogoutUseCase>,
     private val balanceCalculator: BalanceCalculator,
     private val sharedPreferencesStorage: SharedPreferencesStorage,
-    override val notificationSettings: NotificationsSettingsFacade
+    override val notificationSettings: NotificationsSettingsFacade,
+    private val globalSettingsRepository: GlobalSettingsRepository
 ) : ModelBaseImpl(),
     ProfileModel {
 
