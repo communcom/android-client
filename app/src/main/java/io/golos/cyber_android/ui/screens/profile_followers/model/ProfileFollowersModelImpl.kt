@@ -9,6 +9,7 @@ import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.ErrorInfoDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.CurrentUserRepositoryRead
+import io.golos.domain.repositories.UsersRepository
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -24,7 +25,8 @@ constructor(
     @Named(Clarification.FOLLOWING)
     private val followingListWorker: UsersListWorker,
     @Named(Clarification.MUTUAL)
-    private val mutualListWorker: UsersListWorker
+    private val mutualListWorker: UsersListWorker,
+    private val usersRepository: UsersRepository
 ) : ProfileFollowersModel,
     ModelBaseImpl() {
 
@@ -50,6 +52,8 @@ constructor(
 
         return errorInfo
     }
+
+    override suspend fun getUserName(): String = usersRepository.getUserProfile(profileUserId).name
 
     private fun getWorker(filter: FollowersFilter): UsersListWorker =
         when(filter) {

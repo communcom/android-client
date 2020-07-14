@@ -22,4 +22,6 @@ interface ProfileFollowersModel : ModelBase {
      * @return true in case of success
      */
     suspend fun subscribeUnsubscribe(userId: UserIdDomain, filter: FollowersFilter): ErrorInfoDomain?
+
+    suspend fun getUserName(): String
 }

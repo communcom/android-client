@@ -29,7 +29,7 @@ constructor(
 ) : ViewModelBase<ProfileFollowersModel>(dispatchersProvider, model),
     FollowersListItemEventsProcessor {
 
-    private val _title = MutableLiveData<String>(currentUserRepository.userName)
+    private val _title = MutableLiveData<String>(null)
     val title: LiveData<String> get() = _title
 
     val filter = MutableLiveData<FollowersFilter>(startFilter)
@@ -55,6 +55,10 @@ constructor(
         filter.observeForever {
             switchTab(filter.value!!)
             loadPage(it)
+        }
+
+        launch {
+            _title.value = if(model.isCurrentUser) currentUserRepository.userName else model.getUserName()
         }
     }
 
