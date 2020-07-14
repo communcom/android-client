@@ -33,7 +33,8 @@ constructor(
     private val sendPointsDataSource: SendPointsDataSource,
     private val historyDataSource: HistoryDataSource,
     private val balanceCalculator: BalanceCalculator,
-    private val sharedPreferencesStorage: SharedPreferencesStorage
+    private val sharedPreferencesStorage: SharedPreferencesStorage,
+    private val globalSettingsRepository: GlobalSettingsRepository
 ) : ModelBaseImpl(),
     WalletModel {
 
