@@ -12,6 +12,7 @@ import io.golos.data.persistence.key_value_storage.storages.shared_preferences.S
 import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.GlobalConstants
+import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
@@ -34,7 +35,7 @@ constructor(
     private val sendPointsDataSource: SendPointsDataSource,
     private val historyDataSource: HistoryDataSource,
     private val balanceCalculator: BalanceCalculator,
-    private val sharedPreferencesStorage: SharedPreferencesStorage,
+    private val keyValueStorageFacade: KeyValueStorageFacade,
     private val globalSettingsRepository: GlobalSettingsRepository
 ) : ModelBaseImpl(),
     WalletModel {
@@ -111,7 +112,7 @@ constructor(
     }
 
     private fun getCurrency(): Currencies {
-        var result = sharedPreferencesStorage.createReadOperationsInstance().readString(PREF_BALANCE_CURRENCY_COEFFICIENT)?.let { Currencies.getCurrency(it) }
+        var result = keyValueStorageFacade.getCurrencyCoefficient()?.let {  Currencies.getCurrency(it) }
         if(result == null) {
             saveCurrency(Currencies.COMMUN)
             result = Currencies.COMMUN
@@ -120,9 +121,7 @@ constructor(
     }
 
     private fun saveCurrency(currency: Currencies){
-        val createWriteOperationsInstance = sharedPreferencesStorage.createWriteOperationsInstance()
-        createWriteOperationsInstance.putString(PREF_BALANCE_CURRENCY_COEFFICIENT, currency.currencyName)
-        createWriteOperationsInstance.commit()
+        keyValueStorageFacade.saveCurrencyCoefficient(currency.currencyName)
     }
 
 
@@ -131,12 +130,10 @@ constructor(
     }
 
     override fun getEmptyBalanceVisibility(): Boolean {
-        return sharedPreferencesStorage.createReadOperationsInstance().readBoolean(PREF_SHOW_HIDE_EMPTY_BALANCES) ?: false
+        return keyValueStorageFacade.areEmptyBalancesVisibility()
     }
 
     private fun saveShowHideEmptyBalancesState(isShow: Boolean){
-        val createWriteOperationsInstance = sharedPreferencesStorage.createWriteOperationsInstance()
-        createWriteOperationsInstance.putBoolean(PREF_SHOW_HIDE_EMPTY_BALANCES, isShow)
-        createWriteOperationsInstance.commit()
+        keyValueStorageFacade.saveEmptyBalancesVisibility(isShow)
     }
 }

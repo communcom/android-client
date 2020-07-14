@@ -10,6 +10,7 @@ import io.golos.cyber_android.ui.screens.profile.model.notifications_settings.No
 import io.golos.cyber_android.ui.screens.wallet_shared.balance_calculator.BalanceCalculator
 import io.golos.data.persistence.key_value_storage.storages.shared_preferences.SharedPreferencesStorage
 import io.golos.data.repositories.wallet.WalletRepository
+import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.repositories.GlobalSettingsRepository
 import io.golos.domain.use_cases.community.CommunitiesRepository
@@ -24,7 +25,7 @@ constructor(
     walletRepository: WalletRepository,
     logout: Lazy<LogoutUseCase>,
     balanceCalculator: BalanceCalculator,
-    sharedPreferencesStorage: SharedPreferencesStorage,
+    keyValueStorageFacade: KeyValueStorageFacade,
     notificationSettings: NotificationsSettingsFacade,
     globalSettingsRepository: GlobalSettingsRepository
 ) : ProfileModelImpl(
@@ -35,7 +36,7 @@ constructor(
     walletRepository,
     logout,
     balanceCalculator,
-    sharedPreferencesStorage,
+    keyValueStorageFacade,
     notificationSettings,
     globalSettingsRepository
 ), ProfileModel {

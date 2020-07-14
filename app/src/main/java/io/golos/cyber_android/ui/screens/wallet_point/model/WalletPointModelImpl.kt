@@ -2,16 +2,15 @@ package io.golos.cyber_android.ui.screens.wallet_point.model
 
 import androidx.lifecycle.LiveData
 import io.golos.cyber_android.ui.screens.wallet.data.enums.Currencies
-import io.golos.cyber_android.ui.screens.wallet.model.WalletModelImpl
 import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
 import io.golos.cyber_android.ui.screens.wallet_shared.carousel.CarouselListItem
 import io.golos.cyber_android.ui.screens.wallet_shared.history.data_source.HistoryDataSource
 import io.golos.cyber_android.ui.screens.wallet_shared.send_points.list.data_source.SendPointsDataSource
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
-import io.golos.data.persistence.key_value_storage.storages.shared_preferences.SharedPreferencesStorage
 import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.GlobalConstants
+import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
@@ -29,7 +28,7 @@ constructor(
     private val walletRepository: WalletRepository,
     private val sendPointsDataSource: SendPointsDataSource,
     private val historyDataSource: HistoryDataSource,
-    private val sharedPreferencesStorage: SharedPreferencesStorage
+    private val keyValueStorageFacade: KeyValueStorageFacade
 ) : ModelBaseImpl(), WalletPointModel {
 
     init {
@@ -100,7 +99,7 @@ constructor(
     override suspend fun clearHistory() = historyDataSource.clear()
 
     private fun getCurrency(): Currencies {
-        return sharedPreferencesStorage.createReadOperationsInstance().readString(WalletModelImpl.PREF_BALANCE_CURRENCY_COEFFICIENT)?.let { Currencies.getCurrency(it) }
+        return keyValueStorageFacade.getCurrencyCoefficient()?.let { Currencies.getCurrency(it) }
             ?: Currencies.COMMUN
     }
 }

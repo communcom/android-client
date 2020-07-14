@@ -39,6 +39,10 @@ constructor(
         private const val FCM_TOKEN_KEY = "FCM_TOKEN"
         private const val SIGN_UP_SNAPSHOT_KEY = "SIGN_UP_SNAPSHOT"
 
+        private const val EMPTY_BALANCE_VISIBILITY_KEY = "EMPTY_BALANCE_VISIBILITY"
+
+        private const val CURRENCY_COEFFICIENT_KEY = "CURRENCY_COEFFICIENT"
+
         private const val DISPLAYED_REWARD_CURRENCY_KEY = "DISPLAYED_REWARD_CURRENCY"
     }
 
@@ -215,6 +219,30 @@ constructor(
         keyValueStorage.read {
             it.readString(DISPLAYED_REWARD_CURRENCY_KEY)?.let { RewardCurrency.createFrom(it) } ?: RewardCurrency.POINTS
         }
+
+    override fun saveEmptyBalancesVisibility(areEmptyBalancesVisible: Boolean) {
+        keyValueStorage.update {
+            it.putBoolean(EMPTY_BALANCE_VISIBILITY_KEY,areEmptyBalancesVisible)
+        }
+    }
+
+    override fun areEmptyBalancesVisibility(): Boolean {
+        return keyValueStorage.read {
+            it.readBoolean(EMPTY_BALANCE_VISIBILITY_KEY)
+        } ?: false
+    }
+
+    override fun saveCurrencyCoefficient(currencyName:String) {
+        keyValueStorage.update {
+            it.putString(CURRENCY_COEFFICIENT_KEY,currencyName)
+        }
+    }
+
+    override fun getCurrencyCoefficient(): String? {
+        return keyValueStorage.read {
+            it.readString(CURRENCY_COEFFICIENT_KEY)
+        }
+    }
 
     private fun getInternalKeyForUserKey(keyType: UserKeyType) =
         when(keyType) {

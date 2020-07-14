@@ -47,4 +47,10 @@ interface KeyValueStorageFacade {
 
     fun saveDisplayedRewardCurrency(currency: RewardCurrency)
     fun getDisplayedRewardCurrency(): RewardCurrency
+
+    fun saveEmptyBalancesVisibility(areEmptyBalancesVisible: Boolean)
+    fun areEmptyBalancesVisibility(): Boolean
+
+    fun saveCurrencyCoefficient(currencyName:String)
+    fun getCurrencyCoefficient(): String?
 }

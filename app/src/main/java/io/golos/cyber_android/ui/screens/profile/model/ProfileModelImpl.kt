@@ -9,6 +9,7 @@ import io.golos.cyber_android.ui.screens.wallet.model.WalletModelImpl
 import io.golos.cyber_android.ui.screens.wallet_shared.balance_calculator.BalanceCalculator
 import io.golos.data.persistence.key_value_storage.storages.shared_preferences.SharedPreferencesStorage
 import io.golos.data.repositories.wallet.WalletRepository
+import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.dto.*
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.GlobalSettingsRepository
@@ -29,7 +30,7 @@ constructor(
     private val walletRepository: WalletRepository,
     private val logout: Lazy<LogoutUseCase>,
     private val balanceCalculator: BalanceCalculator,
-    private val sharedPreferencesStorage: SharedPreferencesStorage,
+    private val keyValueStorageFacade: KeyValueStorageFacade,
     override val notificationSettings: NotificationsSettingsFacade,
     private val globalSettingsRepository: GlobalSettingsRepository
 ) : ModelBaseImpl(),
@@ -153,7 +154,7 @@ constructor(
     }
 
     override fun getCurrency(): Currencies {
-        return sharedPreferencesStorage.createReadOperationsInstance().readString(WalletModelImpl.PREF_BALANCE_CURRENCY_COEFFICIENT)?.let { Currencies.getCurrency(it) }
+        return keyValueStorageFacade.getCurrencyCoefficient()?.let { Currencies.getCurrency(it) }
             ?: Currencies.COMMUN
     }
 }
