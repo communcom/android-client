@@ -97,6 +97,10 @@ class WalletViewModel
         }
     }
 
+    fun onSettingsClick() {
+        _command.value = ShowSettingsDialog(model.getEmptyBalanceVisibility())
+    }
+
     fun onSeeAllMyPointsClick() {
         val balanceItems = if(model.getEmptyBalanceVisibility())
             model.balance.filter { it.points > 0 }.sortedByDescending { it.points }
