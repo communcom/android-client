@@ -336,7 +336,7 @@ class ProfileCommentItem(
             itemView.donationPanel.setAmount(donation.totalAmount)
             itemView.donationPanel.visibility = View.VISIBLE
             itemView.donationPanel.setOnClickListener { DonatePersonsPopup().show(itemView.donationPanel, donation) {
-                //listItemEventsProcessor.onDonatePopupClick(listItem.post.donation)
+                listItemEventsProcessor.onDonatePopupClick(donation)
             }}
         } else {
             itemView.donationPanel.visibility = View.GONE

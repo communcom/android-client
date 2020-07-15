@@ -218,7 +218,7 @@ constructor(
         }
     }
 
-    fun onDonatePopupClick(donates: DonationsDomain) {
+    override fun onDonatePopupClick(donates: DonationsDomain) {
         _command.value = ShowDonationUsersDialogCommand(donates)
     }
 

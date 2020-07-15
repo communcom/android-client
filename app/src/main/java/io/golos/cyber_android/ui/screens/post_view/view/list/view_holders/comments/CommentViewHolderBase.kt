@@ -364,7 +364,7 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
             _donationPanel.setAmount(donation.totalAmount)
             _donationPanel.donationPanel.visibility = View.VISIBLE
             _donationPanel.setOnClickListener { DonatePersonsPopup().show(_donationPanel, donation) {
-                //listItemEventsProcessor.onDonatePopupClick(listItem.post.donation)
+                listItemEventsProcessor.onDonatePopupClick(donation)
             }}
         } else {
             _donationPanel.visibility = View.GONE
