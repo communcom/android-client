@@ -29,7 +29,8 @@ object CommentsMapper {
             isDownVoteActive = model.votes.hasDownVote,
             metadata = model.meta,
             state = CommentListItemState.NORMAL,
-            isDeleted = model.isDeleted
+            isDeleted = model.isDeleted,
+            donations = model.donations
         )
     }
 
@@ -72,7 +73,8 @@ object CommentsMapper {
             isDownVoteActive = model.votes.hasDownVote,
             metadata = model.meta,
             state = CommentListItemState.NORMAL,
-            isDeleted = model.isDeleted
+            isDeleted = model.isDeleted,
+            donations = model.donations
         )
     }
 }

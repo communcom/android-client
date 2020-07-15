@@ -5,6 +5,7 @@ import io.golos.cyber_android.ui.dto.Comment
 import io.golos.cyber_android.ui.dto.DonateType
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.ContentIdDomain
+import io.golos.domain.dto.DonationsDomain
 import io.golos.domain.dto.UserBriefDomain
 
 interface ProfileCommentsModelEventProcessor :
@@ -18,7 +19,8 @@ interface ProfileCommentsModelEventProcessor :
     EmbedVideoWidgetListener,
     ParagraphWidgetListener,
     CommentLongClickListener,
-    CommentClickListener
+    CommentClickListener,
+    DonateClickListener
 
 interface ProfileCommentsProgressEventProcessor {
     fun onRetryLoadComments()
@@ -33,11 +35,13 @@ interface ProfileCommentsVoteListener {
 }
 
 interface CommentLongClickListener {
-
     fun onCommentLongClick(comment: Comment)
-
 }
 
 interface CommentClickListener{
     fun onCommentClicked(comment: Comment)
+}
+
+interface DonateClickListener{
+    fun onDonatePopupClick(donates: DonationsDomain)
 }

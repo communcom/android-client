@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.dto
 
 import io.golos.domain.dto.ContentIdDomain
+import io.golos.domain.dto.DonationsDomain
 import io.golos.domain.dto.UserBriefDomain
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ContentBlock
 
@@ -16,5 +17,6 @@ data class Comment(
     val type: String,
     val isDeleted: Boolean,
     val isMyComment: Boolean,
-    val commentLevel: Int = 0
+    val commentLevel: Int = 0,
+    val donations: DonationsDomain?
 )

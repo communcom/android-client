@@ -49,15 +49,28 @@
         app:layout_constraintStart_toStartOf="@+id/flCommentContent"
         app:layout_constraintTop_toBottomOf="@+id/flCommentContent" />
 
+    <io.golos.cyber_android.ui.shared.widgets.post_comments.DonationPanelWidget
+        android:id="@+id/donationPanel"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_small"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintStart_toEndOf="@+id/voting"
+        app:layout_constraintTop_toTopOf="@+id/voting" />
+
     <TextView
         android:id="@+id/replyAndTimeText"
         style="@style/CommentsReplyAndTimeTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/post_comments_reply_margin"
-        app:layout_constraintBottom_toBottomOf="@+id/voting"
-        app:layout_constraintStart_toEndOf="@+id/voting"
-        app:layout_constraintTop_toTopOf="@+id/voting"
+        android:layout_marginStart="20dp"
+        app:layout_goneMarginStart="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/donationPanel"
+        app:layout_constraintStart_toEndOf="@+id/donationPanel"
+        app:layout_constraintTop_toTopOf="@+id/donationPanel"
         tools:text="Reply &#8226; 3h" />
 
     <ProgressBar

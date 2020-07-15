@@ -19,13 +19,16 @@ import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.CommentLi
 import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.CommentListItemState
 import io.golos.cyber_android.ui.screens.post_view.helpers.CommentTextRenderer
 import io.golos.cyber_android.ui.screens.post_view.view_model.PostPageViewModelListEventsProcessor
+import io.golos.cyber_android.ui.screens.profile_comments.view_model.ProfileCommentsModelEventProcessor
 import io.golos.cyber_android.ui.shared.base.adapter.BaseRecyclerItem
 import io.golos.cyber_android.ui.shared.base.adapter.RecyclerAdapter
 import io.golos.cyber_android.ui.shared.characters.SpecialChars
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
+import io.golos.cyber_android.ui.shared.widgets.post_comments.DonationPanelWidget
 import io.golos.cyber_android.ui.shared.widgets.post_comments.ParagraphWidgetListener
+import io.golos.cyber_android.ui.shared.widgets.post_comments.donation.DonatePersonsPopup
 import io.golos.cyber_android.ui.shared.widgets.post_comments.items.*
 import io.golos.cyber_android.ui.shared.widgets.post_comments.voting.VotingWidget
 import io.golos.domain.dto.*
@@ -39,6 +42,7 @@ import io.golos.utils.helpers.appendSpannedText
 import io.golos.utils.helpers.appendText
 import io.golos.utils.helpers.setSpan
 import io.golos.utils.id.IdUtil
+import kotlinx.android.synthetic.main.item_comment.view.*
 import kotlinx.android.synthetic.main.view_post_voting.view.*
 import javax.inject.Inject
 
@@ -66,6 +70,8 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
     abstract val _userAvatar: ImageView
 
     abstract val _voting: VotingWidget
+
+    abstract val _donationPanel: DonationPanelWidget
 
     abstract val _content: RecyclerView
 
@@ -98,6 +104,7 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
         _userAvatar.setOnClickListener { listItemEventsProcessor.onUserClicked(listItem.author.userId.userId) }
 
         setupVoting(listItem, listItemEventsProcessor)
+        setupDonation(listItem.donations, listItemEventsProcessor)
 
         setProcessingState(listItem.state)
     }
@@ -349,6 +356,18 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
         } else {
             _voting.upvoteButton.isEnabled = false
             _voting.upvoteButton.isEnabled = false
+        }
+    }
+
+    private fun setupDonation(donation: DonationsDomain?, listItemEventsProcessor: PostPageViewModelListEventsProcessor) {
+        if(donation != null) {
+            _donationPanel.setAmount(donation.totalAmount)
+            _donationPanel.donationPanel.visibility = View.VISIBLE
+            _donationPanel.setOnClickListener { DonatePersonsPopup().show(_donationPanel, donation) {
+                listItemEventsProcessor.onDonatePopupClick(donation)
+            }}
+        } else {
+            _donationPanel.visibility = View.GONE
         }
     }
 

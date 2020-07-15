@@ -42,5 +42,6 @@ fun Comment.mapToCommentDomain(): CommentDomain = CommentDomain(
         this.parent.post),
     type = this.type,
     isDeleted = this.isDeleted,
-    isMyComment = this.isMyComment
+    isMyComment = this.isMyComment,
+    donations = this.donations
 )

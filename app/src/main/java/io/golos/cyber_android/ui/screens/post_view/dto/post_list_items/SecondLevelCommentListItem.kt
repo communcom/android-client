@@ -1,9 +1,6 @@
 package io.golos.cyber_android.ui.screens.post_view.dto.post_list_items
 
-import io.golos.domain.dto.ContentIdDomain
-import io.golos.domain.dto.MetaDomain
-import io.golos.domain.dto.UserBriefDomain
-import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.dto.*
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ContentBlock
 
 data class SecondLevelCommentListItem(
@@ -29,5 +26,7 @@ data class SecondLevelCommentListItem(
 
     override val state: CommentListItemState,
     override val groupId: Int = 5,
-    override val isDeleted: Boolean
+    override val isDeleted: Boolean,
+
+    override val donations: DonationsDomain?
 ) : CommentListItem

@@ -2,7 +2,7 @@ ext.versions = [
         minsdk             : 21,
         targetsdk          : 28,
 
-        androidGradlePlugin: '4.0.0',
+        androidGradlePlugin: '4.0.1',
         kotlin             : '1.3.61',
         coreKtx            : '1.2.0',
         kotlinCoroutines   : '1.3.3',
