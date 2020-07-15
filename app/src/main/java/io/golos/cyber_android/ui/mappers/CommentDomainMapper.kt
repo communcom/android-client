@@ -16,6 +16,7 @@ fun CommentDomain.mapToComment(): Comment {
         type = this.type,
         isDeleted =  isDeleted,
         isMyComment = isMyComment,
-        commentLevel = commentLevel
+        commentLevel = commentLevel,
+        donations = donations
     )
 }

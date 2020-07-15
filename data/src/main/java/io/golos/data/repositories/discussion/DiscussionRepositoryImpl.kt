@@ -224,7 +224,24 @@ constructor(
         parentComment: ParentCommentIdentifierDomain?
     ): List<CommentDomain> {
         val currentUserId = currentUserRepository.userId.userId
-        return callProxy.call {
+//        val comments = callProxy.call {
+//            commun4j.getCommentsRaw(
+//                sortBy = CommentsSortBy.TIME_DESC,
+//                offset = offset,
+//                limit = pageSize,
+//                type = commentType.mapToCommentSortType(),
+//                userId = userId.mapToCyberName(),
+//                permlink = postPermlink,
+//                communityId = communityId?.code,
+//                communityAlias = communityAlias,
+//                parentComment = parentComment?.mapToParentComment()
+//            )
+//        }
+//        .items
+//        .map { it.mapToCommentDomain(it.author.userId.name == currentUserId) }
+
+
+        val comments = callProxy.call {
             commun4j.getCommentsRaw(
                 sortBy = CommentsSortBy.TIME_DESC,
                 offset = offset,
@@ -236,8 +253,29 @@ constructor(
                 communityAlias = communityAlias,
                 parentComment = parentComment?.mapToParentComment()
             )
-        }.items
-            .map { it.mapToCommentDomain(it.author.userId.name == currentUserId) }
+        }
+        .items
+
+        return if(comments.isNotEmpty()) {
+            val donationQuery = comments.map { DonationPostModel(it.contentId.userId.name, it.contentId.permlink) }
+            val donations = callProxy.call { commun4j.getDonations(donationQuery) }.items.map { it.mapToDonationsDomain() }
+
+            withContext(dispatchersProvider.calculationsDispatcher) {
+                comments.map { comment ->
+                    val donation = donations.firstOrNull {
+                        it.contentId.userId.userId == comment.contentId.userId.name &&
+                                it.contentId.permlink == comment.contentId.permlink
+                    }
+
+                    comment.mapToCommentDomain(comment.author.userId.name == currentUserId, donation)
+                }
+            }
+        } else {
+            listOf()
+        }
+//        .map { it.mapToCommentDomain(it.author.userId.name == currentUserId) }
+
+//        return comments
     }
 
     override suspend fun deletePost(permlink: String, communityId: CommunityIdDomain) {
@@ -369,7 +407,8 @@ constructor(
             )
         }.resolvedResponse
         val permlink = response!!.message_id.permlink
-        return CommentDomain(contentId = ContentIdDomain(postIdDomain.communityId, permlink, currentUserRepository.userId),
+        return CommentDomain(
+            contentId = ContentIdDomain(postIdDomain.communityId, permlink, currentUserRepository.userId),
             author = UserBriefDomain(currentUserRepository.userAvatarUrl, currentUserRepository.userId, currentUserRepository.userName),
             votes = VotesDomain(0, 0, false, false),
             body = MappersFactory().getMapper<PostMapper>(PostMapper::class).map(JSONObject(jsonBody)),
@@ -381,7 +420,9 @@ constructor(
             type = "comment",
             isDeleted = false,
             isMyComment = true,
-            commentLevel = 0)
+            commentLevel = 0,
+            donations = null
+        )
 
     }
 
@@ -417,7 +458,8 @@ constructor(
             type = "comment",
             isDeleted = false,
             isMyComment = true,
-            commentLevel = 1)
+            commentLevel = 1,
+            donations = null)
     }
 
     override fun recordPostView(postId: ContentIdDomain, deviceId: String) {

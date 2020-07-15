@@ -138,7 +138,8 @@ constructor(
             type = "comment",
             isDeleted = false,
             isMyComment = true,
-            commentLevel = oldComment.commentLevel
+            commentLevel = oldComment.commentLevel,
+            donations = oldComment.donations
         )
         try {
             withContext(dispatchersProvider.ioDispatcher) {

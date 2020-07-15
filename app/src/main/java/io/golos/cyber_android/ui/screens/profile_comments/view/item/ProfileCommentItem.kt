@@ -19,7 +19,9 @@ import io.golos.cyber_android.ui.shared.base.adapter.RecyclerAdapter
 import io.golos.utils.format.TimeEstimationFormatter
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
+import io.golos.cyber_android.ui.shared.widgets.post_comments.donation.DonatePersonsPopup
 import io.golos.cyber_android.ui.shared.widgets.post_comments.items.*
+import io.golos.domain.dto.DonationsDomain
 import io.golos.domain.dto.UserBriefDomain
 import io.golos.domain.posts_parsing_rendering.post_metadata.TextStyle
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.*
@@ -47,6 +49,7 @@ class ProfileCommentItem(
         val comment = listItem.comment
         setupUserAvatar(comment.author, listItemEventsProcessor)
         setupVoting(listItem, listItemEventsProcessor)
+        setupDonation(listItem.comment.donations, listItemEventsProcessor)
         itemView.processingProgressBar.visibility = View.INVISIBLE
         itemView.warningIcon.visibility = View.INVISIBLE
         setupCommentTime(comment.meta)
@@ -325,6 +328,18 @@ class ProfileCommentItem(
                 itemView.voting.downvoteButton.isEnabled = false
             }
 
+        }
+    }
+
+    private fun setupDonation(donation: DonationsDomain?, listItemEventsProcessor: ProfileCommentsModelEventProcessor) {
+        if(donation != null) {
+            itemView.donationPanel.setAmount(donation.totalAmount)
+            itemView.donationPanel.visibility = View.VISIBLE
+            itemView.donationPanel.setOnClickListener { DonatePersonsPopup().show(itemView.donationPanel, donation) {
+                //listItemEventsProcessor.onDonatePopupClick(listItem.post.donation)
+            }}
+        } else {
+            itemView.donationPanel.visibility = View.GONE
         }
     }
 
