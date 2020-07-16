@@ -194,8 +194,8 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
     private fun observeViewModel() {
 
         viewModel.filterPostState.observe(viewLifecycleOwner, Observer { filterState ->
-            val timeFilterText = filterState.timeFilter.value
-            val periodFilterText = filterState.periodFilter.value
+            val timeFilterText = getString(filterState.timeFilter.value)
+            val periodFilterText = getString(filterState.periodFilter.value)
             communityFilterType.text = "$timeFilterText, $periodFilterText"
         })
 

@@ -58,6 +58,12 @@
     </plurals>
     <!--Size formatting - end -->
 
+    <plurals name="plural_points_formatted_post">
+        <item quantity="zero">поинтов</item>
+        <item quantity="one">поинт</item>
+        <item quantity="other">поинтов</item>
+    </plurals>
+
     <string name="common_general_error">К сожалению, произошла ошибка во время операции.</string>
     <string name="token_receiving_error">Не могу получить токен. Операция была отменена</string>
     <string name="account_registered_error">Аккаунт уже зарегистрирован</string>
@@ -115,7 +121,7 @@
     <string name="report_message"></string>
 
     <!--Post Card-->
-    <string name="hint_add_comment">Добавитть комментарий...</string>
+    <string name="hint_add_comment">Добавить комментарий...</string>
 
     <!--Time Stamps-->
     <string name="now_happened">Только что</string>
