@@ -346,7 +346,7 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
 
         if(listItem.currentUserId != listItem.author.userId) {
             _voting.upvoteButton.isEnabled = true
-            _voting.upvoteButton.isEnabled = true
+            _voting.downvoteButton.isEnabled = true
 
             _voting.setOnUpVoteButtonClickListener { eventsProcessor.onCommentUpVoteClick(listItem.externalId) }
             _voting.setOnDownVoteButtonClickListener { eventsProcessor.onCommentDownVoteClick(listItem.externalId) }
@@ -354,8 +354,9 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
                 eventsProcessor.onDonateClick(it, listItem.externalId, listItem.externalId.communityId, listItem.author)
             }
         } else {
-            _voting.upvoteButton.isEnabled = false
-            _voting.upvoteButton.isEnabled = false
+            _voting.upvoteButton.isActivated = true
+            _voting.setOnUpVoteButtonClickListener(null)
+            _voting.downvoteButton.isEnabled = false
         }
     }
 
