@@ -410,7 +410,7 @@ constructor(
         return CommentDomain(
             contentId = ContentIdDomain(postIdDomain.communityId, permlink, currentUserRepository.userId),
             author = UserBriefDomain(currentUserRepository.userAvatarUrl, currentUserRepository.userId, currentUserRepository.userName),
-            votes = VotesDomain(0, 0, false, false),
+            votes = VotesDomain(0, 1, true, false),
             body = MappersFactory().getMapper<PostMapper>(PostMapper::class).map(JSONObject(jsonBody)),
             jsonBody = null,
             childCommentsCount = 0,
