@@ -47,6 +47,7 @@ import io.golos.posts_editor.utilities.MaterialColor
 import io.golos.utils.id.IdUtil
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.fragment_editor_page.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class EditorPageFragment : ImagePickerFragmentBase() {
@@ -58,12 +59,16 @@ class EditorPageFragment : ImagePickerFragmentBase() {
     @Parcelize
     data class Args(
         val contentId: ContentIdDomain? = null,
-        val initialImageSource: ImageSource = ImageSource.NONE
+        val initialImageSource: ImageSource = ImageSource.NONE,
+        var sharedText:String ="",
+        var sharedImage:Uri? = null
     ) : Parcelable
 
     private lateinit var binding: FragmentEditorPageBinding
 
     private lateinit var viewModel: EditorPageViewModel
+
+    private lateinit var args:Args
 
     private val injectionKey = IdUtil.generateStringId()
 
@@ -76,7 +81,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val args = getArgs()
+        args = getArgs()
         App.injections.get<EditorPageFragmentComponent>(
             injectionKey,
             args.contentId
@@ -116,6 +121,24 @@ class EditorPageFragment : ImagePickerFragmentBase() {
         // Add empty line to the editor for a new post
         if (!viewModel.isInEditMode) {
             editorWidget.insertEmptyParagraph()
+        }
+
+        if(args.sharedText.isNotEmpty()){
+            editorWidget.insertParagraph(args.sharedText)
+        }
+
+        if(args.sharedImage != null){
+            launch {
+                setLoadingVisibility(true)
+                val imageFile = fileSystem.copyImageToJunkFolder(args.sharedImage)
+                setLoadingVisibility(false)
+
+                if(imageFile != null) {
+                    onImagePicked(imageFile)
+                } else {
+                    onImagePickingCancel()
+                }
+            }
         }
 
         close.setOnClickListener { viewModel.tryToClose(editorWidget.getMetadata(), isCloseButtonAction = true) }
