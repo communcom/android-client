@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.community_page.view_model
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.screens.community_page.dto.*
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
@@ -18,17 +19,19 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageTextComman
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.utils.helpers.EMPTY
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
-
+import io.golos.data.BuildConfig
 class CommunityPageViewModel
 @Inject
 constructor(
     private val appContext: Context,
     dispatchersProvider: DispatchersProvider,
     model: CommunityPageModel,
+    private val currentUserRepositoryRead: CurrentUserRepositoryRead,
     private val communityId: CommunityIdDomain
 ) : ViewModelBase<CommunityPageModel>(dispatchersProvider, model) {
 
@@ -81,6 +84,10 @@ constructor(
         _command.value = SwitchToLeadsTabCommand()
     }
 
+    fun onCommunitySettingsClick(){
+        _command.value = ShowCommunitySettings(communityPageMutableLiveData.value,currentUserRepositoryRead.userId.userId)
+    }
+
     fun onMembersLabelClick() {
         _command.value = NavigateToMembersCommand(communityId)
     }
@@ -117,5 +124,9 @@ constructor(
             loadCommunityPage()
             _swipeRefreshing.value = false
         }
+    }
+
+    fun getShareString(communityPage: CommunityPage,currentUserId: String): String {
+        return "${BuildConfig.BASE_URL}/${communityPage.communityId.code}?invite=${currentUserId}"
     }
 }

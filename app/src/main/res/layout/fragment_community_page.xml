@@ -61,7 +61,24 @@
                             app:imageButton_icon="@drawable/ic_left_arrow"
                             app:imageButton_iconInscribeSize="@dimen/post_viewer_header_tool_button_icon_size"
                             app:imageButton_tint="@color/white"
-                        />
+                            />
+                        <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+                            android:id="@+id/ivCommunitySettings"
+
+                            android:layout_width="@dimen/post_viewer_header_tool_button_size"
+                            android:layout_height="@dimen/post_viewer_header_tool_button_size"
+
+                            android:layout_gravity="end"
+
+                            android:layout_marginEnd="@dimen/post_viewer_header_horizontal_margin"
+                            android:layout_marginTop="40dp"
+
+                            android:background="@null"
+                            android:onClick='@{()->viewModel.onCommunitySettingsClick()}'
+                            app:imageButton_icon="@drawable/ic_menu_options"
+                            app:imageButton_iconInscribeSize="@dimen/post_viewer_header_tool_button_icon_size"
+                            app:imageButton_tint="@color/white"
+                            />
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"

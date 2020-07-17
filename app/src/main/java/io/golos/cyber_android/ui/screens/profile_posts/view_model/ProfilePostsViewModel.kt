@@ -108,7 +108,7 @@ constructor(
     }
 
     override fun onShareClicked(shareUrl: String) {
-        _command.value = SharePostCommand(shareUrl)
+        _command.value = SharePostCommand("$shareUrl?invite=${currentUserRepository.userId.userId}")
     }
 
     override fun onUpVoteClicked(contentId: ContentIdDomain) {
