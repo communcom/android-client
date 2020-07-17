@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.post_filters
 
+import io.golos.cyber_android.R
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
@@ -48,17 +49,17 @@ class PostFiltersHolder
         val periodTimeFilter: PeriodTimeFilter
     )
 
-    enum class UpdateTimeFilter(val value: String) {
-        HOT("Hot"), //TOP_REWARDS
-        NEW("New"), //NEW
-        POPULAR("Popular") //TOP_LIKES
+    enum class UpdateTimeFilter(val value: Int) {
+        HOT(R.string.sort_hot), //TOP_REWARDS
+        NEW(R.string.sort_new), //NEW
+        POPULAR(R.string.sort_popular) //TOP_LIKES
     }
 
-    enum class PeriodTimeFilter(val value: String) {
-        PAST_24_HOURS("Past 24 hours"), //DAY
-        PAST_WEEK("Past week"), //WEEK
-        PAST_MONTH("Past month"), //MONTH
-        ALL("All time") //ALL
+    enum class PeriodTimeFilter(val value: Int) {
+        PAST_24_HOURS(R.string.filter_time_24hr), //DAY
+        PAST_WEEK(R.string.filter_time_week), //WEEK
+        PAST_MONTH(R.string.filter_time_month), //MONTH
+        ALL(R.string.filter_time_all) //ALL
     }
 
     enum class CurrentOpenTypeFeed {
