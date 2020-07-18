@@ -39,7 +39,7 @@ class PostControlsViewHolder(
                     listItemEventsProcessor.onDonateClick(it, listItem.post.contentId, listItem.post.community.communityId, listItem.post.author)
                 }
             } else {
-                votesArea.upvoteButton.isEnabled = false
+                votesArea.upvoteButton.isActivated = true
                 votesArea.downvoteButton.isEnabled = false
             }
 
