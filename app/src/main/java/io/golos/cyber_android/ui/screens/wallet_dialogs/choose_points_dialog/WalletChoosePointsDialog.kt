@@ -7,6 +7,7 @@ import io.golos.cyber_android.ui.screens.wallet.dto.MyPointsListItem
 import io.golos.cyber_android.ui.screens.wallet_dialogs.WalletListDialogBase
 import io.golos.cyber_android.ui.screens.wallet_dialogs.choose_points_dialog.list.WalletChoosePointsDialogAdapter
 import io.golos.cyber_android.ui.screens.wallet_dialogs.choose_points_dialog.list.WalletChoosePointsDialogItemEventsProcessor
+import io.golos.domain.GlobalConstants
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.utils.id.IdUtil
@@ -33,7 +34,8 @@ class WalletChoosePointsDialog : WalletListDialogBase<CommunityIdDomain, WalletC
     }
 
     private fun updateList(balance: List<WalletCommunityBalanceRecordDomain>) =
-        updateListData(balance.map { MyPointsListItem(IdUtil.generateLongId(), 0, false, false, false, it) })
+        updateListData(balance.map { MyPointsListItem(IdUtil.generateLongId(), 0, false, false,
+            it.communityId.code == GlobalConstants.COMMUN_CODE, it) })
 
     override fun onItemClick(communityId: CommunityIdDomain) {
         closeActionListener(communityId)

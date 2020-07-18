@@ -33,7 +33,7 @@ class WalletChoosePointsDialogViewHolder(
         with(listItem.data) {
             logoGlideTarget = loadIcon(itemView.logo, listItem)
 
-            itemView.name.text = communityName
+            itemView.name.text = communityName?:context.resources.getString(R.string.commun_group)
 
             if(listItem.isCommun) {
                 itemView.onHold.visibility = View.GONE
