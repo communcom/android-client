@@ -5,7 +5,7 @@ import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
 
 interface PostReportModel: ModelBase {
 
-    fun collectReason(report: PostReportDialog.Type)
+    fun collectReason(report: PostReportDialog.Type?, reportString:String? = null)
 
     fun getReport(): PostReportDialog.Report
 

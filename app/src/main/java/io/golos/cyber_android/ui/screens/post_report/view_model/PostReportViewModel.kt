@@ -29,8 +29,8 @@ class PostReportViewModel @Inject constructor(
         _command.value = NavigateBackwardCommand()
     }
 
-    fun collectReason(reasons: PostReportDialog.Type) {
-        model.collectReason(reasons)
+    fun collectReason(reasons: PostReportDialog.Type, reportString:String? = null) {
+        model.collectReason(reasons, reportString)
         _isEnableSendButton.value = model.reasonsCount() > 0
     }
 }
