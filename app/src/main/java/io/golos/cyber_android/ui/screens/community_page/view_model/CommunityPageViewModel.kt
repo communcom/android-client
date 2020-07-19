@@ -1,8 +1,10 @@
 package io.golos.cyber_android.ui.screens.community_page.view_model
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.screens.community_page.dto.*
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
@@ -16,8 +18,10 @@ import io.golos.cyber_android.ui.screens.community_page.model.CommunityPageModel
 import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageTextCommand
 import io.golos.cyber_android.ui.shared.utils.toLiveData
+import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.utils.helpers.EMPTY
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -29,8 +33,15 @@ constructor(
     private val appContext: Context,
     dispatchersProvider: DispatchersProvider,
     model: CommunityPageModel,
-    private val communityId: CommunityIdDomain
+    private val communityId: CommunityIdDomain,
+    private val walletRepository: WalletRepository
 ) : ViewModelBase<CommunityPageModel>(dispatchersProvider, model) {
+
+    private val mRate = MutableLiveData<Double>()
+    val rate: LiveData<Double>
+        get() = mRate
+
+    private lateinit var balance: List<WalletCommunityBalanceRecordDomain>
 
     private val communityPageMutableLiveData = MutableLiveData<CommunityPage>()
 
@@ -63,6 +74,9 @@ constructor(
                 communityPageMutableLiveData.value = communityPage
                 communityPageIsErrorMutableLiveData.value = false
 
+                getRate(communityId)
+                getBalance()
+
             } catch (e: Exception){
                 Timber.e(e)
                 communityPageIsErrorMutableLiveData.value = true
@@ -71,6 +85,10 @@ constructor(
             }
 
         }
+    }
+
+    fun onConvertClick() {
+        _command.value = NavigateToWalletConvertCommand(communityId, balance)
     }
 
     fun onBackPressed() {
@@ -118,4 +136,16 @@ constructor(
             _swipeRefreshing.value = false
         }
     }
+
+    private suspend fun getRate(communityId: CommunityIdDomain) {
+        mRate.value = calculateRate(communityId)
+    }
+
+    private suspend fun calculateRate(communityId: CommunityIdDomain): Double =
+        walletRepository.getExchangeRate(communityId)
+
+    private suspend fun getBalance() {
+        balance = walletRepository.getBalance()
+    }
+
 }

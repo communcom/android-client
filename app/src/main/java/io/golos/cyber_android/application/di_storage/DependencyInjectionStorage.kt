@@ -31,6 +31,8 @@ import io.golos.cyber_android.ui.screens.app_start.welcome.activity.di.WelcomeAc
 import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentComponent
 import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentModule
 import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentTabComponent
+import io.golos.cyber_android.ui.screens.community_get_points.di.GetCommunityPointsFragmentComponent
+import io.golos.cyber_android.ui.screens.community_get_points.di.GetCommunityPointsFragmentModule
 import io.golos.cyber_android.ui.screens.community_page.di.CommunityPageFragmentComponent
 import io.golos.cyber_android.ui.screens.community_page.di.CommunityPageFragmentModule
 import io.golos.cyber_android.ui.screens.community_page.dto.CommunityFriend
@@ -325,6 +327,16 @@ class DependencyInjectionStorage(private val app: Application) {
                         args[4] as Double?
                     ))
                     .build()
+
+            GetCommunityPointsFragmentComponent::class->{
+                getBase<MainActivityComponent>()
+                    .getCommunityPointsFragmentComponent
+                    .init(GetCommunityPointsFragmentModule(
+                        communityId = args[0] as CommunityIdDomain,
+                        balance = args[1] as List<WalletCommunityBalanceRecordDomain>
+                    ))
+                    .build()
+            }
 
             WalletPointFragmentComponent::class ->
                 getBase<WalletFragmentComponent>()

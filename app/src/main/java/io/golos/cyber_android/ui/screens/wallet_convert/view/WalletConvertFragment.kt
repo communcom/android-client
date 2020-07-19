@@ -27,7 +27,7 @@ import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import kotlinx.android.synthetic.main.fragment_wallet_convert.*
 import javax.inject.Inject
 
-class WalletConvertFragment : FragmentBaseMVVM<FragmentWalletConvertBinding, WalletConvertViewModel>() {
+open class WalletConvertFragment : FragmentBaseMVVM<FragmentWalletConvertBinding, WalletConvertViewModel>() {
     companion object {
         private const val COMMUNITY_ID = "COMMUNITY_ID"
         private const val BALANCE = "BALANCE"
