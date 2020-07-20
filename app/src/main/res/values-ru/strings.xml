@@ -112,13 +112,17 @@
     <string name="report_title">Выберите проблему</string>
     <string name="report_spam">Спам</string>
     <string name="report_harassment">Домогательство</string>
-    <string name="report_niguty">Контент для взрослых</string>
+    <string name="report_nudity">Контент для взрослых</string>
     <string name="report_violence">Насилие</string>
     <string name="report_false_news">Ложные новости</string>
     <string name="report_terrorism">Терроризм</string>
     <string name="report_hate_speech">Оскорбления</string>
     <string name="report_unauthorized_sales">Несанкционированные продажи</string>
-    <string name="report_message"></string>
+    <string name="report_message">Если кто-то находится в непосредственной опасности, позвоните в местные аварийные службы. Не ждите.</string>
+    <string name="report_breaks_community_rules">Нарушает правила сообщества</string>
+    <string name="report_attempt_to_abuse">Попытка оскорбления</string>
+    <string name="report_other">Другое</string>
+    <string name="report_other_reason">Пожалуйста, введите причину</string>
 
     <!--Post Card-->
     <string name="hint_add_comment">Добавить комментарий...</string>

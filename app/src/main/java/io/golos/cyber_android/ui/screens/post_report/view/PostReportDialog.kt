@@ -134,6 +134,25 @@ class PostReportDialog : DialogBaseMVVM<DialogPostReportBinding, PostReportViewM
             viewModel.collectReason(Type.UNAUTHORIZEDSALES)
         }
 
+        cbCommunityRules.setOnCheckedChangeListener { _, _ ->
+            viewModel.collectReason(Type.IT_BREAKS_COMMUNITY_RULES)
+        }
+
+        cbAttemptToAbuse.setOnCheckedChangeListener { _, _ ->
+            viewModel.collectReason(Type.ATTEMPT_TO_ABUSE)
+        }
+
+        cbOther.setOnCheckedChangeListener { _, isChecked ->
+            if(isChecked){
+                val dialog = PostReportOtherReasonDialog.show(parentFragment!!,arguments!!.getParcelable<Args>(Tags.ARGS)!!.contentId) {
+                    if(it == null){
+                        cbOther.isChecked = false
+                    }else{
+                        viewModel.collectReason(Type.OTHER,it)
+                    }
+                }
+            }
+        }
     }
 
     private fun removeListeners() {
@@ -145,6 +164,9 @@ class PostReportDialog : DialogBaseMVVM<DialogPostReportBinding, PostReportViewM
         cbTerrorism.setOnCheckedChangeListener(null)
         cbHateSpeech.setOnCheckedChangeListener(null)
         cbUnauthorizedSales.setOnCheckedChangeListener(null)
+        cbCommunityRules.setOnCheckedChangeListener(null)
+        cbAttemptToAbuse.setOnCheckedChangeListener(null)
+        cbOther.setOnCheckedChangeListener(null)
     }
 
     private fun getBehaviour(): BottomSheetBehavior<View>? {
@@ -170,7 +192,6 @@ class PostReportDialog : DialogBaseMVVM<DialogPostReportBinding, PostReportViewM
                     viewModel.onClosedClicked()
                 }
             }
-
         })
     }
 
@@ -188,7 +209,10 @@ class PostReportDialog : DialogBaseMVVM<DialogPostReportBinding, PostReportViewM
         VIOLENCE,
         FALSENEWS,
         TERRORISM,
+        IT_BREAKS_COMMUNITY_RULES,
         HATESPEECH,
-        UNAUTHORIZEDSALES
+        UNAUTHORIZEDSALES,
+        ATTEMPT_TO_ABUSE,
+        OTHER
     }
 }
