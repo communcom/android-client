@@ -46,7 +46,7 @@
 
                 style="@style/SignIn.InputField"
 
-                android:hint="@string/login"
+                android:hint="@string/username"
                 android:maxLength="@{viewModel.maxUserNameLen}"
 
                 android:text="@={viewModel.userName}"
@@ -61,7 +61,7 @@
 
                 style="@style/SignIn.InputField"
 
-                android:hint="@string/key"
+                android:hint="@string/password"
                 android:maxLength="@{viewModel.maxPasswordLen}"
 
                 android:text="@={viewModel.password}"
