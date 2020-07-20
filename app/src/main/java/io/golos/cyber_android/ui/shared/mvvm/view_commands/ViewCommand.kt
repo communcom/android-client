@@ -78,6 +78,8 @@ class NavigateToNextScreen() : ViewCommand
 
 class ShowPostRewardDialogCommand(@StringRes val titleResId: Int, @StringRes val textResId: Int) : ViewCommand
 
+class ViewInExplorerViewCommand(val exploreUrl:String) : ViewCommand
+
 data class SelectRewardCurrencyDialogCommand(val startCurrency: RewardCurrency) : ViewCommand
 
 class ShowNoConnectionDialogCommand() : ViewCommand

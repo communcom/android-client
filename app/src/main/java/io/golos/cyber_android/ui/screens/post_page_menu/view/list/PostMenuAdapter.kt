@@ -41,6 +41,9 @@ class PostMenuAdapter(
             PostMenuViewType.REPORT_ITEM -> {
                 ReportItem(parent) as ViewHolderBase<PostMenuModelListEventProcessor, VersionedListItem>
             }
+            PostMenuViewType.SHOW_IN_EXPLORER ->{
+                ShowInExplorerItem(parent) as ViewHolderBase<PostMenuModelListEventProcessor, VersionedListItem>
+            }
             else -> throw UnsupportedOperationException("This type of item is not supported")
         }
     }
@@ -54,6 +57,7 @@ class PostMenuAdapter(
         is JoinListItem -> PostMenuViewType.JOIN_ITEM
         is JoinedListItem -> PostMenuViewType.JOINED_ITEM
         is ReportListItem -> PostMenuViewType.REPORT_ITEM
+        is ShowInExplorerListItem -> PostMenuViewType.SHOW_IN_EXPLORER
         else -> throw UnsupportedOperationException("This type of item is not supported")
     }
 }

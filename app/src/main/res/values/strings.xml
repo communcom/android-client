@@ -256,6 +256,7 @@
     <string name="edit_post_menu">Edit</string>
     <string name="delete_post_menu">Delete</string>
     <string name="report_post">Report</string>
+    <string name="view_in_explorer">View in Explorer</string>
 
     <string name="edit_post">Edit post</string>
 

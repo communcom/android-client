@@ -19,5 +19,6 @@ data class PostMenu(
     val shareUrl: String?,
     val isMyPost: Boolean,
     val isSubscribed: Boolean,
-    val permlink: String
+    val permlink: String,
+    val browseUrl:String?
 ): Parcelable

@@ -20,4 +20,6 @@ interface PostMenuListener {
 
     fun onReportItemClick()
 
+    fun onViewInExplorerClick()
+
 }

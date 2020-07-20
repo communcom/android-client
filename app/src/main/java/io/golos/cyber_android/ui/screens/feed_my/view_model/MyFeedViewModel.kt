@@ -684,4 +684,8 @@ constructor(
     fun onCreatePostClicked() {
         _command.value = CreatePostCommand()
     }
+
+    fun viewInExplorer(postMenu: PostMenu) {
+        _command.value = ViewInExplorerViewCommand(postMenu.browseUrl.toString())
+    }
 }
