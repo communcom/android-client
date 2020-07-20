@@ -451,7 +451,7 @@
     <string name="commun_format">= {0} Commun</string>
     <string name="points_format">= {0} Поинтов</string>
     <string name="points_format2">{0} Поинтов</string>
-    <string name="tokens_format">= {0} токены</string>
+    <string name="tokens_format">= {0} Токенов</string>
     <string name="commun_group">Commun</string>
     <string name="history">История</string>
     <string name="refill">Пополнить счёт</string>
