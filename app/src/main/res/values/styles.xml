@@ -677,7 +677,7 @@
     <style name="BlueWhite.RoundCorners.Toggle.Follow" parent="BlueWhite.RoundCorners.Toggle">
         <item name="android:textColor">@color/text_color_toggle_blue_while</item>
         <item name="android:background">@drawable/bcg_toggle_blue_gray</item>
-        <item name="android:textOn">@string/following</item>
+        <item name="android:textOn">@string/unFollow</item>
         <item name="android:textOff">@string/follow</item>
         <item name="android:layout_width">@dimen/follow_following_button_width</item>
         <item name="android:layout_height">@dimen/follow_following_button_height</item>
