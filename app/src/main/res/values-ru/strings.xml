@@ -300,8 +300,8 @@
     <string name="no_leaders">Нет лидеров в этом сообществе</string>
     <string name="leaders">Лидеры</string>
     <string name="nominees">Номинантов</string>
-    <string name="hide">Спрятать</string>
-    <string name="unHide">Подписаться</string>
+    <string name="hide">Скрыть</string>
+    <string name="unHide">Показать </string>
     <string name="no_subscriptions">Нет подписок</string>
     <string name="you_not_subscribed_t_any_community">Ты не подписался на какие-либо сообщества</string>
     <string name="find_communities">Найти сообщество</string>
@@ -394,6 +394,7 @@
     <string name="voting_one_leader">Ты можешь голосовать только за одного лидера</string>
     <string name="follow">Подписаться</string>
     <string name="following">Подписан</string>
+    <string name="unFollow">Отписаться</string>
     <string name="friends">Друзей</string>
     <string name="members">Участников</string>
     <string name="no_members">Нет участников</string>

@@ -56,6 +56,10 @@ constructor(
 
     val postsListState = _postsListState.toLiveData()
 
+    private val _isPostSubscriptionModified:MutableLiveData<Boolean>  = MutableLiveData(false)
+    val isPostSubscriptionModified:LiveData<Boolean>
+        get() = _isPostSubscriptionModified
+
     private val _user: MutableLiveData<User> = MutableLiveData()
     val user = _user.toLiveData()
 
@@ -99,7 +103,7 @@ constructor(
     }
 
     override fun onShareClicked(shareUrl: String) {
-        _command.value = SharePostCommand("$shareUrl?invite=${currentUserRepository.userId.userId}")
+        _command.value = SharePostCommand(shareUrl)
     }
 
     override fun onBodyClicked(postContentId: ContentIdDomain?) {
@@ -277,6 +281,8 @@ constructor(
                 _command.value = SetLoadingVisibilityCommand(true)
                 model.subscribeToCommunity(communityId)
                 _postsListState.value = changeCommunitySubscriptionStatusInState(_postsListState.value, communityId, true)
+                _isPostSubscriptionModified.value = !_isPostSubscriptionModified.value!!
+
             } catch (e: Exception) {
                 Timber.e(e)
                 _command.value = ShowMessageTextCommand(e.getMessage(appContext))
@@ -292,6 +298,7 @@ constructor(
                 _command.value = SetLoadingVisibilityCommand(true)
                 model.unsubscribeToCommunity(communityId)
                 _postsListState.value = changeCommunitySubscriptionStatusInState(_postsListState.value, communityId, false)
+                _isPostSubscriptionModified.value = !_isPostSubscriptionModified.value!!
             } catch (e: Exception) {
                 Timber.e(e)
                 _command.value = ShowMessageTextCommand(e.getMessage(appContext))

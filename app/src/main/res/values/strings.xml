@@ -323,6 +323,8 @@
     <string name="nominees">Nominees</string>
     <string name="hide">Hide</string>
     <string name="unHide">Follow</string>
+    <string name="unFollow">Following</string>
+
 
     <!--Subscriptions-->
     <string name="no_subscriptions">No Subscriptions</string>

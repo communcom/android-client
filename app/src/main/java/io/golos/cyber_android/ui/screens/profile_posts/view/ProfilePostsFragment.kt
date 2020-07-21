@@ -301,7 +301,7 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
     }
 
     private fun openPostMenuDialog(postMenu: PostMenu) =
-        PostPageMenuDialog.show(this, postMenu) {
+        PostPageMenuDialog.show(this,viewModel.isPostSubscriptionModified.value!!, postMenu) {
             when (it) {
                 is PostPageMenuDialog.Result.AddFavorite -> viewModel.addToFavorite(it.postMenu.permlink)
                 is PostPageMenuDialog.Result.RemoveFavorite -> viewModel.removeFromFavorite(it.postMenu.permlink)
