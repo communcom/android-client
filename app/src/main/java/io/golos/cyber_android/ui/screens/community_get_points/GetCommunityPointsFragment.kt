@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.screens.community_get_points
 
 import android.os.Bundle
+import android.view.View
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.screens.community_get_points.di.GetCommunityPointsFragmentComponent
 import io.golos.cyber_android.ui.screens.wallet_convert.view.WalletConvertFragment
@@ -28,4 +29,9 @@ class GetCommunityPointsFragment : WalletConvertFragment(){
             .inject(this)
 
     override fun releaseInjection(key: String) = App.injections.release<GetCommunityPointsFragmentComponent>(key)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.changeMode()
+    }
 }
