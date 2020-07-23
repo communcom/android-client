@@ -36,7 +36,7 @@ constructor() : CyberCommentToEntityMapper {
             ),
             DiscussionPayout(),
             null,                           // note[AS] it's an Id of a parent comment. Temporary null - it'll be in a future
-            DiscussionMetadata(communObject.meta.creationTime),
+            DiscussionMetadata(communObject.meta.creationTime,communObject.meta.trxId),
             DiscussionStats(0.toBigInteger(), 0)
         )
     }

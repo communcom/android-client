@@ -35,8 +35,8 @@ constructor() : CyberPostToEntityMapper {
                 0,
                 0,
                 false
-//                communObject.community.avatarUrl,
-//                communObject.community.isSubscribed ?: false
+                //                communObject.community.avatarUrl,
+                //                communObject.community.isSubscribed ?: false
             ),
             PostContent(
                 ContentBody(jsonMapper.map(communObject.content)),
@@ -50,7 +50,7 @@ constructor() : CyberPostToEntityMapper {
             ),
             DiscussionCommentsCount(communObject.childCount),     // note[AS] temporary zero - it'll be in a future
             DiscussionPayout(),
-            DiscussionMetadata(communObject.meta.creationTime),
+            DiscussionMetadata(communObject.meta.creationTime,communObject.meta.trxId),
             DiscussionStats(
                 0.toBigInteger(),
                 0

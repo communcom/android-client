@@ -22,6 +22,7 @@ class PostPageMenuDialog(
 
     sealed class Result {
         data class AddFavorite(val postMenu: PostMenu): Result()
+        data class ViewInExplorer(val postMenu: PostMenu):Result()
         data class RemoveFavorite(val postMenu: PostMenu): Result()
         data class Share(val postMenu: PostMenu): Result()
         data class Edit(val postMenu: PostMenu): Result()
@@ -60,6 +61,8 @@ class PostPageMenuDialog(
     override fun onJoinedItemClick() = closeOnItemSelected(Result.Unsubscribe(postMenu))
 
     override fun onReportItemClick() = closeOnItemSelected(Result.Report(postMenu))
+
+    override fun onViewInExplorerClick() = closeOnItemSelected(Result.ViewInExplorer(postMenu))
 
     override fun setupView() {
         postMenu.let { menu ->
@@ -106,6 +109,7 @@ class PostPageMenuDialog(
     private fun generateNotMyPostMenu(postMenu: PostMenu): List<VersionedListItem> {
         val items = mutableListOf<VersionedListItem>()
 
+        items.add(ShowInExplorerListItem())
         if (postMenu.isSubscribed) {
             items.add(JoinedListItem())
         } else {

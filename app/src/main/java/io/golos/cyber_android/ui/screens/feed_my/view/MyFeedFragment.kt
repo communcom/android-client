@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.feed_my.view
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -126,6 +127,7 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
             is NavigateToCommunityPageCommand -> openCommunityPage(command.communityId)
             is NavigateToPostCommand -> openPost(command.discussionIdModel, command.contentId)
             is NavigationToPostMenuViewCommand -> openPostMenuDialog(command.post)
+            is ViewInExplorerViewCommand -> viewInExplorer(command.exploreUrl)
             is SharePostCommand -> sharePost(command.shareUrl)
             is EditPostCommand -> editPost(command.post)
             is ReportPostCommand -> openPostReportDialog(command.post)
@@ -142,6 +144,11 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
             EditorPageActivity.getIntent(requireContext()).putExtra(EXTRA_SHOULD_SHOW_IMAGE_PICKER_DIALOG, true),
             REQUEST_FOR_RESULT_FROM_CREATE_POST
         )
+    }
+
+    private fun viewInExplorer(exploreUrl: String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(exploreUrl))
+        startActivity(intent)
     }
 
     private fun openUserProfile(userId: UserIdDomain) {
@@ -292,6 +299,7 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
     private fun openPostMenuDialog(postMenu: PostMenu) {
         PostPageMenuDialog.show(this, postMenu) {
             when (it) {
+                is PostPageMenuDialog.Result.ViewInExplorer->viewModel.viewInExplorer(it.postMenu)
                 is PostPageMenuDialog.Result.AddFavorite -> viewModel.addToFavorite(it.postMenu.permlink)
                 is PostPageMenuDialog.Result.RemoveFavorite -> viewModel.removeFromFavorite(it.postMenu.permlink)
                 is PostPageMenuDialog.Result.Share -> it.postMenu.shareUrl?.let { viewModel.onShareClicked(it) }

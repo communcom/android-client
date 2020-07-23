@@ -103,7 +103,8 @@ constructor(
             shareUrl = postDomain.shareUrl,
             isMyPost = currentUserRepository.userId.userId == postToProcess.userId,
             isSubscribed = postDomain.community.isSubscribed,
-            permlink = postDomain.contentId.permlink
+            permlink = postDomain.contentId.permlink,
+            browseUrl = postDomain.meta.browseUrl
         )
     }
 

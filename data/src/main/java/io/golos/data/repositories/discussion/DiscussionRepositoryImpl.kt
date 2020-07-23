@@ -119,7 +119,8 @@ constructor(
                 null,
                 timeFrame,
                 postsConfigurationDomain.limit,
-                postsConfigurationDomain.offset
+                postsConfigurationDomain.offset,
+                arrayListOf("all")
             )
         }
 
@@ -152,7 +153,7 @@ constructor(
 
                         val donation = donations.firstOrNull {
                             it.contentId.userId.userId == post.contentId.userId.name &&
-                            it.contentId.permlink == post.contentId.permlink
+                                    it.contentId.permlink == post.contentId.permlink
                         }
 
                         post.mapToPostDomain(userId == currentUserRepository.userId.userId, reward, donation)
@@ -224,21 +225,21 @@ constructor(
         parentComment: ParentCommentIdentifierDomain?
     ): List<CommentDomain> {
         val currentUserId = currentUserRepository.userId.userId
-//        val comments = callProxy.call {
-//            commun4j.getCommentsRaw(
-//                sortBy = CommentsSortBy.TIME_DESC,
-//                offset = offset,
-//                limit = pageSize,
-//                type = commentType.mapToCommentSortType(),
-//                userId = userId.mapToCyberName(),
-//                permlink = postPermlink,
-//                communityId = communityId?.code,
-//                communityAlias = communityAlias,
-//                parentComment = parentComment?.mapToParentComment()
-//            )
-//        }
-//        .items
-//        .map { it.mapToCommentDomain(it.author.userId.name == currentUserId) }
+        //        val comments = callProxy.call {
+        //            commun4j.getCommentsRaw(
+        //                sortBy = CommentsSortBy.TIME_DESC,
+        //                offset = offset,
+        //                limit = pageSize,
+        //                type = commentType.mapToCommentSortType(),
+        //                userId = userId.mapToCyberName(),
+        //                permlink = postPermlink,
+        //                communityId = communityId?.code,
+        //                communityAlias = communityAlias,
+        //                parentComment = parentComment?.mapToParentComment()
+        //            )
+        //        }
+        //        .items
+        //        .map { it.mapToCommentDomain(it.author.userId.name == currentUserId) }
 
 
         val comments = callProxy.call {
@@ -254,7 +255,7 @@ constructor(
                 parentComment = parentComment?.mapToParentComment()
             )
         }
-        .items
+            .items
 
         return if(comments.isNotEmpty()) {
             val donationQuery = comments.map { DonationPostModel(it.contentId.userId.name, it.contentId.permlink) }
@@ -273,9 +274,9 @@ constructor(
         } else {
             listOf()
         }
-//        .map { it.mapToCommentDomain(it.author.userId.name == currentUserId) }
+        //        .map { it.mapToCommentDomain(it.author.userId.name == currentUserId) }
 
-//        return comments
+        //        return comments
     }
 
     override suspend fun deletePost(permlink: String, communityId: CommunityIdDomain) {
@@ -415,7 +416,7 @@ constructor(
             jsonBody = null,
             childCommentsCount = 0,
             community = CommunityDomain(postIdDomain.communityId, null, "", null, null, 0, 0, false),
-            meta = MetaDomain(DatesServerFormatter.formatFromServer(response.metadata)),
+            meta = MetaDomain(DatesServerFormatter.formatFromServer(response.metadata),null),
             parent = ParentCommentDomain(null, postIdDomain),
             type = "comment",
             isDeleted = false,
@@ -453,7 +454,7 @@ constructor(
             jsonBody = null,
             childCommentsCount = 0,
             community = CommunityDomain(communityId, null, "", null, null, 0, 0, false),
-            meta = MetaDomain(DatesServerFormatter.formatFromServer(response.metadata)),
+            meta = MetaDomain(DatesServerFormatter.formatFromServer(response.metadata),null),
             parent = ParentCommentDomain(parentCommentId, null),
             type = "comment",
             isDeleted = false,

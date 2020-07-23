@@ -460,4 +460,8 @@ constructor(
             }
         }
     }
+
+    fun viewInExplorer(postMenu: PostMenu) {
+        _command.value = ViewInExplorerViewCommand(postMenu.browseUrl.toString())
+    }
 }

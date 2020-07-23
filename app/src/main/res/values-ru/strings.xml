@@ -266,6 +266,7 @@
     <string name="post_comments_title">Комментарии</string>
     <string name="post_comments_interesting_first_sort">Сначала интересные</string>
     <string name="post_comments_by_time_sort">По времени</string>
+    <string name="view_in_explorer">Посмотреть в эксплорере</string>
 
     <!--General Errors-->
     <string name="not_enough_power"></string>

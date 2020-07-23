@@ -4,6 +4,7 @@ import android.animation.AnimatorInflater
 import android.animation.StateListAnimator
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
@@ -179,6 +180,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
             is ClearCommentInputCommand -> commentWidget.clear()
             is ShowCommentMenuViewCommand -> showCommentMenu(command.commentId)
             is SharePostCommand -> sharePost(command.shareUrl)
+            is ViewInExplorerViewCommand -> viewInExplorer(command.exploreUrl)
             is ReportPostCommand -> showReportPost(command.contentId)
             is DeletePostCommand -> deletePost()
             is NavigateToReplyCommentViewCommand -> commentWidget.setCommentForReply(command.contentId, command.body)
@@ -189,6 +191,11 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
 
             else -> throw UnsupportedOperationException("This command is not supported")
         }
+    }
+
+    private fun viewInExplorer(exploreUrl: String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(exploreUrl))
+        startActivity(intent)
     }
 
     private fun back(){
@@ -305,6 +312,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
         PostPageMenuDialog.show(this, postMenu) {
             when (it) {
                 is PostPageMenuDialog.Result.AddFavorite -> viewModel.addToFavorite(it.postMenu.permlink)
+                is PostPageMenuDialog.Result.ViewInExplorer -> viewModel.viewInExplorer(it.postMenu)
                 is PostPageMenuDialog.Result.RemoveFavorite -> viewModel.removeFromFavorite(it.postMenu.permlink)
                 is PostPageMenuDialog.Result.Share -> it.postMenu.shareUrl?.let { viewModel.onShareClicked(it) }
                 is PostPageMenuDialog.Result.Edit -> it.postMenu.contentId?.let { viewModel.editPost(it) }

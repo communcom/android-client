@@ -18,7 +18,7 @@ data class ContentBody(
     val postBlock: ContentBlock
 ) : Entity
 
-data class DiscussionMetadata(val time: Date) : Entity
+data class DiscussionMetadata(val time: Date,val trxId:String?) : Entity
 
 class DiscussionPayout : Entity
 
