@@ -4,7 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
         <variable name="viewModel" type="io.golos.cyber_android.ui.screens.profile_communities.view_model.ProfileCommunitiesViewModel" />
+        <variable
+            name="isExternalUserProfile"
+            type="Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -69,6 +73,7 @@
 
             android:layout_marginStart="@dimen/margin_default"
 
+            android:visibility='@{isExternalUserProfile ? View.VISIBLE : View.GONE, default=gone}'
             style="@style/ProfileJoinedTextStyle"
 
             app:layout_constraintBottom_toTopOf="@+id/communitiesList"
