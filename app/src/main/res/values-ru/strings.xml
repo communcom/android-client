@@ -319,7 +319,7 @@
         <item quantity="other">подписчиков</item>
     </plurals>
 
-    <string name="get_points">Получить поинты</string>
+    <string name="get_points">Получить</string>
     <string name="friends_label">+ %1$s</string>
     <string name="commun_description">= 1 Commun</string>
     <string name="sort_by">Сортировать по</string>
