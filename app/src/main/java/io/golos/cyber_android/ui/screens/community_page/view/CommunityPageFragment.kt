@@ -141,6 +141,7 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
             tvJoinTime.text = "${resources.getString(R.string.joined)} ${it.joinDate.toMMMM_DD_YYYY_Format()}"
             communityFollowersView.setFollowers(it.friends.take(FRIENDS_COUNT_MAX))
             ctvJoin.setOnClickListener { viewModel.changeJoinStatus() }
+            ctvJoin.visibility = if(it.isInBlackList) View.GONE else View.VISIBLE
             initViewPager(it)
         })
 
@@ -175,15 +176,15 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
 
     private fun openCommunitySettingsDialog(communityPage:CommunityPage,currentUserId:String) {
         CommunitySettingsDialog.show(this,
-            viewModel.communityPageLiveData.value?.isSubscribed?:false,
+            viewModel.communityPageLiveData.value?.isInBlackList?:false,
             viewModel.communityPageLiveData.value!!.name
         ){
             when(it){
-                CommunitySettingsDialog.Result.HIDE_COMMUNITY->{viewModel.changeJoinStatus()}
+                CommunitySettingsDialog.Result.HIDE_COMMUNITY->{viewModel.hideCommunity()}
                 CommunitySettingsDialog.Result.SHARE_COMMUNITY->{
                     requireContext().shareMessage(viewModel.getShareString(communityPage,currentUserId))
                 }
-                CommunitySettingsDialog.Result.FOLLOW_COMMUNITY->{viewModel.changeJoinStatus()}
+                CommunitySettingsDialog.Result.UNHIDE_COMMUNITY->{viewModel.unHideCommunity()}
             }
         }
     }

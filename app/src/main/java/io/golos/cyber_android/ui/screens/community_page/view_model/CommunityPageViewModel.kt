@@ -126,6 +126,49 @@ constructor(
         }
     }
 
+    fun hideCommunity(){
+        launch {
+            try {
+                _command.value = SetLoadingVisibilityCommand(true)
+                model.blockCommunity(communityPageMutableLiveData.value!!.communityId)
+
+                val communityPage = communityPageMutableLiveData.value
+                val isSubscribed = communityPage?.isSubscribed ?: false
+                val isInBlackList = communityPage?.isInBlackList ?: false
+                communityPage?.isSubscribed = !isSubscribed
+                communityPage?.isInBlackList = !isInBlackList
+                communityPageMutableLiveData.value = communityPage
+            } catch (e: Exception){
+                _command.value = ShowMessageTextCommand(e.getMessage(appContext))
+                communityPageIsErrorMutableLiveData.value = true
+            } finally {
+                _command.value = SetLoadingVisibilityCommand(false)
+            }
+        }
+
+    }
+
+    fun unHideCommunity(){
+        launch {
+            try {
+                _command.value = SetLoadingVisibilityCommand(true)
+                model.unBlockCommunity(communityPageMutableLiveData.value!!.communityId)
+
+                val communityPage = communityPageMutableLiveData.value
+                val isSubscribed = communityPage?.isSubscribed ?: false
+                val isInBlackList = communityPage?.isInBlackList ?: false
+                communityPage?.isSubscribed = !isSubscribed
+                communityPage?.isInBlackList = !isInBlackList
+                communityPageMutableLiveData.value = communityPage
+            } catch (e: Exception){
+                _command.value = ShowMessageTextCommand(e.getMessage(appContext))
+                communityPageIsErrorMutableLiveData.value = true
+            } finally {
+                _command.value = SetLoadingVisibilityCommand(false)
+            }
+        }
+    }
+
     fun getShareString(communityPage: CommunityPage,currentUserId: String): String {
         return "${BuildConfig.BASE_URL}/${communityPage.communityId.code}?invite=${currentUserId}"
     }

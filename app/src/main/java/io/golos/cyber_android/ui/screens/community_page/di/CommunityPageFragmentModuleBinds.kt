@@ -33,4 +33,7 @@ interface CommunityPageFragmentModuleBinds {
 
     @Binds
     fun bindUnsubscribeToCommunityUseCase(model: UnsubscribeToCommunityUseCaseImpl): UnsubscribeToCommunityUseCase
+
+    @Binds
+    fun bindBlockUnblockCommunityUseCase(blockUnblockCommunityUseCaseImpl: BlockUnblockCommunityUseCaseImpl):BlockUnblockCommunityUseCase
 }

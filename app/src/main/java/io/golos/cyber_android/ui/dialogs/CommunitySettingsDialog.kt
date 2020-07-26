@@ -11,7 +11,7 @@ class CommunitySettingsDialog : BottomSheetDialogFragmentBase<CommunitySettingsD
 
     enum class Result {
         HIDE_COMMUNITY,
-        FOLLOW_COMMUNITY,
+        UNHIDE_COMMUNITY,
         SHARE_COMMUNITY
     }
 
@@ -36,7 +36,7 @@ class CommunitySettingsDialog : BottomSheetDialogFragmentBase<CommunitySettingsD
 
     override fun setupView() {
         title.text = communityName
-        if (!isCommunityHidden) {
+        if (isCommunityHidden) {
             hideUnHideButton.text = context?.resources?.getString(R.string.unHide)
             if(context != null) {
                 hideUnHideButton.setTextColor(ContextCompat.getColor(context!!, R.color.black))
@@ -55,10 +55,8 @@ class CommunitySettingsDialog : BottomSheetDialogFragmentBase<CommunitySettingsD
         }
         share.setOnClickListener { closeOnItemSelected(Result.SHARE_COMMUNITY) }
         hideUnHideButton.setOnClickListener {
-            closeOnItemSelected(if (isCommunityHidden) Result.FOLLOW_COMMUNITY
+            closeOnItemSelected(if (isCommunityHidden) Result.UNHIDE_COMMUNITY
             else Result.HIDE_COMMUNITY)
         }
     }
 }
-
-

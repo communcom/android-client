@@ -14,7 +14,7 @@ ext.versions = [
         supportCompat      : '28.0.0',
 
         // Commun4j
-        commun4jVersion    : '1.5.29',
+        commun4jVersion    : '1.5.32',
 
         //Network
         okhttp3            : '4.4.0',

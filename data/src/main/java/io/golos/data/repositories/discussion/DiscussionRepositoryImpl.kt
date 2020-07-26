@@ -119,7 +119,8 @@ constructor(
                 null,
                 timeFrame,
                 postsConfigurationDomain.limit,
-                postsConfigurationDomain.offset
+                postsConfigurationDomain.offset,
+                arrayListOf("all")
             )
         }
 

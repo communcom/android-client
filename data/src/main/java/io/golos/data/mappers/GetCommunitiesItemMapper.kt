@@ -33,6 +33,7 @@ fun GetCommunitiesItem.mapToCommunityPageDomain(leaders: List<CyberName>): Commu
             ?: listOf() ,
         isSubscribed = isSubscribed ?: false,
         isBlocked = isBlocked ?: true,
+        isInBlackList = isInBlacklist?:false,
         friendsCount = friendsCount ?: 0,
         friends = friends?.map { it.mapToCommunityFriendDomain(leaders) } ?: listOf(),
         membersCount = subscribersCount,

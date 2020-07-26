@@ -11,6 +11,7 @@ data class CommunityPageDomain(
     val rules: List<CommunityRuleDomain>,
     val isSubscribed: Boolean,
     val isBlocked: Boolean,
+    val isInBlackList:Boolean,
     val friendsCount: Int,
     val friends: List<CommunityFriendDomain>,
     val membersCount: Int,

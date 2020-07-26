@@ -15,6 +15,7 @@ class CommunityPageDomainToCommunityPageMapper: Function1<CommunityPageDomain, C
             communityPageDomain.rules,
             communityPageDomain.isSubscribed,
             communityPageDomain.isBlocked,
+            communityPageDomain.isInBlackList,
             communityPageDomain.friendsCount,
             CommunityFriendDomainListToCommunityFriendList().invoke(communityPageDomain.friends),
             communityPageDomain.membersCount,
