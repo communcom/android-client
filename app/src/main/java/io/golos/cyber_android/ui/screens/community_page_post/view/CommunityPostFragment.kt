@@ -203,7 +203,7 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
         viewModel.filterPostState.observe(viewLifecycleOwner, Observer { filterState ->
             val timeFilterText = getString(filterState.timeFilter.value)
             val periodFilterText = getString(filterState.periodFilter.value)
-            communityFilterType.text = "$timeFilterText, $periodFilterText"
+            communityFilterType.text = "$timeFilterText ${if(filterState.timeFilter.value == PostFiltersHolder.UpdateTimeFilter.POPULAR.value)", $periodFilterText" else ""}"
         })
 
         viewModel.postsListState.observe(viewLifecycleOwner, Observer { state ->
