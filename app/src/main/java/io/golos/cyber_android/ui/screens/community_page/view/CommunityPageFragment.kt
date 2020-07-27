@@ -12,6 +12,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentCommunityPageBinding
 import io.golos.cyber_android.ui.dialogs.CommunitySettingsDialog
+import io.golos.cyber_android.ui.screens.community_get_points.GetCommunityPointsFragment
 import io.golos.cyber_android.ui.screens.community_page.di.CommunityPageFragmentComponent
 import io.golos.cyber_android.ui.screens.community_page.dto.*
 import io.golos.cyber_android.ui.screens.community_page.view_model.CommunityPageViewModel
@@ -31,6 +32,7 @@ import io.golos.cyber_android.ui.shared.utils.shareMessage
 import io.golos.cyber_android.ui.shared.utils.toMMMM_DD_YYYY_Format
 import io.golos.cyber_android.ui.shared.widgets.TabLineDrawable
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.utils.format.KiloCounterFormatter
 import io.golos.utils.helpers.toPluralInt
 import kotlinx.android.synthetic.main.fragment_community_page.*
@@ -77,7 +79,7 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
         ivBack.setOnClickListener {
             viewModel.onBackPressed()
         }
-
+        cvBalanceDescription.visibility = View.VISIBLE
         viewModel.start()
     }
 
@@ -90,6 +92,7 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
             is NavigateToMembersCommand -> navigateToMembers()
             is NavigateToFriendsCommand -> navigateToFriends(command.friends)
             is ShowCommunitySettings -> openCommunitySettingsDialog(command.communityPage!!,command.currentUserId)
+            is NavigateToWalletConvertCommand -> navigateToWalletConvert(command.selectedCommunityId, command.balance)
         }
     }
 
@@ -136,6 +139,7 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
 
             val communityCurrency = it.communityCurrency
             tvCurrentCurrency.text = communityCurrency.currencyName
+            btnGetPoints.setOnClickListener { viewModel.onConvertClick() }
             tvCurrentCommunRate.text = communityCurrency.exchangeRate.toString()
 
             tvJoinTime.text = "${resources.getString(R.string.joined)} ${it.joinDate.toMMMM_DD_YYYY_Format()}"
@@ -143,6 +147,10 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
             ctvJoin.setOnClickListener { viewModel.changeJoinStatus() }
             ctvJoin.visibility = if(it.isInBlackList) View.GONE else View.VISIBLE
             initViewPager(it)
+        })
+
+        viewModel.rate.observe(viewLifecycleOwner, Observer {
+            tvCurrentCommunRate.text = it.toString()
         })
 
         viewModel.communityPageIsErrorLiveData.observe(viewLifecycleOwner, Observer {
@@ -239,6 +247,10 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
     }
 
     private fun switchToTab(tabIndex: Int) = tabLayout.getTabAt(tabIndex)!!.select()
+
+    private fun navigateToWalletConvert(selectedCommunityId: CommunityIdDomain, balance: List<WalletCommunityBalanceRecordDomain>) {
+        getDashboardFragment(this)?.navigateToFragment(GetCommunityPointsFragment.newInstance(selectedCommunityId, balance))
+    }
 
     private fun navigateToMembers() =
         getDashboardFragment(this)?.navigateToFragment(CommunityPageMembersFragment.newInstance(), true, null)

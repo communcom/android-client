@@ -45,7 +45,8 @@ constructor(
         // Move Commun community to the first
         balance =
             mutableListOf(balance.first { it.communityId.code == GlobalConstants.COMMUN_CODE }.copy(communityName = communName)).also {
-                it.addAll(balance.filter { it.communityId.code != GlobalConstants.COMMUN_CODE })
+                it.addAll(balance.filter { it1->
+                    it1.points > 0 })
             }
     }
 

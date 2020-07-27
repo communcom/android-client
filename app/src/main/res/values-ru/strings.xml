@@ -112,13 +112,17 @@
     <string name="report_title">Выберите проблему</string>
     <string name="report_spam">Спам</string>
     <string name="report_harassment">Домогательство</string>
-    <string name="report_niguty">Контент для взрослых</string>
+    <string name="report_nudity">Контент для взрослых</string>
     <string name="report_violence">Насилие</string>
     <string name="report_false_news">Ложные новости</string>
     <string name="report_terrorism">Терроризм</string>
     <string name="report_hate_speech">Оскорбления</string>
     <string name="report_unauthorized_sales">Несанкционированные продажи</string>
-    <string name="report_message"></string>
+    <string name="report_message">Если кто-то находится в непосредственной опасности, позвоните в местные аварийные службы. Не ждите.</string>
+    <string name="report_breaks_community_rules">Нарушает правила сообщества</string>
+    <string name="report_attempt_to_abuse">Попытка оскорбления</string>
+    <string name="report_other">Другое</string>
+    <string name="report_other_reason">Пожалуйста, введите причину</string>
 
     <!--Post Card-->
     <string name="hint_add_comment">Добавить комментарий...</string>
@@ -192,6 +196,7 @@
     <string name="next">Далее</string>
     <string name="create_your_username">Создать свой логин</string>
     <string name="username">Имя пользователя</string>
+    <string name="password">Пароль</string>
     <string name="keys_format">Master Password\n%1$s\n\nUser\'s name\n%2$s\n\nUser\'s ID\n%7$s\n\nOwner key\n%3$s\n\nActive\n        key\n%4$s\n\nPosting key\n%5$s\n\nMemo key\n%6$s\n    </string>
     <string name="keys_saved_successfully">Ключи успешно сохранены</string>
     <string name="setup_passcode">Настройка пароля</string>
@@ -261,6 +266,7 @@
     <string name="post_comments_title">Комментарии</string>
     <string name="post_comments_interesting_first_sort">Сначала интересные</string>
     <string name="post_comments_by_time_sort">По времени</string>
+    <string name="view_in_explorer">Посмотреть в эксплорере</string>
 
     <!--General Errors-->
     <string name="not_enough_power"></string>
@@ -316,7 +322,7 @@
         <item quantity="other">подписчиков</item>
     </plurals>
 
-    <string name="get_points">Получить поинты</string>
+    <string name="get_points">Получить</string>
     <string name="friends_label">+ %1$s</string>
     <string name="commun_description">= 1 Commun</string>
     <string name="sort_by">Сортировать по</string>
@@ -454,7 +460,7 @@
     <string name="commun_format">= {0} Commun</string>
     <string name="points_format">= {0} Поинтов</string>
     <string name="points_format2">{0} Поинтов</string>
-    <string name="tokens_format">= {0} токены</string>
+    <string name="tokens_format">= {0} Токенов</string>
     <string name="commun_group">Commun</string>
     <string name="history">История</string>
     <string name="refill">Пополнить счёт</string>

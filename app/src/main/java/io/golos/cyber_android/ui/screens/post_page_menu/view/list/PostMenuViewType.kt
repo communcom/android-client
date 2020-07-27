@@ -10,5 +10,6 @@ object PostMenuViewType {
     const val JOIN_ITEM = 5
     const val JOINED_ITEM = 6
     const val REPORT_ITEM = 7
+    const val SHOW_IN_EXPLORER = 8
 
 }

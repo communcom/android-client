@@ -51,6 +51,7 @@ open class ProfileCommunitiesFragment : FragmentBaseMVVM<FragmentProfileCommunit
 
     override fun linkViewModel(binding: FragmentProfileCommunitiesBinding, viewModel: ProfileCommunitiesViewModel) {
         binding.viewModel = viewModel
+        binding.isExternalUserProfile = false
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

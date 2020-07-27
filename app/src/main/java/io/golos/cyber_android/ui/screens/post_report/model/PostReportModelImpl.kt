@@ -14,10 +14,10 @@ class PostReportModelImpl @Inject constructor(
     private val collectedReasons = mutableListOf<String>()
 
     @SuppressLint("DefaultLocale")
-    override fun collectReason(report: PostReportDialog.Type) {
-        val lowerCaseReason = report.name.toLowerCase()
+    override fun collectReason(report: PostReportDialog.Type?,reportString: String?) {
+        val lowerCaseReason = reportString ?: report?.name?.toLowerCase()
         if (!collectedReasons.contains(lowerCaseReason)) {
-            collectedReasons.add(lowerCaseReason)
+            lowerCaseReason?.let { collectedReasons.add(it) }
         } else {
             collectedReasons.remove(lowerCaseReason)
         }

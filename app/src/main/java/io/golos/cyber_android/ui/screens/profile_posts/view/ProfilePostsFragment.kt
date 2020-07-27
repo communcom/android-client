@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.profile_posts.view
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.StringRes
@@ -87,6 +88,7 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
             is NavigationToPostMenuViewCommand -> openPostMenuDialog(command.post)
             is SharePostCommand -> sharePost(command.shareUrl)
             is EditPostCommand -> editPost(command.post)
+            is ViewInExplorerViewCommand -> viewInExplorer(command.exploreUrl)
             is ReportPostCommand -> openPostReport(command.post)
             is ShowPostRewardDialogCommand -> showPostRewardDialog(command.titleResId, command.textResId)
             is NavigateToDonateCommand -> moveToDonate(command)
@@ -304,6 +306,7 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
         PostPageMenuDialog.show(this,viewModel.isPostSubscriptionModified.value!!, postMenu) {
             when (it) {
                 is PostPageMenuDialog.Result.AddFavorite -> viewModel.addToFavorite(it.postMenu.permlink)
+                is PostPageMenuDialog.Result.ViewInExplorer-> viewModel.viewInExplorer(it.postMenu)
                 is PostPageMenuDialog.Result.RemoveFavorite -> viewModel.removeFromFavorite(it.postMenu.permlink)
                 is PostPageMenuDialog.Result.Share -> it.postMenu.shareUrl?.let { viewModel.onShareClicked(it) }
                 is PostPageMenuDialog.Result.Edit -> viewModel.editPost(it.postMenu.permlink)
@@ -324,6 +327,11 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
             ),
             tag = contentId.permlink
         )
+    }
+
+    private fun viewInExplorer(exploreUrl: String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(exploreUrl))
+        startActivity(intent)
     }
 
     private fun showPostRewardDialog(@StringRes titleResId: Int, @StringRes textResId: Int) =

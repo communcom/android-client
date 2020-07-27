@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.community_page_post.view
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.StringRes
@@ -99,12 +100,18 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
             is NavigateToImageViewCommand -> requireContext().openImageView(command.imageUri)
             is NavigateToLinkViewCommand -> requireContext().openLinkView(command.link)
             is NavigateToFilterDialogViewCommand -> openFilterDialog(command.config)
+            is ViewInExplorerViewCommand -> viewInExplorer(command.exploreUrl)
             is ShowPostRewardDialogCommand -> showPostRewardDialog(command.titleResId, command.textResId)
             is NavigateToDonateCommand -> moveToDonate(command)
             is ShowDonationUsersDialogCommand -> showDonationUsersDialogCommand(command.donation)
             is NavigateToUserProfileCommand -> openUserProfile(command.userId)
             is SelectRewardCurrencyDialogCommand -> showSelectRewardCurrencyDialog(command.startCurrency)
         }
+    }
+
+    private fun viewInExplorer(exploreUrl: String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(exploreUrl))
+        startActivity(intent)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -296,6 +303,7 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
     private fun openPostMenuDialog(postMenu: PostMenu) {
         PostPageMenuDialog.show(this,viewModel.isPostSubscriptionModified.value!!, postMenu) {
             when (it) {
+                is PostPageMenuDialog.Result.ViewInExplorer->viewModel.viewInExplorer(it.postMenu)
                 is PostPageMenuDialog.Result.AddFavorite -> viewModel.addToFavorite(it.postMenu.permlink)
                 is PostPageMenuDialog.Result.RemoveFavorite -> viewModel.removeFromFavorite(it.postMenu.permlink)
                 is PostPageMenuDialog.Result.Share -> it.postMenu.shareUrl?.let { viewModel.onShareClicked(it) }

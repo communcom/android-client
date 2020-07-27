@@ -285,4 +285,9 @@ constructor(
         }
         _command.value = ShowMessageResCommand(resourceId)
     }
+
+    fun changeMode(){
+        model.swipeSellMode()
+    }
+
 }

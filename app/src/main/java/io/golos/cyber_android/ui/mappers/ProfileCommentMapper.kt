@@ -37,7 +37,7 @@ fun Comment.mapToCommentDomain(): CommentDomain = CommentDomain(
         0,
         0,
         this.community.isSubscribed),
-    meta = MetaDomain(this.meta.creationTime),
+    meta = MetaDomain(this.meta.creationTime,this.meta.trxId),
     parent = ParentCommentDomain(this.parent.comment,
         this.parent.post),
     type = this.type,
