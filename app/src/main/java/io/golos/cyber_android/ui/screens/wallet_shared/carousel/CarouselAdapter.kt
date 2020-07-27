@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 
 class CarouselAdapter(
     @LayoutRes
-    private val layoutId: Int
+    private val layoutId: Int,
+    private val onItemClickListener: (Int)->Unit
 ) : RecyclerView.Adapter<CarouselItemViewHolder>() {
 
     private var items: List<CarouselListItem> = listOf()
@@ -18,7 +19,7 @@ class CarouselAdapter(
 
     override fun onBindViewHolder(holder: CarouselItemViewHolder, position: Int) {
         val index = getItemIndexByPosition(position)
-
+        holder.itemView.setOnClickListener { onItemClickListener(index) }
         holder.bind(items[index], position)
     }
 

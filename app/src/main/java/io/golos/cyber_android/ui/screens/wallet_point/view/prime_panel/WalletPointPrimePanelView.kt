@@ -54,7 +54,7 @@ constructor(
     }
 
     fun setCarouselStartData(data: CarouselStartData) {
-        val adapter = CarouselAdapter(R.layout.view_wallet_carousel)
+        val adapter = CarouselAdapter(R.layout.view_wallet_carousel){carousel.scrollToPosition(it)}
         carousel.addAdapter(adapter)
         adapter.setItems(data.items)
         carousel.setUp(data.startIndex) { onItemSelectedListener?.invoke(CommunityIdDomain(it)) }
