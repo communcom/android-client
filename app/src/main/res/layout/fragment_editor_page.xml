@@ -109,9 +109,7 @@
 
                         android:layout_height="wrap_content"
 
-                        android:layout_marginStart="@dimen/margin_default"
                         android:layout_marginTop="@dimen/margin_top_editor_page_title"
-                        android:layout_marginEnd="@dimen/margin_default"
 
                         android:minHeight="@dimen/min_height_editor"
 

@@ -204,7 +204,10 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
     private fun getNewEditTextInst(hint: String?, text: CharSequence?): CustomEditText {
         val editText = CustomEditText(ContextThemeWrapper(this.editorCore.context, R.style.WysiwygEditText))
         addEditableStyling(editText)
-        editText.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        editText.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).
+        apply {
+            setMargins(Utilities.dpToPx(editText.context,16f),0,Utilities.dpToPx(editText.context,16f),0)
+        }
         if (text != null) {
             setText(editText, text)
         }
