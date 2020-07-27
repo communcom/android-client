@@ -111,6 +111,7 @@
     <string name="report_attempt_to_abuse">Attempt to abuse</string>
     <string name="report_other">Other</string>
     <string name="report_other_reason">Please enter a reason</string>
+    <string name="report_to">Report to</string>
 
     <!--Post Card-->
     <string name="hint_add_comment">Add a comment…</string>

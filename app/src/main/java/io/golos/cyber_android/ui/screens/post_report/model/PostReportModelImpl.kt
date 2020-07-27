@@ -17,7 +17,10 @@ class PostReportModelImpl @Inject constructor(
     override fun collectReason(report: PostReportDialog.Type?,reportString: String?) {
         val lowerCaseReason = reportString ?: report?.name?.toLowerCase()
         if (!collectedReasons.contains(lowerCaseReason)) {
-            lowerCaseReason?.let { collectedReasons.add(it) }
+            if(report == PostReportDialog.Type.OTHER)
+                collectedReasons.add("${report.name.toLowerCase()}-$reportString")
+            else
+                lowerCaseReason?.let { collectedReasons.add(it) }
         } else {
             collectedReasons.remove(lowerCaseReason)
         }

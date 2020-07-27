@@ -111,7 +111,7 @@ class PostReportDialog : DialogBaseMVVM<DialogPostReportBinding, PostReportViewM
         }
 
         cbNiguty.setOnCheckedChangeListener { _, _ ->
-            viewModel.collectReason(Type.NIGUTY)
+            viewModel.collectReason(Type.NUDITY)
         }
 
         cbViolence.setOnCheckedChangeListener { _, _ ->
@@ -135,16 +135,16 @@ class PostReportDialog : DialogBaseMVVM<DialogPostReportBinding, PostReportViewM
         }
 
         cbCommunityRules.setOnCheckedChangeListener { _, _ ->
-            viewModel.collectReason(Type.IT_BREAKS_COMMUNITY_RULES)
+            viewModel.collectReason(Type.BREAKSCOMMUNITYRULES)
         }
 
         cbAttemptToAbuse.setOnCheckedChangeListener { _, _ ->
-            viewModel.collectReason(Type.ATTEMPT_TO_ABUSE)
+            viewModel.collectReason(Type.ABUSE)
         }
 
         cbOther.setOnCheckedChangeListener { _, isChecked ->
             if(isChecked){
-                val dialog = PostReportOtherReasonDialog.show(parentFragment!!,arguments!!.getParcelable<Args>(Tags.ARGS)!!.contentId) {
+                PostReportOtherReasonDialog.show(parentFragment!!,arguments!!.getParcelable<Args>(Tags.ARGS)!!.contentId) {
                     if(it == null){
                         cbOther.isChecked = false
                     }else{
@@ -205,14 +205,14 @@ class PostReportDialog : DialogBaseMVVM<DialogPostReportBinding, PostReportViewM
     enum class Type {
         SPAM,
         HARASSMENT,
-        NIGUTY,
+        NUDITY,
         VIOLENCE,
         FALSENEWS,
         TERRORISM,
-        IT_BREAKS_COMMUNITY_RULES,
+        BREAKSCOMMUNITYRULES,
         HATESPEECH,
         UNAUTHORIZEDSALES,
-        ATTEMPT_TO_ABUSE,
+        ABUSE,
         OTHER
     }
 }
