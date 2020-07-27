@@ -327,6 +327,10 @@
     <string name="no_leaders">There are no leaders in this community</string>
     <string name="leaders">Leaders</string>
     <string name="nominees">Nominees</string>
+    <string name="hide">Hide</string>
+    <string name="unHide">Unhide</string>
+    <string name="unFollow">Following</string>
+
 
     <!--Subscriptions-->
     <string name="no_subscriptions">No Subscriptions</string>

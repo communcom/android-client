@@ -48,6 +48,10 @@ constructor(
     val commentsPageSize: Int
         get() = model.commentsPageSize
 
+    private val _isPostSubscriptionModified:MutableLiveData<Boolean>  = MutableLiveData(false)
+    val isPostSubscriptionModified:LiveData<Boolean>
+        get() = _isPostSubscriptionModified
+
     /**
      * All data in post list (post title, body, controls, commeents etc.)
      */
@@ -269,6 +273,7 @@ constructor(
                 _postHeader.value = _postHeader.value?.copy(
                     isJoinedToCommunity = true
                 )
+                _isPostSubscriptionModified.value = !_isPostSubscriptionModified.value!!
             } catch (e: Exception) {
                 Timber.e(e)
                 _command.value = ShowMessageTextCommand(e.getMessage(appContext))
@@ -286,6 +291,7 @@ constructor(
                 _postHeader.value = _postHeader.value?.copy(
                     isJoinedToCommunity = false
                 )
+                _isPostSubscriptionModified.value = !_isPostSubscriptionModified.value!!
             } catch (e: Exception) {
                 Timber.e(e)
                 _command.value = ShowMessageResCommand(R.string.common_general_error)

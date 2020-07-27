@@ -32,10 +32,15 @@ class PostPageMenuDialog(
         data class Report(val postMenu: PostMenu): Result()
     }
 
+    private var isPostSubscriptionModified = false
+
     companion object {
-        fun show(parent: Fragment, postMenu: PostMenu, closeAction: (Result?) -> Unit) =
+        fun show(parent: Fragment,isPostSubscriptionModified:Boolean, postMenu: PostMenu, closeAction: (Result?) -> Unit) =
             PostPageMenuDialog(postMenu)
-                .apply { closeActionListener = closeAction }
+                .apply {
+                    closeActionListener = closeAction
+                    this.isPostSubscriptionModified = isPostSubscriptionModified
+                }
                 .show(parent.parentFragmentManager, "POST_PAGE_MENU_DIALOG")
     }
 
@@ -109,12 +114,21 @@ class PostPageMenuDialog(
     private fun generateNotMyPostMenu(postMenu: PostMenu): List<VersionedListItem> {
         val items = mutableListOf<VersionedListItem>()
 
-        items.add(ShowInExplorerListItem())
-        if (postMenu.isSubscribed) {
-            items.add(JoinedListItem())
+        if (isPostSubscriptionModified) {
+            if (postMenu.isSubscribed) {
+                items.add(JoinListItem())
+            } else {
+                items.add(JoinedListItem())
+            }
         } else {
-            items.add(JoinListItem())
+            if (postMenu.isSubscribed) {
+                items.add(JoinedListItem())
+            } else {
+                items.add(JoinListItem())
+            }
+
         }
+        items.add(ShowInExplorerListItem())
         items.add(ReportListItem())
 
         return items

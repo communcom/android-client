@@ -21,18 +21,20 @@ import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.utils.helpers.EMPTY
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
-
+import io.golos.data.BuildConfig
 class CommunityPageViewModel
 @Inject
 constructor(
     private val appContext: Context,
     dispatchersProvider: DispatchersProvider,
     model: CommunityPageModel,
+    private val currentUserRepositoryRead: CurrentUserRepositoryRead,
     private val communityId: CommunityIdDomain,
     private val walletRepository: WalletRepository
 ) : ViewModelBase<CommunityPageModel>(dispatchersProvider, model) {
@@ -99,6 +101,10 @@ constructor(
         _command.value = SwitchToLeadsTabCommand()
     }
 
+    fun onCommunitySettingsClick(){
+        _command.value = ShowCommunitySettings(communityPageMutableLiveData.value,currentUserRepositoryRead.userId.userId)
+    }
+
     fun onMembersLabelClick() {
         _command.value = NavigateToMembersCommand(communityId)
     }
@@ -135,6 +141,53 @@ constructor(
             loadCommunityPage()
             _swipeRefreshing.value = false
         }
+    }
+
+    fun hideCommunity(){
+        launch {
+            try {
+                _command.value = SetLoadingVisibilityCommand(true)
+                model.blockCommunity(communityPageMutableLiveData.value!!.communityId)
+
+                val communityPage = communityPageMutableLiveData.value
+                val isSubscribed = communityPage?.isSubscribed ?: false
+                val isInBlackList = communityPage?.isInBlackList ?: false
+                communityPage?.isSubscribed = !isSubscribed
+                communityPage?.isInBlackList = !isInBlackList
+                communityPageMutableLiveData.value = communityPage
+            } catch (e: Exception){
+                _command.value = ShowMessageTextCommand(e.getMessage(appContext))
+                communityPageIsErrorMutableLiveData.value = true
+            } finally {
+                _command.value = SetLoadingVisibilityCommand(false)
+            }
+        }
+
+    }
+
+    fun unHideCommunity(){
+        launch {
+            try {
+                _command.value = SetLoadingVisibilityCommand(true)
+                model.unBlockCommunity(communityPageMutableLiveData.value!!.communityId)
+
+                val communityPage = communityPageMutableLiveData.value
+                val isSubscribed = communityPage?.isSubscribed ?: false
+                val isInBlackList = communityPage?.isInBlackList ?: false
+                communityPage?.isSubscribed = !isSubscribed
+                communityPage?.isInBlackList = !isInBlackList
+                communityPageMutableLiveData.value = communityPage
+            } catch (e: Exception){
+                _command.value = ShowMessageTextCommand(e.getMessage(appContext))
+                communityPageIsErrorMutableLiveData.value = true
+            } finally {
+                _command.value = SetLoadingVisibilityCommand(false)
+            }
+        }
+    }
+
+    fun getShareString(communityPage: CommunityPage,currentUserId: String): String {
+        return "${BuildConfig.BASE_URL}/${communityPage.communityId.code}?invite=${currentUserId}"
     }
 
     private suspend fun getRate(communityId: CommunityIdDomain) {

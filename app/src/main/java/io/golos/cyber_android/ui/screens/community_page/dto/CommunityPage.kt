@@ -13,6 +13,7 @@ data class CommunityPage(
     val rules: List<CommunityRuleDomain>,
     var isSubscribed: Boolean,
     val isBlocked: Boolean,
+    var isInBlackList:Boolean,
     val friendsCount: Int,
     val friends: List<CommunityFriend>,
     val membersCount: Int,
