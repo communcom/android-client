@@ -29,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="10dp"/>
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/communityFilterContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -39,26 +39,42 @@
                 android:visibility="gone">
 
                 <TextView
+                    android:id="@+id/sort_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="5dp"
                     android:text="@string/sort"
                     android:textColor="@color/grey"
                     android:textSize="15sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/communityFilterType"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableEnd="@drawable/ic_drop_down"
+                    android:layout_marginStart="5dp"
                     android:drawablePadding="15sp"
                     android:textColor="@color/black"
                     android:textSize="15sp"
                     android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/sort_title"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:text="Popular" />
 
-            </LinearLayout>
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    app:layout_constraintBottom_toBottomOf="@id/communityFilterType"
+                    app:layout_constraintStart_toEndOf="@id/communityFilterType"
+                    app:layout_constraintTop_toTopOf="@id/communityFilterType"
+                    app:srcCompat="@drawable/ic_drop_down" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvCommunityPosts"
