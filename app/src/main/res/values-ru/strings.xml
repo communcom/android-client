@@ -123,6 +123,7 @@
     <string name="report_attempt_to_abuse">Попытка оскорбления</string>
     <string name="report_other">Другое</string>
     <string name="report_other_reason">Пожалуйста, введите причину</string>
+    <string name="report_to">Пожаловаться</string>
 
     <!--Post Card-->
     <string name="hint_add_comment">Добавить комментарий...</string>

@@ -27,11 +27,11 @@ class PostReportOtherReasonDialog private constructor() : BottomSheetDialogFragm
     }
 
     override fun setupView() {
-        tvTitle.text = "Report to $communityTitle"
+        tvTitle.text = "${getString(R.string.report_to)} $communityTitle"
         btnSend.isEnabled = false
         editorWidget.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
-                btnSend.isEnabled = p0?.isNotEmpty() == true
+                btnSend.isEnabled = p0?.toString()?.trim()?.isNotBlank() == true
             }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
