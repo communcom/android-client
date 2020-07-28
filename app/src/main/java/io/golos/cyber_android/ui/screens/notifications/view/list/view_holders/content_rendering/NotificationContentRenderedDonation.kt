@@ -73,7 +73,8 @@ class NotificationContentRenderedDonation(viewDescription: NotificationView) : N
         messageStringBuilder.append(SPACE)
 
         // Tail
-        val tailText = "${CurrencyFormatter.format(listItem.amount)} ${listItem.communityName} ${context.getString(R.string.points)}"
+        val tailText = "${CurrencyFormatter.format(listItem.amount)} ${listItem.communityName} ${
+        if(listItem.communityName != GlobalConstants.COMMUN_CODE) context.resources.getQuantityText(R.plurals.points_text,listItem.amount.toInt()) else ""}"
         val tailTextInterval = messageStringBuilder.appendText(tailText)
         messageStringBuilder.setSpan(ForegroundColorSpan(colorAmount), tailTextInterval)
         messageStringBuilder.setSpan(StyleSpan(Typeface.BOLD), tailTextInterval)
