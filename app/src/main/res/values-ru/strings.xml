@@ -124,6 +124,9 @@
     <string name="report_other">Другое</string>
     <string name="report_other_reason">Пожалуйста, введите причину</string>
     <string name="report_to">Пожаловаться</string>
+    <string name="hide">Скрыть</string>
+    <string name="unHide">Показать </string>
+    <string name="unFollow">Отписаться</string>
 
     <!--Post Card-->
     <string name="hint_add_comment">Добавить комментарий...</string>
@@ -154,8 +157,8 @@
     <string name="continue_with_phone">Использовать телефон</string>
     <string name="continue_with_google">Использовать Google</string>
     <string name="continue_with_facebook">Использовать Facebook</string>
-    <string name="welcome_slides_sub_text_1">Социальную сеть на технологиях Блокчейн\nЗдесь вы зарабатываете награды за посты лайки и комментарии.</string>
-    <string name="welcome_slides_sub_text_2">Подписывайся на лучшие сообщества и\nзарабатывай награды</string>
+    <string name="welcome_slides_sub_text_1">Токенизированную социальную сеть\nЗдесь Вы получаете награды за посты, лайки и комментарии.</string>
+    <string name="welcome_slides_sub_text_2">Подписывайтесь на лучшие сообщества и\nполучайте награды за активность</string>
     <string name="welcome_slides_sub_text_4">Благодаря блокчейну Commun полностью\nпринадлежит и управляется пользователями</string>
 
     <!--Sign In-->
@@ -163,19 +166,19 @@
     <string name="key">Ключ</string>
     <string name="ok">Ок</string>
     <string name="sign_in_scan_qr">Сканировать QR-код</string>
-    <string name="sign_in_scan_qr_hint">Перейдите в coomun.com и отсканируйте QR-код</string>
+    <string name="sign_in_scan_qr_hint">Перейдите в commun.com и отсканируйте QR-код</string>
     <string name="sign_in_scan_qr_invalid_format">Неправильный формат кода</string>
     <string name="sign_in_scan_qr_detector_error">Произошла ошибка во время сканирования кода</string>
     <string name="qr_no_camera_permissions">Необходимо разрешения камеры для сканирования QR-кода. Откройте настройки приложения, и разрешите доступ.</string>
 
     <!--Editor Page-->
     <string name="create_post">Создать пост</string>
-    <string name="you_will_post_in">Ты отправишь в</string>
+    <string name="you_will_post_in">Отправить в</string>
     <string name="title">Заголовок</string>
-    <string name="enter_text">Введи текст...</string>
+    <string name="enter_text">Расскажите о себе...</string>
     <string name="select_text_color">Выбрать цвет текста</string>
-    <string name="enter_tag">Введи метку</string>
-    <string name="enter_user_name">Введи имя пользователя</string>
+    <string name="enter_tag">Введите метку</string>
+    <string name="enter_user_name">Введите имя пользователя</string>
     <string name="enter_link">Введите ссылку</string>
     <string name="link_text">Link text</string>
     <string name="link">Ссылка</string>
@@ -208,8 +211,8 @@
     <string name="user_name_end_not_correct">Имя пользователя не может заканчиваться на тире</string>
     <string name="user_name_begin_not_correct_dot">Имя не может начинаться с точки</string>
     <string name="user_name_end_not_correct_dot">Имя не может оканчиваться точкой</string>
-    <string name="user_name_two_dot">Имя пользователя не может содержать двух подряд точек</string>
-    <string name="user_name_two_dash">Имя пользователя не может содержать двух подряд тире</string>
+    <string name="user_name_two_dot">Имя пользователя не может содержать двух точек подряд</string>
+    <string name="user_name_two_dash">Имя пользователя не может содержать двух тире подряд</string>
     <string name="user_name_two_dash_dot">Имя пользователя не может содержать двух подряд тире или точек</string>
     <string name="user_name_short_new">Имя не должно быть меньше {0} символов</string>
     <string name="user_name_long_new">Имя не должно быть больше {0} символов</string>
@@ -267,7 +270,7 @@
     <string name="post_comments_title">Комментарии</string>
     <string name="post_comments_interesting_first_sort">Сначала интересные</string>
     <string name="post_comments_by_time_sort">По времени</string>
-    <string name="view_in_explorer">Посмотреть в эксплорере</string>
+    <string name="view_in_explorer">Посмотреть в Explorer</string>
 
     <!--General Errors-->
     <string name="not_enough_power"></string>
@@ -285,32 +288,30 @@
     <string name="need_password">Вам нужен пароль для входа. Мы не храним мастер-пароли и не имеем возможности их восстановить. Сохраните его!</string>
 
     <!--Pin code-->
-    <string name="create_passcode">Создай свой код</string>
-    <string name="enter_passcode_again">Введи код повторно</string>
+    <string name="create_passcode">Создайте свой код</string>
+    <string name="enter_passcode_again">Введите код повторно</string>
     <string name="codes_not_match">Коды не совпадают</string>
-    <string name="unlock_app_way_query">Как ты хочешь разблокировать приложение?</string>
-    <string name="unlock_app_way_fingerprint">отпечатком</string>
-    <string name="unlock_app_way_passcode">паролем</string>
-    <string name="authTouchSensor">Нажми на сканер отпечатка для продолжения</string>
-    <string name="authEnterPinCode">Введи PIN-код</string>
-    <string name="authUsePinCode">Используй PIN-код</string>
-    <string name="authUseFingerprint">Используй отпечаток пальца</string>
+    <string name="unlock_app_way_query">Как Вы хотите разблокировать приложение?</string>
+    <string name="unlock_app_way_fingerprint">Отпечатком</string>
+    <string name="unlock_app_way_passcode">Паролем</string>
+    <string name="authTouchSensor">Нажмите на сканер отпечатка для продолжения</string>
+    <string name="authEnterPinCode">Введите PIN-код</string>
+    <string name="authUsePinCode">Используйте PIN-код</string>
+    <string name="authUseFingerprint">Используйте отпечаток пальца</string>
     <string name="authFingerprintAuthFail">Неправильный отпечаток пальца</string>
     <string name="authPinCodeAuthFail">Неправильный PIN-код</string>
-    <string name="authFingerprintDefaultHeader">Используй отпечатки пальцев для разблокировки функции</string>
-    <string name="authPinCodeDefaultHeader">Используй PIN-код для разблокировки функции</string>
+    <string name="authFingerprintDefaultHeader">Используйте отпечатки пальцев для разблокировки функции</string>
+    <string name="authPinCodeDefaultHeader">Используйте PIN-код для разблокировки функции</string>
     <string name="feedback_request">Расскажите, что случилось?</string>
     <string name="feedback_send">@string/send</string>
     <string name="feedback_title">Обратная связь</string>
     <string name="recommended">Рекомендуемые</string>
     <string name="missing_description">Нет описания</string>
-    <string name="no_leaders">Нет лидеров в этом сообществе</string>
+    <string name="no_leaders">В этом сообществе пока нет лидеров</string>
     <string name="leaders">Лидеры</string>
     <string name="nominees">Номинантов</string>
-    <string name="hide">Скрыть</string>
-    <string name="unHide">Показать </string>
     <string name="no_subscriptions">Нет подписок</string>
-    <string name="you_not_subscribed_t_any_community">Ты не подписался на какие-либо сообщества</string>
+    <string name="you_not_subscribed_t_any_community">Вы еще не подписались ни на одно сообщество</string>
     <string name="find_communities">Найти сообщество</string>
     <string name="subscriptions">Подписка</string>
     <string name="loading_error">Ошибка загрузки</string>
@@ -353,37 +354,37 @@
     <string name="joined">зарег.</string>
     <string name="vote">Оценка</string>
     <string name="voted">Оценил</string>
-    <string name="share_apps_not_found">Приложения с которыми можно поделиться не найдены</string>
+    <string name="share_apps_not_found">Приложения, с которыми можно поделиться, не найдены</string>
     <string name="save">Сохранить</string>
-    <string name="profile_photos_storage_permissions_denied">Ты не можешь выбрать фотографию без разрешения к фотографиям на телефоне</string>
+    <string name="profile_photos_storage_permissions_denied">Вы не можете выбрать фотографию без разрешения к фотографиям на телефоне</string>
     <string name="see_all">Показать все</string>
     <string name="see_more">Показать больше</string>
     <string name="communities_count">{0} ({1} Общие)</string>
-    <string name="sign_up_description">Продолжая, ты соглашаешься с</string>
+    <string name="sign_up_description">Продолжая, Вы соглашаетесь с</string>
     <string name="sign_up_description_1">Пользовательским соглашением, Политикой приватности</string>
     <string name="sign_up_description_2">и</string>
     <string name="sign_up_description_3">Отказом от ответственности</string>
-    <string name="do_you_have_account">У тебя есть аккаунт?</string>
+    <string name="do_you_have_account">Уже есть учетная запись?</string>
     <string name="commun">commun</string>
-    <string name="get_you_first_points">Получить первые поинты</string>
-    <string name="subscribe_to_3_communities">Подпишись на 3 сообщества, чтобы получить первые поинты сообществ</string>
-    <string name="ftue_finish_description_1">Войди на сайте\n</string>
-    <string name="ftue_finish_description_2">Удвой поинты</string>
-    <string name="ftue_finish_sub_description">Сразу после авторизации на сайте\nМы удвоим поинты</string>
+    <string name="get_you_first_points">Получите свои первые поинты</string>
+    <string name="subscribe_to_3_communities">Подпишитесь на 3 сообщества и получите поинты сообществ</string>
+    <string name="ftue_finish_description_1">Авторизуйтесь на сайте\n</string>
+    <string name="ftue_finish_description_2">Удвойте свои поинты</string>
+    <string name="ftue_finish_sub_description">Сразу после авторизации на сайте\nМы удвоим Ваши бонусные поинты</string>
     <string name="done">Готово</string>
     <string name="no_followers_yet">Нет пользователей в списке</string>
     <string name="no_followers_yet_external_user">У пользователя нет подписчиков</string>
     <string name="no_followers">Нет подписчиков</string>
     <string name="no_mutual">Нет общих</string>
     <string name="no_users">Нет пользователей</string>
-    <string name="no_users_explanation">У вас нет пользователей в черном списоке</string>
+    <string name="no_users_explanation">У Вас нет пользователей в черном списоке</string>
     <string name="no_communities">Нет сообществ</string>
-    <string name="no_communities_explanation">У тебя нет сообществ в черном списке</string>
+    <string name="no_communities_explanation">У Вас нет сообществ в черном списке</string>
     <string name="block">Блокировать</string>
     <string name="unblock">Разблокировать</string>
     <string name="paste_something">Вставить {0}</string>
     <string name="comment_deleted">Этот комментарий был удален</string>
-    <string name="choose_community">Выбери сообщество</string>
+    <string name="choose_community">Выберите сообщество</string>
     <string name="clear">Очистить</string>
     <string name="save_it">Я уже сохранил</string>
     <string name="backup_password">Сохранить пароль</string>
@@ -398,10 +399,9 @@
     <string name="something_wrong">Что-то пошло не так</string>
     <string name="take_a_look">Взгляните</string>
     <string name="voting_in_progress">Подожди, идет голосование</string>
-    <string name="voting_one_leader">Ты можешь голосовать только за одного лидера</string>
+    <string name="voting_one_leader">Вы можете проголосовать только за одного лидера</string>
     <string name="follow">Подписаться</string>
     <string name="following">Подписан</string>
-    <string name="unFollow">Отписаться</string>
     <string name="friends">Друзей</string>
     <string name="members">Участников</string>
     <string name="no_members">Нет участников</string>
@@ -412,16 +412,16 @@
     <string name="master_password_copied">Мастер-пароль был скопирован на буфер обмена</string>
     <string name="no_posts">Нет постов</string>
     <string name="no_posts_not_found">Сообщения не найдены</string>
-    <string name="no_comments_written">Ты еще не написал ни одного комментария</string>
+    <string name="no_comments_written">Похоже, Вы еще ничего не комментировали</string>
     <string name="new_notifications_label">%1$d новые уведомления</string>
-    <string name="subscribed_to_you">подписался на тебя</string>
+    <string name="subscribed_to_you">подписался на Вас</string>
     <string name="no_notifications">Нет уведомлений</string>
-    <string name="no_notifications_explanation">Ты еще не получили никаких уведомлений</string>
-    <string name="mention_on_comment">упомянул тебя в комментарии:</string>
-    <string name="mention_on_post">упомянул тебя в посте:</string>
+    <string name="no_notifications_explanation">Вы еще не получали уведомления</string>
+    <string name="mention_on_comment">упомянул Вас в комментарии:</string>
+    <string name="mention_on_post">упомянул Вас в посте:</string>
     <string name="left_comment">прокомментировал:</string>
-    <string name="liked_your_post">лайкнул твой пост:</string>
-    <string name="liked_your_comment">лайкнул твой комментарий:</string>
+    <string name="liked_your_post">лайкнул Ваш пост:</string>
+    <string name="liked_your_comment">лайкнул Ваш комментарий:</string>
     <string name="up_vote_message_content">: \u0022%1$s\u0022</string>
     <string name="sent_you">Получено {0} поинтов {1}</string>
     <string name="referral_registration">Получены реферальные бонусы за регистрацию</string>
@@ -429,9 +429,9 @@
     <string name="referral_purchase2">Реферальный бонус -</string>
     <string name="referral_purchase3">% от покупки</string>
     <string name="referral_purchase4"></string>
-    <string name="donate_your_post">задонатил вашему посту: \"{0}…\"</string>
+    <string name="donate_your_post">задонатил Вашему посту: \"{0}…\"</string>
 
-    <string name="you_have_got">У тебя есть</string>
+    <string name="you_have_got">У Вас есть</string>
     <string name="today">Cегодня</string>
     <string name="yesterday">Вчера</string>
     <string name="this_week">В этом месяце</string>
@@ -467,7 +467,7 @@
     <string name="refill">Пополнить счёт</string>
     <string name="on_hold">Заморожено</string>
     <string name="no_history">Нет истории</string>
-    <string name="no_history_explanation">У тебя еще нет записей о платежах</string>
+    <string name="no_history_explanation">У Вас еще нет записей о платежах</string>
     <string name="no_followings">Нет подписок</string>
     <string name="no_followings_explanation">У вас еще нет подписок</string>
     <string name="available">Доступны</string>
@@ -485,7 +485,7 @@
     <string name="wallet_amount_validation_sell_too_large">Стоимость продажи слишком большая</string>
     <string name="wallet_amount_validation_sell_invalid_value">Неверная стоимость продажи</string>
     <string name="wallet_amount_validation_sell_zero">Стоимость продажи не может быть нулевой</string>
-    <string name="wallet_amount_validation_buy_too_large">Недостаточно средств: у вас нет поинтов</string>
+    <string name="wallet_amount_validation_buy_too_large">Недостаточно средств: у Вас нет поинтов</string>
     <string name="wallet_amount_validation_buy_invalid_value">Неверная стоимость покупки</string>
     <string name="wallet_amount_validation_buy_zero">Стоимость покупки не может быть нулевой</string>
     <string name="home">Домой</string>
@@ -543,10 +543,10 @@
     <string name="password_validation_upper_hint">Большая</string>
     <string name="password_validation_upper_explanation">Пароль должен содержать хотя бы одну большую букву</string>
     <string name="password_validation_number">1</string>
-    <string name="password_validation_number_hint">Цфира</string>
+    <string name="password_validation_number_hint">Цифра</string>
     <string name="password_validation_number_explanation">Пароль должен содержать минимум одну цифру</string>
     <string name="password_validation_min_len">{0} +</string>
-    <string name="password_validation_min_len_hint">Мин. длинна</string>
+    <string name="password_validation_min_len_hint">Мин. длина</string>
     <string name="password_validation_min_len_explanation">Минимальная длина пароля должна быть {0} символов</string>
     <string name="password_latin_only">Разрешены только латинские буквы, цифры и специальные символы </string>
     <string name="upvote">Лайк</string>
@@ -556,11 +556,11 @@
     <string name="email_already_taken_error">Этот email уже зарегистрирован</string>
     <string name="my_feed_community">Моя лента</string>
     <string name="continue_with_email">Использовать Email</string>
-    <string name="email_address">Твой email</string>
-    <string name="enter_code">Введи код</string>
+    <string name="email_address">Ваш email</string>
+    <string name="enter_code">Введите код</string>
     <string name="phone_verification">Подтверждение телефона</string>
     <string name="email_verification">Подтверждение email</string>
-    <string name="enter_email_code">Письмо с кодом подтверждения было отправлено. Пожалуйста, введи этот код</string>
+    <string name="enter_email_code">Письмо с кодом подтверждения было отправлено. Пожалуйста, введите этот код</string>
     <string name="donation">Донаты</string>
     <string name="donate_popup">Донат:</string>
     <string name="donate_points_popup">поинтов</string>
