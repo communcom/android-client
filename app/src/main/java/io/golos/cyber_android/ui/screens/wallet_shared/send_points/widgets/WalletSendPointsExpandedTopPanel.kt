@@ -15,6 +15,7 @@ import io.golos.utils.format.CurrencyFormatter
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import kotlinx.android.synthetic.main.view_wallet_send_points_expanded_top_panel.view.*
 import kotlinx.android.synthetic.main.view_wallet_send_points_expanded_top_panel.view.backButton
+import kotlinx.android.synthetic.main.view_wallet_send_points_expanded_top_panel.view.carousel
 import kotlinx.android.synthetic.main.view_wallet_send_points_expanded_top_panel.view.selectCommunityButton
 
 class WalletSendPointsExpandedTopPanel
@@ -60,7 +61,7 @@ constructor(
     }
 
     fun setCarouselStartData(data: CarouselStartData) {
-        val adapter = CarouselAdapter(R.layout.view_wallet_carousel)
+        val adapter = CarouselAdapter(R.layout.view_wallet_carousel){carousel.scrollToPosition(it)}
         carousel.addAdapter(adapter)
         adapter.setItems(data.items)
         carousel.setUp(data.startIndex) { onItemSelectedListener?.invoke(CommunityIdDomain(it)) }
