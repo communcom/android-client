@@ -58,7 +58,7 @@ constructor(
         inflate(context, R.layout.view_wallet_convert_bottom_panel, this)
 
         selectPointButton.setOnClickListener { onSelectPointClickListener?.invoke() }
-
+        selectedPointPanel.setOnClickListener { onSelectPointClickListener?.invoke() }
         sellPanel.setOnClickListener {
             if(!sellInputField.isFocused) {
                 sellInputField.requestFocus()
