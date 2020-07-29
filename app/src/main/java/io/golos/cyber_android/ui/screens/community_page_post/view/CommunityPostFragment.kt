@@ -94,7 +94,7 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
         when (command) {
             is NavigationToPostMenuViewCommand -> openPostMenuDialog(command.post)
             is NavigateToPostCommand -> openPost(command.discussionIdModel, command.contentId)
-            is SharePostCommand -> requireContext().shareMessage(command.shareUrl)
+            is SharePostCommand -> requireContext().shareMessage(command.shareUrl, command.currentUserId)
             is EditPostCommand -> openEditPost(command.post)
             is ReportPostCommand -> openPostReportDialog(command.post)
             is NavigateToImageViewCommand -> requireContext().openImageView(command.imageUri)

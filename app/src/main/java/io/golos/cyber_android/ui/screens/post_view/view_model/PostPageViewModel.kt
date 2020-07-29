@@ -301,6 +301,8 @@ constructor(
         }
     }
 
+    fun getCurrentUserId() = currentUserRepository.userId.userId
+
     override fun onNextCommentsPageReached() = processSimple { model.loadNextFirstLevelCommentsPage() }
 
     override fun onRetryLoadingFirstLevelCommentButtonClick() = processSimple { model.retryLoadingFirstLevelCommentsPage() }

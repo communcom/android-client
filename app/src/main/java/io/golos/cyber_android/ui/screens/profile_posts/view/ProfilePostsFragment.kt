@@ -299,7 +299,7 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
     }
 
     private fun sharePost(shareUrl: String) {
-        requireContext().shareMessage(shareUrl)
+        requireContext().shareMessage(shareUrl, viewModel.getCurrentUserId())
     }
 
     private fun openPostMenuDialog(postMenu: PostMenu) =

@@ -7,7 +7,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 
 class NavigationToPostMenuViewCommand(val post: PostMenu) : ViewCommand
 
-class SharePostCommand(val shareUrl: String) : ViewCommand
+class SharePostCommand(val shareUrl: String, val currentUserId: String) : ViewCommand
 
 class EditPostCommand(val post: Post) : ViewCommand
 
