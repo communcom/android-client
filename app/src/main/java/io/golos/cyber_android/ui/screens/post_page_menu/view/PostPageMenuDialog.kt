@@ -105,6 +105,7 @@ class PostPageMenuDialog(
         postMenu.shareUrl?.let { shareUrl ->
             items.add(ShareListItem(shareUrl))
         }
+        items.add(ShowInExplorerListItem())
         items.add(EditListItem())
         items.add(DeleteListItem())
 
