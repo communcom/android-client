@@ -352,6 +352,11 @@
         <item quantity="other">followers</item>
     </plurals>
 
+    <plurals name="points_text">
+        <item quantity="one">point</item>
+        <item quantity="other">points</item>
+    </plurals>
+
     <!--CommunityPage-->
     <string name="get_points">Get points</string>
     <string name="friends_label">+ %1$s</string>
@@ -491,6 +496,7 @@
     <string name="liked_your_comment">liked your comment</string>
     <string name="up_vote_message_content">: \u0022%1$s\u0022</string>
     <string name="sent_you">sent you {0} {1}</string>
+    <string name="sent_you_cmn">sent you {0} {1}</string>
     <string name="donate_your_post">donate your post: \"{0}…\" with</string>
     <string name="you_have_got">You\'ve got</string>
     <string name="referral_registration">You received a referral bonus for the registration of</string>

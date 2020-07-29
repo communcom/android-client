@@ -10,6 +10,7 @@ import io.golos.cyber_android.ui.screens.notifications.view.list.items.RewardNot
 import io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.content_rendering.view.NotificationView
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModelListEventsProcessor
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
+import io.golos.domain.GlobalConstants
 import io.golos.utils.format.CurrencyFormatter
 import io.golos.utils.helpers.setSpan
 
@@ -50,10 +51,12 @@ class NotificationContentRenderedReward(viewDescription: NotificationView) : Not
         messageStringBuilder.append(context.resources.getString(R.string.you_have_got))
         messageStringBuilder.append(" ")
         messageStringBuilder.append(CurrencyFormatter.format(listItem.amount))
+        if(listItem.communityName != GlobalConstants.COMMUN_CODE) {
+            messageStringBuilder.append(" ")
+            messageStringBuilder.append(context.resources.getQuantityText(R.plurals.points_text,listItem.amount.toInt()))
+        }
         messageStringBuilder.append(" ")
         messageStringBuilder.append(listItem.communityName)
-        messageStringBuilder.append(" ")
-        messageStringBuilder.append(context.resources.getString(R.string.points))
 
         messageStringBuilder.setSpan(ForegroundColorSpan(colorMessage), 0..messageStringBuilder.length)
 

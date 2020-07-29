@@ -350,6 +350,11 @@
         <item quantity="other">Друзей</item>
     </plurals>
 
+    <plurals name="points_text">
+        <item quantity="one">поинт</item>
+        <item quantity="other">поинтов</item>
+    </plurals>
+
     <string name="join">Присое</string>
     <string name="joined">зарег.</string>
     <string name="vote">Оценка</string>
@@ -420,10 +425,11 @@
     <string name="mention_on_comment">упомянул Вас в комментарии:</string>
     <string name="mention_on_post">упомянул Вас в посте:</string>
     <string name="left_comment">прокомментировал:</string>
-    <string name="liked_your_post">лайкнул Ваш пост:</string>
-    <string name="liked_your_comment">лайкнул Ваш комментарий:</string>
+    <string name="liked_your_post">лайкнул Ваш пост</string>
+    <string name="liked_your_comment">лайкнул Ваш комментарий</string>
     <string name="up_vote_message_content">: \u0022%1$s\u0022</string>
-    <string name="sent_you">Получено {0} поинтов {1}</string>
+    <string name="sent_you">Отправил Вам {0} поинтов {1}</string>
+    <string name="sent_you_cmn">Отправил Вам {0} {1}</string>
     <string name="referral_registration">Получены реферальные бонусы за регистрацию</string>
     <string name="referral_purchase1">Получено</string>
     <string name="referral_purchase2">Реферальный бонус -</string>
@@ -431,7 +437,7 @@
     <string name="referral_purchase4"></string>
     <string name="donate_your_post">задонатил Вашему посту: \"{0}…\"</string>
 
-    <string name="you_have_got">У Вас есть</string>
+    <string name="you_have_got">Получено</string>
     <string name="today">Cегодня</string>
     <string name="yesterday">Вчера</string>
     <string name="this_week">В этом месяце</string>

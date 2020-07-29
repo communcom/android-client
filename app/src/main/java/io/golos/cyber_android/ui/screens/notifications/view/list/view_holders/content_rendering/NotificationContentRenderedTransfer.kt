@@ -63,10 +63,14 @@ class NotificationContentRenderedTransfer(viewDescription: NotificationView) : N
             messageStringBuilder.append(SPACE)
         }
 
-        val tail = context.resources.getFormattedString(
-            R.string.sent_you,
-            CurrencyFormatter.format(listItem.amount),
-            listItem.communityName)
+        val tail = if(listItem.communityName != GlobalConstants.COMMUN_CODE) {
+            context.resources.getFormattedString(R.string.sent_you,
+                CurrencyFormatter.format(listItem.amount), listItem.communityName)
+        }
+        else {
+            context.resources.getFormattedString(R.string.sent_you_cmn,
+                CurrencyFormatter.format(listItem.amount), listItem.communityName)
+        }
 
         val tailInterval = messageStringBuilder.appendText(tail)
         messageStringBuilder.setSpan(ForegroundColorSpan(colorMessage), tailInterval)
