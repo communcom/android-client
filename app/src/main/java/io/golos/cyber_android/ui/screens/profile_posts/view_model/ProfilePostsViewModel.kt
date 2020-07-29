@@ -306,6 +306,8 @@ constructor(
         }
     }
 
+    fun getCurrentUserId() = currentUserRepository.userId.userId
+
     private fun applyPostCreatedChangeListener() {
         launch {
             postUpdateRegistry.createdPosts.collect {

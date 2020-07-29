@@ -186,8 +186,8 @@ constructor(
         }
     }
 
-    fun getShareString(communityPage: CommunityPage,currentUserId: String): String {
-        return "${BuildConfig.BASE_URL}/${communityPage.communityId.code}?invite=${currentUserId}"
+    fun getShareString(communityPage: CommunityPage): String {
+        return "${BuildConfig.BASE_URL}/${communityPage.communityId.code}"
     }
 
     private suspend fun getRate(communityId: CommunityIdDomain) {

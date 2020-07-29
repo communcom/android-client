@@ -263,7 +263,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
     }
 
     private fun sharePost(shareUrl: String) {
-        requireContext().shareMessage(shareUrl)
+        requireContext().shareMessage(shareUrl, viewModel.getCurrentUserId())
     }
 
     private fun openPost(

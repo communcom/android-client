@@ -10,10 +10,13 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.ImageViewerActivity
 import timber.log.Timber
 
-fun Context.shareMessage(string: String) {
+fun Context.shareMessage(string: String, currentUserId: String) {
+
+    val sharingUrl = "$string?invite=${currentUserId}"
+
     val intent = Intent().apply {
         action = Intent.ACTION_SEND
-        putExtra(Intent.EXTRA_TEXT, string)
+        putExtra(Intent.EXTRA_TEXT, sharingUrl)
         type = "text/plain"
     }
 

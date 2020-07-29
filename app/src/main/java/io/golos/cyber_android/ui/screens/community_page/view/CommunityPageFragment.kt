@@ -190,7 +190,7 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
             when(it){
                 CommunitySettingsDialog.Result.HIDE_COMMUNITY->{viewModel.hideCommunity()}
                 CommunitySettingsDialog.Result.SHARE_COMMUNITY->{
-                    requireContext().shareMessage(viewModel.getShareString(communityPage,currentUserId))
+                    requireContext().shareMessage(viewModel.getShareString(communityPage), currentUserId)
                 }
                 CommunitySettingsDialog.Result.UNHIDE_COMMUNITY->{viewModel.unHideCommunity()}
             }

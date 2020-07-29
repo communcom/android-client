@@ -324,6 +324,8 @@ constructor(
         }
     }
 
+    fun getCurrentUserId() = currentUserRepository.userId.userId
+
     private fun applyAvatarChangeListener(){
         launch {
             try {

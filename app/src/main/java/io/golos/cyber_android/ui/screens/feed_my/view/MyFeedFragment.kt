@@ -191,7 +191,7 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
     }
 
     private fun sharePost(shareUrl: String) {
-        requireContext().shareMessage(shareUrl)
+        requireContext().shareMessage(shareUrl, viewModel.getCurrentUserId())
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
