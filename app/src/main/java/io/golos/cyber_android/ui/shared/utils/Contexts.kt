@@ -9,10 +9,11 @@ import android.widget.Toast
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.ImageViewerActivity
 import timber.log.Timber
+import java.util.*
 
 fun Context.shareMessage(string: String, currentUserId: String) {
 
-    val sharingUrl = "$string?invite=${currentUserId}"
+    val sharingUrl = "$string?invite=${currentUserId}".toLowerCase(Locale.ROOT)
 
     val intent = Intent().apply {
         action = Intent.ACTION_SEND
