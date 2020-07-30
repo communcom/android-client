@@ -83,6 +83,10 @@
     <string name="post_edit_invalid_resource_type">Ресурс, находящийся в ссылке, не поддерживается.</string>
     <string name="verification_code_resent">Код подтверждения был отправлен</string>
     <string name="hint_search">Поиск</string>
+    <string name="report_to">Пожаловаться</string>
+    <string name="hide">Скрыть</string>
+    <string name="unHide">Показать </string>
+    <string name="unFollow">Отписаться</string>
 
     <!--Main Screen Navigation-->
     <string name="communities">Сообщества</string>
@@ -123,10 +127,6 @@
     <string name="report_attempt_to_abuse">Попытка оскорбления</string>
     <string name="report_other">Другое</string>
     <string name="report_other_reason">Пожалуйста, введите причину</string>
-    <string name="report_to">Пожаловаться</string>
-    <string name="hide">Скрыть</string>
-    <string name="unHide">Показать </string>
-    <string name="unFollow">Отписаться</string>
 
     <!--Post Card-->
     <string name="hint_add_comment">Добавить комментарий...</string>
@@ -157,7 +157,7 @@
     <string name="continue_with_phone">Использовать телефон</string>
     <string name="continue_with_google">Использовать Google</string>
     <string name="continue_with_facebook">Использовать Facebook</string>
-    <string name="welcome_slides_sub_text_1">Токенизированную социальную сеть\nЗдесь Вы получаете награды за посты, лайки и комментарии.</string>
+    <string name="welcome_slides_sub_text_1">Токенизированную социальную сеть.\nЗдесь Вы получаете награды за посты, лайки и комментарии.</string>
     <string name="welcome_slides_sub_text_2">Подписывайтесь на лучшие сообщества и\nполучайте награды за активность</string>
     <string name="welcome_slides_sub_text_4">Благодаря блокчейну Commun полностью\nпринадлежит и управляется пользователями</string>
 
@@ -324,6 +324,11 @@
         <item quantity="other">подписчиков</item>
     </plurals>
 
+    <plurals name="points_text">
+        <item quantity="one">поинт</item>
+        <item quantity="other">поинтов</item>
+    </plurals>
+
     <string name="get_points">Получить</string>
     <string name="friends_label">+ %1$s</string>
     <string name="commun_description">= 1 Commun</string>
@@ -348,11 +353,6 @@
         <item quantity="few">Друга</item>
         <item quantity="many">Друзей</item>
         <item quantity="other">Друзей</item>
-    </plurals>
-
-    <plurals name="points_text">
-        <item quantity="one">поинт</item>
-        <item quantity="other">поинтов</item>
     </plurals>
 
     <string name="join">Присое</string>
@@ -382,7 +382,7 @@
     <string name="no_followers">Нет подписчиков</string>
     <string name="no_mutual">Нет общих</string>
     <string name="no_users">Нет пользователей</string>
-    <string name="no_users_explanation">У Вас нет пользователей в черном списоке</string>
+    <string name="no_users_explanation">У Вас нет пользователей в черном списке</string>
     <string name="no_communities">Нет сообществ</string>
     <string name="no_communities_explanation">У Вас нет сообществ в черном списке</string>
     <string name="block">Блокировать</string>
@@ -399,7 +399,7 @@
     <string name="master_pass_backup_explanation">К сожалению, блокчейн не позволяет нам восстанавливать пароли. Это означает, что каждый пользователь обязан хранить пароль в надежном месте и иметь доступ к нему в любое время. \n Настоятельно рекомендуем вам сохранить свой пароль и сделать его копию.</string>
     <string name="not_support_region">Извините, но мы пока не поддерживаем твой регион</string>
     <string name="no_connection">Нет соединения</string>
-    <string name="check_connection">Проверь свое интернет-соединение и попробуй еще раз</string>
+    <string name="check_connection">Проверьте свое интернет-соединение и попробуйте еще раз</string>
     <string name="try_again">Повторить</string>
     <string name="something_wrong">Что-то пошло не так</string>
     <string name="take_a_look">Взгляните</string>
@@ -416,8 +416,8 @@
     <string name="understand">Понял</string>
     <string name="master_password_copied">Мастер-пароль был скопирован на буфер обмена</string>
     <string name="no_posts">Нет постов</string>
-    <string name="no_posts_not_found">Сообщения не найдены</string>
-    <string name="no_comments_written">Похоже, Вы еще ничего не комментировали</string>
+    <string name="no_posts_not_found">Пока что нет ни одного поста</string>
+    <string name="no_comments_written">Пока что нет ни одного комментария</string>
     <string name="new_notifications_label">%1$d новые уведомления</string>
     <string name="subscribed_to_you">подписался на Вас</string>
     <string name="no_notifications">Нет уведомлений</string>
@@ -425,11 +425,10 @@
     <string name="mention_on_comment">упомянул Вас в комментарии:</string>
     <string name="mention_on_post">упомянул Вас в посте:</string>
     <string name="left_comment">прокомментировал:</string>
-    <string name="liked_your_post">лайкнул Ваш пост</string>
-    <string name="liked_your_comment">лайкнул Ваш комментарий</string>
+    <string name="liked_your_post">лайкнул Ваш пост:</string>
+    <string name="liked_your_comment">лайкнул Ваш комментарий:</string>
     <string name="up_vote_message_content">: \u0022%1$s\u0022</string>
-    <string name="sent_you">Отправил Вам {0} поинтов {1}</string>
-    <string name="sent_you_cmn">Отправил Вам {0} {1}</string>
+    <string name="sent_you">Получено {0} поинтов {1}</string>
     <string name="referral_registration">Получены реферальные бонусы за регистрацию</string>
     <string name="referral_purchase1">Получено</string>
     <string name="referral_purchase2">Реферальный бонус -</string>
@@ -475,7 +474,7 @@
     <string name="no_history">Нет истории</string>
     <string name="no_history_explanation">У Вас еще нет записей о платежах</string>
     <string name="no_followings">Нет подписок</string>
-    <string name="no_followings_explanation">У вас еще нет подписок</string>
+    <string name="no_followings_explanation">У Вас еще нет подписок</string>
     <string name="available">Доступны</string>
     <string name="hold_value_point">\u00A0/\u00A0Заморожено</string>
     <string name="amount">Сумма</string>
@@ -514,8 +513,8 @@
     <string name="username_validation_two_dot_in_row">Имя пользователя может содержать только одну точку подряд</string>
     <string name="username_validation_dash_dot_in_row">Имя пользователя может содержать только одну точку или одну черту подряд</string>
     <string name="username_validation_end_with_letter_or_digit">Имя пользователя должно заканчиваться буквой или цифрой</string>
-    <string name="wallet_fingerprint">Используй отпечаток пальца, чтобы отправить платеж</string>
-    <string name="wallet_pin">Используй свой PIN-код, чтобы отправить платеж</string>
+    <string name="wallet_fingerprint">Используйте отпечаток пальца, чтобы отправить платеж</string>
+    <string name="wallet_pin">Используйте свой PIN-код, чтобы отправить платеж</string>
     <string name="pdf_created_for">Created for</string>
     <string name="pdf_on">on</string>
     <string name="pdf_instruction">1. Print out this document (and/or put it on a USB stick or external drive).\n2. Fill in your Master Password below.\n3. Store your kit in a secure place that you can quickly access at any time, e.g. a safe deposit box.</string>
@@ -538,8 +537,8 @@
     <string name="update_app_out_of_date">Эта версия приложения устарела</string>
     <string name="update_app_continue">Пожалуйста, обновите приложение, чтобы продолжить</string>
     <string name="update_app_update">Обновить</string>
-    <string name="create_password">Создай пароль</string>
-    <string name="enter_your_password">Введи свой пароль</string>
+    <string name="create_password">Создайте пароль</string>
+    <string name="enter_your_password">Введите свой пароль</string>
     <string name="confirm_password">Подтвердить пароль</string>
     <string name="reenter_your_password">Повторите пароль</string>
     <string name="password_validation_lower">а</string>
