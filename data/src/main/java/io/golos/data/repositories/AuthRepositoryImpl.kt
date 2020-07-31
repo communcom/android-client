@@ -94,7 +94,7 @@ class AuthRepositoryImpl
     override suspend fun resendSmsCode(phone: String) {
         callProxy.call {
             Timber.tag("NET_SOCKET").d("AuthRepositoryImpl::resendSmsCode(phone = $phone)")
-            commun4j.resendSmsCode(phone)
+            commun4j.resendSmsCode(null, phone)
         }
     }
 
