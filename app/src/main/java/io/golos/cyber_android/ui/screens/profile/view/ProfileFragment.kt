@@ -36,6 +36,8 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToWalletComma
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowConfirmationDialog
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.shared.widgets.TabLineDrawable
+import io.golos.domain.GlobalConstants
+import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
@@ -43,8 +45,12 @@ import io.golos.domain.dto.notifications.NotificationSettingsDomain
 import kotlinx.android.synthetic.main.fragment_profile_new.*
 import timber.log.Timber
 import java.io.File
+import javax.inject.Inject
 
 open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewModel>() {
+
+    @Inject
+    lateinit var keyValueStorageFacade: KeyValueStorageFacade
 
     companion object {
         fun newInstance(userId: UserIdDomain) = ProfileFragment().apply {
@@ -168,14 +174,27 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
     private fun showEditBioDialog() = showPhotoDialog(ProfileItem.BIO)
 
     private fun showSettingsDialog() =
-        ProfileSettingsDialog.show(this@ProfileFragment) {
+        ProfileSettingsDialog.show(this@ProfileFragment,
+            keyValueStorageFacade.getUIMode() == GlobalConstants.UI_MODE_DARK
+        ) {
             when(it) {
                 is ProfileSettingsDialog.Result.Logout -> viewModel.onLogoutSelected()
                 is ProfileSettingsDialog.Result.Liked -> viewModel.onLikedSelected()
                 is ProfileSettingsDialog.Result.BlackList -> viewModel.onBlackListSelected()
                 is ProfileSettingsDialog.Result.Notifications -> viewModel.onNotificationsSettingsSelected()
+                is ProfileSettingsDialog.Result.SwitchTheme -> switchTheme()
             }
         }
+
+    private fun switchTheme() {
+        keyValueStorageFacade.setUIMode(
+            if(keyValueStorageFacade.getUIMode() == GlobalConstants.UI_MODE_DARK) GlobalConstants.UI_MODE_LIGHT
+            else GlobalConstants.UI_MODE_DARK
+        )
+        startActivity(Intent(requireActivity(),WelcomeActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        })
+    }
 
     private fun showNotificationsSettingsDialog(sourceNotifications: List<NotificationSettingsDomain>) =
         ProfileNotificationsDialog.show(this@ProfileFragment, sourceNotifications) {

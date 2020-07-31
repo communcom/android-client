@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:background="?attr/white"
         tools:context=".ui.screens.app_start.sign_in.keys_backup.view.SignUpProtectionKeysFragment">
 
         <ImageView
@@ -37,7 +37,7 @@
 
             android:textSize="@dimen/sign_up_keys_title_text_size"
             android:textStyle="bold"
-            android:textColor="@color/black"
+            android:textColor="?attr/black"
 
             android:layout_marginTop="@dimen/sign_up_password_margin_top"
 
@@ -53,7 +53,7 @@
             android:text="@string/master_password_generated"
 
             android:textSize="@dimen/sign_up_keys_title_text_size"
-            android:textColor="@color/black"
+            android:textColor="?attr/black"
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -68,7 +68,7 @@
             android:text="@string/need_password"
             android:textAlignment="center"
             android:textSize="@dimen/sign_up_keys_explanation_text_size"
-            android:textColor="@color/grey"
+            android:textColor="?attr/grey"
 
             android:layout_marginTop="@dimen/sign_up_explanation_margin_top"
             android:paddingStart="20dp"
@@ -108,7 +108,7 @@
                 android:layout_marginBottom="@dimen/sign_up_password_block_label_margin_bottom"
 
                 android:text="@string/master_password"
-                android:textColor="@color/grey"
+                android:textColor="?attr/grey"
                 android:textSize="12sp"
 
                 android:layout_marginEnd="15dp"
@@ -127,7 +127,7 @@
                 android:lines="1"
                 android:text="@{viewModel.masterKey}"
 
-                android:textColor="@color/black"
+                android:textColor="?attr/black"
                 android:textSize="17sp"
 
                 android:textStyle="bold"

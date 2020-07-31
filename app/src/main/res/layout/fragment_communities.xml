@@ -15,7 +15,7 @@
             android:layout_height="match_parent"
             android:id="@+id/root"
             tools:context=".ui.screens.communities_list.view.CommunitiesListFragment"
-            android:background="@color/window_background_light_gray">
+            android:background="?attr/window_background_light_gray">
 
         <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/actionBar"
@@ -31,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/white_header_height"
                 app:layout_scrollFlags="scroll|enterAlways|snap"
-                android:background="@color/white">
+                android:background="?attr/white">
 
                 <TextView
                     android:id="@+id/textView"
@@ -52,7 +52,7 @@
 
                     app:imageButton_icon="@drawable/ic_back"
                     app:imageButton_iconInscribeSize="@dimen/profile_back_button_icon_size"
-                    app:imageButton_tint="@color/black"
+                    app:imageButton_tint="?attr/black"
                     android:background="@null"
 
                     android:layout_gravity="center_vertical|start"

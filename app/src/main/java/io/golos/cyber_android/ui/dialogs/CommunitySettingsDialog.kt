@@ -5,6 +5,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dialogs.base.BottomSheetDialogFragmentBase
+import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
 import kotlinx.android.synthetic.main.dialog_community_settings.*
 
 class CommunitySettingsDialog : BottomSheetDialogFragmentBase<CommunitySettingsDialog.Result>() {
@@ -39,7 +40,7 @@ class CommunitySettingsDialog : BottomSheetDialogFragmentBase<CommunitySettingsD
         if (isCommunityHidden) {
             hideUnHideButton.text = context?.resources?.getString(R.string.unHide)
             if(context != null) {
-                hideUnHideButton.setTextColor(ContextCompat.getColor(context!!, R.color.black))
+                hideUnHideButton.setTextColor(getStyledAttribute(R.attr.black))
             }
             context?.getDrawable(R.drawable.ic_unhide_community)?.let {
                 hideUnHideButton.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, it, null)

@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="?attr/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -25,6 +26,7 @@
         android:drawableStart="@drawable/ic_phone"
 
         android:text="@string/continue_with_phone"
+        android:textColor="?attr/black"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,6 +42,7 @@
         android:drawableStart="@drawable/ic_email"
 
         android:text="@string/continue_with_email"
+        android:textColor="?attr/black"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -72,6 +75,7 @@
         android:drawableStart="@drawable/ic_facebook"
 
         android:text="@string/continue_with_facebook"
+        android:textColor="?attr/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
 

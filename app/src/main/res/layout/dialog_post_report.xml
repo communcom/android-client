@@ -25,7 +25,7 @@
                 android:layout_height="@dimen/post_filters_header_height"
                 android:gravity="center"
                 android:text="@string/report_title"
-                android:textColor="@color/black"
+                android:textColor="?attr/black"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -71,7 +71,7 @@
                     android:layout_marginStart="@dimen/margin_default"
                     android:layout_marginTop="@dimen/margin_default"
                     android:layout_marginEnd="@dimen/margin_default"
-                    app:cardBackgroundColor="@color/white"
+                    app:cardBackgroundColor="?attr/white"
                     app:cardCornerRadius="@dimen/card_view_corner_radius"
                     app:cardElevation="0dp">
 
@@ -93,7 +93,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center_vertical"
                                 android:text="@string/report_spam"
-                                android:textColor="@color/black"
+                                android:textColor="?attr/black"
                                 android:textSize="15sp"
                                 android:textStyle="bold" />
 
@@ -124,7 +124,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center_vertical"
                                 android:text="@string/report_harassment"
-                                android:textColor="@color/black"
+                                android:textColor="?attr/black"
                                 android:textSize="15sp"
                                 android:textStyle="bold" />
 
@@ -155,7 +155,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center_vertical"
                                 android:text="@string/report_nudity"
-                                android:textColor="@color/black"
+                                android:textColor="?attr/black"
                                 android:textSize="15sp"
                                 android:textStyle="bold" />
 
@@ -186,7 +186,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center_vertical"
                                 android:text="@string/report_violence"
-                                android:textColor="@color/black"
+                                android:textColor="?attr/black"
                                 android:textSize="15sp"
                                 android:textStyle="bold" />
 
@@ -217,7 +217,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center_vertical"
                                 android:text="@string/report_false_news"
-                                android:textColor="@color/black"
+                                android:textColor="?attr/black"
                                 android:textSize="15sp"
                                 android:textStyle="bold" />
 
@@ -248,7 +248,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center_vertical"
                                 android:text="@string/report_terrorism"
-                                android:textColor="@color/black"
+                                android:textColor="?attr/black"
                                 android:textSize="15sp"
                                 android:textStyle="bold" />
 
@@ -279,7 +279,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center_vertical"
                                 android:text="@string/report_breaks_community_rules"
-                                android:textColor="@color/black"
+                                android:textColor="?attr/black"
                                 android:textSize="15sp"
                                 android:textStyle="bold" />
 
@@ -310,7 +310,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center_vertical"
                                 android:text="@string/report_hate_speech"
-                                android:textColor="@color/black"
+                                android:textColor="?attr/black"
                                 android:textSize="15sp"
                                 android:textStyle="bold" />
 
@@ -341,7 +341,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center_vertical"
                                 android:text="@string/report_unauthorized_sales"
-                                android:textColor="@color/black"
+                                android:textColor="?attr/black"
                                 android:textSize="15sp"
                                 android:textStyle="bold" />
 
@@ -372,7 +372,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center_vertical"
                                 android:text="@string/report_attempt_to_abuse"
-                                android:textColor="@color/black"
+                                android:textColor="?attr/black"
                                 android:textSize="15sp"
                                 android:textStyle="bold" />
 
@@ -402,7 +402,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center_vertical"
                                 android:text="@string/report_other"
-                                android:textColor="@color/black"
+                                android:textColor="?attr/black"
                                 android:textSize="15sp"
                                 android:textStyle="bold" />
 
@@ -431,7 +431,7 @@
                 android:layout_marginStart="@dimen/margin_default"
                 android:layout_marginTop="@dimen/margin_default"
                 android:layout_marginEnd="@dimen/margin_default"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="?attr/white"
                 app:cardCornerRadius="@dimen/card_view_corner_radius"
                 app:cardElevation="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -447,7 +447,7 @@
                     android:paddingStart="20dp"
                     android:paddingEnd="20dp"
                     android:text="@string/report_message"
-                    android:textColor="@color/grey"
+                    android:textColor="?attr/grey"
                     android:textSize="12sp" />
 
             </androidx.cardview.widget.CardView>

@@ -25,30 +25,26 @@
         android:restoreAnyVersion="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/AppThemeLight"
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
             android:name=".ui.screens.app_start.sign_up.activity.SignUpActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Login"
             android:windowSoftInputMode="adjustUnspecified"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.screens.app_start.sign_in.activity.SignInActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Login"
             android:windowSoftInputMode="adjustUnspecified"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.screens.in_app_auth_activity.InAppAuthActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Login"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.screens.app_start.welcome.activity.view.WelcomeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Login"
             android:windowSoftInputMode="adjustUnspecified"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>

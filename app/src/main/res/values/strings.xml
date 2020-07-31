@@ -670,4 +670,5 @@
     <string name="commun_currency_brief">CMN</string>
     <string name="points_currency">Community points</string>
     <string name="hide_empty">Hide empty</string>
+    <string name="dark_mode">Dark mode</string>
 </resources>

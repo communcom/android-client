@@ -6,6 +6,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.app_start.sign_up.create_password.dto.PasswordValidationCase
 import io.golos.cyber_android.ui.shared.utils.getFormattedString
+import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
 import io.golos.utils.getColorRes
 import kotlinx.android.synthetic.main.view_login_password_validation.view.*
 
@@ -45,7 +46,7 @@ constructor(
 
     fun updateCases(validCases: List<PasswordValidationCase>) {
         val validColor = context.resources.getColorRes(R.color.blue)
-        val invalidColor = context.resources.getColorRes(R.color.grey)
+        val invalidColor = getStyledAttribute(R.attr.grey)
 
         (if(validCases.contains(PasswordValidationCase.LOWER)) validColor else invalidColor)
             .let {

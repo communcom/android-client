@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Build
 import android.view.View
 import android.view.WindowManager
+import androidx.annotation.AttrRes
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
@@ -15,6 +16,13 @@ fun Activity.setStatusBarColor(@ColorRes colorId: Int){
     window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
     window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
     window.statusBarColor = ContextCompat.getColor(this, colorId)
+}
+
+fun Activity.setStyledStatusBarColor(@AttrRes colorId: Int){
+    val window = window
+    window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+    window.statusBarColor = getStyledAttribute(colorId)
 }
 
 fun Activity.setFullScreenMode() {
@@ -30,5 +38,5 @@ fun Activity.clearFullScreenMode() {
     window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
     window?.addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN)
     window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-    window?.statusBarColor = ContextCompat.getColor(this, R.color.white)
+    window?.statusBarColor = getStyledAttribute(R.attr.white)
 }

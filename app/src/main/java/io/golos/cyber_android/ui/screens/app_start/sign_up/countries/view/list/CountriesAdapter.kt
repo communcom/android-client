@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
 import io.golos.utils.getColorRes
 import io.golos.domain.dto.CountryDomain
 import kotlinx.android.synthetic.main.item_country.view.*
@@ -62,7 +63,7 @@ class CountriesAdapter(private val onCountrySelectedListener: (CountryDomain) ->
                 countryName.text = "${country.name} (+${country.code})"
                 check.visibility = if (selectedCountry == country) View.VISIBLE else View.GONE
 
-                val textColor = context.resources.getColorRes(if(country.available) R.color.black else R.color.grey)
+                val textColor = if(country.available) getStyledAttribute(R.attr.black) else getStyledAttribute(R.attr.grey)
                 countryName.setTextColor(textColor)
             }
         }

@@ -18,7 +18,7 @@
             android:id="@+id/root"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white">
+            android:background="?attr/white">
 
             <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/appbar"
@@ -59,7 +59,7 @@
 
                             app:imageButton_icon="@drawable/ic_left_arrow"
                             app:imageButton_iconInscribeSize="@dimen/size_back_icon"
-                            app:imageButton_tint="@color/white"
+                            app:imageButton_tint="?attr/white"
                             android:background="@null"
 
                             tools:visibility="visible"
@@ -102,7 +102,7 @@
 
                             android:src="@drawable/ic_editor_widget_camera"
 
-                            android:tint="@color/white"
+                            android:tint="?attr/white"
 
                             android:visibility="@{viewModel.photoButtonsVisibility}"
                             tools:ignore="ContentDescription"
@@ -145,7 +145,7 @@
 
                                 android:onClick="@{() -> viewModel.onUpdatePhotoClick(ProfileItem.AVATAR)}"
 
-                                android:tint="@color/grey"
+                                android:tint="?attr/grey"
                                 app:layout_constraintStart_toStartOf="@+id/ivAttachImage"
 
                                 app:layout_constraintTop_toTopOf="@+id/ivAttachImage"
@@ -290,7 +290,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/margin_default"
                                     android:fontFamily="@font/roboto_bold"
-                                    android:textColor="@color/black"
+                                    android:textColor="?attr/black"
                                     android:textSize="16sp"
 
                                     app:kilo="@{viewModel.followersCount}"
@@ -307,7 +307,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/gap"
                                     android:text="@string/followers"
-                                    android:textColor="@color/grey"
+                                    android:textColor="?attr/grey"
                                     android:textSize="12sp"
                                     app:layout_constraintBottom_toBottomOf="@+id/followersCount"
                                     app:layout_constraintStart_toEndOf="@+id/followersCount"
@@ -323,7 +323,7 @@
                                     android:layout_marginStart="@dimen/gap"
                                     android:layout_marginEnd="@dimen/gap"
                                     android:text="@string/point"
-                                    android:textColor="@color/grey"
+                                    android:textColor="?attr/grey"
                                     android:textSize="16sp"
                                     app:layout_constraintBottom_toBottomOf="@+id/followersCount"
                                     app:layout_constraintStart_toEndOf="@+id/followersLabel"
@@ -335,7 +335,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/gap"
                                     android:fontFamily="@font/roboto_bold"
-                                    android:textColor="@color/black"
+                                    android:textColor="?attr/black"
                                     android:textSize="16sp"
 
                                     app:kilo="@{viewModel.followingsCount}"
@@ -352,7 +352,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/gap"
                                     android:text="@string/following"
-                                    android:textColor="@color/grey"
+                                    android:textColor="?attr/grey"
                                     android:textSize="12sp"
 
                                     android:onClick="@{() -> viewModel.onFollowingsClick()}"
@@ -388,7 +388,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/stroke_normal"
-                    android:background="@color/light_gray"
+                    android:background="?attr/light_gray"
 
                     app:layout_behavior="@string/appbar_scrolling_view_behavior"
                     />

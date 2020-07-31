@@ -27,6 +27,7 @@ import io.golos.cyber_android.ui.shared.Tags
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.utils.setStatusBarColor
+import io.golos.cyber_android.ui.shared.utils.setStyledStatusBarColor
 import io.golos.cyber_android.ui.shared.widgets.NavigationBottomMenuWidget
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.ContentIdDomain
@@ -161,19 +162,19 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
                 notificationsFragment.onVisibilityChanged(visible = false, changeStackPage = changeStackPage)
             }
             NavigationBottomMenuWidget.Tab.COMMUNITIES.index -> {
-                currentActivity.setStatusBarColor(R.color.window_status_bar_background)
+                currentActivity.setStyledStatusBarColor(R.attr.window_status_bar_background)
                 notificationsFragment.onVisibilityChanged(visible = false, changeStackPage = changeStackPage)
             }
             NavigationBottomMenuWidget.Tab.PROFILE.index -> {
-                currentActivity.setStatusBarColor(R.color.window_status_bar_background)
+                currentActivity.setStyledStatusBarColor(R.attr.window_status_bar_background)
                 notificationsFragment.onVisibilityChanged(visible = false, changeStackPage = changeStackPage)
             }
             notificationPageIndex -> {
-                currentActivity.setStatusBarColor(R.color.window_status_bar_background)
+                currentActivity.setStyledStatusBarColor(R.attr.window_status_bar_background)
                 notificationsFragment.onVisibilityChanged(visible = true, changeStackPage = changeStackPage)
             }
             else -> {
-                currentActivity.setStatusBarColor(R.color.window_status_bar_background)
+                currentActivity.setStyledStatusBarColor(R.attr.window_status_bar_background)
                 notificationsFragment.onVisibilityChanged(visible = false, changeStackPage = changeStackPage)
             }
         }

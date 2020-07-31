@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <declare-styleable name="DefThemeStyles">
+        <attr name="white" format="color" />
+        <attr name="black" format="color" />
+        <attr name="blue" format="color" />
+        <attr name="colorPrimary" format="color" />
+        <attr name="colorAccent" format="color" />
+        <attr name="light_gray" format="color" />
+        <attr name="grey" format="color" />
+        <attr name="bg_dialog_color" format="color" />
+        <attr name="light_button" format="color" />
+        <attr name="window_background" format="color" />
+        <attr name="window_background_light_gray" format="color" />
+        <attr name="window_status_bar_background" format="color" />
+        <attr name="general_list_bcg" format="color" />
+        <attr name="post_counter_text_color" format="color" />
+        <attr name="select_community_dialog_bcg" format="color" />
+        <attr name="post_header_community_text" format="color" />
+        <attr name="comment_user_name" format="color" />
+        <attr name="comment_empty_place_holder" format="color" />
+    </declare-styleable>
+
     <declare-styleable name="RoundedView">
         <attr name="topLeftCornerRadius" format="dimension" />
         <attr name="topRightCornerRadius" format="dimension" />

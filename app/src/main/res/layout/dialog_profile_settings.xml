@@ -84,6 +84,36 @@
         app:layout_constraintStart_toStartOf="@+id/blacklist"
         app:layout_constraintTop_toBottomOf="@+id/blacklist" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/switch_theme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/notifications">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/switcher_button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/settings_menu_item_height"
+            android:text="@string/dark_mode"
+            style="@style/BottomSheetMenuItem"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/isDarkModeEnabledSwitcher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingEnd="@dimen/bottom_sheet_dialog_item_padding_horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/switcher_button"
+            app:layout_constraintEnd_toEndOf="@id/switcher_button"
+            app:layout_constraintTop_toTopOf="@id/switcher_button" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/logout"
 
@@ -97,7 +127,8 @@
 
         android:layout_marginTop="20dp"
 
-        app:layout_constraintEnd_toEndOf="@+id/notifications"
-        app:layout_constraintStart_toStartOf="@+id/notifications"
-        app:layout_constraintTop_toBottomOf="@+id/notifications" />
+        app:layout_constraintEnd_toEndOf="@+id/switch_theme"
+        app:layout_constraintStart_toStartOf="@+id/switch_theme"
+        app:layout_constraintTop_toBottomOf="@+id/switch_theme" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

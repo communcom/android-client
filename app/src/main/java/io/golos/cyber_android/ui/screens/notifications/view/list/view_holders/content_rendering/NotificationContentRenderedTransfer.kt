@@ -14,6 +14,7 @@ import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsV
 import io.golos.cyber_android.ui.shared.glide.loadCommunity
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
 import io.golos.cyber_android.ui.shared.utils.getFormattedString
+import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dto.UserIdDomain
 import io.golos.utils.format.CurrencyFormatter
@@ -48,7 +49,7 @@ class NotificationContentRenderedTransfer(viewDescription: NotificationView) : N
         val messageStringBuilder = SpannableStringBuilder()
         val userName = listItem.userName
         val userId = listItem.userId
-        val colorMessage = ContextCompat.getColor(context, R.color.black)
+        val colorMessage = getStyledAttribute(R.attr.black)
 
         userName?.let {
             val userNameInterval = messageStringBuilder.appendText(it)

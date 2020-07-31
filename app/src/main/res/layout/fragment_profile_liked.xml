@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="?attr/white"
     android:clickable="true"
     tools:ignore="KeyboardInaccessibleWidget">
 
@@ -28,7 +28,7 @@
 
             app:imageButton_icon="@drawable/ic_back"
             app:imageButton_iconInscribeSize="@dimen/profile_back_button_icon_size"
-            app:imageButton_tint="@color/black"
+            app:imageButton_tint="?attr/black"
             android:background="@null"
 
             android:layout_gravity="center_vertical|start"

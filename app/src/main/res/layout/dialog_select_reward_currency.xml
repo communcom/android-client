@@ -99,7 +99,7 @@
             android:lineSpacingExtra="7dp"
             android:text="@string/post_reward_not_top_text"
 
-            android:textColor="@color/grey"
+            android:textColor="?attr/grey"
             android:textSize="15sp"
             android:gravity="start"
 

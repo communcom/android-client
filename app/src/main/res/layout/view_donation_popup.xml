@@ -109,7 +109,7 @@
         app:layout_constraintTop_toTopOf="parent"
 
         app:srcCompat="@drawable/ic_close"
-        app:tint="@color/white"
+        app:tint="?attr/white"
         android:background="@null"
         android:padding="15dp"
 

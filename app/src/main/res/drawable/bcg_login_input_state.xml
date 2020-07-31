@@ -20,7 +20,7 @@
                              android:bottomRightRadius="0dp"
                              android:topLeftRadius="4dp"
                              android:topRightRadius="4dp"/>
-                    <solid android:color="@color/white"/>
+                    <solid android:color="?attr/white"/>
                     <size android:height="@dimen/stroke_normal"/>
                 </shape>
             </item>
@@ -46,7 +46,7 @@
                              android:bottomRightRadius="0dp"
                              android:topLeftRadius="4dp"
                              android:topRightRadius="4dp"/>
-                    <solid android:color="@color/white"/>
+                    <solid android:color="?attr/white"/>
                     <size android:height="@dimen/stroke_normal"/>
                 </shape>
             </item>
@@ -72,7 +72,7 @@
                              android:bottomRightRadius="0dp"
                              android:topLeftRadius="4dp"
                              android:topRightRadius="4dp"/>
-                    <solid android:color="@color/bg_dialog_color"/>
+                    <solid android:color="?attr/bg_dialog_color"/>
                     <size android:height="@dimen/stroke_thin"/>
                 </shape>
             </item>

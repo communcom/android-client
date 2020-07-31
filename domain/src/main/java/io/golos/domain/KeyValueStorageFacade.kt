@@ -53,4 +53,7 @@ interface KeyValueStorageFacade {
 
     fun saveCurrencyCoefficient(currencyName:String)
     fun getCurrencyCoefficient(): String?
+
+    fun getUIMode():String?
+    fun setUIMode(uiMode:String)
 }

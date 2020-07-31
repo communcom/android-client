@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
 import io.golos.cyber_android.ui.shared.utils.openWebPage
 
 object SignUpDescriptionHelper {
@@ -20,7 +21,7 @@ object SignUpDescriptionHelper {
         val context = signUpDescription.context
 
         val descriptionSpannable = SpannableStringBuilder(context.getString(R.string.sign_up_description))
-        val descriptionColor= ContextCompat.getColor(context, R.color.grey)
+        val descriptionColor= getStyledAttribute(R.attr.grey)
         descriptionSpannable.setSpan(
             ForegroundColorSpan(descriptionColor),
             0,

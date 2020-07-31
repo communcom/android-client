@@ -10,7 +10,7 @@
     </data>
 
     <LinearLayout android:orientation="vertical"
-                  android:background="@color/white"
+                  android:background="?attr/white"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
                   tools:context=".ui.screens.post_edit.fragment.view.EditorPageFragment">
@@ -24,7 +24,7 @@
             <com.google.android.material.appbar.AppBarLayout
                     app:elevation="0dp"
                     android:id="@+id/actionBar"
-                    android:background="@color/white"
+                    android:background="?attr/white"
                     android:layout_height="@dimen/height_action_bar"
                     android:layout_width="match_parent"
                     android:theme="@style/AppTheme.AppBarOverlay">
@@ -95,7 +95,7 @@
                         android:layout_marginStart="@dimen/margin_default"
                         android:layout_marginTop="@dimen/margin_top_editor_page_title"
                         android:layout_marginEnd="@dimen/margin_default"
-                        android:background="@color/white"
+                        android:background="?attr/white"
                         android:hint="@string/title"
 
                         android:inputType="textFilter"

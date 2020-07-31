@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="?attr/white">
 
     <ImageView
         android:id="@+id/notConnectionImage"
@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
 
         android:text="@string/no_connection"
-        android:textColor="@color/black"
+        android:textColor="?attr/black"
         android:textSize="30sp"
 
         android:textStyle="bold"
@@ -85,7 +85,7 @@
 
         android:layout_marginStart="10dp"
 
-        android:indeterminateTint="@color/white"
+        android:indeterminateTint="?attr/white"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/reconnectButton"
 

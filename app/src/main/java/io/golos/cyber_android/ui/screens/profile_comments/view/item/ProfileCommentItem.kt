@@ -19,6 +19,7 @@ import io.golos.cyber_android.ui.shared.base.adapter.RecyclerAdapter
 import io.golos.utils.format.TimeEstimationFormatter
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
+import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
 import io.golos.cyber_android.ui.shared.widgets.post_comments.donation.DonatePersonsPopup
 import io.golos.cyber_android.ui.shared.widgets.post_comments.items.*
 import io.golos.domain.dto.DonationsDomain
@@ -223,7 +224,7 @@ class ProfileCommentItem(
         author.username?.let {
             val userNameInterval = result.appendText(it)
             result.setSpan(StyleSpan(Typeface.BOLD), userNameInterval)
-            val colorUserName = ContextCompat.getColor(itemView.context, R.color.comment_user_name)
+            val colorUserName = getStyledAttribute(R.attr.comment_user_name)
             result.setSpan(ForegroundColorSpan(colorUserName), userNameInterval)
         }
 

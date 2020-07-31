@@ -13,7 +13,7 @@
         android:textSize="15sp"
         android:textStyle="bold"
 
-        android:textColor="@color/black"
+        android:textColor="?attr/black"
         tools:text="@tools:sample/lorem/random"
 
         android:layout_marginTop="@dimen/margin_default"
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
 
         android:textSize="15sp"
-        android:textColor="@color/black"
+        android:textColor="?attr/black"
         tools:text="@tools:sample/lorem/random"
 
         app:layout_goneMarginTop="@dimen/margin_default"

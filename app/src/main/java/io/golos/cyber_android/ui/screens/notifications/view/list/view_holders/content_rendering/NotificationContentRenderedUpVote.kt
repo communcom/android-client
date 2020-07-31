@@ -13,6 +13,7 @@ import io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.co
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModelListEventsProcessor
 import io.golos.cyber_android.ui.shared.glide.loadNotificationImageContent
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
+import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
 import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.utils.helpers.SPACE
@@ -33,7 +34,7 @@ class NotificationContentRenderedUpVote(viewDescription: NotificationView) : Not
         val messageStringBuilder = SpannableStringBuilder()
         val userName = listItem.userName
         val userId = listItem.userId
-        val colorMessage = ContextCompat.getColor(context, R.color.black)
+        val colorMessage = getStyledAttribute(R.attr.black)
 
         userName?.let {
             val userNameInterval = messageStringBuilder.appendText(it)

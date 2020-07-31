@@ -8,11 +8,11 @@
     </item>
 
     <item>
-        <ripple android:color="@color/light_gray" >
+        <ripple android:color="?attr/light_gray" >
             <item>
                 <shape android:shape="rectangle">
                     <corners android:radius="500dp" />
-                    <solid android:color="@color/white" />
+                    <solid android:color="?attr/white" />
                 </shape>
             </item>
         </ripple>

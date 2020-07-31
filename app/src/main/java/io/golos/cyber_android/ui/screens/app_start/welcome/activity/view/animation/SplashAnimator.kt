@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import io.golos.cyber_android.ui.shared.animation.AnimationListenerBase
 import android.view.animation.AnimationSet
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
 
 
 /**
@@ -31,7 +32,7 @@ class SplashAnimator(private var target: SplashAnimatorTarget?, private val anim
 
         isAnimationInProgress = true
 
-        target?.getRootView()?.setBackgroundColor(ContextCompat.getColor(context, R.color.white))
+        target?.getRootView()?.setBackgroundColor(getStyledAttribute(R.attr.white))
 
         val animatedView = target?.getAnimatedView()!!
 

@@ -30,7 +30,7 @@
 
         android:text="@string/you_will_post_in"
         style="@style/PostCardAuthorTextStyle"
-        android:textColor="@color/grey"
+        android:textColor="?attr/grey"
         app:layout_constraintBottom_toTopOf="@+id/communityName"
         app:layout_constraintStart_toEndOf="@+id/communityAvatar"
         app:layout_constraintTop_toTopOf="parent"
@@ -63,7 +63,7 @@
         android:layout_marginBottom="@dimen/vertical_margin_text_community_area"
         android:layout_marginEnd="@dimen/margin_size_editor_tool_button_side_small"
         android:text="@string/choose_community"
-        android:textColor="@color/grey"
+        android:textColor="?attr/grey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/showCommunitiesButton"
         app:layout_constraintHorizontal_bias="0.0"

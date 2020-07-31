@@ -10,6 +10,7 @@ import io.golos.cyber_android.ui.screens.notifications.view.list.items.RewardNot
 import io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.content_rendering.view.NotificationView
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModelListEventsProcessor
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
+import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
 import io.golos.domain.GlobalConstants
 import io.golos.utils.format.CurrencyFormatter
 import io.golos.utils.helpers.setSpan
@@ -46,7 +47,7 @@ class NotificationContentRenderedReward(viewDescription: NotificationView) : Not
     private fun setMessage(listItem: RewardNotificationItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor) {
         val context = viewDescription.root.context
         val messageStringBuilder = SpannableStringBuilder()
-        val colorMessage = ContextCompat.getColor(context, R.color.black)
+        val colorMessage = getStyledAttribute(R.attr.black)
 
         messageStringBuilder.append(context.resources.getString(R.string.you_have_got))
         messageStringBuilder.append(" ")

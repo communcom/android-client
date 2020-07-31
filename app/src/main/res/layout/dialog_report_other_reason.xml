@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/post_filters_header_height"
             android:gravity="center"
-            android:textColor="@color/black"
+            android:textColor="?attr/black"
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
