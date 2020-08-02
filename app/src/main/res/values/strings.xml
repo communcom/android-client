@@ -670,4 +670,9 @@
     <string name="commun_currency_brief">CMN</string>
     <string name="points_currency">Community points</string>
     <string name="hide_empty">Hide empty</string>
+
+    <string name="do_you_really_want_to_hide">Do you really want to hide all posts of %1$s ?</string>
+    <string name="do_you_really_want_to_unhide">Do you really want to unhide all posts of %1$s ?</string>
+    <string name="you_have_hidden_community">You\'ve hidden %1$s.\nWe are sorry that you\'ve had this experience.</string>
+    <string name="you_have_unhidden_community">You\'ve unhidden %1$s.</string>
 </resources>

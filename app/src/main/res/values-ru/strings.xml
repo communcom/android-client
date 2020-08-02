@@ -577,4 +577,9 @@
     <string name="commun_currency_brief">CMN</string>
     <string name="points_currency">Поинты сообщества</string>
     <string name="hide_empty">Скрыть пустые</string>
+
+    <string name="do_you_really_want_to_hide">Вы действительно хотите скрыть все посты %1$s ?</string>
+    <string name="do_you_really_want_to_unhide">Вы действительно хотите показать все посты %1$s ?</string>
+    <string name="you_have_hidden_community">Вы скрыли %1$s.\nМы сожалеем, что у вас был этот опыт.</string>
+    <string name="you_have_unhidden_community">Вы показали %1$s.</string>
 </resources>

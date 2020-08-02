@@ -4,6 +4,8 @@ object Tags {
     const val COMMUNITY_NAME = "COMMUNITY_NAME"
     const val USER_ID = "USER_ID"
     const val MESSAGE = "MESSAGE"
+    const val MENU = "menu"
+    const val MESSAGE_EDITABLE = "MESSAGE_EDITABLE"
     const val ARGS = "ARGS"
     const val CONTENT_ID = "CONTENT_ID"
 

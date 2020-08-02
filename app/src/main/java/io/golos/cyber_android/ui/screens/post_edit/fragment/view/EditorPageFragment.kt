@@ -31,6 +31,7 @@ import io.golos.cyber_android.ui.screens.post_edit.fragment.view_commands.PostCr
 import io.golos.cyber_android.ui.screens.post_edit.fragment.view_model.EditorPageViewModel
 import io.golos.cyber_android.ui.screens.post_edit.shared.EditorPageBridgeFragment
 import io.golos.cyber_android.ui.shared.Tags
+import io.golos.cyber_android.ui.shared.Tags.MENU
 import io.golos.cyber_android.ui.shared.keyboard.KeyboardUtils
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactory
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToMainScreenCommand
@@ -335,7 +336,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
 
     private fun showCloseConfirmationDialog() =
         ConfirmationDialog.newInstance(R.string.close_editor_confirmation, this@EditorPageFragment)
-            .show(requireFragmentManager(), "menu")
+            .show(requireFragmentManager(), MENU)
 
     private fun showImagePickerDialog() {
         ImagePickerDialog.show(this) {

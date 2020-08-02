@@ -14,6 +14,7 @@ import io.golos.cyber_android.ui.screens.app_start.sign_in.keys_backup.dto.ShowB
 import io.golos.cyber_android.ui.screens.app_start.sign_in.keys_backup.dto.ShowSaveDialogCommand
 import io.golos.cyber_android.ui.screens.app_start.sign_in.keys_backup.dto.StartExportToGoogleDriveCommand
 import io.golos.cyber_android.ui.screens.app_start.sign_in.keys_backup.view_model.SignUpProtectionKeysViewModel
+import io.golos.cyber_android.ui.shared.Tags.MENU
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToMainScreenCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
@@ -83,7 +84,7 @@ class SignUpProtectionKeysFragment : FragmentBaseMVVM<FragmentSignUpProtectionKe
     }
 
     private fun showBackupWarningCommand() {
-        KeysBackupWarningDialog.newInstance(this@SignUpProtectionKeysFragment).show(requireFragmentManager(), "menu")
+        KeysBackupWarningDialog.newInstance(this@SignUpProtectionKeysFragment).show(requireFragmentManager(), MENU)
     }
 
     private fun navigateToMainScreen() {

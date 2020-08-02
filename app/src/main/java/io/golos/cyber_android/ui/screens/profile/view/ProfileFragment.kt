@@ -29,6 +29,7 @@ import io.golos.cyber_android.ui.screens.profile_liked.ProfileLikedFragment
 import io.golos.cyber_android.ui.screens.profile_photos.view.ProfilePhotosFragment
 import io.golos.cyber_android.ui.screens.wallet.view.WalletFragment
 import io.golos.cyber_android.ui.shared.Tags
+import io.golos.cyber_android.ui.shared.Tags.MENU
 import io.golos.utils.getColorRes
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
@@ -190,7 +191,7 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
         }
 
     private fun showConfirmationDialog(@StringRes textResId: Int) =
-        ConfirmationDialog.newInstance(textResId, this@ProfileFragment).show(requireFragmentManager(), "menu")
+        ConfirmationDialog.newInstance(textResId, this@ProfileFragment).show(requireFragmentManager(), MENU)
 
     private fun moveToSelectPhotoPage(place: ProfileItem, imageUrl: String?) =
         getDashboardFragment(this)

@@ -155,6 +155,7 @@ constructor(
                 communityPage?.isSubscribed = !isSubscribed
                 communityPage?.isInBlackList = !isInBlackList
                 communityPageMutableLiveData.value = communityPage
+                _command.value = ShowSuccessDialogViewCommand(communityPage?.name!!)
             } catch (e: Exception){
                 _command.value = ShowMessageTextCommand(e.getMessage(appContext))
                 communityPageIsErrorMutableLiveData.value = true
@@ -177,6 +178,7 @@ constructor(
                 communityPage?.isSubscribed = !isSubscribed
                 communityPage?.isInBlackList = !isInBlackList
                 communityPageMutableLiveData.value = communityPage
+                _command.value = ShowSuccessDialogViewCommand(communityPage?.name!!)
             } catch (e: Exception){
                 _command.value = ShowMessageTextCommand(e.getMessage(appContext))
                 communityPageIsErrorMutableLiveData.value = true

@@ -11,26 +11,25 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.Tags
-import kotlinx.android.synthetic.main.dialog_confirmation.*
+import kotlinx.android.synthetic.main.dialog_success.*
 
 /**
  * Dialog that asks for some confirmation from user.
  */
-class ConfirmationDialog: DialogFragment() {
+class SuccessDialog: DialogFragment() {
     companion object {
-        const val REQUEST = 4038
+        const val REQUEST = 47896
 
         const val RESULT_OK = Activity.RESULT_FIRST_USER + 1
-        const val RESULT_CANCEL = Activity.RESULT_FIRST_USER + 2
 
-        fun newInstance(@StringRes messageResId: Int, target: Fragment) = ConfirmationDialog().apply {
+        fun newInstance(@StringRes messageResId: Int, target: Fragment) = SuccessDialog().apply {
             arguments = Bundle().apply {
                 putInt(Tags.MESSAGE, messageResId)
                 setTargetFragment(target, REQUEST)
             }
         }
 
-        fun newInstance(message: String, target: Fragment) = ConfirmationDialog().apply {
+        fun newInstance(message: String, target: Fragment) = SuccessDialog().apply {
             arguments = Bundle().apply {
                 putString(Tags.MESSAGE_EDITABLE, message)
                 setTargetFragment(target, REQUEST)
@@ -44,7 +43,7 @@ class ConfirmationDialog: DialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.dialog_confirmation, container)
+        return inflater.inflate(R.layout.dialog_success, container)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -55,7 +54,6 @@ class ConfirmationDialog: DialogFragment() {
         } else
             message.setText(arguments!!.getInt(Tags.MESSAGE))
         ok.setSelectAction(RESULT_OK)
-        cancel.setSelectAction(RESULT_CANCEL)
     }
 
     private fun View.setSelectAction(resultCode: Int) {
