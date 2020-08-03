@@ -120,7 +120,7 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
     }
 
     fun setText(textView: TextView, text: CharSequence) {
-//        val toReplace = getSanitizedHtml(text)
+        //        val toReplace = getSanitizedHtml(text)
         textView.text = text
     }
 
