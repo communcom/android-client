@@ -177,6 +177,7 @@
 
         android:layout_marginBottom="6dp"
         android:background="@null"
+        android:textColorHint="?attr/grey"
 
         android:hint="0"
 
@@ -251,6 +252,8 @@
 
         android:layout_marginBottom="6dp"
         android:background="@null"
+
+        android:textColorHint="?attr/grey"
 
         android:hint="0"
 

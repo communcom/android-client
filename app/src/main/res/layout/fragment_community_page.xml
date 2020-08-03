@@ -60,7 +60,7 @@
                             android:background="@null"
                             app:imageButton_icon="@drawable/ic_left_arrow"
                             app:imageButton_iconInscribeSize="@dimen/post_viewer_header_tool_button_icon_size"
-                            app:imageButton_tint="?attr/white"
+                            app:imageButton_tint="?attr/grayWhite"
                             />
                         <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
                             android:id="@+id/ivCommunitySettings"
@@ -77,7 +77,6 @@
                             android:onClick='@{()->viewModel.onCommunitySettingsClick()}'
                             app:imageButton_icon="@drawable/ic_menu_options"
                             app:imageButton_iconInscribeSize="@dimen/post_viewer_header_tool_button_icon_size"
-                            app:imageButton_tint="?attr/white"
                             />
 
                         <androidx.constraintlayout.widget.ConstraintLayout
@@ -142,7 +141,7 @@
                                 app:layout_constraintBottom_toBottomOf="@+id/ivCommunityLogo"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="@+id/ivCommunityLogo"
-                            />
+                                />
 
                             <TextView
                                 android:id="@+id/tvDescription"
@@ -207,7 +206,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginStart="@dimen/margin_default"
-                                        android:textColor="?attr/white"
+                                        android:textColor="@color/white"
                                         android:textSize="20sp"
                                         app:layout_constraintBottom_toTopOf="@+id/tvCommunCurrencyLabel"
                                         app:layout_constraintStart_toEndOf="@+id/ivBalance"

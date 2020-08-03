@@ -1,11 +1,13 @@
 package io.golos.cyber_android.ui.screens.profile.view
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
 import io.golos.cyber_android.R
@@ -175,7 +177,7 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
 
     private fun showSettingsDialog() =
         ProfileSettingsDialog.show(this@ProfileFragment,
-            keyValueStorageFacade.getUIMode() == GlobalConstants.UI_MODE_DARK
+            AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
         ) {
             when(it) {
                 is ProfileSettingsDialog.Result.Logout -> viewModel.onLogoutSelected()
@@ -187,9 +189,12 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
         }
 
     private fun switchTheme() {
-        keyValueStorageFacade.setUIMode(
-            if(keyValueStorageFacade.getUIMode() == GlobalConstants.UI_MODE_DARK) GlobalConstants.UI_MODE_LIGHT
-            else GlobalConstants.UI_MODE_DARK
+        keyValueStorageFacade.setUIMode(when {
+            keyValueStorageFacade.getUIMode() == GlobalConstants.UI_MODE_DARK -> GlobalConstants.UI_MODE_LIGHT
+            keyValueStorageFacade.getUIMode() == GlobalConstants.UI_MODE_LIGHT -> GlobalConstants.UI_MODE_DARK
+            resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES -> GlobalConstants.UI_MODE_LIGHT
+            else -> GlobalConstants.UI_MODE_DARK
+        }
         )
         startActivity(Intent(requireActivity(),WelcomeActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatDelegate
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.wallet_shared.history.dto.WalletHistoryConstants
 import io.golos.cyber_android.ui.screens.wallet_shared.history.dto.WalletHistoryTransferDirection
@@ -50,7 +51,10 @@ class WalletHistoryTransferViewHolder(
 
         itemView.dateTime.text = if(listItem.isOnHold) resources.getText(R.string.on_hold) else listItem.timeStamp
 
-        val amountColorRes = if(listItem.direction == WalletHistoryTransferDirection.SEND) R.color.black else R.color.green_bright
+        val amountColorRes = if(listItem.direction == WalletHistoryTransferDirection.SEND)
+            if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) R.color.black_dark_theme
+            else R.color.black
+        else R.color.green_bright
         itemView.amount.setTextColor(resources.getColorRes(amountColorRes))
 
         val amountSign = if(listItem.isOnHold) {

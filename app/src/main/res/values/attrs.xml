@@ -5,12 +5,28 @@
         <attr name="white" format="color" />
         <attr name="black" format="color" />
         <attr name="blue" format="color" />
-        <attr name="colorPrimary" format="color" />
-        <attr name="colorAccent" format="color" />
+        <attr name="textColor" format="color"/>
+        <attr name="notificationMessageColor" format="color"/>
+        <attr name="notificationActionColor" format="color"/>
         <attr name="light_gray" format="color" />
+        <attr name="bottomNavigationShadow1" format="color"/>
+        <attr name="bottomNavigationShadow2" format="color"/>
+        <attr name="bottomNavigationShadow3" format="color"/>
+        <attr name="bottomNavigationShadow4" format="color"/>
+        <attr name="bottomNavigationShadow5" format="color"/>
+        <attr name="backButtonTint20" format="color"/>
+        <attr name="backButtonTint40" format="color"/>
+        <attr name="commentWidgetBorder" format="color"/>
+        <attr name="grayWhite" format="color"/>
+        <attr name="borderColor" format="color"/>
+        <attr name="termsAndConditionsTextColor" format="color"/>
+        <attr name="loadingBackground" format="color"/>
         <attr name="grey" format="color" />
+        <attr name="blueWhite" format="color"/>
         <attr name="bg_dialog_color" format="color" />
         <attr name="light_button" format="color" />
+        <attr name="bottomSheetItemBackgroundCOlor" format="color"/>
+        <attr name="blueDarkWhite" format="color"/>
         <attr name="window_background" format="color" />
         <attr name="window_background_light_gray" format="color" />
         <attr name="window_status_bar_background" format="color" />
@@ -73,7 +89,7 @@
         <attr name="outer_color" format="color" />
         <attr name="inner_color_start" format="color" />
         <attr name="inner_color_end" format="color" />
-        <attr name="stroke_width" format="dimension"/>
+        <attr name="stroke_width" format="dimension" />
     </declare-styleable>
 
     <declare-styleable name="HeaderWidget">
@@ -81,15 +97,15 @@
     </declare-styleable>
 
     <declare-styleable name="RulesCardList">
-        <attr name="card_margin_top" format="dimension"/>
-        <attr name="card_margin_bottom" format="dimension"/>
-        <attr name="card_margin_start" format="dimension"/>
-        <attr name="card_margin_end" format="dimension"/>
-        <attr name="card_corner_radius" format="dimension"/>
+        <attr name="card_margin_top" format="dimension" />
+        <attr name="card_margin_bottom" format="dimension" />
+        <attr name="card_margin_start" format="dimension" />
+        <attr name="card_margin_end" format="dimension" />
+        <attr name="card_corner_radius" format="dimension" />
     </declare-styleable>
 
     <declare-styleable name="NotificationSettingsItemWidget">
-        <attr name="notification_icon" format="reference"/>
-        <attr name="notification_title" format="string"/>
+        <attr name="notification_icon" format="reference" />
+        <attr name="notification_title" format="string" />
     </declare-styleable>
 </resources>

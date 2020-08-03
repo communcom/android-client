@@ -5,7 +5,6 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
 
         android:id="@+id/root"
-        android:background="?attr/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.screens.app_start.welcome.activity.view.WelcomeActivity">
@@ -16,18 +15,25 @@
             android:layout_height="match_parent"
             app:defaultNavHost="true"
     />
-    <ImageView
-        android:id="@+id/splashIcon"
-        android:layout_width="@dimen/size_splash_icon"
-        android:layout_height="@dimen/size_splash_icon"
-        app:srcCompat="@drawable/ic_splash_icon"
-        android:layout_gravity="center"
+    <RelativeLayout
+        android:id="@+id/splashBackground"
+        android:background="?attr/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/splashIcon"
+            android:layout_width="@dimen/size_splash_icon"
+            android:layout_height="@dimen/size_splash_icon"
+            app:srcCompat="@drawable/ic_splash_icon"
+            android:layout_gravity="center"
 
-        app:tint="@color/blue"
+            app:tint="@color/blue"
+            android:layout_centerInParent="true"
+            android:visibility="invisible"
+            tools:visibility="visible"
+            />
+    </RelativeLayout>
 
-        android:visibility="invisible"
-        tools:visibility="visible"
-    />
 
     <FrameLayout
         android:id="@+id/testLayout"

@@ -4,13 +4,13 @@ import android.graphics.Typeface
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.SubscribeNotificationItem
 import io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.content_rendering.view.NotificationView
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModelListEventsProcessor
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
-import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
 import io.golos.domain.dto.UserIdDomain
 import io.golos.utils.helpers.SPACE
 import io.golos.utils.helpers.appendText
@@ -36,7 +36,9 @@ class NotificationContentRenderedSubscribe(viewDescription: NotificationView) : 
             val userNameInterval = result.appendText(it)
             result.setSpan(StyleSpan(Typeface.BOLD), userNameInterval)
             val context = viewDescription.root.context
-            val colorMessage = getStyledAttribute(R.attr.black)
+            val colorMessage = if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+                ContextCompat.getColor(context,R.color.black_dark_theme)
+            else ContextCompat.getColor(context,R.color.black)
             result.setSpan(object : ColorTextClickableSpan(userId, colorMessage) {
 
                 override fun onClick(spanData: String) {

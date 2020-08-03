@@ -112,6 +112,8 @@
             android:gravity="start|top"
             android:maxLength="@{viewModel.maxTextLen}"
             android:textSize="17sp"
+            android:textColor="?attr/textColor"
+            android:textColorHint="?attr/grey"
             android:background="@null"
 
             app:layout_constraintBottom_toTopOf="@+id/footer"

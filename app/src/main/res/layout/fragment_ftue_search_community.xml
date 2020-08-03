@@ -54,6 +54,7 @@
             android:background="@drawable/bcg_input_field"
             android:drawableStart="@drawable/ic_search_small"
             android:drawablePadding="14dp"
+            android:textColorHint="?attr/grey"
             android:hint="@string/hint_search"
             android:paddingStart="14dp"
             android:paddingEnd="14dp"

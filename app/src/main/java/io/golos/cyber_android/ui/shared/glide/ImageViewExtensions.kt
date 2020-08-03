@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.shared.glide
 
 import android.app.Activity
 import android.content.Context
+import android.content.res.Configuration
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.widget.ImageView
@@ -17,10 +18,12 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import io.golos.cyber_android.R
+import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.shared.glide.transformations.GradientTransformation
 import io.golos.cyber_android.ui.shared.glide.transformations.PercentageRoundVectorFrameTransformation
 import io.golos.cyber_android.ui.shared.glide.transformations.RoundFrameTransformation
 import io.golos.cyber_android.ui.shared.glide.transformations.TopRoundedCornersTransformation
+import io.golos.domain.GlobalConstants
 import kotlinx.android.synthetic.main.view_post_embed_website.view.*
 
 typealias GlideTarget = Target<*>
@@ -177,7 +180,17 @@ fun ImageView.loadCommunityItemAvatar(url: String?): GlideTarget =
             RoundFrameTransformation(
                 this.context.applicationContext,
                 R.dimen.stroke_thin,
-                R.color.white
+                when(App.getInstance().keyValueStorage.getUIMode()){
+                    GlobalConstants.UI_MODE_LIGHT -> R.color.white
+                    GlobalConstants.UI_MODE_DARK -> R.color.white_dark_theme
+                    else -> {
+                        if(resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES){
+                            R.color.white_dark_theme
+                        }else{
+                            R.color.white
+                        }
+                    }
+                }
             )
         )
         .override(100, 100)

@@ -73,7 +73,7 @@ constructor(
 
                 }, textInterval)
             }
-            communityTitle.text = builder
+            communityTitle.text = builder.toString()
         } else {
             postHeader.communityName?.let {
                 val textInterval = builder.appendText(it)
@@ -87,7 +87,7 @@ constructor(
 
                 }, textInterval)
             }
-            communityTitle.text = builder
+            communityTitle.text = builder.toString()
         }
 
         authorAndTime.adjustSpannableClicks()

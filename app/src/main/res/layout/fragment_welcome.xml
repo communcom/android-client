@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            app:dotsColor="@color/middle_gray_5"
+            app:dotsColor="?attr/grayWhite"
             app:dotsCornerRadius="8dp"
             app:dotsSize="6dp"
             app:dotsSpacing="4dp"
