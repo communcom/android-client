@@ -35,10 +35,10 @@ android {
             buildConfigField "String", 'BASE_URL', "\"https://commun.com\""
         }
         dev {
-            buildConfigField "String", 'BASE_URL', "\"https://commun.com\""
+            buildConfigField "String", 'BASE_URL', "\"https://dev.commun.com\""
         }
         checking {
-            buildConfigField "String", 'BASE_URL', "\"https://commun.com\""
+            buildConfigField "String", 'BASE_URL', "\"https://dev.commun.com\""
         }
     }
 
