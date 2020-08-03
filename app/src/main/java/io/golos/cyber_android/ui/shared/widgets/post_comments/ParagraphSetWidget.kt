@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.shared.widgets.post_comments
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.Typeface
 import android.net.Uri
@@ -19,9 +20,12 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
+import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
 import io.golos.cyber_android.ui.shared.spans.StyledTextClickableSpan
 import io.golos.cyber_android.ui.shared.utils.adjustSpannableClicks
+import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
+import io.golos.domain.GlobalConstants
 import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.posts_parsing_rendering.post_metadata.TextStyle
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.*
@@ -78,7 +82,13 @@ constructor(
     }
 
     private fun setUp() {
-        setTextColor(Color.BLACK)
+        setTextColor(when {
+            App.getInstance().keyValueStorage.getUIMode() == GlobalConstants.UI_MODE_DARK -> ContextCompat.getColor(context,R.color.black_dark_theme)
+            App.getInstance().keyValueStorage.getUIMode() == GlobalConstants.UI_MODE_LIGHT -> ContextCompat.getColor(context,R.color.black)
+            resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES -> ContextCompat.getColor(context,R.color.black_dark_theme)
+            else -> ContextCompat.getColor(context,R.color.black)
+        }
+        )
         val spacing = context.resources.getDimension(R.dimen.text_size_post_spacing)
         setLineSpacing(spacing, 0f)
         setTextSize(TypedValue.COMPLEX_UNIT_PX, context.resources.getDimension(R.dimen.text_size_post_normal))

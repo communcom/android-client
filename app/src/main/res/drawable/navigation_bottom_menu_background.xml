@@ -9,7 +9,7 @@
                 android:right="0dp"
                 android:top="1dp" />
 
-            <solid android:color="#00CCCCCC" />
+            <solid android:color="?attr/bottomNavigationShadow1" />
 
             <corners android:radius="@dimen/navigation_bottom_menu_round_size" />
         </shape>
@@ -22,7 +22,7 @@
                 android:right="0dp"
                 android:top="1dp" />
 
-            <solid android:color="#10CCCCCC" />
+            <solid android:color="?attr/bottomNavigationShadow2" />
 
             <corners android:radius="@dimen/navigation_bottom_menu_round_size" />
         </shape>
@@ -35,7 +35,7 @@
                 android:right="0dp"
                 android:top="1dp" />
 
-            <solid android:color="#20CCCCCC" />
+            <solid android:color="?attr/bottomNavigationShadow3" />
 
             <corners android:radius="@dimen/navigation_bottom_menu_round_size" />
         </shape>
@@ -48,7 +48,7 @@
                 android:right="0dp"
                 android:top="1dp" />
 
-            <solid android:color="#30CCCCCC" />
+            <solid android:color="?attr/bottomNavigationShadow4" />
 
             <corners android:radius="@dimen/navigation_bottom_menu_round_size" />
         </shape>
@@ -61,7 +61,7 @@
                 android:right="0dp"
                 android:top="1dp" />
 
-            <solid android:color="#50CCCCCC" />
+            <solid android:color="?attr/bottomNavigationShadow5" />
 
             <corners android:radius="@dimen/navigation_bottom_menu_round_size" />
         </shape>

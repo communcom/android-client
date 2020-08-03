@@ -80,7 +80,6 @@
 
                             app:imageButton_icon="@drawable/ic_menu_options"
                             app:imageButton_iconInscribeSize="@dimen/profile_menu_button_icon_size"
-                            app:imageButton_tint="@color/white"
                             android:background="@null"
                             android:onClick="@{() -> viewModel.onSettingsClick()}"
                             />
@@ -251,7 +250,7 @@
                                     android:visibility="@{viewModel.addBioVisibility}"
                                     tools:visibility="visible" />
                             </FrameLayout>
-                            
+
                             <io.golos.cyber_android.ui.screens.profile.view.widgets.ProfileWalletView
                                 android:id="@+id/profile_wallet"
 
@@ -270,7 +269,7 @@
                                 android:visibility="@{viewModel.walletVisibility}"
                                 app:profile_wallet_view_value = "@{viewModel.currencyBalance}"
                                 app:onWalletClickListener = "@{() -> viewModel.onWalletButtonClick() }"
-                            />
+                                />
 
                             <!--Followers, Following-->
                             <androidx.constraintlayout.widget.ConstraintLayout

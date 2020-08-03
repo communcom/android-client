@@ -156,9 +156,9 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
         val currentActivity = requireActivity()
         val notificationPageIndex = NavigationBottomMenuWidget.Tab.NOTIFICATIONS.index
         val notificationsFragment = viewPagerFragmentsList[notificationPageIndex] as NotificationsFragment
-        when (position) {
+        /*when (position) {
             NavigationBottomMenuWidget.Tab.FEED.index -> {
-                currentActivity.setStatusBarColor(R.color.window_status_bar_second_background)
+                currentActivity.setStyledStatusBarColor(R.attr.window_status_bar_background)
                 notificationsFragment.onVisibilityChanged(visible = false, changeStackPage = changeStackPage)
             }
             NavigationBottomMenuWidget.Tab.COMMUNITIES.index -> {
@@ -177,7 +177,7 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
                 currentActivity.setStyledStatusBarColor(R.attr.window_status_bar_background)
                 notificationsFragment.onVisibilityChanged(visible = false, changeStackPage = changeStackPage)
             }
-        }
+        }*/
     }
 
     private fun setupPager(user: UserIdDomain) {

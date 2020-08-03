@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">@color/blue</color>
-    <color name="colorPrimary_dark_theme">@color/blue_dark_theme</color>
-
     <color name="colorPrimaryDark">#00574B</color>
-
     <color name="colorAccent">@color/blue</color>
-    <color name="colorAccent_dark_theme">@color/blue_dark_theme</color>
 
     <color name="toolsBackground">#9C27B0</color>
 
@@ -29,6 +25,9 @@
     <color name="black_40">#66000000</color>
     <color name="black_30">#4D000000</color>
     <color name="black_20">#33000000</color>
+
+    <color name="white_20">#33FFFFFF</color>
+    <color name="white_40">#66FFFFFF</color>
 
     <color name="light_gray">#F3F5FA</color>
     <color name="light_gray_dark_theme">#1F2128</color>
@@ -62,6 +61,7 @@
 
     <!--Window-->
     <color name="bottom_area_border">#FFEBEBF1</color>
+    <color name="bottom_area_border_dark_theme">#FF000000</color>
     <color name="post_vote_button_color">#9B9FA2</color>
 
     <color name="bottom_sheet_dialog_bcg">#F7F7F9</color>

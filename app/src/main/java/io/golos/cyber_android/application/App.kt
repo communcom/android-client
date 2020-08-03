@@ -66,10 +66,11 @@ class App : Application() {
         when(keyValueStorage.getUIMode()){
             null -> {
                 if(resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES){
-                    keyValueStorage.setUIMode(GlobalConstants.UI_MODE_DARK)
+                    setTheme(R.style.AppThemeDark)
                 }else{
-                    keyValueStorage.setUIMode(GlobalConstants.UI_MODE_LIGHT)
+                    setTheme(R.style.AppThemeLight)
                 }
+                keyValueStorage.setUIMode(GlobalConstants.UI_MODE_UNSPECIFIED)
             }
             GlobalConstants.UI_MODE_DARK ->{
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)

@@ -76,7 +76,7 @@ class WelcomeActivity : ActivityBase(), SplashAnimatorTarget {
                 is ShowMessageTextCommand -> uiHelper.showMessage(it.text, it.isError)
 
                 is ShowSplashAnimationCommand -> splashAnimator.startAnimation(this)
-                is HideSplashAnimationCommand -> splashAnimator.completeAnimation()
+                is HideSplashAnimationCommand -> completeAnimation()
 
                 is NavigateToWelcomeScreenCommand -> navigateToWelcome()
                 is NavigateToMainScreenCommand -> navigateToMainScreen()
@@ -88,6 +88,10 @@ class WelcomeActivity : ActivityBase(), SplashAnimatorTarget {
         })
     }
 
+    private fun completeAnimation() {
+        splashAnimator.completeAnimation()
+    }
+
     private fun navigateToWelcome() {
         val controller = postNavHost.findNavController()
 
@@ -97,6 +101,9 @@ class WelcomeActivity : ActivityBase(), SplashAnimatorTarget {
         graph.startDestination = R.id.welcomeFragment
 
         controller.graph = graph
+        controller.addOnDestinationChangedListener { controller, destination, arguments ->
+            splashBackground.visibility = View.GONE
+        }
     }
 
     private fun navigateToMainScreen() {

@@ -21,4 +21,5 @@ object GlobalConstants {
 
     const val UI_MODE_DARK = "UiModeDark"
     const val UI_MODE_LIGHT = "UiModeLight"
+    const val UI_MODE_UNSPECIFIED = "UiUnspecified"
 }

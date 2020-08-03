@@ -80,7 +80,7 @@
                 android:singleLine="true"
                 android:ellipsize="end"
 
-                tools:text="Paste fdfkldlkfladkfdjlatierklfjdkflkalklflkflkalkfldlfalflkdkdflkdfkajlkfjdlkflajdakldf"
+                tools:text="Paste"
                 android:text="@{viewModel.pastePasswordText}"
 
                 android:layout_marginStart="42dp"

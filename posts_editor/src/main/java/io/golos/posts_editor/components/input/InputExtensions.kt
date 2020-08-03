@@ -52,8 +52,6 @@ import kotlin.reflect.KClass
 
 @Suppress("KDocUnresolvedReference")
 class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<ParagraphMetadata>(editorCore) {
-    var defaultTextColor = Color.BLACK
-
     var normalTextSize = 16
 
     private var lineSpacing = -1f
@@ -122,7 +120,7 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
     }
 
     fun setText(textView: TextView, text: CharSequence) {
-//        val toReplace = getSanitizedHtml(text)
+        //        val toReplace = getSanitizedHtml(text)
         textView.text = text
     }
 
@@ -211,6 +209,8 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
         if (text != null) {
             setText(editText, text)
         }
+        editText.setHintTextColor(editorCore.editorTextHintColor)
+        editText.setTextColor(editorCore.editorTextColor)
 
         @Suppress("DEPRECATION")
         editText.setBackgroundDrawable(ContextCompat.getDrawable(this.editorCore.context, R.drawable.invisible_edit_text))
@@ -285,7 +285,7 @@ class InputExtensions(internal var editorCore: EditorCore) : EditorComponent<Par
     private fun addEditableStyling(editText: TextView) {
         editText.isFocusableInTouchMode = true
         editText.setTextSize(TypedValue.COMPLEX_UNIT_SP, normalTextSize.toFloat())
-        editText.setTextColor(this.defaultTextColor)
+        editText.setTextColor( editorCore.editorTextColor)
         editText.setPadding(0, 30, 0, 30)
     }
 

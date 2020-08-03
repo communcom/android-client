@@ -140,9 +140,10 @@ class WelcomeFragment : FragmentBaseCoroutines() {
             Languages.RUSSIAN -> {
                 // Maybe we can get the color code and use it instead of using a double overlay ?
                 val blackColor = ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.dark_gray_2))
+                val blueColor = ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.blue))
 
                 text.setSpan(blackColor, 0, text.length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
-                text.setSpan(blackColor, 0, text.length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+                text.setSpan(blueColor, 52, 59, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
             }
             else -> {
                 val blueColor = ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.blue))
@@ -179,9 +180,10 @@ class WelcomeFragment : FragmentBaseCoroutines() {
         when (getLanguage()) {
             Languages.RUSSIAN -> {
                 val blackColor = ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.dark_gray_2))
+                val blueColor = ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.blue))
 
                 text.setSpan(blackColor, 0, text.length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
-                text.setSpan(blackColor, 0, text.length, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+                text.setSpan(blueColor, 48,55, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
             }
             else -> {
                 val blueColor = ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.blue))
