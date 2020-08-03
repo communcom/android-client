@@ -33,6 +33,7 @@ constructor(
     dispatchersProvider: DispatchersProvider,
     model: WalletConvertModel
 ) : ViewModelBase<WalletConvertModel>(dispatchersProvider, model) {
+    private var isInSellMode = true
 
     private val _sellerBalanceRecord = MutableLiveData<WalletCommunityBalanceRecordDomain>()
     val sellerBalanceRecord: LiveData<WalletCommunityBalanceRecordDomain> = _sellerBalanceRecord
@@ -80,6 +81,7 @@ constructor(
             _errorLabelInfo.value = getErrorLabelInfo()
             _pointInfo.value = getPointInfo()
             _isMenuVisible.value = model.isInSellPointMode
+            if(!isInSellMode) onSwapClick()
         }
     }
 
@@ -287,7 +289,7 @@ constructor(
     }
 
     fun changeMode(){
-        model.swipeSellMode()
+        isInSellMode = false
     }
 
 }
