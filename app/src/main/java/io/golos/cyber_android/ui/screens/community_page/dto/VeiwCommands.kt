@@ -10,6 +10,8 @@ class NavigateToMembersCommand(val communityId: CommunityIdDomain): ViewCommand
 
 class ShowCommunitySettings(val communityPage: CommunityPage?,val currentUserId:String):ViewCommand
 
+class ShowSuccessDialogViewCommand(val communityName:String) : ViewCommand
+
 class NavigateToFriendsCommand(val friends: List<CommunityFriend>): ViewCommand
 
 class NavigateToWalletConvertCommand(

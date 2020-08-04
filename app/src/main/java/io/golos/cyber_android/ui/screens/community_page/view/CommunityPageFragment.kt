@@ -1,6 +1,7 @@
 package io.golos.cyber_android.ui.screens.community_page.view
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -12,6 +13,8 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentCommunityPageBinding
 import io.golos.cyber_android.ui.dialogs.CommunitySettingsDialog
+import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
+import io.golos.cyber_android.ui.dialogs.SuccessDialog
 import io.golos.cyber_android.ui.screens.community_get_points.GetCommunityPointsFragment
 import io.golos.cyber_android.ui.screens.community_page.di.CommunityPageFragmentComponent
 import io.golos.cyber_android.ui.screens.community_page.dto.*
@@ -22,6 +25,7 @@ import io.golos.cyber_android.ui.screens.community_page_leaders_list.view.LeadsL
 import io.golos.cyber_android.ui.screens.community_page_members.view.CommunityPageMembersFragment
 import io.golos.cyber_android.ui.screens.community_page_post.view.CommunityPostFragment
 import io.golos.cyber_android.ui.screens.community_page_rules.CommunityPageRulesFragment
+import io.golos.cyber_android.ui.shared.Tags.MENU
 import io.golos.cyber_android.ui.shared.glide.loadCommunity
 import io.golos.cyber_android.ui.shared.glide.loadCover
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
@@ -39,6 +43,8 @@ import kotlinx.android.synthetic.main.fragment_community_page.*
 import kotlinx.android.synthetic.main.layout_community_header_members.*
 
 class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, CommunityPageViewModel>() {
+    private var currentRequest = 0
+
     companion object {
         private const val ARG_COMMUNITY_ID = "ARG_COMMUNITY_ID"
 
@@ -51,6 +57,8 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
         }
 
         private const val FRIENDS_COUNT_MAX = 3
+        private const val CURRENT_REQUEST_CODE_HIDE = 789
+        private const val CURRENT_REQUEST_CODE_SHOW = 7897
     }
 
     override fun layoutResId(): Int = R.layout.fragment_community_page
@@ -93,6 +101,20 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
             is NavigateToFriendsCommand -> navigateToFriends(command.friends)
             is ShowCommunitySettings -> openCommunitySettingsDialog(command.communityPage!!,command.currentUserId)
             is NavigateToWalletConvertCommand -> navigateToWalletConvert(command.selectedCommunityId, command.balance)
+            is ShowSuccessDialogViewCommand -> showSuccessDialog(command.communityName)
+        }
+    }
+
+    private fun showSuccessDialog(communityName: String) {
+        when(currentRequest){
+            CURRENT_REQUEST_CODE_HIDE ->{
+                SuccessDialog.newInstance(getString(R.string.you_have_hidden_community, communityName),this)
+                    .show(requireFragmentManager(), MENU)
+            }
+            CURRENT_REQUEST_CODE_SHOW ->{
+                SuccessDialog.newInstance(getString(R.string.you_have_unhidden_community, communityName),this)
+                    .show(requireFragmentManager(), MENU)
+            }
         }
     }
 
@@ -188,14 +210,49 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
             viewModel.communityPageLiveData.value!!.name
         ){
             when(it){
-                CommunitySettingsDialog.Result.HIDE_COMMUNITY->{viewModel.hideCommunity()}
+                CommunitySettingsDialog.Result.HIDE_COMMUNITY->{
+                    showHideConfirmationDialog()
+                }
                 CommunitySettingsDialog.Result.SHARE_COMMUNITY->{
                     requireContext().shareMessage(viewModel.getShareString(communityPage), currentUserId)
                 }
-                CommunitySettingsDialog.Result.UNHIDE_COMMUNITY->{viewModel.unHideCommunity()}
+                CommunitySettingsDialog.Result.UNHIDE_COMMUNITY->{
+                    showUnHideConfirmationDialog()
+                }
             }
         }
     }
+
+    private fun showUnHideConfirmationDialog() {
+        currentRequest = CURRENT_REQUEST_CODE_SHOW
+        ConfirmationDialog.newInstance(getString(R.string.do_you_really_want_to_unhide, viewModel.communityPageLiveData.value?.name),this)
+            .show(requireFragmentManager(),MENU)
+    }
+
+    private fun showHideConfirmationDialog() {
+        currentRequest = CURRENT_REQUEST_CODE_HIDE
+        ConfirmationDialog.newInstance(getString(R.string.do_you_really_want_to_hide, viewModel.communityPageLiveData.value?.name),this)
+            .show(requireFragmentManager(),MENU)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when(requestCode) {
+            ConfirmationDialog.REQUEST -> {
+                if (resultCode == ConfirmationDialog.RESULT_OK) {
+                    when(currentRequest){
+                        CURRENT_REQUEST_CODE_HIDE ->{
+                            viewModel.hideCommunity()
+                        }
+                        CURRENT_REQUEST_CODE_SHOW ->{
+                            viewModel.unHideCommunity()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 
     override fun onDestroyView() {
         communityViewPagerRelease()

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@drawable/bcg_dialog_notification"
+    android:paddingTop="@dimen/padding_top_notification_dialog"
+    android:paddingStart="@dimen/padding_start_notification_dialog"
+    android:paddingEnd="@dimen/padding_end_notification_dialog"
+    android:paddingBottom="@dimen/padding_bottom_notification_dialog"
+    android:layout_marginStart="@dimen/margin_horizontal_notification_dialog"
+    android:layout_marginEnd="@dimen/margin_horizontal_notification_dialog"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/message"
+        android:theme="@style/NotificationDialogMessageTextStyle"
+        tools:text="Wrong login or key"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/ok"
+        android:layout_below="@+id/message"
+        android:background="?attr/selectableItemBackground"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/margin_top_notification_dialog_button"
+        android:paddingTop="@dimen/padding_vertical_notification_dialog_button"
+        android:paddingBottom="@dimen/padding_vertical_notification_dialog_button"
+        android:paddingStart="@dimen/padding_horizontal_notification_dialog_button"
+        android:paddingEnd="@dimen/padding_horizontal_notification_dialog_button"
+        android:theme="@style/NotificationDialogButtonTextStyle"
+        android:text="@string/ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>

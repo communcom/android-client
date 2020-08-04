@@ -36,6 +36,7 @@ import io.golos.cyber_android.ui.screens.post_view.view_model.PostPageViewModel
 import io.golos.cyber_android.ui.screens.profile.view.ProfileExternalUserFragment
 import io.golos.cyber_android.ui.screens.profile_photos.view.ProfilePhotosFragment
 import io.golos.cyber_android.ui.shared.Tags
+import io.golos.cyber_android.ui.shared.Tags.MENU
 import io.golos.cyber_android.ui.shared.extensions.reduceDragSensitivity
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
@@ -294,7 +295,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
 
     private fun deletePost() =
         ConfirmationDialog.newInstance(R.string.delete_post_confirmation, this@PostPageFragment)
-            .show(requireFragmentManager(), "menu")
+            .show(requireFragmentManager(), MENU)
 
     private fun openEditPost(contentId: ContentIdDomain) {
         startActivityForResult(
