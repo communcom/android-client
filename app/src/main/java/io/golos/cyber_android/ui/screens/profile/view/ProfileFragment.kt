@@ -1,13 +1,16 @@
 package io.golos.cyber_android.ui.screens.profile.view
 
+import android.animation.ArgbEvaluator
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
+import com.google.android.material.appbar.AppBarLayout
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentProfileNewBinding
@@ -41,7 +44,6 @@ import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.domain.dto.notifications.NotificationSettingsDomain
 import kotlinx.android.synthetic.main.fragment_profile_new.*
-import timber.log.Timber
 import java.io.File
 
 open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, ProfileViewModel>() {
@@ -86,6 +88,14 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { p0, slideOffset ->
+            val percent = (p0.totalScrollRange + slideOffset).toFloat() / p0.totalScrollRange
+            toolbar_back.setColorFilter(ArgbEvaluator().evaluate(percent, ContextCompat.getColor(context!!, android.R.color.black),
+                ContextCompat.getColor(context!!, android.R.color.white)) as Int)
+            toolbar_dots.setColorFilter(ArgbEvaluator().evaluate(percent, ContextCompat.getColor(context!!, android.R.color.black),
+                ContextCompat.getColor(context!!, android.R.color.white)) as Int)
+            profile_toolbar.alpha = 1f - percent
+        })
         viewModel.start()
     }
 
