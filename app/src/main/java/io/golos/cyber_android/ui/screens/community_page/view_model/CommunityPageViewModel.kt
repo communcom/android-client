@@ -90,7 +90,20 @@ constructor(
     }
 
     fun onConvertClick() {
-        _command.value = NavigateToWalletConvertCommand(communityId, balance)
+        val isNewPoint = balance.any { it.communityId == communityId }
+        val balances = balance as ArrayList<WalletCommunityBalanceRecordDomain>
+        if(!isNewPoint){
+            balances.add(WalletCommunityBalanceRecordDomain(
+                0.0,
+                0.0,
+                communityPageMutableLiveData.value!!.avatarUrl,
+                communityPageMutableLiveData.value!!.name,
+                communityId,
+                0.0,
+                0
+            ))
+        }
+        _command.value = NavigateToWalletConvertCommand(communityId, balances)
     }
 
     fun onBackPressed() {
