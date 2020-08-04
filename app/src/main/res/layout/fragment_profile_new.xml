@@ -68,11 +68,8 @@
 
                             app:imageButton_iconInscribeSize="@dimen/size_back_icon"
                             app:imageButton_tint="?attr/white"
-                            android:background="@null"
 
                             tools:visibility="visible"
-                            android:visibility="@{viewModel.backButtonVisibility}"
-                            android:onClick="@{() -> viewModel.onBackButtonClick()}"
                             />
 
                         <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
@@ -275,7 +272,6 @@
                                 app:layout_constraintTop_toBottomOf="@+id/bioContainer"
                                                                                                       
                                 tools:visibility="visible"
-                                android:visibility="@{viewModel.walletVisibility}"
                                 app:profile_wallet_view_value = "@{viewModel.currencyBalance}"
                                 app:onWalletClickListener = "@{() -> viewModel.onWalletButtonClick() }"
                                 />
@@ -301,7 +297,6 @@
                                     android:textColor="?attr/black"
                                     android:textSize="16sp"
                                     android:onClick="@{() -> viewModel.onFollowersClick()}"
-                                    android:textSize="16sp"
                                     app:kilo="@{viewModel.followersCount}"
 
                                     app:layout_constraintBottom_toBottomOf="parent"
