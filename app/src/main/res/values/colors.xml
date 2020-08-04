@@ -7,18 +7,31 @@
     <color name="toolsBackground">#9C27B0</color>
 
     <color name="blue">#6A80F5</color>
+    <color name="blue_dark_theme">#2C2F36</color>
+
     <color name="red">#FF5959</color>
     <color name="yellow">#FFE066</color>
     <color name="orange">#EEA041</color>
     <color name="green">#9AE189</color>
     <color name="green_bright">#4EDBB0</color>
     <color name="purple">#673AB7</color>
+
     <color name="white">#FFFFFF</color>
+    <color name="white_dark_theme">#2C2F36</color>
+
     <color name="black">#000000</color>
+    <color name="black_dark_theme">#FFFFFF</color>
+
     <color name="black_40">#66000000</color>
     <color name="black_30">#4D000000</color>
     <color name="black_20">#33000000</color>
+
+    <color name="white_20">#33FFFFFF</color>
+    <color name="white_40">#66FFFFFF</color>
+
     <color name="light_gray">#F3F5FA</color>
+    <color name="light_gray_dark_theme">#1F2128</color>
+
     <color name="light_gray_2">#C4C4C4</color>
     <color name="middle_gray">#E5E7ED</color>
     <color name="middle_gray_2">#E5E5E5</color>
@@ -28,7 +41,10 @@
     <color name="dark_gray">#9B9FA2</color>
     <color name="dark_gray_2">#626371</color>
     <color name="blue_40">#666A80F5</color>
+
     <color name="grey">#A5A7BD</color>
+    <color name="grey_dark_theme">#6A6C7A</color>
+
     <color name="blue_light">#d2d9fc</color>
     <color name="white_opacity_50">#80FFFFFF</color>
     <color name="white_opacity_10">#1AFFFFFF</color>
@@ -44,51 +60,37 @@
     <!--List-->
 
     <!--Window-->
+    <color name="bottom_area_border">#FFEBEBF1</color>
+    <color name="bottom_area_border_dark_theme">#FF000000</color>
+    <color name="post_vote_button_color">#9B9FA2</color>
+
+    <color name="bottom_sheet_dialog_bcg">#F7F7F9</color>
+    <color name="bottom_sheet_dialog_dangerous">#ED2C5B</color>
+
     <color name="window_background">@color/white</color>
     <color name="window_background_light_gray">@color/light_gray</color>
     <color name="window_status_bar_background">@color/white</color>
+    <color name="general_list_bcg">@color/white</color>
+    <color name="post_counter_text_color">@color/grey</color>
+
     <color name="window_status_bar_second_background">@color/blue</color>
 
-    <color name="select_community_dialog_bcg">@color/window_background_light_gray</color>
-    <color name="general_list_bcg">@color/white</color>
-
-    <color name="post_counter_text_color">@color/grey</color>
-    <color name="post_vote_button_color">#9B9FA2</color>
+    <color name="select_community_dialog_bcg">@color/light_gray</color>
 
     <color name="default_clickable_span_color">@color/blue</color>
-
-    <color name="bottom_area_border">#FFEBEBF1</color>
 
     <color name="blue_button">@color/blue</color>
     <color name="blue_button_pressed">@color/blue_40</color>
     <color name="blue_button_disabled">#A5A7BD</color>
 
-    <color name="bottom_sheet_dialog_bcg">#F7F7F9</color>
-    <color name="bottom_sheet_dialog_dangerous">#ED2C5B</color>
 
     <!--Feed-->
 
-    <color name="avatar_frame">@color/blue</color>
-
     <color name="cover_gradient_start_color">#4D000000</color>
-    <color name="cover_gradient_end_color">@color/transparent</color>
-
-    <color name="post_header_time_text">@color/dark_gray</color>
-    <color name="post_header_community_text">@color/black</color>
-    <color name="post_header_user_name_text">@color/blue</color>
     <color name="post_empty_place_holder">#DEE1E8</color>
-
-    <!--Comment-->
-    <color name="comment_user_name">@color/black</color>
-    <color name="comment_empty_place_holder">@color/light_gray</color>
-
-    <!--Notifications-->
     <color name="notification_mention_label">#62C6FF</color>
     <color name="badge_color">#ED2C5B</color>
-
-    <!--Wallet-->
     <color name="profile_wallet_bcg_start">#A4B1F9</color>
-    <color name="profile_wallet_bcg_end">@color/blue</color>
 
     <color name="pdf_blue">#6a80f5</color>
     <color name="pdf_blue_light">#f0f2ff</color>
@@ -96,4 +98,21 @@
     <color name="pdf_white">@android:color/white</color>
 
     <color name="facebook">#415A94</color>
+
+    <color name="avatar_frame">@color/blue</color>
+
+    <color name="cover_gradient_end_color">@color/transparent</color>
+    <color name="post_header_time_text">@color/dark_gray</color>
+    <color name="post_header_user_name_text">@color/blue</color>
+
+    <color name="post_header_community_text">@color/black</color>
+
+    <!--Comment-->
+    <color name="comment_user_name">@color/black</color>
+    <color name="comment_empty_place_holder">@color/light_gray</color>
+
+    <!--Notifications-->
+
+    <!--Wallet-->
+    <color name="profile_wallet_bcg_end">@color/blue</color>
 </resources>

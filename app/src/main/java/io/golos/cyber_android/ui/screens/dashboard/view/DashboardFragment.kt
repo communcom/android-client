@@ -27,6 +27,7 @@ import io.golos.cyber_android.ui.shared.Tags
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.utils.setStatusBarColor
+import io.golos.cyber_android.ui.shared.utils.setStyledStatusBarColor
 import io.golos.cyber_android.ui.shared.widgets.NavigationBottomMenuWidget
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.ContentIdDomain
@@ -64,15 +65,6 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
         }
 
         viewModel.updateUnreadNotificationsCounter()
-        childFragmentManager.addOnBackStackChangedListener {
-            val backStackEntryCount = childFragmentManager.backStackEntryCount
-            if(backStackEntryCount == 0){
-                //In DashboardFragment
-                handleNavigationTabPosition(mainPager.currentItem, true)
-            } else{
-                handleNavigationTabPosition(-1, true)
-            }
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -151,34 +143,6 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
         })
     }
 
-    private fun handleNavigationTabPosition(position: Int, changeStackPage: Boolean) {
-        val currentActivity = requireActivity()
-        val notificationPageIndex = NavigationBottomMenuWidget.Tab.NOTIFICATIONS.index
-        val notificationsFragment = viewPagerFragmentsList[notificationPageIndex] as NotificationsFragment
-        when (position) {
-            NavigationBottomMenuWidget.Tab.FEED.index -> {
-                currentActivity.setStatusBarColor(R.color.window_status_bar_second_background)
-                notificationsFragment.onVisibilityChanged(visible = false, changeStackPage = changeStackPage)
-            }
-            NavigationBottomMenuWidget.Tab.COMMUNITIES.index -> {
-                currentActivity.setStatusBarColor(R.color.window_status_bar_background)
-                notificationsFragment.onVisibilityChanged(visible = false, changeStackPage = changeStackPage)
-            }
-            NavigationBottomMenuWidget.Tab.PROFILE.index -> {
-                currentActivity.setStatusBarColor(R.color.window_status_bar_background)
-                notificationsFragment.onVisibilityChanged(visible = false, changeStackPage = changeStackPage)
-            }
-            notificationPageIndex -> {
-                currentActivity.setStatusBarColor(R.color.window_status_bar_background)
-                notificationsFragment.onVisibilityChanged(visible = true, changeStackPage = changeStackPage)
-            }
-            else -> {
-                currentActivity.setStatusBarColor(R.color.window_status_bar_background)
-                notificationsFragment.onVisibilityChanged(visible = false, changeStackPage = changeStackPage)
-            }
-        }
-    }
-
     private fun setupPager(user: UserIdDomain) {
         mainPager.isUserInputEnabled = false
         mainPager.offscreenPageLimit = NavigationBottomMenuWidget.Tab.values().size - 1
@@ -200,13 +164,6 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
 
             override fun getItemCount() = NavigationBottomMenuWidget.Tab.values().size
         }
-
-        mainPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                handleNavigationTabPosition(position, false)
-            }
-        })
     }
 
     fun navigateToFragment(fragment: Fragment, isAddToBackStack: Boolean = true, tag: String? = null) {

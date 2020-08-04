@@ -5,6 +5,7 @@ import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.view.View
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.mappers.mapToContentId
@@ -13,6 +14,7 @@ import io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.co
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModelListEventsProcessor
 import io.golos.cyber_android.ui.shared.glide.loadNotificationImageContent
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
+import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
 import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.utils.helpers.SPACE
@@ -34,7 +36,9 @@ class NotificationContentRenderedReply(viewDescription: NotificationView) : Noti
         val messageStringBuilder = SpannableStringBuilder()
         val userName = listItem.userName
         val userId = listItem.userId
-        val colorMessage = ContextCompat.getColor(context, R.color.black)
+        val colorMessage = if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+                ContextCompat.getColor(context,R.color.black_dark_theme)
+            else ContextCompat.getColor(context,R.color.black)
         val colorCurrentUserName =  ContextCompat.getColor(context, R.color.blue)
 
         userName?.let {

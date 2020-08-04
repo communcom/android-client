@@ -13,7 +13,7 @@
 
         android:id="@+id/root"
         tools:context=".ui.screens.profile_black_list.view.ProfileBlackListFragment"
-        android:background="@color/white">
+        android:background="?attr/white">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/actionBar"
@@ -29,7 +29,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="?attr/white"
                 app:layout_scrollFlags="scroll|enterAlways|snap">
 
                 <TextView
@@ -57,7 +57,7 @@
                     android:background="@null"
                     app:imageButton_icon="@drawable/ic_back"
                     app:imageButton_iconInscribeSize="@dimen/profile_back_button_icon_size"
-                    app:imageButton_tint="@color/black"
+                    app:imageButton_tint="?attr/black"
 
                     app:layout_constraintBottom_toBottomOf="@+id/titleText"
                     app:layout_constraintStart_toStartOf="parent"
@@ -120,7 +120,7 @@
                     android:layout_width="0dp"
                     android:layout_height="@dimen/stroke_thin"
 
-                    android:background="@color/grey"
+                    android:background="?attr/grey"
 
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -140,7 +140,7 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:overScrollMode="never"
 
-            android:background="@color/window_background_light_gray">
+            android:background="?attr/window_background_light_gray">
 
             <io.golos.cyber_android.ui.screens.profile_black_list.view.widgets.UsersListWidget
                 android:id="@+id/usersList"

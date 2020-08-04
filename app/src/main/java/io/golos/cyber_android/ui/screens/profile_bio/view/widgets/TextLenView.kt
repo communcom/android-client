@@ -7,6 +7,7 @@ import android.util.TypedValue
 import android.view.Gravity
 import android.widget.TextView
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
 import io.golos.utils.getColorRes
 import io.golos.utils.helpers.appendColorText
 
@@ -18,8 +19,8 @@ constructor(
     defStyleAttr: Int = android.R.attr.textViewStyle
 ) : TextView(context, attrs, defStyleAttr) {
 
-    private val mainTextColor = context.resources.getColorRes(R.color.white)
-    private val darkTextColor = context.resources.getColorRes(R.color.grey)
+    private val mainTextColor = getStyledAttribute(R.attr.white)
+    private val darkTextColor = getStyledAttribute(R.attr.grey)
 
     init {
         setTextColor(mainTextColor)

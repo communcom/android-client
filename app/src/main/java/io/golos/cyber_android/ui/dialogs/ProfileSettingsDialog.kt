@@ -11,13 +11,19 @@ class ProfileSettingsDialog : BottomSheetDialogFragmentBase<ProfileSettingsDialo
         object Liked: Result()
         object BlackList: Result()
         object Notifications: Result()
+        object SwitchTheme:Result()
         object Logout: Result()
     }
 
+    private var isDarkModeEnabled:Boolean = false
+
     companion object {
-        fun show(parent: Fragment, closeAction: (Result?) -> Unit) =
+        fun show(parent: Fragment,isDarkModeEnabled:Boolean, closeAction: (Result?) -> Unit) =
             ProfileSettingsDialog()
-                .apply { closeActionListener = closeAction }
+                .apply {
+                    this.isDarkModeEnabled = isDarkModeEnabled
+                    closeActionListener = closeAction
+                }
                 .show(parent.parentFragmentManager, "PROFILE_SETTINGS_DIALOG")
     }
 
@@ -28,9 +34,11 @@ class ProfileSettingsDialog : BottomSheetDialogFragmentBase<ProfileSettingsDialo
         get() = R.layout.dialog_profile_settings
 
     override fun setupView() {
+        isDarkModeEnabledSwitcher.isChecked = isDarkModeEnabled
         liked.setOnClickListener { closeOnItemSelected(Result.Liked) }
         blacklist.setOnClickListener { closeOnItemSelected(Result.BlackList) }
         notifications.setOnClickListener { closeOnItemSelected(Result.Notifications) }
         logout.setOnClickListener { closeOnItemSelected(Result.Logout) }
+        isDarkModeEnabledSwitcher.setOnCheckedChangeListener { _, b ->  closeOnItemSelected(Result.SwitchTheme)}
     }
 }

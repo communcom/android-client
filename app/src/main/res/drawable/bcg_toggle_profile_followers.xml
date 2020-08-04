@@ -15,7 +15,7 @@
     <item>
         <shape android:shape="rectangle">
             <corners android:radius="500dp" />
-            <solid android:color="@color/light_gray" />
+            <solid android:color="?attr/light_gray" />
         </shape>
     </item>
 </selector>

@@ -15,7 +15,7 @@
 
         android:id="@+id/root"
         tools:context=".ui.screens.communities_list.view.CommunitiesListFragment"
-        android:background="@color/white"
+        android:background="?attr/white"
         tools:ignore="KeyboardInaccessibleWidget">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -31,7 +31,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="?attr/white"
                 app:layout_scrollFlags="scroll|enterAlways|snap"
                 android:paddingBottom="@dimen/margin_small">
 
@@ -62,7 +62,7 @@
                     app:imageButton_icon="@drawable/ic_left_arrow"
                     app:imageButton_iconInscribeSize="@dimen/profile_back_button_icon_size"
 
-                    app:imageButton_tint="@color/black"
+                    app:imageButton_tint="?attr/black"
                     app:layout_constraintBottom_toBottomOf="@+id/titleText"
                     app:layout_constraintStart_toStartOf="parent"
 
@@ -82,7 +82,7 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:overScrollMode="never"
 
-            android:background="@color/window_background_light_gray">
+            android:background="?attr/window_background_light_gray">
 
             <io.golos.cyber_android.ui.screens.community_page_members.view.widgets.CommunityMembersListWidget
                 android:id="@+id/usersList"

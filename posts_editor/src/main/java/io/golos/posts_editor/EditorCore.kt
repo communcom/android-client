@@ -14,6 +14,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
 import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
 import io.golos.posts_editor.components.ComponentsWrapper
 import io.golos.posts_editor.components.EmbedExtensions
 import io.golos.posts_editor.utilities.Utilities
@@ -37,6 +38,12 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
     private var isTextStylesSupported: Boolean = false
 
     var isSimpleEditor: Boolean = false
+        private set
+
+    var editorTextColor:Int = 0
+        private set
+
+    var editorTextHintColor:Int = 0
         private set
 
     open var editorListener: EditorListener? = null
@@ -285,7 +292,8 @@ open class EditorCore(context: Context, attrs: AttributeSet) : LinearLayout(cont
                 try {
                     isTextStylesSupported = a.getBoolean(R.styleable.editor_is_text_styles_supported, false)
                     isSimpleEditor = a.getBoolean(R.styleable.editor_is_simple, false)
-
+                    editorTextColor = a.getColor(R.styleable.editor_editor_text_color,ContextCompat.getColor(context,R.color.black))
+                    editorTextHintColor = a.getColor(R.styleable.editor_editor_hint_color,ContextCompat.getColor(context,R.color.grayOverlay))
                     this.editorSettings.placeHolder = a.getString(R.styleable.editor_placeholder)
                     this.editorSettings.autoFocus = a.getBoolean(R.styleable.editor_auto_focus, true)
                     val renderType = a.getString(R.styleable.editor_render_type)

@@ -67,7 +67,7 @@
 
             android:textSize="30sp"
             android:textStyle="bold"
-            android:textColor="@color/black"
+            android:textColor="?attr/black"
             />
 
         <TextView
@@ -87,7 +87,7 @@
             android:layout_marginTop="15dp"
 
             android:textSize="17sp"
-            android:textColor="@color/black"
+            android:textColor="?attr/black"
             android:textStyle="bold"
             android:lineSpacingExtra="@dimen/sign_up_keys_warning_dialog_text_spacing"
             />
@@ -102,7 +102,7 @@
 
             android:lineSpacingExtra="@dimen/sign_up_keys_warning_dialog_text_spacing"
             android:text="@string/master_pass_backup_explanation"
-            android:textColor="@color/grey"
+            android:textColor="?attr/grey"
             android:textSize="15sp"
 
             app:layout_constraintEnd_toEndOf="parent"

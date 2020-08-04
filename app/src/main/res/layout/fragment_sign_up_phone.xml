@@ -9,7 +9,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:background="?attr/white"
         android:orientation="vertical"
         tools:context=".ui.screens.app_start.sign_up.phone.view.SignUpPhoneFragment">
 
@@ -17,7 +17,7 @@
             android:id="@+id/actionBar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/white_header_height"
-            android:background="@color/white"
+            android:background="?attr/white"
             android:theme="@style/AppTheme.AppBarOverlay"
             app:liftOnScroll="true">
 
@@ -76,6 +76,7 @@
                 android:layout_marginEnd="42dp"
 
                 style="@style/SignUp.TermsAndConditions"
+                android:textColor="?attr/termsAndConditionsTextColor"
 
                 tools:text="@string/sign_up_description" />
 

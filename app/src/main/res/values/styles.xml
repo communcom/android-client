@@ -1,25 +1,100 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppThemeLight" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:statusBarColor">@color/window_status_bar_background</item>
+        <item name="white">@color/white</item>
+        <item name="black">@color/black</item>
+        <item name="blue">@color/blue</item>
+        <item name="textColor">@color/black</item>
+        <item name="notificationMessageColor">@color/pale_black</item>
+        <item name="notificationActionColor">@color/purple</item>
+        <item name="light_gray">@color/light_gray</item>
+        <item name="grey">@color/grey</item>
+        <item name="loadingBackground">#D9FFFFFF</item>
+        <item name="termsAndConditionsTextColor">@color/grey</item>
+        <item name="bg_dialog_color">@color/white</item>
+        <item name="light_button">@color/white</item>
+        <item name="blueWhite">@color/blue</item>
+        <item name="window_background">@color/white</item>
+        <item name="blueDarkWhite">@color/blue</item>
+        <item name="backButtonTint20">@color/black_20</item>
+        <item name="backButtonTint40">@color/black_40</item>
+        <item name="bottomSheetItemBackgroundCOlor">#F7F7F9</item>
+        <item name="grayWhite">@color/grey</item>
+        <item name="window_background_light_gray">@color/light_gray</item>
+        <item name="window_status_bar_background">@color/white</item>
+        <item name="general_list_bcg">@color/white</item>
+        <item name="post_counter_text_color">@color/grey</item>
+        <item name="select_community_dialog_bcg">@color/light_gray</item>
+        <item name="post_header_community_text">@color/black</item>
+        <item name="borderColor">@color/middle_gray_5</item>
+        <item name="commentWidgetBorder">#FFEBEBF1</item>
+        <item name="comment_user_name">@color/black</item>
+        <item name="comment_empty_place_holder">@color/light_gray</item>
+        <item name="bottomNavigationShadow1">#00CCCCCC</item>
+        <item name="bottomNavigationShadow2">#10CCCCCC</item>
+        <item name="bottomNavigationShadow3">#20CCCCCC</item>
+        <item name="bottomNavigationShadow4">#30CCCCCC</item>
+        <item name="bottomNavigationShadow5">#50CCCCCC</item>
+        <item name="android:statusBarColor">@color/white</item>
     </style>
 
-    <style name="AppTheme.NoActionBar">
+    <style name="AppThemeDark" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="white">@color/white_dark_theme</item>
+        <item name="black">@color/black_dark_theme</item>
+        <item name="blue">@color/blue_dark_theme</item>
+        <item name="textColor">@color/white</item>
+        <item name="light_gray">@color/light_gray_dark_theme</item>
+        <item name="termsAndConditionsTextColor">@color/white</item>
+        <item name="loadingBackground">#D9000000</item>
+        <item name="grey">@color/grey_dark_theme</item>
+        <item name="grayWhite">@color/white</item>
+        <item name="bg_dialog_color">@color/white_dark_theme</item>
+        <item name="blueWhite">@color/white</item>
+        <item name="blueDarkWhite">@color/white_dark_theme</item>
+        <item name="notificationMessageColor">@color/white</item>
+        <item name="borderColor">@color/black</item>
+        <item name="notificationActionColor">@color/white</item>
+        <item name="commentWidgetBorder">#FF000000</item>
+        <item name="backButtonTint20">@color/white_20</item>
+        <item name="backButtonTint40">@color/white_40</item>
+        <item name="light_button">@color/white_dark_theme</item>
+        <item name="window_background">@color/white_dark_theme</item>
+        <item name="window_background_light_gray">@color/light_gray_dark_theme</item>
+        <item name="window_status_bar_background">@color/white_dark_theme</item>
+        <item name="general_list_bcg">@color/white_dark_theme</item>
+        <item name="post_counter_text_color">@color/grey_dark_theme</item>
+        <item name="bottomSheetItemBackgroundCOlor">@color/light_gray_dark_theme</item>
+        <item name="select_community_dialog_bcg">@color/light_gray_dark_theme</item>
+        <item name="post_header_community_text">@color/black_dark_theme</item>
+        <item name="comment_user_name">@color/black_dark_theme</item>
+        <item name="comment_empty_place_holder">@color/light_gray_dark_theme</item>
+        <item name="bottomNavigationShadow1">#00000000</item>
+        <item name="bottomNavigationShadow2">#10000000</item>
+        <item name="bottomNavigationShadow3">#20000000</item>
+        <item name="bottomNavigationShadow4">#30000000</item>
+        <item name="bottomNavigationShadow5">#50000000</item>
+        <item name="android:statusBarColor">@color/white_dark_theme</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar" parent="AppThemeDark">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
     <style name="AppTheme.Login" parent="AppTheme.NoActionBar">
-        <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowBackground">?attr/white</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Common.Base.TextStyle" parent="Widget.AppCompat.TextView">
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">?attr/black</item>
         <item name="fontFamily">@font/roboto_regular</item>
     </style>
 
@@ -34,6 +109,7 @@
     <style name="BottomSheetMenuTitle" parent="Common.Base.TextStyle">
         <item name="android:textSize">15sp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:background">?attr/bottomSheetItemBackgroundCOlor</item>
     </style>
 
     <style name="BottomSheetMenuItem" parent="BottomSheetMenuTitle">
@@ -75,7 +151,7 @@
 
     <style name="Post.Image.Link.TextStyle" parent="Post.Image.Description.TextStyle">
         <item name="android:textSize">@dimen/text_size_post_small</item>
-        <item name="android:textColor">@color/grey</item>
+        <item name="android:textColor">?attr/grey</item>
     </style>
 
     <style name="Post.Website.Title.TextStyle" parent="Post.Image.Description.TextStyle">
@@ -126,7 +202,7 @@
     </style>
 
     <style name="CommentsTextStyle" parent="CommentsBaseTextStyle">
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">?attr/black</item>
         <item name="android:lineSpacingExtra">3dp</item>
     </style>
 
@@ -143,7 +219,7 @@
 
     <!--Comment Input-->
     <style name="CommentsInputField" parent="CommentsBaseTextStyle">
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">?attr/black</item>
         <item name="android:background">@drawable/bcg_input_comment</item>
         <item name="android:focusable">true</item>
         <item name="android:focusableInTouchMode">true</item>
@@ -151,6 +227,7 @@
         <item name="android:maxLines">5</item>
         <item name="android:imeOptions">normal</item>
         <item name="android:maxLength">500</item>
+        <item name="android:textColorHint">?attr/grey</item>
         <item name="android:paddingStart">@dimen/send_comment_text_field_horizontal_padding</item>
         <item name="android:paddingEnd">@dimen/send_comment_text_field_horizontal_padding</item>
         <item name="android:paddingTop">@dimen/send_comment_text_field_vertical_padding</item>
@@ -164,7 +241,7 @@
     </style>
 
     <style name="CommentInput.Edit.OldText" parent="Common.Base.TextStyle">
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">?attr/black</item>
         <item name="android:textSize">13sp</item>
         <item name="android:ellipsize">end</item>
         <item name="android:lines">1</item>
@@ -199,7 +276,7 @@
     </style>
 
     <style name="PostCardCountersTextStyle" parent="Common.Base.TextStyle">
-        <item name="android:textColor">@color/post_counter_text_color</item>
+        <item name="android:textColor">?attr/post_counter_text_color</item>
         <item name="android:textSize">12sp</item>
         <item name="android:textStyle">bold</item>
     </style>
@@ -244,7 +321,7 @@
 
     <style name="SignInButtonStyle" parent="SignUpButtonStyle">
         <item name="android:textColor">@color/blue</item>
-        <item name="android:background">@color/white</item>
+        <item name="android:background">?attr/white</item>
     </style>
 
     <style name="WelcomeSlidesTextStyle" parent="Common.Base.TextStyle">
@@ -255,7 +332,7 @@
     <style name="WelcomeSlidesSubTextStyle" parent="Common.Base.TextStyle">
         <item name="android:gravity">center</item>
         <item name="android:textSize">17sp</item>
-        <item name="android:textColor">@color/grey</item>
+        <item name="android:textColor">?attr/grey</item>
     </style>
 
     <style name="FtueSlidesTextStyle" parent="Common.Base.TextStyle">
@@ -266,7 +343,7 @@
     <style name="FtueSlidesSubTextStyle" parent="Common.Base.TextStyle">
         <item name="android:gravity">center</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/grey</item>
+        <item name="android:textColor">?attr/grey</item>
     </style>
 
     <style name="SignInCaptionTextStyle" parent="Common.Base.TextStyle">
@@ -285,6 +362,7 @@
         <item name="android:clickable">true</item>
         <item name="android:focusable">false</item>
         <item name="android:inputType">textNoSuggestions</item>
+        <item name="android:textColorHint">?attr/grey</item>
         <item name="android:paddingStart">@dimen/margin_default</item>
         <item name="android:paddingEnd">@dimen/margin_default</item>
         <item name="android:textSize">17sp</item>
@@ -293,6 +371,7 @@
     <style name="SignIn.InputField" parent="SignUp.InputField">
         <item name="android:focusable">true</item>
         <item name="android:focusableInTouchMode">true</item>
+
     </style>
 
     <style name="SignIn.InputField.Tips" parent="SignIn.InputField">
@@ -301,7 +380,7 @@
     </style>
 
     <style name="SignIn.Query" parent="Common.Base.TextStyle">
-        <item name="android:textColor">@color/grey</item>
+        <item name="android:textColor">?attr/grey</item>
         <item name="android:textSize">15sp</item>
         <item name="android:textStyle">bold</item>
     </style>
@@ -311,11 +390,11 @@
     </style>
 
     <style name="NotificationDialogMessageTextStyle" parent="StandardText16spStyle">
-        <item name="android:textColor">@color/pale_black</item>
+        <item name="android:textColor">?attr/notificationMessageColor</item>
     </style>
 
     <style name="NotificationDialogButtonTextStyle" parent="Common.Base.TextStyle">
-        <item name="android:textColor">@color/purple</item>
+        <item name="android:textColor">?attr/notificationActionColor</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textAllCaps">true</item>
     </style>
@@ -327,7 +406,6 @@
     <style name="ToolbarTitleTextStyle" parent="Common.Base.TextStyle.Single.Line">
         <item name="android:textSize">15sp</item>
         <item name="fontFamily">@font/roboto_bold</item>
-        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="EditorPostTitleTextStyle" parent="SearchBarTextStyle">
@@ -367,7 +445,7 @@
     <style name="ProfileSmallAvatarTextStyle">
         <item name="android:textSize">20sp</item>
         <item name="fontFamily">@font/roboto_bold</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">?attr/white</item>
     </style>
 
     <style name="ProfileJoinedTextStyle">
@@ -378,6 +456,7 @@
 
     <style name="NumericKeypadButtonStyle" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:textSize">@dimen/text_size_pin_keypad</item>
+        <item name="android:textColor">?attr/textColor</item>
         <item name="android:background">@drawable/bcg_numeric_keypad_digit</item>
         <item name="android:layout_marginTop">@dimen/gap_buttons_pin_keypad</item>
         <item name="android:layout_marginBottom">@dimen/gap_buttons_pin_keypad</item>
@@ -474,7 +553,7 @@
     <style name="FindCommunityButton" parent="Common.Base.TextStyle">
         <item name="android:textSize">16sp</item>
         <item name="android:textAllCaps">false</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">?attr/white</item>
         <item name="android:background">@drawable/bcg_find_community</item>
         <item name="android:textStyle">bold</item>
     </style>
@@ -505,13 +584,13 @@
     <style name="TabLayout" parent="Widget.Design.TabLayout">
         <item name="tabTextColor">@color/tab_text_color_selector</item>
         <item name="tabIndicatorFullWidth">false</item>
-        <item name="android:background">@color/window_background</item>
+        <item name="android:background">?attr/window_background</item>
         <item name="tabIndicatorColor">@color/blue</item>
     </style>
 
     <style name="FeedTabLayout" parent="Widget.Design.TabLayout">
         <item name="tabIndicatorFullWidth">false</item>
-        <item name="android:background">@color/blue</item>
+        <item name="android:background">?attr/blueDarkWhite</item>
         <item name="tabIndicatorColor">@android:color/transparent</item>
         <item name="tabMode">scrollable</item>
         <item name="tabTextAppearance">@style/FeedTabTextAppearance</item>
@@ -543,7 +622,7 @@
     <style name="White.Header.TextStyle" parent="Common.Base.TextStyle">
         <item name="android:textSize">15sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">?attr/black</item>
     </style>
 
     <style name="Profile.Community.Name" parent="Common.Base.TextStyle.Single.Line">
@@ -557,6 +636,7 @@
         <item name="android:background">@drawable/bcg_thin_gray_stroke_ripple_10</item>
         <item name="android:paddingStart">10dp</item>
         <item name="android:paddingEnd">34dp</item>
+        <item name="android:textColor">?attr/textColor</item>
         <item name="android:textSize">17sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:layout_marginStart">@dimen/margin_default</item>
@@ -571,7 +651,7 @@
     <!--Wallet-->
     <style name="Profile.Wallet.Button" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:textAllCaps">false</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">?attr/white</item>
         <item name="android:background">@drawable/bcg_wallet_profile_button</item>
         <item name="android:drawableEnd">@drawable/ic_right_arrow</item>
         <item name="android:textSize">15sp</item>
@@ -598,7 +678,7 @@
     <style name="Wallet.MyPoints.Second" parent="Common.Base.TextStyle.Single.Line">
         <item name="android:textSize">12sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/grey</item>
+        <item name="android:textColor">?attr/grey</item>
     </style>
 
     <style name="Wallet.MyPoints.Value" parent="Common.Base.TextStyle.Single.Line">
@@ -625,14 +705,13 @@
         <item name="android:textFontWeight">500</item>
         <item name="android:lineSpacingExtra">2dp</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/grey</item>
     </style>
 
     <!--Common-->
     <style name="Middle.Bold.Title.TextStyle" parent="Common.Base.TextStyle">
         <item name="android:textSize">15sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">?attr/black</item>
         <item name="android:lines">1</item>
         <item name="android:ellipsize">end</item>
     </style>
@@ -690,7 +769,7 @@
 
     <style name="GrayBlue.RoundCorners.Button" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:background">@drawable/bcg_edit_bio_button</item>
-        <item name="android:textColor">@color/blue</item>
+        <item name="android:textColor">?attr/blueWhite</item>
         <item name="android:textSize">15sp</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:gravity">center</item>
@@ -726,17 +805,17 @@
     <style name="Page.Joined.TextStyle" parent="Common.Base.TextStyle">
         <item name="android:textSize">12sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/grey</item>
+        <item name="android:textColor">?attr/grey</item>
     </style>
 
     <style name="Text12.Black.Bold.SingleLine" parent="Common.Base.TextStyle.Single.Line">
         <item name="android:textSize">12sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">?attr/black</item>
     </style>
 
     <style name="Text12.Grey.Bold.SingleLine" parent="Text12.Black.Bold.SingleLine">
-        <item name="android:textColor">@color/grey</item>
+        <item name="android:textColor">?attr/grey</item>
     </style>
 
     <style name="Text12.Grey.SingleLine" parent="Text12.Grey.Bold.SingleLine">
@@ -776,7 +855,7 @@
     </style>
 
     <style name="Text15.Gray.Bold.SingleLine" parent="Text15.Blue.Bold.SingleLine">
-        <item name="android:textColor">@color/grey</item>
+        <item name="android:textColor">?attr/grey</item>
     </style>
 
 
@@ -793,7 +872,7 @@
     </style>
 
     <style name="Text17.Grey.Bold.SingleLine" parent="Text17.Black.Bold.SingleLine">
-        <item name="android:textColor">@color/grey</item>
+        <item name="android:textColor">?attr/grey</item>
     </style>
 
     <style name="Text17.Grey.SingleLine" parent="Text17.Grey.Bold.SingleLine">

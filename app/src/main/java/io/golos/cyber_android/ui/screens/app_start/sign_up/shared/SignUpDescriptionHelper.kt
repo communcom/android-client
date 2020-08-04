@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.app_start.sign_up.shared
 
+import android.content.res.Configuration
 import android.graphics.Color
 import android.text.SpannableStringBuilder
 import android.text.Spanned
@@ -13,14 +14,22 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import io.golos.cyber_android.R
+import io.golos.cyber_android.application.App
+import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
 import io.golos.cyber_android.ui.shared.utils.openWebPage
+import io.golos.domain.GlobalConstants
 
 object SignUpDescriptionHelper {
     fun formSignUpDescription(fragment: Fragment, signUpDescription: TextView) {
         val context = signUpDescription.context
 
         val descriptionSpannable = SpannableStringBuilder(context.getString(R.string.sign_up_description))
-        val descriptionColor= ContextCompat.getColor(context, R.color.grey)
+        val descriptionColor= when {
+            App.getInstance().keyValueStorage.getUIMode() == GlobalConstants.UI_MODE_DARK -> ContextCompat.getColor(context,R.color.white)
+            App.getInstance().keyValueStorage.getUIMode() == GlobalConstants.UI_MODE_LIGHT -> ContextCompat.getColor(context,R.color.grey)
+            context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES -> ContextCompat.getColor(context,R.color.white)
+            else -> ContextCompat.getColor(context,R.color.grey)
+        }
         descriptionSpannable.setSpan(
             ForegroundColorSpan(descriptionColor),
             0,

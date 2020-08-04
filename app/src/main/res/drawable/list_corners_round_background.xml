@@ -3,14 +3,14 @@
     <item android:gravity="top">
         <shape>
             <size android:height="20dp"/>
-            <solid android:color="@color/window_background_light_gray" />
+            <solid android:color="?attr/window_background_light_gray" />
         </shape>
     </item>
 
     <!--<item android:gravity="bottom">
         <shape>
             <size android:height="20dp"/>
-            <solid android:color="@color/window_background_light_gray" />
+            <solid android:color="?attr/window_background_light_gray" />
         </shape>
     </item>-->
 
@@ -21,7 +21,7 @@
         android:bottom="90dp">
         <shape android:shape="rectangle">
 
-            <solid android:color="@color/window_background" />
+            <solid android:color="?attr/window_background" />
 
             <corners android:radius="@dimen/general_list_header_height"/>
         </shape>

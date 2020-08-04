@@ -13,7 +13,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/light_gray">
+        android:background="?attr/light_gray">
 
         <io.golos.cyber_android.ui.shared.widgets.rules_card.RulesCardList
             android:id="@+id/rulesCardList"

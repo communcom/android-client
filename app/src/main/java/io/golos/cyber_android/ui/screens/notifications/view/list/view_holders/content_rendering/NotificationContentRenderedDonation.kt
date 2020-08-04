@@ -6,6 +6,7 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.view.View
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.DonationNotificationItem
@@ -14,6 +15,7 @@ import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsV
 import io.golos.cyber_android.ui.shared.glide.loadCommunity
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
 import io.golos.cyber_android.ui.shared.utils.getFormattedString
+import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dto.UserIdDomain
 import io.golos.utils.format.CurrencyFormatter
@@ -49,7 +51,10 @@ class NotificationContentRenderedDonation(viewDescription: NotificationView) : N
         val messageStringBuilder = SpannableStringBuilder()
         val userName = listItem.userName
         val userId = listItem.userId
-        val colorMessage = ContextCompat.getColor(context, R.color.black)
+        val colorMessage =
+            if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+                ContextCompat.getColor(context,R.color.black_dark_theme)
+            else ContextCompat.getColor(context,R.color.black)
         val colorAmount = ContextCompat.getColor(context, R.color.blue)
 
         // User name

@@ -8,14 +8,14 @@
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:orientation="vertical"
-            android:background="@color/white"
+            android:background="?attr/white"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".ui.screens.app_start.sign_up.phone_verification.view.SignUpPhoneVerificationFragment">
 
         <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/actionBar"
-                android:background="@color/white"
+                android:background="?attr/white"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_width="match_parent"
                 app:liftOnScroll="true"

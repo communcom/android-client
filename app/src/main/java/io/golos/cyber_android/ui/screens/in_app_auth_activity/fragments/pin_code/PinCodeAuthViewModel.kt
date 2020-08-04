@@ -14,6 +14,7 @@ import io.golos.cyber_android.ui.screens.in_app_auth_activity.view_commands.Auth
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.view_commands.ResetPinCommand
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.view_commands.SetPinCodeDigitCommand
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.view_commands.SwitchToFingerprintCommand
+import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -27,7 +28,7 @@ constructor(
     model: PinCodeAuthModel
 ) : ViewModelBase<PinCodeAuthModel>(dispatchersProvider, model) {
 
-    private val normalColor = context.resources.getColorRes(R.color.black)
+    private val normalColor = getStyledAttribute(R.attr.black)
     private val errorColor by lazy { context.resources.getColorRes(R.color.red) }
 
     val title: MutableLiveData<String> = MutableLiveData(context.resources.getString(headerText))

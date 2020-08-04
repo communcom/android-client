@@ -15,7 +15,7 @@
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/general_list_bcg"
+        android:background="?attr/general_list_bcg"
         />
 
     <View

@@ -15,7 +15,7 @@
 
         android:id="@+id/root"
         tools:context=".ui.screens.communities_list.view.CommunitiesListFragment"
-        android:background="@color/white"
+        android:background="?attr/white"
         tools:ignore="KeyboardInaccessibleWidget">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -31,7 +31,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="?attr/white"
                 app:layout_scrollFlags="scroll|enterAlways|snap">
 
                 <TextView
@@ -61,7 +61,7 @@
                     app:imageButton_icon="@drawable/ic_left_arrow"
                     app:imageButton_iconInscribeSize="@dimen/profile_back_button_icon_size"
 
-                    app:imageButton_tint="@color/black"
+                    app:imageButton_tint="?attr/black"
                     app:layout_constraintBottom_toBottomOf="@+id/titleText"
                     app:layout_constraintStart_toStartOf="parent"
 
@@ -92,7 +92,7 @@
                     android:maxLines="1"
                     android:padding="10dp"
 
-                    android:textColor="@color/black"
+                    android:textColor="?attr/black"
                     android:textColorHint="@color/dark_gray"
                     android:textSize="15sp"
 
@@ -178,7 +178,7 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:overScrollMode="never"
 
-            android:background="@color/window_background_light_gray">
+            android:background="?attr/window_background_light_gray">
 
             <io.golos.cyber_android.ui.screens.profile_followers.view.widgets.RoundCornersUnpagedListWidget
                 android:id="@+id/mutualList"

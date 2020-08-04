@@ -12,14 +12,14 @@
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:orientation="vertical"
-        android:background="@color/window_background"
+        android:background="?attr/window_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.screens.notifications.view.NotificationsFragment">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/actionBar"
-            android:background="@color/window_background"
+            android:background="?attr/window_background"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:theme="@style/AppTheme.AppBarOverlay"
@@ -45,7 +45,7 @@
                 android:drawableStart="@drawable/ic_unread_point"
                 android:layout_marginStart="@dimen/margin_default"
                 android:drawablePadding="@dimen/gap"
-                android:textColor="@color/grey"
+                android:textColor="?attr/grey"
                 app:layout_scrollFlags="scroll|enterAlways"
                 tools:text="@string/new_notifications_label"/>
 

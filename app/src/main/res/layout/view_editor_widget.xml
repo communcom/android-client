@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="?attr/white"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:paddingStart="@dimen/padding_horizontal_editor_widget"
@@ -49,7 +49,7 @@
         android:paddingStart="@dimen/padding_horizontal_editor_widget"
         android:paddingEnd="@dimen/padding_horizontal_editor_widget"
         app:srcCompat="@drawable/ic_photo"
-        app:tint="@color/grey"
+        app:tint="?attr/grey"
         />
 
 </LinearLayout>

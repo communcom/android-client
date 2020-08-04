@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
 
 class RulesCardList
 @JvmOverloads
@@ -58,5 +59,6 @@ constructor(
         card.layoutParams = layoutParams
 
         card.radius = cardCornerRadius
+        card.setCardBackgroundColor(getStyledAttribute(R.attr.white))
     }
 }

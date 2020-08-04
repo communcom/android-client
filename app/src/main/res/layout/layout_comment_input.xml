@@ -50,7 +50,7 @@
         app:layout_constraintEnd_toEndOf="parent"
 
         app:srcCompat="@drawable/ic_upvote"
-        android:tint="@color/white"
+        android:tint="?attr/white"
         android:background="@drawable/bcg_blue_round_corners_button"
 
         tools:ignore="ContentDescription"

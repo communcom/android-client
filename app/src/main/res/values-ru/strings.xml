@@ -577,6 +577,7 @@
     <string name="commun_currency_brief">CMN</string>
     <string name="points_currency">Поинты сообщества</string>
     <string name="hide_empty">Скрыть пустые</string>
+    <string name="dark_mode">Темная тема</string>
 
     <string name="do_you_really_want_to_hide">Вы действительно хотите скрыть все посты %1$s ?</string>
     <string name="do_you_really_want_to_unhide">Вы действительно хотите показать все посты %1$s ?</string>

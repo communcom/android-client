@@ -24,6 +24,8 @@ constructor(
         private const val AUTH_STATE_KEY = "AUTH_STATE"
         private const val AUTH_STATE_NATIVE_KEY = "AUTH_STATE_NATIVE"
 
+        private const val UI_MODE = "UI_MODE"
+
         private const val PIN_CODE_KEY = "PIN_CODE"
         private const val APP_UNLOCK_WAY_KEY = "APP_UNLOCK_WAY"
 
@@ -241,6 +243,18 @@ constructor(
     override fun getCurrencyCoefficient(): String? {
         return keyValueStorage.read {
             it.readString(CURRENCY_COEFFICIENT_KEY)
+        }
+    }
+
+    override fun getUIMode(): String? {
+        return keyValueStorage.read {
+            it.readString(UI_MODE)
+        }
+    }
+
+    override fun setUIMode(uiMode: String) {
+        keyValueStorage.update {
+            it.putString(UI_MODE,uiMode)
         }
     }
 

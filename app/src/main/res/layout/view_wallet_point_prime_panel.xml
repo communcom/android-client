@@ -19,7 +19,7 @@
         app:imageButton_icon="@drawable/ic_left_arrow"
 
         app:imageButton_iconInscribeSize="@dimen/size_back_icon"
-        app:imageButton_tint="@color/white"
+        app:imageButton_tint="?attr/white"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

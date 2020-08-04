@@ -21,7 +21,7 @@
             android:id="@+id/root"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white">
+            android:background="?attr/white">
 
             <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/appbar"
@@ -67,8 +67,13 @@
                             app:imageButton_icon="@drawable/ic_left_arrow"
 
                             app:imageButton_iconInscribeSize="@dimen/size_back_icon"
-                            app:imageButton_tint="@color/white"
-                            tools:visibility="visible" />
+                            app:imageButton_tint="?attr/white"
+                            android:background="@null"
+
+                            tools:visibility="visible"
+                            android:visibility="@{viewModel.backButtonVisibility}"
+                            android:onClick="@{() -> viewModel.onBackButtonClick()}"
+                            />
 
                         <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
                             android:id="@+id/menuButton"
@@ -104,7 +109,7 @@
 
                             android:src="@drawable/ic_editor_widget_camera"
 
-                            android:tint="@color/white"
+                            android:tint="?attr/white"
 
                             android:visibility="@{viewModel.photoButtonsVisibility}"
                             tools:ignore="ContentDescription"
@@ -147,7 +152,7 @@
 
                                 android:src="@drawable/ic_editor_widget_camera"
 
-                                android:tint="@color/grey"
+                                android:tint="?attr/grey"
                                 android:visibility="@{viewModel.photoButtonsVisibility}"
 
                                 app:layout_constraintStart_toStartOf="@+id/ivAttachImage"
@@ -197,6 +202,8 @@
 
                                 android:layout_marginEnd="@dimen/margin_default"
 
+                                tools:checked="true"
+
                                 android:checked="@{viewModel.followButtonState}"
                                 android:onClick="@{() -> viewModel.onFollowButtonClick()}"
 
@@ -206,7 +213,6 @@
                                 app:layout_constraintEnd_toEndOf="parent"
 
                                 app:layout_constraintTop_toTopOf="@+id/ivAttachImage"
-                                tools:checked="false"
                                 tools:visibility="visible" />
 
                             <FrameLayout
@@ -266,11 +272,13 @@
                                 android:visibility="@{viewModel.walletVisibility}"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintEnd_toStartOf="parent"
-
                                 app:layout_constraintTop_toBottomOf="@+id/bioContainer"
-                                app:onWalletClickListener="@{() -> viewModel.onWalletButtonClick() }"
-                                app:profile_wallet_view_value="@{viewModel.currencyBalance}"
-                                tools:visibility="visible" />
+                                                                                                      
+                                tools:visibility="visible"
+                                android:visibility="@{viewModel.walletVisibility}"
+                                app:profile_wallet_view_value = "@{viewModel.currencyBalance}"
+                                app:onWalletClickListener = "@{() -> viewModel.onWalletButtonClick() }"
+                                />
 
                             <!--Followers, Following-->
                             <androidx.constraintlayout.widget.ConstraintLayout
@@ -290,9 +298,9 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/margin_default"
                                     android:fontFamily="@font/roboto_bold"
+                                    android:textColor="?attr/black"
+                                    android:textSize="16sp"
                                     android:onClick="@{() -> viewModel.onFollowersClick()}"
-                                    android:textColor="@color/black"
-
                                     android:textSize="16sp"
                                     app:kilo="@{viewModel.followersCount}"
 
@@ -308,7 +316,7 @@
                                     android:layout_marginStart="@dimen/gap"
                                     android:onClick="@{() -> viewModel.onFollowersClick()}"
                                     android:text="@string/followers"
-                                    android:textColor="@color/grey"
+                                    android:textColor="?attr/grey"
                                     android:textSize="12sp"
                                     app:layout_constraintBottom_toBottomOf="@+id/followersCount"
                                     app:layout_constraintStart_toEndOf="@+id/followersCount"
@@ -322,7 +330,7 @@
                                     android:layout_marginStart="@dimen/gap"
                                     android:layout_marginEnd="@dimen/gap"
                                     android:text="@string/point"
-                                    android:textColor="@color/grey"
+                                    android:textColor="?attr/grey"
                                     android:textSize="16sp"
                                     app:layout_constraintBottom_toBottomOf="@+id/followersCount"
                                     app:layout_constraintStart_toEndOf="@+id/followersLabel"
@@ -334,12 +342,13 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/gap"
                                     android:fontFamily="@font/roboto_bold"
-                                    android:onClick="@{() -> viewModel.onFollowingsClick()}"
-                                    android:textColor="@color/black"
-
+                                          
                                     android:textSize="16sp"
-                                    app:kilo="@{viewModel.followingsCount}"
+                                    android:textColor="?attr/black"
 
+                                    app:kilo="@{viewModel.followingsCount}"
+                                    android:onClick="@{() -> viewModel.onFollowingsClick()}"
+                              
                                     app:layout_constraintBottom_toBottomOf="@+id/followersCount"
                                     app:layout_constraintStart_toEndOf="@+id/point"
                                     app:layout_constraintTop_toTopOf="@+id/followersCount"
@@ -352,8 +361,7 @@
                                     android:layout_marginStart="@dimen/gap"
                                     android:onClick="@{() -> viewModel.onFollowingsClick()}"
                                     android:text="@string/following"
-                                    android:textColor="@color/grey"
-
+                                    android:textColor="?attr/grey"
                                     android:textSize="12sp"
 
                                     app:layout_constraintBottom_toBottomOf="@+id/followersCount"
@@ -449,7 +457,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/stroke_normal"
-                    android:background="@color/light_gray"
+                    android:background="?attr/light_gray"
 
                     app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 

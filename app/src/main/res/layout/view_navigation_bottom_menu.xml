@@ -39,6 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:src="@drawable/ic_union"
+            app:backgroundTint="@color/blue"
             app:maxImageSize="@dimen/navigation_bottom_menu_fab_icon_size"
             app:fabCustomSize="@dimen/navigation_bottom_menu_fab_size"/>
     </FrameLayout>

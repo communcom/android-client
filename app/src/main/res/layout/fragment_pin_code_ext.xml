@@ -7,7 +7,7 @@
 
     android:layout_width = "match_parent"
     android:layout_height = "match_parent"
-    android:background = "@color/white"
+    android:background = "?attr/white"
     tools:context = ".ui.screens.app_start.sign_in.pin.view.SignInPinCodeFragment">
 
     <!--region Primary code-->

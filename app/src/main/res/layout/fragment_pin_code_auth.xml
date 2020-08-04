@@ -17,7 +17,7 @@
             android:paddingTop="@dimen/margin_default"
             android:paddingEnd="@dimen/margin_default"
             android:paddingStart="@dimen/margin_default"
-            android:background="@color/white"
+            android:background="?attr/white"
             tools:context=".ui.screens.in_app_auth_activity.fragments.fingerprint.FingerprintAuthFragment">
 
         <androidx.appcompat.widget.AppCompatTextView

@@ -10,24 +10,24 @@
     </data>
 
     <LinearLayout android:orientation="vertical"
-                  android:background="@color/white"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  tools:context=".ui.screens.post_edit.fragment.view.EditorPageFragment">
+        android:background="?attr/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.screens.post_edit.fragment.view.EditorPageFragment">
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
-                android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:layout_height="0dp">
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="0dp">
 
             <!--App bar-->
             <com.google.android.material.appbar.AppBarLayout
-                    app:elevation="0dp"
-                    android:id="@+id/actionBar"
-                    android:background="@color/white"
-                    android:layout_height="@dimen/height_action_bar"
-                    android:layout_width="match_parent"
-                    android:theme="@style/AppTheme.AppBarOverlay">
+                app:elevation="0dp"
+                android:id="@+id/actionBar"
+                android:background="?attr/white"
+                android:layout_height="@dimen/height_action_bar"
+                android:layout_width="match_parent"
+                android:theme="@style/AppTheme.AppBarOverlay">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -95,7 +95,7 @@
                         android:layout_marginStart="@dimen/margin_default"
                         android:layout_marginTop="@dimen/margin_top_editor_page_title"
                         android:layout_marginEnd="@dimen/margin_default"
-                        android:background="@color/white"
+                        android:background="?attr/white"
                         android:hint="@string/title"
 
                         android:inputType="textFilter"
@@ -114,7 +114,9 @@
                         android:minHeight="@dimen/min_height_editor"
 
                         app:is_simple="true"
+                        app:editor_text_color="?attr/textColor"
                         app:is_text_styles_supported="false"
+                        app:editor_hint_color="?attr/grey"
                         app:placeholder="@string/write_text_with_points"
                         app:render_type="Editor" />
                 </LinearLayout>
@@ -125,11 +127,11 @@
 
         <!--Toolbar-->
         <androidx.constraintlayout.widget.ConstraintLayout
-                android:orientation="horizontal"
-                android:layout_gravity="bottom"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/height_editor_toolbar"
-                android:background="@drawable/bcg_editor_toolbar">
+            android:orientation="horizontal"
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_editor_toolbar"
+            android:background="@drawable/bcg_editor_toolbar">
 
             <Button
                 android:id="@+id/nsfwButton"

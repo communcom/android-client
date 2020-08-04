@@ -34,7 +34,7 @@
             android:layout_height="@dimen/post_filters_header_height"
             android:gravity="center"
             android:text="@string/sort_by"
-            android:textColor="@color/black"
+            android:textColor="?attr/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -43,7 +43,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@color/bottom_sheet_dialog_bcg"
+            android:background="?attr/bottomSheetItemBackgroundCOlor"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -68,7 +68,7 @@
             android:layout_marginStart="@dimen/margin_default"
             android:layout_marginTop="@dimen/margin_default"
             android:layout_marginEnd="@dimen/margin_default"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="?attr/white"
             app:cardCornerRadius="@dimen/card_view_corner_radius"
             app:cardElevation="0dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -106,7 +106,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:background="@color/bottom_sheet_dialog_bcg" />
+                    android:background="?attr/bottomSheetItemBackgroundCOlor" />
 
                 <LinearLayout
                     android:id="@+id/llNew"
@@ -134,7 +134,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:background="@color/bottom_sheet_dialog_bcg" />
+                    android:background="?attr/bottomSheetItemBackgroundCOlor" />
 
                 <LinearLayout
                     android:id="@+id/llPopular"
@@ -171,7 +171,7 @@
             android:layout_marginTop="@dimen/margin_default"
             android:layout_marginEnd="@dimen/margin_default"
             android:visibility="invisible"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="?attr/white"
             app:cardCornerRadius="@dimen/card_view_corner_radius"
             app:cardElevation="0dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -210,7 +210,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:background="@color/bottom_sheet_dialog_bcg" />
+                    android:background="?attr/bottomSheetItemBackgroundCOlor" />
 
                 <LinearLayout
                     android:id="@+id/llWeek"
@@ -238,7 +238,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:background="@color/bottom_sheet_dialog_bcg" />
+                    android:background="?attr/bottomSheetItemBackgroundCOlor"/>
 
                 <LinearLayout
                     android:id="@+id/llMonth"
@@ -266,7 +266,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:background="@color/bottom_sheet_dialog_bcg" />
+                    android:background="?attr/bottomSheetItemBackgroundCOlor" />
 
                 <LinearLayout
                     android:id="@+id/llAll"
@@ -303,6 +303,7 @@
             android:layout_marginStart="@dimen/margin_default"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="@dimen/margin_default"
+            android:textColor="@color/white"
             android:layout_marginBottom="45dp"
             android:background="@drawable/bcg_blue_button_round"
             android:text="@string/next"

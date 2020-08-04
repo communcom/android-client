@@ -19,7 +19,7 @@
         <io.golos.cyber_android.ui.screens.wallet_shared.CollapsedPanelCoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/light_gray"
+            android:background="?attr/light_gray"
 
             app:toolbar="@id/toolbar"
             app:toolbar_content="@id/toolbarContent"

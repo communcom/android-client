@@ -26,7 +26,7 @@ xmlns:tools="http://schemas.android.com/tools">
             android:padding="@dimen/margin_default"
             app:srcCompat="@drawable/ic_left_arrow"
             tools:ignore="ContentDescription"
-            android:tint="@color/white"
+            android:tint="?attr/white"
             android:onClick="@{() -> viewModel.onBackButtonClick()}"
             />
 
@@ -52,7 +52,7 @@ xmlns:tools="http://schemas.android.com/tools">
 
             android:textSize="30sp"
             android:textStyle="bold"
-            android:textColor="@color/white"
+            android:textColor="?attr/white"
 
             android:text="@string/sign_in_scan_qr" />
 
@@ -64,7 +64,7 @@ xmlns:tools="http://schemas.android.com/tools">
             android:layout_marginTop="@dimen/go_to_qr_label_margin"
             android:layout_gravity="center_horizontal"
 
-            android:textColor="@color/white"
+            android:textColor="?attr/white"
             android:textSize="17sp"
 
             android:text="@string/sign_in_scan_qr_hint" />

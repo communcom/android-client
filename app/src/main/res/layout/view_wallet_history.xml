@@ -15,7 +15,7 @@
 
         android:textSize="17sp"
         android:textStyle="bold"
-        android:textColor="@color/black"
+        android:textColor="?attr/black"
 
         android:gravity="center_vertical|start"
         android:paddingStart="15dp"
@@ -31,7 +31,7 @@
         android:id="@+id/historyList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/white"
+        android:background="?attr/white"
 
         app:layout_constraintBottom_toTopOf="@id/bottomPanel"
         app:layout_constraintEnd_toEndOf="parent"

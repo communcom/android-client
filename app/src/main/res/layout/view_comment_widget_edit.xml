@@ -86,7 +86,7 @@
 
         android:layout_marginEnd="@dimen/send_comment_side_margin"
         android:background="@drawable/bcg_blue_round_corners_button"
-        android:tint="@color/white"
+        android:tint="?attr/white"
 
         app:layout_constraintBottom_toBottomOf="@+id/newText"
 

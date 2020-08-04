@@ -95,7 +95,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_close"
-        app:tint="@color/white"
+        app:tint="?attr/white"
 
         tools:ignore="ContentDescription" />
 </androidx.constraintlayout.widget.ConstraintLayout>

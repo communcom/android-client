@@ -1,7 +1,7 @@
 <io.golos.cyber_android.ui.shared.widgets.EditorWidget
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/editorWidget"
-        android:background="@color/white"
+        android:background="?attr/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />

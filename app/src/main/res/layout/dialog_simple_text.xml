@@ -63,7 +63,7 @@
 
             android:lineSpacingExtra="7dp"
             android:text="@string/user_name_restriction_explanation"
-            android:textColor="@color/grey"
+            android:textColor="?attr/grey"
             android:textSize="15sp"
             android:gravity="start"
 

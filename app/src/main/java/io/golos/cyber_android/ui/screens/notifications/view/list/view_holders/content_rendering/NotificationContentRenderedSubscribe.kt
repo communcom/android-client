@@ -4,6 +4,7 @@ import android.graphics.Typeface
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.SubscribeNotificationItem
@@ -35,7 +36,9 @@ class NotificationContentRenderedSubscribe(viewDescription: NotificationView) : 
             val userNameInterval = result.appendText(it)
             result.setSpan(StyleSpan(Typeface.BOLD), userNameInterval)
             val context = viewDescription.root.context
-            val colorMessage = ContextCompat.getColor(context, R.color.black)
+            val colorMessage = if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+                ContextCompat.getColor(context,R.color.black_dark_theme)
+            else ContextCompat.getColor(context,R.color.black)
             result.setSpan(object : ColorTextClickableSpan(userId, colorMessage) {
 
                 override fun onClick(spanData: String) {

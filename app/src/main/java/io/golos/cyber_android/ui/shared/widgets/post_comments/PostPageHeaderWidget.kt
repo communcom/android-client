@@ -16,6 +16,7 @@ import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.cyber_android.ui.shared.glide.loadCommunity
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
 import io.golos.cyber_android.ui.shared.utils.adjustSpannableClicks
+import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
 import io.golos.cyber_android.ui.shared.utils.toTimeEstimateFormat
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dto.CommunityIdDomain
@@ -62,7 +63,7 @@ constructor(
         if(postHeader.communityId!!.code == GlobalConstants.MY_FEED_COMMUNITY_ID) {
             (postHeader.userName ?: postHeader.userId).let {
                 val textInterval = builder.appendText(it)
-                val communityNameTextColor = ContextCompat.getColor(context, R.color.post_header_community_text)
+                val communityNameTextColor = getStyledAttribute(R.attr.post_header_community_text)
                 builder.setSpan(object : ColorTextClickableSpan(it, communityNameTextColor) {
                     override fun onClick(widget: View) {
                         postHeader.communityId.let { id ->
@@ -72,11 +73,11 @@ constructor(
 
                 }, textInterval)
             }
-            communityTitle.text = builder
+            communityTitle.text = builder.toString()
         } else {
             postHeader.communityName?.let {
                 val textInterval = builder.appendText(it)
-                val communityNameTextColor = ContextCompat.getColor(context, R.color.post_header_community_text)
+                val communityNameTextColor = getStyledAttribute(R.attr.post_header_community_text)
                 builder.setSpan(object : ColorTextClickableSpan(it, communityNameTextColor) {
                     override fun onClick(widget: View) {
                         postHeader.communityId.let { id ->
@@ -86,7 +87,7 @@ constructor(
 
                 }, textInterval)
             }
-            communityTitle.text = builder
+            communityTitle.text = builder.toString()
         }
 
         authorAndTime.adjustSpannableClicks()

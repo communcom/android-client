@@ -20,7 +20,7 @@
 
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white">
+            android:background="?attr/white">
 
             <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/appbar"
@@ -60,7 +60,7 @@
                             android:background="@null"
                             app:imageButton_icon="@drawable/ic_left_arrow"
                             app:imageButton_iconInscribeSize="@dimen/post_viewer_header_tool_button_icon_size"
-                            app:imageButton_tint="@color/white"
+                            app:imageButton_tint="?attr/grayWhite"
                             />
                         <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
                             android:id="@+id/ivCommunitySettings"
@@ -77,7 +77,6 @@
                             android:onClick='@{()->viewModel.onCommunitySettingsClick()}'
                             app:imageButton_icon="@drawable/ic_menu_options"
                             app:imageButton_iconInscribeSize="@dimen/post_viewer_header_tool_button_icon_size"
-                            app:imageButton_tint="@color/white"
                             />
 
                         <androidx.constraintlayout.widget.ConstraintLayout
@@ -104,7 +103,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/margin_small"
                                 android:fontFamily="@font/roboto_bold"
-                                android:textColor="@color/black"
+                                android:textColor="?attr/black"
                                 android:textSize="20sp"
 
                                 android:layout_marginEnd="@dimen/margin_default"
@@ -142,7 +141,7 @@
                                 app:layout_constraintBottom_toBottomOf="@+id/ivCommunityLogo"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="@+id/ivCommunityLogo"
-                            />
+                                />
 
                             <TextView
                                 android:id="@+id/tvDescription"
@@ -151,7 +150,7 @@
                                 android:layout_marginStart="@dimen/margin_default"
                                 android:layout_marginTop="@dimen/margin_small"
                                 android:layout_marginEnd="@dimen/margin_default"
-                                android:textColor="@color/black"
+                                android:textColor="?attr/black"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/ivCommunityLogo"

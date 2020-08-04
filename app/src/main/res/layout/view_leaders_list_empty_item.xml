@@ -20,7 +20,7 @@
             android:layout_height="match_parent"
             android:layout_margin="@dimen/margin_default"
             android:textSize="15sp"
-            android:textColor="@color/black"
+            android:textColor="?attr/black"
             android:text="@string/no_leaders"/>
     </androidx.cardview.widget.CardView>
 </FrameLayout>

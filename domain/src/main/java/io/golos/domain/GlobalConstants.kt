@@ -18,4 +18,8 @@ object GlobalConstants {
     const val DEVICE_TYPE = "phone"
     const val PLATFORM = "android"
     const val CLIENT_TYPE = "app"
+
+    const val UI_MODE_DARK = "UiModeDark"
+    const val UI_MODE_LIGHT = "UiModeLight"
+    const val UI_MODE_UNSPECIFIED = "UiUnspecified"
 }
