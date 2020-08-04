@@ -4,6 +4,9 @@
     <color name="colorPrimaryDark">#005099</color>
     <color name="colorAccent">#AFBDC4</color>
 
+    <color name="white_edit">#FFFFFF</color>
+    <color name="white_edit_dark_theme">#2C2F36</color>
+
     <item name="darkRed" type="color">#B71C1C</item>
     <item name="darkText" type="color">#5E5E5E</item>
     <item name="darkerText" type="color">#333</item>
