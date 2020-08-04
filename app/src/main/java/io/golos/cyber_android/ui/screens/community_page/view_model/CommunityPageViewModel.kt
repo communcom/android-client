@@ -90,7 +90,20 @@ constructor(
     }
 
     fun onConvertClick() {
-        _command.value = NavigateToWalletConvertCommand(communityId, balance)
+        val isNewPoint = balance.any { it.communityId == communityId }
+        val balances = balance as ArrayList<WalletCommunityBalanceRecordDomain>
+        if(!isNewPoint){
+            balances.add(WalletCommunityBalanceRecordDomain(
+                0.0,
+                0.0,
+                communityPageMutableLiveData.value!!.avatarUrl,
+                communityPageMutableLiveData.value!!.name,
+                communityId,
+                0.0,
+                0
+            ))
+        }
+        _command.value = NavigateToWalletConvertCommand(communityId, balances)
     }
 
     fun onBackPressed() {
@@ -155,6 +168,7 @@ constructor(
                 communityPage?.isSubscribed = !isSubscribed
                 communityPage?.isInBlackList = !isInBlackList
                 communityPageMutableLiveData.value = communityPage
+                _command.value = ShowSuccessDialogViewCommand(communityPage?.name!!)
             } catch (e: Exception){
                 _command.value = ShowMessageTextCommand(e.getMessage(appContext))
                 communityPageIsErrorMutableLiveData.value = true
@@ -177,6 +191,7 @@ constructor(
                 communityPage?.isSubscribed = !isSubscribed
                 communityPage?.isInBlackList = !isInBlackList
                 communityPageMutableLiveData.value = communityPage
+                _command.value = ShowSuccessDialogViewCommand(communityPage?.name!!)
             } catch (e: Exception){
                 _command.value = ShowMessageTextCommand(e.getMessage(appContext))
                 communityPageIsErrorMutableLiveData.value = true
@@ -187,7 +202,7 @@ constructor(
     }
 
     fun getShareString(communityPage: CommunityPage): String {
-        return "${BuildConfig.BASE_URL}/${communityPage.communityId.code}"
+        return "${BuildConfig.BASE_URL}/${communityPage.alias}"
     }
 
     private suspend fun getRate(communityId: CommunityIdDomain) {

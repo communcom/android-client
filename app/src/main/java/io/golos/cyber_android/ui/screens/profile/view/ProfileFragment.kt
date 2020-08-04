@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.profile.view
 
+import android.animation.ArgbEvaluator
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
@@ -8,8 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
+import com.google.android.material.appbar.AppBarLayout
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentProfileNewBinding
@@ -31,6 +34,7 @@ import io.golos.cyber_android.ui.screens.profile_liked.ProfileLikedFragment
 import io.golos.cyber_android.ui.screens.profile_photos.view.ProfilePhotosFragment
 import io.golos.cyber_android.ui.screens.wallet.view.WalletFragment
 import io.golos.cyber_android.ui.shared.Tags
+import io.golos.cyber_android.ui.shared.Tags.MENU
 import io.golos.utils.getColorRes
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
@@ -45,7 +49,6 @@ import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.domain.dto.notifications.NotificationSettingsDomain
 import kotlinx.android.synthetic.main.fragment_profile_new.*
-import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
@@ -94,6 +97,14 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { p0, slideOffset ->
+            val percent = (p0.totalScrollRange + slideOffset).toFloat() / p0.totalScrollRange
+            toolbar_back.setColorFilter(ArgbEvaluator().evaluate(percent, ContextCompat.getColor(context!!, android.R.color.black),
+                ContextCompat.getColor(context!!, android.R.color.white)) as Int)
+            toolbar_dots.setColorFilter(ArgbEvaluator().evaluate(percent, ContextCompat.getColor(context!!, android.R.color.black),
+                ContextCompat.getColor(context!!, android.R.color.white)) as Int)
+            profile_toolbar.alpha = 1f - percent
+        })
         viewModel.start()
     }
 
@@ -214,7 +225,7 @@ open class ProfileFragment : FragmentBaseMVVM<FragmentProfileNewBinding, Profile
         }
 
     private fun showConfirmationDialog(@StringRes textResId: Int) =
-        ConfirmationDialog.newInstance(textResId, this@ProfileFragment).show(requireFragmentManager(), "menu")
+        ConfirmationDialog.newInstance(textResId, this@ProfileFragment).show(requireFragmentManager(), MENU)
 
     private fun moveToSelectPhotoPage(place: ProfileItem, imageUrl: String?) =
         getDashboardFragment(this)
