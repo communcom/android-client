@@ -115,6 +115,9 @@ class PostPageMenuDialog(
     private fun generateNotMyPostMenu(postMenu: PostMenu): List<VersionedListItem> {
         val items = mutableListOf<VersionedListItem>()
 
+        postMenu.shareUrl?.let { shareUrl ->
+            items.add(ShareListItem(shareUrl))
+        }
         if (isPostSubscriptionModified) {
             if (postMenu.isSubscribed) {
                 items.add(JoinListItem())
