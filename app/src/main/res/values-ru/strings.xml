@@ -64,6 +64,12 @@
         <item quantity="other">поинтов</item>
     </plurals>
 
+    <plurals name="plural_donations">
+        <item quantity="zero">донатов</item>
+        <item quantity="one">донат</item>
+        <item quantity="other">донатов</item>
+    </plurals>
+
     <string name="common_general_error">К сожалению, произошла ошибка во время операции.</string>
     <string name="token_receiving_error">Не могу получить токен. Операция была отменена</string>
     <string name="account_registered_error">Аккаунт уже зарегистрирован</string>
