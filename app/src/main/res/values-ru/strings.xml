@@ -146,6 +146,13 @@
     <string name="comments_more">Ещё</string>
     <string name="comment_answer">Ответ</string>
 
+    <plurals name="reply">
+        <item quantity="zero">ответов</item>
+        <item quantity="one">ответ</item>
+        <item quantity="few">ответа</item>
+        <item quantity="other">ответов</item>
+    </plurals>
+
     <!--Welcome-->
     <string name="sign_up">Зарегистрироваться</string>
     <string name="sign_in">Войти</string>
