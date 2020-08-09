@@ -109,7 +109,10 @@ constructor(
             WalletHistoryTransferDirection.RECEIVE
         } else {
             when(serverItem.directionType.toUpperCase(Locale.getDefault())) {
-                WalletHistoryConstants.DIRECTION_SEND -> WalletHistoryTransferDirection.SEND
+                WalletHistoryConstants.DIRECTION_SEND -> {
+                    if(serverActionType != WalletHistoryConstants.ACTION_CONVERT)WalletHistoryTransferDirection.SEND
+                    else WalletHistoryTransferDirection.RECEIVE
+                }
                 WalletHistoryConstants.DIRECTION_RECEIVE -> WalletHistoryTransferDirection.RECEIVE
                 else -> return null
             }
@@ -204,6 +207,10 @@ constructor(
 
         // See other fields
 
+        val amount = if(transferType == WalletHistoryTransferType.CONVERT) {
+            serverItem.amount
+        } else serverItem.coinsQuantity
+
         return WalletHistoryTransferListItem(
             id = serverItem.id.toLongId(),
 
@@ -215,7 +222,7 @@ constructor(
             direction = direction,
             isOnHold = serverActionType == "HOLD",
             timeStamp = timeStamp,
-            coinsQuantity = serverItem.coinsQuantity,
+            coinsQuantity = amount ?: 0.0,
             coinsSymbol = serverItem.coinsSymbol,
             coinsFullName = serverItem.communityName ?: serverItem.coinsSymbol
         )
