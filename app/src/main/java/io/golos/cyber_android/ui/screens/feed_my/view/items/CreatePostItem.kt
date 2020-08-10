@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.item_create_post.view.*
 
 class CreatePostItem(
     val user: User?,
+    private val onCreatePostWithImageClick: (() -> Unit)?,
     private val onCreatePostClick: (() -> Unit)?,
     private val onUserClick: (() -> Unit)?) : BaseRecyclerItem() {
 
@@ -24,7 +25,7 @@ class CreatePostItem(
 
             widget.listener = object: EditorWidget.Listener {
                 override fun onGalleryClick() {
-                    onCreatePostClick?.invoke()
+                    onCreatePostWithImageClick?.invoke()
                 }
                 override fun onCaptionClick() {
                     onCreatePostClick?.invoke()

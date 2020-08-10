@@ -131,7 +131,7 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
             is SharePostCommand -> sharePost(command.shareUrl)
             is EditPostCommand -> editPost(command.post)
             is ReportPostCommand -> openPostReportDialog(command.post)
-            is CreatePostCommand -> createPost()
+            is CreatePostCommand -> createPost(command.isShowImagePickerDialog)
             is SwitchToProfileTab -> switchToProfileTab()
             is NavigateToDonateCommand -> moveToDonate(command)
             is ShowDonationUsersDialogCommand -> showDonationUsersDialogCommand(command.donation)
@@ -139,9 +139,9 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
         }
     }
 
-    private fun createPost(){
+    private fun createPost(isShowImagePickerDialog: Boolean? = true){
         startActivityForResult(
-            EditorPageActivity.getIntent(requireContext()).putExtra(EXTRA_SHOULD_SHOW_IMAGE_PICKER_DIALOG, true),
+            EditorPageActivity.getIntent(requireContext()).putExtra(EXTRA_SHOULD_SHOW_IMAGE_PICKER_DIALOG, isShowImagePickerDialog),
             REQUEST_FOR_RESULT_FROM_CREATE_POST
         )
     }
@@ -389,6 +389,7 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
             val myFeedAdapter = rvPosts.adapter as MyFeedAdapter
             myFeedAdapter.updateUser(
                 it,
+                onUserWithoutImageClick = { viewModel.onCreatePostClicked(false) },
                 onCreatePostClick = { viewModel.onCreatePostClicked() },
                 onUserClick = { viewModel.onCurrentUserClicked() })
         })
