@@ -13,7 +13,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="?attr/bottom_sheet_dialog_bcg">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -52,7 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@color/bottom_sheet_dialog_bcg">
+            android:background="?attr/bottom_sheet_dialog_bcg">
 
             <androidx.core.widget.NestedScrollView
                 android:id="@+id/nsv"
@@ -108,7 +109,7 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="2dp"
-                            android:background="@color/bottom_sheet_dialog_bcg" />
+                            android:background="?attr/bottom_sheet_dialog_bcg" />
                         <!--SPAM END-->
 
                         <!--HARASSMENT START-->
@@ -139,7 +140,7 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="2dp"
-                            android:background="@color/bottom_sheet_dialog_bcg" />
+                            android:background="?attr/bottom_sheet_dialog_bcg" />
                         <!--HARASSMENT END-->
 
                         <!--NIGUTY START-->
@@ -170,7 +171,7 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="2dp"
-                            android:background="@color/bottom_sheet_dialog_bcg" />
+                            android:background="?attr/bottom_sheet_dialog_bcg" />
                         <!--NIGUTY END-->
 
                         <!--VIOLENCE START-->
@@ -201,7 +202,7 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="2dp"
-                            android:background="@color/bottom_sheet_dialog_bcg" />
+                            android:background="?attr/bottom_sheet_dialog_bcg" />
                         <!--VIOLENCE END-->
 
                         <!--FALSE NEWS START-->
@@ -232,7 +233,7 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="2dp"
-                            android:background="@color/bottom_sheet_dialog_bcg" />
+                            android:background="?attr/bottom_sheet_dialog_bcg" />
                         <!--FALSE NEWS END-->
 
                         <!--TERRORISM START-->
@@ -263,7 +264,7 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="2dp"
-                            android:background="@color/bottom_sheet_dialog_bcg" />
+                            android:background="?attr/bottom_sheet_dialog_bcg" />
                         <!--TERRORISM END-->
 
                         <!--COMMUNITY RULES START-->
@@ -294,7 +295,7 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="2dp"
-                            android:background="@color/bottom_sheet_dialog_bcg" />
+                            android:background="?attr/bottom_sheet_dialog_bcg" />
                         <!--COMMUNITY RULES END-->
 
                         <!--HATE SPEECH START-->
@@ -325,7 +326,7 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="2dp"
-                            android:background="@color/bottom_sheet_dialog_bcg" />
+                            android:background="?attr/bottom_sheet_dialog_bcg" />
                         <!--HATE SPEECH END-->
 
                         <!--UNAUTHORIZED SALES START-->
@@ -356,7 +357,7 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="2dp"
-                            android:background="@color/bottom_sheet_dialog_bcg" />
+                            android:background="?attr/bottom_sheet_dialog_bcg" />
                         <!--UNAUTHORIZED SALES END-->
 
                         <!--ATTEMPT TO ABUSE START-->
@@ -387,7 +388,7 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="2dp"
-                            android:background="@color/bottom_sheet_dialog_bcg" />
+                            android:background="?attr/bottom_sheet_dialog_bcg" />
                         <!--ATTEMPT TO ABUSE END-->
 
                         <LinearLayout
@@ -417,7 +418,7 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="2dp"
-                            android:background="@color/bottom_sheet_dialog_bcg" />
+                            android:background="?attr/bottom_sheet_dialog_bcg" />
 
                     </LinearLayout>
 

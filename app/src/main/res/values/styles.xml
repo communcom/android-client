@@ -38,6 +38,7 @@
         <item name="bottomNavigationShadow3">#20CCCCCC</item>
         <item name="bottomNavigationShadow4">#30CCCCCC</item>
         <item name="bottomNavigationShadow5">#50CCCCCC</item>
+        <item name="bottom_sheet_dialog_bcg">@color/bottom_sheet_dialog_bcg</item>
         <item name="android:statusBarColor">@color/white</item>
     </style>
 
@@ -79,6 +80,7 @@
         <item name="bottomNavigationShadow3">#20000000</item>
         <item name="bottomNavigationShadow4">#30000000</item>
         <item name="bottomNavigationShadow5">#50000000</item>
+        <item name="bottom_sheet_dialog_bcg">@color/light_gray_dark_theme</item>
         <item name="android:statusBarColor">@color/white_dark_theme</item>
     </style>
 

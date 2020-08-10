@@ -36,6 +36,7 @@
         <attr name="post_header_community_text" format="color" />
         <attr name="comment_user_name" format="color" />
         <attr name="comment_empty_place_holder" format="color" />
+        <attr name="bottom_sheet_dialog_bcg" format="color" />
     </declare-styleable>
 
     <declare-styleable name="RoundedView">

@@ -46,7 +46,8 @@
         app:layout_constraintTop_toBottomOf="@id/frameLayout"
 
         android:hint="@string/report_other_reason"
-
+        android:textColor="?attr/black"
+        android:textColorHint="?attr/grey"
         android:background="@null"
 
         app:layout_constraintEnd_toEndOf="parent"

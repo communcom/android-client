@@ -106,7 +106,7 @@
 
                             android:src="@drawable/ic_editor_widget_camera"
 
-                            android:tint="?attr/white"
+                            app:tint="@color/white"
 
                             android:visibility="@{viewModel.photoButtonsVisibility}"
                             tools:ignore="ContentDescription"

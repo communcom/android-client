@@ -14,7 +14,7 @@ import io.golos.domain.posts_parsing_rendering.post_metadata.spans.custom.TagSpa
 
 object PostSpansFactory {
     @ColorInt
-    private val specialSpansColors = Color.BLUE
+    private val specialSpansColors = Color.parseColor("#6A80F5")
 
     fun createTextColor(@ColorInt color: Int): CharacterStyle = ForegroundColorSpan(color)
 

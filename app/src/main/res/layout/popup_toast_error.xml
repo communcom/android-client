@@ -64,7 +64,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="2dp"
 
-                android:textColor="@color/lightGray"
+                android:textColor="?attr/light_gray"
                 android:textSize="12sp"
 
                 tools:text = "Not that Belladonna Took ever had any adventures after she became Mrs. Bungo Baggins."
