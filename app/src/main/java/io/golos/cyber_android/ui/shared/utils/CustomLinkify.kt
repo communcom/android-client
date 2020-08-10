@@ -200,6 +200,7 @@ object CustomLinkify {
      */
     private class URLSpanNoUnderline(url: String) : URLSpan(url) {
         override fun updateDrawState(ds: TextPaint) {
+            Log.d("TESTING","777")
             super.updateDrawState(ds)
             ds.isUnderlineText = false
         }
