@@ -57,7 +57,7 @@
                             app:layout_collapseMode="none"
 
                             app:wallet_point_prime_panel_title="@{viewModel.title}"
-                            app:wallet_point_prime_panel_value="@{viewModel.balanceInPoints}"
+                            app:wallet_point_prime_panel_value="@{viewModel.availablePoints}"
                             app:wallet_point_prime_panel_value_communs="@{viewModel.balanceInCommuns}"
                             app:wallet_point_prime_panel_available_hold_bar="@{viewModel.availableHoldFactor}"
                             app:wallet_point_prime_panel_available="@{viewModel.availablePoints}"

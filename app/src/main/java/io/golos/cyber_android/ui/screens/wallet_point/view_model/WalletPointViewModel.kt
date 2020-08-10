@@ -36,9 +36,6 @@ constructor(
     WalletSendPointsListItemEventsProcessor,
     WalletHistoryListItemEventsProcessor {
 
-    private val _balanceInPoints = MutableLiveData<Double>(0.0)
-    val balanceInPoints: LiveData<Double> = _balanceInPoints
-
     private val _availablePoints = MutableLiveData<Double>(0.0)
     val availablePoints: LiveData<Double> = _availablePoints
 
