@@ -10,7 +10,7 @@ fun BlacklistCommunityItem.mapToCommunityDomain(): CommunityDomain =
         alias = alias,
         name = name ?: "",
         
-        avatarUrl = null,
+        avatarUrl = avatarUrl,
         coverUrl = null,
 
         subscribersCount = 0,
