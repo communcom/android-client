@@ -102,68 +102,53 @@
 
                     tools:ignore="Autofill,LabelFor" />
 
-                <ToggleButton
-                    android:id="@+id/toggleMutual"
-                    style="@style/BlueWhite.RoundCorners.Toggle"
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
-
-                    android:layout_height="@dimen/profile_followers_filters_button_height"
-                    android:layout_marginTop="@dimen/profile_followers_filters_button_margin"
-
-                    android:layout_marginBottom="@dimen/profile_followers_filters_button_margin"
-
-                    android:tag="MUTUALS"
-
-                    android:textOff="@string/mutual"
-
-                    android:textOn="@string/mutual"
-                    app:filterFollowers="@{viewModel.filter}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-
+                    android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="@+id/searchField"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/searchField"
-                    tools:checked="true" />
+                    android:layout_marginTop="@dimen/profile_followers_filters_button_margin"
+                    android:layout_marginBottom="@dimen/profile_followers_filters_button_margin">
 
-                <ToggleButton
-                    android:id="@+id/toggleFollowers"
-                    style="@style/BlueWhite.RoundCorners.Toggle"
+                    <ToggleButton
+                        android:id="@+id/toggleMutual"
+                        style="@style/BlueWhite.RoundCorners.Toggle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/profile_followers_filters_button_height"
+                        android:layout_marginEnd="10dp"
+                        android:tag="MUTUALS"
+                        android:textOff="@string/mutual"
+                        android:textOn="@string/mutual"
+                        android:visibility="@{viewModel.mutualTabVisibility}"
+                        app:filterFollowers="@{viewModel.filter}"
+                        tools:checked="true" />
 
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/profile_followers_filters_button_height"
+                    <ToggleButton
+                        android:id="@+id/toggleFollowers"
+                        style="@style/BlueWhite.RoundCorners.Toggle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/profile_followers_filters_button_height"
+                        android:tag="FOLLOWERS"
+                        android:layout_marginEnd="10dp"
+                        android:textOff="@string/followers"
+                        android:textOn="@string/followers"
+                        app:filterFollowers="@{viewModel.filter}"
+                        />
 
-                    android:tag="FOLLOWERS"
+                    <ToggleButton
+                        android:id="@+id/toggleFollowing"
+                        style="@style/BlueWhite.RoundCorners.Toggle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/profile_followers_filters_button_height"
+                        android:tag="FOLLOWINGS"
+                        android:textOff="@string/following"
+                        android:textOn="@string/following"
+                        app:filterFollowers="@{viewModel.filter}"
+                        />
 
-                    android:layout_marginStart="10dp"
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
-                    android:textOff="@string/followers"
-
-                    android:textOn="@string/followers"
-                    app:filterFollowers="@{viewModel.filter}"
-
-                    app:layout_constraintBottom_toBottomOf="@+id/toggleMutual"
-                    app:layout_constraintStart_toEndOf="@+id/toggleMutual"
-                    app:layout_constraintTop_toTopOf="@+id/toggleMutual"
-                />
-
-                <ToggleButton
-                    android:id="@+id/toggleFollowing"
-                    style="@style/BlueWhite.RoundCorners.Toggle"
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/profile_followers_filters_button_height"
-
-                    android:layout_marginStart="10dp"
-
-                    android:tag="FOLLOWINGS"
-
-                    android:textOff="@string/following"
-                    android:textOn="@string/following"
-                    app:filterFollowers="@{viewModel.filter}"
-
-                    app:layout_constraintBottom_toBottomOf="@+id/toggleFollowers"
-                    app:layout_constraintStart_toEndOf="@+id/toggleFollowers"
-                    app:layout_constraintTop_toTopOf="@+id/toggleFollowers"
-                    />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -189,7 +174,7 @@
 
                 app:listItems="@{viewModel.mutualsItems}"
                 android:visibility="@{viewModel.mutualsVisibility}"
-            />
+                />
 
             <io.golos.cyber_android.ui.screens.profile_followers.view.widgets.RoundCornersPagedListWidget
                 android:id="@+id/followersList"
@@ -200,7 +185,7 @@
 
                 app:listItems="@{viewModel.followersItems}"
                 android:visibility="@{viewModel.followersVisibility}"
-            />
+                />
 
             <io.golos.cyber_android.ui.screens.profile_followers.view.widgets.RoundCornersPagedListWidget
                 android:id="@+id/followingList"
@@ -211,7 +196,7 @@
 
                 app:listItems="@{viewModel.followingsItems}"
                 android:visibility="@{viewModel.followingsVisibility}"
-            />
+                />
         </FrameLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
