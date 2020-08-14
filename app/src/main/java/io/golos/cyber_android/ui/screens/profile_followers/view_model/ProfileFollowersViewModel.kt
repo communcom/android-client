@@ -49,6 +49,9 @@ constructor(
     private val _mutualsVisibility = MutableLiveData<Int>((startFilter == FollowersFilter.MUTUALS).toVisibility())
     val mutualsVisibility: LiveData<Int> get() = _mutualsVisibility
 
+    private val _mutualTabVisibility = MutableLiveData<Int>(true.toVisibility())
+    val mutualTabVisibility: LiveData<Int> get() = _mutualTabVisibility
+
     val pageSize = model.pageSize
 
     init {
@@ -59,6 +62,7 @@ constructor(
 
         launch {
             _title.value = if(model.isCurrentUser) currentUserRepository.userName else model.getUserName()
+            _mutualTabVisibility.value = if(model.isCurrentUser) View.GONE else View.VISIBLE
         }
     }
 
