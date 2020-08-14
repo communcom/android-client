@@ -12,4 +12,4 @@ class EditPostCommand(val post: Post) : ViewCommand
 
 class ReportPostCommand(val post: Post) : ViewCommand
 
-class CreatePostCommand() : ViewCommand
+class CreatePostCommand(val isShowImagePickerDialog: Boolean? = true) : ViewCommand
