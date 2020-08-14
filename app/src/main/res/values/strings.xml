@@ -416,6 +416,10 @@
     <string name="see_more">See More</string>
     <string name="communities_count">{0} ({1} Mutual)</string>
 
+    <!--Discovery-->
+    <string name="discovery_all">All</string>
+    <string name="discovery_posts">Posts</string>
+
     <!--SignUp-->
     <string name="sign_up_description">By clicking the “Next” button, you agree to the</string>
     <string name="sign_up_description_1">Terms of use, Privacy Policy</string>

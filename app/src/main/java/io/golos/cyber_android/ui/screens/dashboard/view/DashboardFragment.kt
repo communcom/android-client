@@ -16,6 +16,7 @@ import io.golos.cyber_android.ui.screens.communities_list.view.CommunitiesListFr
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
 import io.golos.cyber_android.ui.screens.dashboard.di.DashboardFragmentComponent
 import io.golos.cyber_android.ui.screens.dashboard.view_model.DashboardViewModel
+import io.golos.cyber_android.ui.screens.discovery.view.DiscoveryFragmentTab
 import io.golos.cyber_android.ui.screens.feed.FeedFragment
 import io.golos.cyber_android.ui.screens.notifications.view.NotificationsFragment
 import io.golos.cyber_android.ui.screens.post_edit.activity.EditorPageActivity
@@ -148,7 +149,7 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
         mainPager.offscreenPageLimit = NavigationBottomMenuWidget.Tab.values().size - 1
         viewPagerFragmentsList.apply {
             add(NavigationBottomMenuWidget.Tab.FEED.index, FeedFragment.newInstance("gls", user.userId))
-            add(NavigationBottomMenuWidget.Tab.COMMUNITIES.index, CommunitiesListFragmentTab.newInstance(UserIdDomain(user.userId)))
+            add(NavigationBottomMenuWidget.Tab.COMMUNITIES.index, DiscoveryFragmentTab.newInstance(UserIdDomain(user.userId)))
             add(NavigationBottomMenuWidget.Tab.NOTIFICATIONS.index, NotificationsFragment.newInstance())
             add(NavigationBottomMenuWidget.Tab.PROFILE.index, ProfileFragment.newInstance(UserIdDomain(user.userId)))
         }

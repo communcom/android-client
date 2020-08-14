@@ -14,6 +14,7 @@ object Clarification {
     const val IMAGE_URL = "IMAGE_URL"
     const val TEXT = "TEXT"
     const val BACK_BUTTON = "BACK_BUTTON"
+    const val TOOLBAR = "TOOLBAR"
     const val SHOW_ALL = "SHOW_ALL"
 
     const val PAGE_SIZE = "PAGE_SIZE"

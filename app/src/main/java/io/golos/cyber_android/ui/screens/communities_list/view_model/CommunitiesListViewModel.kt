@@ -26,12 +26,17 @@ class CommunitiesListViewModel
 constructor(
     @Named(Clarification.BACK_BUTTON)
     isBackButtonVisible: Boolean,
+    @Named(Clarification.TOOLBAR)
+    isToolbarVisible:Boolean,
     dispatchersProvider: DispatchersProvider,
     model: CommunitiesListModel
 ) : ViewModelBase<CommunitiesListModel>(dispatchersProvider, model), CommunityListItemEventsProcessor {
 
     private val _backButtonVisibility = MutableLiveData<Int>(if(isBackButtonVisible) View.VISIBLE else View.INVISIBLE)
     val backButtonVisibility: LiveData<Int> get() = _backButtonVisibility
+
+    private val _toolbarVisibility = MutableLiveData<Int>(if(isToolbarVisible) View.VISIBLE else View.GONE)
+    val toolbarVisibility:LiveData<Int> get() = _toolbarVisibility
 
     private val _swipeRefreshing = MutableLiveData<Boolean>(false)
     val swipeRefreshing get() = _swipeRefreshing.toLiveData()

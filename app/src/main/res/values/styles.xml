@@ -892,5 +892,11 @@
     <style name="Text30.White.Bold.SingleLine" parent="Text12.White.Bold.SingleLine">
         <item name="android:textSize">30sp</item>
     </style>
+
+
+    <style name="CustomTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
     <!--Common-->
 </resources>

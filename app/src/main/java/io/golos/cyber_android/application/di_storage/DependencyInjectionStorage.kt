@@ -48,6 +48,19 @@ import io.golos.cyber_android.ui.screens.community_page_post.di.CommunityPostFra
 import io.golos.cyber_android.ui.screens.community_page_rules.di.CommunityPageRulesFragmentComponent
 import io.golos.cyber_android.ui.screens.community_page_rules.di.CommunityPageRulesFragmentModule
 import io.golos.cyber_android.ui.screens.dashboard.di.DashboardFragmentComponent
+import io.golos.cyber_android.ui.screens.discovery.di.DiscoveryFragmentComponent
+import io.golos.cyber_android.ui.screens.discovery.di.DiscoveryFragmentModule
+import io.golos.cyber_android.ui.screens.discovery.view.fragments.discover_five_communities.di.DiscoveryFiveCommunitiesFragmentComponent
+import io.golos.cyber_android.ui.screens.discovery.view.fragments.discover_five_communities.di.DiscoveryFiveCommunitiesFragmentModule
+import io.golos.cyber_android.ui.screens.discovery.view.fragments.discovery_all.di.DiscoveryAllFragmentComponent
+import io.golos.cyber_android.ui.screens.discovery.view.fragments.discovery_all.di.DiscoveryAllFragmentModule
+import io.golos.cyber_android.ui.screens.discovery.view.fragments.discovery_communities.di.DiscoveryCommunitiesFragmentComponent
+import io.golos.cyber_android.ui.screens.discovery.view.fragments.discovery_communities.di.DiscoveryCommunitiesFragmentModule
+import io.golos.cyber_android.ui.screens.discovery.view.fragments.discovery_posts.di.DiscoveryPostsFragmentComponent
+import io.golos.cyber_android.ui.screens.discovery.view.fragments.discovery_posts.di.DiscoveryPostsFragmentModule
+import io.golos.cyber_android.ui.screens.discovery.view.fragments.discovery_users.di.DiscoveryUsersForFiveItemsComponent
+import io.golos.cyber_android.ui.screens.discovery.view.fragments.discovery_users.di.DiscoveryUsersFragmentComponent
+import io.golos.cyber_android.ui.screens.discovery.view.fragments.discovery_users.di.DiscoveryUsersFragmentModule
 import io.golos.cyber_android.ui.screens.donate_send_points.di.DonateSendPointsFragmentComponent
 import io.golos.cyber_android.ui.screens.donate_send_points.di.DonateSendPointsFragmentModule
 import io.golos.cyber_android.ui.screens.feed.di.FeedFragmentComponent
@@ -193,6 +206,48 @@ class DependencyInjectionStorage(private val app: Application) {
                     .init(ProfileFragmentModule(args[0] as UserIdDomain))
                     .build()
 
+            DiscoveryFragmentComponent::class->{
+                getBase<UIComponent>()
+                    .discoveryFragmentComponent
+                    .init(DiscoveryFragmentModule(args[0] as UserIdDomain))
+                    .build()
+            }
+
+            DiscoveryUsersFragmentComponent::class->{
+                getBase<DiscoveryFragmentComponent>()
+                    .discoveryUsersComponent
+                    .init(DiscoveryUsersFragmentModule(args[0] as Int,  args[1] as Boolean))
+                    .build()
+            }
+
+            DiscoveryUsersForFiveItemsComponent::class->{
+                getBase<DiscoveryFragmentComponent>()
+                    .discoveryUsersForFiveItemsComponent
+                    .init(DiscoveryUsersFragmentModule(args[0] as Int, args[1] as Boolean))
+                    .build()
+            }
+
+            DiscoveryFiveCommunitiesFragmentComponent::class->{
+                getBase<DiscoveryFragmentComponent>()
+                    .discoveryFiveCommunitiesFragmentComponent
+                    .init(DiscoveryFiveCommunitiesFragmentModule(showBackButton = false, showToolbar = false, showAll = false))
+                    .build()
+            }
+
+            DiscoveryPostsFragmentComponent::class->{
+                getBase<DiscoveryFragmentComponent>()
+                    .discoveryPostsFragmentComponent
+                    .init(DiscoveryPostsFragmentModule())
+                    .build()
+            }
+
+            DiscoveryAllFragmentComponent::class->{
+                getBase<DiscoveryFragmentComponent>()
+                    .discoveryAllFragmentComponent
+                    .init(DiscoveryAllFragmentModule())
+                    .build()
+            }
+
             ProfileExternalUserFragmentComponent::class ->
                 getBase<UIComponent>()
                     .profileExternalUserFragment
@@ -301,14 +356,21 @@ class DependencyInjectionStorage(private val app: Application) {
             CommunitiesListFragmentComponent::class ->
                 getBase<MainActivityComponent>()
                     .communitiesFragmentComponent
-                    .init(CommunitiesListFragmentModule(args[0] as Boolean, args[1] as UserIdDomain, args[2] as Boolean))
+                    .init(CommunitiesListFragmentModule(args[0] as Boolean,args[1] as Boolean, args[2] as UserIdDomain, args[3] as Boolean))
                     .build()
 
             CommunitiesListFragmentTabComponent::class ->
                 getBase<MainActivityComponent>()
                     .communitiesFragmentTabComponent
-                    .init(CommunitiesListFragmentModule(args[0] as Boolean, args[1] as UserIdDomain, args[2] as Boolean))
+                    .init(CommunitiesListFragmentModule(args[0] as Boolean, args[1] as Boolean, args[2] as UserIdDomain, args[3] as Boolean))
                     .build()
+
+            DiscoveryCommunitiesFragmentComponent::class->{
+                getBase<MainActivityComponent>()
+                    .communitiesFragmentDiscoveryComponent
+                    .init(DiscoveryCommunitiesFragmentModule(args[0] as Boolean, args[1] as Boolean, args[2] as UserIdDomain, args[3] as Boolean))
+                    .build()
+            }
 
             WalletFragmentComponent::class ->
                 getBase<MainActivityComponent>()

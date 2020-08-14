@@ -9,12 +9,17 @@ import javax.inject.Named
 @Module
 class CommunitiesListFragmentModule(
     private val showBackButton: Boolean,
+    private val showToolbar:Boolean,
     private val userId: UserIdDomain,
     private val showAll: Boolean) {
 
     @Provides
     @Named(Clarification.BACK_BUTTON)
     internal fun provideShowBackButton(): Boolean = showBackButton
+
+    @Provides
+    @Named(Clarification.TOOLBAR)
+    internal fun provideToolbarVisibility():Boolean = showToolbar
 
     @Provides
     internal fun provideUserId(): UserIdDomain = userId

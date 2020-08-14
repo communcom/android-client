@@ -43,7 +43,8 @@ open class CommunitiesListFragment : FragmentBaseMVVM<FragmentCommunitiesBinding
     override fun inject(key: String) = App
         .injections.get<CommunitiesListFragmentComponent>(
             key,
-            true,                                                   // show back button
+            true,                                            // show back button
+            true,                                                   // show toolbar
             arguments!!.getParcelable<UserIdDomain>(USER_ID),       // user id
             false)                                                  // show all posts
         .inject(this)
