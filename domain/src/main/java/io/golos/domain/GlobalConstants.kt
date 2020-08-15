@@ -11,6 +11,7 @@ object GlobalConstants {
     const val ALL_COMMUNITIES_CODE = "all"
 
     const val PAGE_SIZE = 25
+    const val PAGE_SIZE_LIMITED = 5
 
     const val C_POINT_USER_ID = "c.point"
     const val C_BOUNTY_USER_ID = "c.bounty"

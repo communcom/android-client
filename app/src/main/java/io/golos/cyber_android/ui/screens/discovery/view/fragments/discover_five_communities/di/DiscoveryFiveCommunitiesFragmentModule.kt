@@ -9,7 +9,8 @@ import javax.inject.Named
 class DiscoveryFiveCommunitiesFragmentModule(
     private val showBackButton: Boolean,
     private val showToolbar: Boolean,
-    private val showAll: Boolean
+    private val showAll: Boolean,
+    private val isLimited:Boolean
 ) {
 
     @Provides
@@ -23,4 +24,7 @@ class DiscoveryFiveCommunitiesFragmentModule(
     @Provides
     @Named(Clarification.SHOW_ALL)
     internal fun provideShowAll(): Boolean = showAll
+
+    @Provides
+    fun providesListType():Boolean = isLimited
 }

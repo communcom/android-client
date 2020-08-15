@@ -6,4 +6,5 @@ import io.golos.domain.DispatchersProvider
 import javax.inject.Inject
 
 class DiscoveryFiveCommunitiesViewModel
-@Inject constructor(dispatchersProvider: DispatchersProvider, discoveryFiveCommunitiesModel: DiscoveryFiveCommunitiesModel) : ViewModelBase<DiscoveryFiveCommunitiesModel>(dispatchersProvider, discoveryFiveCommunitiesModel)
+@Inject constructor(dispatchersProvider: DispatchersProvider, discoveryFiveCommunitiesModel: DiscoveryFiveCommunitiesModel):
+    ViewModelBase<DiscoveryFiveCommunitiesModel>(dispatchersProvider, discoveryFiveCommunitiesModel)

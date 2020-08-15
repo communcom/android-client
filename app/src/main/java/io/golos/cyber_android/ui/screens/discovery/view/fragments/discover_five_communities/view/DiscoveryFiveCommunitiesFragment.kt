@@ -20,7 +20,7 @@ open class DiscoveryFiveCommunitiesFragment : CommunitiesListFragment() {
         }
     }
 
-    override fun inject(key: String) = App.injections.get<DiscoveryFiveCommunitiesFragmentComponent>(key, false, false, true, 5, true).inject(this)
+    override fun inject(key: String) = App.injections.get<DiscoveryFiveCommunitiesFragmentComponent>(key, false, false, true, true).inject(this)
 
     override fun releaseInjection(key: String) {
         App.injections.release<DiscoveryFiveCommunitiesFragmentComponent>(key)

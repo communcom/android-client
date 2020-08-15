@@ -230,7 +230,8 @@ class DependencyInjectionStorage(private val app: Application) {
             DiscoveryFiveCommunitiesFragmentComponent::class->{
                 getBase<DiscoveryFragmentComponent>()
                     .discoveryFiveCommunitiesFragmentComponent
-                    .init(DiscoveryFiveCommunitiesFragmentModule(showBackButton = false, showToolbar = false, showAll = false))
+                    .init(DiscoveryFiveCommunitiesFragmentModule(showBackButton = false, showToolbar = false,
+                        showAll = false, isLimited = args[3] as Boolean))
                     .build()
             }
 

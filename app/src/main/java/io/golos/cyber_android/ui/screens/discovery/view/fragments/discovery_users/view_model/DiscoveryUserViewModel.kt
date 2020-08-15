@@ -10,6 +10,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageTextComman
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.GlobalConstants
+import io.golos.domain.GlobalConstants.PAGE_SIZE_LIMITED
 import io.golos.domain.dto.UserIdDomain
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -27,7 +28,7 @@ constructor(
     var isInitialIsLoaded:Boolean = false
     val followingsItems: LiveData<List<VersionedListItem>> get() = model.getItems(FollowersFilter.FOLLOWINGS)
 
-    val pageSize = if(isLimited) 5 else GlobalConstants.PAGE_SIZE
+    val pageSize = if(isLimited) PAGE_SIZE_LIMITED else GlobalConstants.PAGE_SIZE
 
     init {
         loadPage()
