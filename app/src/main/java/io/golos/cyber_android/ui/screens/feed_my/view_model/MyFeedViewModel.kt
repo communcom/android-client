@@ -56,6 +56,8 @@ constructor(
 
     val postsListState = _postsListState.toLiveData()
 
+    var isUserCreatePostVisible : Boolean = true
+
     private val _isPostSubscriptionModified:MutableLiveData<Boolean>  = MutableLiveData(false)
     val isPostSubscriptionModified:LiveData<Boolean>
         get() = _isPostSubscriptionModified
