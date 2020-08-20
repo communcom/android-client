@@ -692,8 +692,8 @@ constructor(
         super.onCleared()
     }
 
-    fun onCreatePostClicked() {
-        _command.value = CreatePostCommand()
+    fun onCreatePostClicked(isShowImagePickerDialog: Boolean? = true) {
+        _command.value = CreatePostCommand(isShowImagePickerDialog)
     }
 
     fun viewInExplorer(postMenu: PostMenu) {

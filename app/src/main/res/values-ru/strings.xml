@@ -51,10 +51,10 @@
     </plurals>
 
     <plurals name="formatter_points_formatted">
-        <item quantity="one">поинт</item>
-        <item quantity="few">поинта</item>
-        <item quantity="many">поинтов</item>
-        <item quantity="other">поинтов</item>
+        <item quantity="one">{0}{1} поинт</item>
+        <item quantity="few">{0}{1} поинта</item>
+        <item quantity="many">{0}{1} поинтов</item>
+        <item quantity="other">{0}{1} поинтов</item>
     </plurals>
     <!--Size formatting - end -->
 

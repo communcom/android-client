@@ -234,8 +234,8 @@
     <string name="delete_current_photo">Delete current photo</string>
     <string name="delete_description">Delete</string>
 
-    <string name="log_out">Log out</string>
-    <string name="log_out_question">Are you sure you want to log out?</string>
+    <string name="log_out">Logout</string>
+    <string name="log_out_question">Are you sure you want to logout?</string>
     <string name="cancel">Cancel</string>
 
     <!--Profile-->
