@@ -12,6 +12,7 @@
         android:layout_marginStart="@dimen/margin_small"
         android:layout_marginEnd="@dimen/margin_small"
         android:layout_marginBottom="26dp"
+        app:cardBackgroundColor="?attr/white"
         app:cardCornerRadius="@dimen/card_view_corner_radius">
 
         <TextView

@@ -62,7 +62,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/settings_menu_item_height"
 
-        android:text="Hide"
+        android:text="@string/hide"
+        android:textColor="?attr/black"
 
         app:layout_constraintEnd_toEndOf="@+id/share"
         app:layout_constraintStart_toStartOf="@+id/share"

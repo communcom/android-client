@@ -1,5 +1,7 @@
 package io.golos.cyber_android.ui.dialogs
 
+import android.util.Log
+import android.util.TypedValue
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -7,6 +9,7 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dialogs.base.BottomSheetDialogFragmentBase
 import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
 import kotlinx.android.synthetic.main.dialog_community_settings.*
+
 
 class CommunitySettingsDialog : BottomSheetDialogFragmentBase<CommunitySettingsDialog.Result>() {
 
@@ -39,17 +42,16 @@ class CommunitySettingsDialog : BottomSheetDialogFragmentBase<CommunitySettingsD
         title.text = communityName
         if (isCommunityHidden) {
             hideUnHideButton.text = context?.resources?.getString(R.string.unHide)
-            if(context != null) {
-                hideUnHideButton.setTextColor(getStyledAttribute(R.attr.black))
-            }
             context?.getDrawable(R.drawable.ic_unhide_community)?.let {
                 hideUnHideButton.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, it, null)
             }
-        } else {
+            val outValue = TypedValue()
+            context?.theme?.resolveAttribute(R.attr.black, outValue, true)
+            hideUnHideButton.setTextColor(outValue.data)
+        }
+        else {
             hideUnHideButton.text = context?.resources?.getString(R.string.hide)
-            if(context != null) {
-                hideUnHideButton.setTextColor(ContextCompat.getColor(context!!, R.color.badge_color))
-            }
+            hideUnHideButton.setTextColor(ContextCompat.getColor(hideUnHideButton.context, R.color.badge_color))
             context?.getDrawable(R.drawable.ic_hide_community)?.let {
                 hideUnHideButton.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, it, null)
             }
