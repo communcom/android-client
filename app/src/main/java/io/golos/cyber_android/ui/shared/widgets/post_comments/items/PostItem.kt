@@ -24,6 +24,7 @@ import io.golos.use_cases.reward.getRewardValue
 import io.golos.use_cases.reward.isRewarded
 import io.golos.utils.format.KiloCounterFormatter
 import io.golos.utils.helpers.positiveValue
+import io.golos.utils.id.IdUtil
 import kotlinx.android.synthetic.main.item_feed_content.view.*
 import kotlinx.android.synthetic.main.item_post_content.view.*
 import kotlinx.android.synthetic.main.item_post_controls.view.*
@@ -135,18 +136,35 @@ class PostItem(
             newContentList.add(it)
         }
         val postContentItems = newContentList
-            .filter { createPostBodyItem(it) != null }
+            .filter { createPostBodyItem(newContentList,it) != null }
             .map {
-                createPostBodyItem(it)!!
+                createPostBodyItem(newContentList,it)!!
             }
-        feedAdapter.updateAdapter(postContentItems)
+        val paragraphContent = arrayListOf<ParagraphItemBlock>()
+        postContentItems.map {
+            if(it is PostParagraphBlockItem){
+                paragraphContent.addAll(it.paragraphBlock.content)
+            }
+        }
+        val newList = postContentItems.filter {
+            it !is PostParagraphBlockItem
+        }
+        (newList as ArrayList<BaseRecyclerItem>).add(0,PostParagraphBlockItem(
+            ParagraphBlock(
+                IdUtil.generateLongId(),
+                paragraphContent
+            ),
+            listener,
+            post.contentId
+        ))
+        feedAdapter.updateAdapter(newList)
     }
 
-    private fun createPostBodyItem(block: Block): BaseRecyclerItem? {
+    private fun createPostBodyItem(list:List<Block>,block: Block): BaseRecyclerItem? {
         return when (block) {
             is AttachmentsBlock -> {
                 if (block.content.size == 1) {
-                    createPostBodyItem(block.content.single()) // A single attachment is shown as embed block
+                    createPostBodyItem(list,block.content.single()) // A single attachment is shown as embed block
                 } else {
                     AttachmentBlockItem(block, listener)
                 }
