@@ -81,7 +81,7 @@ open class CommunitiesListFragment : FragmentBaseMVVM<FragmentCommunitiesBinding
         }
     }
 
-    private fun updateList(data: List<VersionedListItem>) {
+    fun updateList(data: List<VersionedListItem>) {
         if (!::communitiesListAdapter.isInitialized) {
             communitiesListLayoutManager = LinearLayoutManager(context)
 

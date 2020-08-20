@@ -3,15 +3,13 @@ package io.golos.cyber_android.ui.screens.communities_list.view_model
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.screens.communities_list.model.CommunitiesListModel
+import io.golos.cyber_android.ui.screens.communities_list.view.list.CommunityListItemEventsProcessor
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToCommunityPageCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
-import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.screens.communities_list.model.CommunitiesListModel
-import io.golos.cyber_android.ui.screens.communities_list.view.list.CommunityListItemEventsProcessor
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageTextCommand
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dependency_injection.Clarification
@@ -32,6 +30,8 @@ constructor(
     model: CommunitiesListModel
 ) : ViewModelBase<CommunitiesListModel>(dispatchersProvider, model), CommunityListItemEventsProcessor {
 
+    var loadNext: Boolean = true
+
     private val _backButtonVisibility = MutableLiveData<Int>(if(isBackButtonVisible) View.VISIBLE else View.INVISIBLE)
     val backButtonVisibility: LiveData<Int> get() = _backButtonVisibility
 
@@ -44,7 +44,8 @@ constructor(
     val items: LiveData<List<VersionedListItem>>
         get()  = model.items
 
-    val pageSize: Int = model.pageSize
+    var pageSize: Int = model.pageSize
+        private set
 
     fun onViewCreated() = loadPage()
 
@@ -52,7 +53,11 @@ constructor(
         _command.value = NavigateToCommunityPageCommand(community.communityId)
     }
 
-    override fun onNextPageReached() = loadPage()
+    override fun onNextPageReached(){
+        if(loadNext){
+            loadPage()
+        }
+    }
 
     override fun retry() {
         launch {
@@ -87,4 +92,10 @@ constructor(
             model.loadPage()
         }
     }
+
+    fun changePageSizeTo(size:Int){
+        pageSize = size
+        model.pageSize = size
+    }
+
 }
