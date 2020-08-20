@@ -601,4 +601,8 @@
     <string name="discovery_all">Все</string>
     <string name="discovery_posts">Посты</string>
 
+    <string name="show_all_results">Показать все результаты</string>
+    <string name="no_results">Нет результатов</string>
+    <string name="try_to_look_for_something_else">Попробуйте поискать что-нибудь другое</string>
+
 </resources>
