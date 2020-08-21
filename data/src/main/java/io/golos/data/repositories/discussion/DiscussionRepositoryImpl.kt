@@ -386,7 +386,7 @@ constructor(
                 .firstOrNull()
         }
 
-        post.mapToPostDomain(user.name, rewards.await(), donations.await())
+        post.mapToPostDomain(currentUserRepository.userId.userId, rewards.await(), donations.await())
     }
 
     override suspend fun sendComment(postIdDomain: ContentIdDomain, jsonBody: String): CommentDomain {
