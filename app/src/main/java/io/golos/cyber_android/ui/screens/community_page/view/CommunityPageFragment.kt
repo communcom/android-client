@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.community_page.view
 
+import android.animation.ArgbEvaluator
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.lifecycle.Observer
 import com.facebook.appevents.codeless.internal.ViewHierarchy.setOnClickListener
+import com.google.android.material.appbar.AppBarLayout
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentCommunityPageBinding
@@ -40,6 +42,14 @@ import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.utils.format.KiloCounterFormatter
 import io.golos.utils.helpers.toPluralInt
 import kotlinx.android.synthetic.main.fragment_community_page.*
+import kotlinx.android.synthetic.main.fragment_community_page.appbar
+import kotlinx.android.synthetic.main.fragment_community_page.emptyPostProgressLoading
+import kotlinx.android.synthetic.main.fragment_community_page.root
+import kotlinx.android.synthetic.main.fragment_community_page.tabLayout
+import kotlinx.android.synthetic.main.fragment_community_page.toolbar_back
+import kotlinx.android.synthetic.main.fragment_community_page.toolbar_dots
+import kotlinx.android.synthetic.main.fragment_community_page.vpContent
+import kotlinx.android.synthetic.main.fragment_profile_new.*
 import kotlinx.android.synthetic.main.layout_community_header_members.*
 
 class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, CommunityPageViewModel>() {
@@ -87,6 +97,17 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
         ivBack.setOnClickListener {
             viewModel.onBackPressed()
         }
+        toolbar_back.setOnClickListener {
+            viewModel.onBackPressed()
+        }
+        appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { p0, slideOffset ->
+            val percent = (p0.totalScrollRange + slideOffset).toFloat() / p0.totalScrollRange
+            toolbar_back.setColorFilter(ArgbEvaluator().evaluate(percent, ContextCompat.getColor(context!!, android.R.color.black),
+                ContextCompat.getColor(context!!, android.R.color.white)) as Int)
+            toolbar_dots.setColorFilter(ArgbEvaluator().evaluate(percent, ContextCompat.getColor(context!!, android.R.color.black),
+                ContextCompat.getColor(context!!, android.R.color.white)) as Int)
+            communities_toolbar.alpha = 1f - percent
+        })
         cvBalanceDescription.visibility = View.VISIBLE
         viewModel.start()
     }
@@ -123,7 +144,7 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
         viewModel.communityPageLiveData.observe(viewLifecycleOwner, Observer {
             tvCommunityName.text = it.name
             tvDescription.text = it.description
-
+            community_name.text = it.name
             tvDescription.visibility = if(it.description.isNullOrBlank()) View.GONE else View.VISIBLE
 
             setCommunityLogo(it.avatarUrl)

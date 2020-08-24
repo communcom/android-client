@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="io.golos.cyber_android.ui.screens.community_page.view_model.CommunityPageViewModel" />
@@ -12,12 +13,11 @@
     <com.google.android.material.appbar.SwipeCoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:onRefreshListener = "@{() -> viewModel.onSwipeRefresh()}"
-        app:refreshing = "@{viewModel.swipeRefreshing}">
+        app:onRefreshListener="@{() -> viewModel.onSwipeRefresh()}"
+        app:refreshing="@{viewModel.swipeRefreshing}">
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/root"
-
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="?attr/white">
@@ -33,8 +33,9 @@
                 <com.google.android.material.appbar.CollapsingToolbarLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
-                    app:titleEnabled="false">
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                    app:titleEnabled="false"
+                    app:toolbarId="@id/communities_toolbar">
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -60,8 +61,8 @@
                             android:background="@null"
                             app:imageButton_icon="@drawable/ic_left_arrow"
                             app:imageButton_iconInscribeSize="@dimen/post_viewer_header_tool_button_icon_size"
-                            app:imageButton_tint="?attr/grayWhite"
-                            />
+                            app:imageButton_tint="?attr/grayWhite" />
+
                         <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
                             android:id="@+id/ivCommunitySettings"
 
@@ -70,14 +71,13 @@
 
                             android:layout_gravity="end"
 
-                            android:layout_marginEnd="@dimen/post_viewer_header_horizontal_margin"
                             android:layout_marginTop="40dp"
+                            android:layout_marginEnd="@dimen/post_viewer_header_horizontal_margin"
 
                             android:background="@null"
                             android:onClick='@{()->viewModel.onCommunitySettingsClick()}'
                             app:imageButton_icon="@drawable/ic_menu_options"
-                            app:imageButton_iconInscribeSize="@dimen/post_viewer_header_tool_button_icon_size"
-                            />
+                            app:imageButton_iconInscribeSize="@dimen/post_viewer_header_tool_button_icon_size" />
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -102,11 +102,11 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/margin_small"
+                                android:layout_marginEnd="@dimen/margin_default"
                                 android:fontFamily="@font/roboto_bold"
                                 android:textColor="?attr/black"
-                                android:textSize="20sp"
 
-                                android:layout_marginEnd="@dimen/margin_default"
+                                android:textSize="20sp"
 
                                 app:layout_constraintBottom_toTopOf="@+id/tvJoinTime"
                                 app:layout_constraintEnd_toStartOf="@+id/ctvJoin"
@@ -119,10 +119,10 @@
 
                             <TextView
                                 android:id="@+id/tvJoinTime"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-
                                 style="@style/Page.Joined.TextStyle"
+                                android:layout_width="wrap_content"
+
+                                android:layout_height="wrap_content"
 
                                 app:layout_constraintBottom_toBottomOf="@+id/ivCommunityLogo"
                                 app:layout_constraintStart_toStartOf="@+id/tvCommunityName"
@@ -136,12 +136,11 @@
 
                                 android:layout_marginEnd="@dimen/margin_default"
 
-                                tools:checked="true"
-
                                 app:layout_constraintBottom_toBottomOf="@+id/ivCommunityLogo"
+
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="@+id/ivCommunityLogo"
-                                />
+                                tools:checked="true" />
 
                             <TextView
                                 android:id="@+id/tvDescription"
@@ -151,13 +150,12 @@
                                 android:layout_marginTop="@dimen/margin_small"
                                 android:layout_marginEnd="@dimen/margin_default"
                                 android:textColor="?attr/black"
+                                android:visibility="gone"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/ivCommunityLogo"
                                 tools:text="Binance Exchange provides cryptocurrency trading for fintech and blockchain enthusiasts"
-                                tools:visibility="visible"
-                                android:visibility="gone"
-                                />
+                                tools:visibility="visible" />
 
                             <include
                                 android:id="@+id/clHeaderMembers"
@@ -178,12 +176,12 @@
                                 android:layout_marginEnd="@dimen/margin_default"
 
                                 android:visibility="gone"
-                                tools:visibility="visible"
-
                                 app:layout_constraintBottom_toBottomOf="parent"
+
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/clHeaderMembers">
+                                app:layout_constraintTop_toBottomOf="@+id/clHeaderMembers"
+                                tools:visibility="visible">
 
                                 <androidx.constraintlayout.widget.ConstraintLayout
                                     android:layout_width="match_parent"
@@ -256,6 +254,65 @@
 
                     </FrameLayout>
 
+                    <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/communities_toolbar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0"
+                        android:background="@color/white"
+                        android:elevation="4dp"
+                        app:layout_collapseMode="pin">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="?actionBarSize">
+
+                            <TextView
+                                android:id="@+id/community_name"
+                                style="@style/Text17.Black.Bold.SingleLine"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:layout_toStartOf="@id/toolbar_dots"
+                                android:layout_toEndOf="@+id/toolbar_back"
+                                android:gravity="center"
+                                android:textColor="@color/black"
+                                tools:text="asdasdasdasdas" />
+
+                            <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+                                android:id="@+id/toolbar_back"
+                                android:layout_width="@dimen/size_image_button"
+                                android:layout_height="@dimen/size_image_button"
+
+                                android:layout_centerVertical="true"
+
+                                android:background="@null"
+                                app:imageButton_icon="@drawable/ic_left_arrow"
+
+                                app:imageButton_iconInscribeSize="@dimen/size_back_icon"
+                                app:imageButton_tint="@color/white"
+                                tools:visibility="visible" />
+
+                            <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+                                android:id="@+id/toolbar_dots"
+                                android:layout_width="@dimen/size_image_button"
+                                android:layout_height="@dimen/size_image_button"
+
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_gravity="end|top"
+
+                                android:layout_marginEnd="@dimen/profile_update_cover_button_margin_end"
+
+                                android:background="@null"
+                                android:onClick="@{() -> viewModel.onCommunitySettingsClick()}"
+                                app:imageButton_icon="@drawable/ic_menu_options"
+                                app:imageButton_iconInscribeSize="@dimen/profile_menu_button_icon_size"
+                                app:imageButton_tint="@color/white" />
+
+                        </RelativeLayout>
+
+                    </androidx.appcompat.widget.Toolbar>
 
                 </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -266,12 +323,13 @@
                     android:layout_height="@dimen/tab_layout_height_default"
                     android:layout_gravity="bottom"
 
-                    app:tabTextAppearance="@style/TabsText"
-
                     app:layout_behavior="@string/appbar_scrolling_view_behavior"
+
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cvBalanceDescription" />
+                    app:layout_constraintTop_toBottomOf="@+id/cvBalanceDescription"
+                    app:tabTextAppearance="@style/TabsText" />
+
             </com.google.android.material.appbar.AppBarLayout>
 
             <androidx.viewpager.widget.ViewPager
@@ -280,7 +338,7 @@
                 android:layout_height="match_parent"
                 android:visibility="invisible"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                tools:visibility="visible"/>
+                tools:visibility="visible" />
 
 
             <include
@@ -288,8 +346,8 @@
                 layout="@layout/dialog_loading"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="invisible"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:visibility="invisible" />
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </com.google.android.material.appbar.SwipeCoordinatorLayout>
 </layout>
