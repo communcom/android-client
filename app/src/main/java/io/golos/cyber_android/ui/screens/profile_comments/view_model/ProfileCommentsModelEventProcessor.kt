@@ -32,6 +32,8 @@ interface ProfileCommentsVoteListener {
     fun onCommentDownVoteClick(commentId: ContentIdDomain)
 
     fun onDonateClick(donate: DonateType, contentId: ContentIdDomain, communityId: CommunityIdDomain, contentAuthor: UserBriefDomain)
+
+    fun onForbiddenClick()
 }
 
 interface CommentLongClickListener {

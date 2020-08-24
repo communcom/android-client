@@ -270,7 +270,8 @@ class PostItem(
             }
         } else {
             view.votesArea.setUpVoteButtonSelected(true)
-            view.votesArea.downvoteButton.isEnabled = false
+            view.votesArea.setOnUpVoteButtonClickListener{ listener.onForbiddenClick() }
+            view.votesArea.setOnDownVoteButtonClickListener { listener.onForbiddenClick() }
         }
     }
 

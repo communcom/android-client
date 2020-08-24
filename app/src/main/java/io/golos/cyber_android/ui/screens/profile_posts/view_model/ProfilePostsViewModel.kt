@@ -153,6 +153,10 @@ constructor(
         _command.value = ShowDonationUsersDialogCommand(donates)
     }
 
+    override fun onForbiddenClick() {
+        _command.postValue(ShowMessageResCommand(R.string.cant_cancel_vote,true))
+    }
+
     override fun onLinkClicked(linkUri: Uri) {
         _command.value = NavigateToLinkViewCommand(linkUri)
     }

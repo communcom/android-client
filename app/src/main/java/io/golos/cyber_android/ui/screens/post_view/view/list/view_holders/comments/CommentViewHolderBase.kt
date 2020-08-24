@@ -356,8 +356,8 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
             }
         } else {
             _voting.upvoteButton.isActivated = true
-            _voting.setOnUpVoteButtonClickListener(null)
-            _voting.downvoteButton.isEnabled = false
+            _voting.setOnUpVoteButtonClickListener{ eventsProcessor.onForbiddenClick() }
+            _voting.setOnDownVoteButtonClickListener { eventsProcessor.onForbiddenClick() }
         }
     }
 

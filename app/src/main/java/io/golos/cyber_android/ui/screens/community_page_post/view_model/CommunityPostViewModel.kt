@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.DonateType
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.mappers.mapToPostsList
@@ -233,6 +234,10 @@ constructor(
 
     override fun onDonatePopupClick(donates: DonationsDomain) {
         _command.value = ShowDonationUsersDialogCommand(donates)
+    }
+
+    override fun onForbiddenClick() {
+        _command.postValue(ShowMessageResCommand(R.string.cant_cancel_vote,true))
     }
 
     fun loadInitialPosts() {

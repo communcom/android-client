@@ -7,6 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
@@ -47,7 +48,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginBottom="2dp"
 
-                android:textColor="?attr/white"
+                android:textColor="@color/white"
                 android:textSize="15sp"
                 android:textStyle="bold"
 
@@ -64,7 +65,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="2dp"
 
-                android:textColor="?attr/light_gray"
+                android:textColor="@color/light_gray"
                 android:textSize="12sp"
 
                 tools:text = "Not that Belladonna Took ever had any adventures after she became Mrs. Bungo Baggins."
