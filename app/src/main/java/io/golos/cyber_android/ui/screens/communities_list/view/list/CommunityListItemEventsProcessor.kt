@@ -10,5 +10,5 @@ interface CommunityListItemEventsProcessor {
 
     fun retry()
 
-    fun onJoinClick(communityId: CommunityIdDomain) {}
+    fun onJoinClick(communityId: CommunityIdDomain, isInBlockList:Boolean) {}
 }

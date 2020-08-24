@@ -115,6 +115,10 @@ constructor(
         return errorInfo
     }
 
+    override suspend fun unblockCommunity(communityId: CommunityIdDomain) {
+        communitiesRepository.moveCommunityFromBlackList(communityId)
+    }
+
     protected fun CommunityDomain.map() =
         CommunityListItem(
             MurmurHash.hash64(this.communityId.code),
@@ -123,7 +127,8 @@ constructor(
             isLastItem = false,
             community = this,
             isInPositiveState = this.isSubscribed,
-            isProgress = false
+            isProgress = false,
+            isInBlockList = isInBlacklist
         )
 
     protected open fun onInitEmptyList(list: MutableList<VersionedListItem>) {

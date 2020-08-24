@@ -11,6 +11,7 @@ import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListIte
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.CommunityListItem
 import io.golos.cyber_android.ui.screens.communities_list.view.list.CommunityListItemEventsProcessor
 import kotlinx.android.synthetic.main.view_communities_community_list_item.view.*
+import android.widget.ToggleButton
 
 class CommunityListItemViewHolder(
     parentView: ViewGroup
@@ -45,7 +46,12 @@ class CommunityListItemViewHolder(
 
             itemView.joinButton.isChecked = isInPositiveState
 
-            itemView.joinButton.setOnClickListener { listItemEventsProcessor.onJoinClick(community.communityId) }
+            itemView.joinButton.setOnClickListener {
+                if(listItem.isInBlockList){
+                    (it as ToggleButton).toggle()
+                }
+                listItemEventsProcessor.onJoinClick(listItem.community.communityId, listItem.isInBlockList)
+            }
 
             itemView.ivLogo.loadCommunity(community.avatarUrl)
         }

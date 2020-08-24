@@ -15,6 +15,6 @@ data class CommunityListItem(
      * In a black list (positive) / Not in a black list (negative)
      */
     val isInPositiveState: Boolean,
-
+    val isInBlockList:Boolean,
     val isProgress: Boolean
 ) : VersionedListItem

@@ -681,6 +681,8 @@
     <string name="do_you_really_want_to_unhide">Do you really want to unhide all posts of %1$s ?</string>
     <string name="you_have_hidden_community">You\'ve hidden %1$s.\nWe are sorry that you\'ve had this experience.</string>
     <string name="you_have_unhidden_community">You\'ve unhidden %1$s.</string>
+    <string name="this_community_is_in_your_blacklist">This community is on your blacklist. Do you really want to unhide and follow it anyway ?</string>
+
     <string name="show_all_results">Show all results</string>
     <string name="no_results">No results</string>
     <string name="try_to_look_for_something_else">Try to look for something else</string>
