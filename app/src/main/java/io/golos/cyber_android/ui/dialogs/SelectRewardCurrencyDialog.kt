@@ -9,6 +9,7 @@ import io.golos.cyber_android.ui.dialogs.base.BottomSheetDialogFragmentBase
 import io.golos.domain.dto.RewardCurrency
 import io.golos.cyber_android.ui.shared.utils.openLinkView
 import kotlinx.android.synthetic.main.dialog_select_reward_currency.*
+import android.content.Intent
 
 class SelectRewardCurrencyDialog(
     private val startCurrency: RewardCurrency
@@ -19,6 +20,7 @@ class SelectRewardCurrencyDialog(
     )
 
     private var selectedCurrency = startCurrency
+    private val browserPackageName = "com.android.chrome"
 
     companion object {
         fun show(parent: Fragment, startCurrency: RewardCurrency, closeAction: (Result?) -> Unit) =
@@ -41,6 +43,10 @@ class SelectRewardCurrencyDialog(
 
         learnMoreButton.setOnClickListener {
             this@SelectRewardCurrencyDialog.context?.openLinkView(Uri.parse(BuildConfig.POINTS_URI))
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.POINTS_URI))
+            //ToDo this is a temporary solution, needs to be changed
+            intent.setPackage(browserPackageName)
+            startActivity(intent)
         }
     }
 
