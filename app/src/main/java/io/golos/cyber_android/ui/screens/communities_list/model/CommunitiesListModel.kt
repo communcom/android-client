@@ -7,7 +7,7 @@ import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.ErrorInfoDomain
 
 interface CommunitiesListModel: ModelBase {
-    val pageSize: Int
+    var pageSize: Int
 
     val items: LiveData<List<VersionedListItem>>
 

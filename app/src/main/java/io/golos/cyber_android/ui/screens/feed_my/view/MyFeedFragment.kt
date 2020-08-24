@@ -50,7 +50,7 @@ import kotlinx.android.synthetic.main.fragment_my_feed.*
 import kotlinx.android.synthetic.main.view_search_bar.*
 import timber.log.Timber
 
-class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>() {
+open class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>() {
     companion object {
         private const val REQUEST_FOR_RESULT_FROM_EDIT = 41522
         private const val REQUEST_FOR_RESULT_FROM_CREATE_POST = 41523
@@ -386,12 +386,13 @@ class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>(
             }
         })
         viewModel.user.observe(viewLifecycleOwner, Observer {
-            val myFeedAdapter = rvPosts.adapter as MyFeedAdapter
-            myFeedAdapter.updateUser(
-                it,
-                onUserWithoutImageClick = { viewModel.onCreatePostClicked(false) },
-                onCreatePostClick = { viewModel.onCreatePostClicked() },
-                onUserClick = { viewModel.onCurrentUserClicked() })
+            if(viewModel.isUserCreatePostVisible){
+                val myFeedAdapter = rvPosts.adapter as MyFeedAdapter
+                myFeedAdapter.updateUser(
+                    it,
+                    onCreatePostClick = { viewModel.onCreatePostClicked() },
+                    onUserClick = { viewModel.onCurrentUserClicked() })
+            }
         })
         viewModel.loadUserProgressVisibility.observe(viewLifecycleOwner, Observer {
             if (it) {

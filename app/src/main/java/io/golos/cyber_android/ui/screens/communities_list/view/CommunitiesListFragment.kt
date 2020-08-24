@@ -43,7 +43,8 @@ open class CommunitiesListFragment : FragmentBaseMVVM<FragmentCommunitiesBinding
     override fun inject(key: String) = App
         .injections.get<CommunitiesListFragmentComponent>(
             key,
-            true,                                                   // show back button
+            true,                                            // show back button
+            true,                                                   // show toolbar
             arguments!!.getParcelable<UserIdDomain>(USER_ID),       // user id
             false)                                                  // show all posts
         .inject(this)
@@ -80,7 +81,7 @@ open class CommunitiesListFragment : FragmentBaseMVVM<FragmentCommunitiesBinding
         }
     }
 
-    private fun updateList(data: List<VersionedListItem>) {
+    fun updateList(data: List<VersionedListItem>) {
         if (!::communitiesListAdapter.isInitialized) {
             communitiesListLayoutManager = LinearLayoutManager(context)
 

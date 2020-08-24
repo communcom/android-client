@@ -22,6 +22,7 @@
                 app:elevation="0dp"
                 android:focusableInTouchMode="true"
                 android:focusable="true"
+                android:visibility="@{viewModel.toolbarVisibility}"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
 
@@ -72,6 +73,16 @@
             app:onRefreshListener = "@{() -> viewModel.onSwipeRefresh()}"
             app:refreshing = "@{viewModel.swipeRefreshing}">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <io.golos.cyber_android.ui.shared.widgets.lists.NoDataStub
+                android:id="@+id/emptyStub"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="@dimen/profile_followers_no_data_height"/>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/mainList"
                 android:layout_width="match_parent"
@@ -79,11 +90,14 @@
                 android:background="@drawable/list_corners_round_background"
                 android:paddingTop="27dp"
                 android:paddingStart="@dimen/general_list_padding"
+                android:visibility="visible"
+                android:nestedScrollingEnabled="false"
                 android:paddingEnd="@dimen/general_list_padding"
                 android:paddingBottom="97dp"
                 android:clipToPadding="false"
                 android:overScrollMode="never"
             />
+            </RelativeLayout>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

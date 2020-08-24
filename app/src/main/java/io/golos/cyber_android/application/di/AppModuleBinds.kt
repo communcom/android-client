@@ -249,6 +249,10 @@ abstract class AppModuleBinds {
     abstract fun provideEmbedRepository(repository: EmbedRepositoryImpl): EmbedRepository
 
     @Binds
+    @ApplicationScope
+    abstract fun provideDiscoveryRepository(repository:DiscoveryRepositoryImpl):DiscoveryRepository
+
+    @Binds
     abstract fun provideSettingsRepository(repository: SettingsRepositoryImpl): SettingsRepository
 
     @Binds

@@ -22,7 +22,8 @@ class CommunitiesListFragmentTab : CommunitiesListFragment() {
     override fun inject(key: String) = App
         .injections.get<CommunitiesListFragmentTabComponent>(
             key,
-            false,                                                  // show back button
+            false,// show back button
+            true,//show toolbar
             arguments!!.getParcelable<UserIdDomain>(USER_ID),       // user id
             true)                                                   // show all posts
         .inject(this)

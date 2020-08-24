@@ -16,6 +16,7 @@ import io.golos.cyber_android.ui.screens.ftue_finish.di.FtueFinishFragmentCompon
 import io.golos.cyber_android.ui.screens.ftue_search_community.di.FtueSearchCommunityFragmentComponent
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.di.InAppAuthActivityComponent
 import io.golos.cyber_android.ui.screens.app_start.welcome.activity.di.WelcomeActivityComponent
+import io.golos.cyber_android.ui.screens.discovery.di.DiscoveryFragmentComponent
 import io.golos.cyber_android.ui.screens.main_activity.di.MainActivityComponent
 import io.golos.cyber_android.ui.screens.notifications.di.NotificationsFragmentComponent
 import io.golos.cyber_android.ui.screens.post_edit.activity.di.EditorPageActivityComponent
@@ -68,6 +69,6 @@ interface UIComponent {
     val profileCommentsFragmentComponent: ProfileCommentsFragmentComponent.Builder
     val editorPageActivity: EditorPageActivityComponent.Builder
     val notificationsFragmentComponent: NotificationsFragmentComponent.Builder
-
+    val discoveryFragmentComponent:DiscoveryFragmentComponent.Builder
     fun inject(pinDigit: PinDigit)
 }

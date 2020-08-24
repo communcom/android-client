@@ -51,7 +51,7 @@ constructor(
     private val _items = MutableLiveData<List<VersionedListItem>>(listOf())
     override val items: LiveData<List<VersionedListItem>> get() = _items
 
-    override val pageSize = GlobalConstants.PAGE_SIZE
+    override var pageSize = GlobalConstants.PAGE_SIZE
 
     override suspend fun loadPage() {
         when(currentLoadingState) {

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="io.golos.cyber_android.ui.screens.discovery.view_model.DiscoveryViewModel" />
+
+        <variable
+            name="isSearchStarted"
+            type="Boolean" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/white">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/searchField"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16sp"
+            android:layout_marginTop="@dimen/padding_toolbar_buttons_20dp"
+            android:layout_marginEnd="16sp"
+            android:background="@drawable/bcg_common_white_round_rect"
+            android:drawableStart="@drawable/ic_search_small"
+            android:drawablePadding="@dimen/select_community_dialog_drawable_padding"
+            android:hint="@string/hint_search"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:lines="1"
+            android:maxLength="16"
+            android:maxLines="1"
+            android:layout_toStartOf="@id/cancel_text"
+            android:layout_alignParentStart="true"
+            android:padding="10dp"
+            android:layout_alignWithParentIfMissing="true"
+            android:textColor="?attr/black"
+            android:textColorHint="@color/dark_gray"
+            android:textSize="15sp"
+            tools:ignore="Autofill,LabelFor" />
+
+
+        <TextView
+            android:id="@+id/cancel_text"
+            style="@style/BlueHeaderButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignBottom="@id/searchField"
+            android:layout_alignTop="@id/searchField"
+            android:gravity="center"
+            android:visibility='@{isSearchStarted ? View.VISIBLE: View.GONE,default= gone}'
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="@dimen/padding_toolbar_buttons_20dp"
+            android:layout_marginEnd="16sp"
+            android:layout_alignParentTop="true"
+
+            android:text="@string/cancel" />
+
+
+        <TextView
+            android:id="@+id/show_all_result"
+            style="@style/BlueHeaderButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_below="@id/searchField"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:visibility='@{isSearchStarted ? View.VISIBLE : View.GONE,default=gone}'
+
+            android:text="@string/show_all_results" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_below="@id/show_all_result"
+            android:id="@+id/combined_recycler_view"
+            android:layout_marginTop="10dp"
+            android:visibility='@{isSearchStarted ? View.VISIBLE : View.GONE,default=gone}'
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/discovery_tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/searchField"
+            android:layout_marginStart="16sp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="16sp"
+            android:layout_marginBottom="5dp"
+            android:background="@android:color/transparent"
+            android:clipToPadding="false"
+            android:visibility='@{isSearchStarted ? View.GONE : View.VISIBLE}'
+            app:tabBackground="@android:color/transparent"
+            app:tabGravity="center"
+            app:tabIndicator="@drawable/bcg_toggle_profile_followers"
+            app:tabIndicatorColor="@color/blue"
+            app:tabIndicatorGravity="center"
+            app:tabIndicatorHeight="30dp"
+            app:tabMode="scrollable"
+            app:tabRippleColor="@null"
+            app:tabSelectedTextColor="?attr/white"
+            app:tabTextAppearance="@style/CustomTextAppearance"
+            app:tabTextColor="?attr/black" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/discovery_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility='@{isSearchStarted ? View.GONE : View.VISIBLE}'
+            android:layout_below="@id/discovery_tabs"
+            android:layout_marginBottom="@dimen/discovery_pager_margin_height"
+            android:background="?attr/window_background_light_gray" />
+
+    </RelativeLayout>
+
+</layout>

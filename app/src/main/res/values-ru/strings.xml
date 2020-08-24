@@ -597,4 +597,12 @@
     <string name="do_you_really_want_to_unhide">Вы действительно хотите показать все посты %1$s ?</string>
     <string name="you_have_hidden_community">Вы скрыли %1$s.\nМы сожалеем, что у вас был этот опыт.</string>
     <string name="you_have_unhidden_community">Вы показали %1$s.</string>
+
+    <string name="discovery_all">Все</string>
+    <string name="discovery_posts">Посты</string>
+
+    <string name="show_all_results">Показать все результаты</string>
+    <string name="no_results">Нет результатов</string>
+    <string name="try_to_look_for_something_else">Попробуйте поискать что-нибудь другое</string>
+
 </resources>
