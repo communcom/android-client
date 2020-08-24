@@ -117,8 +117,8 @@ constructor(
     override fun onUpVoteClicked(contentId: ContentIdDomain) {
         launch {
             try {
-                _postsListState.value = updateUpVoteCountOfVotes(_postsListState.value, contentId)
                 model.upVote(contentId.communityId, contentId.userId, contentId.permlink)
+                _postsListState.value = updateUpVoteCountOfVotes(_postsListState.value, contentId)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
                 _command.value = ShowMessageTextCommand(e.getMessage(appContext))
@@ -129,8 +129,8 @@ constructor(
     override fun onDownVoteClicked(contentId: ContentIdDomain) {
         launch {
             try {
-                _postsListState.value = updateDownVoteCountOfVotes(_postsListState.value, contentId)
                 model.downVote(contentId.communityId, contentId.userId, contentId.permlink)
+                _postsListState.value = updateDownVoteCountOfVotes(_postsListState.value, contentId)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
                 _command.value = ShowMessageTextCommand(e.getMessage(appContext))
