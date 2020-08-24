@@ -1,28 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:background="?attr/black"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.shared.ImageViewerActivity">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/black"
+    tools:context=".ui.shared.ImageViewerActivity">
 
     <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/image"
-        android:src="@drawable/img_example_media"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:src="@drawable/img_example_media" />
 
     <ProgressBar
-            android:id="@+id/progress"
-            android:visibility="visible"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/margin_default"
-            android:layout_marginBottom="@dimen/margin_default"
-            android:indeterminateOnly="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-    />
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/margin_default"
+        android:layout_marginBottom="@dimen/margin_default"
+        android:indeterminateOnly="true"
+        android:visibility="visible" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/post_viewer_header_height"
+        android:gravity="center_vertical">
+
+        <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+            android:id="@+id/backButton"
+            android:layout_width="@dimen/post_viewer_header_tool_button_size"
+            android:layout_height="@dimen/post_viewer_header_tool_button_size"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="@dimen/post_viewer_header_horizontal_margin"
+            android:background="@null"
+            app:imageButton_icon="@drawable/ic_left_arrow"
+            android:elevation="0.1dp"
+            app:imageButton_iconInscribeSize="@dimen/post_viewer_header_tool_button_icon_size"
+            app:imageButton_tint="?attr/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+            android:id="@+id/shareButton"
+            android:layout_width="@dimen/post_viewer_header_tool_button_size"
+            android:elevation="0.1dp"
+            android:layout_height="@dimen/post_viewer_header_tool_button_size"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            android:visibility="gone"
+            android:background="@null"
+            app:imageButton_icon="@drawable/ic_share"
+            app:imageButton_iconInscribeSize="@dimen/post_viewer_header_tool_button_icon_size"
+            app:imageButton_tint="?attr/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </RelativeLayout>
 
 </FrameLayout>
