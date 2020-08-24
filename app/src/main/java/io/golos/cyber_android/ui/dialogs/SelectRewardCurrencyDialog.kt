@@ -40,7 +40,7 @@ class SelectRewardCurrencyDialog(
         rewardCurrencyButton.setOnClickListener { switchCurrency() }
 
         learnMoreButton.setOnClickListener {
-            this@SelectRewardCurrencyDialog.context!!.openLinkView(Uri.parse(BuildConfig.POINTS_URI))
+            this@SelectRewardCurrencyDialog.context?.openLinkView(Uri.parse(BuildConfig.POINTS_URI))
         }
     }
 

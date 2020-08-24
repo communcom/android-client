@@ -390,6 +390,7 @@ open class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewMo
                 val myFeedAdapter = rvPosts.adapter as MyFeedAdapter
                 myFeedAdapter.updateUser(
                     it,
+                    onUserWithoutImageClick = { viewModel.onCreatePostClicked(false) },
                     onCreatePostClick = { viewModel.onCreatePostClicked() },
                     onUserClick = { viewModel.onCurrentUserClicked() })
             }

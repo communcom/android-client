@@ -30,7 +30,7 @@ class PostRewardBottomSheetDialog(
 
         mainButton.setOnClickListener {
             closeOnItemSelected(Result.Ok)
-            this@PostRewardBottomSheetDialog.context!!.openLinkView(Uri.parse(BuildConfig.POINTS_URI))
+            this@PostRewardBottomSheetDialog.context?.openLinkView(Uri.parse(BuildConfig.POINTS_URI))
         }
     }
 }
