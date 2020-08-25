@@ -17,7 +17,8 @@ fun GetCommunitiesItem.mapToCommunityDomain(): CommunityDomain =
         coverUrl = coverUrl,
         subscribersCount = subscribersCount,
         postsCount = postsCount ?: 0,
-        isSubscribed = isSubscribed ?: false
+        isSubscribed = isSubscribed ?: false,
+        isInBlacklist = isInBlacklist ?: false
     )
 
 fun GetCommunitiesItem.mapToCommunityPageDomain(leaders: List<CyberName>): CommunityPageDomain =

@@ -4,6 +4,13 @@ import android.os.Bundle
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentTabComponent
 import io.golos.domain.dto.UserIdDomain
+import io.golos.cyber_android.ui.screens.communities_list.view.view_commands.ShowUnblockDialogCommand
+import io.golos.cyber_android.ui.shared.Tags.MENU
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
+import io.golos.domain.dto.CommunityIdDomain
+import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
+import io.golos.cyber_android.R
+import android.content.Intent
 
 /**
  * Communities list for tabs on [MainActivity]
@@ -29,4 +36,26 @@ class CommunitiesListFragmentTab : CommunitiesListFragment() {
         .inject(this)
 
     override fun releaseInjection(key: String) = App.injections.release<CommunitiesListFragmentTabComponent>(key)
+
+    override fun processViewCommand(command: ViewCommand) {
+        super.processViewCommand(command)
+        if(command is ShowUnblockDialogCommand) showUnblockAndFollowDialog(command.communityId)
+    }
+
+    private fun showUnblockAndFollowDialog(communityId: CommunityIdDomain) {
+        currentCommunity = communityId
+        ConfirmationDialog.newInstance(R.string.this_community_is_in_your_blacklist,this@CommunitiesListFragmentTab)
+            .show(requireFragmentManager(),MENU)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when(requestCode) {
+            ConfirmationDialog.REQUEST -> {
+                if (resultCode == ConfirmationDialog.RESULT_OK) {
+                    viewModel.joinWithUnblock(currentCommunity)
+                }
+            }
+        }
+    }
 }

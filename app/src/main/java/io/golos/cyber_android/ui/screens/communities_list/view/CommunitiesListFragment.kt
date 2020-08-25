@@ -33,6 +33,7 @@ open class CommunitiesListFragment : FragmentBaseMVVM<FragmentCommunitiesBinding
         }
     }
 
+    protected open lateinit var currentCommunity:CommunityIdDomain
     private lateinit var communitiesListAdapter: CommunityListAdapter
     private lateinit var communitiesListLayoutManager: LinearLayoutManager
 

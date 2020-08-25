@@ -66,7 +66,8 @@ constructor(
             isLastItem = false,
             community = this,
             isInPositiveState = true,
-            isProgress = false
+            isProgress = false,
+            isInBlockList = isInBlacklist
         )
 
     override fun markAsFirst(item: VersionedListItem): VersionedListItem = (item as CommunityListItem).copy(isFirstItem = true)

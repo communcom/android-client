@@ -12,7 +12,6 @@ import io.golos.domain.GlobalConstants
 import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.extensions.mapSuccess
-import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.use_cases.community.CommunitiesRepository
 import io.golos.utils.id.IdUtil
@@ -69,7 +68,8 @@ constructor(
                 subscribersCount = 0,
                 postsCount = 0,
                 isSubscribed = false
-            )
+            ),
+            isInBlockList = false
         )
     }
 

@@ -21,4 +21,6 @@ interface CommunitiesListModel: ModelBase {
      * @return true in case of success
      */
     suspend fun subscribeUnsubscribe(communityId: CommunityIdDomain): ErrorInfoDomain?
+
+    suspend fun unblockCommunity(communityId: CommunityIdDomain)
 }

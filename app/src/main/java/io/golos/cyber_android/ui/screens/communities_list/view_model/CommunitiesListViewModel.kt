@@ -18,6 +18,10 @@ import io.golos.domain.dto.CommunityIdDomain
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Named
+import io.golos.cyber_android.application.App
+import io.golos.cyber_android.ui.screens.communities_list.view.view_commands.ShowUnblockDialogCommand
+import io.golos.cyber_android.ui.shared.extensions.getMessage
+import java.lang.Exception
 
 class CommunitiesListViewModel
 @Inject
@@ -65,10 +69,25 @@ constructor(
         }
     }
 
-    override fun onJoinClick(communityId: CommunityIdDomain) {
+    override fun onJoinClick(communityId: CommunityIdDomain, isInBlockList:Boolean) {
         launch {
-            model.subscribeUnsubscribe(communityId)?.let {
-                _command.value = ShowMessageTextCommand(it.message)
+            if(isInBlockList){
+                _command.postValue(ShowUnblockDialogCommand(communityId))
+            }else{
+                model.subscribeUnsubscribe(communityId)?.let {
+                    _command.value = ShowMessageTextCommand(it.message)
+                }
+            }
+        }
+    }
+
+    fun joinWithUnblock(communityId: CommunityIdDomain){
+        launch {
+            try {
+                model.unblockCommunity(communityId)
+                model.subscribeUnsubscribe(communityId)
+            }catch (e:Exception){
+                _command.postValue(ShowMessageTextCommand(e.getMessage(App.mInstance.applicationContext)))
             }
         }
     }

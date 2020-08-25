@@ -8,5 +8,6 @@ data class CommunityDomain (
     val coverUrl: String?,
     val subscribersCount: Int,
     val postsCount: Int,
-    val isSubscribed: Boolean
+    val isSubscribed: Boolean,
+    val isInBlacklist:Boolean = false
 )
