@@ -326,8 +326,8 @@ class ProfileCommentItem(
                 }
             } else{
                 itemView.voting.upvoteButton.isActivated = true
-                itemView.voting.setOnUpVoteButtonClickListener(null)
-                itemView.voting.downvoteButton.isEnabled = false
+                itemView.voting.setOnUpVoteButtonClickListener{ listItemEventsProcessor.onForbiddenClick() }
+                itemView.voting.setOnDownVoteButtonClickListener { listItemEventsProcessor.onForbiddenClick() }
             }
 
         }

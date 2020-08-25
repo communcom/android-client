@@ -10,6 +10,11 @@ import android.widget.Toast
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.keyboard.KeyboardUtils
 import javax.inject.Inject
+import android.content.res.Configuration
+import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
+import io.golos.cyber_android.application.App
+import io.golos.domain.GlobalConstants
 
 class UIHelperImpl
 @Inject
@@ -24,10 +29,48 @@ constructor(
     @SuppressLint("InflateParams")
     override fun showMessage(message: String, isError: Boolean) {
         val inflater = appContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val titleColor: Int
+        val messageColor: Int
 
-        val popupView = inflater.inflate(if(isError) R.layout.popup_toast_error else R.layout.popup_toast_information, null)
+        val popupView = inflater.inflate(if (isError) R.layout.popup_toast_error else R.layout.popup_toast_information, null)
+        popupView.findViewById<LinearLayout>(R.id.container).background = when {
+            App.getInstance().keyValueStorage.getUIMode() == GlobalConstants.UI_MODE_DARK -> {
+                ContextCompat.getDrawable(appContext, R.drawable.bcg_toast_message_dark)
+            }
+            App.getInstance().keyValueStorage.getUIMode() == GlobalConstants.UI_MODE_LIGHT -> {
+                ContextCompat.getDrawable(appContext, R.drawable.bcg_toast_message)
+            }
+            appContext.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES -> {
+                ContextCompat.getDrawable(appContext, R.drawable.bcg_toast_message_dark)
+            }
+            else -> {
+                ContextCompat.getDrawable(appContext, R.drawable.bcg_toast_message)
+            }
+        }
+        when {
+            App.getInstance().keyValueStorage.getUIMode() == GlobalConstants.UI_MODE_DARK -> {
+                titleColor = ContextCompat.getColor(appContext, R.color.white_dark_theme)
+                messageColor = ContextCompat.getColor(appContext, R.color.light_gray_dark_theme)
+            }
+            App.getInstance().keyValueStorage.getUIMode() == GlobalConstants.UI_MODE_LIGHT -> {
+                titleColor = ContextCompat.getColor(appContext, R.color.white)
+                messageColor = ContextCompat.getColor(appContext, R.color.light_gray)
+            }
+            appContext.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES -> {
+                titleColor = ContextCompat.getColor(appContext, R.color.white_dark_theme)
+                messageColor = ContextCompat.getColor(appContext, R.color.light_gray_dark_theme)
+            }
+            else -> {
+                titleColor = ContextCompat.getColor(appContext, R.color.white)
+                messageColor = ContextCompat.getColor(appContext, R.color.light_gray)
+            }
+        }
+
+        val title = popupView.findViewById<TextView>(R.id.title)
+        title.setTextColor(titleColor)
 
         val textView = popupView.findViewById<TextView>(R.id.messageText)
+        textView.setTextColor(messageColor)
         textView.text = message
 
         Toast

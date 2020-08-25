@@ -372,6 +372,7 @@
     <string name="joined">зарег.</string>
     <string name="vote">Оценка</string>
     <string name="voted">Оценил</string>
+    <string name="cant_cancel_vote">Нельзя голосовать за свой пост</string>
     <string name="share_apps_not_found">Приложения, с которыми можно поделиться, не найдены</string>
     <string name="save">Сохранить</string>
     <string name="profile_photos_storage_permissions_denied">Вы не можете выбрать фотографию без разрешения к фотографиям на телефоне</string>

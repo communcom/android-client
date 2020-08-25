@@ -407,6 +407,7 @@
     <string name="joined">Joined</string>
     <string name="vote">Vote</string>
     <string name="voted">Voted</string>
+    <string name="cant_cancel_vote">Can\'t cancel vote your own publications</string>
     <string name="share_apps_not_found">Share apps not found</string>
     <string name="save">Save</string>
 

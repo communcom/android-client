@@ -41,4 +41,6 @@ interface PostVotesListener {
     fun onDonateClick(donate: DonateType, contentId: ContentIdDomain, communityId: CommunityIdDomain, contentAuthor: UserBriefDomain)
 
     fun onDonatePopupClick(donates: DonationsDomain)
+
+    fun onForbiddenClick()
 }

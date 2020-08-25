@@ -188,6 +188,10 @@ constructor(
 
     override fun onCommentDownVoteClick(commentId: ContentIdDomain) = voteForComment(commentId, false)
 
+    override fun onForbiddenClick() {
+        _command.postValue(ShowMessageResCommand(R.string.cant_cancel_vote,true))
+    }
+
     fun onUserInHeaderClick(userId: String) = onUserClicked(userId)
 
     fun onPostMenuClick() {

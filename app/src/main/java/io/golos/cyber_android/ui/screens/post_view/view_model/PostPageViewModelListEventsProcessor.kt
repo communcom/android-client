@@ -31,6 +31,8 @@ interface PostCommentVoteListener : BasePostBlockWidgetListener {
     fun onCommentUpVoteClick(commentId: ContentIdDomain)
 
     fun onCommentDownVoteClick(commentId: ContentIdDomain)
+
+    fun onForbiddenClick()
 }
 
 interface PostVoteListener : BasePostBlockWidgetListener {
