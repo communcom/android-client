@@ -12,4 +12,8 @@ interface BlackListListItemEventsProcessor {
     fun onHideUserClick(userId: UserIdDomain)
 
     fun onHideCommunityClick(communityId: CommunityIdDomain)
+
+    fun onCommunityClick(communityId: CommunityIdDomain)
+
+    fun onUserCLick(userId: UserIdDomain)
 }

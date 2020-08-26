@@ -36,6 +36,8 @@ class CommunityListItemViewHolder(
             itemView.avatar.loadCommunity(community.avatarUrl)
 
             itemView.itemsSeparator.visibility = if(listItem.isLastItem) View.GONE else View.VISIBLE
+
+            itemView.setOnClickListener { listItemEventsProcessor.onCommunityClick(listItem.community.communityId) }
         }
     }
 

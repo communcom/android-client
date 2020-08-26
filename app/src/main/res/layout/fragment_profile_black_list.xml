@@ -1,182 +1,168 @@
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="viewModel" type="io.golos.cyber_android.ui.screens.profile_black_list.view_model.ProfileBlackListViewModel" />
+
+        <variable
+            name="viewModel"
+            type="io.golos.cyber_android.ui.screens.profile_black_list.view_model.ProfileBlackListViewModel" />
     </data>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="match_parent">
 
-        android:id="@+id/root"
-        tools:context=".ui.screens.profile_black_list.view.ProfileBlackListFragment"
-        android:background="?attr/white">
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/actionBar"
-            app:elevation="0dp"
-            android:focusableInTouchMode="true"
-            android:focusable="true"
-            android:clickable="true"
-            android:layout_height="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/black_list_action_bar"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/white"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_scrollFlags="scroll|enterAlways|snap">
 
-            android:theme="@style/AppTheme.AppBarOverlay">
+            <TextView
+                android:id="@+id/titleText"
+                style="@style/White.Header.TextStyle"
+                android:layout_width="wrap_content"
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/white"
-                app:layout_scrollFlags="scroll|enterAlways|snap">
 
-                <TextView
-                    android:id="@+id/titleText"
-                    style="@style/White.Header.TextStyle"
-                    android:layout_width="wrap_content"
+                android:layout_marginTop="@dimen/profile_followers_title_margin"
 
-                    android:layout_height="wrap_content"
+                android:text="@string/blacklist"
+                app:layout_constraintEnd_toEndOf="parent"
 
-                    android:layout_marginTop="@dimen/profile_followers_title_margin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Blacklist" />
 
-                    android:text="@string/blacklist"
-                    tools:text="Blacklist"
+            <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+                android:id="@+id/backButton"
 
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                android:layout_width="@dimen/size_image_button"
+                android:layout_height="@dimen/size_image_button"
 
-                <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
-                    android:id="@+id/backButton"
+                android:background="@null"
+                android:onClick="@{() -> viewModel.onBackClick()}"
+                app:imageButton_icon="@drawable/ic_back"
+                app:imageButton_iconInscribeSize="@dimen/profile_back_button_icon_size"
 
-                    android:layout_width="@dimen/size_image_button"
-                    android:layout_height="@dimen/size_image_button"
+                app:imageButton_tint="?attr/black"
+                app:layout_constraintBottom_toBottomOf="@+id/titleText"
+                app:layout_constraintStart_toStartOf="parent"
 
-                    android:background="@null"
-                    app:imageButton_icon="@drawable/ic_back"
-                    app:imageButton_iconInscribeSize="@dimen/profile_back_button_icon_size"
-                    app:imageButton_tint="?attr/black"
+                app:layout_constraintTop_toTopOf="@+id/titleText" />
 
-                    app:layout_constraintBottom_toBottomOf="@+id/titleText"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/titleText"
+            <ToggleButton
+                android:id="@+id/toggleUsers"
+                style="@style/BlueWhite.RoundCorners.Toggle"
+                android:layout_width="wrap_content"
 
-                    android:onClick="@{() -> viewModel.onBackClick()}"
-                    />
-                
-                <ToggleButton
-                    android:id="@+id/toggleUsers"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/profile_followers_filters_button_height"
+                android:layout_height="@dimen/profile_followers_filters_button_height"
+                android:layout_marginStart="@dimen/profile_blacklist_filters_margin_horizontal"
 
-                    android:textOff="@string/users"
-                    android:textOn="@string/users"
+                android:layout_marginTop="@dimen/profile_followers_filters_button_margin"
+                android:layout_marginBottom="@dimen/profile_followers_filters_button_margin"
+                android:paddingStart="@dimen/profile_blacklist_filters_padding_horizontal"
+                android:paddingEnd="@dimen/profile_blacklist_filters_padding_horizontal"
+                android:tag="USERS"
 
-                    android:layout_marginTop="@dimen/profile_followers_filters_button_margin"
-                    android:layout_marginBottom="@dimen/profile_followers_filters_button_margin"
-                    android:layout_marginStart="@dimen/profile_blacklist_filters_margin_horizontal"
-                    android:paddingStart="@dimen/profile_blacklist_filters_padding_horizontal"
-                    android:paddingEnd="@dimen/profile_blacklist_filters_padding_horizontal"
+                android:textOff="@string/users"
 
-                    style="@style/BlueWhite.RoundCorners.Toggle"
+                android:textOn="@string/users"
+                app:filterBlackList="@{viewModel.filter}"
+                app:layout_constraintBottom_toTopOf="@+id/bottomBorder"
 
-                    app:layout_constraintTop_toBottomOf="@+id/backButton"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toTopOf="@+id/bottomBorder"
+                app:layout_constraintStart_toStartOf="parent"
 
-                    tools:checked="true"
+                app:layout_constraintTop_toBottomOf="@+id/backButton"
+                tools:checked="true" />
 
-                    android:tag="USERS"
-                    app:filterBlackList="@{viewModel.filter}"
-                    />
+            <ToggleButton
+                android:id="@+id/toggleCommunities"
 
-                <ToggleButton
-                    android:id="@+id/toggleCommunities"
- 
-                    style="@style/BlueWhite.RoundCorners.Toggle"
- 
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/profile_followers_filters_button_height"
+                style="@style/BlueWhite.RoundCorners.Toggle"
 
-                    android:layout_marginEnd="@dimen/profile_blacklist_filters_margin_horizontal"
-                    android:paddingStart="@dimen/profile_blacklist_filters_padding_horizontal"
-                    android:paddingEnd="@dimen/profile_blacklist_filters_padding_horizontal"
- 
-                    android:textOff="@string/communities"
-                    android:textOn="@string/communities"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/profile_followers_filters_button_height"
 
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/toggleUsers"
-                    app:layout_constraintBottom_toBottomOf="@+id/toggleUsers"
+                android:layout_marginEnd="@dimen/profile_blacklist_filters_margin_horizontal"
+                android:paddingStart="@dimen/profile_blacklist_filters_padding_horizontal"
+                android:paddingEnd="@dimen/profile_blacklist_filters_padding_horizontal"
 
-                    android:tag="COMMUNITIES"
-                    app:filterBlackList="@{viewModel.filter}"
-                    />
+                android:tag="COMMUNITIES"
+                android:textOff="@string/communities"
 
-                <View
-                    android:id="@+id/bottomBorder"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/stroke_thin"
+                android:textOn="@string/communities"
+                app:filterBlackList="@{viewModel.filter}"
+                app:layout_constraintBottom_toBottomOf="@+id/toggleUsers"
 
-                    android:background="?attr/grey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/toggleUsers" />
 
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.material.appbar.AppBarLayout>
+            <View
+                android:id="@+id/bottomBorder"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/stroke_thin"
+
+                android:background="?attr/grey"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:background="?attr/window_background_light_gray"
+
+            android:overScrollMode="never"
+            android:paddingLeft="@dimen/general_list_padding"
 
             android:paddingTop="@dimen/general_list_padding_top"
-            android:paddingLeft="@dimen/general_list_padding"
             android:paddingRight="@dimen/general_list_padding"
-
+            android:paddingBottom="@dimen/general_list_padding_top"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:overScrollMode="never"
 
-            android:background="?attr/window_background_light_gray">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/black_list_action_bar">
 
             <io.golos.cyber_android.ui.screens.profile_black_list.view.widgets.UsersListWidget
                 android:id="@+id/usersList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
-                tools:layout_height="200dp"
-
-                tools:visibility="visible"
+                android:visibility="@{viewModel.usersVisibility}"
 
                 app:listItems="@{viewModel.usersItems}"
-                android:visibility="@{viewModel.usersVisibility}"
-                />
+
+                tools:layout_height="200dp"
+                tools:visibility="visible" />
 
             <io.golos.cyber_android.ui.screens.profile_black_list.view.widgets.CommunitiesListWidget
                 android:id="@+id/communitiesList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
-                tools:visibility="invisible"
+                android:visibility="@{viewModel.communitiesVisibility}"
 
                 app:listItems="@{viewModel.communitiesItems}"
-                android:visibility="@{viewModel.communitiesVisibility}"
-                />
+                tools:visibility="invisible" />
 
             <io.golos.cyber_android.ui.shared.widgets.lists.NoDataStub
                 android:id="@+id/noDataStub"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/profile_followers_no_data_height"
 
-                tools:visibility = "visible"
                 android:visibility="@{viewModel.noDataStubVisibility}"
+                app:noDataExplanation="@{viewModel.noDataExplanationText}"
 
                 app:noDataTitle="@{viewModel.noDataStubText}"
-                app:noDataExplanation="@{viewModel.noDataExplanationText}"
-                />
+                tools:visibility="visible" />
+
         </FrameLayout>
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

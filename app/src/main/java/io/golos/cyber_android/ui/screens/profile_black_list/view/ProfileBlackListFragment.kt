@@ -13,6 +13,12 @@ import io.golos.cyber_android.ui.screens.profile_black_list.di.ProfileBlackListF
 import io.golos.cyber_android.ui.screens.profile_black_list.view_model.ProfileBlackListViewModel
 import io.golos.domain.GlobalConstants
 import kotlinx.android.synthetic.main.fragment_profile_black_list.*
+import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
+import io.golos.cyber_android.ui.screens.profile.view.ProfileExternalUserFragment
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToCommunityPageCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToUserProfileCommand
+import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.UserIdDomain
 
 class ProfileBlackListFragment : FragmentBaseMVVM<FragmentProfileBlackListBinding, ProfileBlackListViewModel>() {
     companion object {
@@ -53,6 +59,21 @@ class ProfileBlackListFragment : FragmentBaseMVVM<FragmentProfileBlackListBindin
     override fun processViewCommand(command: ViewCommand) {
         when(command) {
             is NavigateBackwardCommand -> requireActivity().onBackPressed()
+            is NavigateToCommunityPageCommand -> openCommunityPage(command.communityId)
+            is NavigateToUserProfileCommand -> openUserProfile(command.userId)
         }
     }
+
+    private fun openUserProfile(userId: UserIdDomain) {
+        getDashboardFragment(this)?.navigateToFragment(
+            ProfileExternalUserFragment.newInstance(userId)
+        )
+    }
+
+    private fun openCommunityPage(communityId: CommunityIdDomain) {
+        getDashboardFragment(this)?.navigateToFragment(
+            CommunityPageFragment.newInstance(communityId)
+        )
+    }
+
 }

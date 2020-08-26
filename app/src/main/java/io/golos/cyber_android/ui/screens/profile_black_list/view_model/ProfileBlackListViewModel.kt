@@ -5,13 +5,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dto.BlackListFilter
 import io.golos.cyber_android.ui.screens.profile_black_list.model.ProfileBlackListModel
 import io.golos.cyber_android.ui.screens.profile_black_list.view.list.BlackListListItemEventsProcessor
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageTextCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserIdDomain
@@ -115,6 +113,14 @@ constructor(
                 _command.value = ShowMessageTextCommand(it.message)
             }
         }
+    }
+
+    override fun onCommunityClick(communityId: CommunityIdDomain) {
+        _command.value = NavigateToCommunityPageCommand(communityId)
+    }
+
+    override fun onUserCLick(userId: UserIdDomain) {
+        _command.value = NavigateToUserProfileCommand(userId)
     }
 
     fun onBackClick() {
