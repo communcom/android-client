@@ -18,6 +18,7 @@ import io.golos.utils.id.IdUtil
 import timber.log.Timber
 import zerobranch.androidremotedebugger.AndroidRemoteDebugger
 import javax.inject.Inject
+import io.golos.cyber_android.application.shared.logger.ClickableTree
 
 class App : Application() {
     @Suppress("PropertyName")
@@ -55,6 +56,7 @@ class App : Application() {
         injections.get<AppComponent>(key).inject(this)
 
         Timber.plant(timberTree)
+        Timber.plant(ClickableTree())
         Timber.tag(LogTags.NAVIGATION).d("The app is started")
 
         Timber.tag("676_BUG").d("The app is started. InstanceId is: $appInstanceId")
