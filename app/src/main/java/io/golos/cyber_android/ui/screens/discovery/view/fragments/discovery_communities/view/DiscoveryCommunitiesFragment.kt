@@ -1,9 +1,7 @@
 package io.golos.cyber_android.ui.screens.discovery.view.fragments.discovery_communities.view
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
