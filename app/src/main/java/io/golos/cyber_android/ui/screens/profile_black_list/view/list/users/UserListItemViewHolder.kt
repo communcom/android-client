@@ -36,6 +36,8 @@ class UserListItemViewHolder(
             itemView.avatar.loadAvatar(user.userAvatar)
 
             itemView.itemsSeparator.visibility = if(listItem.isLastItem) View.GONE else View.VISIBLE
+
+            itemView.setOnClickListener { listItemEventsProcessor.onUserCLick(listItem.user.userId) }
         }
     }
 
