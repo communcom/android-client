@@ -12,7 +12,7 @@
 
 # Uncomment the line if you want fastlane to automatically update itself
 # update_fastlane
-SLACK_API_TOKEN = "xoxp-131522248727-816480031911-825767630514-3dc514ecb1a5e8985cc0a8d55066e67e"
+SLACK_API_TOKEN = "xoxb-131522248727-1311954498439-x7KFAVFfrFo4iAyBg9BWLiRR"
 
 default_platform(:android)
 
