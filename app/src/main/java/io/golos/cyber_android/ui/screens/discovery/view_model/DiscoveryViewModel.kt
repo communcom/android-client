@@ -1,6 +1,5 @@
 package io.golos.cyber_android.ui.screens.discovery.view_model
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.commun4j.services.model.QuickSearchCommunityItem
@@ -10,21 +9,20 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.dto.*
 import io.golos.cyber_android.ui.mappers.mapToPostCommunity
 import io.golos.cyber_android.ui.screens.discovery.model.DiscoveryModel
-import io.golos.cyber_android.ui.screens.profile_communities.dto.CommunityListItem
 import io.golos.cyber_android.ui.screens.profile_followers.dto.FollowersListItem
 import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageTextCommand
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.CommunityListItem
 import io.golos.data.mappers.mapToCommunityDomain
 import io.golos.data.mappers.mapToContentIdDomain
-import io.golos.data.mappers.mapToPostDomain
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.mappers.new_mappers.mapToUserBriefDomain
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.JsonToDtoMapper
-import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ContentBlock
 import io.golos.utils.id.MurmurHash
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -60,14 +58,14 @@ constructor(
         launch {
             try {
                 val searchResult = model.search(searchString)
-//                val posts = (searchResult.posts?.items as? List<QuickSearchPostItem>)?.map {it.mapToPostDomain() }
+                //                val posts = (searchResult.posts?.items as? List<QuickSearchPostItem>)?.map {it.mapToPostDomain() }
                 val communities = (searchResult.communities?.items as? List<QuickSearchCommunityItem>)?.mapIndexed {
                         index, item-> item.mapToCommunity(index,searchResult.communities?.total ?: 0)
                 }
                 val profileItems = (searchResult.profiles?.items as? List<QuickSearchProfileItem>)?.mapIndexed {
                         index, item -> item.mapToProfile(index,searchResult.profiles?.total ?: 0)
                 }
-//                _postsLiveData.postValue(posts)
+                //                _postsLiveData.postValue(posts)
                 _communitiesLiveData.postValue(communities)
                 _usersLiveData.postValue(profileItems)
                 val list = ArrayList<Any>()
@@ -105,9 +103,10 @@ constructor(
             isFirstItem = false,
             version = 0,
             isLastItem = index == lastIndex,
-            isJoined = this.isSubscribed?:false,
             isProgress = false,
-            community = Community(
+            isInPositiveState =this.isSubscribed?:false,
+            isInBlockList = isBlocked?:false,
+            community = CommunityDomain(
                 communityId = CommunityIdDomain(this.communityId),
                 alias = this.alias,
                 avatarUrl = this.avatarUrl,

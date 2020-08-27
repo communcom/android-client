@@ -99,7 +99,7 @@
             android:layout_marginBottom="5dp"
             android:background="@android:color/transparent"
             android:clipToPadding="false"
-            android:visibility='@{isSearchStarted ? View.GONE : View.VISIBLE}'
+            android:visibility='@{isSearchStarted ? View.INVISIBLE : View.VISIBLE}'
             app:tabBackground="@android:color/transparent"
             app:tabGravity="center"
             app:tabIndicator="@drawable/bcg_toggle_profile_followers"
@@ -116,7 +116,7 @@
             android:id="@+id/discovery_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility='@{isSearchStarted ? View.GONE : View.VISIBLE}'
+            android:visibility='@{isSearchStarted ? View.INVISIBLE : View.VISIBLE}'
             android:layout_below="@id/discovery_tabs"
             android:layout_marginBottom="@dimen/discovery_pager_margin_height"
             android:background="?attr/window_background_light_gray" />

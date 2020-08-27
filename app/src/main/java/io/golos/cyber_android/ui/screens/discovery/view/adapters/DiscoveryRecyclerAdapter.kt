@@ -6,9 +6,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import io.golos.cyber_android.R
 import io.golos.cyber_android.databinding.AdapterSearchResultPreviewItemBinding
-import io.golos.cyber_android.ui.screens.profile_communities.dto.CommunityListItem
 import io.golos.cyber_android.ui.screens.profile_followers.dto.FollowersListItem
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.CommunityListItem
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserIdDomain
 
@@ -28,6 +29,7 @@ class DiscoveryRecyclerAdapter(
             Glide.with(holder.mBinding.root.context)
                 .load((currentList[position] as CommunityListItem).community.avatarUrl)
                 .centerCrop()
+                .placeholder(R.drawable.ic_commun)
                 .circleCrop()
                 .into(holder.mBinding.image)
             holder.mBinding.name.text = (currentList[position] as CommunityListItem).community.name
@@ -36,6 +38,7 @@ class DiscoveryRecyclerAdapter(
             Glide.with(holder.mBinding.root.context)
                 .load((currentList[position] as FollowersListItem).follower.userAvatar)
                 .centerCrop()
+                .placeholder(R.drawable.ic_avatar)
                 .circleCrop()
                 .into(holder.mBinding.image)
             holder.mBinding.name.text = (currentList[position] as FollowersListItem).follower.userName
@@ -56,6 +59,6 @@ class DiscoveryRecyclerAdapter(
         }
     }
 
-    inner class ViewHolder(val mBinding: AdapterSearchResultPreviewItemBinding) : RecyclerView.ViewHolder(mBinding.root)
+    class ViewHolder(val mBinding: AdapterSearchResultPreviewItemBinding) : RecyclerView.ViewHolder(mBinding.root)
 
 }
