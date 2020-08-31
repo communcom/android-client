@@ -21,6 +21,10 @@ import io.golos.cyber_android.ui.shared.utils.CommunitiesListDividerDecoration
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserIdDomain
 import kotlinx.android.synthetic.main.fragment_communities.*
+import android.content.Intent
+import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
+import io.golos.cyber_android.ui.screens.communities_list.view.view_commands.ShowUnblockDialogCommand
+import io.golos.cyber_android.ui.shared.Tags
 
 open class CommunitiesListFragment : FragmentBaseMVVM<FragmentCommunitiesBinding, CommunitiesListViewModel>() {
     companion object {
@@ -79,6 +83,24 @@ open class CommunitiesListFragment : FragmentBaseMVVM<FragmentCommunitiesBinding
         when (command) {
             is NavigateToCommunityPageCommand -> moveToCommunityPage(command.communityId)
             is NavigateBackwardCommand -> requireActivity().onBackPressed()
+            is ShowUnblockDialogCommand -> showUnblockAndFollowDialog(command.communityId)
+        }
+    }
+
+    open fun showUnblockAndFollowDialog(communityId: CommunityIdDomain) {
+        currentCommunity = communityId
+        ConfirmationDialog.newInstance(R.string.this_community_is_in_your_blacklist,this@CommunitiesListFragment)
+            .show(requireFragmentManager(), Tags.MENU)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when(requestCode) {
+            ConfirmationDialog.REQUEST -> {
+                if (resultCode == ConfirmationDialog.RESULT_OK) {
+                    viewModel.joinWithUnblock(currentCommunity)
+                }
+            }
         }
     }
 
