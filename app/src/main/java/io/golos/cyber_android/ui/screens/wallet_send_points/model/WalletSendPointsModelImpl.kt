@@ -20,6 +20,7 @@ import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
+import kotlin.collections.ArrayList
 
 @Suppress("LeakingThis")
 open class WalletSendPointsModelImpl
@@ -43,11 +44,17 @@ constructor(
 
     init {
         // Move Commun community to the first
-        balance =
-            mutableListOf(balance.first { it.communityId.code == GlobalConstants.COMMUN_CODE }.copy(communityName = communName)).also {
-                it.addAll(balance.filter { it1->
-                    it1.points > 0 })
+        val allBalances = ArrayList<WalletCommunityBalanceRecordDomain>()
+        allBalances.addAll(balance)
+        allBalances.forEachIndexed { index, item ->
+            if(item.communityId.code == GlobalConstants.COMMUN_CODE){
+                val tmp = allBalances[0]
+                allBalances[0] = item
+                allBalances[index] = tmp
+                return@forEachIndexed
             }
+        }
+        balance = allBalances.filter { it.points > 0 }
     }
 
     override var currentBalanceRecord: WalletCommunityBalanceRecordDomain = initCurrentBalanceRecord()
