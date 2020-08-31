@@ -160,6 +160,7 @@ constructor(
         launch {
             try {
                 _command.value = SetLoadingVisibilityCommand(true)
+                model.unsubscribeToCommunity(communityPageMutableLiveData.value!!.communityId)
                 model.blockCommunity(communityPageMutableLiveData.value!!.communityId)
 
                 val communityPage = communityPageMutableLiveData.value

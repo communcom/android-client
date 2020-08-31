@@ -50,6 +50,7 @@ class DiscoveryFragmentTab : FragmentBaseMVVM<FragmentDiscoveryBinding, Discover
         binding.apply {
             showAllResult.setOnClickListener { binding.isSearchStarted = false }
             discoveryPager.adapter = DiscoveryPagerAdapter(childFragmentManager, lifecycle, items)
+            discoveryPager.offscreenPageLimit = items.size
             cancelText.setOnClickListener { binding.searchField.setText("") }
         }
         observeToLiveDatas()

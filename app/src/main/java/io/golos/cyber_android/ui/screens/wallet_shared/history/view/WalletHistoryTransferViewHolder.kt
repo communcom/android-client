@@ -18,6 +18,7 @@ import io.golos.cyber_android.ui.shared.glide.load
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import kotlinx.android.synthetic.main.view_wallet_history_transfer_list_item.view.*
+import io.golos.domain.GlobalConstants
 
 class WalletHistoryTransferViewHolder(
     private val parentView: ViewGroup
@@ -65,7 +66,14 @@ class WalletHistoryTransferViewHolder(
                 WalletHistoryTransferDirection.RECEIVE -> "+"
             }
         }
-        itemView.amount.text = "$amountSign ${CurrencyFormatter.formatShort(context, listItem.coinsQuantity)} ${listItem.coinsFullName}"
+
+        itemView.amount.text = "$amountSign ${CurrencyFormatter.formatShort(context, listItem.coinsQuantity)} ${
+            if(listItem.mainIcon == WalletHistoryConstants.ICON_COMMUN){
+                GlobalConstants.COMMUN_CODE
+            }else{
+                listItem.coinsFullName
+            }
+        }"
 
         itemView.smallIcon.visibility = if(listItem.isSmallIconVisible) View.VISIBLE else View.GONE
 

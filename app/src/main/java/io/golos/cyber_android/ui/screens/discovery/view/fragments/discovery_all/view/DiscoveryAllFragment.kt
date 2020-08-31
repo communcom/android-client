@@ -46,7 +46,7 @@ class DiscoveryAllFragment : FragmentBaseMVVM<FragmentDiscoveryAllBinding, Disco
         val pFragment = parentFragment
         if (pFragment is DiscoveryFragmentTab) {
             binding.vAllCommunities.setOnClickListener { pFragment.switchTab(1) }
-            binding.vAllUsers.setOnClickListener { pFragment.switchTab(3) }
+            binding.vAllUsers.setOnClickListener { pFragment.switchTab(2) }
             pFragment.getUsersLiveData().observe(viewLifecycleOwner, Observer {
                 /*discoveryUsersForFiveItemsFragment.updateList(it)*/
             })
