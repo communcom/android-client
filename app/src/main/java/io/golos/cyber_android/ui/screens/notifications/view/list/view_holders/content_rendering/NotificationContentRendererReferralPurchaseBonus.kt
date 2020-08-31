@@ -12,6 +12,7 @@ import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsV
 import io.golos.utils.format.CurrencyFormatter
 import io.golos.utils.helpers.appendSpannedText
 import io.golos.utils.helpers.capitalize
+import androidx.appcompat.app.AppCompatDelegate
 
 class NotificationContentRendererReferralPurchaseBonus(
     viewDescription: NotificationView
@@ -42,7 +43,9 @@ class NotificationContentRendererReferralPurchaseBonus(
         val context = viewDescription.root.context
         val messageStringBuilder = SpannableStringBuilder()
 
-        val colorMessage = R.color.black
+        val colorMessage = if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+            R.color.black_dark_theme
+        else R.color.black
         val colorUser = R.color.blue
 
         messageStringBuilder.appendSpannedText(context.resources.getString(R.string.referral_purchase1), createColorSpan(context, colorMessage))

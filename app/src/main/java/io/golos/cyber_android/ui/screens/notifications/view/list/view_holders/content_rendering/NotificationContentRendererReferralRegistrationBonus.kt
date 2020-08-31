@@ -43,10 +43,9 @@ class NotificationContentRendererReferralRegistrationBonus(
         val context = viewDescription.root.context
         val messageStringBuilder = SpannableStringBuilder()
 
-        val colorMessage =if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+        val colorMessage = if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
             R.color.black_dark_theme
-        else
-            R.color.black
+        else R.color.black
         val colorUser = R.color.blue
 
         messageStringBuilder.appendSpannedText(context.resources.getString(R.string.referral_registration), createColorSpan(context, colorMessage))
