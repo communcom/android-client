@@ -442,7 +442,7 @@
     <string name="liked_your_post">лайкнул Ваш пост</string>
     <string name="liked_your_comment">лайкнул Ваш комментарий</string>
     <string name="up_vote_message_content">: \u0022%1$s\u0022</string>
-    <string name="sent_you">Получено {0} поинтов {1}</string>
+    <string name="sent_you">отправил Вам {0} {1}</string>
     <string name="sent_you_cmn">отправил Вам {0} {1}</string>
     <string name="referral_registration">Получены реферальные бонусы за регистрацию</string>
     <string name="referral_purchase1">Получено</string>
