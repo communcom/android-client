@@ -19,9 +19,9 @@ constructor(
 
     override suspend fun getSearchResult(searchString: String): ExtendedSearchResponse {
         val searchResult = callProxy.call { commun4j.extendedSearch(searchString,
-            ExtendedRequestSearchItem(5,0),
-            ExtendedRequestSearchItem(5,0),
-            ExtendedRequestSearchItem(5,0)
+            ExtendedRequestSearchItem(20,0),
+            ExtendedRequestSearchItem(20,0),
+            ExtendedRequestSearchItem(20,0)
             )
         }
 

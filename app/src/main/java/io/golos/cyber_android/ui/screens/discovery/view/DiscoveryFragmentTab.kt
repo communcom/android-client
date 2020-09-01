@@ -68,7 +68,9 @@ class DiscoveryFragmentTab : FragmentBaseMVVM<FragmentDiscoveryBinding, Discover
             }
             mBinding.combinedRecyclerView.layoutManager = LinearLayoutManager(requireContext())
             mBinding.combinedRecyclerView.adapter = mAdapter
-            mAdapter.submitList(it)
+            it?.let {
+                mAdapter.submitList(it)
+            }
         })
     }
 
@@ -109,6 +111,7 @@ class DiscoveryFragmentTab : FragmentBaseMVVM<FragmentDiscoveryBinding, Discover
                 mBinding.isSearchStarted = isSearchStarted
                 if(!isSearchStarted){
                     mBinding.discoveryPager.adapter = DiscoveryPagerAdapter(childFragmentManager, lifecycle, createViewPagerItems())
+                    viewModel.invalidateSearchResult()
                 }
                 if (!::handler.isInitialized) {
                     handler = Handler()
