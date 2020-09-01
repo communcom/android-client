@@ -1,12 +1,13 @@
 package io.golos.domain.posts_parsing_rendering.json_builder
 
 import io.golos.domain.posts_parsing_rendering.BlockType
+import org.bitcoinj.core.Block
 
-class JsonBuilderImpl private constructor(): JsonBuilder,
+class JsonBuilderImpl private constructor(private val deviceInfo:String): JsonBuilder,
     JsonBuilderItems {
     companion object {
-        fun create(): JsonBuilder =
-            JsonBuilderImpl()
+        fun create(deviceInfo:String): JsonBuilder =
+            JsonBuilderImpl(deviceInfo)
     }
 
     private val output = StringBuilder()
@@ -32,13 +33,13 @@ class JsonBuilderImpl private constructor(): JsonBuilder,
         isLast: Boolean,
         vararg attributes: PostAttribute,
         contentAction: (JsonBuilderBlocks) -> Unit) =
-            putBlock(type, attributes, isLast) {
-                putItem("content", attributes.isEmpty()) {
-                    output.append("[")
-                    contentAction(this)
-                    output.append("]")
-                }
+        putBlock(type, attributes, isLast) {
+            putItem("content", attributes.isEmpty()) {
+                output.append("[")
+                contentAction(this)
+                output.append("]")
             }
+        }
 
     override fun putBlock(
         type: BlockType,
@@ -46,9 +47,9 @@ class JsonBuilderImpl private constructor(): JsonBuilder,
         content: String,
         vararg attributes: PostAttribute
     ) =
-            putBlock(type, attributes, isLast) {
-                putItem("content", content, attributes.isEmpty())
-            }
+        putBlock(type, attributes, isLast) {
+            putItem("content", content, attributes.isEmpty())
+        }
 
     private fun putBlock(
         type: BlockType,
@@ -61,6 +62,13 @@ class JsonBuilderImpl private constructor(): JsonBuilder,
         putItem("id", getNextId())
 
         putItem("type", type.value)
+
+        if(type == BlockType.POST || type == BlockType.DOCUMENT){
+            output.append("")
+            putItem("app",false){
+                output.append(deviceInfo)
+            }
+        }
 
         contentAction()
 

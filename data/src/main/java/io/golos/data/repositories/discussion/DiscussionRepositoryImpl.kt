@@ -30,6 +30,7 @@ import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import timber.log.Timber
 import java.io.File
+import java.lang.Exception
 import java.util.*
 import javax.inject.Inject
 
@@ -128,36 +129,37 @@ constructor(
             val contentIds = posts.map { UserAndPermlinkPair(it.contentId.userId, it.contentId.permlink) }
             val donationQuery = posts.map { DonationPostModel(it.contentId.userId.name, it.contentId.permlink) }
 
-            val rewardsAsync = async {
+            val rewardsAsync = try {
                 callProxy
                     .call { commun4j.getStateBulk(contentIds) }
                     .flatMap { it.value }
                     .map { it.mapToRewardPostDomain() }
+            } catch (e:Exception){
+                null
             }
 
-            val donationsAsync = async {
+            val donationsAsync = try {
                 callProxy.call { commun4j.getDonations(donationQuery) }.items.map { it.mapToDonationsDomain() }
+            } catch (e:Exception){
+                null
             }
+            val rewards = rewardsAsync as? Iterable<RewardPostDomain>
+            val donations = donationsAsync as? Iterable<DonationsDomain>
 
-            awaitAll(rewardsAsync, donationsAsync).let { callResult ->
-                val rewards = callResult[0] as Iterable<RewardPostDomain>
-                val donations = callResult[1] as Iterable<DonationsDomain>
+            withContext(dispatchersProvider.calculationsDispatcher) {
+                posts.items.map { post ->
+                    val userId = post.author.userId.name
 
-                withContext(dispatchersProvider.calculationsDispatcher) {
-                    posts.items.map { post ->
-                        val userId = post.author.userId.name
+                    val reward = rewards?.firstOrNull {
+                        it.contentId.userId.userId == post.contentId.userId.name &&
+                                it.contentId.permlink == post.contentId.permlink }
 
-                        val reward = rewards.firstOrNull {
-                            it.contentId.userId.userId == post.contentId.userId.name &&
-                                    it.contentId.permlink == post.contentId.permlink }
-
-                        val donation = donations.firstOrNull {
-                            it.contentId.userId.userId == post.contentId.userId.name &&
-                                    it.contentId.permlink == post.contentId.permlink
-                        }
-
-                        post.mapToPostDomain(userId == currentUserRepository.userId.userId, reward, donation)
+                    val donation = donations?.firstOrNull {
+                        it.contentId.userId.userId == post.contentId.userId.name &&
+                                it.contentId.permlink == post.contentId.permlink
                     }
+
+                    post.mapToPostDomain(userId == currentUserRepository.userId.userId, reward, donation)
                 }
             }
         } else {
@@ -374,19 +376,23 @@ constructor(
         val contentIds = listOf(UserAndPermlinkPair(post.contentId.userId, post.contentId.permlink))
         val donationQuery = listOf(DonationPostModel(post.contentId.userId.name, post.contentId.permlink))
 
-        val donations = async {
+        val donations = try {
             callProxy.call { commun4j.getDonations(donationQuery) }.items.firstOrNull()?.mapToDonationsDomain()
+        }catch (e:Exception){
+            null
         }
 
-        val rewards = async {
+        val rewards = try {
             callProxy
                 .call { commun4j.getStateBulk(contentIds) }
                 .flatMap { it.value }
                 .map { it.mapToRewardPostDomain() }
                 .firstOrNull()
+        }catch (e:Exception){
+            null
         }
 
-        post.mapToPostDomain(currentUserRepository.userId.userId, rewards.await(), donations.await())
+        post.mapToPostDomain(currentUserRepository.userId.userId, rewards, donations)
     }
 
     override suspend fun sendComment(postIdDomain: ContentIdDomain, jsonBody: String): CommentDomain {
