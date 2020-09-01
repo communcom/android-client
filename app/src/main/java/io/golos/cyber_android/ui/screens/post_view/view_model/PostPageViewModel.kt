@@ -30,6 +30,8 @@ import org.json.JSONArray
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
+import com.squareup.moshi.Moshi
+import io.golos.cyber_android.BuildConfig
 
 class PostPageViewModel
 @Inject
@@ -37,6 +39,7 @@ constructor(
     private val appContext: Context,
     dispatchersProvider: DispatchersProvider,
     model: PostPageModel,
+    private val moshi: Moshi,
     private val currentUserRepository: CurrentUserRepositoryRead,
     private val postContentId: ContentIdDomain,
     private val postUpdateRegistry: PostUpdateRegistry
@@ -347,7 +350,9 @@ constructor(
                         }
                     }
 
-                val contentAsJson = EditorOutputToJsonMapper.mapComment(commentContent.metadata, uploadedImages)
+                val deviceAdapter = moshi.adapter(DeviceInfoEntity::class.java)
+                val contentAsJson = EditorOutputToJsonMapper.mapComment(commentContent.metadata, uploadedImages,
+                    deviceAdapter.toJson(DeviceInfoEntity(version = BuildConfig.VERSION_NAME)))
 
                 when (commentState) {
                     ContentState.NEW -> {

@@ -33,6 +33,8 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
+import com.squareup.moshi.Moshi
+import io.golos.cyber_android.BuildConfig
 
 class ProfileCommentsViewModel
 @Inject
@@ -40,6 +42,7 @@ constructor(
     private val appContext: Context,
     dispatchersProvider: DispatchersProvider,
     model: ProfileCommentsModel,
+    private val moshi: Moshi,
     private val profileUserId: UserIdDomain,
     private val paginator: Paginator.Store<CommentDomain>
 ) : ViewModelBase<ProfileCommentsModel>(dispatchersProvider, model),
@@ -127,9 +130,9 @@ constructor(
                             }
                         }
 
-                    val contentAsJson = EditorOutputToJsonMapper.mapComment(commentContent.metadata, uploadedImages)
-
-
+                    val deviceAdapter = moshi.adapter(DeviceInfoEntity::class.java)
+                    val contentAsJson = EditorOutputToJsonMapper.mapComment(commentContent.metadata, uploadedImages,
+                        deviceAdapter.toJson(DeviceInfoEntity(version = BuildConfig.VERSION_NAME)))
 
                     val commentFromState = getCommentFromStateByContentId(_commentListState.value, contentId)
 

@@ -18,10 +18,6 @@ import io.golos.data.repositories.embed.EmbedRepository
 import io.golos.data.repositories.images_uploading.ImageUploadRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
-import io.golos.domain.dto.CommunityIdDomain
-import io.golos.domain.dto.ContentIdDomain
-import io.golos.domain.dto.PostDomain
-import io.golos.domain.dto.UploadedImageEntity
 import io.golos.domain.dto.block.ContentBlockEntity
 import io.golos.domain.dto.block.ListContentBlockEntity
 import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.EditorOutputToJsonMapper
@@ -38,6 +34,8 @@ import timber.log.Timber
 import java.io.File
 import java.net.URI
 import javax.inject.Inject
+import io.golos.cyber_android.BuildConfig
+import io.golos.domain.dto.*
 
 class EditorPageModelImpl
 @Inject
@@ -115,7 +113,9 @@ constructor(
         communityId: CommunityIdDomain,
         localImagesUri: List<String>
     ): ContentIdDomain {
-        var body = EditorOutputToJsonMapper.mapPost(content, localImagesUri)
+        val deviceInfoAdapter = moshi.adapter(DeviceInfoEntity::class.java)
+        var body = EditorOutputToJsonMapper.mapPost(content, localImagesUri,
+            deviceInfoEntity = deviceInfoAdapter.toJson(DeviceInfoEntity(version = BuildConfig.VERSION_NAME)))
         if (localImagesUri.isNotEmpty()) {
             val adapter = moshi.adapter(ListContentBlockEntity::class.java)
             val listContentBlockEntity = adapter.fromJson(body)
@@ -150,7 +150,9 @@ constructor(
         adultOnly: Boolean,
         localImagesUri: List<String>
     ): ContentIdDomain {
-        var body = EditorOutputToJsonMapper.mapPost(content, localImagesUri)
+        val deviceInfoAdapter = moshi.adapter(DeviceInfoEntity::class.java)
+        var body = EditorOutputToJsonMapper.mapPost(content, localImagesUri,
+            deviceInfoEntity = deviceInfoAdapter.toJson(DeviceInfoEntity(version = BuildConfig.VERSION_NAME)))
         val tags = extractTags(content, adultOnly).toList()
         if (localImagesUri.isNotEmpty()) {
             val adapter = moshi.adapter(ListContentBlockEntity::class.java)

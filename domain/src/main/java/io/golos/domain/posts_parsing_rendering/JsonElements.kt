@@ -14,7 +14,8 @@ enum class BlockType(val value: String) {
     ATTACHMENTS("attachments"),
     RICH("rich"),
     EMBED("embed"),
-    UNDEFINED("undefined")
+    UNDEFINED("undefined"),
+    APP("app")
 }
 
 enum class Attribute(val value: String) {

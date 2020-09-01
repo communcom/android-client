@@ -11,15 +11,15 @@ import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.Embed
 import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.ParagraphMetadata
 
 object EditorOutputToJsonMapper {
-    fun mapPost(metadata: List<ControlMetadata>, localImagesUri: List<String>) =
-        map(metadata, localImagesUri, BlockType.POST, DocumentType.BASIC)
+    fun mapPost(metadata: List<ControlMetadata>, localImagesUri: List<String>, deviceInfoEntity: String) =
+        map(metadata, localImagesUri, BlockType.POST, DocumentType.BASIC, deviceInfoEntity)
 
-    fun mapComment(metadata: List<ControlMetadata>, localImagesUri: List<String>) =
-        map(metadata, localImagesUri, BlockType.DOCUMENT, DocumentType.COMMENT)
+    fun mapComment(metadata: List<ControlMetadata>, localImagesUri: List<String>, deviceInfoEntity: String) =
+        map(metadata, localImagesUri, BlockType.DOCUMENT, DocumentType.COMMENT, deviceInfoEntity)
 
     @Suppress("NestedLambdaShadowedImplicitParameter")
-    private fun map(metadata: List<ControlMetadata>, localImagesUri: List<String>, rootBlockType: BlockType, documentType: DocumentType): String {
-        val builder = JsonBuilderImpl.create()
+    private fun map(metadata: List<ControlMetadata>, localImagesUri: List<String>, rootBlockType: BlockType, documentType: DocumentType,deviceInfoEntity: String): String {
+        val builder = JsonBuilderImpl.create(deviceInfoEntity)
         val spansSplitter = SpansSplitter()
 
         builder.putBlock(
