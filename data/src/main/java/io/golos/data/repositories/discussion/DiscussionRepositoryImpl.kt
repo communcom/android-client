@@ -193,7 +193,7 @@ constructor(
         return when (typeObject) {
             TypeObjectDomain.USER -> FeedType.BY_USER
             TypeObjectDomain.COMMUNITY -> FeedType.COMMUNITY
-            TypeObjectDomain.TRENDING -> FeedType.SUBSCRIPTION
+            TypeObjectDomain.TRENDING -> FeedType.NEW
             TypeObjectDomain.MY_FEED -> FeedType.SUBSCRIPTION
         }
     }
@@ -202,7 +202,7 @@ constructor(
         return when (typeObject) {
             TypeObjectDomain.USER -> FeedType.BY_USER
             TypeObjectDomain.COMMUNITY -> FeedType.HOT
-            TypeObjectDomain.TRENDING -> FeedType.SUBSCRIPTION_HOT
+            TypeObjectDomain.TRENDING -> FeedType.HOT
             TypeObjectDomain.MY_FEED -> FeedType.SUBSCRIPTION_HOT
         }
     }
