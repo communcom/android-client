@@ -44,20 +44,22 @@ open class DiscoveryCommunitiesFragment : CommunitiesListFragment() {
         val pFragment = parentFragment
         if(pFragment is DiscoveryFragmentTab){
             pFragment.getCommunitiesLiveData().observe(viewLifecycleOwner, Observer {
-                if(it.isEmpty()){
-                    binding.emptyStub.setTitle(R.string.no_results)
-                    binding.emptyStub.setExplanation(R.string.try_to_look_for_something_else)
-                    if(pFragment.isSearchStarted){
-                        binding.mainList.visibility = View.GONE
-                        binding.emptyStub.visibility = View.VISIBLE
-                    } else {
-                        binding.mainList.visibility = View.VISIBLE
+                if(it != null){
+                    if(it.isEmpty()){
+                        binding.emptyStub.setTitle(R.string.no_results)
+                        binding.emptyStub.setExplanation(R.string.try_to_look_for_something_else)
+                        if(pFragment.isSearchStarted){
+                            binding.mainList.visibility = View.GONE
+                            binding.emptyStub.visibility = View.VISIBLE
+                        } else {
+                            binding.mainList.visibility = View.VISIBLE
+                            binding.emptyStub.visibility = View.GONE
+                        }
+                    }else{
+                        updateList(it,true)
                         binding.emptyStub.visibility = View.GONE
+                        binding.mainList.visibility = View.VISIBLE
                     }
-                }else{
-                    updateList(it)
-                    binding.emptyStub.visibility = View.GONE
-                    binding.mainList.visibility = View.VISIBLE
                 }
             })
         }

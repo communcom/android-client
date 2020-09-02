@@ -25,6 +25,7 @@ import android.content.Intent
 import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
 import io.golos.cyber_android.ui.screens.communities_list.view.view_commands.ShowUnblockDialogCommand
 import io.golos.cyber_android.ui.shared.Tags
+import androidx.lifecycle.Observer
 
 open class CommunitiesListFragment : FragmentBaseMVVM<FragmentCommunitiesBinding, CommunitiesListViewModel>() {
     companion object {
@@ -40,6 +41,7 @@ open class CommunitiesListFragment : FragmentBaseMVVM<FragmentCommunitiesBinding
     protected open lateinit var currentCommunity:CommunityIdDomain
     private lateinit var communitiesListAdapter: CommunityListAdapter
     private lateinit var communitiesListLayoutManager: LinearLayoutManager
+    private val observer = Observer<List<VersionedListItem>> { updateList(it,false) }
 
     override fun provideViewModelType(): Class<CommunitiesListViewModel> = CommunitiesListViewModel::class.java
 
@@ -62,11 +64,7 @@ open class CommunitiesListFragment : FragmentBaseMVVM<FragmentCommunitiesBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         with(viewModel) {
-            items.observe({
-                viewLifecycleOwner.lifecycle
-            }) {
-                updateList(it)
-            }
+            items.observe(viewLifecycleOwner,observer)
         }
 
         return super.onCreateView(inflater, container, savedInstanceState)
@@ -104,7 +102,7 @@ open class CommunitiesListFragment : FragmentBaseMVVM<FragmentCommunitiesBinding
         }
     }
 
-    fun updateList(data: List<VersionedListItem>) {
+    fun updateList(data: List<VersionedListItem>, hasSearchResult:Boolean) {
         if (!::communitiesListAdapter.isInitialized) {
             communitiesListLayoutManager = LinearLayoutManager(context)
 
@@ -116,6 +114,12 @@ open class CommunitiesListFragment : FragmentBaseMVVM<FragmentCommunitiesBinding
             mainList.layoutManager = communitiesListLayoutManager
             mainList.adapter = communitiesListAdapter
             mainList.addItemDecoration(CommunitiesListDividerDecoration(requireContext()))
+        }
+
+        if(hasSearchResult){
+            viewModel.items.removeObserver(observer)
+        } else if (data.isEmpty()) {
+            viewModel.items.observe(viewLifecycleOwner, observer)
         }
 
         communitiesListAdapter.update(data)

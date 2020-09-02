@@ -60,6 +60,64 @@ open class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewMo
         }
     }
 
+    private val postStateObserver = Observer<Paginator.State> {
+        val myFeedAdapter = rvPosts.adapter as MyFeedAdapter
+        when (it) {
+            is Paginator.State.Data<*> -> {
+                myFeedAdapter.hideLoadingNextPageError()
+                myFeedAdapter.hideLoadingNextPageProgress()
+                myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)
+                emptyPostProgressLoading.visibility = View.INVISIBLE
+            }
+            is Paginator.State.ItemUpdated<*> -> {
+                myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)
+            }
+            is Paginator.State.FullData<*> -> {
+                myFeedAdapter.hideLoadingNextPageError()
+                myFeedAdapter.hideLoadingNextPageProgress()
+                emptyPostProgressLoading.visibility = View.INVISIBLE
+            }
+            is Paginator.State.PageError<*> -> {
+                myFeedAdapter.hideLoadingNextPageProgress()
+                myFeedAdapter.showLoadingNextPageError()
+                rvPosts.scrollToPosition(myFeedAdapter.itemCount - 1)
+            }
+            is Paginator.State.NewPageProgress<*> -> {
+                myFeedAdapter.hideLoadingNextPageError()
+                myFeedAdapter.showLoadingNextPageProgress()
+            }
+            is Paginator.State.SearchProgress<*> -> {
+                myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)
+                myFeedAdapter.showLoadingNextPageProgress()
+                pbLoading.visibility = View.VISIBLE
+            }
+            is Paginator.State.SearchPageError<*> -> {
+                myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)
+                myFeedAdapter.hideLoadingNextPageProgress()
+                uiHelper.showMessage(R.string.loading_error)
+                pbLoading.visibility = View.INVISIBLE
+            }
+            is Paginator.State.Refresh<*> -> {
+                Timber.d("filter: GET new posts after filter update")
+                myFeedAdapter.clearAllPosts()
+                emptyPostProgressLoading.visibility = View.VISIBLE
+                btnRetry.visibility = View.INVISIBLE
+            }
+            is Paginator.State.EmptyProgress -> {
+                emptyPostProgressLoading.visibility = View.VISIBLE
+                btnRetry.visibility = View.INVISIBLE
+            }
+            is Paginator.State.Empty -> {
+                emptyPostProgressLoading.visibility = View.INVISIBLE
+                myFeedAdapter.updateMyFeedPosts(mutableListOf())
+            }
+            is Paginator.State.EmptyError -> {
+                emptyPostProgressLoading.visibility = View.INVISIBLE
+                btnRetry.visibility = View.VISIBLE
+            }
+        }
+    }
+
     override fun linkViewModel(binding: FragmentMyFeedBinding, viewModel: MyFeedViewModel) {
         binding.viewModel = viewModel
     }
@@ -87,9 +145,9 @@ open class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewMo
                     val contentId = item.post.contentId
                     viewModel.onPostClicked(contentId)
                 }
-//                is CreatePostItem -> {
-//                    viewModel.onCreatePostClicked()
-//                }
+                //                is CreatePostItem -> {
+                //                    viewModel.onCreatePostClicked()
+                //                }
                 else -> Timber.e("Undefined item in adapter {${MyFeedAdapter::class.java}}")
             }
         }
@@ -197,60 +255,60 @@ open class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewMo
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-//            PostPageMenuDialog.REQUEST -> {
-//                when (resultCode) {
-//                    PostPageMenuDialog.RESULT_ADD_FAVORITE -> {
-//                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
-//                        postMenu?.let {
-//                            viewModel.addToFavorite(it.permlink)
-//                        }
-//                    }
-//                    PostPageMenuDialog.RESULT_REMOVE_FAVORITE -> {
-//                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
-//                        postMenu?.let {
-//                            viewModel.removeFromFavorite(it.permlink)
-//                        }
-//                    }
-//                    PostPageMenuDialog.RESULT_SHARE -> {
-//                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
-//                        val shareUrl = postMenu?.shareUrl
-//                        shareUrl?.let {
-//                            viewModel.onShareClicked(it)
-//                        }
-//                    }
-//                    PostPageMenuDialog.RESULT_EDIT -> {
-//                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
-//                        postMenu?.let {
-//                            viewModel.editPost(it.permlink)
-//                        }
-//                    }
-//                    PostPageMenuDialog.RESULT_DELETE -> {
-//                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
-//                        postMenu?.let { menu ->
-//                            viewModel.deletePost(menu.permlink, menu.communityId)
-//                        }
-//                    }
-//                    PostPageMenuDialog.RESULT_SUBSCRIBE -> {
-//                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
-//                        val communityId = postMenu?.communityId
-//                        communityId?.let {
-//                            viewModel.subscribeToCommunity(it)
-//                        }
-//                    }
-//                    PostPageMenuDialog.RESULT_UNSUBSCRIBE -> {
-//                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
-//                        postMenu?.communityId?.let {
-//                            viewModel.unsubscribeToCommunity(it)
-//                        }
-//                    }
-//                    PostPageMenuDialog.RESULT_REPORT -> {
-//                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
-//                        postMenu?.let {
-//                            viewModel.onReportPostClicked(it.permlink)
-//                        }
-//                    }
-//                }
-//            }
+            //            PostPageMenuDialog.REQUEST -> {
+            //                when (resultCode) {
+            //                    PostPageMenuDialog.RESULT_ADD_FAVORITE -> {
+            //                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
+            //                        postMenu?.let {
+            //                            viewModel.addToFavorite(it.permlink)
+            //                        }
+            //                    }
+            //                    PostPageMenuDialog.RESULT_REMOVE_FAVORITE -> {
+            //                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
+            //                        postMenu?.let {
+            //                            viewModel.removeFromFavorite(it.permlink)
+            //                        }
+            //                    }
+            //                    PostPageMenuDialog.RESULT_SHARE -> {
+            //                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
+            //                        val shareUrl = postMenu?.shareUrl
+            //                        shareUrl?.let {
+            //                            viewModel.onShareClicked(it)
+            //                        }
+            //                    }
+            //                    PostPageMenuDialog.RESULT_EDIT -> {
+            //                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
+            //                        postMenu?.let {
+            //                            viewModel.editPost(it.permlink)
+            //                        }
+            //                    }
+            //                    PostPageMenuDialog.RESULT_DELETE -> {
+            //                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
+            //                        postMenu?.let { menu ->
+            //                            viewModel.deletePost(menu.permlink, menu.communityId)
+            //                        }
+            //                    }
+            //                    PostPageMenuDialog.RESULT_SUBSCRIBE -> {
+            //                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
+            //                        val communityId = postMenu?.communityId
+            //                        communityId?.let {
+            //                            viewModel.subscribeToCommunity(it)
+            //                        }
+            //                    }
+            //                    PostPageMenuDialog.RESULT_UNSUBSCRIBE -> {
+            //                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
+            //                        postMenu?.communityId?.let {
+            //                            viewModel.unsubscribeToCommunity(it)
+            //                        }
+            //                    }
+            //                    PostPageMenuDialog.RESULT_REPORT -> {
+            //                        val postMenu: PostMenu? = data?.extras?.getParcelable(Tags.POST_MENU)
+            //                        postMenu?.let {
+            //                            viewModel.onReportPostClicked(it.permlink)
+            //                        }
+            //                    }
+            //                }
+            //            }
             PostPageFragment.UPDATED_REQUEST_CODE -> {
                 val permlink = data?.getStringExtra(Tags.PERMLINK_EXTRA)
                 if (!permlink.isNullOrBlank()) {
@@ -328,63 +386,7 @@ open class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewMo
     }
 
     private fun observeViewModel() {
-        viewModel.postsListState.observe(viewLifecycleOwner, Observer {
-            val myFeedAdapter = rvPosts.adapter as MyFeedAdapter
-            when (it) {
-                is Paginator.State.Data<*> -> {
-                    myFeedAdapter.hideLoadingNextPageError()
-                    myFeedAdapter.hideLoadingNextPageProgress()
-                    myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)
-                    emptyPostProgressLoading.visibility = View.INVISIBLE
-                }
-                is Paginator.State.ItemUpdated<*> -> {
-                    myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)
-                }
-                is Paginator.State.FullData<*> -> {
-                    myFeedAdapter.hideLoadingNextPageError()
-                    myFeedAdapter.hideLoadingNextPageProgress()
-                    emptyPostProgressLoading.visibility = View.INVISIBLE
-                }
-                is Paginator.State.PageError<*> -> {
-                    myFeedAdapter.hideLoadingNextPageProgress()
-                    myFeedAdapter.showLoadingNextPageError()
-                    rvPosts.scrollToPosition(myFeedAdapter.itemCount - 1)
-                }
-                is Paginator.State.NewPageProgress<*> -> {
-                    myFeedAdapter.hideLoadingNextPageError()
-                    myFeedAdapter.showLoadingNextPageProgress()
-                }
-                is Paginator.State.SearchProgress<*> -> {
-                    myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)
-                    myFeedAdapter.showLoadingNextPageProgress()
-                    pbLoading.visibility = View.VISIBLE
-                }
-                is Paginator.State.SearchPageError<*> -> {
-                    myFeedAdapter.updateMyFeedPosts(it.data as MutableList<Post>)
-                    myFeedAdapter.hideLoadingNextPageProgress()
-                    uiHelper.showMessage(R.string.loading_error)
-                    pbLoading.visibility = View.INVISIBLE
-                }
-                is Paginator.State.Refresh<*> -> {
-                    Timber.d("filter: GET new posts after filter update")
-                    myFeedAdapter.clearAllPosts()
-                    emptyPostProgressLoading.visibility = View.VISIBLE
-                    btnRetry.visibility = View.INVISIBLE
-                }
-                is Paginator.State.EmptyProgress -> {
-                    emptyPostProgressLoading.visibility = View.VISIBLE
-                    btnRetry.visibility = View.INVISIBLE
-                }
-                is Paginator.State.Empty -> {
-                    emptyPostProgressLoading.visibility = View.INVISIBLE
-                    myFeedAdapter.updateMyFeedPosts(mutableListOf())
-                }
-                is Paginator.State.EmptyError -> {
-                    emptyPostProgressLoading.visibility = View.INVISIBLE
-                    btnRetry.visibility = View.VISIBLE
-                }
-            }
-        })
+        viewModel.postsListState.observe(viewLifecycleOwner,postStateObserver )
         viewModel.user.observe(viewLifecycleOwner, Observer {
             if(viewModel.isUserCreatePostVisible){
                 val myFeedAdapter = rvPosts.adapter as MyFeedAdapter

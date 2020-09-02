@@ -18,7 +18,9 @@ open class DiscoveryPostsFragment : MyFeedFragment() {
         val pFragment = parentFragment
         if(pFragment is DiscoveryFragmentTab){
             pFragment.getPostsLiveData().observe(viewLifecycleOwner, Observer {
-                (rvPosts.adapter as MyFeedAdapter).updateMyFeedPosts(it)
+                it?.let {
+                    (rvPosts.adapter as MyFeedAdapter).updateMyFeedPosts(it)
+                }
             })
         }
         return super.onCreateView(inflater, container, savedInstanceState)

@@ -48,17 +48,30 @@ class DiscoveryAllFragment : FragmentBaseMVVM<FragmentDiscoveryAllBinding, Disco
             binding.vAllCommunities.setOnClickListener { pFragment.switchTab(1) }
             binding.vAllUsers.setOnClickListener { pFragment.switchTab(2) }
             pFragment.getUsersLiveData().observe(viewLifecycleOwner, Observer {
-                /*discoveryUsersForFiveItemsFragment.updateList(it)*/
+                if(it != null){
+                    if(it.isNotEmpty()) {
+                        binding.usersLabel.visibility = View.VISIBLE
+                        binding.vAllUsers.visibility = if(it.size > 5) View.VISIBLE else View.GONE
+                        discoveryUsersForFiveItemsFragment.updateList(if(it.size > 5) it.takeLast(5) else it)
+                    }else{
+                        binding.usersLabel.visibility = View.GONE
+                        binding.vAllUsers.visibility = View.GONE
+                        binding.usersList.visibility = View.GONE
+                    }
+                }
             })
             pFragment.getCommunitiesLiveData().observe(viewLifecycleOwner, Observer {
-                /*if(it.isNotEmpty()) {
-                    binding.communitiesLabel.visibility = View.VISIBLE
-                    binding.vAllCommunities.visibility = View.VISIBLE
-                    discoverCommunitiesFiveItemsFragment.updateList(it)
-                }else {
-                    binding.communitiesLabel.visibility = View.GONE
-                    binding.vAllCommunities.visibility = View.GONE
-                }*/
+                if(it != null){
+                    if(it.isNotEmpty()) {
+                        binding.communitiesLabel.visibility = View.VISIBLE
+                        binding.vAllCommunities.visibility = if(it.size > 5) View.VISIBLE else View.GONE
+                        discoverCommunitiesFiveItemsFragment.updateList(if(it.size > 5) it.takeLast(5) else it,true)
+                    }else {
+                        binding.communitiesLabel.visibility = View.GONE
+                        binding.vAllCommunities.visibility = View.GONE
+                        binding.communitiesList.visibility = View.GONE
+                    }
+                }
             })
         }
 
