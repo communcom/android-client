@@ -21,6 +21,7 @@ interface EditorPageModel : ModelBase {
     suspend fun uploadLocalImage(content: List<ControlMetadata>): UploadedImageEntity?
 
     suspend fun createPost(
+        title:String,
         content: List<ControlMetadata>,
         adultOnly: Boolean,
         communityId: CommunityIdDomain,
@@ -28,6 +29,7 @@ interface EditorPageModel : ModelBase {
     ): ContentIdDomain
 
     suspend fun updatePost(
+        title:String,
         contentIdDomain: ContentIdDomain,
         content: List<ControlMetadata>,
         permlink: Permlink,

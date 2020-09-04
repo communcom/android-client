@@ -283,6 +283,7 @@ class EditorPageFragment : ImagePickerFragmentBase() {
                     toolbarTitle.setText(R.string.edit_post)
                     leaderName.setText(parsedBody.title)
                     PostToEditorLoader.load(editorWidget, parsedPost)
+                    leaderName.setText(post.title)
 //                    nsfwButton.isActivated = post.tags.contains(TagModel("nsfw")) //todo didn't have in posts
                 }
 

@@ -10,6 +10,18 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/post_viewer_header_height"/>
 
+    <TextView
+        android:id="@+id/vPostTitle"
+        android:textSize="21sp"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/roboto_medium"
+        android:layout_marginBottom="10dp"
+        android:textColor="?attr/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <include layout="@layout/item_feed_content"/>
 
     <include layout="@layout/item_post_controls" />

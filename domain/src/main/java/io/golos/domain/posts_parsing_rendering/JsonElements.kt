@@ -21,6 +21,7 @@ enum class BlockType(val value: String) {
 enum class Attribute(val value: String) {
     VERSION("version"),
     TITLE("title"),
+    TITLES("titles"),
     STYLE("style"),
     TEXT_COLOR("text_color"),
     URL("url"),

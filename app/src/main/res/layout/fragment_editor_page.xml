@@ -87,7 +87,7 @@
                         app:select_community_enabled="@{viewModel.isSelectCommunityEnabled}" />
 
                     <!--Title-->
-                    <EditText
+                    <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/leaderName"
                         style="@style/EditorPostTitleTextStyle"
                         android:layout_width="match_parent"
@@ -99,7 +99,7 @@
                         android:hint="@string/title"
 
                         android:inputType="textFilter"
-                        android:visibility="gone"
+                        android:visibility="visible"
 
                         tools:visibility="visible" />
 

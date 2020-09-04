@@ -69,6 +69,12 @@ constructor(
     private var currentEmbeddedLink = ""
 
     private var title: String = ""
+        set(value) {
+            field = value
+            this.community.value?.let {
+                isPostEnabled.value = value.isNotEmpty()
+            }
+        }
 
     private var lastFile: File? = null
 
@@ -131,7 +137,7 @@ constructor(
 
     fun setCommunity(community: CommunityDomain) {
         this.community.value = community
-        isPostEnabled.value = true
+        isPostEnabled.value = title.isNotBlank()
     }
 
     /**
@@ -166,6 +172,7 @@ constructor(
                 try {
                     val callResult = if (!isInEditMode) {
                         model.createPost(
+                            title,
                             content,
                             adultOnly,
                             community.value!!.communityId,
@@ -173,6 +180,7 @@ constructor(
                         )
                     } else {
                         model.updatePost(
+                            title,
                             contentId!!,
                             content,
                             Permlink(contentId.permlink),
@@ -208,6 +216,7 @@ constructor(
         when (validationResult) {
             ValidationResult.ERROR_POST_IS_TOO_LONG -> _command.value = ShowMessageResCommand(R.string.error_post_too_long)
             ValidationResult.ERROR_POST_IS_EMPTY -> _command.value = ShowMessageResCommand(R.string.error_post_empty)
+            ValidationResult.ERROR_TITLE_IS_EMPTY -> _command.value = ShowMessageResCommand(R.string.title_is_required)
             else -> throw UnsupportedOperationException("This value is not supported here: $validationResult")
         }
 
@@ -306,7 +315,7 @@ constructor(
                         postsCount = 0,
                         isSubscribed = communityDomain.isSubscribed
                     )
-                    isPostEnabled.value = true
+                    isPostEnabled.value = title.isNotBlank()
                     editingPost.value = postToEdit
                 }
             } catch (ex: Exception) {
