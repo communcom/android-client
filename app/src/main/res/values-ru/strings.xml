@@ -607,4 +607,9 @@
     <string name="no_results">Нет результатов</string>
     <string name="try_to_look_for_something_else">Попробуйте поискать что-нибудь другое</string>
 
+    <string name="filter">Фильтр</string>
+    <string name="filter_clean_all">Очистить</string>
+    <string name="filter_like">Лайк</string>
+    <string name="filter_comment">Комментарии</string>
+
 </resources>

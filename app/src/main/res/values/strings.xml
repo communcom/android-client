@@ -579,6 +579,11 @@
     <string name="wallet_amount_validation_buy_invalid_value">Invalid value of the purchase</string>
     <string name="wallet_amount_validation_buy_zero">The value of the purchase can\'t be zero</string>
 
+    <string name="filter">Filter</string>
+    <string name="filter_clean_all">Clean all</string>
+    <string name="filter_like">Like</string>
+    <string name="filter_comment">Comment</string>
+
     <string name="home">Home</string>
     <string name="back_to_wallet">Back to wallet</string>
 

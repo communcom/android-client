@@ -25,6 +25,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
+import io.golos.cyber_android.ui.screens.wallet.dto.ShowFilterDialog
 
 class WalletPointViewModel
 @Inject
@@ -118,6 +119,10 @@ constructor(
         launch {
             model.retryHistoryPage()
         }
+    }
+
+    override fun onFilterClick() {
+        _command.postValue(ShowFilterDialog())
     }
 
     fun onSeeAllSendPointsClick() {

@@ -20,6 +20,8 @@ import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserBriefDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import kotlinx.android.synthetic.main.fragment_wallet_point.*
+import android.widget.Toast
+import io.golos.cyber_android.ui.screens.wallet.dto.ShowFilterDialog
 
 class WalletPointFragment : FragmentBaseMVVM<FragmentWalletPointBinding, WalletPointViewModel>() {
     companion object {
@@ -72,7 +74,14 @@ class WalletPointFragment : FragmentBaseMVVM<FragmentWalletPointBinding, WalletP
             is NavigateToWalletConvertCommand -> moveToWalletConvert(command.selectedCommunityId, command.balance)
 
             is ShowSendPointsDialog -> showSendPointsDialog()
+
+            is ShowFilterDialog -> showFilterDialog()
         }
+    }
+
+    private fun showFilterDialog() {
+        //todo
+        Toast.makeText(requireContext(),"Filter", Toast.LENGTH_LONG).show()
     }
 
     private fun moveToWalletSendPoints(

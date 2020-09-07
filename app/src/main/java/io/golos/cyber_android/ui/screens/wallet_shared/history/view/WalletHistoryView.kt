@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import kotlinx.android.synthetic.main.view_wallet_history.view.*
+import android.widget.TextView
 
 class WalletHistoryView
 @JvmOverloads
@@ -32,6 +33,8 @@ constructor(
 
     fun setEventsProcessor(listItemEventsProcessor: WalletHistoryListItemEventsProcessor) {
         this.listItemEventsProcessor = listItemEventsProcessor
+        val filter = findViewById<TextView>(R.id.btn_filter)
+        filter.setOnClickListener { listItemEventsProcessor.onFilterClick() }
     }
 
     fun setItems(items: List<VersionedListItem>) {

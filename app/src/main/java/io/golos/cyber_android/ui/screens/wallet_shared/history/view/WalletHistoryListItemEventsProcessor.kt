@@ -4,4 +4,6 @@ interface WalletHistoryListItemEventsProcessor {
     fun onHistoryNextPageReached()
 
     fun onHistoryRetryClick()
+
+    fun onFilterClick()
 }

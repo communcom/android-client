@@ -14,7 +14,8 @@ interface WalletRepository {
     suspend fun getTransferHistory(
         offset: Int,
         limit: Int,
-        communityId: CommunityIdDomain = CommunityIdDomain(GlobalConstants.ALL_COMMUNITIES_CODE)
+        communityId: CommunityIdDomain = CommunityIdDomain(GlobalConstants.ALL_COMMUNITIES_CODE),
+        historyFilterDomain: HistoryFilterDomain?
     ): List<WalletTransferHistoryRecordDomain>
 
     suspend fun sendToUser(toUser: UserIdDomain, amount: Double, communityId: CommunityIdDomain)

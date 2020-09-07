@@ -22,6 +22,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Named
+import io.golos.domain.dto.HistoryFilterDomain
 
 class WalletModelImpl
 @Inject
@@ -135,6 +136,10 @@ constructor(
 
     override fun getEmptyBalanceVisibility(): Boolean {
         return keyValueStorageFacade.areEmptyBalancesVisibility()
+    }
+
+    override suspend fun applyFilters(historyFilterDomain: HistoryFilterDomain?) {
+        historyDataSource.applyFilter(historyFilterDomain)
     }
 
     private fun saveShowHideEmptyBalancesState(isShow: Boolean){

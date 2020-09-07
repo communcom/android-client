@@ -22,3 +22,5 @@ class ShowMyPointsDialog(val balance: List<WalletCommunityBalanceRecordDomain>):
 class ShowSendPointsDialog(): ViewCommand
 
 class ShowSettingsDialog(val emptyBalanceVisibility: Boolean): ViewCommand
+
+class ShowFilterDialog(): ViewCommand
