@@ -176,6 +176,7 @@
     <string name="write_text_with_points">Write text…</string>
     <string name="error_post_empty">Post can\'t be empty</string>
     <string name="error_post_too_long">The post length is too long</string>
+    <string name="title_is_required">Title can\'t be empty</string>
     <string name="error_upload_file">Unfortunately, an error was encountered during the file uploading.</string>
     <string name="adult_only">18+</string>
     <string name="post_button">Post</string>

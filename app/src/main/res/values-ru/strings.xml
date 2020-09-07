@@ -198,6 +198,7 @@
     <string name="write_text_with_points">Напишите что-нибудь...</string>
     <string name="error_post_empty">Пост не может быть пустым</string>
     <string name="error_post_too_long">Пост слишком длинный</string>
+    <string name="title_is_required">Заголовок не может быть пустым</string>
     <string name="error_upload_file">К сожалению, произошла ошибка во время загрузки файлов.</string>
     <string name="adult_only">18+</string>
     <string name="post_button">Пост</string>

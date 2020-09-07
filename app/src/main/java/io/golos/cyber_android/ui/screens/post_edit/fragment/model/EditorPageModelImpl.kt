@@ -68,6 +68,9 @@ constructor(
         }
 
     override fun validatePost(title: String, content: List<ControlMetadata>): ValidationResult {
+        if(title.isEmpty()){
+            return ValidationResult.ERROR_TITLE_IS_EMPTY
+        }
         if (content.isEmpty()) {
             return ValidationResult.ERROR_POST_IS_EMPTY
         }
@@ -108,13 +111,14 @@ constructor(
         }
 
     override suspend fun createPost(
+        title:String,
         content: List<ControlMetadata>,
         adultOnly: Boolean,
         communityId: CommunityIdDomain,
         localImagesUri: List<String>
     ): ContentIdDomain {
         val deviceInfoAdapter = moshi.adapter(DeviceInfoEntity::class.java)
-        var body = EditorOutputToJsonMapper.mapPost(content, localImagesUri,
+        var body = EditorOutputToJsonMapper.mapPost(title, content, localImagesUri,
             deviceInfoEntity = deviceInfoAdapter.toJson(DeviceInfoEntity(version = BuildConfig.VERSION_NAME)))
         if (localImagesUri.isNotEmpty()) {
             val adapter = moshi.adapter(ListContentBlockEntity::class.java)
@@ -144,6 +148,7 @@ constructor(
     }
 
     override suspend fun updatePost(
+        title:String,
         contentIdDomain: ContentIdDomain,
         content: List<ControlMetadata>,
         permlink: Permlink,
@@ -151,7 +156,7 @@ constructor(
         localImagesUri: List<String>
     ): ContentIdDomain {
         val deviceInfoAdapter = moshi.adapter(DeviceInfoEntity::class.java)
-        var body = EditorOutputToJsonMapper.mapPost(content, localImagesUri,
+        var body = EditorOutputToJsonMapper.mapPost(title, content, localImagesUri,
             deviceInfoEntity = deviceInfoAdapter.toJson(DeviceInfoEntity(version = BuildConfig.VERSION_NAME)))
         val tags = extractTags(content, adultOnly).toList()
         if (localImagesUri.isNotEmpty()) {

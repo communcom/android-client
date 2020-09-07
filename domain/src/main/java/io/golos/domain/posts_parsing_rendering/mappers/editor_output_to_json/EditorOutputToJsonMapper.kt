@@ -1,5 +1,6 @@
 package io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json
 
+import io.golos.domain.dto.DeviceInfoEntity
 import io.golos.domain.posts_parsing_rendering.*
 import io.golos.domain.posts_parsing_rendering.json_builder.JsonBuilderBlocks
 import io.golos.domain.posts_parsing_rendering.json_builder.JsonBuilderImpl
@@ -11,14 +12,21 @@ import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.Embed
 import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.ParagraphMetadata
 
 object EditorOutputToJsonMapper {
-    fun mapPost(metadata: List<ControlMetadata>, localImagesUri: List<String>, deviceInfoEntity: String) =
-        map(metadata, localImagesUri, BlockType.POST, DocumentType.BASIC, deviceInfoEntity)
+    fun mapPost(title:String,metadata: List<ControlMetadata>, localImagesUri: List<String>, deviceInfoEntity: String) =
+        map(metadata, localImagesUri, BlockType.POST, DocumentType.BASIC, deviceInfoEntity,title)
 
     fun mapComment(metadata: List<ControlMetadata>, localImagesUri: List<String>, deviceInfoEntity: String) =
         map(metadata, localImagesUri, BlockType.DOCUMENT, DocumentType.COMMENT, deviceInfoEntity)
 
     @Suppress("NestedLambdaShadowedImplicitParameter")
-    private fun map(metadata: List<ControlMetadata>, localImagesUri: List<String>, rootBlockType: BlockType, documentType: DocumentType,deviceInfoEntity: String): String {
+    private fun map(
+        metadata: List<ControlMetadata>,
+        localImagesUri: List<String>,
+        rootBlockType: BlockType,
+        documentType: DocumentType,
+        deviceInfoEntity: String,
+        title: String? = null
+    ): String {
         val builder = JsonBuilderImpl.create(deviceInfoEntity)
         val spansSplitter = SpansSplitter()
 
@@ -32,6 +40,10 @@ object EditorOutputToJsonMapper {
             PostAttribute(
                 Attribute.TYPE,
                 documentType.value
+            ),
+            PostAttribute(
+                Attribute.TITLES,
+                title.toString()
             )
         ) {
 

@@ -64,6 +64,9 @@ class PostItem(
 
         recordPostViewManager.onPostShow(post.contentId)
 
+        view.vPostTitle.text = post.title
+        view.vPostTitle.visibility = if (post.title.isEmpty()) View.GONE else View.VISIBLE
+
         view.feedContent.apply {
             adapter = feedAdapter
             layoutManager = LinearLayoutManager(view.context)
