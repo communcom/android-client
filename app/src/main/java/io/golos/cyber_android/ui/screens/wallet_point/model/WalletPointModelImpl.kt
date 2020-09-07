@@ -16,6 +16,7 @@ import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import javax.inject.Inject
 import javax.inject.Named
+import io.golos.domain.dto.HistoryFilterDomain
 
 class WalletPointModelImpl
 @Inject
@@ -97,6 +98,10 @@ constructor(
     override suspend fun retryHistoryPage() = historyDataSource.retry()
 
     override suspend fun clearHistory() = historyDataSource.clear()
+
+    override suspend fun applyFilters(historyFilterDomain: HistoryFilterDomain?) {
+        historyDataSource.applyFilter(historyFilterDomain)
+    }
 
     private fun getCurrency(): Currencies {
         return keyValueStorageFacade.getCurrencyCoefficient()?.let { Currencies.getCurrency(it) }

@@ -90,7 +90,6 @@ class WalletFragment : FragmentBaseMVVM<FragmentWalletBinding, WalletViewModel>(
     }
 
     private fun showFilterDialog() {
-        //todo
         WalletHistoryFilterDialog.show(this) {
             when (it) {
                 is WalletHistoryFilterDialog.Result.ApplyFilter -> {
