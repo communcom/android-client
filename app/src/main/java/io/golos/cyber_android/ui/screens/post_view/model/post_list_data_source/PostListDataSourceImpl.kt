@@ -35,6 +35,9 @@ constructor(
     private val _post = MutableLiveData<List<VersionedListItem>>()
     override val post: LiveData<List<VersionedListItem>> = _post
 
+    private val _title = MutableLiveData<String>()
+    override val title:LiveData<String> = _title
+
     // For thread-safety
     private val singleThreadDispatcher = Executors.newFixedThreadPool(1).asCoroutineDispatcher()
 
@@ -411,6 +414,7 @@ constructor(
     }
 
     private fun createOrUpdatePostTitle(postDomain: PostDomain) {
+        _title.postValue(postDomain.title)
         val oldTitle = postList.singleOrNull { it is PostTitleListItem }
 
         val newTitle = postDomain.body?.title?.let {
@@ -419,7 +423,7 @@ constructor(
 
         when {
             oldTitle == null && newTitle == null -> {
-                postList.add(0,PostTitleListItem(IdUtil.generateLongId(), 0, false, false, postDomain.title))
+                /*postList.add(0,PostTitleListItem(IdUtil.generateLongId(), 0, false, false, postDomain.title))*/
             }
             oldTitle == null && newTitle != null -> postList.add(0, newTitle)
             oldTitle != null && newTitle == null -> postList.remove(oldTitle)

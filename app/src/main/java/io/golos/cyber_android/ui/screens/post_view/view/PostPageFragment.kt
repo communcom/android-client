@@ -108,6 +108,11 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
             (postView.adapter as PostPageAdapter).update(it)
         })
 
+        viewModel.title.observe(viewLifecycleOwner, Observer {
+            post_title.visibility = if(it == null || it.isEmpty()) View.GONE else View.VISIBLE
+            post_title.text = it
+        })
+
         postView.reduceDragSensitivity()
 
         postHeader.setOnBackButtonClickListener { back() }

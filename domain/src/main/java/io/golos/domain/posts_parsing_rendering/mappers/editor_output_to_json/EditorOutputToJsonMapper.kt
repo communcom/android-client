@@ -34,16 +34,16 @@ object EditorOutputToJsonMapper {
             rootBlockType,
             true,
             PostAttribute(
+                Attribute.TITLES,
+                title.toString()
+            ),
+            PostAttribute(
                 Attribute.VERSION,
                 PostGlobalConstants.postFormatVersion.toString()
             ),
             PostAttribute(
                 Attribute.TYPE,
                 documentType.value
-            ),
-            PostAttribute(
-                Attribute.TITLES,
-                title.toString()
             )
         ) {
 

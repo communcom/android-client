@@ -19,6 +19,8 @@ interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToC
 
     val post: LiveData<List<VersionedListItem>>
 
+    val title:LiveData<String>
+
     val commentsPageSize: Int
 
     val rewardCurrency: RewardCurrency
