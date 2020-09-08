@@ -9,6 +9,8 @@ import io.golos.domain.dto.PostDomain
 interface PostListDataSource {
     val post: LiveData<List<VersionedListItem>>
 
+    val title:LiveData<String>
+
     suspend fun createOrUpdatePostData(postDomain: PostDomain)
 
     suspend fun updateCommentsSorting(sortingType: SortingType)

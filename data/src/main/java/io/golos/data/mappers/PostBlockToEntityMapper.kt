@@ -4,24 +4,23 @@ import io.golos.domain.dto.block.*
 import io.golos.domain.posts_parsing_rendering.post_metadata.TextStyle
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.*
 
+/*
 fun ContentBlock.mapToContentBlock(): ListContentBlockEntity {
     val contentBlock = mutableListOf<ContentBlockEntity>()
-
     if (content.isNotEmpty()) {
         val contentBlocks = content.map { ContentBlockEntity((it as? ParagraphBlock)?.id, "paragraph", content.mapToBlockEntity()) }
         contentBlock.addAll(contentBlocks)
     }
-
     attachments?.content?.let { content ->
         contentBlock.add(ContentBlockEntity(attachments?.id,"attachments", content.mapToBlockEntity()))
     }
-
     return ListContentBlockEntity(
         this.id,
         this.type,
         this.metadata.mapToDocumentAttributes(),
         contentBlock)
 }
+*/
 
 fun PostMetadata.mapToDocumentAttributes(): DocumentAttributeEntity = DocumentAttributeEntity(this.version.toString(), this.type.name.toLowerCase())
 

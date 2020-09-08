@@ -60,6 +60,8 @@ constructor(
      */
     val post: LiveData<List<VersionedListItem>> = model.post
 
+    val title:LiveData<String> = model.title
+
     /**
      * Screen header
      */

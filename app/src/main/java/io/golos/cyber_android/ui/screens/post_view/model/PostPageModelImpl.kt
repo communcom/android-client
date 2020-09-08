@@ -61,6 +61,8 @@ constructor(
 
     override val post: LiveData<List<VersionedListItem>> = postListDataSource.post
 
+    override val title:LiveData<String> = postListDataSource.title
+
     override val postMetadata: PostMetadata
         get() = postDomain.body!!.metadata
 
