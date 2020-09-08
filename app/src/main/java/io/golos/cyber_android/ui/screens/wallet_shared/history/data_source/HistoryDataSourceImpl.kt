@@ -22,6 +22,10 @@ import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
 import io.golos.utils.helpers.capitalize
+import io.golos.commun4j.services.model.TransferHistoryDirection
+import io.golos.commun4j.services.model.TransferHistoryHoldType
+import io.golos.commun4j.services.model.TransferHistoryTransferType
+import io.golos.domain.dto.HistoryFilterDomain
 
 class HistoryDataSourceImpl
 @Inject
@@ -35,13 +39,21 @@ constructor(
 
     private val datesCalculator = ServerLocalNowDatesCalculator()
 
+    private var filterModel: HistoryFilterDomain? = null
+
     private var lastDateBase: DateCommonBase? = null
     private lateinit var lastSeparatorType: WalletHistorySeparatorType
 
     override var communityId: CommunityIdDomain = CommunityIdDomain(GlobalConstants.ALL_COMMUNITIES_CODE)
 
+    override suspend fun applyFilter(filterDomain: HistoryFilterDomain?) {
+        filterModel = filterDomain
+        clear()
+        loadPage()
+    }
+
     override suspend fun getData(offset: Int): List<VersionedListItem>  {
-        val serverData = walletRepository.getTransferHistory(offset, pageSize, communityId)
+        val serverData = walletRepository.getTransferHistory(offset, pageSize, communityId, filterModel)
 
         val result = mutableListOf<VersionedListItem>()
 

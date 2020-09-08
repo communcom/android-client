@@ -2,10 +2,7 @@ package io.golos.data.repositories.wallet
 
 import io.golos.commun4j.Commun4j
 import io.golos.commun4j.model.BandWidthRequest
-import io.golos.commun4j.services.model.DonationPostModel
-import io.golos.commun4j.services.model.TransferHistoryDirection
-import io.golos.commun4j.services.model.TransferHistoryTransferType
-import io.golos.commun4j.services.model.WalletQuantity
+import io.golos.commun4j.services.model.*
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.sharedmodel.CyberSymbol
 import io.golos.commun4j.sharedmodel.CyberSymbolCode
@@ -61,17 +58,18 @@ constructor(
                 quantity = WalletQuantity("1 ${GlobalConstants.COMMUN_CODE}"))
         }.price.quantity
 
-    override suspend fun getTransferHistory(offset: Int, limit: Int, communityId: CommunityIdDomain): List<WalletTransferHistoryRecordDomain> =
+    override suspend fun getTransferHistory(offset: Int, limit: Int, communityId: CommunityIdDomain,historyFilterDomain: HistoryFilterDomain?): List<WalletTransferHistoryRecordDomain> =
         callProxy.call {commun4j.getTransferHistory(
             userId = CyberName(currentUserRepository.userId.userId),
-            direction = TransferHistoryDirection.ALL,
-            transferType = TransferHistoryTransferType.ALL,
+            direction = historyFilterDomain?.direction?:TransferHistoryDirection.ALL,
+            transferType = historyFilterDomain?.transferType?:TransferHistoryTransferType.ALL,
+            rewards = /*historyFilterDomain?.reward?:*/"all",
+            holdType = historyFilterDomain?.holdType?:TransferHistoryHoldType.LIKE,
             symbol = CyberSymbolCode(communityId.code),
-            rewards = "all",
             limit = limit,
             offset = offset
         )}
-        .items.map { it.mapToWalletTransferHistoryRecordDomain() }
+            .items.map { it.mapToWalletTransferHistoryRecordDomain() }
 
     override suspend fun sendToUser(toUser: UserIdDomain, amount: Double, communityId: CommunityIdDomain) =
         sendToUser(toUser, amount, communityId, "")
@@ -102,9 +100,9 @@ constructor(
                 from = CyberName(currentUserRepository.userId.userId)
             )
         }
-        .let {
-            callProxy.call { commun4j.waitForTransaction(it.transaction_id) }
-        }
+            .let {
+                callProxy.call { commun4j.waitForTransaction(it.transaction_id) }
+            }
     }
 
     override suspend fun convertCommunToPoints(amount: Double, communityId: CommunityIdDomain) {
@@ -119,9 +117,9 @@ constructor(
                 from = CyberName(currentUserRepository.userId.userId)
             )
         }
-        .let {
-            callProxy.call { commun4j.waitForTransaction(it.transaction_id) }
-        }
+            .let {
+                callProxy.call { commun4j.waitForTransaction(it.transaction_id) }
+            }
     }
 
     override suspend fun getDonations(postId: ContentIdDomain): DonationsDomain? {

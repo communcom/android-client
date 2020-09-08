@@ -25,6 +25,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
+import io.golos.cyber_android.ui.screens.wallet.dto.ShowFilterDialog
+import io.golos.domain.dto.HistoryFilterDomain
 
 class WalletPointViewModel
 @Inject
@@ -120,6 +122,10 @@ constructor(
         }
     }
 
+    override fun onFilterClick() {
+        _command.postValue(ShowFilterDialog())
+    }
+
     fun onSeeAllSendPointsClick() {
         _command.value = ShowSendPointsDialog()
     }
@@ -172,4 +178,17 @@ constructor(
             _carouselStartData.value = model.getCarouselStartData()
         }
     }
+
+    fun applyFilters(historyFilterDomain: HistoryFilterDomain?) {
+        launch {
+            try {
+                model.applyFilters(historyFilterDomain)
+            }catch (e:Exception){
+                Timber.e(e)
+                _command.value = ShowMessageTextCommand(e.getMessage(appContext))
+                _command.value = NavigateBackwardCommand()
+            }
+        }
+    }
+
 }

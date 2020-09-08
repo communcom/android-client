@@ -20,6 +20,9 @@ import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserBriefDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import kotlinx.android.synthetic.main.fragment_wallet_point.*
+import android.widget.Toast
+import io.golos.cyber_android.ui.screens.wallet.dto.ShowFilterDialog
+import io.golos.cyber_android.ui.screens.wallet_dialogs.WalletHistoryFilterDialog
 
 class WalletPointFragment : FragmentBaseMVVM<FragmentWalletPointBinding, WalletPointViewModel>() {
     companion object {
@@ -72,6 +75,24 @@ class WalletPointFragment : FragmentBaseMVVM<FragmentWalletPointBinding, WalletP
             is NavigateToWalletConvertCommand -> moveToWalletConvert(command.selectedCommunityId, command.balance)
 
             is ShowSendPointsDialog -> showSendPointsDialog()
+
+            is ShowFilterDialog -> showFilterDialog()
+        }
+    }
+
+    private fun showFilterDialog() {
+        WalletHistoryFilterDialog.show(this){
+            when(it){
+                is WalletHistoryFilterDialog.Result.ApplyFilter ->{
+                    viewModel.applyFilters(it.filter)
+                }
+                is WalletHistoryFilterDialog.Result.RestoreToDefaults ->{
+                    viewModel.applyFilters(null)
+                }
+                is WalletHistoryFilterDialog.Result.Cancel ->{
+                    Toast.makeText(requireContext(),"Cancel",Toast.LENGTH_LONG).show()
+                }
+            }
         }
     }
 

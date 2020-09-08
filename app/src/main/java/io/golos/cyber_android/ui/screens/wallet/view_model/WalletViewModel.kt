@@ -22,6 +22,7 @@ import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListIte
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.HistoryFilterDomain
 import io.golos.domain.dto.UserBriefDomain
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
@@ -30,7 +31,17 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class WalletViewModel
-@Inject constructor(private val appContext: Context, dispatchersProvider: DispatchersProvider, model: WalletModel) : ViewModelBase<WalletModel>(dispatchersProvider, model), WalletMyPointsListItemEventsProcessor, WalletSendPointsListItemEventsProcessor, WalletHistoryListItemEventsProcessor {
+@Inject
+constructor(
+    private val appContext: Context,
+    dispatchersProvider: DispatchersProvider,
+    model: WalletModel
+) : ViewModelBase<WalletModel>(
+    dispatchersProvider,
+    model
+), WalletMyPointsListItemEventsProcessor,
+    WalletSendPointsListItemEventsProcessor,
+    WalletHistoryListItemEventsProcessor {
 
     private val _swipeRefreshing = MutableLiveData<Boolean>(false)
     val swipeRefreshing: LiveData<Boolean> get() = _swipeRefreshing
@@ -70,7 +81,7 @@ class WalletViewModel
                 it?.let {
                     loadPage(true)
                     model.clearBalanceUpdateLastCallback()
-    }
+                }
             }
         }
     }
@@ -146,6 +157,10 @@ class WalletViewModel
         launch {
             model.retryHistoryPage()
         }
+    }
+
+    override fun onFilterClick() {
+        _command.postValue(ShowFilterDialog())
     }
 
     override fun onMyPointItemClick(communityId: CommunityIdDomain) {
@@ -230,4 +245,15 @@ class WalletViewModel
     private fun isSendPointsListEmpty(items: List<VersionedListItem>) =
         items.isEmpty() || (items.size == 1 && (items[0] is NoDataListItem || items[0] is LoadingListItem))
 
+    fun applyFilters(historyFilterDomain: HistoryFilterDomain?) {
+        launch {
+            try {
+                model.applyFilters(historyFilterDomain)
+            }catch (e:Exception){
+                Timber.e(e)
+                _command.value = ShowMessageTextCommand(e.getMessage(appContext))
+                _command.value = NavigateBackwardCommand()
+            }
+        }
+    }
 }
