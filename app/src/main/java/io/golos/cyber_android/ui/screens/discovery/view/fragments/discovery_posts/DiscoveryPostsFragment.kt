@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import io.golos.cyber_android.R
 import io.golos.cyber_android.databinding.FragmentMyFeedBinding
 import io.golos.cyber_android.ui.screens.discovery.view.DiscoveryFragmentTab
 import io.golos.cyber_android.ui.screens.feed_my.view.MyFeedFragment
@@ -16,7 +17,7 @@ open class DiscoveryPostsFragment : MyFeedFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val pFragment = parentFragment
-        if(pFragment is DiscoveryFragmentTab){
+        if (pFragment is DiscoveryFragmentTab) {
             pFragment.getPostsLiveData().observe(viewLifecycleOwner, Observer {
                 it?.let {
                     (rvPosts.adapter as MyFeedAdapter).updateMyFeedPosts(it)
@@ -28,6 +29,21 @@ open class DiscoveryPostsFragment : MyFeedFragment() {
 
     override fun linkViewModel(binding: FragmentMyFeedBinding, viewModel: MyFeedViewModel) {
         viewModel.isUserCreatePostVisible = false
+        viewModel.updatePaddingVisibility(View.GONE)
+        binding.emptyStub.setTitle(R.string.no_results)
+        binding.emptyStub.setExplanation(R.string.try_to_look_for_something_else)
+        val pFragment = parentFragment
+        if (pFragment is DiscoveryFragmentTab) {
+            pFragment.getPostsLiveData().observe(viewLifecycleOwner, Observer {
+                if (it == null || it.isEmpty()) {
+                    binding.rvPosts.visibility = View.GONE
+                    binding.emptyStub.visibility = View.VISIBLE
+                } else {
+                    binding.rvPosts.visibility = View.VISIBLE
+                    binding.emptyStub.visibility = View.GONE
+                }
+            })
+        }
         super.linkViewModel(binding, viewModel)
     }
 }
