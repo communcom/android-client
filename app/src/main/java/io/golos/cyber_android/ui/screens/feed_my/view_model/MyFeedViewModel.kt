@@ -615,7 +615,8 @@ constructor(
     }
 
     fun loadMorePosts() {
-        paginator.proceed(Paginator.Action.LoadMore)
+        if(isUserCreatePostVisible)
+            paginator.proceed(Paginator.Action.LoadMore)
     }
 
     private fun loadMorePosts(pageCount: Int) {

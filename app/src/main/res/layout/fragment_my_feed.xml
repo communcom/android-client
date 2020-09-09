@@ -41,6 +41,13 @@
                 tools:listitem="@layout/item_post_content" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+        <io.golos.cyber_android.ui.shared.widgets.lists.NoDataStub
+            android:id="@+id/emptyStub"
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_height="@dimen/profile_followers_no_data_height"
+            android:visibility="gone" />
+
         <include
             android:id="@+id/emptyPostProgressLoading"
             layout="@layout/item_loading"
