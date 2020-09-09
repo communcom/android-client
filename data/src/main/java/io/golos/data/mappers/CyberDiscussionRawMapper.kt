@@ -11,7 +11,7 @@ import org.json.JSONObject
 
 fun CyberDiscussionRaw.mapToPostDomain(isMyPost: Boolean, reward: RewardPostDomain?, donation: DonationsDomain?): PostDomain {
     val postTitle = try {
-        JSONObject(JSONObject(this.document).getString("attributes")).getString(Attribute.TITLES.name.toLowerCase())
+        JSONObject(JSONObject(this.document).getString("attributes")).getString(Attribute.TITLE.name.toLowerCase())
     }catch (e:Exception){
         null
     }

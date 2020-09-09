@@ -41,9 +41,9 @@ interface DiscussionRepository {
 
     suspend fun uploadContentAttachment(file: File): String
 
-    suspend fun createPost(communityId: CommunityIdDomain, body: String, tags: List<String>): ContentIdDomain
+    suspend fun createPost(communityId: CommunityIdDomain,title:String, body: String, tags: List<String>): ContentIdDomain
 
-    suspend fun updatePost(contentIdDomain: ContentIdDomain, body: String, tags: List<String>): PostDomain
+    suspend fun updatePost(contentIdDomain: ContentIdDomain, title:String, body: String, tags: List<String>): PostDomain
 
     suspend fun sendComment(postIdDomain: ContentIdDomain, jsonBody: String): CommentDomain
 
