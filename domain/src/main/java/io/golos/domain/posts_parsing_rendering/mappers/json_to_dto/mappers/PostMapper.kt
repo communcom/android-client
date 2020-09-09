@@ -12,7 +12,7 @@ import org.json.JSONObject
 
 class PostMapper(mappersFactory: MappersFactory): MapperBase<ContentBlock>(mappersFactory) {
     override fun map(source: JSONObject): ContentBlock {
-        val jsonAttributes = source.getAttributes() ?: throw IllegalArgumentException("Post attributes can't be empty")
+        val jsonAttributes = source.getAttributes() ?: throw IllegalArgumentException("Post attributes can't be empty, POST")
 
         val metadata = PostMetadataMapper().map(source)
 

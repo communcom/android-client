@@ -57,12 +57,14 @@ constructor(
         launch {
             try {
                 val searchResult = model.search(searchString)
+                val posts = (searchResult.posts?.items as? List<QuickSearchPostItem>)?.map { it.mapToPostDomain() }
                 val communities = (searchResult.communities?.items as? List<QuickSearchCommunityItem>)?.mapIndexed {
                         index, item-> item.mapToCommunity(index,searchResult.communities?.total ?: 0)
                 }
                 val profileItems = (searchResult.profiles?.items as? List<QuickSearchProfileItem>)?.mapIndexed {
                         index, item -> item.mapToProfile(index,searchResult.profiles?.total ?: 0)
                 }
+                _postsLiveData.postValue(posts)
                 _communitiesLiveData.postValue(communities)
                 _usersLiveData.postValue(profileItems)
                 val list = ArrayList<Any>()
@@ -74,6 +76,25 @@ constructor(
                 _command.postValue(ShowMessageTextCommand(e.getMessage(App.mInstance.applicationContext)))
             }
         }
+    }
+
+    private fun QuickSearchPostItem.mapToPostDomain():Post{
+        return PostDomain(
+            title = "",
+            author = this.author.mapToAuthorDomain(),
+            community = this.community.mapToCommunityDomain(),
+            contentId = this.contentId.mapToContentIdDomain(),
+            body = this.document?.let { JsonToDtoMapper().map(it) },
+            meta = this.meta.mapToMetaDomain(),
+            stats = this.stats?.mapToStatsDomain(),
+            type = this.type,
+            shareUrl = this.url.toAbsoluteUrl(),
+            votes = this.votes.mapToVotesDomain(),
+            isMyPost = false,
+            reward = null,
+            donation = null,
+            viewCount = 0
+        ).mapToPost()
     }
 
     private fun QuickSearchCommunityItem.mapToCommunity(index: Int,lastIndex: Int):CommunityListItem{

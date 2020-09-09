@@ -28,6 +28,7 @@ open class DiscoveryPostsFragment : MyFeedFragment() {
 
     override fun linkViewModel(binding: FragmentMyFeedBinding, viewModel: MyFeedViewModel) {
         viewModel.isUserCreatePostVisible = false
+        viewModel.updatePaddingVisibility(View.GONE)
         super.linkViewModel(binding, viewModel)
     }
 }

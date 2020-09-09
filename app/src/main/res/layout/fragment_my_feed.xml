@@ -24,13 +24,12 @@
             app:onRefreshListener = "@{() -> viewModel.onSwipeRefresh()}"
             app:refreshing = "@{viewModel.swipeRefreshing}"
 
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/vPaddingPlaceHolder"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
 
-            android:paddingBottom="@dimen/navigation_bottom_menu_height"
             android:clipToPadding="false">
 
             <androidx.recyclerview.widget.RecyclerView
@@ -82,6 +81,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="visible"/>
+
+        <View
+            android:visibility="@{viewModel.paddingPlaceHolderVisibility}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/vPaddingPlaceHolder"
+            android:background="@color/transparent"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navigation_bottom_menu_height"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

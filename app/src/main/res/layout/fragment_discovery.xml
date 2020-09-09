@@ -118,7 +118,7 @@
             android:layout_height="match_parent"
             android:visibility='@{isSearchStarted ? View.INVISIBLE : View.VISIBLE}'
             android:layout_below="@id/discovery_tabs"
-            android:layout_marginBottom="@dimen/discovery_pager_margin_height"
+            android:layout_marginBottom="@dimen/navigation_bottom_menu_height"
             android:background="?attr/window_background_light_gray" />
 
     </RelativeLayout>

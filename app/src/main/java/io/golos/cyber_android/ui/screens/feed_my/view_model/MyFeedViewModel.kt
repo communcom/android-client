@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.feed_my.view_model
 
 import android.content.Context
 import android.net.Uri
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
@@ -58,6 +59,10 @@ constructor(
 
     var isUserCreatePostVisible : Boolean = true
 
+    private val  _paddingPlaceHolderVisibility = MutableLiveData<Int>()
+    val paddingPlaceHolderVisibility :LiveData<Int>
+        get() = _paddingPlaceHolderVisibility
+
     private val _isPostSubscriptionModified:MutableLiveData<Boolean>  = MutableLiveData(false)
     val isPostSubscriptionModified:LiveData<Boolean>
         get() = _isPostSubscriptionModified
@@ -82,6 +87,7 @@ constructor(
     private var loadPostsJob: Job? = null
 
     init {
+        _paddingPlaceHolderVisibility.postValue(View.VISIBLE)
         applyFiltersListener()
         applyChangeTabFilterListener()
 
@@ -152,6 +158,10 @@ constructor(
 
     override fun onDonatePopupClick(donates: DonationsDomain) {
         _command.value = ShowDonationUsersDialogCommand(donates)
+    }
+
+    fun updatePaddingVisibility(visibility:Int){
+        _paddingPlaceHolderVisibility.postValue(visibility)
     }
 
     override fun onForbiddenClick() {
