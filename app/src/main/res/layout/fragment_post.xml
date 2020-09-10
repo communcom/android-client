@@ -46,7 +46,7 @@
 
                 <TextView
                     android:id="@+id/post_title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
@@ -54,7 +54,8 @@
                     android:paddingStart="15dp"
                     android:paddingEnd="15dp"
                     android:textColor="?attr/black"
-                    android:textSize="21sp" />
+                    android:textSize="21sp"
+                    android:singleLine="false"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/postView"

@@ -96,12 +96,11 @@
                         android:layout_marginTop="@dimen/margin_top_editor_page_title"
                         android:layout_marginEnd="@dimen/margin_default"
                         android:background="?attr/white"
+                        android:singleLine="false"
                         android:hint="@string/title"
 
-                        android:inputType="textFilter"
-                        android:visibility="visible"
-
-                        tools:visibility="visible" />
+                        android:inputType="textFilter|textMultiLine"
+                        android:visibility="visible"/>
 
                     <io.golos.posts_editor.Editor
                         android:id="@+id/editorWidget"
