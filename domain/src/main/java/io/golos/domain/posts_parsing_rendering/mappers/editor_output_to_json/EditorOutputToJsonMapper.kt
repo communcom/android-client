@@ -34,7 +34,7 @@ object EditorOutputToJsonMapper {
             rootBlockType,
             true,
             PostAttribute(
-                Attribute.TITLES,
+                Attribute.TITLE,
                 title.toString()
             ),
             PostAttribute(

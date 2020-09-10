@@ -140,7 +140,7 @@ constructor(
             body = adapter.toJson(listContentBlockEntity)
         }
         val tags = extractTags(content, adultOnly)
-        val contentId = discussionRepository.createPost(communityId, body, tags.toList())
+        val contentId = discussionRepository.createPost(communityId, title, body, tags.toList())
 
         postUpdateRegistry.setPostCreated(contentId)
 
@@ -179,7 +179,7 @@ constructor(
             body = adapter.toJson(listContentBlockEntity)
         }
 
-        val updatedPost = discussionRepository.updatePost(contentIdDomain, body, tags)
+        val updatedPost = discussionRepository.updatePost(contentIdDomain, title, body, tags)
 
         postUpdateRegistry.setPostUpdated(updatedPost)
 

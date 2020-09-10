@@ -11,7 +11,7 @@ import java.util.*
 
 class PostMetadataMapper : MapperJsonUtils() {
     fun map(source: JSONObject): PostMetadata {
-        val jsonAttributes = source.getAttributes() ?: throw IllegalArgumentException("Post attributes can't be empty")
+        val jsonAttributes = source.getAttributes() ?: throw IllegalArgumentException("Post attributes can't be empty, METADATA")
 
         val versionString: String? = try {
             jsonAttributes.getString(Attribute.VERSION)

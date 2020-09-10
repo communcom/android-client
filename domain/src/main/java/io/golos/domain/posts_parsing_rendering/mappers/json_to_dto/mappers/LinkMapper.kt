@@ -7,7 +7,13 @@ import org.json.JSONObject
 
 class LinkMapper(mappersFactory: MappersFactory) : MapperBase<LinkBlock>(mappersFactory) {
     override fun map(source: JSONObject): LinkBlock {
-        val attributes = source.getAttributes() ?: throw IllegalArgumentException("Post attributes can't be empty")
+        val attributes = if(source.getAttributes() == null) {
+            val withoutSlashes = source.getString("attributes").replace("\\\"","")
+            source.put("attributes",JSONObject(withoutSlashes))
+            source.getAttributes()!!
+        }else{
+            source.getAttributes()!!
+        }
 
         return LinkBlock(
             source.tryLong(CommonType.ID),

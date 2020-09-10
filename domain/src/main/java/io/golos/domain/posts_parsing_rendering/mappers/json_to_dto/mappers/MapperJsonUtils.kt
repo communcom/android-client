@@ -52,7 +52,7 @@ abstract class MapperJsonUtils {
                 styles.mapStringToTextStyle()
             }
 
-    protected fun JSONObject.tryColor(attr: Attribute): Int? = this.tryString(attr.value)?.let { Color.parseColor(it) }
+    protected fun JSONObject.tryColor(attr: Attribute): Int? = this.tryString(attr.value)?.let { if(it.isNotEmpty())Color.parseColor(it) else null }
 
     protected fun JSONObject.trySize(attr: Attribute): Size? = this.tryJSONArray(attr)?.let { Size(it.getInt(0), it.getInt(1)) }
 
@@ -70,7 +70,7 @@ abstract class MapperJsonUtils {
 
     protected fun JSONObject.tryUri(name: String): Uri? = this.tryString(name)?.let { Uri.parse(it) }
 
-    protected fun JSONObject.tryString(name: String): String? = this.takeIf { it.has(name) }?.getString(name)
+    protected fun JSONObject.tryString(name: String): String? = this@tryString.takeIf { it.has(name) }?.getString(name)
 
     protected fun JSONObject.tryInt(name: String): Int? = this.takeIf { it.has(name) }?.getInt(name)
 

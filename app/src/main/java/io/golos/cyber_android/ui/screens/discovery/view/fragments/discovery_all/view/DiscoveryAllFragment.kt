@@ -30,6 +30,9 @@ class DiscoveryAllFragment : FragmentBaseMVVM<FragmentDiscoveryAllBinding, Disco
     private lateinit var discoveryUsersForFiveItemsFragment: DiscoveryUsersForFiveItemsFragment
     private lateinit var discoverCommunitiesFiveItemsFragment: DiscoveryFiveCommunitiesFragment
 
+    private var isUsersEmpty = true
+    private var isCommunitiesEmpty = true
+
     override fun provideViewModelType(): Class<DiscoveryAllViewModel> = DiscoveryAllViewModel::class.java
 
     override fun layoutResId() = R.layout.fragment_discovery_all
@@ -39,7 +42,8 @@ class DiscoveryAllFragment : FragmentBaseMVVM<FragmentDiscoveryAllBinding, Disco
         val fragmentFiveCommunitiesTag = "DISCOVERY_FIVE_COMMUNITIES"
 
         val transaction = childFragmentManager.beginTransaction()
-
+        binding.emptyStub.setTitle(R.string.no_results)
+        binding.emptyStub.setExplanation(R.string.try_to_look_for_something_else)
         childFragmentManager.findFragmentByTag(fragmentTag)?.let { transaction.remove(it) }
         childFragmentManager.findFragmentByTag(fragmentFiveCommunitiesTag)?.let { transaction.remove(it) }
 
@@ -49,11 +53,14 @@ class DiscoveryAllFragment : FragmentBaseMVVM<FragmentDiscoveryAllBinding, Disco
             binding.vAllUsers.setOnClickListener { pFragment.switchTab(2) }
             pFragment.getUsersLiveData().observe(viewLifecycleOwner, Observer {
                 if(it != null){
-                    if(it.isNotEmpty()) {
+                    isUsersEmpty = it.isEmpty()
+                    if(!isUsersEmpty) {
                         binding.usersLabel.visibility = View.VISIBLE
                         binding.vAllUsers.visibility = if(it.size > 5) View.VISIBLE else View.GONE
                         discoveryUsersForFiveItemsFragment.updateList(if(it.size > 5) it.takeLast(5) else it)
                     }else{
+                        binding.emptyStub.visibility = if(isCommunitiesEmpty) View.VISIBLE else View.GONE
+                        binding.vRoot.visibility = if(isCommunitiesEmpty) View.GONE else View.VISIBLE
                         binding.usersLabel.visibility = View.GONE
                         binding.vAllUsers.visibility = View.GONE
                         binding.usersList.visibility = View.GONE
@@ -62,11 +69,14 @@ class DiscoveryAllFragment : FragmentBaseMVVM<FragmentDiscoveryAllBinding, Disco
             })
             pFragment.getCommunitiesLiveData().observe(viewLifecycleOwner, Observer {
                 if(it != null){
-                    if(it.isNotEmpty()) {
+                    isCommunitiesEmpty = it.isEmpty()
+                    if(!isCommunitiesEmpty) {
                         binding.communitiesLabel.visibility = View.VISIBLE
                         binding.vAllCommunities.visibility = if(it.size > 5) View.VISIBLE else View.GONE
                         discoverCommunitiesFiveItemsFragment.updateList(if(it.size > 5) it.takeLast(5) else it,true)
                     }else {
+                        binding.emptyStub.visibility = if(isUsersEmpty) View.VISIBLE else View.GONE
+                        binding.vRoot.visibility = if(isUsersEmpty) View.GONE else View.VISIBLE
                         binding.communitiesLabel.visibility = View.GONE
                         binding.vAllCommunities.visibility = View.GONE
                         binding.communitiesList.visibility = View.GONE

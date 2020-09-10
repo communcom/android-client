@@ -44,14 +44,14 @@ constructor(
     private val userKeyStore: UserKeyStore
 ) : DiscussionRepository {
 
-    override suspend fun updatePost(contentIdDomain: ContentIdDomain, body: String, tags: List<String>): PostDomain {
+    override suspend fun updatePost(contentIdDomain: ContentIdDomain,title:String, body: String, tags: List<String>): PostDomain {
         val oldPost = getPost(contentIdDomain.userId.toCyberName(), contentIdDomain.communityId, contentIdDomain.permlink)
 
         val updatePostResult = callProxy.callBC {
             commun4j.updatePostOrComment(
                 messageId = MssgidCGalleryStruct(contentIdDomain.userId.toCyberName(), contentIdDomain.permlink),
                 communCode = CyberSymbolCode(contentIdDomain.communityId.code),
-                header = "",
+                header = title,
                 body = body,
                 tags = tags,
                 metadata = DatesServerFormatter.formatToServer(oldPost.meta.creationTime),
@@ -69,11 +69,11 @@ constructor(
         return getPost(contentIdDomain.userId.toCyberName(), contentIdDomain.communityId, contentIdDomain.permlink)
     }
 
-    override suspend fun createPost(communityId: CommunityIdDomain, body: String, tags: List<String>): ContentIdDomain {
+    override suspend fun createPost(communityId: CommunityIdDomain,title:String, body: String, tags: List<String>): ContentIdDomain {
         val createPostResult = callProxy.callBC {
             commun4j.createPost(
                 communCode = CyberSymbolCode(communityId.code),
-                header = "",
+                header = title,
                 body = body,
                 tags = listOf(),
                 metadata = DatesServerFormatter.formatToServer(Date()),
@@ -162,6 +162,12 @@ constructor(
                     post.mapToPostDomain(userId == currentUserRepository.userId.userId, reward, donation)
                 }
             }
+            /*withContext(dispatchersProvider.calculationsDispatcher) {
+                posts.items.map { post ->
+                    val userId = post.author.userId.name
+                    post.mapToPostDomain(userId == currentUserRepository.userId.userId, null, null)
+                }
+            }*/
         } else {
             listOf()
         }

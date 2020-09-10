@@ -6,6 +6,7 @@
         android:layout_height="match_parent">
 
         <ScrollView
+            android:id="@+id/vRoot"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -91,6 +92,13 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>
+
+        <io.golos.cyber_android.ui.shared.widgets.lists.NoDataStub
+            android:id="@+id/emptyStub"
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_height="@dimen/profile_followers_no_data_height"
+            android:visibility="gone" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
