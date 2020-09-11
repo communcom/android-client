@@ -913,5 +913,17 @@
         <item name="android:background">@drawable/bcg_sign_in_button_corners</item>
     </style>
 
+    <style name="BlueWhite.RoundCorners.Toggle.Filter" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/text_color_toggle_white_black</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/bcg_toggle_gray_blue</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/follow_following_button_height</item>
+    </style>
+
     <!--Common-->
 </resources>
