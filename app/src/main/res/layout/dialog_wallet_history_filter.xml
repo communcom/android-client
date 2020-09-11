@@ -1,307 +1,426 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/bcg_filter_bottom_fragment"
-    android:paddingTop="@dimen/bottom_sheet_dialog_padding_header_top"
-    android:paddingBottom="@dimen/bottom_sheet_dialog_padding_bottom">
+<layout>
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="?attr/white"
-        android:gravity="center"
-        android:text="@string/filter"
-        android:textColor="?attr/black"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/btnClose"
-        app:layout_constraintStart_toStartOf="@+id/base_filters_layout"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/btnClose"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="?selectableItemBackgroundBorderless"
-        android:src="@drawable/ic_close_white"
-
-        app:layout_constraintBottom_toBottomOf="@+id/title"
-        app:layout_constraintEnd_toEndOf="@+id/base_filters_layout"
-
-        app:layout_constraintTop_toTopOf="@+id/title"
-        tools:ignore="ContentDescription" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:layout_marginStart="@dimen/bottom_sheet_dialog_item_margin_horizontal"
-        android:layout_marginTop="@dimen/padding_toolbar_buttons_20dp"
-
-        android:layout_marginEnd="@dimen/bottom_sheet_dialog_item_margin_horizontal"
-        android:background="@drawable/bcg_base_filters"
-        android:visibility="gone"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title">
+        android:layout_height="wrap_content"
+        android:background="@drawable/bcg_filter_bottom_fragment"
+        android:paddingTop="@dimen/bottom_sheet_dialog_padding_header_top"
+        android:paddingBottom="@dimen/bottom_sheet_dialog_padding_bottom">
 
         <TextView
-            android:id="@+id/filter_all"
+            android:id="@+id/title"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/bcg_blue_button_round"
-            android:fontFamily="@font/roboto_medium"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="?attr/white"
             android:gravity="center"
-            android:text="All"
+            android:text="@string/filter"
             android:textColor="?attr/black"
-            app:layout_constraintEnd_toStartOf="@+id/first_divider"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <View
-            android:id="@+id/first_divider"
-            android:layout_width="1dp"
-            android:layout_height="15dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/filter_income"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/filter_all"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/btnClose"
+            app:layout_constraintStart_toStartOf="@+id/base_filters_layout"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/filter_income"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:background="@color/transparent"
-            android:fontFamily="@font/roboto_medium"
-            android:gravity="center"
-            android:text="Income"
-            android:textColor="?attr/black"
-            app:layout_constraintEnd_toStartOf="@+id/second_divider"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/first_divider" />
+        <ImageView
+            android:id="@+id/btnClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_close_white"
 
-        <View
-            android:id="@+id/second_divider"
-            android:layout_width="1dp"
-            android:layout_height="15dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/filter_outcome"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/filter_income"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toBottomOf="@+id/title"
+            app:layout_constraintEnd_toEndOf="@+id/base_filters_layout"
 
-        <TextView
-            android:id="@+id/filter_outcome"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/bcg_blue_button_round"
-            android:fontFamily="@font/roboto_medium"
-            android:gravity="center"
-            android:text="Outcome"
-            android:textColor="@color/white"
+            app:layout_constraintTop_toTopOf="@+id/title"
+            tools:ignore="ContentDescription" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:layout_marginStart="@dimen/bottom_sheet_dialog_item_margin_horizontal"
+            android:layout_marginTop="@dimen/padding_toolbar_buttons_20dp"
+
+            android:layout_marginEnd="@dimen/bottom_sheet_dialog_item_margin_horizontal"
+            android:background="@drawable/bcg_base_filters"
+            android:visibility="gone"
+
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/second_divider" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title">
+
+            <TextView
+                android:id="@+id/filter_all"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/bcg_blue_button_round"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:text="@string/all"
+                android:textColor="?attr/black"
+                app:layout_constraintEnd_toStartOf="@+id/first_divider"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <View
+                android:id="@+id/first_divider"
+                android:layout_width="1dp"
+                android:layout_height="15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/filter_income"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/filter_all"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/filter_income"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:text="@string/income"
+                android:textColor="?attr/black"
+                app:layout_constraintEnd_toStartOf="@+id/second_divider"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/first_divider" />
+
+            <View
+                android:id="@+id/second_divider"
+                android:layout_width="1dp"
+                android:layout_height="15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/filter_outcome"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/filter_income"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/filter_outcome"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/bcg_blue_button_round"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:text="@string/outcome"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/second_divider" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/base_filters_layout"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:layout_marginStart="@dimen/bottom_sheet_dialog_item_margin_horizontal"
+            android:layout_marginTop="@dimen/padding_toolbar_buttons_20dp"
+            android:layout_marginEnd="@dimen/bottom_sheet_dialog_item_margin_horizontal"
+            android:background="@drawable/bcg_base_filters"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            app:tabBackground="@android:color/transparent"
+            app:tabGravity="fill"
+            app:tabIndicator="@drawable/bcg_blue_button_round"
+            app:tabIndicatorColor="@color/blue"
+            app:tabIndicatorGravity="center"
+            app:tabIndicatorHeight="?actionBarSize"
+            app:tabMode="fixed"
+            app:tabRippleColor="@null"
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextAppearance="@style/CustomTextAppearance"
+            app:tabTextColor="?attr/black">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/all" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/income" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/outcome" />
+
+        </com.google.android.material.tabs.TabLayout>
+
+        <TextView
+            android:id="@+id/filter_type_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/bottom_sheet_dialog_item_margin_horizontal"
+            android:layout_marginTop="20dp"
+            android:text="@string/type"
+            android:textColor="?attr/grey"
+            android:textSize="17sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/base_filters_layout" />
+
+        <RelativeLayout
+            android:id="@+id/type_filters_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/bottom_sheet_dialog_item_margin_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="@dimen/bottom_sheet_dialog_item_margin_horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/filter_type_title">
+
+            <ToggleButton
+                android:id="@+id/tbTransfer"
+                style="@style/BlueWhite.RoundCorners.Toggle.Filter"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margin_default"
+                android:checked="true"
+                android:textOff="@string/transfer"
+                android:textOn="@string/transfer" />
+
+            <ToggleButton
+                android:id="@+id/tbConvert"
+                style="@style/BlueWhite.RoundCorners.Toggle.Filter"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margin_default"
+                android:layout_toEndOf="@id/tbTransfer"
+                android:checked="true"
+                android:textOff="@string/convert"
+                android:textOn="@string/convert" />
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/type_tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:clipToPadding="false"
+                android:visibility="gone"
+                app:tabBackground="@android:color/transparent"
+                app:tabGravity="center"
+                app:tabIndicator="@drawable/bcg_toggle_profile_followers"
+                app:tabIndicatorColor="@color/blue"
+                app:tabIndicatorGravity="center"
+                app:tabIndicatorHeight="30dp"
+                app:tabMode="scrollable"
+                app:tabRippleColor="@null"
+                app:tabSelectedTextColor="?attr/white"
+                app:tabTextAppearance="@style/CustomTextAppearance"
+                app:tabTextColor="?attr/black">
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/transfer" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/convert" />
+
+            </com.google.android.material.tabs.TabLayout>
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/filter_rewards_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/bottom_sheet_dialog_item_margin_horizontal"
+            android:layout_marginTop="20dp"
+            android:text="@string/rewards"
+            android:textColor="?attr/grey"
+            android:textSize="17sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/type_filters_layout" />
+
+        <RelativeLayout
+            android:id="@+id/reward_filters_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/bottom_sheet_dialog_item_margin_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="@dimen/bottom_sheet_dialog_item_margin_horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/filter_rewards_title">
+
+            <ToggleButton
+                android:id="@+id/tbRewards"
+                style="@style/BlueWhite.RoundCorners.Toggle.Filter"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margin_default"
+                android:checked="true"
+                android:textOff="@string/rewards"
+                android:textOn="@string/rewards" />
+
+            <ToggleButton
+                android:id="@+id/tbClaim"
+                style="@style/BlueWhite.RoundCorners.Toggle.Filter"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margin_default"
+                android:layout_toEndOf="@id/tbRewards"
+                android:checked="true"
+                android:textOff="@string/claim"
+                android:textOn="@string/claim" />
+
+            <ToggleButton
+                android:id="@+id/tbDonations"
+                style="@style/BlueWhite.RoundCorners.Toggle.Filter"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margin_default"
+                android:layout_toEndOf="@id/tbClaim"
+                android:checked="true"
+                android:textOff="@string/donations"
+                android:textOn="@string/donations" />
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/reward_tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:clipToPadding="false"
+                android:visibility="gone"
+                app:tabBackground="@android:color/transparent"
+                app:tabGravity="center"
+                app:tabIndicator="@drawable/bcg_toggle_profile_followers"
+                app:tabIndicatorColor="@color/blue"
+                app:tabIndicatorGravity="center"
+                app:tabIndicatorHeight="30dp"
+                app:tabMode="scrollable"
+                app:tabRippleColor="@null"
+                app:tabSelectedTextColor="?attr/white"
+                app:tabTextAppearance="@style/CustomTextAppearance"
+                app:tabTextColor="?attr/black">
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rewards" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/claim" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/donations" />
+
+            </com.google.android.material.tabs.TabLayout>
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/filter_like_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/bottom_sheet_dialog_item_margin_horizontal"
+            android:layout_marginTop="20dp"
+            android:text="@string/like_dislike"
+            android:textColor="?attr/grey"
+            android:textSize="17sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/reward_filters_layout" />
+
+        <RelativeLayout
+            android:id="@+id/reward_like_dislike_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/bottom_sheet_dialog_item_margin_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="@dimen/bottom_sheet_dialog_item_margin_horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/filter_like_title">
+
+            <ToggleButton
+                android:id="@+id/tbLike"
+                style="@style/BlueWhite.RoundCorners.Toggle.Filter"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margin_default"
+                android:checked="true"
+                android:textOff="@string/like"
+                android:textOn="@string/like" />
+
+            <ToggleButton
+                android:id="@+id/tbDislike"
+                style="@style/BlueWhite.RoundCorners.Toggle.Filter"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margin_default"
+                android:layout_toEndOf="@id/tbLike"
+                android:checked="true"
+                android:textOff="@string/dislike"
+                android:textOn="@string/dislike" />
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/like_tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:clipToPadding="false"
+                android:visibility="gone"
+                app:tabBackground="@android:color/transparent"
+                app:tabGravity="center"
+                app:tabIndicator="@drawable/bcg_toggle_profile_followers"
+                app:tabIndicatorColor="@color/blue"
+                app:tabIndicatorGravity="center"
+                app:tabIndicatorHeight="30dp"
+                app:tabMode="scrollable"
+                app:tabRippleColor="@null"
+                app:tabSelectedTextColor="?attr/white"
+                app:tabTextAppearance="@style/CustomTextAppearance"
+                app:tabTextColor="?attr/black">
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/like" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dislike" />
+
+            </com.google.android.material.tabs.TabLayout>
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/save_button"
+            style="@style/SaveButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="20dp"
+            android:text="@string/save"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/reward_like_dislike_layout" />
+
+        <TextView
+            android:id="@+id/clean_all_button"
+            style="@style/ClearButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="20dp"
+            android:text="@string/clean_all"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:layout_constraintTop_toBottomOf="@+id/save_button" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/base_filters_layout"
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:layout_marginStart="@dimen/bottom_sheet_dialog_item_margin_horizontal"
-        android:layout_marginTop="@dimen/padding_toolbar_buttons_20dp"
-        android:layout_marginEnd="@dimen/bottom_sheet_dialog_item_margin_horizontal"
-        android:background="@drawable/bcg_base_filters"
-        app:layout_constraintEnd_toEndOf="parent"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title"
-        app:tabBackground="@android:color/transparent"
-        app:tabGravity="fill"
-        app:tabIndicator="@drawable/bcg_blue_button_round"
-        app:tabIndicatorColor="@color/blue"
-        app:tabIndicatorGravity="center"
-        app:tabIndicatorHeight="?actionBarSize"
-        app:tabMode="fixed"
-        app:tabRippleColor="@null"
-        app:tabSelectedTextColor="?attr/white"
-        app:tabTextAppearance="@style/CustomTextAppearance"
-        app:tabTextColor="?attr/black">
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="All" />
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Income" />
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Outcome" />
-
-    </com.google.android.material.tabs.TabLayout>
-
-    <TextView
-        android:id="@+id/filter_type_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/bottom_sheet_dialog_item_margin_horizontal"
-        android:layout_marginTop="20dp"
-        android:text="Type"
-        android:textColor="?attr/grey"
-        android:textSize="17sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/base_filters_layout" />
-
-    <RelativeLayout
-        android:id="@+id/type_filters_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/bottom_sheet_dialog_item_margin_horizontal"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="@dimen/bottom_sheet_dialog_item_margin_horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/filter_type_title">
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/type_tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:clipToPadding="false"
-            app:tabBackground="@android:color/transparent"
-            app:tabGravity="center"
-            app:tabIndicator="@drawable/bcg_toggle_profile_followers"
-            app:tabIndicatorColor="@color/blue"
-            app:tabIndicatorGravity="center"
-            app:tabIndicatorHeight="30dp"
-            app:tabMode="scrollable"
-            app:tabRippleColor="@null"
-            app:tabSelectedTextColor="?attr/white"
-            app:tabTextAppearance="@style/CustomTextAppearance"
-            app:tabTextColor="?attr/black">
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Transfer" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Convert" />
-
-        </com.google.android.material.tabs.TabLayout>
-
-        <!--<ToggleButton
-            style="@style/BlueWhite.RoundCorners.Toggle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:background="@drawable/bcg_toggle_blue_gray"
-            android:textColor="@color/text_color_toggle_blue_while"
-            android:textOff="@string/transfer"
-            android:textOn="@string/transfer" />-->
-
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/filter_rewards_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/bottom_sheet_dialog_item_margin_horizontal"
-        android:layout_marginTop="20dp"
-        android:text="Rewards"
-        android:textColor="?attr/grey"
-        android:textSize="17sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/type_filters_layout" />
-
-    <RelativeLayout
-        android:id="@+id/reward_filters_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/bottom_sheet_dialog_item_margin_horizontal"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="@dimen/bottom_sheet_dialog_item_margin_horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/filter_rewards_title">
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/reward_tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:clipToPadding="false"
-            app:tabBackground="@android:color/transparent"
-            app:tabGravity="center"
-            app:tabIndicator="@drawable/bcg_toggle_profile_followers"
-            app:tabIndicatorColor="@color/blue"
-            app:tabIndicatorGravity="center"
-            app:tabIndicatorHeight="30dp"
-            app:tabMode="scrollable"
-            app:tabRippleColor="@null"
-            app:tabSelectedTextColor="?attr/white"
-            app:tabTextAppearance="@style/CustomTextAppearance"
-            app:tabTextColor="?attr/black">
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/post_button" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/filter_like" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/filter_comment" />
-
-        </com.google.android.material.tabs.TabLayout>
-
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/save_button"
-        style="@style/SaveButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="20dp"
-        android:text="@string/save"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/reward_filters_layout" />
-
-    <TextView
-        android:id="@+id/clean_all_button"
-        style="@style/ClearButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="20dp"
-        android:text="@string/filter_clean_all"
-        android:textStyle="bold"
-        android:visibility="visible"
-        app:layout_constraintTop_toBottomOf="@+id/save_button" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

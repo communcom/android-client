@@ -60,14 +60,16 @@ constructor(
 
     override suspend fun getTransferHistory(offset: Int, limit: Int, communityId: CommunityIdDomain,historyFilterDomain: HistoryFilterDomain?): List<WalletTransferHistoryRecordDomain> =
         callProxy.call {commun4j.getTransferHistory(
-            userId = CyberName(currentUserRepository.userId.userId),
-            direction = historyFilterDomain?.direction?:TransferHistoryDirection.ALL,
-            transferType = historyFilterDomain?.transferType?:TransferHistoryTransferType.ALL,
-            rewards = /*historyFilterDomain?.reward?:*/"all",
-            holdType = historyFilterDomain?.holdType?:TransferHistoryHoldType.LIKE,
             symbol = CyberSymbolCode(communityId.code),
+            offset = offset,
+            userId = CyberName(currentUserRepository.userId.userId),
+            rewards = historyFilterDomain?.reward,
+            claim = historyFilterDomain?.claim ,
+            transferType = historyFilterDomain?.transferType,
+            holdType = historyFilterDomain?.holdType,
             limit = limit,
-            offset = offset
+            direction = historyFilterDomain?.direction,
+            donation = historyFilterDomain?.donation
         )}
             .items.map { it.mapToWalletTransferHistoryRecordDomain() }
 

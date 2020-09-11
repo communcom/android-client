@@ -613,4 +613,17 @@
     <string name="filter_like">Лайк</string>
     <string name="filter_comment">Комментарии</string>
 
+    <!--  Wallet Filtering  -->
+    <string name="all">Все</string>
+    <string name="income">Входящие</string>
+    <string name="outcome">Исходящие</string>
+    <string name="type">Тип</string>
+    <string name="rewards">Награды</string>
+    <string name="claim">Клейм</string>
+    <string name="donations">Донаты</string>
+    <string name="like">Лайк</string>
+    <string name="like_dislike">Лайк/Дизлайк</string>
+    <string name="dislike">Дизлайк</string>
+    <string name="clean_all">Очистить все</string>
+
 </resources>

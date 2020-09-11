@@ -693,4 +693,18 @@
     <string name="show_all_results">Show all results</string>
     <string name="no_results">No results</string>
     <string name="try_to_look_for_something_else">Try to look for something else</string>
+
+    <!--  Wallet Filtering  -->
+    <string name="all">All</string>
+    <string name="income">Income</string>
+    <string name="outcome">Outcome</string>
+    <string name="type">Type</string>
+    <string name="rewards">Rewards</string>
+    <string name="claim">Claim</string>
+    <string name="donations">Donations</string>
+    <string name="like">Like</string>
+    <string name="like_dislike">Like/Dislike</string>
+    <string name="dislike">Dislike</string>
+    <string name="clean_all">Clean all</string>
+
 </resources>
