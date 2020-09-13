@@ -245,7 +245,7 @@ constructor(
     private fun isSendPointsListEmpty(items: List<VersionedListItem>) =
         items.isEmpty() || (items.size == 1 && (items[0] is NoDataListItem || items[0] is LoadingListItem))
 
-    fun applyFilters(historyFilterDomain: HistoryFilterDomain?) {
+    fun applyFilters(historyFilterDomain: HistoryFilterDomain) {
         launch {
             try {
                 model.applyFilters(historyFilterDomain)
@@ -256,4 +256,6 @@ constructor(
             }
         }
     }
+
+    fun getCurrentFilter() = model.getCurrentFilter()
 }

@@ -1,62 +1,124 @@
 package io.golos.cyber_android.ui.screens.wallet_dialogs
 
-import android.os.Bundle
-import android.view.LayoutInflater
+import android.os.Handler
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
+import android.view.WindowManager
+import android.widget.FrameLayout
+import androidx.fragment.app.FragmentManager
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import io.golos.commun4j.services.model.TransferHistoryDirection
 import io.golos.commun4j.services.model.TransferHistoryDonation
 import io.golos.commun4j.services.model.TransferHistoryHoldType
 import io.golos.commun4j.services.model.TransferHistoryTransferType
 import io.golos.cyber_android.R
-import io.golos.cyber_android.databinding.DialogWalletHistoryFilterBinding
+import io.golos.cyber_android.ui.dialogs.base.BottomSheetDialogFragmentBase
 import io.golos.domain.dto.HistoryFilterDomain
+import kotlinx.android.synthetic.main.dialog_wallet_history_filter.*
 
-class WalletHistoryFilterDialog private constructor() : DialogFragment() {
+class WalletHistoryFilterDialog private constructor() : BottomSheetDialogFragmentBase<WalletHistoryFilterDialog.Result>() {
 
     sealed class Result {
         class ApplyFilter(val filter: HistoryFilterDomain) : Result()
         object RestoreToDefaults : Result()
-        object Cancel : Result()
     }
 
-    private var closeActionListener: ((Result?) -> Unit)? = null
-    private lateinit var mBinding: DialogWalletHistoryFilterBinding
+    private var mPreviousFilter: HistoryFilterDomain? = null
 
     companion object {
-        fun show(parent: Fragment, callback: (Result?) -> Unit) = WalletHistoryFilterDialog().apply {
+        fun show(fragmentManager: FragmentManager, previousFilter:HistoryFilterDomain,callback: (Result?) -> Unit) = WalletHistoryFilterDialog().apply {
             closeActionListener = callback
-        }.show(parent.parentFragmentManager, "Filter")
+            mPreviousFilter = previousFilter
+        }.show(fragmentManager,"Filter")
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setStyle(STYLE_NO_TITLE, R.style.DialogFragment_RoundCorners)
-    }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mBinding = DialogWalletHistoryFilterBinding.inflate(inflater, container, false)
+    override val closeButton: View?
+        get() = btnClose
+    override val layout: Int
+        get() = R.layout.dialog_wallet_history_filter
+
+    override fun setupView() {
+        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        dialog?.setOnShowListener {
+            Handler().post {
+                val bottomSheet = (dialog as? BottomSheetDialog)?.findViewById<View>(R.id.design_bottom_sheet) as? FrameLayout
+                bottomSheet?.let {
+                    BottomSheetBehavior.from(it).state = BottomSheetBehavior.STATE_EXPANDED
+                }
+            }
+        }
         initView()
-        return mBinding.root
     }
 
     private fun initView() {
-        mBinding.saveButton.setOnClickListener {
-            val direction = when (mBinding.baseFiltersLayout.selectedTabPosition) {
+        mPreviousFilter?.let {
+            tbClaim.isChecked = it.claim == TransferHistoryDonation.ALL
+            tbDonations.isChecked = it.donation == TransferHistoryDonation.ALL
+            tbRewards.isChecked = it.reward == "all"
+            when(it.holdType){
+                TransferHistoryHoldType.ALL ->{
+                    tbLike.isChecked = true
+                    tbDislike.isChecked = true
+                }
+                TransferHistoryHoldType.LIKE ->{
+                    tbLike.isChecked = true
+                    tbDislike.isChecked = false
+                }
+                TransferHistoryHoldType.DISLIKE ->{
+                    tbLike.isChecked = false
+                    tbDislike.isChecked = true
+                }
+                TransferHistoryHoldType.NONE ->{
+                    tbLike.isChecked = false
+                    tbDislike.isChecked = false
+                }
+            }
+            when(it.direction){
+                TransferHistoryDirection.ALL -> {
+                    base_filters_layout.getTabAt(0)?.select()
+                }
+                TransferHistoryDirection.RECEIVE -> {
+                    base_filters_layout.getTabAt(1)?.select()
+                }
+                else -> {
+                    base_filters_layout.getTabAt(2)?.select()
+                }
+            }
+
+            when(it.transferType){
+                TransferHistoryTransferType.ALL -> {
+                    tbTransfer.isChecked = true
+                    tbConvert.isChecked = true
+                }
+                TransferHistoryTransferType.TRANSFER -> {
+                    tbTransfer.isChecked = true
+                    tbConvert.isChecked = false
+                }
+                TransferHistoryTransferType.CONVERT -> {
+                    tbTransfer.isChecked = false
+                    tbConvert.isChecked = true
+                }
+                TransferHistoryTransferType.NONE -> {
+                    tbTransfer.isChecked = false
+                    tbConvert.isChecked = false
+                }
+            }
+        }
+        save_button.setOnClickListener {
+            val direction = when (base_filters_layout.selectedTabPosition) {
                 0 -> TransferHistoryDirection.ALL
                 1 -> TransferHistoryDirection.RECEIVE
                 else -> TransferHistoryDirection.SEND
             }
             val transferType = when{
-                mBinding.tbTransfer.isChecked && mBinding.tbConvert.isChecked ->{
+                tbTransfer.isChecked && tbConvert.isChecked ->{
                     TransferHistoryTransferType.ALL
                 }
-                mBinding.tbTransfer.isChecked ->{
+                tbTransfer.isChecked ->{
                     TransferHistoryTransferType.TRANSFER
                 }
-                mBinding.tbConvert.isChecked -> {
+                tbConvert.isChecked -> {
                     TransferHistoryTransferType.CONVERT
                 }
                 else ->{
@@ -64,24 +126,23 @@ class WalletHistoryFilterDialog private constructor() : DialogFragment() {
                 }
             }
             val holdType = when{
-                mBinding.tbLike.isChecked && mBinding.tbDislike.isChecked ->{
+                tbLike.isChecked && tbDislike.isChecked ->{
                     TransferHistoryHoldType.ALL
                 }
-                mBinding.tbLike.isChecked ->{
+                tbLike.isChecked ->{
                     TransferHistoryHoldType.LIKE
                 }
-                mBinding.tbDislike.isChecked -> {
+                tbDislike.isChecked -> {
                     TransferHistoryHoldType.DISLIKE
                 }
                 else ->{
                     TransferHistoryHoldType.NONE
                 }
             }
-            val reward = if(mBinding.tbRewards.isChecked) "all" else "none"
-            val claim = if(mBinding.tbClaim.isChecked) TransferHistoryDonation.ALL else TransferHistoryDonation.NONE
-            val donation = if(mBinding.tbDonations.isChecked) TransferHistoryDonation.ALL else TransferHistoryDonation.NONE
-
-            closeActionListener?.invoke(
+            val reward = if(tbRewards.isChecked) "all" else "none"
+            val claim = if(tbClaim.isChecked) TransferHistoryDonation.ALL else TransferHistoryDonation.NONE
+            val donation = if(tbDonations.isChecked) TransferHistoryDonation.ALL else TransferHistoryDonation.NONE
+            closeOnItemSelected(
                 Result.ApplyFilter(
                     HistoryFilterDomain(
                         direction = direction,
@@ -93,9 +154,8 @@ class WalletHistoryFilterDialog private constructor() : DialogFragment() {
                     )
                 )
             )
-            dismiss()
         }
-        mBinding.cleanAllButton.setOnClickListener { closeActionListener?.invoke(Result.RestoreToDefaults);dismiss() }
-        mBinding.btnClose.setOnClickListener { dismiss() }
+        clean_all_button.setOnClickListener { closeOnItemSelected(Result.RestoreToDefaults) }
     }
+
 }

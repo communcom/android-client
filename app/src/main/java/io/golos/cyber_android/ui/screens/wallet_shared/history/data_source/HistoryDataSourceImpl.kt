@@ -2,6 +2,9 @@ package io.golos.cyber_android.ui.screens.wallet_shared.history.data_source
 
 import android.annotation.SuppressLint
 import android.content.Context
+import io.golos.commun4j.services.model.TransferHistoryDirection
+import io.golos.commun4j.services.model.TransferHistoryHoldType
+import io.golos.commun4j.services.model.TransferHistoryTransferType
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.wallet_shared.getDisplayName
 import io.golos.cyber_android.ui.screens.wallet_shared.history.dto.*
@@ -13,6 +16,7 @@ import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.HistoryFilterDomain
 import io.golos.domain.dto.WalletTransferHistoryRecordDomain
 import io.golos.utils.id.toLongId
 import io.golos.utils.dates_local_now_calculator.DateCommonBase
@@ -22,10 +26,6 @@ import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
 import io.golos.utils.helpers.capitalize
-import io.golos.commun4j.services.model.TransferHistoryDirection
-import io.golos.commun4j.services.model.TransferHistoryHoldType
-import io.golos.commun4j.services.model.TransferHistoryTransferType
-import io.golos.domain.dto.HistoryFilterDomain
 
 class HistoryDataSourceImpl
 @Inject
@@ -39,17 +39,21 @@ constructor(
 
     private val datesCalculator = ServerLocalNowDatesCalculator()
 
-    private var filterModel: HistoryFilterDomain? = null
+    private var filterModel:HistoryFilterDomain = HistoryFilterDomain()
 
     private var lastDateBase: DateCommonBase? = null
     private lateinit var lastSeparatorType: WalletHistorySeparatorType
 
     override var communityId: CommunityIdDomain = CommunityIdDomain(GlobalConstants.ALL_COMMUNITIES_CODE)
 
-    override suspend fun applyFilter(filterDomain: HistoryFilterDomain?) {
+    override suspend fun applyFilter(filterDomain: HistoryFilterDomain) {
         filterModel = filterDomain
         clear()
         loadPage()
+    }
+
+    override fun getCurrentFilter(): HistoryFilterDomain {
+        return filterModel
     }
 
     override suspend fun getData(offset: Int): List<VersionedListItem>  {
@@ -145,24 +149,24 @@ constructor(
         }
 
         val displayName = when (serverActionType) {
-                WalletHistoryConstants.ACTION_REWARD, WalletHistoryConstants.ACTION_UNHOLD -> serverItem.getDisplayName(appContext)
+            WalletHistoryConstants.ACTION_REWARD, WalletHistoryConstants.ACTION_UNHOLD -> serverItem.getDisplayName(appContext)
 
-                WalletHistoryConstants.ACTION_TRANSFER -> when (direction) {
-                    WalletHistoryTransferDirection.SEND -> serverItem.receiverName ?: serverItem.receiverId.userId
-                    WalletHistoryTransferDirection.RECEIVE -> serverItem.senderName ?: serverItem.senderId.userId
-                }
-
-                WalletHistoryConstants.ACTION_CONVERT -> appContext.getString(R.string.refill)
-
-                WalletHistoryConstants.ACTION_HOLD -> serverItem.holdType?.capitalize(Locale.getDefault()) ?: ""
-
-                WalletHistoryConstants.ACTION_DONATION -> when(direction) {
-                    WalletHistoryTransferDirection.SEND -> serverItem.receiverName ?: serverItem.receiverId.userId
-                    WalletHistoryTransferDirection.RECEIVE -> serverItem.senderName ?: serverItem.senderId.userId
-                }
-
-                else -> return null
+            WalletHistoryConstants.ACTION_TRANSFER -> when (direction) {
+                WalletHistoryTransferDirection.SEND -> serverItem.receiverName ?: serverItem.receiverId.userId
+                WalletHistoryTransferDirection.RECEIVE -> serverItem.senderName ?: serverItem.senderId.userId
             }
+
+            WalletHistoryConstants.ACTION_CONVERT -> appContext.getString(R.string.refill)
+
+            WalletHistoryConstants.ACTION_HOLD -> serverItem.holdType?.capitalize(Locale.getDefault()) ?: ""
+
+            WalletHistoryConstants.ACTION_DONATION -> when(direction) {
+                WalletHistoryTransferDirection.SEND -> serverItem.receiverName ?: serverItem.receiverId.userId
+                WalletHistoryTransferDirection.RECEIVE -> serverItem.senderName ?: serverItem.senderId.userId
+            }
+
+            else -> return null
+        }
 
         val timeStamp = when(separatorType) {
             WalletHistorySeparatorType.TODAY,
@@ -176,9 +180,9 @@ constructor(
             WalletHistoryConstants.ACTION_UNHOLD -> serverItem.communityAvatarUrl
 
             WalletHistoryConstants.ACTION_TRANSFER -> when(direction) {
-                    WalletHistoryTransferDirection.SEND -> serverItem.receiverAvatarUrl ?: WalletHistoryConstants.ICON_COMMUN
-                    WalletHistoryTransferDirection.RECEIVE -> serverItem.senderAvatarUrl ?: WalletHistoryConstants.ICON_COMMUN
-                }
+                WalletHistoryTransferDirection.SEND -> serverItem.receiverAvatarUrl ?: WalletHistoryConstants.ICON_COMMUN
+                WalletHistoryTransferDirection.RECEIVE -> serverItem.senderAvatarUrl ?: WalletHistoryConstants.ICON_COMMUN
+            }
 
             WalletHistoryConstants.ACTION_CONVERT ->
                 if(serverTransferType == WalletHistoryConstants.TRANSFER_TYPE_TOKEN) {
