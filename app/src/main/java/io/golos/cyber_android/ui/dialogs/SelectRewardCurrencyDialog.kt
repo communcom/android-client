@@ -42,7 +42,6 @@ class SelectRewardCurrencyDialog(
         rewardCurrencyButton.setOnClickListener { switchCurrency() }
 
         learnMoreButton.setOnClickListener {
-            this@SelectRewardCurrencyDialog.context?.openLinkView(Uri.parse(BuildConfig.POINTS_URI))
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.POINTS_URI))
             //ToDo this is a temporary solution, needs to be changed
             intent.setPackage(browserPackageName)
