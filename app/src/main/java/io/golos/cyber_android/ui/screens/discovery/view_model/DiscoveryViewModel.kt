@@ -62,7 +62,7 @@ constructor(
                         index, item-> item.mapToCommunity(index,searchResult.communities?.total ?: 0)
                 }
                 val profileItems = (searchResult.profiles?.items as? List<QuickSearchProfileItem>)?.mapIndexed {
-                        index, item -> item.mapToProfile(index,searchResult.profiles?.total ?: 0)
+                        index, item -> item.mapToProfile(index,(searchResult.profiles?.items as? List<QuickSearchProfileItem>)!!.size-1)
                 }
                 _postsLiveData.postValue(posts)
                 _communitiesLiveData.postValue(communities)
