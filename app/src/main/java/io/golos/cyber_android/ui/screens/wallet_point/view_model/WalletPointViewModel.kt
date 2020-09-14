@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.screens.wallet.data.enums.Currencies
 import io.golos.cyber_android.ui.screens.wallet.dto.NavigateToWalletConvertCommand
 import io.golos.cyber_android.ui.screens.wallet.dto.NavigateToWalletSendPoints
+import io.golos.cyber_android.ui.screens.wallet.dto.ShowFilterDialog
 import io.golos.cyber_android.ui.screens.wallet.dto.ShowSendPointsDialog
 import io.golos.cyber_android.ui.screens.wallet.model.CurrencyBalance
 import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
@@ -19,14 +20,13 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageTextComman
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.HistoryFilterDomain
 import io.golos.domain.dto.UserBriefDomain
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
-import io.golos.cyber_android.ui.screens.wallet.dto.ShowFilterDialog
-import io.golos.domain.dto.HistoryFilterDomain
 
 class WalletPointViewModel
 @Inject
@@ -179,7 +179,7 @@ constructor(
         }
     }
 
-    fun applyFilters(historyFilterDomain: HistoryFilterDomain?) {
+    fun applyFilters(historyFilterDomain: HistoryFilterDomain) {
         launch {
             try {
                 model.applyFilters(historyFilterDomain)
@@ -191,4 +191,5 @@ constructor(
         }
     }
 
+    fun getCurrentFilter(): HistoryFilterDomain = model.getCurrentFilter()
 }

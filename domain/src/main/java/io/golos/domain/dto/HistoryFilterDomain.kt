@@ -6,10 +6,10 @@ import io.golos.commun4j.services.model.TransferHistoryHoldType
 import io.golos.commun4j.services.model.TransferHistoryTransferType
 
 data class HistoryFilterDomain(
-    val transferType:TransferHistoryTransferType? = null,
-    val holdType: TransferHistoryHoldType? = null,
-    val direction: TransferHistoryDirection? = null,
-    val reward:String? = null,
-    val claim:TransferHistoryDonation? = null,
-    val donation:TransferHistoryDonation? = null
+    val transferType:TransferHistoryTransferType= TransferHistoryTransferType.ALL,
+    val holdType: TransferHistoryHoldType? = TransferHistoryHoldType.ALL,
+    val direction: TransferHistoryDirection? = TransferHistoryDirection.ALL,
+    val reward:String? = "all",
+    val claim:TransferHistoryDonation? = TransferHistoryDonation.ALL,
+    val donation:TransferHistoryDonation? = TransferHistoryDonation.ALL
 )

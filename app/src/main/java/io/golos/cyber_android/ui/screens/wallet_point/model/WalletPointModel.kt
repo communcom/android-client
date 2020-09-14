@@ -5,8 +5,8 @@ import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.dto.CommunityIdDomain
-import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.domain.dto.HistoryFilterDomain
+import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 
 interface WalletPointModel : ModelBase {
     val sourceBalance: List<WalletCommunityBalanceRecordDomain>
@@ -49,5 +49,7 @@ interface WalletPointModel : ModelBase {
 
     suspend fun clearHistory()
 
-    suspend fun applyFilters(historyFilterDomain: HistoryFilterDomain?)
+    suspend fun applyFilters(historyFilterDomain: HistoryFilterDomain)
+
+    fun getCurrentFilter():HistoryFilterDomain
 }

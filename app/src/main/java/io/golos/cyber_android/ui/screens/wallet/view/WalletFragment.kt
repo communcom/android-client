@@ -2,6 +2,7 @@ package io.golos.cyber_android.ui.screens.wallet.view
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentWalletBinding
@@ -10,6 +11,7 @@ import io.golos.cyber_android.ui.screens.wallet.di.WalletFragmentComponent
 import io.golos.cyber_android.ui.screens.wallet.dto.*
 import io.golos.cyber_android.ui.screens.wallet.view_model.WalletViewModel
 import io.golos.cyber_android.ui.screens.wallet_convert.view.WalletConvertFragment
+import io.golos.cyber_android.ui.screens.wallet_dialogs.WalletHistoryFilterDialog
 import io.golos.cyber_android.ui.screens.wallet_dialogs.choose_friend_dialog.WalletChooseFriendDialog
 import io.golos.cyber_android.ui.screens.wallet_dialogs.choose_points_dialog.WalletChoosePointsDialog
 import io.golos.cyber_android.ui.screens.wallet_point.view.WalletPointFragment
@@ -18,13 +20,8 @@ import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.domain.GlobalConstants
-import io.golos.domain.dto.CommunityIdDomain
-import io.golos.domain.dto.UserBriefDomain
-import io.golos.domain.dto.UserDomain
-import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
+import io.golos.domain.dto.*
 import kotlinx.android.synthetic.main.fragment_wallet.*
-import android.widget.Toast
-import io.golos.cyber_android.ui.screens.wallet_dialogs.WalletHistoryFilterDialog
 
 class WalletFragment : FragmentBaseMVVM<FragmentWalletBinding, WalletViewModel>() {
     companion object {
@@ -90,16 +87,13 @@ class WalletFragment : FragmentBaseMVVM<FragmentWalletBinding, WalletViewModel>(
     }
 
     private fun showFilterDialog() {
-        WalletHistoryFilterDialog.show(this) {
-            when (it) {
-                is WalletHistoryFilterDialog.Result.ApplyFilter -> {
+        WalletHistoryFilterDialog.show(childFragmentManager,viewModel.getCurrentFilter()){
+            when(it){
+                is WalletHistoryFilterDialog.Result.ApplyFilter ->{
                     viewModel.applyFilters(it.filter)
                 }
-                is WalletHistoryFilterDialog.Result.RestoreToDefaults -> {
-                    viewModel.applyFilters(null)
-                }
-                is WalletHistoryFilterDialog.Result.Cancel -> {
-                    Toast.makeText(requireContext(), "Cancel", Toast.LENGTH_LONG).show()
+                is WalletHistoryFilterDialog.Result.RestoreToDefaults ->{
+                    viewModel.applyFilters(HistoryFilterDomain())
                 }
             }
         }

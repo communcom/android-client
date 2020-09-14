@@ -6,5 +6,6 @@ import io.golos.domain.dto.HistoryFilterDomain
 
 interface HistoryDataSource : LoadedItemsList {
     var communityId: CommunityIdDomain
-    suspend fun applyFilter(filterDomain: HistoryFilterDomain?)
+    suspend fun applyFilter(filterDomain: HistoryFilterDomain)
+    fun getCurrentFilter(): HistoryFilterDomain
 }

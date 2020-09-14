@@ -15,6 +15,7 @@ import io.golos.domain.GlobalConstants
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.HistoryFilterDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.domain.repositories.GlobalSettingsRepository
 import io.golos.utils.id.IdUtil
@@ -22,7 +23,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Named
-import io.golos.domain.dto.HistoryFilterDomain
 
 class WalletModelImpl
 @Inject
@@ -138,8 +138,12 @@ constructor(
         return keyValueStorageFacade.areEmptyBalancesVisibility()
     }
 
-    override suspend fun applyFilters(historyFilterDomain: HistoryFilterDomain?) {
+    override suspend fun applyFilters(historyFilterDomain: HistoryFilterDomain) {
         historyDataSource.applyFilter(historyFilterDomain)
+    }
+
+    override fun getCurrentFilter(): HistoryFilterDomain {
+        return historyDataSource.getCurrentFilter()
     }
 
     private fun saveShowHideEmptyBalancesState(isShow: Boolean){

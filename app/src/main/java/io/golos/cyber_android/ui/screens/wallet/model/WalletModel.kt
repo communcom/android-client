@@ -5,9 +5,9 @@ import io.golos.cyber_android.ui.screens.wallet.data.enums.Currencies
 import io.golos.cyber_android.ui.screens.wallet.dto.MyPointsListItem
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
+import io.golos.domain.dto.HistoryFilterDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import kotlinx.coroutines.flow.Flow
-import io.golos.domain.dto.HistoryFilterDomain
 
 interface WalletModel : ModelBase {
     val balance: List<WalletCommunityBalanceRecordDomain>
@@ -50,6 +50,8 @@ interface WalletModel : ModelBase {
 
     fun getEmptyBalanceVisibility(): Boolean
 
-    suspend fun applyFilters(historyFilterDomain: HistoryFilterDomain?)
+    suspend fun applyFilters(historyFilterDomain: HistoryFilterDomain)
+
+    fun getCurrentFilter():HistoryFilterDomain
 
 }

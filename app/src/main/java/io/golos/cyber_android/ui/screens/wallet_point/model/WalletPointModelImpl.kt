@@ -13,10 +13,10 @@ import io.golos.domain.GlobalConstants
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.HistoryFilterDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import javax.inject.Inject
 import javax.inject.Named
-import io.golos.domain.dto.HistoryFilterDomain
 
 class WalletPointModelImpl
 @Inject
@@ -99,9 +99,11 @@ constructor(
 
     override suspend fun clearHistory() = historyDataSource.clear()
 
-    override suspend fun applyFilters(historyFilterDomain: HistoryFilterDomain?) {
+    override suspend fun applyFilters(historyFilterDomain: HistoryFilterDomain) {
         historyDataSource.applyFilter(historyFilterDomain)
     }
+
+    override fun getCurrentFilter(): HistoryFilterDomain = historyDataSource.getCurrentFilter()
 
     private fun getCurrency(): Currencies {
         return keyValueStorageFacade.getCurrencyCoefficient()?.let { Currencies.getCurrency(it) }
