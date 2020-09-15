@@ -134,6 +134,7 @@
     <style name="BottomSheetMenuItemNotifications" parent="BottomSheetMenuTitle">
         <item name="android:textStyle">normal</item>
         <item name="android:drawablePadding">@dimen/bottom_sheet_dialog_item_padding_icon_small</item>
+        <item name="android:background">@android:color/transparent</item>
         <item name="android:layout_gravity">start|center_vertical</item>
         <item name="android:gravity">center_vertical</item>
     </style>
