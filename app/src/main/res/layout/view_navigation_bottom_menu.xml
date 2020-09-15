@@ -24,7 +24,7 @@
         android:layout_height="match_parent"
         android:padding="8dp"
         android:layout_weight="1"
-        android:src="@drawable/selector_community_menu"
+        android:src="@drawable/selector_search_menu"
         android:scaleType="center"
         tools:ignore="ContentDescription" />
 
