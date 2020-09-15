@@ -12,9 +12,6 @@
         android:text=""
         tools:text = "Post title"
 
-        android:maxLines="3"
-        android:ellipsize="end"
-
         android:paddingStart="@dimen/post_content_border_horizontal"
         android:paddingEnd="@dimen/post_content_border_horizontal"
 
