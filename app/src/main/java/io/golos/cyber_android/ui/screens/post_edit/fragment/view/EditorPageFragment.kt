@@ -268,7 +268,8 @@ class EditorPageFragment : ImagePickerFragmentBase() {
         })
 
         viewModel.isEmbedButtonsEnabled.observe(viewLifecycleOwner, Observer {
-            photoButton.isEnabled = it
+            photoButton.isClickable = it
+            photoButton.alpha = if(it) 1f else 0.7f
         })
 
         viewModel.getNsfwLiveData.observe(viewLifecycleOwner, Observer {
