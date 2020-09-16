@@ -26,19 +26,20 @@ constructor(
     private var onAmountChangeListener: ((String) -> Unit)? = null
     private var onAmountClearListener: (() -> Unit)? = null
     private var onSendButtonClickListener: (() -> Unit)? = null
+    private var onExchangeClickListener: (() ->Unit)? = null
 
     var amount: String
-    get() = amountText.text.toString()
-    set(value) {
-        amountText.setText(value)
-    }
+        get() = amountText.text.toString()
+        set(value) {
+            amountText.setText(value)
+        }
 
     init {
         inflate(context, R.layout.view_wallet_send_points_bottom_panel, this)
 
         selectedUserPanel.setOnClickListener { onSelectUserClickListener?.invoke() }
         findFriendButton.setOnClickListener { onSelectUserClickListener?.invoke() }
-
+        tvExchangePoints.setOnClickListener { onExchangeClickListener?.invoke() }
         amountPanel.setOnClickListener {
             if(!amountText.isFocused) {
                 amountText.requestFocus()
@@ -66,6 +67,10 @@ constructor(
 
     fun setOnSelectUserClickListener(listener: (() -> Unit)?) {
         onSelectUserClickListener = listener
+    }
+
+    fun setOnExchangeClickListener(listener: (() -> Unit)?) {
+        onExchangeClickListener = listener
     }
 
     fun setOnAmountChangeListener(listener: ((String) -> Unit)?) {
@@ -96,6 +101,10 @@ constructor(
         amountText.filters = arrayOf(
             CurrencyInputFilter(7+amountFieldInfo.decimalPointsQuantity, amountFieldInfo.decimalPointsQuantity)
         )
+    }
+
+    fun setExchangeButtonVisibility(visibility:Int){
+        tvExchangePoints.visibility = visibility
     }
 
     fun setSendButtonInfo(sendButtonInfo: SendButtonInfo) {

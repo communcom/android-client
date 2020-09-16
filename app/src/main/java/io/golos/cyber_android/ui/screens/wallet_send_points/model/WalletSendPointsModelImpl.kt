@@ -35,7 +35,6 @@ constructor(
     private val amountValidator: AmountValidator,
     private val globalSettingsRepository: GlobalSettingsRepository
 ) : ModelBaseImpl(), WalletSendPointsModel {
-
     override val canSelectUser = true
 
     protected open var amount: Double? = null
@@ -54,13 +53,21 @@ constructor(
                 return@forEachIndexed
             }
         }
-        balance = allBalances.filter { it.points > 0 }
+        balance = allBalances.filter { it.points > 0  || it.communityId == CommunityIdDomain(GlobalConstants.COMMUN_CODE) }
+        /*balance =
+            mutableListOf(balance.first { it.communityId.code == GlobalConstants.COMMUN_CODE }.copy(communityName = communName)).also {
+                it.addAll(balance.filter { it1->
+                    it1.points > 0 })
+            }*/
     }
 
     override var currentBalanceRecord: WalletCommunityBalanceRecordDomain = initCurrentBalanceRecord()
 
     override val carouselItemsData: CarouselStartData =
-        CarouselStartData(startIndex = balance.indexOfFirst { it.communityId == currentCommunityId }, items = balance.map { CarouselListItem(id = it.communityId, iconUrl = it.communityLogoUrl) })
+        CarouselStartData(
+            startIndex = balance.indexOfFirst { it.communityId == currentCommunityId },
+            items = balance.map { CarouselListItem(id = it.communityId, iconUrl = it.communityLogoUrl) }
+        )
 
     override val hasFee: Boolean
         get() = currentBalanceRecord.communityId.code != GlobalConstants.COMMUN_CODE
@@ -69,24 +76,24 @@ constructor(
 
     override fun updateAmount(amountAsString: String?): Boolean = try {
         amount = if (amountAsString.isNullOrBlank()) null else amountAsString.toDouble()
-            true
-        } catch (ex: NumberFormatException) {
-            Timber.e(ex)
-            amount = null
-            false
-        }
+        true
+    } catch (ex: NumberFormatException) {
+        Timber.e(ex)
+        amount = null
+        false
+    }
 
     /**
      * @return Index of the community in the balance list
      */
-    override fun updateCurrentCommunity(communityId: CommunityIdDomain): Int? {
+    override fun updateCurrentCommunity(communityId: CommunityIdDomain): Pair<Int?,Double?>? {
         if (communityId == currentCommunityId) {
             return null
         }
 
         currentCommunityId = communityId
         currentBalanceRecord = calculateCurrentBalanceRecord()
-        return balance.indexOf(currentBalanceRecord)
+        return Pair(balance.indexOf(currentBalanceRecord),currentBalanceRecord.points)
     }
 
     override fun validateAmount(): AmountValidationResult {
@@ -98,6 +105,23 @@ constructor(
 
     override suspend fun notifyBalanceUpdate(isBalanceUpdated: Boolean) {
         globalSettingsRepository.notifyBalanceUpdate(isBalanceUpdated)
+    }
+
+    override suspend fun updateBalances():Pair<Int?,Double?>?{
+        val newBalances = walletRepository.getBalance()
+        val allBalances = ArrayList<WalletCommunityBalanceRecordDomain>()
+        allBalances.addAll(newBalances)
+        allBalances.forEachIndexed { index, item ->
+            if(item.communityId.code == GlobalConstants.COMMUN_CODE){
+                val tmp = allBalances[0]
+                allBalances[0] = item
+                allBalances[index] = tmp
+                return@forEachIndexed
+            }
+        }
+        balance = allBalances.filter { it.points > 0  || it.communityId == CommunityIdDomain(GlobalConstants.COMMUN_CODE) }
+        currentBalanceRecord = initCurrentBalanceRecord()
+        return Pair(balance.indexOf(currentBalanceRecord),currentBalanceRecord.points)
     }
 
     override fun getTransferCompletedInfo(): TransferCompletedInfo {

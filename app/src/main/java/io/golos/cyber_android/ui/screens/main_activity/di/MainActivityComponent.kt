@@ -9,6 +9,7 @@ import io.golos.cyber_android.ui.screens.donate_send_points.di.DonateSendPointsF
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity
 import io.golos.cyber_android.ui.screens.wallet.di.WalletFragmentComponent
 import io.golos.domain.dependency_injection.scopes.ActivityScope
+import io.golos.cyber_android.ui.screens.donate_convert_points.di.DonateConvertPointsFragmentComponent
 
 @Subcomponent(
     modules = [
@@ -28,6 +29,7 @@ interface MainActivityComponent {
     val communitiesFragmentDiscoveryComponent: DiscoveryCommunitiesFragmentComponent.Builder
     val walletFragmentComponent: WalletFragmentComponent.Builder
     val donateSendPointsFragmentComponent: DonateSendPointsFragmentComponent.Builder
+    val donateConvertPointsFragmentComponent: DonateConvertPointsFragmentComponent.Builder
     val getCommunityPointsFragmentComponent: GetCommunityPointsFragmentComponent.Builder
 
     fun inject(activity: MainActivity)

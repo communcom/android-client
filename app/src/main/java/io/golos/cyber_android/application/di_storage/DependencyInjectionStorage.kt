@@ -61,6 +61,8 @@ import io.golos.cyber_android.ui.screens.discovery.view.fragments.discovery_post
 import io.golos.cyber_android.ui.screens.discovery.view.fragments.discovery_users.di.DiscoveryUsersForFiveItemsComponent
 import io.golos.cyber_android.ui.screens.discovery.view.fragments.discovery_users.di.DiscoveryUsersFragmentComponent
 import io.golos.cyber_android.ui.screens.discovery.view.fragments.discovery_users.di.DiscoveryUsersFragmentModule
+import io.golos.cyber_android.ui.screens.donate_convert_points.di.DonateConvertPointsFragmentComponent
+import io.golos.cyber_android.ui.screens.donate_convert_points.di.DonateConvertPointsFragmentModule
 import io.golos.cyber_android.ui.screens.donate_send_points.di.DonateSendPointsFragmentComponent
 import io.golos.cyber_android.ui.screens.donate_send_points.di.DonateSendPointsFragmentModule
 import io.golos.cyber_android.ui.screens.feed.di.FeedFragmentComponent
@@ -391,6 +393,16 @@ class DependencyInjectionStorage(private val app: Application) {
                     ))
                     .build()
 
+            DonateConvertPointsFragmentComponent::class->{
+                getBase<MainActivityComponent>()
+                    .donateConvertPointsFragmentComponent
+                    .init(DonateConvertPointsFragmentModule(
+                        args[0] as CommunityIdDomain,
+                        args[1] as List<WalletCommunityBalanceRecordDomain>
+                    ))
+                    .build()
+            }
+
             GetCommunityPointsFragmentComponent::class->{
                 getBase<MainActivityComponent>()
                     .getCommunityPointsFragmentComponent
@@ -414,9 +426,9 @@ class DependencyInjectionStorage(private val app: Application) {
                     .sendPointsFragment
                     .init(
                         WalletSendPointsFragmentModule(
-                        communityId = args[0] as CommunityIdDomain,
-                        sendToUser = args[1] as UserBriefDomain?,
-                        balance = args[2] as List<WalletCommunityBalanceRecordDomain>)
+                            communityId = args[0] as CommunityIdDomain,
+                            sendToUser = args[1] as UserBriefDomain?,
+                            balance = args[2] as List<WalletCommunityBalanceRecordDomain>)
                     )
                     .build()
 

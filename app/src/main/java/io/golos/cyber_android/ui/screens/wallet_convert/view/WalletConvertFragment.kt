@@ -157,7 +157,7 @@ open class WalletConvertFragment : FragmentBaseMVVM<FragmentWalletConvertBinding
         }
     }
 
-    private fun showWalletConversionCompletedDialog(data: ConversionCompletedInfo) {
+    open fun showWalletConversionCompletedDialog(data: ConversionCompletedInfo) {
         WalletConversionCompletedDialog.show(this, data) {
             when(it) {
                 null,

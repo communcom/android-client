@@ -1,14 +1,13 @@
 package io.golos.cyber_android.ui.screens.wallet_send_points.view_model
 
 import android.content.Context
-import android.content.Intent
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.profile.dto.NavigateToHomeBackCommand
 import io.golos.cyber_android.ui.screens.profile.dto.NavigateToWalletBackCommand
-import io.golos.cyber_android.ui.screens.wallet_convert.view_model.WalletConvertViewModel
+import io.golos.cyber_android.ui.screens.wallet.dto.NavigateToWalletConvertCommand
 import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
 import io.golos.cyber_android.ui.screens.wallet_send_points.dto.*
 import io.golos.cyber_android.ui.screens.wallet_send_points.model.WalletSendPointsModel
@@ -52,6 +51,9 @@ constructor(
     private val _sendButtonInfo = MutableLiveData<SendButtonInfo>(getSendButtonInfo(amountInputField.value))
     val sendButtonInfo: LiveData<SendButtonInfo> = _sendButtonInfo
 
+    private val _exchangeButtonVisibility = MutableLiveData<Int>()
+    val exchangeButtonVisibility :LiveData<Int> = _exchangeButtonVisibility
+
     val userSelectionIsEnabled = model.canSelectUser
 
     val title = model.titleTextResId
@@ -64,6 +66,7 @@ constructor(
                 amountInputField.value = ""
             }
         }
+        _exchangeButtonVisibility.value = if(model.currentBalanceRecord.points > 0.0) View.GONE else View.VISIBLE
     }
 
     fun onBackClick() {
@@ -72,6 +75,10 @@ constructor(
 
     fun onSelectUserClick() {
         _command.value = ShowSelectUserDialogCommand()
+    }
+
+    fun onExchangeClick(){
+        _command.value = NavigateToWalletConvertCommand(model.currentBalanceRecord.communityId,model.balance)
     }
 
     fun onClearAmountClick() {
@@ -94,7 +101,9 @@ constructor(
                 amountInputField.value = ""
                 _selectedBalanceRecord.value = model.currentBalanceRecord
                 _amountFieldInfo.value = getAmountFieldInfo()
-                _command.value = UpdateCarouselPositionCommand(it)
+                it.first?.let {
+                    _command.value = UpdateCarouselPositionCommand(it)
+                }
             }
     }
 
@@ -104,6 +113,9 @@ constructor(
                 amountInputField.value = ""
                 _selectedBalanceRecord.value = model.currentBalanceRecord
                 _amountFieldInfo.value = getAmountFieldInfo()
+                it.second?.let {
+                    _exchangeButtonVisibility.value = if(it > 0.0) View.GONE else View.VISIBLE
+                }
             }
     }
 
@@ -189,4 +201,18 @@ constructor(
         }
         _command.value = ShowMessageResCommand(resourceId)
     }
+
+    fun updateBalances() = launch {
+        _command.value = SetLoadingVisibilityCommand(true)
+        model.updateBalances()?.let {
+            amountInputField.value = ""
+            _selectedBalanceRecord.value = model.currentBalanceRecord
+            _amountFieldInfo.value = getAmountFieldInfo()
+            it.second?.let {
+                _exchangeButtonVisibility.value = if(it > 0.0) View.GONE else View.VISIBLE
+            }
+        }
+        _command.value = SetLoadingVisibilityCommand(false)
+    }
+
 }
