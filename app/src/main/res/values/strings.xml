@@ -674,6 +674,7 @@
     <string name="donate_points_popup">points</string>
     <string name="donate_title">Donate</string>
     <string name="donate_successful">Donate is successful</string>
+    <string name="exchange_points">+ Exchange points</string>
 
     <string name="show_in">Show in</string>
     <string name="usd_currency">USD</string>

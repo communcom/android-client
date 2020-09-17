@@ -209,4 +209,20 @@
         app:layout_constraintTop_toBottomOf="@+id/sendButtonLabel" />
     <!-- endregion Send button - Start-->
 
+    <TextView
+        android:id="@+id/tvExchangePoints"
+        android:visibility="gone"
+        android:background="@drawable/bcg_filter_gray"
+        android:textStyle="bold"
+        android:text="@string/exchange_points"
+        android:textSize="16sp"
+        android:padding="10dp"
+        android:layout_width="wrap_content"
+        android:textColor="?attr/blueWhite"
+        android:layout_marginTop="10dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/amountPanel"
+        android:layout_height="wrap_content"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

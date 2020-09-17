@@ -10,7 +10,9 @@ import io.golos.cyber_android.databinding.FragmentWalletSendPointsBinding
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.InAppAuthActivity
 import io.golos.cyber_android.ui.screens.profile.dto.NavigateToHomeBackCommand
 import io.golos.cyber_android.ui.screens.profile.dto.NavigateToWalletBackCommand
+import io.golos.cyber_android.ui.screens.wallet.dto.NavigateToWalletConvertCommand
 import io.golos.cyber_android.ui.screens.wallet.view.WalletFragment
+import io.golos.cyber_android.ui.screens.wallet_convert.view.WalletConvertFragment
 import io.golos.cyber_android.ui.screens.wallet_dialogs.choose_friend_dialog.WalletChooseFriendDialog
 import io.golos.cyber_android.ui.screens.wallet_dialogs.choose_points_dialog.WalletChoosePointsDialog
 import io.golos.cyber_android.ui.screens.wallet_dialogs.transfer_completed.TransferCompletedInfo
@@ -24,6 +26,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.HideKeyboardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToInAppAuthScreenCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
+import io.golos.domain.GlobalConstants
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserBriefDomain
 import io.golos.domain.dto.UserDomain
@@ -75,6 +78,7 @@ open class WalletSendPointsFragment : FragmentBaseMVVM<FragmentWalletSendPointsB
         keyboardVisibilityListener.setOnKeyboardClosedListener { onKeyboardClosed(it) }
 
         bottomPanel.setOnSelectUserClickListener { viewModel.onSelectUserClick() }
+        bottomPanel.setOnExchangeClickListener { viewModel.onExchangeClick() }
         bottomPanel.setOnAmountClearListener { viewModel.onClearAmountClick() }
         bottomPanel.setOnSendButtonClickListener { viewModel.onSendClick() }
 
@@ -95,6 +99,7 @@ open class WalletSendPointsFragment : FragmentBaseMVVM<FragmentWalletSendPointsB
         when (command) {
             is NavigateBackwardCommand -> requireActivity().onBackPressed()
             is ShowSelectUserDialogCommand -> showSelectUserDialog()
+            is NavigateToWalletConvertCommand -> openWalletConvertFragment(command.selectedCommunityId,command.balance)
             is ShowSelectCommunityDialogCommand -> showSelectCommunityDialog(command.balance)
             is UpdateCarouselPositionCommand -> expandedPanel.setCarouselPosition(command.position)
             is HideKeyboardCommand -> bottomPanel.hideKeyboard()
@@ -104,6 +109,14 @@ open class WalletSendPointsFragment : FragmentBaseMVVM<FragmentWalletSendPointsB
             is NavigateToInAppAuthScreenCommand ->
                 showInAppAuthScreen(command.isPinCodeUnlockEnabled, command.pinCodeHeaderText!!, command.fingerprintHeaderText!!)
         }
+    }
+
+    open fun openWalletConvertFragment(selectedCommunityId: CommunityIdDomain, balance: List<WalletCommunityBalanceRecordDomain>) {
+        getDashboardFragment(this)?.navigateToFragment(
+            WalletConvertFragment.newInstance(balance.first { it.communityId.code != GlobalConstants.COMMUN_CODE }.communityId,
+                balance
+            )
+        )
     }
 
     override fun onPause() {

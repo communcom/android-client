@@ -56,6 +56,7 @@
             app:wallet_send_points_bottom_amount_info="@{viewModel.amountFieldInfo}"
             app:wallet_send_points_bottom_amount="@{viewModel.amountInputField}"
             app:wallet_send_points_bottom_send_info="@{viewModel.sendButtonInfo}"
+            app:wallet_exchange_button_visible="@{viewModel.exchangeButtonVisibility}"
             app:wallet_send_points_user_selection_is_enabled="@{viewModel.userSelectionIsEnabled}"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>

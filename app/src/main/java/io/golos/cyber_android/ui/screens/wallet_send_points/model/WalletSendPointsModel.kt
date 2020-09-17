@@ -26,10 +26,12 @@ interface WalletSendPointsModel : ModelBase {
 
     fun updateAmount(amountAsString: String?): Boolean
 
+    suspend fun updateBalances():Pair<Int?,Double?>?
+
     /**
      * @return Index of the community in the balance list
      */
-    fun updateCurrentCommunity(communityId: CommunityIdDomain): Int?
+    fun updateCurrentCommunity(communityId: CommunityIdDomain): Pair<Int?,Double?>?
 
     fun validateAmount(): AmountValidationResult
 

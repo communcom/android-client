@@ -587,6 +587,7 @@
     <string name="donate_points_popup">поинтов</string>
     <string name="donate_title">Донат</string>
     <string name="donate_successful">Донат успешен</string>
+    <string name="exchange_points">+ Обменять поинты</string>
     <string name="show_in">Показать в</string>
     <string name="usd_currency">USD</string>
     <string name="commun_currency">Commun</string>

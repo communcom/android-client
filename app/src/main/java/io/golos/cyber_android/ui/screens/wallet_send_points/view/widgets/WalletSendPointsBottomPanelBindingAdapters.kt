@@ -21,6 +21,10 @@ fun setWalletSendPointsBottomPanelAmountInfo(view: WalletSendPointsBottomPanel, 
 fun setWalletSendPointsBottomPanelSendInfo(view: WalletSendPointsBottomPanel, valueToBind: LiveData<SendButtonInfo>?) =
     valueToBind?.value?.let { view.setSendButtonInfo(it) }
 
+@BindingAdapter("wallet_exchange_button_visible")
+fun setWalletExchangeButtonVisibility(view: WalletSendPointsBottomPanel, valueToBind: LiveData<Int>?) =
+    valueToBind?.value?.let { view.setExchangeButtonVisibility(it) }
+
 @BindingAdapter("wallet_send_points_bottom_amount")
 fun setWalletSendPointsBottomPanelAmount(view: WalletSendPointsBottomPanel, valueToBind: MutableLiveData<String>?) {
     valueToBind?.let { liveValue ->
