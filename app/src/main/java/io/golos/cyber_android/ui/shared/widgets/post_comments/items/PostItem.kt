@@ -146,7 +146,12 @@ class PostItem(
         val paragraphContent = arrayListOf<ParagraphItemBlock>()
         postContentItems.map {
             if(it is PostParagraphBlockItem){
-                paragraphContent.addAll(it.paragraphBlock.content)
+                paragraphContent.addAll(it.paragraphBlock.content.map {
+                    if(it is TextBlock){
+                        it.content += "\n"
+                    }
+                    it
+                })
             }
         }
         val newList = postContentItems.filter {
