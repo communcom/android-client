@@ -59,6 +59,6 @@ constructor(
         card.layoutParams = layoutParams
 
         card.radius = cardCornerRadius
-        card.setCardBackgroundColor(getStyledAttribute(R.attr.white))
+        card.setCardBackgroundColor(getStyledAttribute(R.attr.white, context))
     }
 }

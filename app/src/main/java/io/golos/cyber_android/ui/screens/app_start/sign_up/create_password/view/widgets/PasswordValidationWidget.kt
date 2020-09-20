@@ -46,7 +46,7 @@ constructor(
 
     fun updateCases(validCases: List<PasswordValidationCase>) {
         val validColor = context.resources.getColorRes(R.color.blue)
-        val invalidColor = getStyledAttribute(R.attr.grey)
+        val invalidColor = getStyledAttribute(R.attr.grey, context)
 
         (if(validCases.contains(PasswordValidationCase.LOWER)) validColor else invalidColor)
             .let {

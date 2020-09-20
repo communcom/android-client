@@ -13,6 +13,7 @@ import io.golos.utils.format.CurrencyFormatter
 import io.golos.utils.helpers.appendSpannedText
 import io.golos.utils.helpers.capitalize
 import androidx.appcompat.app.AppCompatDelegate
+import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
 
 class NotificationContentRendererReferralRegistrationBonus(
     viewDescription: NotificationView
@@ -43,9 +44,7 @@ class NotificationContentRendererReferralRegistrationBonus(
         val context = viewDescription.root.context
         val messageStringBuilder = SpannableStringBuilder()
 
-        val colorMessage = if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
-            R.color.black_dark_theme
-        else R.color.black
+        val colorMessage = getStyledAttribute(R.attr.black, context)
         val colorUser = R.color.blue
 
         messageStringBuilder.appendSpannedText(context.resources.getString(R.string.referral_registration), createColorSpan(context, colorMessage))

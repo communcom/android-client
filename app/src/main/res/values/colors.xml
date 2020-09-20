@@ -16,11 +16,11 @@
     <color name="green_bright">#4EDBB0</color>
     <color name="purple">#673AB7</color>
 
-    <color name="white">#FFFFFF</color>
+    <color name="white">@android:color/white</color>
     <color name="white_dark_theme">#2C2F36</color>
 
-    <color name="black">#000000</color>
-    <color name="black_dark_theme">#FFFFFF</color>
+    <color name="black">@android:color/black</color>
+    <color name="black_dark_theme">@android:color/white</color>
 
     <color name="black_40">#66000000</color>
     <color name="black_30">#4D000000</color>

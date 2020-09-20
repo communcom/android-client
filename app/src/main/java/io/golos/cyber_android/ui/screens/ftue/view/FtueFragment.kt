@@ -112,7 +112,7 @@ class FtueFragment : FragmentBaseMVVM<FragmentFtueBinding, FtueViewModel>() {
 
     private fun setupCommunUrl() {
         val commun = SpannableStringBuilder(getString(R.string.commun))
-        val blackColor = ForegroundColorSpan(getStyledAttribute(R.attr.black))
+        val blackColor = ForegroundColorSpan(getStyledAttribute(R.attr.black, context))
         commun.setSpan(
             blackColor,
             0,

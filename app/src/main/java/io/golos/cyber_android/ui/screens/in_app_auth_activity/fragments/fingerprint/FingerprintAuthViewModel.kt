@@ -25,7 +25,7 @@ constructor(
 
     private val fingerprintAuthEventHandler: FingerprintAuthEventHandler = { processAuthEvents(it) }
 
-    private val normalColor = getStyledAttribute(R.attr.black)
+    private val normalColor = getStyledAttribute(R.attr.black, context)
     private val errorColor by lazy { context.resources.getColorRes(R.color.red) }
 
     val title: MutableLiveData<String> = MutableLiveData(context.resources.getString(headerText))

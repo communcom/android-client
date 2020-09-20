@@ -63,7 +63,7 @@ class CountriesAdapter(private val onCountrySelectedListener: (CountryDomain) ->
                 countryName.text = "${country.name} (+${country.code})"
                 check.visibility = if (selectedCountry == country) View.VISIBLE else View.GONE
 
-                val textColor = if(country.available) getStyledAttribute(R.attr.black) else getStyledAttribute(R.attr.grey)
+                val textColor = if(country.available) getStyledAttribute(R.attr.black, context) else getStyledAttribute(R.attr.grey, context)
                 countryName.setTextColor(textColor)
             }
         }

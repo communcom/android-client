@@ -112,7 +112,7 @@
             android:gravity="start|top"
             android:maxLength="@{viewModel.maxTextLen}"
             android:textSize="17sp"
-            android:textColor="?attr/textColor"
+            android:textColor="?attr/black"
             android:textColorHint="?attr/grey"
             android:background="@null"
 

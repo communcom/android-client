@@ -32,7 +32,7 @@ class SplashAnimator(private var target: SplashAnimatorTarget?, private val anim
 
         isAnimationInProgress = true
 
-        target?.getRootView()?.setBackgroundColor(getStyledAttribute(R.attr.white))
+        target?.getRootView()?.setBackgroundColor(getStyledAttribute(R.attr.white, context))
 
         val animatedView = target?.getAnimatedView()!!
 

@@ -19,6 +19,7 @@ import io.golos.domain.dto.UserIdDomain
 import io.golos.utils.helpers.SPACE
 import io.golos.utils.helpers.appendText
 import io.golos.utils.helpers.setSpan
+import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
 
 class NotificationContentRenderedUpVote(viewDescription: NotificationView) : NotificationContentRenderedBase<UpVoteNotificationItem>(viewDescription) {
     override val notificationTypeLabelResId: Int = R.drawable.ic_up_vote_label
@@ -34,9 +35,7 @@ class NotificationContentRenderedUpVote(viewDescription: NotificationView) : Not
         val messageStringBuilder = SpannableStringBuilder()
         val userName = listItem.userName
         val userId = listItem.userId
-        val colorMessage = if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
-                ContextCompat.getColor(context,R.color.black_dark_theme)
-            else ContextCompat.getColor(context,R.color.black)
+        val colorMessage = getStyledAttribute(R.attr.black, context)
 
         userName?.let {
             val userNameInterval = messageStringBuilder.appendText(it)
