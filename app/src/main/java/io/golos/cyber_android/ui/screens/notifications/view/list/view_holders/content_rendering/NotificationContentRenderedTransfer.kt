@@ -21,6 +21,7 @@ import io.golos.utils.format.CurrencyFormatter
 import io.golos.utils.helpers.SPACE
 import io.golos.utils.helpers.appendText
 import io.golos.utils.helpers.setSpan
+import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
 
 class NotificationContentRenderedTransfer(viewDescription: NotificationView) : NotificationContentRenderedBase<TransferNotificationItem>(viewDescription) {
     override fun init(listItem: TransferNotificationItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor) {
@@ -49,9 +50,7 @@ class NotificationContentRenderedTransfer(viewDescription: NotificationView) : N
         val messageStringBuilder = SpannableStringBuilder()
         val userName = listItem.userName
         val userId = listItem.userId
-        val colorMessage = if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
-                ContextCompat.getColor(context,R.color.black_dark_theme)
-            else ContextCompat.getColor(context,R.color.black)
+        val colorMessage = getStyledAttribute(R.attr.black, context)
 
         userName?.let {
             val userNameInterval = messageStringBuilder.appendText(it)

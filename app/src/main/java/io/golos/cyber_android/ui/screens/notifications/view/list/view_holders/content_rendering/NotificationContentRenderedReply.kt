@@ -36,9 +36,7 @@ class NotificationContentRenderedReply(viewDescription: NotificationView) : Noti
         val messageStringBuilder = SpannableStringBuilder()
         val userName = listItem.userName
         val userId = listItem.userId
-        val colorMessage = if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
-                ContextCompat.getColor(context,R.color.black_dark_theme)
-            else ContextCompat.getColor(context,R.color.black)
+        val colorMessage = getStyledAttribute(R.attr.black, context)
         val colorCurrentUserName =  ContextCompat.getColor(context, R.color.blue)
 
         userName?.let {

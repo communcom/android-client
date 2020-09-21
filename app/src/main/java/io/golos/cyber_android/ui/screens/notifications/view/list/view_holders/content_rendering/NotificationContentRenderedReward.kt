@@ -14,6 +14,7 @@ import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.domain.GlobalConstants
 import io.golos.utils.format.CurrencyFormatter
 import io.golos.utils.helpers.setSpan
+import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
 
 class NotificationContentRenderedReward(viewDescription: NotificationView) : NotificationContentRenderedBase<RewardNotificationItem>(viewDescription) {
     override val notificationTypeLabelResId: Int = R.drawable.ic_up_vote_label
@@ -47,9 +48,7 @@ class NotificationContentRenderedReward(viewDescription: NotificationView) : Not
     private fun setMessage(listItem: RewardNotificationItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor) {
         val context = viewDescription.root.context
         val messageStringBuilder = SpannableStringBuilder()
-        val colorMessage = if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
-                ContextCompat.getColor(context,R.color.black_dark_theme)
-            else ContextCompat.getColor(context,R.color.black)
+        val colorMessage = getStyledAttribute(R.attr.black, context)
 
         messageStringBuilder.append(context.resources.getString(R.string.you_have_got))
         messageStringBuilder.append(" ")

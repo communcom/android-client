@@ -113,7 +113,7 @@
                         android:minHeight="@dimen/min_height_editor"
 
                         app:is_simple="true"
-                        app:editor_text_color="?attr/textColor"
+                        app:editor_text_color="?attr/black"
                         app:is_text_styles_supported="false"
                         app:editor_hint_color="?attr/grey"
                         app:placeholder="@string/write_text_with_points"

@@ -19,8 +19,8 @@ constructor(
     defStyleAttr: Int = android.R.attr.textViewStyle
 ) : TextView(context, attrs, defStyleAttr) {
 
-    private val mainTextColor = getStyledAttribute(R.attr.white)
-    private val darkTextColor = getStyledAttribute(R.attr.grey)
+    private val mainTextColor = getStyledAttribute(R.attr.white, context)
+    private val darkTextColor = getStyledAttribute(R.attr.grey, context)
 
     init {
         setTextColor(mainTextColor)

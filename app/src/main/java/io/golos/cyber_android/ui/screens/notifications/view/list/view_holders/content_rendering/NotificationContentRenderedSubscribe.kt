@@ -11,6 +11,7 @@ import io.golos.cyber_android.ui.screens.notifications.view.list.items.Subscribe
 import io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.content_rendering.view.NotificationView
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModelListEventsProcessor
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
+import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
 import io.golos.domain.dto.UserIdDomain
 import io.golos.utils.helpers.SPACE
 import io.golos.utils.helpers.appendText
@@ -36,9 +37,7 @@ class NotificationContentRenderedSubscribe(viewDescription: NotificationView) : 
             val userNameInterval = result.appendText(it)
             result.setSpan(StyleSpan(Typeface.BOLD), userNameInterval)
             val context = viewDescription.root.context
-            val colorMessage = if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
-                ContextCompat.getColor(context,R.color.black_dark_theme)
-            else ContextCompat.getColor(context,R.color.black)
+            val colorMessage = getStyledAttribute(R.attr.black, context)
             result.setSpan(object : ColorTextClickableSpan(userId, colorMessage) {
 
                 override fun onClick(spanData: String) {

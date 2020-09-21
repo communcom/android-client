@@ -63,7 +63,7 @@ constructor(
         if(postHeader.communityId!!.code == GlobalConstants.MY_FEED_COMMUNITY_ID) {
             (postHeader.userName ?: postHeader.userId).let {
                 val textInterval = builder.appendText(it)
-                val communityNameTextColor = getStyledAttribute(R.attr.post_header_community_text)
+                val communityNameTextColor = getStyledAttribute(R.attr.post_header_community_text, context)
                 builder.setSpan(object : ColorTextClickableSpan(it, communityNameTextColor) {
                     override fun onClick(widget: View) {
                         postHeader.communityId.let { id ->
@@ -77,7 +77,7 @@ constructor(
         } else {
             postHeader.communityName?.let {
                 val textInterval = builder.appendText(it)
-                val communityNameTextColor = getStyledAttribute(R.attr.post_header_community_text)
+                val communityNameTextColor = getStyledAttribute(R.attr.post_header_community_text, context)
                 builder.setSpan(object : ColorTextClickableSpan(it, communityNameTextColor) {
                     override fun onClick(widget: View) {
                         postHeader.communityId.let { id ->

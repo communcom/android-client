@@ -7,7 +7,6 @@
         <item name="white">@color/white</item>
         <item name="black">@color/black</item>
         <item name="blue">@color/blue</item>
-        <item name="textColor">@color/black</item>
         <item name="notificationMessageColor">@color/pale_black</item>
         <item name="notificationActionColor">@color/purple</item>
         <item name="light_gray">@color/light_gray</item>
@@ -49,7 +48,6 @@
         <item name="white">@color/white_dark_theme</item>
         <item name="black">@color/black_dark_theme</item>
         <item name="blue">@color/blue_dark_theme</item>
-        <item name="textColor">@color/white</item>
         <item name="light_gray">@color/light_gray_dark_theme</item>
         <item name="termsAndConditionsTextColor">@color/white</item>
         <item name="loadingBackground">#D9000000</item>
@@ -459,7 +457,7 @@
 
     <style name="NumericKeypadButtonStyle" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:textSize">@dimen/text_size_pin_keypad</item>
-        <item name="android:textColor">?attr/textColor</item>
+        <item name="android:textColor">?attr/black</item>
         <item name="android:background">@drawable/bcg_numeric_keypad_digit</item>
         <item name="android:layout_marginTop">@dimen/gap_buttons_pin_keypad</item>
         <item name="android:layout_marginBottom">@dimen/gap_buttons_pin_keypad</item>
@@ -639,7 +637,7 @@
         <item name="android:background">@drawable/bcg_thin_gray_stroke_ripple_10</item>
         <item name="android:paddingStart">10dp</item>
         <item name="android:paddingEnd">34dp</item>
-        <item name="android:textColor">?attr/textColor</item>
+        <item name="android:textColor">?attr/black</item>
         <item name="android:textSize">17sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:layout_marginStart">@dimen/margin_default</item>
