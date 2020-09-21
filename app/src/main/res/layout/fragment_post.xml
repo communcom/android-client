@@ -44,7 +44,7 @@
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 android:orientation="vertical">
 
-                <TextView
+                <!--<TextView
                     android:id="@+id/post_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
                     android:paddingEnd="15dp"
                     android:textColor="?attr/black"
                     android:textSize="21sp"
-                    android:singleLine="false"/>
+                    android:singleLine="false"/>-->
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/postView"
