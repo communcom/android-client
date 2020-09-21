@@ -5,7 +5,7 @@ import io.golos.domain.posts_parsing_rendering.post_metadata.TextStyle
 
 data class TextBlock(
     val id: Long?,
-    val content: String,
+    var content: String,
     val style: TextStyle?,
     @ColorInt
     val textColor: Int?
