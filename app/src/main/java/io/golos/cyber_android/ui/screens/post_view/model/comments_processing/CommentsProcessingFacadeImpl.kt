@@ -14,6 +14,9 @@ import io.golos.cyber_android.ui.screens.post_view.model.voting.comment.CommentV
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.*
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.JsonToDtoMapper
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.ControlMetadata
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.ParagraphMetadata
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.TagSpanInfo
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.DiscussionRepository
 import kotlinx.coroutines.withContext
@@ -63,12 +66,12 @@ constructor(
     override suspend fun retryLoadSecondLevelPage(parentCommentId: ContentIdDomain) =
         getSecondLevelLoader(parentCommentId).retryLoadPage()
 
-    override suspend fun sendComment(jsonBody: String) {
+    override suspend fun sendComment(jsonBody: String, metadata: List<ControlMetadata>) {
         try {
             postListDataSource.addLoadingForNewComment()
-
+            val tags =  extractTags(metadata)
             val commentDomain = withContext(dispatchersProvider.ioDispatcher) {
-                discussionRepository.sendComment(postContentId, jsonBody)
+                discussionRepository.sendComment(postContentId, jsonBody,tags.toList())
             }
 
             postListDataSource.addNewComment(commentDomain.copy())
@@ -81,7 +84,16 @@ constructor(
             throw ex
         }
     }
-
+    private fun extractTags(content: List<ControlMetadata>): Set<String> {
+        return content
+            .asSequence()
+            .filterIsInstance<ParagraphMetadata>()
+            .map { it.spans }
+            .flatten()
+            .filterIsInstance<TagSpanInfo>()
+            .map { it.displayValue.toLowerCase() }
+            .toMutableSet()
+    }
     override suspend fun deleteComment(commentId: ContentIdDomain, isSingleComment: Boolean) {
         postListDataSource.updateCommentState(commentId, CommentListItemState.PROCESSING)
 
@@ -157,14 +169,15 @@ constructor(
         }
     }
 
-    override suspend fun replyToComment(repliedCommentId: ContentIdDomain, jsonBody: String) {
+    override suspend fun replyToComment(repliedCommentId: ContentIdDomain, jsonBody: String, metadata: List<ControlMetadata>) {
         postListDataSource.addLoadingForRepliedComment(repliedCommentId)
 
         try {
             val commentDomain = withContext(dispatchersProvider.ioDispatcher) {
                 val parentContentId =
                     ContentIdDomain(postContentId.communityId, repliedCommentId.permlink, repliedCommentId.userId)
-                discussionRepository.replyOnComment(parentContentId, jsonBody)
+                val tags =  extractTags(metadata)
+                discussionRepository.replyOnComment(parentContentId, jsonBody,tags.toList())
             }
 
             val repliedComment = commentsStorage.get().getComment(repliedCommentId)!!

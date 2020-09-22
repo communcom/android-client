@@ -13,6 +13,7 @@ import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
 import io.golos.domain.use_cases.community.UnsubscribeToCommunityUseCase
 import kotlinx.coroutines.flow.Flow
 import java.io.File
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.ControlMetadata
 
 interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToCommunityUseCase {
     val postMetadata: PostMetadata
@@ -74,7 +75,7 @@ interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToC
 
     suspend fun retryLoadingSecondLevelCommentsPage(parentCommentId: ContentIdDomain)
 
-    suspend fun sendComment(jsonBody: String)
+    suspend fun sendComment(jsonBody: String, metadata: List<ControlMetadata>)
 
     suspend fun deleteComment(commentId: ContentIdDomain)
 
@@ -84,7 +85,7 @@ interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToC
 
     suspend fun updateComment(commentId: ContentIdDomain, jsonBody: String)
 
-    suspend fun replyToComment(repliedCommentId: ContentIdDomain, jsonBody: String)
+    suspend fun replyToComment(repliedCommentId: ContentIdDomain, jsonBody: String, metadata: List<ControlMetadata>)
 
     suspend fun uploadAttachmentContent(file: File): String
 

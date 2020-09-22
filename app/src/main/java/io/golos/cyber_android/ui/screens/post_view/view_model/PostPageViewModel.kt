@@ -4,6 +4,8 @@ import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.squareup.moshi.Moshi
+import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
 import io.golos.cyber_android.services.post_view.RecordPostViewService
 import io.golos.cyber_android.ui.dto.DonateType
@@ -21,7 +23,10 @@ import io.golos.cyber_android.ui.shared.widgets.comment.ContentState
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.*
 import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.EditorOutputToJsonMapper
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.ControlMetadata
 import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.EmbedMetadata
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.ParagraphMetadata
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.TagSpanInfo
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.exceptions.ApiResponseErrorException
 import kotlinx.coroutines.flow.collect
@@ -30,8 +35,6 @@ import org.json.JSONArray
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
-import com.squareup.moshi.Moshi
-import io.golos.cyber_android.BuildConfig
 
 class PostPageViewModel
 @Inject
@@ -352,19 +355,20 @@ constructor(
                         }
                     }
 
+
                 val deviceAdapter = moshi.adapter(DeviceInfoEntity::class.java)
                 val contentAsJson = EditorOutputToJsonMapper.mapComment(commentContent.metadata, uploadedImages,
                     deviceAdapter.toJson(DeviceInfoEntity(version = BuildConfig.VERSION_NAME)))
 
                 when (commentState) {
                     ContentState.NEW -> {
-                        model.sendComment(contentAsJson)
+                        model.sendComment(contentAsJson,commentContent.metadata)
                     }
                     ContentState.EDIT -> {
                         model.updateComment(commentContent.contentId!!, contentAsJson)
                     }
                     ContentState.REPLY -> {
-                        model.replyToComment(commentContent.contentId!!, contentAsJson)
+                        model.replyToComment(commentContent.contentId!!, contentAsJson,commentContent.metadata)
                     }
                 }
 
@@ -377,6 +381,7 @@ constructor(
             }
         }
     }
+
 
     fun deleteComment(commentId: ContentIdDomain) =
         processSimple {

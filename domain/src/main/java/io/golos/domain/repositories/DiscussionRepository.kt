@@ -1,11 +1,7 @@
 package io.golos.domain.repositories
 
 import io.golos.commun4j.sharedmodel.CyberName
-import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.*
-import io.golos.domain.requestmodel.DiscussionCreationRequestEntity
-import io.golos.domain.use_cases.model.PostModel
-import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ContentBlock
 import java.io.File
 
 interface DiscussionRepository {
@@ -35,7 +31,7 @@ interface DiscussionRepository {
 
     suspend fun updateComment(commentDomain: CommentDomain)
 
-    suspend fun replyOnComment(parentCommentId: ContentIdDomain, jsonBody: String): CommentDomain
+    suspend fun replyOnComment(parentCommentId: ContentIdDomain, jsonBody: String, toList: List<String>): CommentDomain
 
     suspend fun getPosts(postsConfigurationDomain: PostsConfigurationDomain, typeObject: TypeObjectDomain): List<PostDomain>
 
@@ -43,9 +39,9 @@ interface DiscussionRepository {
 
     suspend fun createPost(communityId: CommunityIdDomain,title:String, body: String, tags: List<String>): ContentIdDomain
 
-    suspend fun updatePost(contentIdDomain: ContentIdDomain, title:String, body: String, tags: List<String>): PostDomain
+    suspend fun updatePost(contentIdDomain: ContentIdDomain,title:String, body: String, tags: List<String>): PostDomain
 
-    suspend fun sendComment(postIdDomain: ContentIdDomain, jsonBody: String): CommentDomain
+    suspend fun sendComment(postIdDomain: ContentIdDomain, jsonBody: String, tags: List<String>): CommentDomain
 
     fun recordPostView(postId: ContentIdDomain, deviceId: String)
 }

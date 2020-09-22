@@ -17,14 +17,11 @@ import io.golos.data.toCyberName
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.UserKeyStore
 import io.golos.domain.dto.*
-import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.JsonToDtoMapper
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.mappers.MappersFactory
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.mappers.PostMapper
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.DiscussionRepository
 import io.golos.utils.format.DatesServerFormatter
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
@@ -75,7 +72,7 @@ constructor(
                 communCode = CyberSymbolCode(communityId.code),
                 header = title,
                 body = body,
-                tags = listOf(),
+                tags = tags,
                 metadata = DatesServerFormatter.formatToServer(Date()),
                 weight = null,
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
@@ -401,7 +398,7 @@ constructor(
         post.mapToPostDomain(currentUserRepository.userId.userId, rewards, donations)
     }
 
-    override suspend fun sendComment(postIdDomain: ContentIdDomain, jsonBody: String): CommentDomain {
+    override suspend fun sendComment(postIdDomain: ContentIdDomain, jsonBody: String, tags: List<String>): CommentDomain {
         val author = currentUserRepository.userId.mapToCyberName()
         val response = callProxy.callBC {
             val metadata = DatesServerFormatter.formatToServer(Date())
@@ -410,7 +407,7 @@ constructor(
                 communCode = CyberSymbolCode(postIdDomain.communityId.code),
                 header = "",
                 body = jsonBody,
-                tags = listOf(),
+                tags = tags,
                 metadata = metadata,
                 weight = null,
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
@@ -439,7 +436,7 @@ constructor(
 
     }
 
-    override suspend fun replyOnComment(parentCommentId: ContentIdDomain, jsonBody: String): CommentDomain {
+    override suspend fun replyOnComment(parentCommentId: ContentIdDomain, jsonBody: String, tags: List<String>): CommentDomain {
         val author = currentUserRepository.userId.mapToCyberName()
         val communityId = parentCommentId.communityId
         val response = callProxy.callBC {
@@ -449,7 +446,7 @@ constructor(
                 communCode = CyberSymbolCode(communityId.code),
                 header = "",
                 body = jsonBody,
-                tags = listOf(),
+                tags = tags,
                 metadata = metadata,
                 weight = null,
                 bandWidthRequest = BandWidthRequest.bandWidthFromComn,
