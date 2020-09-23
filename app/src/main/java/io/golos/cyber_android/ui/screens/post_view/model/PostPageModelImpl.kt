@@ -33,6 +33,7 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.ControlMetadata
 
 class PostPageModelImpl
 @Inject
@@ -182,10 +183,10 @@ constructor(
     override suspend fun retryLoadingSecondLevelCommentsPage(parentCommentId: ContentIdDomain) =
         commentsProcessing.retryLoadSecondLevelPage(parentCommentId)
 
-    override suspend fun sendComment(jsonBody: String) {
+    override suspend fun sendComment(jsonBody: String, metadata: List<ControlMetadata>) {
         val totalComments = postDomain.stats?.commentsCount ?: 0
 
-        commentsProcessing.sendComment(jsonBody)
+        commentsProcessing.sendComment(jsonBody, metadata)
         postDomain = postDomain.copy(
             stats = postDomain.stats?.copy(
                 commentsCount = totalComments + 1
@@ -225,8 +226,8 @@ constructor(
     override suspend fun updateComment(commentId: ContentIdDomain, jsonBody: String) =
         commentsProcessing.updateComment(commentId, jsonBody)
 
-    override suspend fun replyToComment(repliedCommentId: ContentIdDomain, jsonBody: String) =
-        commentsProcessing.replyToComment(repliedCommentId, jsonBody)
+    override suspend fun replyToComment(repliedCommentId: ContentIdDomain, jsonBody: String, metadata: List<ControlMetadata>) =
+        commentsProcessing.replyToComment(repliedCommentId, jsonBody, metadata)
 
     override fun isTopReward(): Boolean? = postDomain.reward.isTopReward()
 
