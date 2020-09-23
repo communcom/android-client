@@ -9,4 +9,6 @@ interface PostPageVotingUseCase : VotingUseCase {
     suspend fun upVote(post: PostDomain, communityId: CommunityIdDomain, userId: UserIdDomain, permlink: String): PostDomain
 
     suspend fun downVote(post: PostDomain, communityId: CommunityIdDomain, userId: UserIdDomain, permlink: String): PostDomain
+
+    suspend fun unVote(post: PostDomain, communityId: CommunityIdDomain, userId: UserIdDomain, permlink: String): PostDomain
 }

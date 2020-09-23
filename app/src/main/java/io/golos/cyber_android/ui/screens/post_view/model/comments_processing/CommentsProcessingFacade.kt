@@ -4,6 +4,7 @@ import io.golos.domain.dto.CommentDomain
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.ControlMetadata
+import io.golos.cyber_android.ui.screens.post_view.model.VoteType
 
 interface CommentsProcessingFacade {
     val pageSize: Int
@@ -30,5 +31,5 @@ interface CommentsProcessingFacade {
 
     suspend fun replyToComment(repliedCommentId: ContentIdDomain, jsonBody: String, metadata: List<ControlMetadata>)
 
-    suspend fun vote(communityId: CommunityIdDomain, commentId: ContentIdDomain, isUpVote: Boolean)
+    suspend fun vote(communityId: CommunityIdDomain, commentId: ContentIdDomain, voteType: VoteType)
 }

@@ -36,6 +36,8 @@ interface PostVotesListener {
 
     fun onUpVoteClicked(contentId: ContentIdDomain)
 
+    fun onUnVoteClicked(contentId: ContentIdDomain)
+
     fun onDownVoteClicked(contentId: ContentIdDomain)
 
     fun onDonateClick(donate: DonateType, contentId: ContentIdDomain, communityId: CommunityIdDomain, contentAuthor: UserBriefDomain)

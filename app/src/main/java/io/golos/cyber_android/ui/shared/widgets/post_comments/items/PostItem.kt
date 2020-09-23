@@ -271,8 +271,22 @@ class PostItem(
             view.votesArea.upvoteButton.isEnabled = true
             view.votesArea.downvoteButton.isEnabled = true
 
-            view.votesArea.setOnUpVoteButtonClickListener { listener.onUpVoteClicked(post.contentId) }
-            view.votesArea.setOnDownVoteButtonClickListener { listener.onDownVoteClicked(post.contentId) }
+            view.votesArea.setOnUpVoteButtonClickListener {
+                if(post.votes.hasUpVote){
+                    listener.onUnVoteClicked(post.contentId)
+                }else{
+                    listener.onUpVoteClicked(post.contentId)
+                }
+
+            }
+            view.votesArea.setOnDownVoteButtonClickListener {
+                if(post.votes.hasDownVote){
+                    listener.onUnVoteClicked(post.contentId)
+                }else{
+                    listener.onDownVoteClicked(post.contentId)
+                }
+
+            }
             view.votesArea.setOnDonateClickListener {
                 listener.onDonateClick(it, post.contentId, post.community.communityId, post.author)
             }

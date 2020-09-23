@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.post_view.model.comments_processing
 import dagger.Lazy
 import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.CommentListItemState
 import io.golos.cyber_android.ui.screens.post_view.helpers.CommentTextRenderer
+import io.golos.cyber_android.ui.screens.post_view.model.VoteType
 import io.golos.cyber_android.ui.screens.post_view.model.comments_processing.comments_storage.CommentsStorage
 import io.golos.cyber_android.ui.screens.post_view.model.comments_processing.loaders.first_level.FirstLevelLoader
 import io.golos.cyber_android.ui.screens.post_view.model.comments_processing.loaders.first_level.FirstLevelLoaderImpl
@@ -24,16 +25,10 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class CommentsProcessingFacadeImpl
-@Inject
-constructor(
-    private val postContentId: ContentIdDomain,
-    private val postListDataSource: PostListDataSourceComments,
-    private val discussionRepository: DiscussionRepository,
-    private val dispatchersProvider: DispatchersProvider,
-    private val commentsStorage: Lazy<CommentsStorage>,
-    private val currentUserRepository: CurrentUserRepository,
-    private val commentTextRenderer: CommentTextRenderer
-): CommentsProcessingFacade {
+@Inject constructor(private val postContentId: ContentIdDomain, private val postListDataSource: PostListDataSourceComments,
+    private val discussionRepository: DiscussionRepository, private val dispatchersProvider: DispatchersProvider,
+    private val commentsStorage: Lazy<CommentsStorage>, private val currentUserRepository: CurrentUserRepository,
+    private val commentTextRenderer: CommentTextRenderer) : CommentsProcessingFacade {
 
     override val pageSize: Int
         get() = 20
@@ -41,14 +36,7 @@ constructor(
     private val secondLevelLoaders = mutableMapOf<ContentIdDomain, SecondLevelLoader>()
 
     private val firstLevelCommentsLoader: FirstLevelLoader by lazy {
-        FirstLevelLoaderImpl(
-            postContentId,
-            postListDataSource,
-            discussionRepository,
-            dispatchersProvider,
-            pageSize,
-            commentsStorage.get()
-        )
+        FirstLevelLoaderImpl(postContentId, postListDataSource, discussionRepository, dispatchersProvider, pageSize, commentsStorage.get())
     }
 
     private val voteMachines = mutableMapOf<ContentIdDomain, CommentVotingUseCase>()
@@ -69,31 +57,30 @@ constructor(
     override suspend fun sendComment(jsonBody: String, metadata: List<ControlMetadata>) {
         try {
             postListDataSource.addLoadingForNewComment()
-            val tags =  extractTags(metadata)
+            val tags = extractTags(metadata)
             val commentDomain = withContext(dispatchersProvider.ioDispatcher) {
-                discussionRepository.sendComment(postContentId, jsonBody,tags.toList())
+                discussionRepository.sendComment(postContentId, jsonBody, tags.toList())
             }
 
             postListDataSource.addNewComment(commentDomain.copy())
             postListDataSource.removeEmptyCommentsStub()
             postListDataSource.removeLoadingForNewComment()
             commentsStorage.get().addPostedComment(commentDomain.copy())
-        } catch(ex: Exception) {
+        } catch (ex: Exception) {
             Timber.e(ex)
             postListDataSource.removeLoadingForNewComment()
             throw ex
         }
     }
+
     private fun extractTags(content: List<ControlMetadata>): Set<String> {
-        return content
-            .asSequence()
-            .filterIsInstance<ParagraphMetadata>()
-            .map { it.spans }
-            .flatten()
-            .filterIsInstance<TagSpanInfo>()
-            .map { it.displayValue.toLowerCase() }
-            .toMutableSet()
+        val tags =
+            content.asSequence().filterIsInstance<ParagraphMetadata>().map { it.spans }.flatten().filterIsInstance<TagSpanInfo>().map { it.displayValue.toLowerCase() }.toMutableSet()
+
+
+        return tags
     }
+
     override suspend fun deleteComment(commentId: ContentIdDomain, isSingleComment: Boolean) {
         postListDataSource.updateCommentState(commentId, CommentListItemState.PROCESSING)
 
@@ -102,7 +89,7 @@ constructor(
                 discussionRepository.deleteComment(commentId.permlink, postContentId.communityId)
             }
             postListDataSource.deleteComment(commentId)
-            if(postListDataSource.isNotComments()){
+            if (postListDataSource.isNotComments()) {
                 postListDataSource.addEmptyCommentsStub()
             }
         } catch (ex: Exception) {
@@ -122,7 +109,8 @@ constructor(
 
         val oldComment = commentsStorage.get().getComment(commentId)!!
         val contentId = ContentIdDomain(postContentId.communityId, commentId.permlink, commentId.userId)
-        val authorDomain = UserBriefDomain(currentUserRepository.userAvatarUrl, currentUserRepository.userId, currentUserRepository.userName)
+        val authorDomain =
+            UserBriefDomain(currentUserRepository.userAvatarUrl, currentUserRepository.userId, currentUserRepository.userName)
         val votesModel = oldComment.votes
         val votesDomain = VotesDomain(votesModel.downCount, votesModel.upCount, votesModel.hasUpVote, votesModel.hasDownVote)
 
@@ -130,39 +118,19 @@ constructor(
             ParentCommentDomain(null, postContentId)
         } else {
             val parentContentId =
-                ContentIdDomain(
-                    postContentId.communityId,
-                    oldComment.parent.comment!!.permlink,
-                    UserIdDomain(oldComment.parent.comment!!.userId.userId)
-                )
+                ContentIdDomain(postContentId.communityId, oldComment.parent.comment!!.permlink, UserIdDomain(oldComment.parent.comment!!.userId.userId))
             ParentCommentDomain(parentContentId, null)
         }
-        val commentDomain = CommentDomain(
-            contentId = contentId,
-            author = authorDomain,
-            votes = votesDomain,
-            body = null,
-            jsonBody = jsonBody,
-            childCommentsCount = oldComment.childCommentsCount,
-            community = CommunityDomain(postContentId.communityId, null, "", null, null, 0, 0, false),
-            meta = oldComment.meta,
-            parent = parentCommentDomain,
-            type = "comment",
-            isDeleted = false,
-            isMyComment = true,
-            commentLevel = oldComment.commentLevel,
-            donations = oldComment.donations
-        )
+        val commentDomain =
+            CommentDomain(contentId = contentId, author = authorDomain, votes = votesDomain, body = null, jsonBody = jsonBody, childCommentsCount = oldComment.childCommentsCount, community = CommunityDomain(postContentId.communityId, null, "", null, null, 0, 0, false), meta = oldComment.meta, parent = parentCommentDomain, type = "comment", isDeleted = false, isMyComment = true, commentLevel = oldComment.commentLevel, donations = oldComment.donations)
         try {
             withContext(dispatchersProvider.ioDispatcher) {
                 discussionRepository.updateComment(commentDomain)
             }
-            val newComment = oldComment.copy(
-                body = JsonToDtoMapper().map(jsonBody)
-            )
+            val newComment = oldComment.copy(body = JsonToDtoMapper().map(jsonBody))
             postListDataSource.updateComment(newComment)
             commentsStorage.get().updateComment(newComment)
-        } catch(ex: Exception) {
+        } catch (ex: Exception) {
             Timber.e(ex)
             postListDataSource.updateCommentState(commentId, CommentListItemState.ERROR)
             throw ex
@@ -176,17 +144,13 @@ constructor(
             val commentDomain = withContext(dispatchersProvider.ioDispatcher) {
                 val parentContentId =
                     ContentIdDomain(postContentId.communityId, repliedCommentId.permlink, repliedCommentId.userId)
-                val tags =  extractTags(metadata)
-                discussionRepository.replyOnComment(parentContentId, jsonBody,tags.toList())
+                val tags = extractTags(metadata)
+                discussionRepository.replyOnComment(parentContentId, jsonBody, tags.toList())
             }
 
             val repliedComment = commentsStorage.get().getComment(repliedCommentId)!!
 
-            postListDataSource.addReplyComment(
-                repliedCommentId,
-                repliedComment.author,
-                repliedComment.commentLevel,
-                commentDomain)
+            postListDataSource.addReplyComment(repliedCommentId, repliedComment.author, repliedComment.commentLevel, commentDomain)
 
             commentsStorage.get().addPostedComment(commentDomain.copy())
         } catch (ex: Exception) {
@@ -196,15 +160,21 @@ constructor(
         }
     }
 
-    override suspend fun vote(communityId: CommunityIdDomain, commentId: ContentIdDomain, isUpVote: Boolean) {
+    override suspend fun vote(communityId: CommunityIdDomain, commentId: ContentIdDomain, voteType: VoteType) {
         val oldComment = commentsStorage.get().getComment(commentId)!!
 
         val votingUseCase = getVoteUseCase(commentId)
 
-        val newComment = if(isUpVote) {
-            votingUseCase.upVote(oldComment, communityId, commentId.userId, commentId.permlink)
-        } else {
-            votingUseCase.downVote(oldComment, communityId, commentId.userId, commentId.permlink)
+        /* val newComment= if (voteType) {
+             votingUseCase.upVote(oldComment, communityId, commentId.userId, commentId.permlink)
+         } else {
+             votingUseCase.downVote(oldComment, communityId, commentId.userId, commentId.permlink)
+         }*/
+
+        val newComment = when (voteType) {
+            VoteType.UP_VOTE -> votingUseCase.upVote(oldComment, communityId, commentId.userId, commentId.permlink)
+            VoteType.DOWN_VOTE -> votingUseCase.downVote(oldComment, communityId, commentId.userId, commentId.permlink)
+            else -> votingUseCase.unVote(oldComment, communityId, commentId.userId, commentId.permlink)
         }
 
         commentsStorage.get().updateComment(oldComment.copy(votes = newComment.votes))
@@ -212,25 +182,12 @@ constructor(
 
     private fun getSecondLevelLoader(parentCommentId: ContentIdDomain): SecondLevelLoader {
         return secondLevelLoaders[parentCommentId]
-            ?: SecondLevelLoaderImpl(
-                postContentId,
-                parentCommentId,
-                firstLevelCommentsLoader.getLoadedComment(parentCommentId).childCommentsCount,
-                postListDataSource,
-                discussionRepository,
-                dispatchersProvider,
-                pageSize,
-                commentsStorage.get()
-            ).also {
+            ?: SecondLevelLoaderImpl(postContentId, parentCommentId, firstLevelCommentsLoader.getLoadedComment(parentCommentId).childCommentsCount, postListDataSource, discussionRepository, dispatchersProvider, pageSize, commentsStorage.get()).also {
                 secondLevelLoaders[parentCommentId] = it
             }
     }
 
-    private fun getVoteUseCase(commentId: ContentIdDomain) : CommentVotingUseCase {
-        return voteMachines[commentId]
-            ?: CommentVotingUseCaseImpl(
-                dispatchersProvider,
-                discussionRepository,
-                postListDataSource)
+    private fun getVoteUseCase(commentId: ContentIdDomain): CommentVotingUseCase {
+        return voteMachines[commentId] ?: CommentVotingUseCaseImpl(dispatchersProvider, discussionRepository, postListDataSource)
     }
 }

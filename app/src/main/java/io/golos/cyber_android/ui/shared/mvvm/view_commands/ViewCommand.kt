@@ -86,6 +86,7 @@ class ShowNoConnectionDialogCommand() : ViewCommand
 class HideNoConnectionDialogCommand() : ViewCommand
 
 class ShowUpdateAppDialogCommand() : ViewCommand
+class ChangeVoteByPostPage() : ViewCommand
 
 class NavigateToWalletCommand(val balance: List<WalletCommunityBalanceRecordDomain>) : ViewCommand
 

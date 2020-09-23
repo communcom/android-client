@@ -55,5 +55,11 @@ constructor(
         return this.comment
     }
 
+    override suspend fun unVote(comment: CommentDomain, communityId: CommunityIdDomain, userId: UserIdDomain, permlink: String): CommentDomain {
+        this.comment = comment
+        unVote(communityId, userId, permlink)
+        return this.comment
+    }
+
     private fun DiscussionVotesModel.map(): VotesDomain = VotesDomain(downCount, upCount, hasUpVote, hasDownVote)
 }
