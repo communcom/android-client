@@ -166,8 +166,12 @@ constructor(
         postDomain = postPageVotingUseCase.get().downVote(postDomain, communityId, userId, permlink)
     }
 
-    override suspend fun voteForComment(communityId: CommunityIdDomain, commentId: ContentIdDomain, isUpVote: Boolean) =
-        commentsProcessing.vote(communityId, commentId, isUpVote)
+    override suspend fun unVote(communityId: CommunityIdDomain, userId: UserIdDomain, permlink: String) {
+        postDomain = postPageVotingUseCase.get().unVote(postDomain, communityId, userId, permlink)
+    }
+
+    override suspend fun voteForComment(communityId: CommunityIdDomain, commentId: ContentIdDomain, voteType: VoteType) =
+        commentsProcessing.vote(communityId, commentId, voteType)
 
     override suspend fun updateCommentsSorting(sortingType: SortingType) = postListDataSource.updateCommentsSorting(sortingType)
 

@@ -41,4 +41,10 @@ constructor(
         downVote(communityId, userId, permlink)
         return this.post
     }
+
+    override suspend fun unVote(post: PostDomain, communityId: CommunityIdDomain, userId: UserIdDomain, permlink: String): PostDomain {
+        this.post = post
+        unVote(communityId, userId, permlink)
+        return this.post
+    }
 }

@@ -70,6 +70,12 @@ constructor(
         }
     }
 
+    override suspend fun unVote(communityId: CommunityIdDomain, userId: UserIdDomain, permlink: String) {
+        withContext(dispatchersProvider.ioDispatcher) {
+            discussionRepository.unVote(ContentIdDomain(communityId = communityId, permlink = permlink, userId = userId))
+        }
+    }
+
     override suspend fun downVote(communityId: CommunityIdDomain, userId: UserIdDomain, permlink: String) {
         withContext(dispatchersProvider.ioDispatcher) {
             discussionRepository.downVote(ContentIdDomain(communityId = communityId, permlink = permlink, userId = userId))

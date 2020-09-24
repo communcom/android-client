@@ -33,8 +33,21 @@ class PostControlsViewHolder(
                 votesArea.upvoteButton.isEnabled = true
                 votesArea.downvoteButton.isEnabled = true
 
-                votesArea.setOnUpVoteButtonClickListener { listItemEventsProcessor.onUpVoteClick() }
-                votesArea.setOnDownVoteButtonClickListener { listItemEventsProcessor.onDownVoteClick() }
+                votesArea.setOnUpVoteButtonClickListener {
+                    if(listItem.post.votes.hasUpVote){
+                        listItemEventsProcessor.onUnVoteClick()
+                    }else{
+                        listItemEventsProcessor.onUpVoteClick()
+                    }
+                }
+
+                votesArea.setOnDownVoteButtonClickListener {
+                    if(listItem.post.votes.hasDownVote){
+                        listItemEventsProcessor.onUnVoteClick()
+                    }else{
+                        listItemEventsProcessor.onDownVoteClick()
+                    }
+                }
                 votesArea.setOnDonateClickListener {
                     listItemEventsProcessor.onDonateClick(it, listItem.post.contentId, listItem.post.community.communityId, listItem.post.author)
                 }

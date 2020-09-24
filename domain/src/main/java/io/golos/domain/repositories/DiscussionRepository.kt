@@ -19,6 +19,8 @@ interface DiscussionRepository {
 
     suspend fun upVote(contentIdDomain: ContentIdDomain)
 
+    suspend fun unVote(contentIdDomain: ContentIdDomain)
+
     suspend fun downVote(contentIdDomain: ContentIdDomain)
 
     suspend fun reportPost(communityId: CommunityIdDomain, authorId: UserIdDomain, permlink: String, reason: String)

@@ -127,6 +127,18 @@ constructor(
         }
     }
 
+    override fun onUnVoteClicked(contentId: ContentIdDomain) {
+        launch {
+            try {
+                model.unVote(contentId.communityId, contentId.userId, contentId.permlink)
+                _postsListState.value = unVoteCountOfVotes(_postsListState.value, contentId)
+            } catch (e: java.lang.Exception) {
+                Timber.e(e)
+                _command.value = ShowMessageTextCommand(e.getMessage(appContext))
+            }
+        }
+    }
+
     override fun onDownVoteClicked(contentId: ContentIdDomain) {
         launch {
             try {
@@ -515,6 +527,54 @@ constructor(
         }
     }
 
+    private fun unVoteCountOfVotes(
+        state: Paginator.State?,
+        contentId: ContentIdDomain
+    ): Paginator.State? {
+        when (state) {
+            is Paginator.State.Data<*> -> {
+                naturalVoteInPostsByContentId(((state).data as ArrayList<Post>), contentId)
+
+            }
+            is Paginator.State.Refresh<*> -> {
+                naturalVoteInPostsByContentId(((state).data as ArrayList<Post>), contentId)
+
+            }
+            is Paginator.State.NewPageProgress<*> -> {
+                naturalVoteInPostsByContentId(((state).data as ArrayList<Post>), contentId)
+            }
+            is Paginator.State.FullData<*> -> {
+                naturalVoteInPostsByContentId(((state).data as ArrayList<Post>), contentId)
+            }
+        }
+        return state
+    }
+
+    private fun naturalVoteInPostsByContentId(posts: ArrayList<Post>, contentId: ContentIdDomain) {
+        val foundedPost = posts.find { post ->
+            post.contentId == contentId
+        }
+        val updatedPost = foundedPost?.copy()
+        updatedPost?.let { post ->
+            val oldVotes = post.votes
+            if (post.votes.hasUpVote) {
+                post.votes = post.votes.copy(
+                    upCount = post.votes.upCount - 1,
+                    downCount = if (oldVotes.hasDownVote) oldVotes.downCount - 1 else oldVotes.downCount,
+                    hasUpVote = false,
+                    hasDownVote = false
+                )
+            }else{
+                post.votes = post.votes.copy(
+                    downCount = post.votes.downCount - 1,
+                    upCount = if (oldVotes.hasUpVote) oldVotes.upCount - 1 else oldVotes.upCount,
+                    hasUpVote = false,
+                    hasDownVote = false
+                )
+            }
+            posts[posts.indexOf(foundedPost)] = updatedPost
+        }
+    }
     private fun updateUpVoteCountOfVotes(
         state: Paginator.State?,
         contentId: ContentIdDomain

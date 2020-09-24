@@ -13,6 +13,7 @@ import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
 import io.golos.cyber_android.ui.screens.post_view.dto.*
 import io.golos.cyber_android.ui.screens.post_view.model.PostPageModel
+import io.golos.cyber_android.ui.screens.post_view.model.VoteType
 import io.golos.cyber_android.ui.shared.broadcast_actions_registries.PostUpdateRegistry
 import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
@@ -23,10 +24,7 @@ import io.golos.cyber_android.ui.shared.widgets.comment.ContentState
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.*
 import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.EditorOutputToJsonMapper
-import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.ControlMetadata
 import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.EmbedMetadata
-import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.ParagraphMetadata
-import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.TagSpanInfo
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.exceptions.ApiResponseErrorException
 import kotlinx.coroutines.flow.collect
@@ -177,6 +175,19 @@ constructor(
             }
         }
     }
+    override fun onUnVoteClick() {
+        launch {
+            try {
+                model.unVote(
+                    postContentId.communityId,
+                    postContentId.userId,
+                    postContentId.permlink
+                )
+            } catch (e: Exception) {
+                _command.value = ShowMessageTextCommand(e.getMessage(appContext))
+            }
+        }
+    }
 
     override fun onDonateClick(
         donate: DonateType,
@@ -192,9 +203,11 @@ constructor(
         _command.value = ShowDonationUsersDialogCommand(donates)
     }
 
-    override fun onCommentUpVoteClick(commentId: ContentIdDomain) = voteForComment(commentId, true)
+    override fun onCommentUpVoteClick(commentId: ContentIdDomain) = voteForComment(commentId, VoteType.UP_VOTE)
 
-    override fun onCommentDownVoteClick(commentId: ContentIdDomain) = voteForComment(commentId, false)
+    override fun onCommentDownVoteClick(commentId: ContentIdDomain) = voteForComment(commentId,  VoteType.DOWN_VOTE)
+
+    override fun onCommentUnVoteClick(commentId: ContentIdDomain) = voteForComment(commentId,  VoteType.UN_VOTE)
 
     override fun onForbiddenClick() {
         _command.postValue(ShowMessageResCommand(R.string.cant_cancel_vote,true))
@@ -439,8 +452,8 @@ constructor(
         }
     }
 
-    private fun voteForComment(commentId: ContentIdDomain, isUpVote: Boolean) =
-        processSimple { model.voteForComment(postContentId.communityId, commentId, isUpVote) }
+    private fun voteForComment(commentId: ContentIdDomain, voteType: VoteType) =
+        processSimple { model.voteForComment(postContentId.communityId, commentId, voteType) }
 
     private fun processSimple(action: suspend () -> Unit) {
         launch {
@@ -487,5 +500,8 @@ constructor(
 
     fun viewInExplorer(postMenu: PostMenu) {
         _command.value = ViewInExplorerViewCommand(postMenu.browseUrl.toString())
+    }
+    fun backVoteChange() {
+        _command.value = ChangeVoteByPostPage()
     }
 }

@@ -194,7 +194,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
             is NavigateToDonateCommand -> moveToDonate(command)
             is ShowDonationUsersDialogCommand -> showDonationUsersDialogCommand(command.donation)
             is SelectRewardCurrencyDialogCommand -> showSelectRewardCurrencyDialog(command.startCurrency)
-
+            is ChangeVoteByPostPage -> ""
             else -> throw UnsupportedOperationException("This command is not supported")
         }
     }
@@ -205,6 +205,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
     }
 
     private fun back(){
+        viewModel.backVoteChange()
         view?.hideSoftKeyboard(0)
         parentFragmentManager.popBackStack()
     }
