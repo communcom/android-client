@@ -54,6 +54,12 @@ interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToC
         permlink: String
     )
 
+   suspend fun unVote(
+        communityId: CommunityIdDomain,
+        userId: UserIdDomain,
+        permlink: String
+    )
+
     suspend fun reportPost(
         authorPostId: UserIdDomain,
         communityId: CommunityIdDomain,
@@ -61,7 +67,7 @@ interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToC
         reason: String
     )
 
-    suspend fun voteForComment(communityId: CommunityIdDomain, commentId: ContentIdDomain, isUpVote: Boolean)
+    suspend fun voteForComment(communityId: CommunityIdDomain, commentId: ContentIdDomain, voteType: VoteType)
 
     suspend fun updateCommentsSorting(sortingType: SortingType)
 

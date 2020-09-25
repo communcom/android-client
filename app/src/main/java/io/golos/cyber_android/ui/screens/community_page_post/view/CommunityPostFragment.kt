@@ -283,7 +283,9 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
                     discussionIdModel,
                     contentId
                 )
-            ),
+            ){
+                viewModel.updatePostItem(it)
+            },
             tag = contentId.permlink
         )
     }

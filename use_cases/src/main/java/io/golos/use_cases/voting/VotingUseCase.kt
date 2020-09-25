@@ -7,4 +7,7 @@ interface VotingUseCase {
     suspend fun upVote(communityId: CommunityIdDomain, userId: UserIdDomain, permlink: String)
 
     suspend fun downVote(communityId: CommunityIdDomain, userId: UserIdDomain, permlink: String)
+
+    suspend fun unVote(communityId: CommunityIdDomain, userId: UserIdDomain, permlink: String)
+
 }

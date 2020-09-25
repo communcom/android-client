@@ -39,6 +39,8 @@ class PostItem(
     private val rewardCurrency: RewardCurrency
 ) : BaseRecyclerItem() {
 
+    private var enableParagraph:Boolean = false
+
     enum class Type {
         FEED,
         PROFILE
@@ -133,6 +135,9 @@ class PostItem(
     private fun setUpFeedContent(view: View, postBlock: ContentBlock?) {
         view.feedContent.adapter = feedAdapter
 
+        if(postBlock?.content?.size!!>1){
+            enableParagraph=true
+        }
         val contentList : ArrayList<Block> = postBlock?.content as? ArrayList<Block> ?: arrayListOf()
         val newContentList = ArrayList<Block>(contentList)
         ((postBlock?.attachments) as? Block)?.let {
@@ -147,8 +152,10 @@ class PostItem(
         postContentItems.map {
             if(it is PostParagraphBlockItem){
                 paragraphContent.addAll(it.paragraphBlock.content.map {
-                    if(it is TextBlock){
-                        it.content += "\n"
+                    if(it is TextBlock && enableParagraph){
+                        if(! it.content.contains("\n")){
+                            it.content += "\n"
+                        }
                     }
                     it
                 })
@@ -271,8 +278,23 @@ class PostItem(
             view.votesArea.upvoteButton.isEnabled = true
             view.votesArea.downvoteButton.isEnabled = true
 
-            view.votesArea.setOnUpVoteButtonClickListener { listener.onUpVoteClicked(post.contentId) }
-            view.votesArea.setOnDownVoteButtonClickListener { listener.onDownVoteClicked(post.contentId) }
+            view.votesArea.setOnUpVoteButtonClickListener {
+                if(post.votes.hasUpVote){
+                    listener.onUnVoteClicked(post.contentId)
+                }else{
+                    listener.onUpVoteClicked(post.contentId)
+                    view.votesArea.setDonateClick()
+                }
+
+            }
+            view.votesArea.setOnDownVoteButtonClickListener {
+                if(post.votes.hasDownVote){
+                    listener.onUnVoteClicked(post.contentId)
+                }else{
+                    listener.onDownVoteClicked(post.contentId)
+                }
+
+            }
             view.votesArea.setOnDonateClickListener {
                 listener.onDonateClick(it, post.contentId, post.community.communityId, post.author)
             }

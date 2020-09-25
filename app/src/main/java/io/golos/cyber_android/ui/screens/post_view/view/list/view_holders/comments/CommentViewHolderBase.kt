@@ -349,8 +349,22 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
             _voting.upvoteButton.isEnabled = true
             _voting.downvoteButton.isEnabled = true
 
-            _voting.setOnUpVoteButtonClickListener { eventsProcessor.onCommentUpVoteClick(listItem.externalId) }
-            _voting.setOnDownVoteButtonClickListener { eventsProcessor.onCommentDownVoteClick(listItem.externalId) }
+            _voting.setOnUpVoteButtonClickListener {
+                if(listItem.isUpVoteActive){
+                    eventsProcessor.onCommentUnVoteClick(listItem.externalId)
+                }else{
+                    eventsProcessor.onCommentUpVoteClick(listItem.externalId)
+                }
+
+            }
+            _voting.setOnDownVoteButtonClickListener {
+                if(listItem.isDownVoteActive){
+                    eventsProcessor.onCommentUnVoteClick(listItem.externalId)
+                }else{
+                    eventsProcessor.onCommentDownVoteClick(listItem.externalId)
+                }
+
+            }
             _voting.setOnDonateClickListener {
                 eventsProcessor.onDonateClick(it, listItem.externalId, listItem.externalId.communityId, listItem.author)
             }

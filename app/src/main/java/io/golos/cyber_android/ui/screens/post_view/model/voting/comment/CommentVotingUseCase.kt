@@ -8,4 +8,6 @@ interface CommentVotingUseCase {
     suspend fun upVote(comment: CommentDomain, communityId: CommunityIdDomain, userId: UserIdDomain, permlink: String): CommentDomain
 
     suspend fun downVote(comment: CommentDomain, communityId: CommunityIdDomain, userId: UserIdDomain, permlink: String): CommentDomain
+
+    suspend fun unVote(comment: CommentDomain, communityId: CommunityIdDomain, userId: UserIdDomain, permlink: String): CommentDomain
 }

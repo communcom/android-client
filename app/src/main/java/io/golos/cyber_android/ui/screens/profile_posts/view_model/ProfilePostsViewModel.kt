@@ -16,6 +16,7 @@ import io.golos.cyber_android.ui.screens.feed_my.model.MyFeedModel
 import io.golos.cyber_android.ui.screens.feed_my.view_model.MyFeedListListener
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
+import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.PostControlsListItem
 import io.golos.cyber_android.ui.screens.profile_posts.view_commands.EditPostCommand
 import io.golos.cyber_android.ui.screens.profile_posts.view_commands.NavigationToPostMenuViewCommand
 import io.golos.cyber_android.ui.screens.profile_posts.view_commands.ReportPostCommand
@@ -120,6 +121,18 @@ constructor(
             try {
                 _postsListState.value = updateUpVoteCountOfVotes(_postsListState.value, contentId)
                 model.upVote(contentId.communityId, contentId.userId, contentId.permlink)
+            } catch (e: java.lang.Exception) {
+                Timber.e(e)
+                _command.value = ShowMessageTextCommand(e.getMessage(appContext))
+            }
+        }
+    }
+
+    override fun onUnVoteClicked(contentId: ContentIdDomain) {
+        launch {
+            try {
+                model.unVote(contentId.communityId, contentId.userId, contentId.permlink)
+                _postsListState.value = unVoteCountOfVotes(_postsListState.value, contentId)
             } catch (e: java.lang.Exception) {
                 Timber.e(e)
                 _command.value = ShowMessageTextCommand(e.getMessage(appContext))
@@ -515,6 +528,54 @@ constructor(
         }
     }
 
+    private fun unVoteCountOfVotes(
+        state: Paginator.State?,
+        contentId: ContentIdDomain
+    ): Paginator.State? {
+        when (state) {
+            is Paginator.State.Data<*> -> {
+                naturalVoteInPostsByContentId(((state).data as ArrayList<Post>), contentId)
+
+            }
+            is Paginator.State.Refresh<*> -> {
+                naturalVoteInPostsByContentId(((state).data as ArrayList<Post>), contentId)
+
+            }
+            is Paginator.State.NewPageProgress<*> -> {
+                naturalVoteInPostsByContentId(((state).data as ArrayList<Post>), contentId)
+            }
+            is Paginator.State.FullData<*> -> {
+                naturalVoteInPostsByContentId(((state).data as ArrayList<Post>), contentId)
+            }
+        }
+        return state
+    }
+
+    private fun naturalVoteInPostsByContentId(posts: ArrayList<Post>, contentId: ContentIdDomain) {
+        val foundedPost = posts.find { post ->
+            post.contentId == contentId
+        }
+        val updatedPost = foundedPost?.copy()
+        updatedPost?.let { post ->
+            val oldVotes = post.votes
+            if (post.votes.hasUpVote) {
+                post.votes = post.votes.copy(
+                    upCount = post.votes.upCount - 1,
+                    downCount = if (oldVotes.hasDownVote) oldVotes.downCount - 1 else oldVotes.downCount,
+                    hasUpVote = false,
+                    hasDownVote = false
+                )
+            }else{
+                post.votes = post.votes.copy(
+                    downCount = post.votes.downCount - 1,
+                    upCount = if (oldVotes.hasUpVote) oldVotes.upCount - 1 else oldVotes.upCount,
+                    hasUpVote = false,
+                    hasDownVote = false
+                )
+            }
+            posts[posts.indexOf(foundedPost)] = updatedPost
+        }
+    }
     private fun updateUpVoteCountOfVotes(
         state: Paginator.State?,
         contentId: ContentIdDomain
@@ -627,4 +688,43 @@ constructor(
     fun viewInExplorer(postMenu: PostMenu) {
         _command.value = ViewInExplorerViewCommand(postMenu.browseUrl.toString())
     }
+
+    fun updatePostItem(postControlsListItem: PostControlsListItem) {
+        _postsListState.value= updatePostItem(_postsListState.value,postControlsListItem.post)
+    }
+
+    private fun updatePostItem(state: Paginator.State?, postItem: Post): Paginator.State? {
+        when (state) {
+            is Paginator.State.Data<*> -> {
+                updatePostItemByContentId(((state).data as ArrayList<Post>), postItem)
+
+            }
+            is Paginator.State.Refresh<*> -> {
+                updatePostItemByContentId(((state).data as ArrayList<Post>), postItem)
+
+            }
+            is Paginator.State.NewPageProgress<*> -> {
+                updatePostItemByContentId(((state).data as ArrayList<Post>), postItem)
+            }
+            is Paginator.State.FullData<*> -> {
+                updatePostItemByContentId(((state).data as ArrayList<Post>), postItem)
+            }
+        }
+        return state
+    }
+
+    private fun updatePostItemByContentId(posts: ArrayList<Post>, postItem: Post) {
+        val foundedPost = posts.find { post ->
+            post.contentId == postItem.contentId
+        }
+        val updatedPost = foundedPost?.copy()
+        updatedPost?.let { post ->
+            post.votes=postItem.votes
+            post.stats?.copy(commentsCount = postItem.stats?.commentsCount!!, viewCount = postItem.viewCount)
+            post.viewCount = postItem.viewCount
+            posts[posts.indexOf(foundedPost)] = updatedPost
+        }
+
+    }
+
 }

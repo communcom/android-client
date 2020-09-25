@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.post_view.model.comments_processing
 
+import io.golos.cyber_android.ui.screens.post_view.model.VoteType
 import io.golos.domain.dto.CommentDomain
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.ContentIdDomain
@@ -30,5 +31,5 @@ interface CommentsProcessingFacade {
 
     suspend fun replyToComment(repliedCommentId: ContentIdDomain, jsonBody: String, metadata: List<ControlMetadata>)
 
-    suspend fun vote(communityId: CommunityIdDomain, commentId: ContentIdDomain, isUpVote: Boolean)
+    suspend fun vote(communityId: CommunityIdDomain, commentId: ContentIdDomain, voteType: VoteType)
 }

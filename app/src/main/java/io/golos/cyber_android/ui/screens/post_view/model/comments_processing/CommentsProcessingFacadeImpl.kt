@@ -3,6 +3,7 @@ package io.golos.cyber_android.ui.screens.post_view.model.comments_processing
 import dagger.Lazy
 import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.CommentListItemState
 import io.golos.cyber_android.ui.screens.post_view.helpers.CommentTextRenderer
+import io.golos.cyber_android.ui.screens.post_view.model.VoteType
 import io.golos.cyber_android.ui.screens.post_view.model.comments_processing.comments_storage.CommentsStorage
 import io.golos.cyber_android.ui.screens.post_view.model.comments_processing.loaders.first_level.FirstLevelLoader
 import io.golos.cyber_android.ui.screens.post_view.model.comments_processing.loaders.first_level.FirstLevelLoaderImpl
@@ -91,7 +92,7 @@ constructor(
             .map { it.spans }
             .flatten()
             .filterIsInstance<TagSpanInfo>()
-            .map { it.displayValue.toLowerCase() }
+            .map { it.displayValue.toLowerCase().removePrefix("#") }
             .toMutableSet()
     }
     override suspend fun deleteComment(commentId: ContentIdDomain, isSingleComment: Boolean) {
@@ -196,15 +197,15 @@ constructor(
         }
     }
 
-    override suspend fun vote(communityId: CommunityIdDomain, commentId: ContentIdDomain, isUpVote: Boolean) {
+    override suspend fun vote(communityId: CommunityIdDomain, commentId: ContentIdDomain, voteType: VoteType) {
         val oldComment = commentsStorage.get().getComment(commentId)!!
 
         val votingUseCase = getVoteUseCase(commentId)
 
-        val newComment = if(isUpVote) {
-            votingUseCase.upVote(oldComment, communityId, commentId.userId, commentId.permlink)
-        } else {
-            votingUseCase.downVote(oldComment, communityId, commentId.userId, commentId.permlink)
+        val newComment = when (voteType) {
+            VoteType.UP_VOTE -> votingUseCase.upVote(oldComment, communityId, commentId.userId, commentId.permlink)
+            VoteType.DOWN_VOTE -> votingUseCase.downVote(oldComment, communityId, commentId.userId, commentId.permlink)
+            else -> votingUseCase.unVote(oldComment, communityId, commentId.userId, commentId.permlink)
         }
 
         commentsStorage.get().updateComment(oldComment.copy(votes = newComment.votes))

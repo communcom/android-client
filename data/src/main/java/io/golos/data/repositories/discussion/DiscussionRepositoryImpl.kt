@@ -358,6 +358,20 @@ constructor(
         }
     }
 
+    override suspend fun unVote(contentIdDomain: ContentIdDomain) {
+        val currentUser = currentUserRepository.userId.userId.toCyberName()
+        callProxy.callBC {
+            commun4j.unVote(
+                communCode = CyberSymbolCode(contentIdDomain.communityId.code),
+                messageId = MssgidCGalleryStruct(contentIdDomain.userId.toCyberName(), contentIdDomain.permlink),
+                bandWidthRequest = BandWidthRequest.bandWidthFromComn,
+                clientAuthRequest = ClientAuthRequest.empty,
+                voter = currentUser,
+                key = userKeyStore.getKey(UserKeyType.ACTIVE)
+            )
+        }
+    }
+
     override suspend fun downVote(contentIdDomain: ContentIdDomain) {
         val currentUser = currentUserRepository.userId.userId.toCyberName()
         callProxy.callBC {

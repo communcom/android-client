@@ -52,6 +52,7 @@ import timber.log.Timber
 
 open class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewModel>() {
     companion object {
+        const val  tag = "MyFeed_FRAGMENT_TAG"
         private const val REQUEST_FOR_RESULT_FROM_EDIT = 41522
         private const val REQUEST_FOR_RESULT_FROM_CREATE_POST = 41523
 
@@ -380,7 +381,9 @@ open class MyFeedFragment : FragmentBaseMVVM<FragmentMyFeedBinding, MyFeedViewMo
                     discussionIdModel,
                     contentId
                 )
-            ),
+            ) {
+            viewModel.updatePostItem(it)
+        },
             tag = contentId.permlink
         )
     }

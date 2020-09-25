@@ -159,7 +159,9 @@ class NotificationsFragment : FragmentBaseMVVM<FragmentNotificationsBinding, Not
                     discussionIdModel,
                     contentId
                 )
-            ),
+            ){
+
+            },
             tag = contentId.permlink
         )
     }

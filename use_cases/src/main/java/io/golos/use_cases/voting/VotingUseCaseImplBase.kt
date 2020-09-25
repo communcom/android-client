@@ -78,6 +78,31 @@ abstract class VotingUseCaseImplBase(
         }
     }
 
+    override suspend fun unVote(communityId: CommunityIdDomain, userId: UserIdDomain, permlink: String) {
+        if (voteInProgress) {
+            return
+        }
+        voteInProgress = true
+
+        val votes = getCurrentVotes()
+
+        oldVotesState = votes
+        val newVotesState = calculateNaturalVote(oldVotesState)
+        setCurrentVotes(newVotesState)
+
+        try {
+            withContext(dispatchersProvider.ioDispatcher) {
+                discussionRepository.unVote(ContentIdDomain(communityId = communityId, permlink = permlink, userId = userId))
+            }
+        } catch (ex: Exception) {
+            Timber.e(ex)
+            setCurrentVotes(oldVotesState)
+            throw ex
+        } finally {
+            voteInProgress = false
+        }
+    }
+
     abstract fun getCurrentVotes(): VotesDomain
 
     abstract suspend fun setCurrentVotes(votes: VotesDomain)
@@ -85,14 +110,22 @@ abstract class VotingUseCaseImplBase(
     private fun calculateVotesForUpVote(old: VotesDomain): VotesDomain =
         old.copy(
             upCount = old.upCount + 1,
-            hasDownVote = false,
-            hasUpVote = true
-        )
+            downCount = if (old.hasDownVote) old.downCount - 1 else old.downCount,
+            hasUpVote = true,
+            hasDownVote = false)
 
     private fun calculateVotesForDownVote(old: VotesDomain): VotesDomain =
         old.copy(
             downCount = old.downCount + 1,
-            hasDownVote = true,
-            hasUpVote = false
-        )
+            upCount = if (old.hasUpVote) old.upCount - 1 else old.upCount,
+            hasUpVote = false,
+            hasDownVote = true)
+
+    private fun calculateNaturalVote(old: VotesDomain):VotesDomain {
+        return if (old.hasUpVote) {
+            old.copy(upCount = old.upCount - 1, downCount = if (old.hasDownVote) old.downCount - 1 else old.downCount, hasUpVote = false, hasDownVote = false)
+        } else {
+            old.copy(downCount = old.downCount - 1, upCount = if (old.hasUpVote) old.upCount - 1 else old.upCount, hasUpVote = false, hasDownVote = false)
+        }
+    }
 }

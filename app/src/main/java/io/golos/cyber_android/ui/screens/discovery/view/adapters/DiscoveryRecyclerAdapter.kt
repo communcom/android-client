@@ -59,6 +59,6 @@ class DiscoveryRecyclerAdapter(
         }
     }
 
-    class ViewHolder(val mBinding: AdapterSearchResultPreviewItemBinding) : RecyclerView.ViewHolder(mBinding.root)
+   inner class ViewHolder(val mBinding: AdapterSearchResultPreviewItemBinding) : RecyclerView.ViewHolder(mBinding.root)
 
 }
