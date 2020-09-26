@@ -201,7 +201,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
             is NavigateToDonateCommand -> moveToDonate(command)
             is ShowDonationUsersDialogCommand -> showDonationUsersDialogCommand(command.donation)
             is SelectRewardCurrencyDialogCommand -> showSelectRewardCurrencyDialog(command.startCurrency)
-
+            is ChangeVoteByPostPage -> ""
             else -> throw UnsupportedOperationException("This command is not supported")
         }
     }

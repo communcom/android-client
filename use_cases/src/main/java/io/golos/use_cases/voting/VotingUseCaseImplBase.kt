@@ -9,23 +9,20 @@ import io.golos.domain.repositories.DiscussionRepository
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
-abstract class VotingUseCaseImplBase(
-    private val dispatchersProvider: DispatchersProvider,
-    private val discussionRepository: DiscussionRepository
-): VotingUseCase {
+abstract class VotingUseCaseImplBase(private val dispatchersProvider: DispatchersProvider, private val discussionRepository: DiscussionRepository) : VotingUseCase {
 
     private var voteInProgress = false
 
     private lateinit var oldVotesState: VotesDomain
 
     override suspend fun upVote(communityId: CommunityIdDomain, userId: UserIdDomain, permlink: String) {
-        if(voteInProgress) {
+        if (voteInProgress) {
             return
         }
         voteInProgress = true
 
         val votes = getCurrentVotes()
-        if(votes.hasUpVote) {
+        if (votes.hasUpVote) {
             voteInProgress = false
             return
         }
@@ -49,13 +46,13 @@ abstract class VotingUseCaseImplBase(
     }
 
     override suspend fun downVote(communityId: CommunityIdDomain, userId: UserIdDomain, permlink: String) {
-        if(voteInProgress) {
+        if (voteInProgress) {
             return
         }
         voteInProgress = true
 
         val votes = getCurrentVotes()
-        if(votes.hasDownVote) {
+        if (votes.hasDownVote) {
             voteInProgress = false
             return
         }
@@ -68,6 +65,30 @@ abstract class VotingUseCaseImplBase(
         try {
             withContext(dispatchersProvider.ioDispatcher) {
                 discussionRepository.downVote(ContentIdDomain(communityId = communityId, permlink = permlink, userId = userId))
+            }
+        } catch (ex: Exception) {
+            Timber.e(ex)
+            setCurrentVotes(oldVotesState)
+            throw ex
+        } finally {
+            voteInProgress = false
+        }
+    }
+    override suspend fun unVote(communityId: CommunityIdDomain, userId: UserIdDomain, permlink: String) {
+        if (voteInProgress) {
+            return
+        }
+        voteInProgress = true
+
+        val votes = getCurrentVotes()
+
+        oldVotesState = votes
+        val newVotesState = calculateNaturalVote(oldVotesState)
+        setCurrentVotes(newVotesState)
+
+        try {
+            withContext(dispatchersProvider.ioDispatcher) {
+                discussionRepository.unVote(ContentIdDomain(communityId = communityId, permlink = permlink, userId = userId))
             }
         } catch (ex: Exception) {
             Timber.e(ex)
@@ -107,6 +128,12 @@ abstract class VotingUseCaseImplBase(
 
     abstract suspend fun setCurrentVotes(votes: VotesDomain)
 
+    /*   private fun calculateVotesForUpVote(old: VotesDomain): VotesDomain =
+           old.copy(
+               upCount = old.upCount + 1,
+               hasDownVote = false,
+               hasUpVote = true
+           ) */
     private fun calculateVotesForUpVote(old: VotesDomain): VotesDomain =
         old.copy(
             upCount = old.upCount + 1,

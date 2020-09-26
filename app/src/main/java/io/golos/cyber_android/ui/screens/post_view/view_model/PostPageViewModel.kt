@@ -175,6 +175,19 @@ constructor(
             }
         }
     }
+    override fun onUnVoteClick() {
+        launch {
+            try {
+                model.unVote(
+                    postContentId.communityId,
+                    postContentId.userId,
+                    postContentId.permlink
+                )
+            } catch (e: Exception) {
+                _command.value = ShowMessageTextCommand(e.getMessage(appContext))
+            }
+        }
+    }
 
     override fun onUnVoteClick() {
         launch {
@@ -501,5 +514,8 @@ constructor(
 
     fun viewInExplorer(postMenu: PostMenu) {
         _command.value = ViewInExplorerViewCommand(postMenu.browseUrl.toString())
+    }
+    fun backVoteChange() {
+        _command.value = ChangeVoteByPostPage()
     }
 }
