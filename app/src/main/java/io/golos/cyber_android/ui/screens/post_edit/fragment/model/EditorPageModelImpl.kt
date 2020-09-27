@@ -234,7 +234,7 @@ constructor(
             .map { it.spans }
             .flatten()
             .filterIsInstance<TagSpanInfo>()
-            .map { it.displayValue.toLowerCase() }
+            .map { it.displayValue.toLowerCase().removePrefix("#") }
             .toMutableSet()
 
         if (adultOnly) {

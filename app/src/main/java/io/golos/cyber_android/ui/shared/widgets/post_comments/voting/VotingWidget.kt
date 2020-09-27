@@ -27,7 +27,6 @@ constructor(
 
         upvoteButton.setOnClickListener {
             onUpVoteButtonClickListener?.invoke()
-            onDonateClickListener?.let { donatePopup.show(this, it) }
         }
 
         downvoteButton.setOnClickListener { onDownVoteButtonClickListener?.invoke() }
@@ -55,6 +54,10 @@ constructor(
 
     fun setVoteBalance(balance: Long) {
         votesText.text = balance.toString()
+    }
+
+    fun setDonateClick() {
+        onDonateClickListener?.let { donatePopup.show(this, it) }
     }
 
     fun release() {

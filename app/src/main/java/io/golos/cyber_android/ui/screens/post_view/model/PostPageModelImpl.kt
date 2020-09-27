@@ -166,7 +166,7 @@ constructor(
         postDomain = postPageVotingUseCase.get().downVote(postDomain, communityId, userId, permlink)
     }
 
-    override suspend fun unVote(communityId: CommunityIdDomain, userId: UserIdDomain, permlink: String) {
+   override suspend fun unVote(communityId: CommunityIdDomain, userId: UserIdDomain, permlink: String) {
         postDomain = postPageVotingUseCase.get().unVote(postDomain, communityId, userId, permlink)
     }
 

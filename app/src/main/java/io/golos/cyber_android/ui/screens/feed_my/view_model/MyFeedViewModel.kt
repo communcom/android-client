@@ -17,6 +17,7 @@ import io.golos.cyber_android.ui.screens.feed_my.view.view_commands.*
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
+import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.PostControlsListItem
 import io.golos.cyber_android.ui.shared.broadcast_actions_registries.PostUpdateRegistry
 import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
@@ -421,11 +422,9 @@ constructor(
                 naturalVoteInPostsByContentId(((state).data as ArrayList<Post>), contentId)
 
             }
-            is Paginator.State.NewPageProgress<*> -> {
-                naturalVoteInPostsByContentId(((state).data as ArrayList<Post>), contentId)
+            is Paginator.State.NewPageProgress<*> -> { naturalVoteInPostsByContentId(((state).data as ArrayList<Post>), contentId)
             }
-            is Paginator.State.FullData<*> -> {
-                naturalVoteInPostsByContentId(((state).data as ArrayList<Post>), contentId)
+            is Paginator.State.FullData<*> -> { naturalVoteInPostsByContentId(((state).data as ArrayList<Post>), contentId)
             }
         }
         return state
@@ -439,19 +438,11 @@ constructor(
         updatedPost?.let { post ->
             val oldVotes = post.votes
             if (post.votes.hasUpVote) {
-                post.votes = post.votes.copy(
-                    upCount = post.votes.upCount - 1,
-                    downCount = if (oldVotes.hasDownVote) oldVotes.downCount - 1 else oldVotes.downCount,
-                    hasUpVote = false,
-                    hasDownVote = false
-                )
-            }else{
-                post.votes = post.votes.copy(
-                    downCount = post.votes.downCount - 1,
-                    upCount = if (oldVotes.hasUpVote) oldVotes.upCount - 1 else oldVotes.upCount,
-                    hasUpVote = false,
-                    hasDownVote = false
-                )
+                post.votes =
+                    post.votes.copy(upCount = post.votes.upCount - 1, downCount = if (oldVotes.hasDownVote) oldVotes.downCount - 1 else oldVotes.downCount, hasUpVote = false, hasDownVote = false)
+            } else {
+                post.votes =
+                    post.votes.copy(downCount = post.votes.downCount - 1, upCount = if (oldVotes.hasUpVote) oldVotes.upCount - 1 else oldVotes.upCount, hasUpVote = false, hasDownVote = false)
             }
             posts[posts.indexOf(foundedPost)] = updatedPost
         }
@@ -496,10 +487,45 @@ constructor(
         }
     }
 
-    private fun updateDownVoteCountOfVotes(
-        state: Paginator.State?,
-        contentId: ContentIdDomain
-    ): Paginator.State? {
+    fun updatePostItem(postControlsListItem: PostControlsListItem) {
+        _postsListState.value= updatePostItem(_postsListState.value,postControlsListItem.post)
+    }
+
+    private fun updatePostItem(state: Paginator.State?, postItem: Post): Paginator.State? {
+        when (state) {
+            is Paginator.State.Data<*> -> {
+                updatePostItemByContentId(((state).data as ArrayList<Post>), postItem)
+
+            }
+            is Paginator.State.Refresh<*> -> {
+                updatePostItemByContentId(((state).data as ArrayList<Post>), postItem)
+
+            }
+            is Paginator.State.NewPageProgress<*> -> {
+                updatePostItemByContentId(((state).data as ArrayList<Post>), postItem)
+            }
+            is Paginator.State.FullData<*> -> {
+                updatePostItemByContentId(((state).data as ArrayList<Post>), postItem)
+            }
+        }
+        return state
+    }
+
+    private fun updatePostItemByContentId(posts: ArrayList<Post>, postItem: Post) {
+        val foundedPost = posts.find { post ->
+            post.contentId == postItem.contentId
+        }
+        val updatedPost = foundedPost?.copy()
+        updatedPost?.let { post ->
+            post.votes=postItem.votes
+            post.stats?.copy(commentsCount = postItem.stats?.commentsCount!!, viewCount = postItem.viewCount)
+            post.viewCount = postItem.viewCount
+            posts[posts.indexOf(foundedPost)] = updatedPost
+        }
+
+    }
+
+    private fun updateDownVoteCountOfVotes(state: Paginator.State?, contentId: ContentIdDomain): Paginator.State? {
         when (state) {
             is Paginator.State.Data<*> -> {
                 updateDownVoteInPostsByContentId(((state).data as ArrayList<Post>), contentId)

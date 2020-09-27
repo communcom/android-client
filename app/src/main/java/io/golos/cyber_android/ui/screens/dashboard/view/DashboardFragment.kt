@@ -121,7 +121,7 @@ class DashboardFragment : FragmentBaseMVVM<FragmentDashboardBinding, DashboardVi
     fun processIntent(intent: Intent) = viewModel.processIntent(intent)
 
     private fun openPost(discussionIdModel: DiscussionIdModel, contentId: ContentIdDomain) {
-        navigateToFragment(PostPageFragment.newInstance(PostPageFragment.Args(discussionIdModel, contentId)),tag = contentId.permlink)
+        navigateToFragment(PostPageFragment.newInstance(PostPageFragment.Args(discussionIdModel, contentId)){},tag = contentId.permlink)
     }
 
     private fun observeViewModel() {

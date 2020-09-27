@@ -24,7 +24,7 @@ fun CharSequence.getParagraphMetadata(): List<ParagraphMetadata>? =
                         val spanInfo =
                             when(it.span) {
                                 is LinkSpan -> LinkSpanInfo(it.spanInterval, it.span.value, it.span.value)
-                                is TagSpan -> TagSpanInfo(it.spanInterval, it.span.value, it.span.value.removeRange(0..0))
+                                is TagSpan -> TagSpanInfo(it.spanInterval, it.span.value.toLowerCase(), it.span.value.toLowerCase().removeRange(0..0))
                                 is MentionSpan -> MentionSpanInfo(it.spanInterval, it.span.value, it.span.value.removeRange(0..0))
                                 else -> null
                             }

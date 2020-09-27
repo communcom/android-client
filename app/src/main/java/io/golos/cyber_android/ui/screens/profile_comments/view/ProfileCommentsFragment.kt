@@ -133,7 +133,7 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
     }
 
     private fun openPost(discussionIdModel: DiscussionIdModel, contentId: ContentIdDomain) {
-        getDashboardFragment(this)?.navigateToFragment(PostPageFragment.newInstance(PostPageFragment.Args(discussionIdModel, contentId)), tag = contentId.permlink)
+        getDashboardFragment(this)?.navigateToFragment(PostPageFragment.newInstance(PostPageFragment.Args(discussionIdModel, contentId)){}, tag = contentId.permlink)
     }
 
     private fun scrollProfileToTop() {

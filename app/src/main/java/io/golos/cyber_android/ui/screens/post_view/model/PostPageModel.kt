@@ -54,7 +54,7 @@ interface PostPageModel : ModelBase, SubscribeToCommunityUseCase, UnsubscribeToC
         permlink: String
     )
 
-    suspend fun unVote(
+   suspend fun unVote(
         communityId: CommunityIdDomain,
         userId: UserIdDomain,
         permlink: String

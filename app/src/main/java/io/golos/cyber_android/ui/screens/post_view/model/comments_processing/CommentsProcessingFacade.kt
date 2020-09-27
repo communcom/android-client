@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.post_view.model.comments_processing
 
+import io.golos.cyber_android.ui.screens.post_view.model.VoteType
 import io.golos.domain.dto.CommentDomain
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.ContentIdDomain

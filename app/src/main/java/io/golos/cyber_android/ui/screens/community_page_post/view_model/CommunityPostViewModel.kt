@@ -17,6 +17,7 @@ import io.golos.cyber_android.ui.screens.feed_my.view_model.MyFeedListListener
 import io.golos.cyber_android.ui.screens.post_filters.PostFiltersHolder
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
+import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.PostControlsListItem
 import io.golos.cyber_android.ui.shared.broadcast_actions_registries.PostUpdateRegistry
 import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
@@ -619,5 +620,43 @@ constructor(
 
     fun viewInExplorer(postMenu: PostMenu) {
         _command.value = ViewInExplorerViewCommand(postMenu.browseUrl.toString())
+    }
+
+    fun updatePostItem(postControlsListItem: PostControlsListItem) {
+        _postsListState.value= updatePostItem(_postsListState.value,postControlsListItem.post)
+    }
+
+    private fun updatePostItem(state: Paginator.State?, postItem: Post): Paginator.State? {
+        when (state) {
+            is Paginator.State.Data<*> -> {
+                updatePostItemByContentId(((state).data as ArrayList<Post>), postItem)
+
+            }
+            is Paginator.State.Refresh<*> -> {
+                updatePostItemByContentId(((state).data as ArrayList<Post>), postItem)
+
+            }
+            is Paginator.State.NewPageProgress<*> -> {
+                updatePostItemByContentId(((state).data as ArrayList<Post>), postItem)
+            }
+            is Paginator.State.FullData<*> -> {
+                updatePostItemByContentId(((state).data as ArrayList<Post>), postItem)
+            }
+        }
+        return state
+    }
+
+    private fun updatePostItemByContentId(posts: ArrayList<Post>, postItem: Post) {
+        val foundedPost = posts.find { post ->
+            post.contentId == postItem.contentId
+        }
+        val updatedPost = foundedPost?.copy()
+        updatedPost?.let { post ->
+            post.votes=postItem.votes
+            post.stats?.copy(commentsCount = postItem.stats?.commentsCount!!, viewCount = postItem.viewCount)
+            post.viewCount = postItem.viewCount
+            posts[posts.indexOf(foundedPost)] = updatedPost
+        }
+
     }
 }

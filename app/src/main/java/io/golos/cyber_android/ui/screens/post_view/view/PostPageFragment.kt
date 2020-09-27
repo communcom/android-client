@@ -31,6 +31,7 @@ import io.golos.cyber_android.ui.screens.post_page_menu.view.PostPageMenuDialog
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
 import io.golos.cyber_android.ui.screens.post_view.di.PostPageFragmentComponent
 import io.golos.cyber_android.ui.screens.post_view.dto.*
+import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.PostControlsListItem
 import io.golos.cyber_android.ui.screens.post_view.view.list.PostPageAdapter
 import io.golos.cyber_android.ui.screens.post_view.view_model.PostPageViewModel
 import io.golos.cyber_android.ui.screens.profile.view.ProfileExternalUserFragment
@@ -60,8 +61,9 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
 
         const val UPDATED_REQUEST_CODE = 41245
 
-        fun newInstance(args: Args): PostPageFragment {
+        fun newInstance(args: Args, callback: (postControlsListItem:PostControlsListItem) -> Unit): PostPageFragment {
             return PostPageFragment().apply {
+                this.callback = callback
                 arguments = Bundle().apply {
                     putParcelable(Tags.ARGS, args)
                 }
@@ -77,11 +79,12 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
         val scrollToComments: Boolean = false
     ) : Parcelable
 
+    private var callback: ((postControlsListItem:PostControlsListItem) -> Unit)? = null
     private val topShadow: StateListAnimator by lazy { AnimatorInflater.loadStateListAnimator(context, R.animator.appbar_elevation) }
     private var isTopShadowSet = false
     private val topShadowThreshold by lazy { context!!.resources.getDimension(R.dimen.post_top_shadow_threshold) }
     private var oldStateListAnimator: StateListAnimator? = null
-
+    private var postControlsListItem: PostControlsListItem? = null
     override fun provideViewModelType(): Class<PostPageViewModel> = PostPageViewModel::class.java
 
     override fun layoutResId(): Int = R.layout.fragment_post
@@ -105,6 +108,10 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
         oldStateListAnimator = actionBar.stateListAnimator
 
         viewModel.post.observe(viewLifecycleOwner, Observer {
+            it.forEach {item->
+                if (item is PostControlsListItem)
+                    postControlsListItem = item
+            }
             (postView.adapter as PostPageAdapter).update(it)
         })
 
@@ -205,7 +212,9 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
     }
 
     private fun back(){
-        viewModel.backVoteChange()
+        postControlsListItem?.let {
+            callback!!.invoke(it)
+        }
         view?.hideSoftKeyboard(0)
         parentFragmentManager.popBackStack()
     }
@@ -281,9 +290,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
             newInstance(
                 Args(
                     discussionIdModel,
-                    contentId
-                )
-            ),
+                    contentId)) {},
             tag = contentId.permlink
         )
     }

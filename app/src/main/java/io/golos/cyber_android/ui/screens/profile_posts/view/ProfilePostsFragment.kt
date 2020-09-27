@@ -324,7 +324,9 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
                     discussionIdModel,
                     contentId
                 )
-            ),
+            ){
+                viewModel.updatePostItem(it)
+            },
             tag = contentId.permlink
         )
     }

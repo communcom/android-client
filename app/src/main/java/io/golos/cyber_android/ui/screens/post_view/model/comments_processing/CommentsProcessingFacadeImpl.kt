@@ -74,11 +74,14 @@ class CommentsProcessingFacadeImpl
     }
 
     private fun extractTags(content: List<ControlMetadata>): Set<String> {
-        val tags =
-            content.asSequence().filterIsInstance<ParagraphMetadata>().map { it.spans }.flatten().filterIsInstance<TagSpanInfo>().map { it.displayValue.toLowerCase() }.toMutableSet()
-
-
-        return tags
+        return content
+            .asSequence()
+            .filterIsInstance<ParagraphMetadata>()
+            .map { it.spans }
+            .flatten()
+            .filterIsInstance<TagSpanInfo>()
+            .map { it.displayValue.toLowerCase().removePrefix("#") }
+            .toMutableSet()
     }
 
     override suspend fun deleteComment(commentId: ContentIdDomain, isSingleComment: Boolean) {
@@ -164,12 +167,6 @@ class CommentsProcessingFacadeImpl
         val oldComment = commentsStorage.get().getComment(commentId)!!
 
         val votingUseCase = getVoteUseCase(commentId)
-
-        /* val newComment= if (voteType) {
-             votingUseCase.upVote(oldComment, communityId, commentId.userId, commentId.permlink)
-         } else {
-             votingUseCase.downVote(oldComment, communityId, commentId.userId, commentId.permlink)
-         }*/
 
         val newComment = when (voteType) {
             VoteType.UP_VOTE -> votingUseCase.upVote(oldComment, communityId, commentId.userId, commentId.permlink)
