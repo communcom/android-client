@@ -175,19 +175,6 @@ constructor(
             }
         }
     }
-    override fun onUnVoteClick() {
-        launch {
-            try {
-                model.unVote(
-                    postContentId.communityId,
-                    postContentId.userId,
-                    postContentId.permlink
-                )
-            } catch (e: Exception) {
-                _command.value = ShowMessageTextCommand(e.getMessage(appContext))
-            }
-        }
-    }
 
     override fun onUnVoteClick() {
         launch {
