@@ -92,7 +92,7 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
             is ReportPostCommand -> openPostReport(command.post)
             is ShowPostRewardDialogCommand -> showPostRewardDialog(command.titleResId, command.textResId)
             is NavigateToDonateCommand -> moveToDonate(command)
-            is ShowDonationUsersDialogCommand -> showDonationUsersDialogCommand(command.donation)
+            is ShowDonationUsersDialogCommand -> showDonationUsersDialogCommand(command.post)
             is SelectRewardCurrencyDialogCommand -> showSelectRewardCurrencyDialog(command.startCurrency)
         }
     }
@@ -348,9 +348,13 @@ open class ProfilePostsFragment : FragmentBaseMVVM<FragmentProfilePostsBinding, 
                 command.balance,
                 command.amount))
 
-    private fun showDonationUsersDialogCommand(donations: DonationsDomain) = DonationUsersDialog.show(this, donations) {
+    private fun showDonationUsersDialogCommand(post: Post) =   DonationUsersDialog.show(this, post, closeAction = {
         (it as? DonationUsersDialog.Result.ItemSelected)?.user?.let { viewModel.onUserClicked(it.userId) }
-    }
+    },onUserClickListener = {
+        viewModel.onUserClicked(it)
+    }, onDonateClickListener = { donateType, contentId, communityId, author ->
+        viewModel.onDonateClick(donateType, contentId, communityId, author)
+    })
 
     private fun showSelectRewardCurrencyDialog(currency: RewardCurrency) =
         SelectRewardCurrencyDialog.show(this, currency) {

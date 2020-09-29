@@ -21,6 +21,7 @@ import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
 import io.golos.cyber_android.ui.dialogs.PostRewardBottomSheetDialog
 import io.golos.cyber_android.ui.dialogs.SelectRewardCurrencyDialog
 import io.golos.cyber_android.ui.dialogs.donation.DonationUsersDialog
+import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
 import io.golos.cyber_android.ui.screens.donate_send_points.view.DonateSendPointsFragment
@@ -73,28 +74,20 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
     }
 
     @Parcelize
-    data class Args(
-        val id: DiscussionIdModel,
-        val contentId: ContentIdDomain? = null,
-        val scrollToComments: Boolean = false
-    ) : Parcelable
+    data class Args(val id: DiscussionIdModel, val contentId: ContentIdDomain? = null, val scrollToComments: Boolean = false) : Parcelable
 
     private var callback: ((postControlsListItem:PostControlsListItem) -> Unit)? = null
     private val topShadow: StateListAnimator by lazy { AnimatorInflater.loadStateListAnimator(context, R.animator.appbar_elevation) }
     private var isTopShadowSet = false
     private val topShadowThreshold by lazy { context!!.resources.getDimension(R.dimen.post_top_shadow_threshold) }
     private var oldStateListAnimator: StateListAnimator? = null
-    private var postControlsListItem: PostControlsListItem? = null
+    private var postControlsListItem: PostControlsListItem?=null
     override fun provideViewModelType(): Class<PostPageViewModel> = PostPageViewModel::class.java
 
     override fun layoutResId(): Int = R.layout.fragment_post
 
     override fun inject(key: String) =
-        App.injections.get<PostPageFragmentComponent>(
-            key,
-            arguments!!.getParcelable<Args>(Tags.ARGS)!!.id,
-            arguments!!.getParcelable<Args>(Tags.ARGS)!!.contentId
-        ).inject(this)
+        App.injections.get<PostPageFragmentComponent>(key, arguments!!.getParcelable<Args>(Tags.ARGS)!!.id, arguments!!.getParcelable<Args>(Tags.ARGS)!!.contentId).inject(this)
 
     override fun linkViewModel(binding: FragmentPostBinding, viewModel: PostPageViewModel) {
         binding.viewModel = viewModel
@@ -112,6 +105,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
                 if (item is PostControlsListItem)
                     postControlsListItem = item
             }
+
             (postView.adapter as PostPageAdapter).update(it)
         })
 
@@ -122,7 +116,10 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
 
         postView.reduceDragSensitivity()
 
-        postHeader.setOnBackButtonClickListener { back() }
+        postHeader.setOnBackButtonClickListener {
+
+            back()
+        }
         postHeader.setOnMenuButtonClickListener { viewModel.onPostMenuClick() }
         postHeader.setOnRewardButtonClickListener { viewModel.onPostRewardClick() }
         postHeader.setOnUserClickListener { viewModel.onUserInHeaderClick(it) }
@@ -151,13 +148,13 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
 
                 val scrollOffset = postView.computeVerticalScrollOffset()
 
-                if(scrollOffset < topShadowThreshold) {
-                    if(isTopShadowSet) {
+                if (scrollOffset < topShadowThreshold) {
+                    if (isTopShadowSet) {
                         actionBar.stateListAnimator = oldStateListAnimator      // Remove shadow
                         isTopShadowSet = false
                     }
                 } else {
-                    if(!isTopShadowSet) {
+                    if (!isTopShadowSet) {
                         actionBar.stateListAnimator = topShadow                 // Add shadow
                         isTopShadowSet = true
                     }
@@ -199,9 +196,8 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
             is NavigateToReplyCommentViewCommand -> commentWidget.setCommentForReply(command.contentId, command.body)
             is ShowPostRewardDialogCommand -> showPostRewardDialog(command.titleResId, command.textResId)
             is NavigateToDonateCommand -> moveToDonate(command)
-            is ShowDonationUsersDialogCommand -> showDonationUsersDialogCommand(command.donation)
+            is ShowDonationUsersDialogCommand -> showDonationUsersDialogCommand(command.post)
             is SelectRewardCurrencyDialogCommand -> showSelectRewardCurrencyDialog(command.startCurrency)
-            is ChangeVoteByPostPage -> ""
             else -> throw UnsupportedOperationException("This command is not supported")
         }
     }
@@ -211,43 +207,33 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
         startActivity(intent)
     }
 
-    private fun back(){
+    private fun back() {
         postControlsListItem?.let {
             callback!!.invoke(it)
         }
+
         view?.hideSoftKeyboard(0)
         parentFragmentManager.popBackStack()
+
     }
 
     private fun openSelectPhotoView(imageUrl: String?) {
-        getDashboardFragment(this)
-            ?.navigateToFragment(
-                ProfilePhotosFragment.newInstance(
-                    ProfileItem.COMMENT,
-                    imageUrl,
-                    this@PostPageFragment
-                )
-            )
+        getDashboardFragment(this)?.navigateToFragment(ProfilePhotosFragment.newInstance(ProfileItem.COMMENT, imageUrl, this@PostPageFragment))
     }
 
     private fun openUserProfile(userId: UserIdDomain) {
-        getDashboardFragment(this)?.navigateToFragment(
-            ProfileExternalUserFragment.newInstance(userId)
-        )
+        getDashboardFragment(this)?.navigateToFragment(ProfileExternalUserFragment.newInstance(userId))
     }
 
     private fun openCommunityPage(communityId: CommunityIdDomain) {
-        getDashboardFragment(this)?.navigateToFragment(
-            CommunityPageFragment.newInstance(communityId)
-        )
+        getDashboardFragment(this)?.navigateToFragment(CommunityPageFragment.newInstance(communityId))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             ProfilePhotosFragment.REQUEST -> {
-                val result =
-                    data?.extras?.getParcelable<ProfilePhotosFragment.Result>(ProfilePhotosFragment.RESULT)
+                val result = data?.extras?.getParcelable<ProfilePhotosFragment.Result>(ProfilePhotosFragment.RESULT)
                 commentWidget.updateImageAttachment(result?.photoFilePath)
             }
 
@@ -264,10 +250,8 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
                             when (action) {
                                 Tags.ACTION_EDIT_SUCCESS -> {
                                     val contentId = data.getParcelableExtra<ContentIdDomain>(Tags.CONTENT_ID)
-                                    val discussionIdModel = DiscussionIdModel(
-                                        contentId.userId.userId,
-                                        Permlink(contentId.permlink)
-                                    )
+                                    val discussionIdModel =
+                                        DiscussionIdModel(contentId.userId.userId, Permlink(contentId.permlink))
                                     openPost(discussionIdModel, contentId)
                                 }
                             }
@@ -282,17 +266,8 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
         requireContext().shareMessage(shareUrl, viewModel.getCurrentUserId())
     }
 
-    private fun openPost(
-        discussionIdModel: DiscussionIdModel,
-        contentId: ContentIdDomain
-    ) {
-        getDashboardFragment(this)?.navigateToFragment(
-            newInstance(
-                Args(
-                    discussionIdModel,
-                    contentId)) {},
-            tag = contentId.permlink
-        )
+    private fun openPost(discussionIdModel: DiscussionIdModel, contentId: ContentIdDomain) {
+        getDashboardFragment(this)?.navigateToFragment(newInstance(Args(discussionIdModel, contentId)) {}, tag = contentId.permlink)
     }
 
     private fun showReportPost(contentId: ContentIdDomain) {
@@ -307,23 +282,14 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
     }
 
     private fun deletePost() =
-        ConfirmationDialog.newInstance(R.string.delete_post_confirmation, this@PostPageFragment)
-            .show(requireFragmentManager(), MENU)
+        ConfirmationDialog.newInstance(R.string.delete_post_confirmation, this@PostPageFragment).show(requireFragmentManager(), MENU)
 
     private fun openEditPost(contentId: ContentIdDomain) {
-        startActivityForResult(
-            EditorPageActivity.getIntent(
-                requireContext(),
-                EditorPageFragment.Args(
-                    contentId = contentId
-                )
-            ),
-            REQUEST_FOR_RESULT_FROM_EDIT
-        )
+        startActivityForResult(EditorPageActivity.getIntent(requireContext(), EditorPageFragment.Args(contentId = contentId)), REQUEST_FOR_RESULT_FROM_EDIT)
     }
 
     private fun openPostMenuDialog(postMenu: PostMenu) {
-        PostPageMenuDialog.show(this,viewModel.isPostSubscriptionModified.value!!, postMenu) {
+        PostPageMenuDialog.show(this, viewModel.isPostSubscriptionModified.value!!, postMenu) {
             when (it) {
                 is PostPageMenuDialog.Result.AddFavorite -> viewModel.addToFavorite(it.postMenu.permlink)
                 is PostPageMenuDialog.Result.ViewInExplorer -> viewModel.viewInExplorer(it.postMenu)
@@ -340,7 +306,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
 
     private fun showCommentMenu(commentId: ContentIdDomain) {
         CommentsActionsDialog.show(this@PostPageFragment, commentId) {
-            when(it) {
+            when (it) {
                 is CommentsActionsDialog.Result.Edit -> viewModel.startEditComment(it.commentId)
                 is CommentsActionsDialog.Result.Delete -> viewModel.deleteComment(it.commentId)
             }
@@ -351,20 +317,19 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
         PostRewardBottomSheetDialog.show(this@PostPageFragment, titleResId, textResId) {}
 
     private fun moveToDonate(command: NavigateToDonateCommand) =
-        getDashboardFragment(this)?.navigateToFragment(
-            DonateSendPointsFragment.newInstance(
-                command.contentId,
-                command.communityId,
-                command.contentAuthor,
-                command.balance,
-                command.amount))
+        getDashboardFragment(this)?.navigateToFragment(DonateSendPointsFragment.newInstance(command.contentId, command.communityId, command.contentAuthor, command.balance, command.amount))
 
-    private fun showDonationUsersDialogCommand(donations: DonationsDomain) = DonationUsersDialog.show(this, donations) {
-        (it as? DonationUsersDialog.Result.ItemSelected)?.user?.let { viewModel.onUserClicked(it.userId) }
+    private fun showDonationUsersDialogCommand(post:Post) =
+        DonationUsersDialog.show(this, post, closeAction = {
+            (it as? DonationUsersDialog.Result.ItemSelected)?.user?.let { viewModel.onUserClicked(it.userId) }
+        },onUserClickListener = {
+            viewModel. onUserClicked(it)
+        }, onDonateClickListener = { donateType, contentId, communityId, author ->
+            viewModel.onDonateClick(donateType, contentId, communityId, author)
+        })
+
+
+    private fun showSelectRewardCurrencyDialog(currency: RewardCurrency) = SelectRewardCurrencyDialog.show(this, currency) {
+        it?.rewardCurrency?.let { currency -> viewModel.updateRewardCurrency(currency) }
     }
-
-    private fun showSelectRewardCurrencyDialog(currency: RewardCurrency) =
-        SelectRewardCurrencyDialog.show(this, currency) {
-            it?.rewardCurrency?.let { currency -> viewModel.updateRewardCurrency(currency) }
-        }
 }

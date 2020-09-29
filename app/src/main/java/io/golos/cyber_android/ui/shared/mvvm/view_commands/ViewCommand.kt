@@ -123,4 +123,4 @@ data class NavigateToDonateCommand(
     }
 }
 
-data class ShowDonationUsersDialogCommand(val donation: DonationsDomain) :ViewCommand
+data class ShowDonationUsersDialogCommand(val post: Post) :ViewCommand

@@ -66,9 +66,7 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
     override fun layoutResId(): Int = R.layout.fragment_community_post
 
     override fun inject(key: String) =
-        App.injections
-            .get<CommunityPostFragmentComponent>(key,arguments!!.getParcelable<CommunityIdDomain>(COMMUNITY_ID_EXTRA))
-            .inject(this)
+        App.injections.get<CommunityPostFragmentComponent>(key, arguments!!.getParcelable<CommunityIdDomain>(COMMUNITY_ID_EXTRA)).inject(this)
 
     override fun releaseInjection(key: String) = App.injections.release<CommunityPostFragmentComponent>(key)
 
@@ -103,7 +101,7 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
             is ViewInExplorerViewCommand -> viewInExplorer(command.exploreUrl)
             is ShowPostRewardDialogCommand -> showPostRewardDialog(command.titleResId, command.textResId)
             is NavigateToDonateCommand -> moveToDonate(command)
-            is ShowDonationUsersDialogCommand -> showDonationUsersDialogCommand(command.donation)
+            is ShowDonationUsersDialogCommand -> showDonationUsersDialogCommand(command.post)
             is NavigateToUserProfileCommand -> openUserProfile(command.userId)
             is SelectRewardCurrencyDialogCommand -> showSelectRewardCurrencyDialog(command.startCurrency)
         }
@@ -142,10 +140,8 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
                             when (action) {
                                 Tags.ACTION_EDIT_SUCCESS -> {
                                     val contentId = data.getParcelableExtra<ContentIdDomain>(Tags.CONTENT_ID)
-                                    val discussionIdModel = DiscussionIdModel(
-                                        contentId.userId.userId,
-                                        Permlink(contentId.permlink)
-                                    )
+                                    val discussionIdModel =
+                                        DiscussionIdModel(contentId.userId.userId, Permlink(contentId.permlink))
                                     openPost(discussionIdModel, contentId)
                                 }
                             }
@@ -162,10 +158,7 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
             val postItem = item as? PostItem
             postItem?.let { post ->
                 val contentId = post.post.contentId
-                val discussionIdModel = DiscussionIdModel(
-                    contentId.userId.userId,
-                    Permlink(contentId.permlink)
-                )
+                val discussionIdModel = DiscussionIdModel(contentId.userId.userId, Permlink(contentId.permlink))
                 openPost(discussionIdModel, contentId)
             }
         }
@@ -203,7 +196,8 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
         viewModel.filterPostState.observe(viewLifecycleOwner, Observer { filterState ->
             val timeFilterText = getString(filterState.timeFilter.value)
             val periodFilterText = getString(filterState.periodFilter.value)
-            communityFilterType.text = "$timeFilterText ${if(filterState.timeFilter.value == PostFiltersHolder.UpdateTimeFilter.POPULAR.value)", $periodFilterText" else ""}"
+            communityFilterType.text =
+                "$timeFilterText ${if (filterState.timeFilter.value == PostFiltersHolder.UpdateTimeFilter.POPULAR.value) ", $periodFilterText" else ""}"
         })
 
         viewModel.postsListState.observe(viewLifecycleOwner, Observer { state ->
@@ -273,39 +267,20 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
         })
     }
 
-    private fun openPost(
-        discussionIdModel: DiscussionIdModel,
-        contentId: ContentIdDomain
-    ) {
-        getDashboardFragment(this)?.navigateToFragment(
-            PostPageFragment.newInstance(
-                PostPageFragment.Args(
-                    discussionIdModel,
-                    contentId
-                )
-            ){
-                viewModel.updatePostItem(it)
-            },
-            tag = contentId.permlink
-        )
+    private fun openPost(discussionIdModel: DiscussionIdModel, contentId: ContentIdDomain) {
+        getDashboardFragment(this)?.navigateToFragment(PostPageFragment.newInstance(PostPageFragment.Args(discussionIdModel, contentId)) {
+            viewModel.updatePostItem(it)
+        }, tag = contentId.permlink)
     }
 
     private fun openEditPost(post: Post) {
-        startActivityForResult(
-            EditorPageActivity.getIntent(
-                requireContext(),
-                EditorPageFragment.Args(
-                    contentId = post.contentId
-                )
-            ),
-            REQUEST_FOR_RESULT_FROM_EDIT
-        )
+        startActivityForResult(EditorPageActivity.getIntent(requireContext(), EditorPageFragment.Args(contentId = post.contentId)), REQUEST_FOR_RESULT_FROM_EDIT)
     }
 
     private fun openPostMenuDialog(postMenu: PostMenu) {
-        PostPageMenuDialog.show(this,viewModel.isPostSubscriptionModified.value!!, postMenu) {
+        PostPageMenuDialog.show(this, viewModel.isPostSubscriptionModified.value!!, postMenu) {
             when (it) {
-                is PostPageMenuDialog.Result.ViewInExplorer->viewModel.viewInExplorer(it.postMenu)
+                is PostPageMenuDialog.Result.ViewInExplorer -> viewModel.viewInExplorer(it.postMenu)
                 is PostPageMenuDialog.Result.AddFavorite -> viewModel.addToFavorite(it.postMenu.permlink)
                 is PostPageMenuDialog.Result.RemoveFavorite -> viewModel.removeFromFavorite(it.postMenu.permlink)
                 is PostPageMenuDialog.Result.Share -> it.postMenu.shareUrl?.let { viewModel.onShareClicked(it) }
@@ -335,38 +310,30 @@ class CommunityPostFragment : FragmentBaseMVVM<FragmentCommunityPostBinding, Com
     private fun openFilterDialog(timeConfig: TimeConfigurationDomain) {
         val tag = CommunityPostFragment::class.java.name
         val postFiltersBottomSheetDialog =
-            PostFiltersDialog.newInstance(
-                isNeedToSaveGlobalFilter = false,
-                timeFilter = timeConfig.timeFilter,
-                periodFilter =timeConfig.periodFilter
-            ).apply {
+            PostFiltersDialog.newInstance(isNeedToSaveGlobalFilter = false, timeFilter = timeConfig.timeFilter, periodFilter = timeConfig.periodFilter).apply {
                 setTargetFragment(this@CommunityPostFragment, PostFiltersDialog.REQUEST)
             }
         postFiltersBottomSheetDialog.show(requireFragmentManager(), tag)
     }
 
     private fun moveToDonate(command: NavigateToDonateCommand) =
-        getDashboardFragment(this)?.navigateToFragment(
-            DonateSendPointsFragment.newInstance(
-                command.contentId,
-                command.communityId,
-                command.contentAuthor,
-                command.balance,
-                command.amount))
+        getDashboardFragment(this)?.navigateToFragment(DonateSendPointsFragment.newInstance(command.contentId, command.communityId, command.contentAuthor, command.balance, command.amount))
 
-    private fun showDonationUsersDialogCommand(donations: DonationsDomain) =
-        DonationUsersDialog.show(this, donations) {
+    private fun showDonationUsersDialogCommand(post: Post) =
+
+        DonationUsersDialog.show(this, post, closeAction = {
             (it as? DonationUsersDialog.Result.ItemSelected)?.user?.let { viewModel.onUserClicked(it.userId) }
-        }
+        }, onUserClickListener = {
+            viewModel.onUserClicked(it)
+        }, onDonateClickListener = { donateType, contentId, communityId, author ->
+            viewModel.onDonateClick(donateType, contentId, communityId, author)
+        })
 
     private fun openUserProfile(userId: UserIdDomain) {
-        getDashboardFragment(this)?.navigateToFragment(
-            ProfileExternalUserFragment.newInstance(userId)
-        )
+        getDashboardFragment(this)?.navigateToFragment(ProfileExternalUserFragment.newInstance(userId))
     }
 
-    private fun showSelectRewardCurrencyDialog(currency: RewardCurrency) =
-        SelectRewardCurrencyDialog.show(this, currency) {
-            it?.rewardCurrency?.let { currency -> viewModel.updateRewardCurrency(currency) }
-        }
+    private fun showSelectRewardCurrencyDialog(currency: RewardCurrency) = SelectRewardCurrencyDialog.show(this, currency) {
+        it?.rewardCurrency?.let { currency -> viewModel.updateRewardCurrency(currency) }
+    }
 }

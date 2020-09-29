@@ -1,6 +1,8 @@
 package io.golos.cyber_android.ui.screens.feed_my.view_model
 
 import io.golos.cyber_android.ui.dto.DonateType
+import io.golos.cyber_android.ui.dto.Post
+import io.golos.cyber_android.ui.dto.PostDonation
 import io.golos.cyber_android.ui.shared.widgets.post_comments.*
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.ContentIdDomain
@@ -42,7 +44,7 @@ interface PostVotesListener {
 
     fun onDonateClick(donate: DonateType, contentId: ContentIdDomain, communityId: CommunityIdDomain, contentAuthor: UserBriefDomain)
 
-    fun onDonatePopupClick(donates: DonationsDomain)
+    fun onDonatePopupClick(post: Post)
 
     fun onForbiddenClick()
 }

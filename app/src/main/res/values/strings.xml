@@ -519,6 +519,7 @@
     <string name="this_month">This month</string>
     <string name="previously">Previously</string>
     <string name="other">Other</string>
+    <string name="and_other">and others</string>
 
     <string name="post_reward_top">Top</string>
     <string name="post_reward_top_title">This post is featured in Top</string>
@@ -673,6 +674,7 @@
     <string name="donate_popup">Donate:</string>
     <string name="donate_points_popup">points</string>
     <string name="donate_title">Donate</string>
+    <string name="donate">Donate</string>
     <string name="donate_successful">Donate is successful</string>
     <string name="exchange_points">+ Exchange points</string>
 
@@ -703,9 +705,13 @@
     <string name="rewards">Rewards</string>
     <string name="claim">Claim</string>
     <string name="donations">Donations</string>
+    <string name="donaters">Donaters</string>
     <string name="like">Like</string>
     <string name="like_dislike">Like/Dislike</string>
     <string name="dislike">Dislike</string>
     <string name="clean_all">Clean all</string>
+    <string name="default_first_donate">Be the first donater</string>
+    <string name="no_donate">No donations</string>
+    <string name="no_have_donate_yet">That post don’t have donations yet</string>
 
 </resources>

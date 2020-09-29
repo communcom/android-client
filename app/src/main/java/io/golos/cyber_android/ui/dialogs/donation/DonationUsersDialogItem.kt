@@ -43,7 +43,7 @@ constructor(
         avatar.loadAvatar(donationData.person.avatarUrl)
         name.text = donationData.person.username ?: userId.userId
 
-        amount.text = "+ ${CurrencyFormatter.formatShort(context, donationData.amount.toDouble())} ${context.getString(R.string.points)}"
+        amount.text = "+ ${CurrencyFormatter.formatShort(context, donationData.amount.toDouble())} ${postId.communityId.code}"
 
         itemsGap.visibility = if(isLastItem) View.GONE else View.VISIBLE
     }

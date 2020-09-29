@@ -5,9 +5,12 @@ import android.net.Uri
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.squareup.moshi.Moshi
+import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.Comment
 import io.golos.cyber_android.ui.dto.DonateType
+import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.mappers.mapToComment
 import io.golos.cyber_android.ui.mappers.mapToCommentDomain
 import io.golos.cyber_android.ui.screens.profile_comments.model.ProfileCommentsModel
@@ -24,7 +27,10 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.*
 import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.EditorOutputToJsonMapper
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.ControlMetadata
 import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.EmbedMetadata
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.ParagraphMetadata
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.TagSpanInfo
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.*
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.coroutines.Dispatchers
@@ -33,8 +39,6 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
-import com.squareup.moshi.Moshi
-import io.golos.cyber_android.BuildConfig
 
 class ProfileCommentsViewModel
 @Inject
@@ -134,6 +138,8 @@ constructor(
                     val contentAsJson = EditorOutputToJsonMapper.mapComment(commentContent.metadata, uploadedImages,
                         deviceAdapter.toJson(DeviceInfoEntity(version = BuildConfig.VERSION_NAME)))
 
+
+
                     val commentFromState = getCommentFromStateByContentId(_commentListState.value, contentId)
 
                     val commentForUpdate = commentFromState?.mapToCommentDomain()?.copy(
@@ -156,7 +162,6 @@ constructor(
             }
         }
     }
-
     fun editComment(contentId: ContentIdDomain) {
         val comment = getCommentFromStateByContentId(_commentListState.value, contentId)
         comment?.let {
@@ -225,8 +230,8 @@ constructor(
         _command.postValue(ShowMessageResCommand(R.string.cant_cancel_vote,true))
     }
 
-    override fun onDonatePopupClick(donates: DonationsDomain) {
-        _command.value = ShowDonationUsersDialogCommand(donates)
+    override fun onDonatePopupClick(post: Post) {
+        _command.value = ShowDonationUsersDialogCommand(post)
     }
 
     private fun updateUpVoteCountOfVotes(

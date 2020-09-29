@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.screens.profile_comments.view.item
 
+import android.content.Context
 import android.graphics.Typeface
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
@@ -11,18 +12,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.Comment
-import io.golos.cyber_android.ui.dto.Meta
+import io.golos.cyber_android.ui.dto.DonateType
+import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentListItem
 import io.golos.cyber_android.ui.screens.profile_comments.view_model.ProfileCommentsModelEventProcessor
 import io.golos.cyber_android.ui.shared.base.adapter.BaseRecyclerItem
 import io.golos.cyber_android.ui.shared.base.adapter.RecyclerAdapter
+import io.golos.cyber_android.ui.shared.characters.SpecialChars
 import io.golos.utils.format.TimeEstimationFormatter
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
+import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
+import io.golos.cyber_android.ui.shared.utils.adjustSpannableClicks
 import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
-import io.golos.cyber_android.ui.shared.widgets.post_comments.donation.DonatePersonsPopup
 import io.golos.cyber_android.ui.shared.widgets.post_comments.items.*
-import io.golos.domain.dto.DonationsDomain
 import io.golos.domain.dto.UserBriefDomain
 import io.golos.domain.posts_parsing_rendering.post_metadata.TextStyle
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.*
@@ -32,6 +35,7 @@ import io.golos.utils.id.IdUtil
 import io.golos.utils.helpers.SPACE
 import io.golos.utils.helpers.positiveValue
 import kotlinx.android.synthetic.main.item_comment.view.*
+
 import kotlinx.android.synthetic.main.view_post_voting.view.*
 
 class ProfileCommentItem(
@@ -50,10 +54,11 @@ class ProfileCommentItem(
         val comment = listItem.comment
         setupUserAvatar(comment.author, listItemEventsProcessor)
         setupVoting(listItem, listItemEventsProcessor)
-        setupDonation(listItem.comment.donations, listItemEventsProcessor)
+        //setupDonation(listItem.comment.donations, listItemEventsProcessor)
         itemView.processingProgressBar.visibility = View.INVISIBLE
         itemView.warningIcon.visibility = View.INVISIBLE
-        setupCommentTime(comment.meta)
+
+        setupCommentTime(comment,this,listItemEventsProcessor)
         val longClickListener = View.OnLongClickListener {
             if (comment.isMyComment && !comment.isDeleted) {
                 listItemEventsProcessor.onCommentLongClick(comment)
@@ -68,9 +73,11 @@ class ProfileCommentItem(
         setupCommentContent(listItem, listItemEventsProcessor, longClickListener,commentClickListener)
     }
 
-    private fun setupCommentTime(meta: Meta) {
-        val time = TimeEstimationFormatter.format(meta.creationTime, itemView.context)
-        itemView.replyAndTimeText.text = time
+    private fun setupCommentTime(comment: Comment, profileCommentItem: ProfileCommentItem, listItemEventsProcessor: ProfileCommentsModelEventProcessor) {
+        val time = TimeEstimationFormatter.format(comment.meta.creationTime, itemView.context)
+
+        itemView.replyAndTimeText.adjustSpannableClicks()
+        itemView.replyAndTimeText.text = getTimeAndDonate(comment, time,"Donate", itemView.context.applicationContext,listItemEventsProcessor)
     }
 
     private fun setupUserAvatar(author: UserBriefDomain, listItemEventsProcessor: ProfileCommentsModelEventProcessor) {
@@ -333,20 +340,55 @@ class ProfileCommentItem(
         }
     }
 
-    private fun setupDonation(donation: DonationsDomain?, listItemEventsProcessor: ProfileCommentsModelEventProcessor) {
-        if(donation != null) {
-            itemView.donationPanel.setAmount(donation.totalAmount)
-            itemView.donationPanel.visibility = View.VISIBLE
-            itemView.donationPanel.setOnClickListener { DonatePersonsPopup().show(itemView.donationPanel, donation) {
-                listItemEventsProcessor.onDonatePopupClick(donation)
-            }}
-        } else {
-            itemView.donationPanel.visibility = View.GONE
-        }
-    }
+    /*    private fun setupDonation(listItem: ProfileCommentListItem, listItemEventsProcessor: ProfileCommentsModelEventProcessor) {
+                itemView.donationPanel.setDonateUserListListener {
+                   listItemEventsProcessor.onDonateClick(DonateType.DONATE_OTHER, listItem.comment.contentId, listItem.comment.contentId.communityId, listItem.comment.author)
+                }
+        }*/
 
     override fun release() {
         super.release()
         itemView.voting.release()
+    }
+
+
+    private fun getTimeAndDonate(comment: Comment,time:String,donate:String, context: Context,listItemEventsProcessor: ProfileCommentsModelEventProcessor): SpannableStringBuilder {
+
+        val result = SpannableStringBuilder()
+
+        val timeInterval = result.appendText(time)
+
+        val timeColor = ContextCompat.getColor(context, R.color.post_header_time_text)
+
+        result.setSpan(object : ColorTextClickableSpan(time, timeColor) {
+
+            override fun onClick(widget: View) {
+
+            }
+
+        }, timeInterval)
+
+        val bulletSymbol = " ${SpecialChars.BULLET} "
+        val bulletInterval = result.appendText(bulletSymbol)
+
+        result.setSpan(object : ColorTextClickableSpan(bulletSymbol, timeColor) {
+
+            override fun onClick(widget: View) {
+
+            }
+
+        }, bulletInterval)
+
+
+        donate.let {
+            val userNameTextColor = ContextCompat.getColor(context, R.color.post_header_user_name_text)
+            val userNameInterval = result.appendText(it)
+            result.setSpan(object : ColorTextClickableSpan(it, userNameTextColor) {
+                override fun onClick(widget: View) {
+                    listItemEventsProcessor. onDonateClick(DonateType.DONATE_OTHER, comment.contentId, comment.community.communityId, comment.author)
+                }
+            }, userNameInterval)
+        }
+        return result
     }
 }

@@ -2,23 +2,31 @@ package io.golos.cyber_android.ui.screens.post_view.view_model
 
 import android.content.Context
 import android.net.Uri
+import android.text.SpannableStringBuilder
+import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.squareup.moshi.Moshi
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
 import io.golos.cyber_android.services.post_view.RecordPostViewService
+import io.golos.cyber_android.ui.dto.Comment
 import io.golos.cyber_android.ui.dto.DonateType
+import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.post_page_menu.model.PostMenu
 import io.golos.cyber_android.ui.screens.post_report.view.PostReportDialog
 import io.golos.cyber_android.ui.screens.post_view.dto.*
 import io.golos.cyber_android.ui.screens.post_view.model.PostPageModel
 import io.golos.cyber_android.ui.screens.post_view.model.VoteType
+import io.golos.cyber_android.ui.screens.profile_comments.view_model.ProfileCommentsModelEventProcessor
 import io.golos.cyber_android.ui.shared.broadcast_actions_registries.PostUpdateRegistry
+import io.golos.cyber_android.ui.shared.characters.SpecialChars
 import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
+import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
 import io.golos.cyber_android.ui.shared.widgets.comment.CommentContent
 import io.golos.cyber_android.ui.shared.widgets.comment.ContentState
 import io.golos.domain.DispatchersProvider
@@ -27,6 +35,8 @@ import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.Edi
 import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.EmbedMetadata
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.exceptions.ApiResponseErrorException
+import io.golos.utils.helpers.appendText
+import io.golos.utils.helpers.setSpan
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.json.JSONArray
@@ -175,7 +185,6 @@ constructor(
             }
         }
     }
-
     override fun onUnVoteClick() {
         launch {
             try {
@@ -200,8 +209,8 @@ constructor(
         }
     }
 
-    override fun onDonatePopupClick(donates: DonationsDomain) {
-        _command.value = ShowDonationUsersDialogCommand(donates)
+    override fun onDonatePopupClick(post: Post) {
+        _command.value = ShowDonationUsersDialogCommand(post)
     }
 
     override fun onCommentUpVoteClick(commentId: ContentIdDomain) = voteForComment(commentId, VoteType.UP_VOTE)
@@ -502,7 +511,44 @@ constructor(
     fun viewInExplorer(postMenu: PostMenu) {
         _command.value = ViewInExplorerViewCommand(postMenu.browseUrl.toString())
     }
-    fun backVoteChange() {
-        _command.value = ChangeVoteByPostPage()
+
+    private fun getTimeAndDonate(comment: Comment,time:String,donate:String, context: Context,listItemEventsProcessor: ProfileCommentsModelEventProcessor): SpannableStringBuilder {
+
+        val result = SpannableStringBuilder()
+
+        val timeInterval = result.appendText(time)
+
+        val timeColor = ContextCompat.getColor(context, R.color.post_header_time_text)
+
+        result.setSpan(object : ColorTextClickableSpan(time, timeColor) {
+
+            override fun onClick(widget: View) {
+
+            }
+
+        }, timeInterval)
+
+        val bulletSymbol = " ${SpecialChars.BULLET} "
+        val bulletInterval = result.appendText(bulletSymbol)
+
+        result.setSpan(object : ColorTextClickableSpan(bulletSymbol, timeColor) {
+
+            override fun onClick(widget: View) {
+
+            }
+
+        }, bulletInterval)
+
+
+        donate.let {
+            val userNameTextColor = ContextCompat.getColor(context, R.color.post_header_user_name_text)
+            val userNameInterval = result.appendText(it)
+            result.setSpan(object : ColorTextClickableSpan(it, userNameTextColor) {
+                override fun onClick(widget: View) {
+                    listItemEventsProcessor. onDonateClick(DonateType.DONATE_OTHER, comment.contentId, comment.community.communityId, comment.author)
+                }
+            }, userNameInterval)
+        }
+        return result
     }
 }

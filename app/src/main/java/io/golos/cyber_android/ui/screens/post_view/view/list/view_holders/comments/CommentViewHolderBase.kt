@@ -15,11 +15,11 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.dto.DonateType
 import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.CommentListItem
 import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.CommentListItemState
 import io.golos.cyber_android.ui.screens.post_view.helpers.CommentTextRenderer
 import io.golos.cyber_android.ui.screens.post_view.view_model.PostPageViewModelListEventsProcessor
-import io.golos.cyber_android.ui.screens.profile_comments.view_model.ProfileCommentsModelEventProcessor
 import io.golos.cyber_android.ui.shared.base.adapter.BaseRecyclerItem
 import io.golos.cyber_android.ui.shared.base.adapter.RecyclerAdapter
 import io.golos.cyber_android.ui.shared.characters.SpecialChars
@@ -29,13 +29,11 @@ import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
 import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
 import io.golos.cyber_android.ui.shared.widgets.post_comments.DonationPanelWidget
 import io.golos.cyber_android.ui.shared.widgets.post_comments.ParagraphWidgetListener
-import io.golos.cyber_android.ui.shared.widgets.post_comments.donation.DonatePersonsPopup
 import io.golos.cyber_android.ui.shared.widgets.post_comments.items.*
 import io.golos.cyber_android.ui.shared.widgets.post_comments.voting.VotingWidget
 import io.golos.domain.dto.*
 import io.golos.domain.posts_parsing_rendering.post_metadata.TextStyle
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.*
-import io.golos.domain.use_cases.model.DiscussionAuthorModel
 import io.golos.utils.format.TimeEstimationFormatter
 import io.golos.utils.getColorRes
 import io.golos.utils.helpers.SPACE
@@ -43,18 +41,11 @@ import io.golos.utils.helpers.appendSpannedText
 import io.golos.utils.helpers.appendText
 import io.golos.utils.helpers.setSpan
 import io.golos.utils.id.IdUtil
-import kotlinx.android.synthetic.main.item_comment.view.*
 import kotlinx.android.synthetic.main.view_post_voting.view.*
 import javax.inject.Inject
 
 @Suppress("PropertyName")
-abstract class CommentViewHolderBase<T: CommentListItem>(
-    parentView: ViewGroup,
-    private val commentsViewPool: RecyclerView.RecycledViewPool
-) : ViewHolderBase<PostPageViewModelListEventsProcessor, T>(
-    parentView,
-    R.layout.item_comment
-) {
+abstract class CommentViewHolderBase<T : CommentListItem>(parentView: ViewGroup, private val commentsViewPool: RecyclerView.RecycledViewPool) : ViewHolderBase<PostPageViewModelListEventsProcessor, T>(parentView, R.layout.item_comment) {
     private val maxStringLenToCutNeeded = 285
 
     @ColorInt
@@ -72,11 +63,11 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
 
     abstract val _voting: VotingWidget
 
-    abstract val _donationPanel: DonationPanelWidget
-
     abstract val _content: RecyclerView
 
     abstract val _replyAndTimeText: TextView
+
+    abstract val _donateText: TextView
 
     abstract val _processingProgress: ProgressBar
 
@@ -85,8 +76,7 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
     abstract val _rootView: View
 
     init {
-        @Suppress("LeakingThis")
-        inject()
+        @Suppress("LeakingThis") inject()
     }
 
     @CallSuper
@@ -99,13 +89,22 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
             true
         }
         setupCommentContent(listItem, listItemEventsProcessor, longClickListener)
+
         itemView.setOnLongClickListener(longClickListener)
-        _replyAndTimeText.text = getReplyAndTimeText(_rootView.context.applicationContext, listItem.metadata)
-        _replyAndTimeText.setOnClickListener { listItemEventsProcessor.startReplyToComment(listItem.externalId) }
+        _replyAndTimeText.text =
+            getTimeAndReplay(listItem.metadata,itemView.context.applicationContext)
+        _replyAndTimeText.setOnClickListener {
+            listItemEventsProcessor.startReplyToComment(listItem.externalId)
+        }
+        _donateText.text =
+            getDonate(itemView.context.applicationContext.resources.getString(R.string.donate), itemView.context.applicationContext)
+        _donateText.setOnClickListener {
+            listItemEventsProcessor.onDonateClick(DonateType.DONATE_OTHER, listItem.externalId, listItem.externalId.communityId, listItem.author)
+        }
         _userAvatar.setOnClickListener { listItemEventsProcessor.onUserClicked(listItem.author.userId.userId) }
 
         setupVoting(listItem, listItemEventsProcessor)
-        setupDonation(listItem.donations, listItemEventsProcessor)
+        setupDonation(listItem, listItemEventsProcessor)
 
         setProcessingState(listItem.state)
     }
@@ -122,15 +121,11 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
 
     private fun loadAvatarIcon(avatarUrl: String?) = _userAvatar.loadAvatar(avatarUrl)
 
-    private fun setupCommentContent(
-        listItem: T,
-        listItemEventsProcessor: PostPageViewModelListEventsProcessor,
-        longClickListener: View.OnLongClickListener
-    ) {
+    private fun setupCommentContent(listItem: T, listItemEventsProcessor: PostPageViewModelListEventsProcessor, longClickListener: View.OnLongClickListener) {
         _content.apply {
             adapter = commentContentAdapter
             setRecycledViewPool(commentsViewPool)
-            layoutManager = object: LinearLayoutManager(itemView.context){
+            layoutManager = object : LinearLayoutManager(itemView.context) {
 
                 override fun canScrollVertically(): Boolean {
                     return false
@@ -147,19 +142,13 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
         }
 
 
-        val author = UserBriefDomain(listItem.author.avatarUrl, UserIdDomain(listItem.author.userId.userId), listItem.author.username)
+        val author =
+            UserBriefDomain(listItem.author.avatarUrl, UserIdDomain(listItem.author.userId.userId), listItem.author.username)
         if (newContentList.isEmpty() && listItem.isDeleted) {
             _voting.visibility = View.GONE
             _replyAndTimeText.visibility = View.GONE
             val deleteBlock =
-                ParagraphBlock(
-                    IdUtil.generateLongId(),
-                    arrayListOf(
-                        SpanableBlock(
-                            getAuthorAndText(author, labelCommentDeleted, listItemEventsProcessor)
-                        )
-                    )
-                ) as Block
+                ParagraphBlock(IdUtil.generateLongId(), arrayListOf(SpanableBlock(getAuthorAndText(author, labelCommentDeleted, listItemEventsProcessor)))) as Block
             newContentList.add(deleteBlock)
         } else {
             addAuthorNameToContent(newContentList, author, listItemEventsProcessor)
@@ -169,9 +158,8 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
 
         newContentList = joinParagraphs(newContentList)
 
-        val contentItems = newContentList
-            .filter { createPostBodyItem(contentId, it, listItemEventsProcessor, longClickListener) != null }
-            .map {
+        val contentItems =
+            newContentList.filter { createPostBodyItem(contentId, it, listItemEventsProcessor, longClickListener) != null }.map {
                 createPostBodyItem(contentId, it, listItemEventsProcessor, longClickListener)!!
             }
 
@@ -185,8 +173,8 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
         var blocksSet: ParagraphSet? = null
 
         source.forEach {
-            if(it is ParagraphBlock) {
-                if(blocksSet == null) {
+            if (it is ParagraphBlock) {
+                if (blocksSet == null) {
                     blocksList = mutableListOf()
                     blocksSet = ParagraphSet(blocksList!!)
                     result.add(blocksSet!!)
@@ -202,18 +190,8 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
 
     private fun addAuthorNameToContent(newContentList: MutableList<Block>, author: UserBriefDomain, paragraphWidgetListener: ParagraphWidgetListener) {
         val findBlock = newContentList.find { it is TextBlock || it is ParagraphBlock }
-        val authorBlock = ParagraphBlock(
-            null,
-            arrayListOf(
-                SpanableBlock(
-                    getAuthorAndText(
-                        author,
-                        "",
-                        paragraphWidgetListener
-                    )
-                )
-            )
-        ) as Block
+        val authorBlock =
+            ParagraphBlock(null, arrayListOf(SpanableBlock(getAuthorAndText(author, "", paragraphWidgetListener)))) as Block
 
         if (findBlock == null) {
             newContentList.add(0, authorBlock)
@@ -221,34 +199,18 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
             val indexOf = newContentList.indexOf(findBlock)
             if (indexOf == 0) {
                 if (findBlock is TextBlock) {
-                    newContentList[0] = ParagraphBlock(
-                        null,
-                        arrayListOf(
-                            SpanableBlock(
-                                getAuthorAndText(author, findBlock.content, paragraphWidgetListener)
-                            )
-                        )
-                    ) as Block
+                    newContentList[0] =
+                        ParagraphBlock(null, arrayListOf(SpanableBlock(getAuthorAndText(author, findBlock.content, paragraphWidgetListener)))) as Block
                 } else {
                     if (findBlock is ParagraphBlock) {
                         if (findBlock.content.isNotEmpty()) {
                             val paragraphContent = mutableListOf<ParagraphItemBlock>()
 
-                            paragraphContent.add(
-                                TextBlock(
-                                    IdUtil.generateLongId(),
-                                    (author.username ?: author.userId.userId) + " ",
-                                    TextStyle.BOLD,
-                                    null
-                                )
-                            )
+                            paragraphContent.add(TextBlock(IdUtil.generateLongId(), (author.username
+                                ?: author.userId.userId) + " ", TextStyle.BOLD, null))
                             findBlock.content.forEach { block -> paragraphContent.add(block) }
 
-                            val newParagraph =
-                                ParagraphBlock(
-                                    null,
-                                    paragraphContent
-                                )
+                            val newParagraph = ParagraphBlock(null, paragraphContent)
                             newContentList[0] = newParagraph
                         } else {
                             newContentList[0] = authorBlock
@@ -261,60 +223,27 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
         }
     }
 
-    private fun createPostBodyItem(
-        contentId: ContentIdDomain,
-        block: Block,
-        listItemEventsProcessor: PostPageViewModelListEventsProcessor,
-        longClickListener: View.OnLongClickListener
-    ): BaseRecyclerItem? {
+    private fun createPostBodyItem(contentId: ContentIdDomain, block: Block, listItemEventsProcessor: PostPageViewModelListEventsProcessor, longClickListener: View.OnLongClickListener): BaseRecyclerItem? {
         return when (block) {
             is AttachmentsBlock -> {
                 if (block.content.size == 1) {
-                    createPostBodyItem(
-                        contentId,
-                        block.content.single(),
-                        listItemEventsProcessor,
-                        longClickListener
-                    ) // A single attachment is shown as embed block
+                    createPostBodyItem(contentId, block.content.single(), listItemEventsProcessor, longClickListener) // A single attachment is shown as embed block
                 } else {
                     AttachmentBlockItem(block, listItemEventsProcessor)
                 }
             }
 
-            is ImageBlock -> CommentImageBlockItem(
-                imageBlock = block,
-                widgetListener = listItemEventsProcessor,
-                onLongClickListener = longClickListener
-            )
+            is ImageBlock -> CommentImageBlockItem(imageBlock = block, widgetListener = listItemEventsProcessor, onLongClickListener = longClickListener)
 
-            is VideoBlock -> VideoBlockItem(
-                videoBlock = block,
-                widgetListener = listItemEventsProcessor
-            )
+            is VideoBlock -> VideoBlockItem(videoBlock = block, widgetListener = listItemEventsProcessor)
 
-            is WebsiteBlock -> WebSiteBlockItem(
-                block,
-                listItemEventsProcessor
-            )
+            is WebsiteBlock -> WebSiteBlockItem(block, listItemEventsProcessor)
 
-            is ParagraphSet -> CommentParagraphSetItem(
-                block,
-                listItemEventsProcessor,
-                contentId,
-                onLongClickListener = longClickListener
-            )
+            is ParagraphSet -> CommentParagraphSetItem(block, listItemEventsProcessor, contentId, onLongClickListener = longClickListener)
 
-            is RichBlock -> CommentRichBlockItem(
-                block,
-                contentId,
-                listItemEventsProcessor
-            )
+            is RichBlock -> CommentRichBlockItem(block, contentId, listItemEventsProcessor)
 
-            is EmbedBlock -> CommentEmbedBlockItem(
-                block,
-                contentId,
-                listItemEventsProcessor
-            )
+            is EmbedBlock -> CommentEmbedBlockItem(block, contentId, listItemEventsProcessor)
 
             else -> null
         }
@@ -326,7 +255,7 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
             val userNameInterval = result.appendText(it)
             result.setSpan(StyleSpan(Typeface.BOLD), userNameInterval)
             val colorUserName = getStyledAttribute(R.attr.comment_user_name)
-            result.setSpan(object : ColorTextClickableSpan(author.userId.userId, colorUserName){
+            result.setSpan(object : ColorTextClickableSpan(author.userId.userId, colorUserName) {
 
                 override fun onClick(spanData: String) {
                     super.onClick(spanData)
@@ -345,22 +274,22 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
         _voting.setUpVoteButtonSelected(listItem.isUpVoteActive)
         _voting.setDownVoteButtonSelected(listItem.isDownVoteActive)
 
-        if(listItem.currentUserId != listItem.author.userId) {
+        if (listItem.currentUserId != listItem.author.userId) {
             _voting.upvoteButton.isEnabled = true
             _voting.downvoteButton.isEnabled = true
 
             _voting.setOnUpVoteButtonClickListener {
-                if(listItem.isUpVoteActive){
+                if (listItem.isUpVoteActive) {
                     eventsProcessor.onCommentUnVoteClick(listItem.externalId)
-                }else{
+                } else {
                     eventsProcessor.onCommentUpVoteClick(listItem.externalId)
                 }
 
             }
             _voting.setOnDownVoteButtonClickListener {
-                if(listItem.isDownVoteActive){
+                if (listItem.isDownVoteActive) {
                     eventsProcessor.onCommentUnVoteClick(listItem.externalId)
-                }else{
+                } else {
                     eventsProcessor.onCommentDownVoteClick(listItem.externalId)
                 }
 
@@ -370,28 +299,24 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
             }
         } else {
             _voting.upvoteButton.isActivated = true
-            _voting.setOnUpVoteButtonClickListener{ eventsProcessor.onForbiddenClick() }
+            _voting.setOnUpVoteButtonClickListener { eventsProcessor.onForbiddenClick() }
             _voting.setOnDownVoteButtonClickListener { eventsProcessor.onForbiddenClick() }
         }
     }
 
-    private fun setupDonation(donation: DonationsDomain?, listItemEventsProcessor: PostPageViewModelListEventsProcessor) {
-        if(donation != null) {
-            _donationPanel.setAmount(donation.totalAmount)
-            _donationPanel.donationPanel.visibility = View.VISIBLE
-            _donationPanel.setOnClickListener { DonatePersonsPopup().show(_donationPanel, donation) {
-                listItemEventsProcessor.onDonatePopupClick(donation)
-            }}
-        } else {
-            _donationPanel.visibility = View.GONE
-        }
+    private fun setupDonation(listItem: T, listItemEventsProcessor: PostPageViewModelListEventsProcessor) {
+
+        /*_donationPanel.setOnClickListener {
+            listItemEventsProcessor.onDonateClick(DonateType.DONATE_OTHER, listItem.externalId, listItem.externalId.communityId, listItem.author)
+        }*/
+
     }
 
     private fun getReplyAndTimeText(context: Context, metadata: MetaDomain): SpannableStringBuilder {
         val result = SpannableStringBuilder()
 
         // Reply label
-        val replySpan = object: ColorTextClickableSpan("", spansColor) {
+        val replySpan = object : ColorTextClickableSpan("", spansColor) {
             override fun onClick(spanData: String) {
                 // Reply
             }
@@ -406,8 +331,76 @@ abstract class CommentViewHolderBase<T: CommentListItem>(
         return result
     }
 
+
+    private fun getDonate(donate: String, context: Context): SpannableStringBuilder {
+
+        val result = SpannableStringBuilder()
+        val timeColor = ContextCompat.getColor(context, R.color.post_header_time_text)
+
+        val bulletSymbol = " ${SpecialChars.BULLET} "
+        val bulletInterval = result.appendText(bulletSymbol)
+
+        result.setSpan(object : ColorTextClickableSpan(bulletSymbol, timeColor) {
+
+            override fun onClick(widget: View) {
+
+            }
+
+        }, bulletInterval)
+
+
+        val userNameTextColor = ContextCompat.getColor(context, R.color.post_header_user_name_text)
+        val userNameInterval = result.appendText(donate)
+        result.setSpan(object : ColorTextClickableSpan(donate, userNameTextColor) {
+            override fun onClick(widget: View) {
+
+            }
+        }, userNameInterval)
+
+        return result
+    }
+
+    private fun getTimeAndReplay(metadata: MetaDomain, context: Context): SpannableStringBuilder {
+
+        val result = SpannableStringBuilder()
+        val time = TimeEstimationFormatter.format(metadata.creationTime, context)
+        val timeInterval = result.appendText(time)
+
+        val timeColor = ContextCompat.getColor(context, R.color.post_header_time_text)
+
+        result.setSpan(object : ColorTextClickableSpan(time, timeColor) {
+
+            override fun onClick(widget: View) {
+
+            }
+
+        }, timeInterval)
+
+        val bulletSymbol = " ${SpecialChars.BULLET} "
+        val bulletInterva = result.appendText(bulletSymbol)
+
+        result.setSpan(object : ColorTextClickableSpan(bulletSymbol, timeColor) {
+
+            override fun onClick(widget: View) {
+
+            }
+
+        }, bulletInterva)
+
+        // Reply label
+        val replySpan = object : ColorTextClickableSpan("", spansColor) {
+            override fun onClick(spanData: String) {
+
+            }
+        }
+        result.appendSpannedText(context.resources.getString(R.string.reply), replySpan)
+
+
+        return result
+    }
+
     private fun setProcessingState(state: CommentListItemState) {
-        _processingProgress.visibility = if(state == CommentListItemState.PROCESSING) View.VISIBLE else View.INVISIBLE
-        _warning.visibility = if(state == CommentListItemState.ERROR) View.VISIBLE else View.INVISIBLE
+        _processingProgress.visibility = if (state == CommentListItemState.PROCESSING) View.VISIBLE else View.INVISIBLE
+        _warning.visibility = if (state == CommentListItemState.ERROR) View.VISIBLE else View.INVISIBLE
     }
 }

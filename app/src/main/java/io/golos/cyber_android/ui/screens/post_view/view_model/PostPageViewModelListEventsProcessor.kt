@@ -41,12 +41,11 @@ interface PostVoteListener : BasePostBlockWidgetListener {
     fun onUpVoteClick()
 
     fun onDownVoteClick()
-
     fun onUnVoteClick()
 
     fun onDonateClick(donate: DonateType, contentId: ContentIdDomain, communityId: CommunityIdDomain, contentAuthor: UserBriefDomain)
 
-    fun onDonatePopupClick(donates: DonationsDomain)
+    fun onDonatePopupClick(post: Post)
 }
 
 interface CommentsListener : BasePostBlockWidgetListener {
