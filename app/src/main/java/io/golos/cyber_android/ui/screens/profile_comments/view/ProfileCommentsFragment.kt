@@ -11,6 +11,7 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentProfileCommentsBinding
 import io.golos.cyber_android.ui.dialogs.donation.DonationUsersDialog
 import io.golos.cyber_android.ui.dto.Comment
+import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.mappers.mapToCommentMenu
 import io.golos.cyber_android.ui.screens.comment_page_menu.view.CommentPageMenuDialog
@@ -31,10 +32,7 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.shared.utils.openImageView
 import io.golos.cyber_android.ui.shared.utils.openLinkView
-import io.golos.domain.dto.CommunityIdDomain
-import io.golos.domain.dto.ContentIdDomain
-import io.golos.domain.dto.DonationsDomain
-import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.dto.*
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.android.synthetic.main.fragment_profile_comments.*
 
@@ -56,10 +54,7 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
     override fun layoutResId(): Int = R.layout.fragment_profile_comments
 
     override fun inject(key: String) =
-        App.injections.get<ProfileCommentsFragmentComponent>(
-            key,
-            arguments!!.getParcelable<UserIdDomain>(USER_ID_EXTRA)
-        ).inject(this)
+        App.injections.get<ProfileCommentsFragmentComponent>(key, arguments!!.getParcelable<UserIdDomain>(USER_ID_EXTRA)).inject(this)
 
     override fun releaseInjection(key: String) = App.injections.release<ProfileCommentsFragmentComponent>(key)
 
@@ -119,7 +114,7 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
             is NavigateToLinkViewCommand -> requireContext().openLinkView(command.link)
             is NavigateToUserProfileCommand -> navigateToUser(command.userId)
             is NavigateToPostCommand -> openPost(command.discussionIdModel, command.contentId)
-            is ScrollProfileToTopCommand ->  scrollProfileToTop()
+            is ScrollProfileToTopCommand -> scrollProfileToTop()
             is NavigateToCommunityPageCommand -> openCommunityPage(command.communityId)
             is NavigateToProfileCommentMenuDialogViewCommand -> openProfileCommentMenu(command.comment)
             is NavigateToEditComment -> {
@@ -128,30 +123,25 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
                 collapseListener?.invoke()
             }
             is NavigateToDonateCommand -> moveToDonate(command)
-            is ShowDonationUsersDialogCommand -> showDonationUsersDialogCommand(command.donation)
+            is ShowDonationUsersDialogCommand -> showDonationUsersDialogCommand(command.post)
         }
     }
 
     private fun openPost(discussionIdModel: DiscussionIdModel, contentId: ContentIdDomain) {
-        getDashboardFragment(this)?.navigateToFragment(PostPageFragment.newInstance(PostPageFragment.Args(discussionIdModel, contentId)){}, tag = contentId.permlink)
+        getDashboardFragment(this)?.navigateToFragment(PostPageFragment.newInstance(PostPageFragment.Args(discussionIdModel, contentId)) {
+
+        }, tag = contentId.permlink)
     }
 
     private fun scrollProfileToTop() {
-        when(parentFragment) {
+        when (parentFragment) {
             is DashboardFragment -> (parentFragment as DashboardFragment).scrollProfileToTop()
             is ProfileExternalUserFragment -> (parentFragment as ProfileFragment).scrollToTop()
         }
     }
 
     private fun openSelectPhotoView(imageUrl: String?) {
-        getDashboardFragment(this)
-            ?.navigateToFragment(
-                ProfilePhotosFragment.newInstance(
-                    ProfileItem.COMMENT,
-                    imageUrl,
-                    this@ProfileCommentsFragment
-                )
-            )
+        getDashboardFragment(this)?.navigateToFragment(ProfilePhotosFragment.newInstance(ProfileItem.COMMENT, imageUrl, this@ProfileCommentsFragment))
     }
 
     private fun navigateToUser(userId: UserIdDomain) {
@@ -159,9 +149,7 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
     }
 
     private fun openCommunityPage(communityId: CommunityIdDomain) {
-        getDashboardFragment(this)?.navigateToFragment(
-            CommunityPageFragment.newInstance(communityId)
-        )
+        getDashboardFragment(this)?.navigateToFragment(CommunityPageFragment.newInstance(communityId))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -177,7 +165,7 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
 
     private fun openProfileCommentMenu(comment: Comment) =
         CommentPageMenuDialog.show(this@ProfileCommentsFragment, comment.mapToCommentMenu()) {
-            when(it) {
+            when (it) {
                 is CommentPageMenuDialog.Result.Edit -> it.commentMenu.contentId?.let { viewModel.editComment(it) }
                 is CommentPageMenuDialog.Result.Delete -> viewModel.deleteComment(it.commentMenu.permlink, it.commentMenu.communityId)
             }
@@ -237,15 +225,13 @@ class ProfileCommentsFragment : FragmentBaseMVVM<FragmentProfileCommentsBinding,
     }
 
     private fun moveToDonate(command: NavigateToDonateCommand) =
-        getDashboardFragment(this)?.navigateToFragment(
-            DonateSendPointsFragment.newInstance(
-                command.contentId,
-                command.communityId,
-                command.contentAuthor,
-                command.balance,
-                command.amount))
+        getDashboardFragment(this)?.navigateToFragment(DonateSendPointsFragment.newInstance(command.contentId, command.communityId, command.contentAuthor, command.balance, command.amount))
 
-    private fun showDonationUsersDialogCommand(donations: DonationsDomain) = DonationUsersDialog.show(this, donations) {
+    private fun showDonationUsersDialogCommand(post: Post) = DonationUsersDialog.show(this, post, closeAction = {
         (it as? DonationUsersDialog.Result.ItemSelected)?.user?.let { viewModel.onUserClicked(it.userId) }
-    }
+    }, onUserClickListener = {
+        viewModel.onUserClicked(it)
+    }, onDonateClickListener = { donateType, contentId, communityId, author ->
+        viewModel.onDonateClick(donateType, contentId, communityId, author)
+    })
 }

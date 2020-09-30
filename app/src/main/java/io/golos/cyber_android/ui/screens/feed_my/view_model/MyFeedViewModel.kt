@@ -42,30 +42,20 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class MyFeedViewModel
-@Inject
-constructor(
-    private val appContext: Context,
-    dispatchersProvider: DispatchersProvider,
-    model: MyFeedModel,
-    private val paginator: Paginator.Store<Post>,
-    private val currentUserRepository: CurrentUserRepositoryRead,
-    private val postUpdateRegistry: PostUpdateRegistry,
-    val recordPostViewManager: RecordPostViewManager
-) : ViewModelBase<MyFeedModel>(dispatchersProvider, model),
-    MyFeedListListener {
+@Inject constructor(private val appContext: Context, dispatchersProvider: DispatchersProvider, model: MyFeedModel, private val paginator: Paginator.Store<Post>, private val currentUserRepository: CurrentUserRepositoryRead, private val postUpdateRegistry: PostUpdateRegistry, val recordPostViewManager: RecordPostViewManager) : ViewModelBase<MyFeedModel>(dispatchersProvider, model), MyFeedListListener {
 
     private val _postsListState: MutableLiveData<Paginator.State> = MutableLiveData(Paginator.State.Empty)
 
     val postsListState = _postsListState.toLiveData()
 
-    var isUserCreatePostVisible : Boolean = true
+    var isUserCreatePostVisible: Boolean = true
 
-    private val  _paddingPlaceHolderVisibility = MutableLiveData<Int>()
-    val paddingPlaceHolderVisibility :LiveData<Int>
+    private val _paddingPlaceHolderVisibility = MutableLiveData<Int>()
+    val paddingPlaceHolderVisibility: LiveData<Int>
         get() = _paddingPlaceHolderVisibility
 
-    private val _isPostSubscriptionModified:MutableLiveData<Boolean>  = MutableLiveData(false)
-    val isPostSubscriptionModified:LiveData<Boolean>
+    private val _isPostSubscriptionModified: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isPostSubscriptionModified: LiveData<Boolean>
         get() = _isPostSubscriptionModified
 
     private val _user: MutableLiveData<User> = MutableLiveData()
@@ -83,7 +73,7 @@ constructor(
     val swipeRefreshing get() = _swipeRefreshing.toLiveData()
 
     private val _rewardCurrency = MutableLiveData<RewardCurrency>(model.rewardCurrency)
-    val rewardCurrency: LiveData<RewardCurrency> =_rewardCurrency
+    val rewardCurrency: LiveData<RewardCurrency> = _rewardCurrency
 
     private var loadPostsJob: Job? = null
 
@@ -159,26 +149,23 @@ constructor(
         }
     }
 
-    override fun onDonateClick(
-        donate: DonateType,
-        contentId: ContentIdDomain,
-        communityId: CommunityIdDomain,
-        contentAuthor: UserBriefDomain) {
+    override fun onDonateClick(donate: DonateType, contentId: ContentIdDomain, communityId: CommunityIdDomain, contentAuthor: UserBriefDomain) {
         launch {
-            _command.value = NavigateToDonateCommand.build(donate, contentId, communityId, contentAuthor, model.getWalletBalance())
+            _command.value =
+                NavigateToDonateCommand.build(donate, contentId, communityId, contentAuthor, model.getWalletBalance())
         }
     }
 
-    override fun onDonatePopupClick(donates: DonationsDomain) {
-        _command.value = ShowDonationUsersDialogCommand(donates)
+    override fun onDonatePopupClick(post: Post) {
+        _command.value = ShowDonationUsersDialogCommand(post)
     }
 
-    fun updatePaddingVisibility(visibility:Int){
+    fun updatePaddingVisibility(visibility: Int) {
         _paddingPlaceHolderVisibility.postValue(visibility)
     }
 
     override fun onForbiddenClick() {
-        _command.postValue(ShowMessageResCommand(R.string.cant_cancel_vote,true))
+        _command.postValue(ShowMessageResCommand(R.string.cant_cancel_vote, true))
     }
 
     override fun onLinkClicked(linkUri: Uri) {
@@ -209,7 +196,7 @@ constructor(
                 }
             } catch (ex: Exception) {
                 Timber.e(ex)
-                _command.value = if(ex is ApiResponseErrorException && ex.message != null) {
+                _command.value = if (ex is ApiResponseErrorException && ex.message != null) {
                     ShowMessageTextCommand(ex.message!!)
                 } else {
                     ShowMessageResCommand(R.string.common_general_error)
@@ -244,7 +231,7 @@ constructor(
         }
     }
 
-    private fun openPost(postContentId: ContentIdDomain?){
+    private fun openPost(postContentId: ContentIdDomain?) {
         postContentId?.let {
             val discussionIdModel = DiscussionIdModel(it.userId.userId, Permlink(it.permlink))
             _command.value = NavigateToPostCommand(discussionIdModel, it)
@@ -355,14 +342,14 @@ constructor(
 
     fun getCurrentUserId() = currentUserRepository.userId.userId
 
-    private fun applyAvatarChangeListener(){
+    private fun applyAvatarChangeListener() {
         launch {
             try {
-                model.userAvatarFlow.collect{
+                model.userAvatarFlow.collect {
                     val userUpdated = _user.value?.copy(avatarUrl = it)
-                    userUpdated?.let {_user.value = it}
+                    userUpdated?.let { _user.value = it }
                 }
-            } catch (e: Exception){
+            } catch (e: Exception) {
                 Timber.e(e)
             }
         }
@@ -394,7 +381,7 @@ constructor(
             postUpdateRegistry.donationSend.collect {
                 it?.let { donationInfo ->
                     paginator.proceed(Paginator.Action.UpdateItemById<Post>(donationInfo.postId) { post ->
-                        post.copy(donation = donationInfo.donation )
+                        post.copy(donation = donationInfo.donation)
                     })
                 }
             }
@@ -409,10 +396,7 @@ constructor(
         }
     }
 
-    private fun unVoteCountOfVotes(
-        state: Paginator.State?,
-        contentId: ContentIdDomain
-    ): Paginator.State? {
+    private fun unVoteCountOfVotes(state: Paginator.State?, contentId: ContentIdDomain): Paginator.State? {
         when (state) {
             is Paginator.State.Data<*> -> {
                 naturalVoteInPostsByContentId(((state).data as ArrayList<Post>), contentId)
@@ -422,9 +406,11 @@ constructor(
                 naturalVoteInPostsByContentId(((state).data as ArrayList<Post>), contentId)
 
             }
-            is Paginator.State.NewPageProgress<*> -> { naturalVoteInPostsByContentId(((state).data as ArrayList<Post>), contentId)
+            is Paginator.State.NewPageProgress<*> -> {
+                naturalVoteInPostsByContentId(((state).data as ArrayList<Post>), contentId)
             }
-            is Paginator.State.FullData<*> -> { naturalVoteInPostsByContentId(((state).data as ArrayList<Post>), contentId)
+            is Paginator.State.FullData<*> -> {
+                naturalVoteInPostsByContentId(((state).data as ArrayList<Post>), contentId)
             }
         }
         return state
@@ -476,12 +462,8 @@ constructor(
         updatedPost?.let { post ->
             if (!post.votes.hasUpVote) {
                 val oldVotes = post.votes
-                post.votes = post.votes.copy(
-                    upCount = post.votes.upCount + 1,
-                    downCount = if (oldVotes.hasDownVote) oldVotes.downCount - 1 else oldVotes.downCount,
-                    hasUpVote = true,
-                    hasDownVote = false
-                )
+                post.votes =
+                    post.votes.copy(upCount = post.votes.upCount + 1, downCount = if (oldVotes.hasDownVote) oldVotes.downCount - 1 else oldVotes.downCount, hasUpVote = true, hasDownVote = false)
             }
             posts[posts.indexOf(foundedPost)] = updatedPost
         }
@@ -553,22 +535,14 @@ constructor(
         updatedPost?.let { post ->
             if (!post.votes.hasDownVote) {
                 val oldVotes = post.votes
-                post.votes = post.votes.copy(
-                    downCount = post.votes.downCount + 1,
-                    upCount = if (oldVotes.hasUpVote) oldVotes.upCount - 1 else oldVotes.upCount,
-                    hasUpVote = false,
-                    hasDownVote = true
-                )
+                post.votes =
+                    post.votes.copy(downCount = post.votes.downCount + 1, upCount = if (oldVotes.hasUpVote) oldVotes.upCount - 1 else oldVotes.upCount, hasUpVote = false, hasDownVote = true)
                 posts[posts.indexOf(foundedPost)] = updatedPost
             }
         }
     }
 
-    private fun changeCommunitySubscriptionStatusInState(
-        state: Paginator.State?,
-        communityId: CommunityIdDomain,
-        isSubscribed: Boolean
-    ): Paginator.State? {
+    private fun changeCommunitySubscriptionStatusInState(state: Paginator.State?, communityId: CommunityIdDomain, isSubscribed: Boolean): Paginator.State? {
         when (state) {
             is Paginator.State.Data<*> -> {
                 val post = (state as? List<Post>)?.find { it.community.communityId == communityId }
@@ -632,10 +606,9 @@ constructor(
                 }
             }
             is Paginator.State.NewPageProgress<*> -> {
-                return ((postsListState.value as Paginator.State.NewPageProgress<*>).data as List<Post>)
-                    .find { post ->
-                        post.contentId.permlink == permlink
-                    }
+                return ((postsListState.value as Paginator.State.NewPageProgress<*>).data as List<Post>).find { post ->
+                    post.contentId.permlink == permlink
+                }
             }
             is Paginator.State.FullData<*> -> {
                 return ((postsListState.value as Paginator.State.FullData<*>).data as List<Post>).find { post ->
@@ -652,13 +625,8 @@ constructor(
                 if (::postsConfigurationDomain.isInitialized) {
                     val feedType = it.updateTimeFilter.mapToTypeFeedDomain()
                     val feedTimeFrame = it.periodTimeFilter.mapToTimeFrameDomain()
-                    if (feedType != postsConfigurationDomain.typeFeed ||
-                        feedTimeFrame != postsConfigurationDomain.timeFrame
-                    ) {
-                        postsConfigurationDomain = postsConfigurationDomain.copy(
-                            typeFeed = feedType,
-                            timeFrame = feedTimeFrame
-                        )
+                    if (feedType != postsConfigurationDomain.typeFeed || feedTimeFrame != postsConfigurationDomain.timeFrame) {
+                        postsConfigurationDomain = postsConfigurationDomain.copy(typeFeed = feedType, timeFrame = feedTimeFrame)
                         paginator.initState(Paginator.State.Empty)
                         restartLoadPosts()
                     }
@@ -683,12 +651,7 @@ constructor(
                 _command.value = SetLoadingVisibilityCommand(true)
                 val collectedReports = report.reasons
                 val reason = JSONArray(collectedReports).toString()
-                model.reportPost(
-                    report.contentId.userId,
-                    report.contentId.communityId,
-                    report.contentId.permlink,
-                    reason
-                )
+                model.reportPost(report.contentId.userId, report.contentId.communityId, report.contentId.permlink, reason)
             } catch (e: Exception) {
                 Timber.e(e)
                 _command.value = ShowMessageResCommand(R.string.common_general_error)
@@ -699,8 +662,7 @@ constructor(
     }
 
     fun loadMorePosts() {
-        if(isUserCreatePostVisible)
-            paginator.proceed(Paginator.Action.LoadMore)
+        if (isUserCreatePostVisible) paginator.proceed(Paginator.Action.LoadMore)
     }
 
     private fun loadMorePosts(pageCount: Int) {
@@ -718,12 +680,7 @@ constructor(
                 val postList = postsDomainList.mapToPostsList()
                 Timber.d("paginator: post list size -> ${postList.size}")
                 launch(Dispatchers.Main) {
-                    paginator.proceed(
-                        Paginator.Action.NewPage(
-                            pageCount,
-                            postList
-                        )
-                    )
+                    paginator.proceed(Paginator.Action.NewPage(pageCount, postList))
                 }
             } catch (e: Exception) {
                 Timber.e(e)
@@ -766,15 +723,8 @@ constructor(
                 val feedFilters = model.feedFiltersFlow.first()
                 val feedType = feedFilters.updateTimeFilter.mapToTypeFeedDomain()
                 val feedTimeFrame = feedFilters.periodTimeFilter.mapToTimeFrameDomain()
-                postsConfigurationDomain = PostsConfigurationDomain(
-                    userProfile.id,
-                    null,
-                    PostsConfigurationDomain.SortByDomain.TIME_DESC,
-                    feedTimeFrame,
-                    PAGINATION_PAGE_SIZE,
-                    0,
-                    feedType
-                )
+                postsConfigurationDomain =
+                    PostsConfigurationDomain(userProfile.id, null, PostsConfigurationDomain.SortByDomain.TIME_DESC, feedTimeFrame, PAGINATION_PAGE_SIZE, 0, feedType)
                 isUserLoad.invoke(true)
             } catch (e: Exception) {
                 _loadUserErrorVisibility.value = true
@@ -798,4 +748,6 @@ constructor(
     fun viewInExplorer(postMenu: PostMenu) {
         _command.value = ViewInExplorerViewCommand(postMenu.browseUrl.toString())
     }
+
+
 }

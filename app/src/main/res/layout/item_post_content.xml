@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/window_background">
+    android:background="?attr/window_background"
+    android:orientation="vertical">
 
     <io.golos.cyber_android.ui.shared.widgets.post_comments.PostPageHeaderWidget
         android:id="@+id/postHeader"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/post_viewer_header_height"/>
+        android:layout_height="@dimen/post_viewer_header_height" />
 
     <TextView
-        android:id="@+id/vPostTitle"
-        android:textSize="21sp"
+        android:id="@+id/post_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/roboto_medium"
         android:paddingStart="15dp"
         android:paddingEnd="15dp"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/roboto_medium"
-        android:layout_marginBottom="10dp"
         android:textColor="?attr/black"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:textSize="21sp" />
 
-    <include layout="@layout/item_feed_content"/>
+    <include layout="@layout/item_feed_content" />
 
     <include layout="@layout/item_post_controls" />
 

@@ -851,6 +851,13 @@
         <item name="android:textStyle">normal</item>
     </style>
 
+    <style name="Text14.Black.Bold.SingleLine" parent="Text12.Black.Bold.SingleLine">
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="Text14.Gray.SingleLine" parent="Text17.Grey.SingleLine">
+        <item name="android:textSize">14sp</item>
+    </style>
+
     <style name="Text15.Blue.Bold.SingleLine" parent="Text15.White.Bold.SingleLine">
         <item name="android:textColor">@color/blue</item>
     </style>
@@ -876,6 +883,10 @@
         <item name="android:textColor">?attr/grey</item>
     </style>
 
+    <style name="Text21.Black.Bold.SingleLine" parent="Text12.Black.Bold.SingleLine">
+        <item name="android:textSize">21sp</item>
+    </style>
+
     <style name="Text17.Grey.SingleLine" parent="Text17.Grey.Bold.SingleLine">
         <item name="android:textStyle">normal</item>
     </style>
@@ -896,6 +907,10 @@
     <style name="CustomTextAppearance" parent="TextAppearance.Design.Tab">
         <item name="textAllCaps">false</item>
         <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="Text20.Black.Bold.SingleLine" parent="Text17.Black.Bold.SingleLine">
+        <item name="android:textSize">20sp</item>
     </style>
 
     <style name="SaveButtonStyle" parent="Common.Base.TextStyle">

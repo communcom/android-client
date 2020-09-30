@@ -30,15 +30,15 @@ class SecondLevelCommentViewHolder(
     override val _voting: VotingWidget
         get() = itemView.voting
 
-    override val _donationPanel: DonationPanelWidget
-        get() = itemView.donationPanel
+
 
     override val _content: RecyclerView
         get() = itemView.rvCommentContent
 
     override val _replyAndTimeText: TextView
         get() = itemView.replyAndTimeText
-
+    override val _donateText: TextView
+        get() = itemView.donateText
     override val _processingProgress: ProgressBar
         get() = itemView.processingProgressBar
 

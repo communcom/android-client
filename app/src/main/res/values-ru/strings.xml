@@ -585,6 +585,7 @@
     <string name="donation">Донаты</string>
     <string name="donate_popup">Донат:</string>
     <string name="donate_points_popup">поинтов</string>
+    <string name="donate">Донат</string>
     <string name="donate_title">Донат</string>
     <string name="donate_successful">Донат успешен</string>
     <string name="exchange_points">+ Обменять поинты</string>
@@ -626,5 +627,10 @@
     <string name="like_dislike">Лайк/Дизлайк</string>
     <string name="dislike">Дизлайк</string>
     <string name="clean_all">Очистить все</string>
+    <string name="default_first_donate">Сделайте донат первым</string>
+    <string name="donaters">Жертвователи</string>
+    <string name="no_donate">Нет пожертвований</string>
+    <string name="no_have_donate_yet">Этот пост еще не имеет пожертвований</string>
+    <string name="and_other">и другие</string>
 
 </resources>

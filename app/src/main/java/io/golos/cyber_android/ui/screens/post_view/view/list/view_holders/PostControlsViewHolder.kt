@@ -13,12 +13,7 @@ import kotlinx.android.synthetic.main.item_post_controls.view.*
 import kotlinx.android.synthetic.main.item_post_controls.view.votesArea
 import kotlinx.android.synthetic.main.view_post_voting.view.*
 
-class PostControlsViewHolder(
-    parentView: ViewGroup
-) : ViewHolderBase<PostPageViewModelListEventsProcessor, PostControlsListItem>(
-    parentView,
-    R.layout.item_post_controls
-) {
+class PostControlsViewHolder(parentView: ViewGroup) : ViewHolderBase<PostPageViewModelListEventsProcessor, PostControlsListItem>(parentView, R.layout.item_post_controls) {
     override fun init(listItem: PostControlsListItem, listItemEventsProcessor: PostPageViewModelListEventsProcessor) {
         with(itemView) {
             votesArea.setVoteBalance(listItem.voteBalance)
@@ -29,22 +24,22 @@ class PostControlsViewHolder(
             votesArea.setUpVoteButtonSelected(listItem.isUpVoteActive)
             votesArea.setDownVoteButtonSelected(listItem.isDownVoteActive)
 
-            if(!listItem.post.isMyPost) {
+            if (!listItem.post.isMyPost) {
                 votesArea.upvoteButton.isEnabled = true
                 votesArea.downvoteButton.isEnabled = true
 
                 votesArea.setOnUpVoteButtonClickListener {
-                    if(listItem.post.votes.hasUpVote){
+                    if (listItem.post.votes.hasUpVote) {
                         listItemEventsProcessor.onUnVoteClick()
-                    }else{
+                    } else {
                         listItemEventsProcessor.onUpVoteClick()
                     }
                 }
 
                 votesArea.setOnDownVoteButtonClickListener {
-                    if(listItem.post.votes.hasDownVote){
+                    if (listItem.post.votes.hasDownVote) {
                         listItemEventsProcessor.onUnVoteClick()
-                    }else{
+                    } else {
                         listItemEventsProcessor.onDownVoteClick()
                     }
                 }
@@ -58,14 +53,12 @@ class PostControlsViewHolder(
 
             viewCountText.text = KiloCounterFormatter.format(listItem.post.viewCount)
 
-            if(listItem.post.donation != null) {
-                donationPanel.setAmount(listItem.post.donation.totalAmount)
-                donationPanel.visibility = View.VISIBLE
-                donationPanel.setOnClickListener { DonatePersonsPopup().show(donationPanel, listItem.post.donation) {
-                    listItemEventsProcessor.onDonatePopupClick(listItem.post.donation)
-                }}
-            } else {
-                donationPanel.visibility = View.INVISIBLE
+            donationPanel.setAmount(listItem.post)
+            donationPanel.setOnClickListener {
+                listItemEventsProcessor.onDonatePopupClick(listItem.post)
+            }
+            donationPanel.setDonateUserListListener { donateType, contentId, communityId, author ->
+                listItemEventsProcessor.onDonateClick(donateType, contentId, communityId, author)
             }
 
             ivShare.setOnClickListener {

@@ -245,8 +245,8 @@ constructor(
         }
     }
 
-    override fun onDonatePopupClick(donates: DonationsDomain) {
-        _command.value = ShowDonationUsersDialogCommand(donates)
+    override fun onDonatePopupClick(post: Post) {
+        _command.value = ShowDonationUsersDialogCommand(post)
     }
 
     override fun onForbiddenClick() {
@@ -621,7 +621,6 @@ constructor(
     fun viewInExplorer(postMenu: PostMenu) {
         _command.value = ViewInExplorerViewCommand(postMenu.browseUrl.toString())
     }
-
     fun updatePostItem(postControlsListItem: PostControlsListItem) {
         _postsListState.value= updatePostItem(_postsListState.value,postControlsListItem.post)
     }

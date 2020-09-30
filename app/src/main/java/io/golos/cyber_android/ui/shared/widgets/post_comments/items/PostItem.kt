@@ -15,7 +15,6 @@ import io.golos.cyber_android.ui.shared.base.adapter.BaseRecyclerItem
 import io.golos.cyber_android.ui.shared.base.adapter.RecyclerAdapter
 import io.golos.cyber_android.ui.shared.base.adapter.RecyclerItem
 import io.golos.cyber_android.ui.shared.post_view.RecordPostViewManager
-import io.golos.cyber_android.ui.shared.widgets.post_comments.donation.DonatePersonsPopup
 import io.golos.cyber_android.ui.shared.widgets.post_comments.voting.VotingWidget
 import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.RewardCurrency
@@ -31,19 +30,11 @@ import kotlinx.android.synthetic.main.item_post_controls.view.*
 import kotlinx.android.synthetic.main.item_post_controls.view.votesArea
 import kotlinx.android.synthetic.main.view_post_voting.view.*
 
-class PostItem(
-    val post: Post,
-    private val type: Type,
-    private val listener: MyFeedListListener,
-    private val recordPostViewManager: RecordPostViewManager,
-    private val rewardCurrency: RewardCurrency
-) : BaseRecyclerItem() {
-
-    private var enableParagraph:Boolean = false
+class PostItem(val post: Post, private val type: Type, private val listener: MyFeedListListener, private val recordPostViewManager: RecordPostViewManager, private val rewardCurrency: RewardCurrency) : BaseRecyclerItem() {
+    private var enableParagraph: Boolean = false
 
     enum class Type {
-        FEED,
-        PROFILE
+        FEED, PROFILE
     }
 
     override fun getLayoutId(): Int = R.layout.item_post_content
@@ -66,8 +57,8 @@ class PostItem(
 
         recordPostViewManager.onPostShow(post.contentId)
 
-        view.vPostTitle.text = post.title
-        view.vPostTitle.visibility = if (post.title.isEmpty()) View.GONE else View.VISIBLE
+        view.post_title.text = post.title
+        view.post_title.visibility = if (post.title.isEmpty()) View.GONE else View.VISIBLE
 
         view.feedContent.apply {
             adapter = feedAdapter
@@ -101,6 +92,7 @@ class PostItem(
         setUpVotesButton(view, post.isMyPost)
         setUpViewCount(view, post.viewCount, true)
         setCommentsCounter(view, post.stats?.commentsCount)
+
         view.ivShare.setOnClickListener {
             post.shareUrl?.let {
                 listener.onShareClicked(it)
@@ -110,15 +102,14 @@ class PostItem(
             listener.onBodyClicked(post.contentId)
         }
 
-        if(post.donation != null) {
-            view.donationPanel.setAmount(post.donation.totalAmount)
-            view.donationPanel.visibility = View.VISIBLE
-            view.donationPanel.setOnClickListener { DonatePersonsPopup().show(view.donationPanel, post.donation) {
-                listener.onDonatePopupClick(post.donation)
-            }}
-        } else {
-            view.donationPanel.visibility = View.INVISIBLE
+        view.donationPanel.setAmount(post)
+        view.donationPanel.setOnClickListener {
+            listener.onDonatePopupClick(post)
         }
+        view.donationPanel.setDonateUserListListener { donateType, contentId, communityId, author ->
+            listener.onDonateClick(donateType, contentId, communityId, author)
+        }
+
     }
 
     private fun setUpViewCount(view: View, count: Int?, isNeedToShow: Boolean) {
@@ -134,52 +125,48 @@ class PostItem(
 
     private fun setUpFeedContent(view: View, postBlock: ContentBlock?) {
         view.feedContent.adapter = feedAdapter
-
-        if(postBlock?.content?.size!!>1){
-            enableParagraph=true
-        }
-        val contentList : ArrayList<Block> = postBlock?.content as? ArrayList<Block> ?: arrayListOf()
-        val newContentList = ArrayList<Block>(contentList)
-        ((postBlock?.attachments) as? Block)?.let {
-            newContentList.add(it)
-        }
-        val postContentItems = newContentList
-            .filter { createPostBodyItem(newContentList,it) != null }
-            .map {
-                createPostBodyItem(newContentList,it)!!
+        postBlock?.let {block->
+            if (block.content?.size!! > 1) {
+                enableParagraph = true
             }
-        val paragraphContent = arrayListOf<ParagraphItemBlock>()
-        postContentItems.map {
-            if(it is PostParagraphBlockItem){
-                paragraphContent.addAll(it.paragraphBlock.content.map {
-                    if(it is TextBlock && enableParagraph){
-                        if(! it.content.contains("\n")){
-                            it.content += "\n"
+            val contentList: ArrayList<Block> = block?.content as? ArrayList<Block> ?: arrayListOf()
+            val newContentList = ArrayList<Block>(contentList)
+            ((block?.attachments) as? Block)?.let {
+                newContentList.add(it)
+            }
+            val postContentItems = newContentList.filter { createPostBodyItem(newContentList, it) != null }.map {
+                createPostBodyItem(newContentList, it)!!
+            }
+            val paragraphContent = arrayListOf<ParagraphItemBlock>()
+            postContentItems.map {
+                if (it is PostParagraphBlockItem) {
+                    val lastIndex=it.paragraphBlock.content.lastIndex
+                    paragraphContent.addAll(it.paragraphBlock.content.mapIndexed { index, paragraphItemBlock ->
+                        if(lastIndex==index) {
+                            if (paragraphItemBlock is TextBlock && enableParagraph) {
+                                if (!paragraphItemBlock.content.contains("\n")) {
+                                    paragraphItemBlock.content += "\n"
+                                }
+                            }
                         }
-                    }
-                    it
-                })
+                        paragraphItemBlock
+                    })
+                }
             }
+            val newList = postContentItems.filter {
+                it !is PostParagraphBlockItem
+            }
+            (newList as ArrayList<BaseRecyclerItem>).add(0, PostParagraphBlockItem(ParagraphBlock(IdUtil.generateLongId(), paragraphContent), listener, post.contentId))
+            feedAdapter.updateAdapter(newList)
         }
-        val newList = postContentItems.filter {
-            it !is PostParagraphBlockItem
-        }
-        (newList as ArrayList<BaseRecyclerItem>).add(0,PostParagraphBlockItem(
-            ParagraphBlock(
-                IdUtil.generateLongId(),
-                paragraphContent
-            ),
-            listener,
-            post.contentId
-        ))
-        feedAdapter.updateAdapter(newList)
+
     }
 
-    private fun createPostBodyItem(list:List<Block>,block: Block): BaseRecyclerItem? {
+    private fun createPostBodyItem(list: List<Block>, block: Block): BaseRecyclerItem? {
         return when (block) {
             is AttachmentsBlock -> {
                 if (block.content.size == 1) {
-                    createPostBodyItem(list,block.content.single()) // A single attachment is shown as embed block
+                    createPostBodyItem(list, block.content.single()) // A single attachment is shown as embed block
                 } else {
                     AttachmentBlockItem(block, listener)
                 }
@@ -191,11 +178,7 @@ class PostItem(
 
             is WebsiteBlock -> WebSiteBlockItem(block, listener)
 
-            is ParagraphBlock -> PostParagraphBlockItem(
-                block,
-                listener,
-                post.contentId
-            )
+            is ParagraphBlock -> PostParagraphBlockItem(block, listener, post.contentId)
 
             is RichBlock -> PostRichBlockItem(block, post.contentId, listener)
 
@@ -208,26 +191,12 @@ class PostItem(
     private fun setPostHeader(view: View, post: Post) {
         val community = post.community
         val author = post.author
-        val postHeader = PostHeader(
-            community.name,
-            community.avatarUrl,
-            community.communityId,
-            post.meta.creationTime,
-            author.username,
-            author.userId.userId,
-            author.avatarUrl,
-            canJoinToCommunity = false,
-            isBackFeatureEnabled = false,
+        val postHeader =
+            PostHeader(community.name, community.avatarUrl, community.communityId, post.meta.creationTime, author.username, author.userId.userId, author.avatarUrl, canJoinToCommunity = false, isBackFeatureEnabled = false,
 
-            reward = takeIf { post.reward.isRewarded() }?.let {
-                RewardInfo(
-                    rewardValueInPoints = post.reward.getRewardValue(),
-                    rewardValueInCommun = post.reward?.rewardValueCommun,
-                    rewardValueInUSD = post.reward?.rewardValueUSD,
-                    rewardCurrency = rewardCurrency
-                )
-            }
-        )
+                reward = takeIf { post.reward.isRewarded() }?.let {
+                    RewardInfo(rewardValueInPoints = post.reward.getRewardValue(), rewardValueInCommun = post.reward?.rewardValueCommun, rewardValueInUSD = post.reward?.rewardValueUSD, rewardCurrency = rewardCurrency)
+                })
 
         view.postHeader.setHeader(postHeader)
         view.postHeader.setOnUserClickListener {
@@ -237,29 +206,9 @@ class PostItem(
             listener.onCommunityClicked(communityId)
         }
         view.postHeader.setOnMenuButtonClickListener {
-            listener.onMenuClicked(
-                PostMenu(
-                    communityId = community.communityId,
-                    communityName = community.name,
-                    communityAvatarUrl = community.avatarUrl,
-                    contentId = ContentIdDomain(
-                        communityId = community.communityId,
-                        permlink = post.contentId.permlink,
-                        userId = author.userId
-                    ),
-                    creationTime = post.meta.creationTime,
-                    authorUsername = author.username,
-                    authorUserId = author.userId.userId,
-                    authorAvatarUrl = author.avatarUrl,
-                    shareUrl = post.shareUrl,
-                    isMyPost = post.isMyPost,
-                    isSubscribed = post.community.isSubscribed,
-                    permlink = post.contentId.permlink,
-                    browseUrl = post.meta.browseUrl
-                )
-            )
+            listener.onMenuClicked(PostMenu(communityId = community.communityId, communityName = community.name, communityAvatarUrl = community.avatarUrl, contentId = ContentIdDomain(communityId = community.communityId, permlink = post.contentId.permlink, userId = author.userId), creationTime = post.meta.creationTime, authorUsername = author.username, authorUserId = author.userId.userId, authorAvatarUrl = author.avatarUrl, shareUrl = post.shareUrl, isMyPost = post.isMyPost, isSubscribed = post.community.isSubscribed, permlink = post.contentId.permlink, browseUrl = post.meta.browseUrl))
         }
-        view.postHeader.setOnClickListener{
+        view.postHeader.setOnClickListener {
             listener.onBodyClicked(post.contentId)
         }
         view.postHeader.setOnRewardButtonClickListener { listener.onRewardClick(post.reward) }
@@ -279,18 +228,18 @@ class PostItem(
             view.votesArea.downvoteButton.isEnabled = true
 
             view.votesArea.setOnUpVoteButtonClickListener {
-                if(post.votes.hasUpVote){
+                if (post.votes.hasUpVote) {
                     listener.onUnVoteClicked(post.contentId)
-                }else{
+                } else {
                     listener.onUpVoteClicked(post.contentId)
                     view.votesArea.setDonateClick()
                 }
 
             }
             view.votesArea.setOnDownVoteButtonClickListener {
-                if(post.votes.hasDownVote){
+                if (post.votes.hasDownVote) {
                     listener.onUnVoteClicked(post.contentId)
-                }else{
+                } else {
                     listener.onDownVoteClicked(post.contentId)
                 }
 
@@ -300,7 +249,7 @@ class PostItem(
             }
         } else {
             view.votesArea.setUpVoteButtonSelected(true)
-            view.votesArea.setOnUpVoteButtonClickListener{ listener.onForbiddenClick() }
+            view.votesArea.setOnUpVoteButtonClickListener { listener.onForbiddenClick() }
             view.votesArea.setOnDownVoteButtonClickListener { listener.onForbiddenClick() }
         }
     }
@@ -315,7 +264,7 @@ class PostItem(
         }
     }
 
-    private companion object{
+    private companion object {
 
         private const val MAX_OFFSCREEN_VIEWS = 15
     }

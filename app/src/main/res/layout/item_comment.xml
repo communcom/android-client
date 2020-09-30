@@ -41,6 +41,7 @@
     </FrameLayout>
 
 
+
     <io.golos.cyber_android.ui.shared.widgets.post_comments.voting.VotingWidget
         android:id="@+id/voting"
         android:layout_width="wrap_content"
@@ -49,18 +50,6 @@
         app:layout_constraintStart_toStartOf="@+id/flCommentContent"
         app:layout_constraintTop_toBottomOf="@+id/flCommentContent" />
 
-    <io.golos.cyber_android.ui.shared.widgets.post_comments.DonationPanelWidget
-        android:id="@+id/donationPanel"
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_small"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-
-        app:layout_constraintStart_toEndOf="@+id/voting"
-        app:layout_constraintTop_toTopOf="@+id/voting" />
-
     <TextView
         android:id="@+id/replyAndTimeText"
         style="@style/CommentsReplyAndTimeTextStyle"
@@ -68,10 +57,21 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         app:layout_goneMarginStart="20dp"
-        app:layout_constraintBottom_toBottomOf="@+id/donationPanel"
-        app:layout_constraintStart_toEndOf="@+id/donationPanel"
-        app:layout_constraintTop_toTopOf="@+id/donationPanel"
+        app:layout_constraintBottom_toBottomOf="@+id/voting"
+        app:layout_constraintStart_toEndOf="@+id/voting"
+        app:layout_constraintTop_toTopOf="@+id/voting"
         tools:text="Reply &#8226; 3h" />
+
+    <TextView
+        android:id="@+id/donateText"
+        style="@style/CommentsReplyAndTimeTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/replyAndTimeText"
+        app:layout_constraintStart_toEndOf="@+id/replyAndTimeText"
+        app:layout_constraintTop_toTopOf="@+id/replyAndTimeText"
+        tools:text="&#8226; Donate" />
 
     <ProgressBar
         android:id="@+id/processingProgressBar"
@@ -80,9 +80,9 @@
         android:layout_height="@dimen/post_comments_state_icon_size"
         android:layout_marginStart="@dimen/post_comments_reply_margin"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/replyAndTimeText"
-        app:layout_constraintStart_toEndOf="@+id/replyAndTimeText"
-        app:layout_constraintTop_toTopOf="@+id/replyAndTimeText"
+        app:layout_constraintBottom_toBottomOf="@+id/donateText"
+        app:layout_constraintStart_toEndOf="@+id/donateText"
+        app:layout_constraintTop_toTopOf="@+id/donateText"
         tools:visibility="visible" />
 
     <ImageView
