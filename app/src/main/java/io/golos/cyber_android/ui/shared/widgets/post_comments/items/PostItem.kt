@@ -140,13 +140,16 @@ class PostItem(val post: Post, private val type: Type, private val listener: MyF
             val paragraphContent = arrayListOf<ParagraphItemBlock>()
             postContentItems.map {
                 if (it is PostParagraphBlockItem) {
-                    paragraphContent.addAll(it.paragraphBlock.content.map {
-                        if (it is TextBlock && enableParagraph) {
-                            if (!it.content.contains("\n")) {
-                                it.content += "\n"
+                    val lastIndex=it.paragraphBlock.content.lastIndex
+                    paragraphContent.addAll(it.paragraphBlock.content.mapIndexed { index, paragraphItemBlock ->
+                        if(lastIndex==index) {
+                            if (paragraphItemBlock is TextBlock && enableParagraph) {
+                                if (!paragraphItemBlock.content.contains("\n")) {
+                                    paragraphItemBlock.content += "\n"
+                                }
                             }
                         }
-                        it
+                        paragraphItemBlock
                     })
                 }
             }
