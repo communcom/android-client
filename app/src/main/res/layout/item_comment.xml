@@ -19,27 +19,57 @@
         app:srcCompat="@drawable/ic_avatar"
         tools:ignore="ContentDescription" />
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/flCommentContent"
         android:layout_width="@dimen/post_comments_width_max"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/post_comments_text_margin"
+        android:background="@drawable/bcg_comment"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/ivAvatar"
         app:layout_constraintTop_toTopOf="parent">
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/commentUserName"
+                style="@style/Text14.Black.Bold.SingleLine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/roboto_medium" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/vIconCoin"
+                style="@style/Text14.Black.Bold.SingleLine"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="5dp"
+                app:srcCompat="@drawable/ic_golden_coins"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/roboto_medium" />
+        </LinearLayout>
+
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvCommentContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/bcg_comment"
             android:clipToPadding="false"
             android:paddingStart="@dimen/post_comments_text_horizontal_padding"
-            android:paddingEnd="@dimen/post_comments_text_horizontal_padding"/>
+            android:paddingEnd="@dimen/post_comments_text_horizontal_padding" />
 
-    </FrameLayout>
-
+    </LinearLayout>
 
 
     <io.golos.cyber_android.ui.shared.widgets.post_comments.voting.VotingWidget
@@ -56,10 +86,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        app:layout_goneMarginStart="20dp"
         app:layout_constraintBottom_toBottomOf="@+id/voting"
         app:layout_constraintStart_toEndOf="@+id/voting"
         app:layout_constraintTop_toTopOf="@+id/voting"
+        app:layout_goneMarginStart="20dp"
         tools:text="Reply &#8226; 3h" />
 
     <TextView
