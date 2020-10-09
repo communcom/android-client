@@ -6,6 +6,8 @@ import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragme
 import io.golos.cyber_android.ui.screens.community_page_friends.di.CommunityPageFriendsComponent
 import io.golos.cyber_android.ui.screens.community_page_members.di.CommunityPageMembersComponent
 import io.golos.domain.dependency_injection.scopes.FragmentScope
+import io.golos.cyber_android.ui.screens.community_page_proposals.di.CommunityProposalsFragmentComponent
+import io.golos.cyber_android.ui.screens.community_page_reports.di.CommunityReportsFragmentComponent
 
 @Subcomponent(modules = [
     CommunityPageFragmentModuleBinds::class,

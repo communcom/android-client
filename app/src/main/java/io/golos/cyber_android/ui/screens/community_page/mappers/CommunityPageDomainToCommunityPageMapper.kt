@@ -22,7 +22,9 @@ class CommunityPageDomainToCommunityPageMapper: Function1<CommunityPageDomain, C
             communityPageDomain.leadsCount,
             CommunityPageCurrencyDomainToCommunityPageCurrency().invoke(communityPageDomain.communityCurrency),
             communityPageDomain.joinDate,
-            communityPageDomain.alias
+            communityPageDomain.postsCount,
+            communityPageDomain.alias,
+            communityPageDomain.isLeader
         )
     }
 }
