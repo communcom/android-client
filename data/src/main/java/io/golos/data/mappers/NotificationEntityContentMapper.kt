@@ -1,7 +1,8 @@
 package io.golos.data.mappers
 
 import io.golos.commun4j.services.model.NotificationEntityContent
-import io.golos.domain.dto.*
+import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.notifications.NotificationCommentDomain
 import io.golos.domain.dto.notifications.NotificationCommentParentsDomain
 import io.golos.domain.dto.notifications.NotificationPostDomain

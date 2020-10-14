@@ -1,6 +1,5 @@
 package io.golos.cyber_android.ui.screens.subscriptions.di
 
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import io.golos.cyber_android.ui.screens.subscriptions.Community

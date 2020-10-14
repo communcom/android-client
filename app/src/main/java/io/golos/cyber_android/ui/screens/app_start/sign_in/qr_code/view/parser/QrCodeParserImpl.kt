@@ -1,10 +1,9 @@
 package io.golos.cyber_android.ui.screens.app_start.sign_in.qr_code.view.parser
 
-import io.golos.data.strings_converter.StringsConverterImpl
 import io.golos.cyber_android.ui.dto.QrCodeContent
+import io.golos.data.strings_converter.StringsConverterImpl
 import org.json.JSONObject
 import timber.log.Timber
-import java.lang.Exception
 import javax.inject.Inject
 
 class QrCodeParserImpl

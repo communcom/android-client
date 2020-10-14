@@ -13,7 +13,6 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityC
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageTextCommand
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.analytics.AnalyticsFacade
-import io.golos.domain.analytics.SmsCodeEntered
 import io.golos.use_cases.sign_up.core.SignUpCoreView
 import io.golos.use_cases.sign_up.core.data_structs.*
 import kotlinx.coroutines.Job

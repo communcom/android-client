@@ -1,7 +1,7 @@
 package io.golos.cyber_android.ui.screens.profile_communities.dto
 
-import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dto.Community
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 
 data class CommunityListItem(
     override val id: Long,

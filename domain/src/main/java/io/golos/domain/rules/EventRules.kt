@@ -1,6 +1,6 @@
 package io.golos.domain.rules
 
-import io.golos.domain.dto.*
+import io.golos.domain.dto.EventsListEntity
 import io.golos.domain.requestmodel.EventsFeedUpdateRequest
 import javax.inject.Inject
 

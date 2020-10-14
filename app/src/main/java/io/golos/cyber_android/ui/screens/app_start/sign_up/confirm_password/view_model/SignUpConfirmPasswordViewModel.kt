@@ -1,8 +1,8 @@
 package io.golos.cyber_android.ui.screens.app_start.sign_up.confirm_password.view_model
 
-import io.golos.cyber_android.ui.screens.app_start.sign_up.shared.messages_mapper.SignUpMessagesMapper
 import io.golos.cyber_android.ui.screens.app_start.sign_up.create_password.model.SignUpCreatePasswordModel
 import io.golos.cyber_android.ui.screens.app_start.sign_up.create_password.view_model.SignUpCreatePasswordViewModel
+import io.golos.cyber_android.ui.screens.app_start.sign_up.shared.messages_mapper.SignUpMessagesMapper
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.sign_up.SignUpState

@@ -27,11 +27,8 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.*
 import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.EditorOutputToJsonMapper
-import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.ControlMetadata
 import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.EmbedMetadata
-import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.ParagraphMetadata
-import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.TagSpanInfo
-import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.*
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ContentBlock
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

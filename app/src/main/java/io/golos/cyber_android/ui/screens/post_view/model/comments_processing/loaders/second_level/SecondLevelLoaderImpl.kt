@@ -4,7 +4,10 @@ import io.golos.cyber_android.ui.screens.post_view.model.comments_processing.com
 import io.golos.cyber_android.ui.screens.post_view.model.comments_processing.loaders.CommentsLoaderBase
 import io.golos.cyber_android.ui.screens.post_view.model.post_list_data_source.PostListDataSourceComments
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.dto.*
+import io.golos.domain.dto.CommentDomain
+import io.golos.domain.dto.ContentIdDomain
+import io.golos.domain.dto.ParentCommentIdentifierDomain
+import io.golos.domain.dto.UserBriefDomain
 import io.golos.domain.repositories.DiscussionRepository
 import kotlinx.coroutines.withContext
 import timber.log.Timber

@@ -10,9 +10,9 @@ import io.golos.domain.dto.sign_up.SignUpSnapshotDomain
 import io.golos.domain.dto.sign_up.SignUpState
 import io.golos.domain.fingerprint.FingerprintAuthManager
 import io.golos.use_cases.auth.AuthUseCase
-import io.golos.use_cases.sign_up.dto.TransitionResult
 import io.golos.use_cases.sign_up.core.SignUpSMCoreTransition
 import io.golos.use_cases.sign_up.core.data_structs.*
+import io.golos.use_cases.sign_up.dto.TransitionResult
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 

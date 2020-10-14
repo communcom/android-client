@@ -4,17 +4,17 @@ import android.content.Context
 import io.golos.cyber_android.ui.screens.community_page_members.dto.CommunityUserListItem
 import io.golos.cyber_android.ui.screens.profile_followers.model.lists_workers.UsersListWorker
 import io.golos.cyber_android.ui.screens.profile_followers.model.lists_workers.UsersListWorkerBase
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.LoadingListItem
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.RetryListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.dependency_injection.Clarification
+import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.repositories.UsersRepository
 import io.golos.domain.use_cases.community.CommunitiesRepository
-import io.golos.utils.id.MurmurHash
-import io.golos.cyber_android.ui.shared.recycler_view.versioned.LoadingListItem
-import io.golos.cyber_android.ui.shared.recycler_view.versioned.RetryListItem
-import io.golos.domain.dto.CommunityIdDomain
 import io.golos.utils.id.IdUtil
+import io.golos.utils.id.MurmurHash
 import javax.inject.Inject
 import javax.inject.Named
 

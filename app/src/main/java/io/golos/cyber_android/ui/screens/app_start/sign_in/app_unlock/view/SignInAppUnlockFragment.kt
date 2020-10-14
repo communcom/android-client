@@ -11,9 +11,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.ui.screens.in_app_auth_activity.InAppAuthActivity
 import io.golos.cyber_android.ui.screens.app_start.sign_in.app_unlock.di.SignInAppUnlockFragmentComponent
 import io.golos.cyber_android.ui.screens.app_start.sign_in.app_unlock.view_model.SignInAppUnlockViewModel
+import io.golos.cyber_android.ui.screens.in_app_auth_activity.InAppAuthActivity
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity
 import io.golos.cyber_android.ui.shared.base.FragmentBaseCoroutines
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactory

@@ -1,9 +1,9 @@
 package io.golos.cyber_android.ui.screens.profile_black_list.model
 
 import androidx.lifecycle.LiveData
+import io.golos.cyber_android.ui.dto.BlackListFilter
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.dto.BlackListFilter
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.ErrorInfoDomain
 import io.golos.domain.dto.UserIdDomain

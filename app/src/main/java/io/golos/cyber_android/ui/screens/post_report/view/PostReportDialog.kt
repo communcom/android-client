@@ -9,13 +9,13 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.DialogPostReportBinding
+import io.golos.cyber_android.ui.screens.post_report.di.PostReportFragmentComponent
+import io.golos.cyber_android.ui.screens.post_report.view.view_commands.SendReportCommand
+import io.golos.cyber_android.ui.screens.post_report.view_model.PostReportViewModel
 import io.golos.cyber_android.ui.shared.Tags
 import io.golos.cyber_android.ui.shared.mvvm.DialogBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
-import io.golos.cyber_android.ui.screens.post_report.di.PostReportFragmentComponent
-import io.golos.cyber_android.ui.screens.post_report.view.view_commands.SendReportCommand
-import io.golos.cyber_android.ui.screens.post_report.view_model.PostReportViewModel
 import io.golos.domain.dto.ContentIdDomain
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.dialog_post_report.*

@@ -2,11 +2,9 @@ package io.golos.cyber_android.ui.screens.feed_my.view_model
 
 import io.golos.cyber_android.ui.dto.DonateType
 import io.golos.cyber_android.ui.dto.Post
-import io.golos.cyber_android.ui.dto.PostDonation
 import io.golos.cyber_android.ui.shared.widgets.post_comments.*
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.ContentIdDomain
-import io.golos.domain.dto.DonationsDomain
 import io.golos.domain.dto.UserBriefDomain
 
 interface MyFeedListListener :

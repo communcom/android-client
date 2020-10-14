@@ -4,17 +4,15 @@ import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.widget.ImageView
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.RewardNotificationItem
 import io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.content_rendering.view.NotificationView
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModelListEventsProcessor
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
+import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
 import io.golos.domain.GlobalConstants
 import io.golos.utils.format.CurrencyFormatter
 import io.golos.utils.helpers.setSpan
-import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
 
 class NotificationContentRenderedReward(viewDescription: NotificationView) : NotificationContentRenderedBase<RewardNotificationItem>(viewDescription) {
     override val notificationTypeLabelResId: Int = R.drawable.ic_up_vote_label

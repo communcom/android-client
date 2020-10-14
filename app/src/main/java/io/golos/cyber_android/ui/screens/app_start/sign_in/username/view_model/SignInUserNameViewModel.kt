@@ -19,7 +19,6 @@ import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.repositories.exceptions.ApiResponseErrorException
 import io.golos.domain.validation.user_name.UserNameValidationResult
 import kotlinx.coroutines.launch
 import timber.log.Timber

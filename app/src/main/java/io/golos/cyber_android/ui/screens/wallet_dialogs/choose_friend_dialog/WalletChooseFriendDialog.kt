@@ -16,7 +16,6 @@ import io.golos.cyber_android.ui.shared.helper.UIHelper
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dto.UserBriefDomain
-import io.golos.domain.dto.UserDomain
 import kotlinx.android.synthetic.main.dialog_wallet_items_list.*
 import kotlinx.coroutines.*
 import timber.log.Timber

@@ -3,8 +3,8 @@ package io.golos.data.api
 import io.golos.commun4j.Commun4j
 import io.golos.commun4j.sharedmodel.Either
 import io.golos.data.errors.CyberServicesError
-import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.dto.AuthStateDomain
+import io.golos.domain.repositories.CurrentUserRepositoryRead
 
 abstract class Commun4jApiBase
 constructor(

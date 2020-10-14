@@ -2,11 +2,6 @@ package io.golos.cyber_android.ui.screens.profile_comments.view.list
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import io.golos.cyber_android.ui.shared.recycler_view.DiffAlgBase
-import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
-import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListAdapterBase
-import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.screens.profile_comments.view_model.ProfileCommentsModelEventProcessor
 import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentErrorListItem
 import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentListItem
 import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentProgressListItem
@@ -16,6 +11,11 @@ import io.golos.cyber_android.ui.screens.profile_comments.view.item.ProfileComme
 import io.golos.cyber_android.ui.screens.profile_comments.view.list.ProfileCommentsViewType.PROFILE_VIEW_COMMENTS
 import io.golos.cyber_android.ui.screens.profile_comments.view.list.ProfileCommentsViewType.PROFILE_VIEW_ERROR
 import io.golos.cyber_android.ui.screens.profile_comments.view.list.ProfileCommentsViewType.PROFILE_VIEW_PROGRESS
+import io.golos.cyber_android.ui.screens.profile_comments.view_model.ProfileCommentsModelEventProcessor
+import io.golos.cyber_android.ui.shared.recycler_view.DiffAlgBase
+import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListAdapterBase
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 
 class ProfileCommentsAdapter(
     processor: ProfileCommentsModelEventProcessor

@@ -2,10 +2,10 @@ package io.golos.cyber_android.ui.screens.notifications.model
 
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.data.repositories.wallet.WalletRepository
-import io.golos.domain.dto.notifications.NotificationsPageDomain
-import io.golos.domain.dto.notifications.NotificationsStatusDomain
 import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
+import io.golos.domain.dto.notifications.NotificationsPageDomain
+import io.golos.domain.dto.notifications.NotificationsStatusDomain
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.NotificationsRepository
 import kotlinx.coroutines.flow.Flow

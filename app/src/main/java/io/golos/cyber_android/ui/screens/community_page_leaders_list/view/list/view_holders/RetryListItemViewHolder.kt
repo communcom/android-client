@@ -2,9 +2,9 @@ package io.golos.cyber_android.ui.screens.community_page_leaders_list.view.list.
 
 import android.view.ViewGroup
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.screens.community_page_leaders_list.view.list.LeadsListItemEventsProcessor
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.screens.community_page_leaders_list.view.list.LeadsListItemEventsProcessor
 import kotlinx.android.synthetic.main.view_retry_list_item.view.*
 
 class RetryListItemViewHolder(

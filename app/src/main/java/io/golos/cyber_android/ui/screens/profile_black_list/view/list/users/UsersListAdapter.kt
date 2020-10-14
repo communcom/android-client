@@ -1,15 +1,15 @@
 package io.golos.cyber_android.ui.screens.profile_black_list.view.list.users
 
 import android.view.ViewGroup
+import io.golos.cyber_android.ui.dto.BlackListFilter
+import io.golos.cyber_android.ui.screens.profile_black_list.dto.UserListItem
+import io.golos.cyber_android.ui.screens.profile_black_list.view.list.BlackListListItemEventsProcessor
+import io.golos.cyber_android.ui.screens.profile_black_list.view.list.LoadingListItemViewHolder
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.LoadingListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.RetryListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListAdapterBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.dto.BlackListFilter
-import io.golos.cyber_android.ui.screens.profile_black_list.dto.UserListItem
-import io.golos.cyber_android.ui.screens.profile_black_list.view.list.BlackListListItemEventsProcessor
-import io.golos.cyber_android.ui.screens.profile_black_list.view.list.LoadingListItemViewHolder
 
 class UsersListAdapter(
     private val listItemEventsProcessor: BlackListListItemEventsProcessor,

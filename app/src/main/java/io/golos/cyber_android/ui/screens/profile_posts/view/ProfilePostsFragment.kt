@@ -29,7 +29,10 @@ import io.golos.cyber_android.ui.screens.post_view.view.PostPageFragment
 import io.golos.cyber_android.ui.screens.profile.view.ProfileExternalUserFragment
 import io.golos.cyber_android.ui.screens.profile.view.ProfileFragment
 import io.golos.cyber_android.ui.screens.profile_posts.di.ProfilePostsFragmentComponent
-import io.golos.cyber_android.ui.screens.profile_posts.view_commands.*
+import io.golos.cyber_android.ui.screens.profile_posts.view_commands.EditPostCommand
+import io.golos.cyber_android.ui.screens.profile_posts.view_commands.NavigationToPostMenuViewCommand
+import io.golos.cyber_android.ui.screens.profile_posts.view_commands.ReportPostCommand
+import io.golos.cyber_android.ui.screens.profile_posts.view_commands.SharePostCommand
 import io.golos.cyber_android.ui.screens.profile_posts.view_model.ProfilePostsViewModel
 import io.golos.cyber_android.ui.shared.Tags
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM

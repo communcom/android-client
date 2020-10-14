@@ -2,9 +2,9 @@ package io.golos.cyber_android.ui.screens.post_view.view.list.view_holders
 
 import android.view.ViewGroup
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.FirstLevelCommentLoadingListItem
 import io.golos.cyber_android.ui.screens.post_view.view_model.PostPageViewModelListEventsProcessor
+import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 
 class FirstLevelCommentLoadingViewHolder(
     parentView: ViewGroup

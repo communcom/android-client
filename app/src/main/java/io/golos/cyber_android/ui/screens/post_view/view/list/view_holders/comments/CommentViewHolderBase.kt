@@ -27,7 +27,6 @@ import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
 import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
-import io.golos.cyber_android.ui.shared.widgets.post_comments.DonationPanelWidget
 import io.golos.cyber_android.ui.shared.widgets.post_comments.ParagraphWidgetListener
 import io.golos.cyber_android.ui.shared.widgets.post_comments.items.*
 import io.golos.cyber_android.ui.shared.widgets.post_comments.voting.VotingWidget
@@ -305,10 +304,6 @@ abstract class CommentViewHolderBase<T : CommentListItem>(parentView: ViewGroup,
     }
 
     private fun setupDonation(listItem: T, listItemEventsProcessor: PostPageViewModelListEventsProcessor) {
-
-        /*_donationPanel.setOnClickListener {
-            listItemEventsProcessor.onDonateClick(DonateType.DONATE_OTHER, listItem.externalId, listItem.externalId.communityId, listItem.author)
-        }*/
 
     }
 

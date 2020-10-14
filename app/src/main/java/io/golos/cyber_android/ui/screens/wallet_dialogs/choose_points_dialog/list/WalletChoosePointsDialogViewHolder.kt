@@ -5,13 +5,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.wallet.dto.MyPointsListItem
-import io.golos.utils.getFormattedString
-import io.golos.utils.format.CurrencyFormatter
 import io.golos.cyber_android.ui.shared.glide.GlideTarget
 import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.glide.load
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
+import io.golos.utils.format.CurrencyFormatter
+import io.golos.utils.getFormattedString
 import kotlinx.android.synthetic.main.dialog_wallet_items_list_general_item_view_holder.view.*
 
 

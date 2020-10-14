@@ -4,14 +4,14 @@ import android.annotation.SuppressLint
 import android.view.View
 import android.view.ViewGroup
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.screens.communities_list.view.list.CommunityListItemEventsProcessor
 import io.golos.cyber_android.ui.shared.characters.SpecialChars
 import io.golos.cyber_android.ui.shared.glide.loadCommunity
-import io.golos.utils.format.size.PluralSizeFormatter
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
-import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.CommunityListItem
-import io.golos.cyber_android.ui.screens.communities_list.view.list.CommunityListItemEventsProcessor
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.GlobalConstants
+import io.golos.utils.format.size.PluralSizeFormatter
 import kotlinx.android.synthetic.main.view_communities_community_list_item_dialog.view.*
 
 class CommunityListItemViewHolderDialog(

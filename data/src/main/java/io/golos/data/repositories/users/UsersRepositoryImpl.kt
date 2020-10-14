@@ -5,7 +5,6 @@ import io.golos.commun4j.model.BandWidthRequest
 import io.golos.commun4j.model.ClientAuthRequest
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.data.api.user.UsersApi
-import io.golos.domain.repositories.exceptions.ApiResponseErrorException
 import io.golos.data.mappers.*
 import io.golos.data.repositories.network_call.NetworkCallProxy
 import io.golos.domain.DispatchersProvider
@@ -15,6 +14,7 @@ import io.golos.domain.UserKeyStore
 import io.golos.domain.dto.*
 import io.golos.domain.repositories.CurrentUserRepository
 import io.golos.domain.repositories.UsersRepository
+import io.golos.domain.repositories.exceptions.ApiResponseErrorException
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File

@@ -7,13 +7,13 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import androidx.annotation.ColorInt
 import io.golos.cyber_android.R
-import io.golos.utils.getColorRes
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
 import io.golos.cyber_android.ui.shared.spans.LinkClickableSpan
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.*
+import io.golos.domain.posts_parsing_rendering.post_metadata.toTypeface
+import io.golos.utils.getColorRes
 import io.golos.utils.helpers.appendText
 import io.golos.utils.helpers.setSpan
-import io.golos.domain.posts_parsing_rendering.post_metadata.toTypeface
 import javax.inject.Inject
 
 /**

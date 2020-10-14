@@ -10,15 +10,15 @@ import io.golos.cyber_android.ui.screens.wallet_shared.history.dto.WalletHistory
 import io.golos.cyber_android.ui.screens.wallet_shared.history.dto.WalletHistoryTransferDirection
 import io.golos.cyber_android.ui.screens.wallet_shared.history.dto.WalletHistoryTransferListItem
 import io.golos.cyber_android.ui.screens.wallet_shared.history.dto.WalletHistoryTransferType
-import io.golos.utils.getColorRes
-import io.golos.utils.format.CurrencyFormatter
 import io.golos.cyber_android.ui.shared.glide.GlideTarget
 import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.glide.load
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
-import kotlinx.android.synthetic.main.view_wallet_history_transfer_list_item.view.*
 import io.golos.domain.GlobalConstants
+import io.golos.utils.format.CurrencyFormatter
+import io.golos.utils.getColorRes
+import kotlinx.android.synthetic.main.view_wallet_history_transfer_list_item.view.*
 
 class WalletHistoryTransferViewHolder(
     private val parentView: ViewGroup

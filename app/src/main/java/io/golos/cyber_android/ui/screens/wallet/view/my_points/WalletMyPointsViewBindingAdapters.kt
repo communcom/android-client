@@ -2,9 +2,7 @@ package io.golos.cyber_android.ui.screens.wallet.view.my_points
 
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import io.golos.cyber_android.ui.screens.wallet.dto.MyPointsListItem
-import io.golos.cyber_android.ui.shared.extensions.parentActivity
 
 @BindingAdapter("wallet_my_points_events_processor")
 fun setWalletMyPointsViewEventsProcessorBinding(view: WalletMyPointsView, listItemEventsProcessor: WalletMyPointsListItemEventsProcessor) {

@@ -4,9 +4,6 @@ import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactory
-import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactoryImpl
-import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelKey
 import io.golos.cyber_android.ui.screens.post_view.helpers.CommentTextRenderer
 import io.golos.cyber_android.ui.screens.post_view.helpers.CommentTextRendererImpl
 import io.golos.cyber_android.ui.screens.post_view.model.PostPageModel
@@ -22,6 +19,9 @@ import io.golos.cyber_android.ui.screens.post_view.model.post_list_data_source.P
 import io.golos.cyber_android.ui.screens.post_view.model.voting.post.PostPageVotingUseCase
 import io.golos.cyber_android.ui.screens.post_view.model.voting.post.PostPageVotingUseCaseImpl
 import io.golos.cyber_android.ui.screens.post_view.view_model.PostPageViewModel
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactory
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactoryImpl
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelKey
 import io.golos.domain.dependency_injection.scopes.FragmentScope
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCase
 import io.golos.domain.use_cases.community.SubscribeToCommunityUseCaseImpl

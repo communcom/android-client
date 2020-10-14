@@ -2,7 +2,6 @@ package io.golos.cyber_android.ui.screens.wallet_point.view
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentWalletPointBinding

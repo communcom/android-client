@@ -8,11 +8,11 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.children
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.animation.AnimationUtils
-import io.golos.utils.format.CurrencyFormatter
 import io.golos.cyber_android.ui.shared.glide.GlideTarget
 import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.glide.load
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
+import io.golos.utils.format.CurrencyFormatter
 import kotlinx.android.synthetic.main.view_wallet_send_points_collapsed_top_panel.view.*
 
 class WalletSendPointsCollapsedTopPanel

@@ -1,9 +1,9 @@
 package io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.mappers
 
-import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ParagraphBlock
-import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ParagraphItemBlock
 import io.golos.domain.posts_parsing_rendering.BlockType
 import io.golos.domain.posts_parsing_rendering.CommonType
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ParagraphBlock
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ParagraphItemBlock
 import org.json.JSONObject
 import timber.log.Timber
 

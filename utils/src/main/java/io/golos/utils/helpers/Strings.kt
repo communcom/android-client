@@ -3,7 +3,6 @@ package io.golos.utils.helpers
 import android.net.Uri
 import io.golos.utils.BuildConfig
 import timber.log.Timber
-import java.lang.Exception
 import java.util.*
 import java.util.regex.Pattern
 

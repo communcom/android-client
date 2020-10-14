@@ -7,10 +7,10 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.community_page_members.dto.CommunityUserListItem
 import io.golos.cyber_android.ui.screens.community_page_members.view.MembersListEventsProcessor
 import io.golos.cyber_android.ui.shared.characters.SpecialChars
-import io.golos.utils.format.size.PluralSizeFormatter
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
+import io.golos.utils.format.size.PluralSizeFormatter
 import kotlinx.android.synthetic.main.view_profile_followers_list_item.view.*
 
 class CommunityUserViewHolder(

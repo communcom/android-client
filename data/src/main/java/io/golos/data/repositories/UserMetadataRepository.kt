@@ -7,13 +7,13 @@ import io.golos.data.api.transactions.TransactionsApi
 import io.golos.data.api.user_metadata.UserMetadataApi
 import io.golos.data.errors.CyberToAppErrorMapper
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.repositories.Repository
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.dto.UserMetadataCollectionEntity
 import io.golos.domain.dto.UserMetadataEntity
-import io.golos.domain.requestmodel.*
 import io.golos.domain.mappers.UserMetadataToEntityMapper
+import io.golos.domain.repositories.Repository
+import io.golos.domain.requestmodel.*
 import kotlinx.coroutines.*
 import timber.log.Timber
 import java.util.*

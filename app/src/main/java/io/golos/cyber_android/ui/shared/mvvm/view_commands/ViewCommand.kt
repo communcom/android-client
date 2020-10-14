@@ -8,7 +8,6 @@ import androidx.annotation.StringRes
 import io.golos.cyber_android.ui.dto.Comment
 import io.golos.cyber_android.ui.dto.DonateType
 import io.golos.cyber_android.ui.dto.Post
-import io.golos.domain.dto.RewardCurrency
 import io.golos.domain.dto.*
 import io.golos.domain.use_cases.model.DiscussionIdModel
 

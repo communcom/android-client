@@ -1,11 +1,11 @@
 package io.golos.domain.posts_parsing_rendering.post_metadata.spans.calculators
 
 import android.text.style.StyleSpan
-import io.golos.domain.posts_parsing_rendering.post_metadata.spans_worker.SpansWorkerRead
+import io.golos.domain.posts_parsing_rendering.post_metadata.TextStyle
 import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.SpanInfo
 import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.StyleSpanInfo
-import io.golos.domain.posts_parsing_rendering.post_metadata.TextStyle
 import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.mapTypefaceToEditorTextStyle
+import io.golos.domain.posts_parsing_rendering.post_metadata.spans_worker.SpansWorkerRead
 import kotlin.reflect.KClass
 
 class StyleSpansCalculator(spansReader: SpansWorkerRead) : SpansCalculator<TextStyle>(spansReader) {

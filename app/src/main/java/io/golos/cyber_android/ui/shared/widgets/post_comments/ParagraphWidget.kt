@@ -3,7 +3,6 @@ package io.golos.cyber_android.ui.shared.widgets.post_comments
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Configuration
-import android.graphics.Color
 import android.graphics.Typeface
 import android.net.Uri
 import android.text.SpannableStringBuilder
@@ -28,10 +27,10 @@ import io.golos.domain.GlobalConstants
 import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.posts_parsing_rendering.post_metadata.TextStyle
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.*
+import io.golos.domain.posts_parsing_rendering.post_metadata.toTypeface
 import io.golos.utils.helpers.appendSpannable
 import io.golos.utils.helpers.appendText
 import io.golos.utils.helpers.setSpan
-import io.golos.domain.posts_parsing_rendering.post_metadata.toTypeface
 
 
 @SuppressLint("AppCompatCustomView")

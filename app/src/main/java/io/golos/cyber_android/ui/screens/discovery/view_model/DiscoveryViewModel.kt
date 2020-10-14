@@ -6,10 +6,9 @@ import io.golos.commun4j.services.model.QuickSearchCommunityItem
 import io.golos.commun4j.services.model.QuickSearchPostItem
 import io.golos.commun4j.services.model.QuickSearchProfileItem
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.ui.dto.*
-import io.golos.cyber_android.ui.mappers.mapToContentId
+import io.golos.cyber_android.ui.dto.FollowersFilter
+import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.mappers.mapToPost
-import io.golos.cyber_android.ui.mappers.mapToPostCommunity
 import io.golos.cyber_android.ui.screens.discovery.model.DiscoveryModel
 import io.golos.cyber_android.ui.screens.profile_followers.dto.FollowersListItem
 import io.golos.cyber_android.ui.shared.extensions.getMessage
@@ -19,7 +18,6 @@ import io.golos.cyber_android.ui.shared.recycler_view.versioned.CommunityListIte
 import io.golos.data.mappers.*
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.*
-import io.golos.domain.mappers.new_mappers.mapToUserBriefDomain
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.JsonToDtoMapper
 import io.golos.utils.helpers.toAbsoluteUrl
 import io.golos.utils.id.MurmurHash

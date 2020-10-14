@@ -1,13 +1,13 @@
 package io.golos.cyber_android.ui.screens.profile_photos.view.grid
 
 import android.view.ViewGroup
-import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
-import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListAdapterBase
-import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.profile_photos.dto.CameraGridItem
 import io.golos.cyber_android.ui.screens.profile_photos.dto.PhotoGridItem
 import io.golos.cyber_android.ui.screens.profile_photos.view.grid.view_holders.CameraGridItemViewHolder
 import io.golos.cyber_android.ui.screens.profile_photos.view.grid.view_holders.PhotoGridItemViewHolder
+import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListAdapterBase
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 
 open class GalleryGridAdapter(
     private val listItemEventsProcessor: GalleryGridItemEventsProcessor

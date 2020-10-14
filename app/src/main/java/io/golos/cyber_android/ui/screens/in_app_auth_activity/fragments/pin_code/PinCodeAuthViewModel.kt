@@ -5,17 +5,17 @@ import android.view.View
 import androidx.annotation.StringRes
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
-import io.golos.utils.getColorRes
-import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.shared.widgets.pin.Digit
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.pin_code.model.PinCodeAuthModel
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.pin_code.model.PinCodeValidationResult
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.view_commands.AuthSuccessCommand
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.view_commands.ResetPinCommand
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.view_commands.SetPinCodeDigitCommand
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.view_commands.SwitchToFingerprintCommand
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
+import io.golos.cyber_android.ui.shared.widgets.pin.Digit
 import io.golos.domain.DispatchersProvider
+import io.golos.utils.getColorRes
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

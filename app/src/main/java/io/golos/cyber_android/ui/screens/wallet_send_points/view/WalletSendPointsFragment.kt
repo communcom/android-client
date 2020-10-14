@@ -18,7 +18,10 @@ import io.golos.cyber_android.ui.screens.wallet_dialogs.choose_points_dialog.Wal
 import io.golos.cyber_android.ui.screens.wallet_dialogs.transfer_completed.TransferCompletedInfo
 import io.golos.cyber_android.ui.screens.wallet_dialogs.transfer_completed.WalletTransferCompletedDialog
 import io.golos.cyber_android.ui.screens.wallet_send_points.di.WalletSendPointsFragmentComponent
-import io.golos.cyber_android.ui.screens.wallet_send_points.dto.*
+import io.golos.cyber_android.ui.screens.wallet_send_points.dto.ShowSelectCommunityDialogCommand
+import io.golos.cyber_android.ui.screens.wallet_send_points.dto.ShowSelectUserDialogCommand
+import io.golos.cyber_android.ui.screens.wallet_send_points.dto.ShowWalletTransferCompletedDialogCommand
+import io.golos.cyber_android.ui.screens.wallet_send_points.dto.UpdateCarouselPositionCommand
 import io.golos.cyber_android.ui.screens.wallet_send_points.view_model.WalletSendPointsViewModel
 import io.golos.cyber_android.ui.shared.keyboard.KeyboardVisibilityListener
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM

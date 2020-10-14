@@ -1,10 +1,8 @@
 package io.golos.domain.posts_parsing_rendering.mappers.json_to_dto
 
-import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ContentBlock
-import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.PostMetadata
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.mappers.MappersFactory
 import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.mappers.PostMapper
-import io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.mappers.PostMetadataMapper
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ContentBlock
 import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber

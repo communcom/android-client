@@ -8,10 +8,10 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentSignUpNameBinding
 import io.golos.cyber_android.ui.dialogs.SimpleTextBottomSheetDialog
+import io.golos.cyber_android.ui.screens.app_start.sign_up.phone.dto.NavigateToSelectSignUpMethodCommand
 import io.golos.cyber_android.ui.screens.app_start.sign_up.username.di.SignUpNameFragmentComponent
 import io.golos.cyber_android.ui.screens.app_start.sign_up.username.dto.NavigateToGetPasswordCommand
 import io.golos.cyber_android.ui.screens.app_start.sign_up.username.view_model.SignUpNameViewModel
-import io.golos.cyber_android.ui.screens.app_start.sign_up.phone.dto.NavigateToSelectSignUpMethodCommand
 import io.golos.cyber_android.ui.shared.extensions.setOnDrawableEndClickListener
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand

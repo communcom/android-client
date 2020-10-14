@@ -12,9 +12,9 @@ import android.hardware.fingerprint.FingerprintManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import dagger.Lazy
+import io.golos.cyber_android.application.shared.fingerprints.eventsHandler.FingerprintAuthEventsHandlerImpl
 import io.golos.data.encryption.aes.EncryptorFingerprint
 import io.golos.domain.fingerprint.FingerprintAuthEventsHandler
-import io.golos.cyber_android.application.shared.fingerprints.eventsHandler.FingerprintAuthEventsHandlerImpl
 import io.golos.domain.fingerprint.FingerprintAuthManager
 import javax.inject.Inject
 

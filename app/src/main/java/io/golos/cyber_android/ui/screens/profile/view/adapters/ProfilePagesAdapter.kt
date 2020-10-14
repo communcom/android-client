@@ -3,9 +3,7 @@ package io.golos.cyber_android.ui.screens.profile.view.adapters
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
 import androidx.fragment.app.FragmentStatePagerAdapter
-import androidx.viewpager.widget.PagerAdapter
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.profile_comments.view.ProfileCommentsFragment
 import io.golos.cyber_android.ui.screens.profile_posts.view.ProfilePostsFragment

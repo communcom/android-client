@@ -4,13 +4,13 @@ import android.content.res.Resources
 import android.view.View
 import android.view.ViewGroup
 import io.golos.cyber_android.R
-import io.golos.utils.format.KiloCounterFormatter
-import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.screens.ftue_search_community.model.FtueItemListModelEventProcessor
 import io.golos.cyber_android.ui.screens.ftue_search_community.model.item.community.FtueCommunityListItem
 import io.golos.cyber_android.ui.shared.extensions.setOneClickListener
 import io.golos.cyber_android.ui.shared.glide.loadCommunityItemAvatar
 import io.golos.cyber_android.ui.shared.glide.loadCommunityItemCover
+import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
+import io.golos.utils.format.KiloCounterFormatter
 import kotlinx.android.synthetic.main.view_profile_communities_community_list_item.view.*
 
 class FtueCommunityItem(

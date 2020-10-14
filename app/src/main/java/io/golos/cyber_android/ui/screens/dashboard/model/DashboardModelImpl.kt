@@ -9,8 +9,8 @@ import io.golos.cyber_android.ui.shared.utils.IntentConstants
 import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.ContentIdDomain
-import io.golos.domain.dto.notifications.NotificationsStatusDomain
 import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.dto.notifications.NotificationsStatusDomain
 import io.golos.domain.repositories.NotificationsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext

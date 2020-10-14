@@ -5,11 +5,11 @@ import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFrag
 import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentTabComponent
 import io.golos.cyber_android.ui.screens.community_get_points.di.GetCommunityPointsFragmentComponent
 import io.golos.cyber_android.ui.screens.discovery.view.fragments.discovery_communities.di.DiscoveryCommunitiesFragmentComponent
+import io.golos.cyber_android.ui.screens.donate_convert_points.di.DonateConvertPointsFragmentComponent
 import io.golos.cyber_android.ui.screens.donate_send_points.di.DonateSendPointsFragmentComponent
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity
 import io.golos.cyber_android.ui.screens.wallet.di.WalletFragmentComponent
 import io.golos.domain.dependency_injection.scopes.ActivityScope
-import io.golos.cyber_android.ui.screens.donate_convert_points.di.DonateConvertPointsFragmentComponent
 
 @Subcomponent(
     modules = [

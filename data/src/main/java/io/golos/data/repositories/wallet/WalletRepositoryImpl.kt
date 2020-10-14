@@ -2,7 +2,8 @@ package io.golos.data.repositories.wallet
 
 import io.golos.commun4j.Commun4j
 import io.golos.commun4j.model.BandWidthRequest
-import io.golos.commun4j.services.model.*
+import io.golos.commun4j.services.model.DonationPostModel
+import io.golos.commun4j.services.model.WalletQuantity
 import io.golos.commun4j.sharedmodel.CyberName
 import io.golos.commun4j.sharedmodel.CyberSymbol
 import io.golos.commun4j.sharedmodel.CyberSymbolCode

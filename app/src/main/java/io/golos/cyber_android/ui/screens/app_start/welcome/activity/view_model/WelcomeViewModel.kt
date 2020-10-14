@@ -1,7 +1,6 @@
 package io.golos.cyber_android.ui.screens.app_start.welcome.activity.view_model
 
 import android.content.Context
-import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.app_start.welcome.activity.dto.HideSplashAnimationCommand
 import io.golos.cyber_android.ui.screens.app_start.welcome.activity.dto.NavigateToWelcomeScreenCommand
 import io.golos.cyber_android.ui.screens.app_start.welcome.activity.dto.ShowSplashAnimationCommand
@@ -12,7 +11,6 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
 import io.golos.domain.DispatchersProvider
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.lang.Exception
 import javax.inject.Inject
 
 open class WelcomeViewModel

@@ -1,11 +1,8 @@
 package io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.content_rendering
 
 import android.text.SpannableStringBuilder
-import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.widget.ImageView
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.ReferralPurchaseBonusNotificationItem
 import io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.content_rendering.view.NotificationView

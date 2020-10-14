@@ -1,8 +1,6 @@
 package io.golos.domain.dto.block
 
 import com.squareup.moshi.Json
-import io.golos.domain.dto.block.ContentBlockEntity
-import io.golos.domain.dto.block.DocumentAttributeEntity
 
 data class ListContentBlockEntity(
     @Json(name = "id") val id: Long?,

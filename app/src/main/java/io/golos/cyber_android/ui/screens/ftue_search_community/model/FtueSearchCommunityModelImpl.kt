@@ -5,9 +5,8 @@ import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityDomain
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.FtueBoardStageDomain
-import io.golos.domain.repositories.CurrentUserRepository
-import io.golos.domain.use_cases.community.CommunitiesRepository
 import io.golos.domain.repositories.UsersRepository
+import io.golos.domain.use_cases.community.CommunitiesRepository
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 

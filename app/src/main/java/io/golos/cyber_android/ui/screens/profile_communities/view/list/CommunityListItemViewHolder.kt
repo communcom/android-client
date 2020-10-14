@@ -5,13 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.profile_communities.dto.CommunityListItem
-import io.golos.utils.format.KiloCounterFormatter
 import io.golos.cyber_android.ui.shared.glide.GlideTarget
 import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.glide.loadCommunityItemAvatar
 import io.golos.cyber_android.ui.shared.glide.loadCommunityItemCover
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
+import io.golos.utils.format.KiloCounterFormatter
 import kotlinx.android.synthetic.main.view_profile_communities_community_list_item.view.*
 
 class CommunityListItemViewHolder(

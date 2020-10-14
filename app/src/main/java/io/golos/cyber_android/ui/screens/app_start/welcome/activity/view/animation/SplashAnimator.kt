@@ -2,14 +2,9 @@ package io.golos.cyber_android.ui.screens.app_start.welcome.activity.view.animat
 
 import android.content.Context
 import android.view.View
-import android.view.animation.AlphaAnimation
-import android.view.animation.Animation
-import android.view.animation.LinearInterpolator
-import android.view.animation.ScaleAnimation
-import androidx.core.content.ContextCompat
-import io.golos.cyber_android.ui.shared.animation.AnimationListenerBase
-import android.view.animation.AnimationSet
+import android.view.animation.*
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.shared.animation.AnimationListenerBase
 import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
 
 

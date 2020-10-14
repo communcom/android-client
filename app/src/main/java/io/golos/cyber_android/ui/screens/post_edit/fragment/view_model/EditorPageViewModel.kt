@@ -27,10 +27,12 @@ import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.PostDomain
 import io.golos.domain.dto.UploadedImageEntity
 import io.golos.domain.extensions.map
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.ControlMetadata
 import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.use_cases.UseCase
-import io.golos.domain.use_cases.model.*
-import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.ControlMetadata
+import io.golos.domain.use_cases.model.ProccesedLinksModel
+import io.golos.domain.use_cases.model.UploadedImageModel
+import io.golos.domain.use_cases.model.UploadedImagesModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber

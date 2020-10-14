@@ -2,16 +2,16 @@ package io.golos.cyber_android.ui.screens.communities_list.view.list.view_holder
 
 import android.annotation.SuppressLint
 import android.view.ViewGroup
+import android.widget.ToggleButton
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.screens.communities_list.view.list.CommunityListItemEventsProcessor
 import io.golos.cyber_android.ui.shared.characters.SpecialChars
 import io.golos.cyber_android.ui.shared.glide.loadCommunity
-import io.golos.utils.format.size.PluralSizeFormatter
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
-import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.CommunityListItem
-import io.golos.cyber_android.ui.screens.communities_list.view.list.CommunityListItemEventsProcessor
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
+import io.golos.utils.format.size.PluralSizeFormatter
 import kotlinx.android.synthetic.main.view_communities_community_list_item.view.*
-import android.widget.ToggleButton
 
 class CommunityListItemViewHolder(
     parentView: ViewGroup

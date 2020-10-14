@@ -2,19 +2,19 @@ package io.golos.cyber_android.ui.shared.helper
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.Configuration
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.shared.keyboard.KeyboardUtils
-import javax.inject.Inject
-import android.content.res.Configuration
-import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
+import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
+import io.golos.cyber_android.ui.shared.keyboard.KeyboardUtils
 import io.golos.domain.GlobalConstants
+import javax.inject.Inject
 
 class UIHelperImpl
 @Inject
