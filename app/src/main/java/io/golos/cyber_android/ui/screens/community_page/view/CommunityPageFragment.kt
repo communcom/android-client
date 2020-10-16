@@ -9,7 +9,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.lifecycle.Observer
-import com.facebook.appevents.codeless.internal.ViewHierarchy.setOnClickListener
 import com.google.android.material.appbar.AppBarLayout
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
@@ -42,14 +41,6 @@ import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.utils.format.KiloCounterFormatter
 import io.golos.utils.helpers.toPluralInt
 import kotlinx.android.synthetic.main.fragment_community_page.*
-import kotlinx.android.synthetic.main.fragment_community_page.appbar
-import kotlinx.android.synthetic.main.fragment_community_page.emptyPostProgressLoading
-import kotlinx.android.synthetic.main.fragment_community_page.root
-import kotlinx.android.synthetic.main.fragment_community_page.tabLayout
-import kotlinx.android.synthetic.main.fragment_community_page.toolbar_back
-import kotlinx.android.synthetic.main.fragment_community_page.toolbar_dots
-import kotlinx.android.synthetic.main.fragment_community_page.vpContent
-import kotlinx.android.synthetic.main.fragment_profile_new.*
 import kotlinx.android.synthetic.main.layout_community_header_members.*
 import io.golos.cyber_android.ui.screens.community_page.dialogs.CommunityLeaderSettingsDialog
 import io.golos.cyber_android.ui.screens.community_page_proposals.CommunityProposalsFragment

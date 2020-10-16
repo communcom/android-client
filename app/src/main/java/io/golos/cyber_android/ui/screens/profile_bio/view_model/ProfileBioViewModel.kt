@@ -2,12 +2,12 @@ package io.golos.cyber_android.ui.screens.profile_bio.view_model
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.screens.profile_bio.dto.PassResultCommand
 import io.golos.cyber_android.ui.screens.profile_bio.dto.PrepareToCloseCommand
 import io.golos.cyber_android.ui.screens.profile_bio.dto.TextLenInfo
 import io.golos.cyber_android.ui.screens.profile_bio.model.ProfileBioModel
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dependency_injection.Clarification
 import javax.inject.Inject

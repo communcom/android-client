@@ -8,7 +8,6 @@ import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.DonateType
 import io.golos.cyber_android.ui.dto.Post
-import io.golos.domain.dto.RewardCurrency
 import io.golos.cyber_android.ui.dto.User
 import io.golos.cyber_android.ui.mappers.*
 import io.golos.cyber_android.ui.screens.feed_my.dto.SwitchToProfileTab

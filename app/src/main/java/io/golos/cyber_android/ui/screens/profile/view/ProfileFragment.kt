@@ -35,7 +35,6 @@ import io.golos.cyber_android.ui.screens.profile_photos.view.ProfilePhotosFragme
 import io.golos.cyber_android.ui.screens.wallet.view.WalletFragment
 import io.golos.cyber_android.ui.shared.Tags
 import io.golos.cyber_android.ui.shared.Tags.MENU
-import io.golos.utils.getColorRes
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToWalletCommand
@@ -48,6 +47,7 @@ import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.domain.dto.notifications.NotificationSettingsDomain
+import io.golos.utils.getColorRes
 import kotlinx.android.synthetic.main.fragment_profile_new.*
 import java.io.File
 import javax.inject.Inject

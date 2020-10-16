@@ -9,13 +9,13 @@ import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentSignUpPhoneBinding
-import io.golos.cyber_android.ui.screens.app_start.sign_up.shared.SignUpDescriptionHelper
 import io.golos.cyber_android.ui.screens.app_start.sign_up.phone.di.SignUpPhoneFragmentComponent
 import io.golos.cyber_android.ui.screens.app_start.sign_up.phone.dto.NavigateToCountriesListCommand
 import io.golos.cyber_android.ui.screens.app_start.sign_up.phone.dto.NavigateToPhoneVerificationCommand
 import io.golos.cyber_android.ui.screens.app_start.sign_up.phone.dto.NavigateToSelectSignUpMethodCommand
 import io.golos.cyber_android.ui.screens.app_start.sign_up.phone.dto.ShowCaptchaCommand
 import io.golos.cyber_android.ui.screens.app_start.sign_up.phone.view_model.SignUpPhoneViewModel
+import io.golos.cyber_android.ui.screens.app_start.sign_up.shared.SignUpDescriptionHelper
 import io.golos.cyber_android.ui.shared.extensions.moveCursorToTheEnd
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.HideKeyboardCommand

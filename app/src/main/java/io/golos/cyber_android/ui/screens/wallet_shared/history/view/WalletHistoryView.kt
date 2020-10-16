@@ -2,12 +2,12 @@ package io.golos.cyber_android.ui.screens.wallet_shared.history.view
 
 import android.content.Context
 import android.util.AttributeSet
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import kotlinx.android.synthetic.main.view_wallet_history.view.*
-import android.widget.TextView
 
 class WalletHistoryView
 @JvmOverloads

@@ -2,11 +2,11 @@ package io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.fingerp
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import io.golos.domain.fingerprint.FingerprintAuthManager
-import io.golos.domain.fingerprint.FingerprintAuthEventHandler
-import io.golos.domain.fingerprint.FingerprintAuthEventsHandler
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.domain.dependency_injection.scopes.ActivityScope
+import io.golos.domain.fingerprint.FingerprintAuthEventHandler
+import io.golos.domain.fingerprint.FingerprintAuthEventsHandler
+import io.golos.domain.fingerprint.FingerprintAuthManager
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.M)

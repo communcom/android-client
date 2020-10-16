@@ -2,13 +2,13 @@ package io.golos.cyber_android.ui.screens.app_start.sign_up.phone.view_model
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber_android.ui.screens.app_start.sign_up.shared.messages_mapper.SignUpMessagesMapper
 import io.golos.cyber_android.ui.screens.app_start.sign_up.phone.dto.NavigateToCountriesListCommand
 import io.golos.cyber_android.ui.screens.app_start.sign_up.phone.dto.NavigateToPhoneVerificationCommand
 import io.golos.cyber_android.ui.screens.app_start.sign_up.phone.dto.NavigateToSelectSignUpMethodCommand
 import io.golos.cyber_android.ui.screens.app_start.sign_up.phone.dto.ShowCaptchaCommand
 import io.golos.cyber_android.ui.screens.app_start.sign_up.phone.model.SignUpPhoneModel
 import io.golos.cyber_android.ui.screens.app_start.sign_up.shared.data_pass.SignUpFragmentsDataPass
+import io.golos.cyber_android.ui.screens.app_start.sign_up.shared.messages_mapper.SignUpMessagesMapper
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.HideKeyboardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand

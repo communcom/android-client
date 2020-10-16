@@ -2,7 +2,6 @@ package io.golos.cyber_android.ui.shared.utils
 
 import android.app.Activity
 import android.graphics.Color
-import android.os.Build
 import android.view.View
 import android.view.WindowManager
 import androidx.annotation.AttrRes

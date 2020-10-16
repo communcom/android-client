@@ -2,8 +2,6 @@ package io.golos.cyber_android.ui.screens.post_edit.fragment.view.post_to_editor
 
 import android.net.Uri
 import android.text.SpannableStringBuilder
-import io.golos.utils.helpers.appendText
-import io.golos.utils.helpers.setSpan
 import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.EmbedType
 import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.LinkInfo
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.*
@@ -11,6 +9,8 @@ import io.golos.posts_editor.EditorDataLoader
 import io.golos.posts_editor.utilities.post.PostStubs
 import io.golos.posts_editor.utilities.post.spans.PostSpansFactory
 import io.golos.posts_editor.utilities.post.spans.PostSpansTextFactory
+import io.golos.utils.helpers.appendText
+import io.golos.utils.helpers.setSpan
 
 /**
  * Loads data from post to the editor

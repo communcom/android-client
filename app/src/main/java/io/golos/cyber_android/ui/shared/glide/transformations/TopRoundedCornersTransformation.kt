@@ -9,7 +9,7 @@ import com.bumptech.glide.util.Preconditions
 import com.bumptech.glide.util.Util
 import java.nio.ByteBuffer
 import java.security.MessageDigest
-import java.util.HashSet
+import java.util.*
 import java.util.concurrent.locks.Lock
 import java.util.concurrent.locks.ReentrantLock
 

@@ -5,9 +5,9 @@ import io.golos.domain.UserKeyStore
 import io.golos.domain.dto.sign_up.SignUpSnapshotDomain
 import io.golos.domain.dto.sign_up.SignUpState
 import io.golos.domain.repositories.AuthRepository
-import io.golos.use_cases.sign_up.dto.TransitionResult
 import io.golos.use_cases.sign_up.core.SignUpSMCoreTransition
 import io.golos.use_cases.sign_up.core.data_structs.*
+import io.golos.use_cases.sign_up.dto.TransitionResult
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import timber.log.Timber

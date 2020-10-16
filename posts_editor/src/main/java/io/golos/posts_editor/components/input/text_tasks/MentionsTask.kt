@@ -1,10 +1,10 @@
 package io.golos.posts_editor.components.input.text_tasks
 
 import android.text.style.CharacterStyle
-import io.golos.domain.validation.user_name.UserNameValidationResult
-import io.golos.domain.validation.user_name.UserNameValidatorImpl
 import io.golos.domain.posts_parsing_rendering.post_metadata.spans.custom.MentionSpan
 import io.golos.domain.posts_parsing_rendering.post_metadata.spans_worker.SpansWorkerImpl
+import io.golos.domain.validation.user_name.UserNameValidationResult
+import io.golos.domain.validation.user_name.UserNameValidatorImpl
 import io.golos.posts_editor.components.input.text_tasks.dto.TextSlice
 import io.golos.posts_editor.utilities.post.spans.PostSpansFactory
 import java.util.regex.Pattern

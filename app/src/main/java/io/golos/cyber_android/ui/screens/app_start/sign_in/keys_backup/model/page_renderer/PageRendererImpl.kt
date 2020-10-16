@@ -7,12 +7,12 @@ import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.app_start.sign_in.keys_backup.dto.PdfPageExportData
-import io.golos.utils.getColorRes
 import io.golos.domain.DispatchersProvider
 import io.golos.pdf_renderer.document.DocumentImpl
 import io.golos.pdf_renderer.document.DocumentPage
 import io.golos.pdf_renderer.document_params.*
 import io.golos.pdf_renderer.page_size.A4PageSize
+import io.golos.utils.getColorRes
 import io.golos.utils.helpers.scope
 import kotlinx.coroutines.withContext
 import timber.log.Timber

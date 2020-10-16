@@ -28,5 +28,5 @@ data class SecondLevelCommentListItem(
     override val groupId: Int = 5,
     override val isDeleted: Boolean,
 
-    override val donations: DonationsDomain?
-) : CommentListItem
+    override val donations: DonationsDomain?,
+    override val isMyComment: Boolean) : CommentListItem

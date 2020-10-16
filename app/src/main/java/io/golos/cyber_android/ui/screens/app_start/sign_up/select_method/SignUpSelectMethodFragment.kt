@@ -10,12 +10,11 @@ import dagger.Lazy
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.screens.app_start.sign_in.activity.SignInActivity
-import io.golos.cyber_android.ui.screens.app_start.sign_up.shared.SignUpDescriptionHelper
-import io.golos.cyber_android.ui.screens.app_start.sign_up.shared.messages_mapper.SignUpMessagesMapper
 import io.golos.cyber_android.ui.screens.app_start.sign_up.select_method.di.SignUpSelectMethodFragmentComponent
 import io.golos.cyber_android.ui.screens.app_start.sign_up.select_method.social_network_auth_providers.SocialNetworkAuthProvider
+import io.golos.cyber_android.ui.screens.app_start.sign_up.shared.SignUpDescriptionHelper
+import io.golos.cyber_android.ui.screens.app_start.sign_up.shared.messages_mapper.SignUpMessagesMapper
 import io.golos.cyber_android.ui.shared.base.FragmentBaseCoroutines
-import io.golos.cyber_android.ui.shared.mvvm.viewModel.ActivityViewModelFactory
 import io.golos.domain.analytics.AnalyticsFacade
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.use_cases.sign_up.core.SignUpCoreView

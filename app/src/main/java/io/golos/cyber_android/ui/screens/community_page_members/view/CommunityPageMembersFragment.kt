@@ -13,7 +13,6 @@ import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardComma
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToUserProfileCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.domain.GlobalConstants
-import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserIdDomain
 import kotlinx.android.synthetic.main.fragment_community_page_members.*
 

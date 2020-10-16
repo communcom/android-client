@@ -3,7 +3,6 @@ package io.golos.domain.mappers
 import io.golos.commun4j.services.model.*
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.dto.*
-import java.lang.UnsupportedOperationException
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.HashMap

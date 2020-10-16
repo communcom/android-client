@@ -16,7 +16,6 @@ import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
 import io.golos.cyber_android.ui.shared.utils.adjustSpannableClicks
 import io.golos.cyber_android.ui.shared.utils.toTimeEstimateFormat
-import io.golos.domain.GlobalConstants
 import io.golos.domain.dto.*
 import io.golos.use_cases.reward.getRewardValue
 import io.golos.use_cases.reward.isRewarded

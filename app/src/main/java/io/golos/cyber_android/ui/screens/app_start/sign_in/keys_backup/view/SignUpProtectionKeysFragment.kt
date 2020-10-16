@@ -3,7 +3,6 @@ package io.golos.cyber_android.ui.screens.app_start.sign_in.keys_backup.view
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentSignUpProtectionKeysBinding

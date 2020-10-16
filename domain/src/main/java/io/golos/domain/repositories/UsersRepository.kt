@@ -1,7 +1,6 @@
 package io.golos.domain.repositories
 
 import io.golos.domain.dto.*
-import io.golos.domain.dto.bc_profile.BCProfileDomain
 import java.io.File
 
 interface UsersRepository {

@@ -13,13 +13,11 @@ import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.Comment
 import io.golos.cyber_android.ui.dto.DonateType
-import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.profile_comments.model.item.ProfileCommentListItem
 import io.golos.cyber_android.ui.screens.profile_comments.view_model.ProfileCommentsModelEventProcessor
 import io.golos.cyber_android.ui.shared.base.adapter.BaseRecyclerItem
 import io.golos.cyber_android.ui.shared.base.adapter.RecyclerAdapter
 import io.golos.cyber_android.ui.shared.characters.SpecialChars
-import io.golos.utils.format.TimeEstimationFormatter
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
@@ -29,13 +27,13 @@ import io.golos.cyber_android.ui.shared.widgets.post_comments.items.*
 import io.golos.domain.dto.UserBriefDomain
 import io.golos.domain.posts_parsing_rendering.post_metadata.TextStyle
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.*
+import io.golos.utils.format.TimeEstimationFormatter
+import io.golos.utils.helpers.SPACE
 import io.golos.utils.helpers.appendText
+import io.golos.utils.helpers.positiveValue
 import io.golos.utils.helpers.setSpan
 import io.golos.utils.id.IdUtil
-import io.golos.utils.helpers.SPACE
-import io.golos.utils.helpers.positiveValue
 import kotlinx.android.synthetic.main.item_comment.view.*
-
 import kotlinx.android.synthetic.main.view_post_voting.view.*
 
 class ProfileCommentItem(
@@ -339,12 +337,6 @@ class ProfileCommentItem(
 
         }
     }
-
-    /*    private fun setupDonation(listItem: ProfileCommentListItem, listItemEventsProcessor: ProfileCommentsModelEventProcessor) {
-                itemView.donationPanel.setDonateUserListListener {
-                   listItemEventsProcessor.onDonateClick(DonateType.DONATE_OTHER, listItem.comment.contentId, listItem.comment.contentId.communityId, listItem.comment.author)
-                }
-        }*/
 
     override fun release() {
         super.release()

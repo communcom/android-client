@@ -7,18 +7,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.ui.screens.community_page_leaders_list.di.CommunityPageLeadsListComponent
 import io.golos.cyber_android.databinding.FragmentCommunityLeadsBinding
-import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
+import io.golos.cyber_android.ui.screens.community_page_leaders_list.di.CommunityPageLeadsListComponent
 import io.golos.cyber_android.ui.screens.community_page_leaders_list.view.list.LeadsListListAdapter
 import io.golos.cyber_android.ui.screens.community_page_leaders_list.view_model.LeadsListViewModel
 import io.golos.cyber_android.ui.screens.profile.view.ProfileExternalUserFragment
+import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToUserProfileCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserIdDomain
-import io.golos.utils.helpers.EMPTY
 import kotlinx.android.synthetic.main.fragment_community_leads.*
 
 class LeadsListFragment : FragmentBaseMVVM<FragmentCommunityLeadsBinding, LeadsListViewModel>() {

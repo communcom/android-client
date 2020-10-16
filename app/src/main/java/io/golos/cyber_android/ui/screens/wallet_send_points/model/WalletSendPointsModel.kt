@@ -6,7 +6,6 @@ import io.golos.cyber_android.ui.screens.wallet_shared.dto.AmountValidationResul
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBase
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserBriefDomain
-import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 
 interface WalletSendPointsModel : ModelBase {

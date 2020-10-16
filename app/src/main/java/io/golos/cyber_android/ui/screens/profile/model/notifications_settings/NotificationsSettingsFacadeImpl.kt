@@ -2,7 +2,6 @@ package io.golos.cyber_android.ui.screens.profile.model.notifications_settings
 
 import io.golos.domain.dto.notifications.NotificationSettingsDomain
 import io.golos.domain.repositories.NotificationsRepository
-import timber.log.Timber
 import javax.inject.Inject
 
 class NotificationsSettingsFacadeImpl

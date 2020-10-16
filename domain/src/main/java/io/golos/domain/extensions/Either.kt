@@ -1,6 +1,5 @@
 package io.golos.domain.extensions
 
-import io.golos.commun4j.http.rpc.model.ApiResponseError
 import io.golos.commun4j.sharedmodel.Either
 
 /**

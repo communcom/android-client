@@ -4,20 +4,24 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import io.golos.domain.repositories.DiscussionsFeedRepository
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.repositories.Repository
-import io.golos.domain.dto.*
+import io.golos.domain.dto.DiscussionEntity
+import io.golos.domain.dto.DiscussionsSort
+import io.golos.domain.dto.FeedEntity
+import io.golos.domain.dto.FeedRelatedEntities
+import io.golos.domain.mappers.EntityToModelMapper
+import io.golos.domain.repositories.DiscussionsFeedRepository
+import io.golos.domain.requestmodel.FeedUpdateRequest
+import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.use_cases.UseCase
 import io.golos.domain.use_cases.model.DiscussionModel
 import io.golos.domain.use_cases.model.DiscussionsFeed
 import io.golos.domain.use_cases.model.FeedTimeFrameOption
 import io.golos.domain.use_cases.model.UpdateOption
-import io.golos.domain.requestmodel.FeedUpdateRequest
-import io.golos.domain.requestmodel.Identifiable
-import io.golos.domain.requestmodel.QueryResult
-import io.golos.domain.mappers.EntityToModelMapper
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-19.

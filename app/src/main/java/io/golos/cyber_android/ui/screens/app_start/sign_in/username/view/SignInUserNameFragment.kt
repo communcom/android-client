@@ -9,12 +9,6 @@ import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentSignInUserNameBinding
-import io.golos.cyber_android.ui.shared.extensions.setSoftDoneButtonListener
-import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.HideSoftKeyboardCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateForwardCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.screens.app_start.sign_in.username.di.SignInUserNameFragmentComponent
 import io.golos.cyber_android.ui.screens.app_start.sign_in.username.dto.NavigateToQrCodeCommand
 import io.golos.cyber_android.ui.screens.app_start.sign_in.username.dto.NavigateToSignUpCommand
@@ -22,6 +16,12 @@ import io.golos.cyber_android.ui.screens.app_start.sign_in.username.dto.SetPassw
 import io.golos.cyber_android.ui.screens.app_start.sign_in.username.dto.SetUserNameFocusCommand
 import io.golos.cyber_android.ui.screens.app_start.sign_in.username.view_model.SignInUserNameViewModel
 import io.golos.cyber_android.ui.screens.app_start.sign_up.activity.SignUpActivity
+import io.golos.cyber_android.ui.shared.extensions.setSoftDoneButtonListener
+import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.HideSoftKeyboardCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateForwardCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.shared.text.AllLowersInputFilter
 import io.golos.cyber_android.ui.shared.text.ExcludeCharactersFilter
 import kotlinx.android.synthetic.main.fragment_sign_in_user_name.*

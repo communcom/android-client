@@ -3,11 +3,6 @@ package io.golos.cyber_android.ui.screens.ftue_search_community.view_model
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
-import io.golos.domain.analytics.AnalyticsFacade
-import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
-import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.dto.Community
 import io.golos.cyber_android.ui.mappers.mapToCollectionListItem
 import io.golos.cyber_android.ui.mappers.mapToCommunityDomainList
@@ -20,10 +15,15 @@ import io.golos.cyber_android.ui.screens.ftue_search_community.model.item.collec
 import io.golos.cyber_android.ui.screens.ftue_search_community.model.item.community.FtueCommunityListItem
 import io.golos.cyber_android.ui.screens.ftue_search_community.view.view_command.NavigationToFtueFinishFragment
 import io.golos.cyber_android.ui.shared.extensions.getMessage
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageTextCommand
+import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.shared.utils.PAGINATION_PAGE_SIZE
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.analytics.AnalyticsFacade
 import io.golos.domain.dto.FtueBoardStageDomain
 import io.golos.utils.id.IdUtil
 import kotlinx.coroutines.Dispatchers

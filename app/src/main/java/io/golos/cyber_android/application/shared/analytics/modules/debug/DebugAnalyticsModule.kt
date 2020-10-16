@@ -1,13 +1,12 @@
 package io.golos.cyber_android.application.shared.analytics.modules.debug
 
 import android.app.Application
+import io.golos.cyber_android.application.shared.analytics.modules.AnalyticsModule
 import io.golos.domain.analytics.PasswordBackup
 import io.golos.domain.analytics.RegistrationSelection
 import io.golos.domain.analytics.SmsCodeEntered
 import io.golos.domain.analytics.UsernameEntered
-import io.golos.cyber_android.application.shared.analytics.modules.AnalyticsModule
 import timber.log.Timber
-import java.lang.StringBuilder
 
 class DebugAnalyticsModule: AnalyticsModule {
     override fun init(app: Application) { }

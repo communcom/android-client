@@ -3,11 +3,11 @@ package io.golos.cyber_android.application.shared.analytics.modules.amplitude
 import android.app.Application
 import com.amplitude.api.Amplitude
 import io.golos.cyber_android.BuildConfig
+import io.golos.cyber_android.application.shared.analytics.modules.AnalyticsModule
 import io.golos.domain.analytics.PasswordBackup
 import io.golos.domain.analytics.RegistrationSelection
 import io.golos.domain.analytics.SmsCodeEntered
 import io.golos.domain.analytics.UsernameEntered
-import io.golos.cyber_android.application.shared.analytics.modules.AnalyticsModule
 import org.json.JSONObject
 
 class AmplitudeAnalyticsModule: AnalyticsModule {

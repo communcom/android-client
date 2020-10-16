@@ -1,7 +1,9 @@
 package io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json
 
-import io.golos.domain.dto.DeviceInfoEntity
-import io.golos.domain.posts_parsing_rendering.*
+import io.golos.domain.posts_parsing_rendering.Attribute
+import io.golos.domain.posts_parsing_rendering.BlockType
+import io.golos.domain.posts_parsing_rendering.DocumentType
+import io.golos.domain.posts_parsing_rendering.PostGlobalConstants
 import io.golos.domain.posts_parsing_rendering.json_builder.JsonBuilderBlocks
 import io.golos.domain.posts_parsing_rendering.json_builder.JsonBuilderImpl
 import io.golos.domain.posts_parsing_rendering.json_builder.PostAttribute

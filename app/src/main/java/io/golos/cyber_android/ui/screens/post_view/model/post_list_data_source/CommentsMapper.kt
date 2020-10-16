@@ -30,7 +30,8 @@ object CommentsMapper {
             metadata = model.meta,
             state = CommentListItemState.NORMAL,
             isDeleted = model.isDeleted,
-            donations = model.donations
+            donations = model.donations,
+            isMyComment = model.isMyComment
         )
     }
 
@@ -74,7 +75,8 @@ object CommentsMapper {
             metadata = model.meta,
             state = CommentListItemState.NORMAL,
             isDeleted = model.isDeleted,
-            donations = model.donations
+            donations = model.donations,
+            isMyComment = model.isMyComment
         )
     }
 }

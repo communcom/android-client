@@ -3,7 +3,6 @@ package io.golos.cyber_android.ui.mappers
 import io.golos.cyber_android.ui.dto.Community
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.domain.dto.CommunityDomain
-import io.golos.domain.dto.PostDomain
 
 fun CommunityDomain.mapToPostCommunity(): Post.Community {
     return Post.Community(

@@ -5,10 +5,8 @@ import android.view.View
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.base.adapter.RecyclerItem
 import io.golos.cyber_android.ui.shared.widgets.post_comments.ParagraphSetWidget
-import io.golos.cyber_android.ui.shared.widgets.post_comments.ParagraphWidget
 import io.golos.cyber_android.ui.shared.widgets.post_comments.ParagraphWidgetListener
 import io.golos.domain.dto.ContentIdDomain
-import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ParagraphBlock
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.ParagraphSet
 
 data class CommentParagraphSetItem(

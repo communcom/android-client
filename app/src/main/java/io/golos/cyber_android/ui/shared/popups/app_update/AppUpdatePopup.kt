@@ -1,6 +1,5 @@
 package io.golos.cyber_android.ui.shared.popups.app_update
 
-import android.content.Intent
 import android.net.Uri
 import android.view.Gravity
 import android.view.View
@@ -14,7 +13,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.ui.shared.utils.openLinkView
-import java.lang.UnsupportedOperationException
 
 class AppUpdatePopup(
     contentView: View,

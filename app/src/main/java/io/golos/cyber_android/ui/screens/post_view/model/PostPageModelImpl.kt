@@ -16,6 +16,7 @@ import io.golos.data.mappers.mapToCyberName
 import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.*
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.ControlMetadata
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.PostMetadata
 import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.DiscussionRepository
@@ -33,7 +34,6 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
-import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.ControlMetadata
 
 class PostPageModelImpl
 @Inject

@@ -3,11 +3,11 @@ package io.golos.cyber_android.ui.screens.profile_black_list.view.list.users
 import android.view.View
 import android.view.ViewGroup
 import io.golos.cyber_android.R
+import io.golos.cyber_android.ui.screens.profile_black_list.dto.UserListItem
+import io.golos.cyber_android.ui.screens.profile_black_list.view.list.BlackListListItemEventsProcessor
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.screens.profile_black_list.dto.UserListItem
-import io.golos.cyber_android.ui.screens.profile_black_list.view.list.BlackListListItemEventsProcessor
 import kotlinx.android.synthetic.main.view_profile_black_list_list_item.view.*
 
 class UserListItemViewHolder(

@@ -4,8 +4,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import io.golos.cyber_android.ui.shared.base.FragmentBase
-import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 
 class DiscoveryPagerAdapter(
     fragmentManager: FragmentManager,

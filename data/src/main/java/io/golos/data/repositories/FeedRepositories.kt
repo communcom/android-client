@@ -7,16 +7,11 @@ import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.dto.*
 import io.golos.domain.mappers.CyberCommentsToEntityMapper
-import io.golos.domain.mappers.CyberFeedToEntityMapper
-import io.golos.domain.mappers.CyberPostToEntityMapper
 import io.golos.domain.requestmodel.CommentFeedUpdateRequest
 import io.golos.domain.requestmodel.CommentsOfApPostUpdateRequest
-import io.golos.domain.requestmodel.CommunityFeedUpdateRequest
-import io.golos.domain.requestmodel.PostFeedUpdateRequest
 import io.golos.domain.rules.EmptyEntityProducer
 import io.golos.domain.rules.EntityMerger
 import io.golos.domain.rules.RequestApprover
-import io.golos.domain.use_cases.model.FeedTimeFrameOption
 import javax.inject.Inject
 
 /**

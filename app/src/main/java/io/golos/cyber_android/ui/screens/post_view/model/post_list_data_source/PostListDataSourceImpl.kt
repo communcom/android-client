@@ -423,7 +423,7 @@ constructor(
 
         when {
             oldTitle == null && newTitle == null -> {
-                /*postList.add(0,PostTitleListItem(IdUtil.generateLongId(), 0, false, false, postDomain.title))*/
+
             }
             oldTitle == null && newTitle != null -> postList.add(0, newTitle)
             oldTitle != null && newTitle == null -> postList.remove(oldTitle)

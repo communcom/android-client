@@ -2,7 +2,6 @@ package io.golos.cyber_android.ui.screens.wallet.view
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentWalletBinding
@@ -20,7 +19,10 @@ import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.domain.GlobalConstants
-import io.golos.domain.dto.*
+import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.HistoryFilterDomain
+import io.golos.domain.dto.UserBriefDomain
+import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import kotlinx.android.synthetic.main.fragment_wallet.*
 
 class WalletFragment : FragmentBaseMVVM<FragmentWalletBinding, WalletViewModel>() {

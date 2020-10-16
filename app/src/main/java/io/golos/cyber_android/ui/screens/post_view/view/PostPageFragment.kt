@@ -47,7 +47,10 @@ import io.golos.cyber_android.ui.shared.utils.openImageView
 import io.golos.cyber_android.ui.shared.utils.openLinkView
 import io.golos.cyber_android.ui.shared.utils.shareMessage
 import io.golos.domain.commun_entities.Permlink
-import io.golos.domain.dto.*
+import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.ContentIdDomain
+import io.golos.domain.dto.RewardCurrency
+import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.domain.use_cases.model.PostModel
 import kotlinx.android.parcel.Parcelize
@@ -110,8 +113,7 @@ class PostPageFragment : FragmentBaseMVVM<FragmentPostBinding, PostPageViewModel
         })
 
         viewModel.title.observe(viewLifecycleOwner, Observer {
-            /*post_title.visibility = if(it == null || it.isEmpty()) View.GONE else View.VISIBLE
-            post_title.text = it*/
+
         })
 
         postView.reduceDragSensitivity()

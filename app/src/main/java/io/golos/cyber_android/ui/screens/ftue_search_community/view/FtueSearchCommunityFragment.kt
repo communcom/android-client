@@ -11,9 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentFtueSearchCommunityBinding
-import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
-import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.screens.ftue_search_community.di.FtueSearchCommunityFragmentComponent
 import io.golos.cyber_android.ui.screens.ftue_search_community.model.item.community.FtueCommunityListItem
 import io.golos.cyber_android.ui.screens.ftue_search_community.view.list.collection.FtueCommunityCollectionAdapter
@@ -21,6 +18,9 @@ import io.golos.cyber_android.ui.screens.ftue_search_community.view.list.communi
 import io.golos.cyber_android.ui.screens.ftue_search_community.view.view_command.NavigationToFtueFinishFragment
 import io.golos.cyber_android.ui.screens.ftue_search_community.view.view_command.NavigationToFtueSearchFragmentAfterError
 import io.golos.cyber_android.ui.screens.ftue_search_community.view_model.FtueSearchCommunityViewModel
+import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
+import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.shared.utils.debounce
 import kotlinx.android.synthetic.main.fragment_ftue_search_community.*
 

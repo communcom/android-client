@@ -2,7 +2,6 @@ package io.golos.cyber_android.ui.shared.paginator
 
 import io.golos.domain.dto.ContentIdDomain
 import timber.log.Timber
-import javax.inject.Inject
 
 open class Paginator<T> {
     sealed class State {

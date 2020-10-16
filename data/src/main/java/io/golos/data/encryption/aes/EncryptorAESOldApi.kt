@@ -1,9 +1,8 @@
 package io.golos.data.encryption.aes
 
-import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.Encryptor
 import io.golos.domain.KeyValueStorageFacade
-import java.lang.UnsupportedOperationException
+import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import java.security.Key
 import javax.crypto.Cipher
 import javax.crypto.spec.SecretKeySpec

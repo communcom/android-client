@@ -143,9 +143,15 @@ class PostItem(val post: Post, private val type: Type, private val listener: MyF
                     val lastIndex=it.paragraphBlock.content.lastIndex
                     paragraphContent.addAll(it.paragraphBlock.content.mapIndexed { index, paragraphItemBlock ->
                         if(lastIndex==index) {
-                            if (paragraphItemBlock is TextBlock && enableParagraph) {
-                                if (!paragraphItemBlock.content.contains("\n")) {
-                                    paragraphItemBlock.content += "\n"
+                            if(enableParagraph) {
+                                if (paragraphItemBlock is TextBlock) {
+                                    if (!paragraphItemBlock.content.contains("\n")) {
+                                        paragraphItemBlock.content += "\n"
+                                    }
+                                } else if (paragraphItemBlock is TagBlock) {
+                                    if (!paragraphItemBlock.content.contains("\n")) {
+                                        paragraphItemBlock.content += "\n"
+                                    }
                                 }
                             }
                         }

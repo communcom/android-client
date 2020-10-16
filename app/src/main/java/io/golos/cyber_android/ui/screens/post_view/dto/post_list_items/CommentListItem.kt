@@ -23,4 +23,5 @@ interface CommentListItem : GroupListItem, VersionedListItem {
 
     val isDeleted: Boolean
     val donations: DonationsDomain?
+    val isMyComment: Boolean
 }

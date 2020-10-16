@@ -3,11 +3,11 @@ package io.golos.cyber_android.ui.screens.app_start.sign_up.username.view_model
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.screens.app_start.shared.user_name.vizualizer.UserNameValidationVisualizer
+import io.golos.cyber_android.ui.screens.app_start.sign_up.phone.dto.NavigateToSelectSignUpMethodCommand
+import io.golos.cyber_android.ui.screens.app_start.sign_up.shared.messages_mapper.SignUpMessagesMapper
 import io.golos.cyber_android.ui.screens.app_start.sign_up.username.dto.NavigateToGetPasswordCommand
 import io.golos.cyber_android.ui.screens.app_start.sign_up.username.dto.ValidationResult
 import io.golos.cyber_android.ui.screens.app_start.sign_up.username.model.SignUpNameModel
-import io.golos.cyber_android.ui.screens.app_start.sign_up.phone.dto.NavigateToSelectSignUpMethodCommand
-import io.golos.cyber_android.ui.screens.app_start.sign_up.shared.messages_mapper.SignUpMessagesMapper
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageTextCommand

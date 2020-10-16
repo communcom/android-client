@@ -15,7 +15,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
 import io.golos.cyber_android.ui.shared.utils.openWebPage
 import io.golos.domain.GlobalConstants
 

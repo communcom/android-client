@@ -1,11 +1,11 @@
 package io.golos.cyber_android.ui.screens.profile_black_list.view.list.communities
 
 import android.view.ViewGroup
-import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
-import io.golos.cyber_android.ui.shared.recycler_view.versioned.*
 import io.golos.cyber_android.ui.dto.BlackListFilter
 import io.golos.cyber_android.ui.screens.profile_black_list.view.list.BlackListListItemEventsProcessor
 import io.golos.cyber_android.ui.screens.profile_black_list.view.list.LoadingListItemViewHolder
+import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.*
 
 class CommunitiesListAdapter(
     private val listItemEventsProcessor: BlackListListItemEventsProcessor,

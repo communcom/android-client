@@ -3,13 +3,13 @@ package io.golos.cyber_android.ui.screens.wallet.view.my_points
 import android.view.ViewGroup
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.wallet.dto.MyPointsListItem
-import io.golos.utils.format.CurrencyFormatter
 import io.golos.cyber_android.ui.shared.glide.GlideTarget
 import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.glide.loadCommunityItemAvatar
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.shared.utils.getFormattedString
+import io.golos.utils.format.CurrencyFormatter
 import kotlinx.android.synthetic.main.view_wallet_my_points_list_item.view.*
 
 class WalletMyPointsViewHolder(

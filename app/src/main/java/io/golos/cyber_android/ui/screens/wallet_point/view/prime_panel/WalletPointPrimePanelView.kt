@@ -7,9 +7,9 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.wallet_point.dto.CarouselStartData
 import io.golos.cyber_android.ui.screens.wallet_shared.carousel.CarouselAdapter
-import io.golos.utils.format.CurrencyFormatter
 import io.golos.cyber_android.ui.shared.utils.getFormattedString
 import io.golos.domain.dto.CommunityIdDomain
+import io.golos.utils.format.CurrencyFormatter
 import kotlinx.android.synthetic.main.view_wallet_point_prime_panel.view.*
 
 class WalletPointPrimePanelView

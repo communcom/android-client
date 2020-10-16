@@ -27,7 +27,6 @@ import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
 import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
-import io.golos.cyber_android.ui.shared.widgets.post_comments.DonationPanelWidget
 import io.golos.cyber_android.ui.shared.widgets.post_comments.ParagraphWidgetListener
 import io.golos.cyber_android.ui.shared.widgets.post_comments.items.*
 import io.golos.cyber_android.ui.shared.widgets.post_comments.voting.VotingWidget
@@ -69,6 +68,10 @@ abstract class CommentViewHolderBase<T : CommentListItem>(parentView: ViewGroup,
 
     abstract val _donateText: TextView
 
+    abstract val _commentUserName: TextView
+
+    abstract val _donateCoin: ImageView
+
     abstract val _processingProgress: ProgressBar
 
     abstract val _warning: ImageView
@@ -88,6 +91,20 @@ abstract class CommentViewHolderBase<T : CommentListItem>(parentView: ViewGroup,
             }
             true
         }
+        _commentUserName.text= listItem.author.username
+        listItem.donations?.run {
+            _donateCoin.visibility=View.VISIBLE
+        }?: run {
+            _donateCoin.visibility=View.GONE
+        }
+        if(!listItem.isMyComment){
+            _donateText.text =
+                getDonate(itemView.context.applicationContext.resources.getString(R.string.donate), itemView.context.applicationContext)
+            _donateText.setOnClickListener {
+                listItemEventsProcessor.onDonateClick(DonateType.DONATE_OTHER, listItem.externalId, listItem.externalId.communityId, listItem.author)
+            }
+        }
+
         setupCommentContent(listItem, listItemEventsProcessor, longClickListener)
 
         itemView.setOnLongClickListener(longClickListener)
@@ -96,11 +113,7 @@ abstract class CommentViewHolderBase<T : CommentListItem>(parentView: ViewGroup,
         _replyAndTimeText.setOnClickListener {
             listItemEventsProcessor.startReplyToComment(listItem.externalId)
         }
-        _donateText.text =
-            getDonate(itemView.context.applicationContext.resources.getString(R.string.donate), itemView.context.applicationContext)
-        _donateText.setOnClickListener {
-            listItemEventsProcessor.onDonateClick(DonateType.DONATE_OTHER, listItem.externalId, listItem.externalId.communityId, listItem.author)
-        }
+
         _userAvatar.setOnClickListener { listItemEventsProcessor.onUserClicked(listItem.author.userId.userId) }
 
         setupVoting(listItem, listItemEventsProcessor)
@@ -306,10 +319,6 @@ abstract class CommentViewHolderBase<T : CommentListItem>(parentView: ViewGroup,
 
     private fun setupDonation(listItem: T, listItemEventsProcessor: PostPageViewModelListEventsProcessor) {
 
-        /*_donationPanel.setOnClickListener {
-            listItemEventsProcessor.onDonateClick(DonateType.DONATE_OTHER, listItem.externalId, listItem.externalId.communityId, listItem.author)
-        }*/
-
     }
 
     private fun getReplyAndTimeText(context: Context, metadata: MetaDomain): SpannableStringBuilder {
@@ -349,13 +358,13 @@ abstract class CommentViewHolderBase<T : CommentListItem>(parentView: ViewGroup,
         }, bulletInterval)
 
 
-        val userNameTextColor = ContextCompat.getColor(context, R.color.post_header_user_name_text)
-        val userNameInterval = result.appendText(donate)
-        result.setSpan(object : ColorTextClickableSpan(donate, userNameTextColor) {
+        val donateTextColor = ContextCompat.getColor(context, R.color.post_header_user_name_text)
+        val donateInterval = result.appendText(donate)
+        result.setSpan(object : ColorTextClickableSpan(donate, donateTextColor) {
             override fun onClick(widget: View) {
 
             }
-        }, userNameInterval)
+        }, donateInterval)
 
         return result
     }

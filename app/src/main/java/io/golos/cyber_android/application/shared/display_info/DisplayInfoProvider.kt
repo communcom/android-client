@@ -5,7 +5,6 @@ import android.content.res.Configuration
 import android.util.DisplayMetrics
 import android.util.Size
 import io.golos.utils.helpers.minIndexBy
-import javax.inject.Inject
 import kotlin.math.abs
 
 /** */

@@ -1,6 +1,8 @@
 package io.golos.data.mappers
 
-import io.golos.domain.dto.block.*
+import io.golos.domain.dto.block.ContentAttributeEntity
+import io.golos.domain.dto.block.ContentEntity
+import io.golos.domain.dto.block.DocumentAttributeEntity
 import io.golos.domain.posts_parsing_rendering.post_metadata.TextStyle
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.*
 

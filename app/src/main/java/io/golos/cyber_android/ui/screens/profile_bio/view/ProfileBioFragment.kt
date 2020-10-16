@@ -6,14 +6,14 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.ui.screens.profile_bio.di.ProfileBioFragmentComponent
 import io.golos.cyber_android.databinding.FragmentProfileBioBinding
+import io.golos.cyber_android.ui.screens.profile_bio.di.ProfileBioFragmentComponent
+import io.golos.cyber_android.ui.screens.profile_bio.dto.PassResultCommand
+import io.golos.cyber_android.ui.screens.profile_bio.dto.PrepareToCloseCommand
+import io.golos.cyber_android.ui.screens.profile_bio.view_model.ProfileBioViewModel
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
-import io.golos.cyber_android.ui.screens.profile_bio.dto.PrepareToCloseCommand
-import io.golos.cyber_android.ui.screens.profile_bio.dto.PassResultCommand
-import io.golos.cyber_android.ui.screens.profile_bio.view_model.ProfileBioViewModel
 import kotlinx.android.synthetic.main.fragment_profile_bio.*
 
 class ProfileBioFragment : FragmentBaseMVVM<FragmentProfileBioBinding, ProfileBioViewModel>() {

@@ -3,9 +3,6 @@ package io.golos.cyber_android.ui.shared.popups.no_connection
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ProgressBar
 import androidx.constraintlayout.widget.ConstraintLayout
 import io.golos.cyber_android.R
 import kotlinx.android.synthetic.main.view_no_connection.view.*

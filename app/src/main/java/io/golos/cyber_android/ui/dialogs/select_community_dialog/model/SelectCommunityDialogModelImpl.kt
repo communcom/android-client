@@ -3,10 +3,10 @@ package io.golos.cyber_android.ui.dialogs.select_community_dialog.model
 import android.content.Context
 import io.golos.commun4j.sharedmodel.Either
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dialogs.select_community_dialog.model.search.CommunitiesSearch
 import io.golos.cyber_android.ui.screens.communities_list.model.CommunitiesListModelImpl
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.CommunityListItem
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dto.CommunityDomain

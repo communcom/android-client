@@ -1,13 +1,11 @@
 package io.golos.cyber_android.ui.screens.profile.model
 
 import dagger.Lazy
-import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.screens.profile.model.logout.LogoutUseCase
 import io.golos.cyber_android.ui.screens.profile.model.notifications_settings.NotificationsSettingsFacade
 import io.golos.cyber_android.ui.screens.wallet.data.enums.Currencies
-import io.golos.cyber_android.ui.screens.wallet.model.WalletModelImpl
 import io.golos.cyber_android.ui.screens.wallet_shared.balance_calculator.BalanceCalculator
-import io.golos.data.persistence.key_value_storage.storages.shared_preferences.SharedPreferencesStorage
+import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.dto.*

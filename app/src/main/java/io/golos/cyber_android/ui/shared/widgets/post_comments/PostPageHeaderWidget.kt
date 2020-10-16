@@ -10,7 +10,6 @@ import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.post_view.dto.PostHeader
 import io.golos.cyber_android.ui.screens.post_view.dto.RewardInfo
 import io.golos.cyber_android.ui.shared.characters.SpecialChars
-import io.golos.utils.format.RewardFormatter
 import io.golos.cyber_android.ui.shared.glide.clear
 import io.golos.cyber_android.ui.shared.glide.loadAvatar
 import io.golos.cyber_android.ui.shared.glide.loadCommunity
@@ -21,6 +20,7 @@ import io.golos.cyber_android.ui.shared.utils.toTimeEstimateFormat
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.RewardCurrency
+import io.golos.utils.format.RewardFormatter
 import io.golos.utils.helpers.appendText
 import io.golos.utils.helpers.setSpan
 import kotlinx.android.synthetic.main.view_post_viewer_header.view.*

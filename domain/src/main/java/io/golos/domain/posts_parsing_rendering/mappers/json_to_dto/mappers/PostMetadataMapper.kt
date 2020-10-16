@@ -1,12 +1,11 @@
 package io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.mappers
 
+import io.golos.domain.posts_parsing_rendering.Attribute
+import io.golos.domain.posts_parsing_rendering.DocumentType
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.DocumentFormatVersion
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.PostMetadata
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.PostType
-import io.golos.domain.posts_parsing_rendering.Attribute
-import io.golos.domain.posts_parsing_rendering.DocumentType
 import org.json.JSONObject
-import java.lang.Exception
 import java.util.*
 
 class PostMetadataMapper : MapperJsonUtils() {

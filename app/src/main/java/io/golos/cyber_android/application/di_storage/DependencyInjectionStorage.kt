@@ -8,7 +8,10 @@ import io.golos.cyber_android.services.firebase.notifications.di.FirebaseNotific
 import io.golos.cyber_android.services.post_view.di.RecordPostViewServiceComponent
 import io.golos.cyber_android.ui.di.UIComponent
 import io.golos.cyber_android.ui.dialogs.select_community_dialog.di.SelectCommunityDialogComponent
-import io.golos.cyber_android.ui.dto.*
+import io.golos.cyber_android.ui.dto.BlackListFilter
+import io.golos.cyber_android.ui.dto.FollowersFilter
+import io.golos.cyber_android.ui.dto.ProfileCommunities
+import io.golos.cyber_android.ui.dto.ProfileItem
 import io.golos.cyber_android.ui.screens.app_start.sign_in.activity.di.SignInActivityComponent
 import io.golos.cyber_android.ui.screens.app_start.sign_in.app_unlock.di.SignInAppUnlockFragmentComponent
 import io.golos.cyber_android.ui.screens.app_start.sign_in.keys_backup.di.SignInProtectionKeysFragmentComponent

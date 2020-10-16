@@ -1,10 +1,10 @@
 package io.golos.data.repositories.settings
 
 import io.golos.commun4j.Commun4j
-import io.golos.domain.repositories.exceptions.ApiResponseErrorException
 import io.golos.data.mappers.mapToConfigDomain
 import io.golos.data.repositories.network_call.NetworkCallProxy
 import io.golos.domain.dto.ConfigDomain
+import io.golos.domain.repositories.exceptions.ApiResponseErrorException
 import io.golos.utils.BuildConfig
 import javax.inject.Inject
 

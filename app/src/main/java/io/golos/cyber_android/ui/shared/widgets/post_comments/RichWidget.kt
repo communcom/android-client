@@ -13,8 +13,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.glide.ImageProgressLoadState
-import io.golos.cyber_android.ui.shared.glide.loadContentAttachment
 import io.golos.cyber_android.ui.shared.glide.clear
+import io.golos.cyber_android.ui.shared.glide.loadContentAttachment
 import io.golos.cyber_android.ui.shared.utils.prefetchScreenSize
 import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.RichBlock

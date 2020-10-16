@@ -1,5 +1,6 @@
 package io.golos.cyber_android.ui.dialogs
 
+import android.content.Intent
 import android.net.Uri
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -7,9 +8,7 @@ import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dialogs.base.BottomSheetDialogFragmentBase
 import io.golos.domain.dto.RewardCurrency
-import io.golos.cyber_android.ui.shared.utils.openLinkView
 import kotlinx.android.synthetic.main.dialog_select_reward_currency.*
-import android.content.Intent
 
 class SelectRewardCurrencyDialog(
     private val startCurrency: RewardCurrency

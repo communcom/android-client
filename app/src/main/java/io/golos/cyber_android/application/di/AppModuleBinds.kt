@@ -6,14 +6,13 @@ import io.golos.commun4j.Commun4j
 import io.golos.cyber_android.application.di_storage.Cyber4JDagger
 import io.golos.cyber_android.application.shared.crashlytics.CrashlyticsFacadeImpl
 import io.golos.cyber_android.application.shared.device_info.DeviceInfoProviderImpl
-import io.golos.domain.fingerprint.FingerprintAuthManager
 import io.golos.cyber_android.application.shared.fingerprints.FingerprintAuthManagerImpl
 import io.golos.cyber_android.services.firebase.notifications.popup_manager.FirebaseNotificationPopupManager
 import io.golos.cyber_android.services.firebase.notifications.popup_manager.FirebaseNotificationPopupManagerImpl
-import io.golos.cyber_android.ui.shared.clipboard.ClipboardUtils
-import io.golos.cyber_android.ui.shared.clipboard.ClipboardUtilsImpl
 import io.golos.cyber_android.ui.shared.broadcast_actions_registries.PostUpdateRegistry
 import io.golos.cyber_android.ui.shared.broadcast_actions_registries.PostUpdateRegistryImpl
+import io.golos.cyber_android.ui.shared.clipboard.ClipboardUtils
+import io.golos.cyber_android.ui.shared.clipboard.ClipboardUtilsImpl
 import io.golos.cyber_android.ui.shared.utils.FromSpannedToHtmlTransformerImpl
 import io.golos.cyber_android.ui.shared.utils.HtmlToSpannableTransformerImpl
 import io.golos.cyber_android.ui.shared.utils.ImageCompressorImpl
@@ -56,7 +55,6 @@ import io.golos.data.repositories.network_call.NetworkCallProxy
 import io.golos.data.repositories.network_call.NetworkCallProxyImpl
 import io.golos.data.repositories.settings.SettingsRepository
 import io.golos.data.repositories.settings.SettingsRepositoryImpl
-import io.golos.domain.SignUpTokensRepository
 import io.golos.data.repositories.sign_up_tokens.SignUpTokensRepositoryImpl
 import io.golos.data.repositories.users.UsersRepositoryImpl
 import io.golos.data.repositories.wallet.WalletRepository
@@ -67,6 +65,7 @@ import io.golos.domain.*
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.dto.*
+import io.golos.domain.fingerprint.FingerprintAuthManager
 import io.golos.domain.mappers.*
 import io.golos.domain.repositories.*
 import io.golos.domain.requestmodel.*
