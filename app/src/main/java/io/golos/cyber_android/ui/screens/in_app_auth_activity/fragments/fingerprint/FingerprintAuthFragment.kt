@@ -4,14 +4,14 @@ import android.os.Bundle
 import android.view.View
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.fingerprint.di.FingerprintAuthFragmentComponent
 import io.golos.cyber_android.databinding.FragmentFingerprintAuthBinding
-import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.InAppAuthActivity
+import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.fingerprint.di.FingerprintAuthFragmentComponent
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.navigation.Navigator
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.view_commands.AuthSuccessCommand
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.view_commands.SwitchToPinCodeCommand
+import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import kotlinx.android.synthetic.main.fragment_fingerprint_auth.*
 import javax.inject.Inject
 

@@ -20,8 +20,8 @@ import io.golos.cyber_android.ui.screens.app_start.welcome.activity.view.Welcome
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.*
 import io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.content_rendering.view.NotificationView
 import io.golos.cyber_android.ui.shared.utils.IntentConstants
-import io.golos.domain.dto.notifications.NotificationDomain
 import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.dto.notifications.NotificationDomain
 import io.golos.utils.id.IdUtil
 import timber.log.Timber
 

@@ -1,12 +1,5 @@
 package io.golos.domain.posts_parsing_rendering.mappers.comment_to_json
 
-import io.golos.domain.posts_parsing_rendering.Attribute
-import io.golos.domain.posts_parsing_rendering.BlockType
-import io.golos.domain.posts_parsing_rendering.PostGlobalConstants
-import io.golos.domain.posts_parsing_rendering.json_builder.JsonBuilderImpl
-import io.golos.domain.posts_parsing_rendering.json_builder.PostAttribute
-import io.golos.domain.posts_parsing_rendering.mappers.comment_to_json.tags.CommentTagsExtractor
-
 object CommentToJsonMapper {
     /**
      * Text only

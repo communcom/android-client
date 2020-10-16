@@ -3,7 +3,6 @@ package io.golos.cyber_android.ui.shared.widgets.post_comments
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Configuration
-import android.graphics.Color
 import android.graphics.Typeface
 import android.net.Uri
 import android.text.SpannableStringBuilder

@@ -3,11 +3,14 @@ package io.golos.cyber_android.ui.screens.app_start.sign_up.create_password.view
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber_android.ui.screens.app_start.sign_up.shared.messages_mapper.SignUpMessagesMapper
 import io.golos.cyber_android.ui.screens.app_start.sign_up.create_password.dto.PasswordValidationCase
 import io.golos.cyber_android.ui.screens.app_start.sign_up.create_password.model.SignUpCreatePasswordModel
+import io.golos.cyber_android.ui.screens.app_start.sign_up.shared.messages_mapper.SignUpMessagesMapper
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.HideSoftKeyboardCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToNextScreen
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageTextCommand
 import io.golos.domain.DispatchersProvider
 import io.golos.use_cases.sign_up.core.SignUpCoreView
 import io.golos.use_cases.sign_up.core.data_structs.*

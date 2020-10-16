@@ -11,7 +11,6 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.children
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import io.golos.cyber_android.application.shared.display_info.DisplayInfoProvider
-import timber.log.Timber
 
 class SwipeCoordinatorLayout
 @JvmOverloads

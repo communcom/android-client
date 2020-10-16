@@ -11,8 +11,6 @@ import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.nio.ByteBuffer
-import java.nio.charset.Charset
 import javax.inject.Inject
 
 

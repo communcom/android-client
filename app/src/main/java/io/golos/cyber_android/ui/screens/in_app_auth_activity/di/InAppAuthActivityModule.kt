@@ -3,11 +3,11 @@ package io.golos.cyber_android.ui.screens.in_app_auth_activity.di
 import android.os.Build
 import dagger.Module
 import dagger.Provides
-import io.golos.domain.fingerprint.FingerprintAuthManager
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.fingerprint.model.FingerprintAuthModel
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.fingerprint.model.FingerprintAuthModelFakeImpl
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.fingerprint.model.FingerprintAuthModelImpl
 import io.golos.domain.dependency_injection.scopes.ActivityScope
+import io.golos.domain.fingerprint.FingerprintAuthManager
 
 @Module
 class InAppAuthActivityModule {

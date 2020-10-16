@@ -1,13 +1,11 @@
 package io.golos.cyber_android.ui.dialogs
 
-import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dialogs.base.BottomSheetDialogFragmentBase
-import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
 import kotlinx.android.synthetic.main.dialog_community_settings.*
 
 

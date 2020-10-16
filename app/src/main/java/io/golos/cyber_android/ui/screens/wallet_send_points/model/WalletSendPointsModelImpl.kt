@@ -54,11 +54,6 @@ constructor(
             }
         }
         balance = allBalances.filter { it.points > 0  || it.communityId == CommunityIdDomain(GlobalConstants.COMMUN_CODE) }
-        /*balance =
-            mutableListOf(balance.first { it.communityId.code == GlobalConstants.COMMUN_CODE }.copy(communityName = communName)).also {
-                it.addAll(balance.filter { it1->
-                    it1.points > 0 })
-            }*/
     }
 
     override var currentBalanceRecord: WalletCommunityBalanceRecordDomain = initCurrentBalanceRecord()

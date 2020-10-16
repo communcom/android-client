@@ -4,13 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.app_start.sign_in.app_unlock.model.AppUnlockModel
-import io.golos.domain.analytics.AnalyticsFacade
 import io.golos.cyber_android.ui.shared.mvvm.SingleLiveData
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToInAppAuthScreenCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToMainScreenCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageResCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
 import io.golos.domain.DispatchersProvider
+import io.golos.domain.analytics.AnalyticsFacade
 import io.golos.domain.dto.AppUnlockWay
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job

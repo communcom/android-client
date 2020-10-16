@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
-import io.golos.utils.getColorRes
 import io.golos.domain.dto.CountryDomain
 import kotlinx.android.synthetic.main.item_country.view.*
 

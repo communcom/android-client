@@ -1,9 +1,6 @@
 package io.golos.cyber_android.ui.screens.comment_page_menu.view.list
 
 import android.view.ViewGroup
-import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
-import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListAdapterBase
-import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.comment_page_menu.model.CommentMenuModelListEventProcessor
 import io.golos.cyber_android.ui.screens.comment_page_menu.model.item.CommentDeleteListItem
 import io.golos.cyber_android.ui.screens.comment_page_menu.model.item.CommentEditListItem
@@ -11,6 +8,9 @@ import io.golos.cyber_android.ui.screens.comment_page_menu.view.item.CommentDele
 import io.golos.cyber_android.ui.screens.comment_page_menu.view.item.CommentEditItem
 import io.golos.cyber_android.ui.screens.comment_page_menu.view.list.CommentMenuViewType.COMMENT_MENU_DELETE_TYPE
 import io.golos.cyber_android.ui.screens.comment_page_menu.view.list.CommentMenuViewType.COMMENT_MENU_EDIT_TYPE
+import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListAdapterBase
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 
 class CommentMenuAdapter(
     processor: CommentMenuModelListEventProcessor

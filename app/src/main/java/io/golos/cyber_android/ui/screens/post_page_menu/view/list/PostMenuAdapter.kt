@@ -1,11 +1,11 @@
 package io.golos.cyber_android.ui.screens.post_page_menu.view.list
 
 import android.view.ViewGroup
+import io.golos.cyber_android.ui.screens.post_page_menu.model.*
+import io.golos.cyber_android.ui.screens.post_page_menu.view.items.*
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListAdapterBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
-import io.golos.cyber_android.ui.screens.post_page_menu.model.*
-import io.golos.cyber_android.ui.screens.post_page_menu.view.items.*
 
 class PostMenuAdapter(
     processor: PostMenuModelListEventProcessor

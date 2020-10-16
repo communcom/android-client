@@ -1,20 +1,17 @@
 package io.golos.domain.use_cases.images
 
-import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import io.golos.domain.repositories.Repository
-import io.golos.domain.extensions.distinctUntilChanged
 import io.golos.domain.dto.UploadedImagesEntity
+import io.golos.domain.extensions.distinctUntilChanged
+import io.golos.domain.repositories.Repository
+import io.golos.domain.requestmodel.ImageUploadRequest
+import io.golos.domain.requestmodel.QueryResult
 import io.golos.domain.use_cases.UseCase
 import io.golos.domain.use_cases.model.UploadedImageModel
 import io.golos.domain.use_cases.model.UploadedImagesModel
-import io.golos.domain.requestmodel.CompressionParams
-import io.golos.domain.requestmodel.ImageUploadRequest
-import io.golos.domain.requestmodel.QueryResult
-import java.io.File
 import javax.inject.Inject
 
 /**

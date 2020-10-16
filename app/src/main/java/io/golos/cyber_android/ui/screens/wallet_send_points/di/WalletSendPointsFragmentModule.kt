@@ -5,7 +5,6 @@ import dagger.Provides
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserBriefDomain
-import io.golos.domain.dto.UserDomain
 import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import javax.inject.Named
 

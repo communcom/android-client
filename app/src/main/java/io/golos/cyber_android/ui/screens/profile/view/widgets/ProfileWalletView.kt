@@ -8,8 +8,6 @@ import io.golos.cyber_android.ui.screens.wallet.data.enums.Currencies
 import io.golos.cyber_android.ui.screens.wallet.model.CurrencyBalance
 import io.golos.utils.format.CurrencyFormatter
 import kotlinx.android.synthetic.main.view_profile_wallet.view.*
-import kotlinx.android.synthetic.main.view_profile_wallet.view.textValue
-import kotlinx.android.synthetic.main.view_profile_wallet.view.title
 
 class ProfileWalletView
 @JvmOverloads

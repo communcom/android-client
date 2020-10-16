@@ -7,8 +7,6 @@ import dagger.multibindings.IntoMap
 import io.golos.cyber_android.ui.screens.discovery.view.fragments.discovery_posts.model.DiscoveryPostsModel
 import io.golos.cyber_android.ui.screens.discovery.view.fragments.discovery_posts.model.DiscoveryPostsModelImpl
 import io.golos.cyber_android.ui.screens.discovery.view.fragments.discovery_posts.view_model.DiscoveryPostViewModel
-import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactory
-import io.golos.cyber_android.ui.shared.mvvm.viewModel.FragmentViewModelFactoryImpl
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelKey
 
 @Module

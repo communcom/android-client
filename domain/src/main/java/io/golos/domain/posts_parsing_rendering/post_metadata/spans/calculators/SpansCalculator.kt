@@ -1,8 +1,8 @@
 package io.golos.domain.posts_parsing_rendering.post_metadata.spans.calculators
 
 import android.text.style.CharacterStyle
-import io.golos.domain.posts_parsing_rendering.post_metadata.spans_worker.SpansWorkerRead
 import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.SpanInfo
+import io.golos.domain.posts_parsing_rendering.post_metadata.spans_worker.SpansWorkerRead
 import kotlin.reflect.KClass
 
 @Suppress("LeakingThis")

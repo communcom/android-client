@@ -4,11 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.golos.data.repositories.embed.EmbedRepository
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.repositories.Repository
 import io.golos.domain.dependency_injection.scopes.ApplicationScope
 import io.golos.domain.dto.LinkEmbedResult
 import io.golos.domain.dto.ProcessedLinksEntity
-import io.golos.domain.mappers.*
+import io.golos.domain.mappers.IFramelyEmbedResultRelatedData
+import io.golos.domain.mappers.IfremlyEmbedMapper
+import io.golos.domain.mappers.OembedMapper
+import io.golos.domain.mappers.OembedResultRelatedData
+import io.golos.domain.repositories.Repository
 import io.golos.domain.requestmodel.EmbedRequest
 import io.golos.domain.requestmodel.Identifiable
 import io.golos.domain.requestmodel.QueryResult

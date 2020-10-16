@@ -1,10 +1,10 @@
 package io.golos.cyber_android.ui.screens.profile_followers.model
 
 import androidx.lifecycle.LiveData
-import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
-import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.dto.FollowersFilter
 import io.golos.cyber_android.ui.screens.profile_followers.model.lists_workers.UsersListWorker
+import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.ErrorInfoDomain
 import io.golos.domain.dto.UserIdDomain

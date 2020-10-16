@@ -27,7 +27,6 @@ import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import timber.log.Timber
 import java.io.File
-import java.lang.Exception
 import java.util.*
 import javax.inject.Inject
 

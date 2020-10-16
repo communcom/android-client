@@ -2,12 +2,14 @@ package io.golos.cyber_android.ui.screens.subscriptions
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
-import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.screens.subscriptions.mappers.CommunityDomainListToCommunityListMapper
 import io.golos.cyber_android.ui.shared.extensions.getMessage
-import io.golos.cyber_android.ui.shared.mvvm.view_commands.*
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToSearchCommunitiesCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.SetLoadingVisibilityCommand
+import io.golos.cyber_android.ui.shared.mvvm.view_commands.ShowMessageTextCommand
+import io.golos.cyber_android.ui.shared.paginator.Paginator
 import io.golos.cyber_android.ui.shared.utils.toLiveData
 import io.golos.domain.DispatchersProvider
 import io.golos.utils.helpers.EMPTY

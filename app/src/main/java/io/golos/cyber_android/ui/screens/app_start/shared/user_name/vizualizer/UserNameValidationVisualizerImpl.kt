@@ -2,10 +2,9 @@ package io.golos.cyber_android.ui.screens.app_start.shared.user_name.vizualizer
 
 import android.content.Context
 import io.golos.cyber_android.R
-import io.golos.utils.getFormattedString
 import io.golos.domain.validation.user_name.UserNameValidationResult
 import io.golos.domain.validation.user_name.UserNameValidator
-import java.lang.UnsupportedOperationException
+import io.golos.utils.getFormattedString
 import javax.inject.Inject
 
 class UserNameValidationVisualizerImpl

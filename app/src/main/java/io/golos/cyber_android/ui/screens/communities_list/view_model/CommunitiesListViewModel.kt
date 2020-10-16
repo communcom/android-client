@@ -3,8 +3,11 @@ package io.golos.cyber_android.ui.screens.communities_list.view_model
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import io.golos.cyber_android.application.App
 import io.golos.cyber_android.ui.screens.communities_list.model.CommunitiesListModel
 import io.golos.cyber_android.ui.screens.communities_list.view.list.CommunityListItemEventsProcessor
+import io.golos.cyber_android.ui.screens.communities_list.view.view_commands.ShowUnblockDialogCommand
+import io.golos.cyber_android.ui.shared.extensions.getMessage
 import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToCommunityPageCommand
@@ -18,10 +21,6 @@ import io.golos.domain.dto.CommunityIdDomain
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Named
-import io.golos.cyber_android.application.App
-import io.golos.cyber_android.ui.screens.communities_list.view.view_commands.ShowUnblockDialogCommand
-import io.golos.cyber_android.ui.shared.extensions.getMessage
-import java.lang.Exception
 
 class CommunitiesListViewModel
 @Inject

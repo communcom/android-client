@@ -1,7 +1,6 @@
 package io.golos.posts_editor.components.input
 
 import android.content.Context
-import android.graphics.Color
 import android.net.Uri
 import android.os.Handler
 import android.text.Editable

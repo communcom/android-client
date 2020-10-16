@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelKey
 import io.golos.cyber_android.ui.screens.profile_photos.model.ProfilePhotosModel
 import io.golos.cyber_android.ui.screens.profile_photos.model.ProfilePhotosModelImpl
 import io.golos.cyber_android.ui.screens.profile_photos.model.gallery_items_source.GalleryItemsSource
@@ -12,6 +11,7 @@ import io.golos.cyber_android.ui.screens.profile_photos.model.gallery_items_sour
 import io.golos.cyber_android.ui.screens.profile_photos.model.result_bitmap_calculator.ResultBitmapCalculator
 import io.golos.cyber_android.ui.screens.profile_photos.model.result_bitmap_calculator.ResultBitmapCalculatorImpl
 import io.golos.cyber_android.ui.screens.profile_photos.view_model.ProfilePhotosViewModel
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelKey
 
 @Module
 abstract class ProfilePhotosFragmentModuleBinds {

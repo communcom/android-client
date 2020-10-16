@@ -11,11 +11,11 @@ import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentFtueFinishBinding
+import io.golos.cyber_android.ui.screens.ftue_finish.di.FtueFinishFragmentComponent
+import io.golos.cyber_android.ui.screens.ftue_finish.view_model.FtueFinishViewModel
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigationCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.ViewCommand
-import io.golos.cyber_android.ui.screens.ftue_finish.di.FtueFinishFragmentComponent
-import io.golos.cyber_android.ui.screens.ftue_finish.view_model.FtueFinishViewModel
 import io.golos.cyber_android.ui.shared.utils.navigate
 import kotlinx.android.synthetic.main.fragment_ftue_finish.*
 

@@ -4,7 +4,6 @@ import io.golos.domain.dto.CommentEntity
 import io.golos.domain.dto.FeedEntity
 import io.golos.domain.requestmodel.FeedUpdateRequest
 import io.golos.domain.rules.FeedUpdateRequestsWithResult
-import java.lang.UnsupportedOperationException
 import javax.inject.Inject
 
 interface CyberCommentsToEntityMapper : CommunToEntityMapper<FeedUpdateRequestsWithResult<FeedUpdateRequest>, FeedEntity<CommentEntity>>

@@ -1,7 +1,6 @@
 package io.golos.domain.posts_parsing_rendering.json_builder
 
 import io.golos.domain.posts_parsing_rendering.BlockType
-import org.bitcoinj.core.Block
 
 class JsonBuilderImpl private constructor(private val deviceInfo:String): JsonBuilder,
     JsonBuilderItems {

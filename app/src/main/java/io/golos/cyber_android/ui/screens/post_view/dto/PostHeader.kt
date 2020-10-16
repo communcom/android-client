@@ -1,7 +1,6 @@
 package io.golos.cyber_android.ui.screens.post_view.dto
 
 import io.golos.domain.dto.CommunityIdDomain
-import io.golos.domain.dto.RewardCurrency
 import java.util.*
 
 data class PostHeader(

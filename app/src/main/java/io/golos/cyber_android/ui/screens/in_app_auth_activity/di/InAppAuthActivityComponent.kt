@@ -1,9 +1,9 @@
 package io.golos.cyber_android.ui.screens.in_app_auth_activity.di
 
 import dagger.Subcomponent
+import io.golos.cyber_android.ui.screens.in_app_auth_activity.InAppAuthActivity
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.fingerprint.di.FingerprintAuthFragmentComponent
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.pin_code.di.PinCodeAuthFragmentComponent
-import io.golos.cyber_android.ui.screens.in_app_auth_activity.InAppAuthActivity
 import io.golos.domain.dependency_injection.scopes.ActivityScope
 
 @Subcomponent(modules = [

@@ -1,6 +1,5 @@
 package io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.pin_code.model
 
-import io.golos.domain.fingerprint.FingerprintAuthManager
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.shared.widgets.pin.Digit
 import io.golos.domain.DispatchersProvider
@@ -8,6 +7,7 @@ import io.golos.domain.Encryptor
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.StringsConverter
 import io.golos.domain.dependency_injection.Clarification
+import io.golos.domain.fingerprint.FingerprintAuthManager
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Named

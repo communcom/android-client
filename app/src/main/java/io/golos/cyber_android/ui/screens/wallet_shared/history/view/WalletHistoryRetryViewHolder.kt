@@ -2,7 +2,6 @@ package io.golos.cyber_android.ui.screens.wallet_shared.history.view
 
 import android.view.ViewGroup
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.screens.wallet_shared.history.view.WalletHistoryListItemEventsProcessor
 import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import kotlinx.android.synthetic.main.view_wallet_history_retry_list_item.view.*

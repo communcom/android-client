@@ -3,7 +3,6 @@ package io.golos.cyber_android.ui.screens.notifications.mappers
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.*
 import io.golos.domain.dto.notifications.*
 import io.golos.utils.id.IdUtil
-import java.lang.UnsupportedOperationException
 
 fun NotificationDomain.mapToVersionedListItem(): BaseNotificationItem {
     return when(this){

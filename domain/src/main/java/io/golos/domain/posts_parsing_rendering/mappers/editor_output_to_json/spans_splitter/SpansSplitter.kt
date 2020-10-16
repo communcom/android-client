@@ -4,7 +4,6 @@ import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.LinkS
 import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.MentionSpanInfo
 import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.ParagraphMetadata
 import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.TagSpanInfo
-import java.lang.UnsupportedOperationException
 
 class SpansSplitter {
     fun split(metadata: ParagraphMetadata): List<SplittedItem> {

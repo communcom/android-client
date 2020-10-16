@@ -14,7 +14,6 @@ import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentMyFeedBinding
 import io.golos.cyber_android.ui.dialogs.SelectRewardCurrencyDialog
 import io.golos.cyber_android.ui.dialogs.donation.DonationUsersDialog
-import io.golos.cyber_android.ui.dto.DonateType
 import io.golos.cyber_android.ui.dto.Post
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
 import io.golos.cyber_android.ui.screens.donate_send_points.view.DonateSendPointsFragment
@@ -41,7 +40,10 @@ import io.golos.cyber_android.ui.shared.utils.openLinkView
 import io.golos.cyber_android.ui.shared.utils.shareMessage
 import io.golos.cyber_android.ui.shared.widgets.post_comments.items.PostItem
 import io.golos.domain.commun_entities.Permlink
-import io.golos.domain.dto.*
+import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.ContentIdDomain
+import io.golos.domain.dto.RewardCurrency
+import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import kotlinx.android.synthetic.main.fragment_my_feed.*
 import kotlinx.android.synthetic.main.view_search_bar.*

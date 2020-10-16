@@ -9,11 +9,11 @@ import android.os.Build
 import android.text.Layout
 import android.text.StaticLayout
 import android.text.TextPaint
-import io.golos.pdf_renderer.page_size.PageSize
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.qrcode.QRCodeWriter
 import io.golos.pdf_renderer.document_params.*
+import io.golos.pdf_renderer.page_size.PageSize
 import kotlin.math.roundToInt
 
 

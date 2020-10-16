@@ -2,7 +2,6 @@ package io.golos.cyber_android.ui.di
 
 import dagger.Module
 import dagger.Provides
-import io.golos.cyber_android.BuildConfig
 import io.golos.domain.use_cases.model.TestPassProvider
 
 @Module

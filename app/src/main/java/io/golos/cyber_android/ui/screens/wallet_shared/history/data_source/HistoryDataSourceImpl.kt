@@ -2,9 +2,6 @@ package io.golos.cyber_android.ui.screens.wallet_shared.history.data_source
 
 import android.annotation.SuppressLint
 import android.content.Context
-import io.golos.commun4j.services.model.TransferHistoryDirection
-import io.golos.commun4j.services.model.TransferHistoryHoldType
-import io.golos.commun4j.services.model.TransferHistoryTransferType
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.wallet_shared.getDisplayName
 import io.golos.cyber_android.ui.screens.wallet_shared.history.dto.*
@@ -18,14 +15,14 @@ import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.HistoryFilterDomain
 import io.golos.domain.dto.WalletTransferHistoryRecordDomain
-import io.golos.utils.id.toLongId
 import io.golos.utils.dates_local_now_calculator.DateCommonBase
 import io.golos.utils.dates_local_now_calculator.ServerLocalNowDatesCalculator
+import io.golos.utils.helpers.capitalize
+import io.golos.utils.id.toLongId
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
-import io.golos.utils.helpers.capitalize
 
 class HistoryDataSourceImpl
 @Inject

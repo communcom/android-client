@@ -7,7 +7,6 @@ import io.golos.domain.repositories.AuthRepository
 import io.golos.use_cases.auth.AuthUseCase
 import io.golos.use_cases.sign_up.core.data_structs.*
 import io.golos.use_cases.sign_up.transitions.*
-import java.lang.UnsupportedOperationException
 import javax.inject.Inject
 import kotlin.reflect.KClass
 

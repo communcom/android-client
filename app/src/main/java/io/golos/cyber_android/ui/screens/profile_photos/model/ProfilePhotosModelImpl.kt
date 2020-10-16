@@ -2,13 +2,13 @@ package io.golos.cyber_android.ui.screens.profile_photos.model
 
 import android.net.Uri
 import dagger.Lazy
-import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
-import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.profile_photos.dto.CameraGridItem
 import io.golos.cyber_android.ui.screens.profile_photos.dto.PhotoGridItem
 import io.golos.cyber_android.ui.screens.profile_photos.dto.PhotoViewImageInfo
 import io.golos.cyber_android.ui.screens.profile_photos.model.gallery_items_source.GalleryItemsSource
 import io.golos.cyber_android.ui.screens.profile_photos.model.result_bitmap_calculator.ResultBitmapCalculator
+import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.BitmapsUtils
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.FileSystemHelper

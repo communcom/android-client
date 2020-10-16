@@ -21,13 +21,16 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RestrictTo;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
+
 import com.google.android.material.tabs.TabLayout;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
 
 import static androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP;
-import static androidx.viewpager2.widget.ViewPager2.*;
+import static androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_DRAGGING;
+import static androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_IDLE;
+import static androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_SETTLING;
 
 /**
  * A mediator to link a TabLayout with a ViewPager2. The mediator will synchronize the ViewPager2's

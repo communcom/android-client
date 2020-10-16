@@ -5,8 +5,8 @@ import android.util.AttributeSet
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.screens.communities_list.view.list.CommunityListItemEventsProcessor
+import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.domain.GlobalConstants
 import kotlinx.android.synthetic.main.fragment_communities_select_dialog_list.view.*
 

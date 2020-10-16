@@ -4,7 +4,6 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import androidx.fragment.app.Fragment
-import io.golos.cyber_android.ui.shared.base.ActivityBase
 import timber.log.Timber
 
 

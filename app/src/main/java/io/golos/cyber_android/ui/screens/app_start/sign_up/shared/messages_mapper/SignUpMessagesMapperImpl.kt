@@ -2,7 +2,6 @@ package io.golos.cyber_android.ui.screens.app_start.sign_up.shared.messages_mapp
 
 import android.content.Context
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.screens.app_start.sign_up.shared.messages_mapper.SignUpMessagesMapper
 import io.golos.use_cases.sign_up.core.data_structs.SignUpMessageCode
 import javax.inject.Inject
 

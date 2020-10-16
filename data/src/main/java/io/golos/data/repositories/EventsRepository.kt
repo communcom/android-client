@@ -5,14 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import io.golos.commun4j.services.model.EventType
 import io.golos.data.api.events.EventsApi
 import io.golos.domain.DispatchersProvider
-import io.golos.domain.repositories.Repository
 import io.golos.domain.dto.EventTypeEntity
 import io.golos.domain.dto.EventsListDataWithQuery
 import io.golos.domain.dto.EventsListEntity
+import io.golos.domain.mappers.EventsToEntityMapper
+import io.golos.domain.repositories.Repository
 import io.golos.domain.requestmodel.EventsFeedUpdateRequest
 import io.golos.domain.requestmodel.Identifiable
 import io.golos.domain.requestmodel.QueryResult
-import io.golos.domain.mappers.EventsToEntityMapper
 import io.golos.domain.rules.EntityMerger
 import io.golos.domain.rules.RequestApprover
 import kotlinx.coroutines.*

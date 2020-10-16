@@ -5,9 +5,9 @@ import androidx.lifecycle.ViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
-import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelKey
 import io.golos.cyber_android.ui.screens.post_edit.fragment.model.EditorPageModel
 import io.golos.cyber_android.ui.screens.post_edit.fragment.view_model.EditorPageViewModel
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelKey
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
 import io.golos.domain.dto.CommentEntity

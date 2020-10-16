@@ -1,24 +1,24 @@
 package io.golos.cyber_android.application
 
+//import io.golos.cyber_android.ui.screens.login_sign_up_select_method.social_network_auth_providers.FacebookAuthProvider
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatDelegate
 import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.R
-import io.golos.cyber_android.application.di_storage.DependencyInjectionStorage
 import io.golos.cyber_android.application.di.AppComponent
+import io.golos.cyber_android.application.di_storage.DependencyInjectionStorage
+import io.golos.cyber_android.application.shared.logger.ClickableTree
 import io.golos.cyber_android.services.firebase.notifications.popup_manager.FirebaseNotificationPopupManager
 import io.golos.domain.GlobalConstants
 import io.golos.domain.KeyValueStorageFacade
-//import io.golos.cyber_android.ui.screens.login_sign_up_select_method.social_network_auth_providers.FacebookAuthProvider
 import io.golos.domain.LogTags
 import io.golos.domain.analytics.AnalyticsFacade
 import io.golos.utils.id.IdUtil
 import timber.log.Timber
 import zerobranch.androidremotedebugger.AndroidRemoteDebugger
 import javax.inject.Inject
-import io.golos.cyber_android.application.shared.logger.ClickableTree
 
 class App : Application() {
     @Suppress("PropertyName")

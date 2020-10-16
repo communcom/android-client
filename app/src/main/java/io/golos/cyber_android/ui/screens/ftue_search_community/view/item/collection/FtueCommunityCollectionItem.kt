@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import io.golos.cyber_android.R
-import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.screens.ftue_search_community.model.FtueItemListModelEventProcessor
 import io.golos.cyber_android.ui.screens.ftue_search_community.model.item.collection.FtueCommunityCollectionListItem
+import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import kotlinx.android.synthetic.main.item_community_collection.view.*
 
 class FtueCommunityCollectionItem(

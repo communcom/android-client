@@ -2,8 +2,6 @@ package io.golos.cyber_android.ui.screens.wallet_shared.history.view
 
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
-import io.golos.cyber_android.ui.shared.extensions.parentActivity
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 
 @BindingAdapter("wallet_history_page_size")

@@ -6,8 +6,6 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.view.View
 import android.widget.ImageView
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.TransferNotificationItem
 import io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.content_rendering.view.NotificationView
@@ -15,13 +13,13 @@ import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsV
 import io.golos.cyber_android.ui.shared.glide.loadCommunity
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
 import io.golos.cyber_android.ui.shared.utils.getFormattedString
+import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dto.UserIdDomain
 import io.golos.utils.format.CurrencyFormatter
 import io.golos.utils.helpers.SPACE
 import io.golos.utils.helpers.appendText
 import io.golos.utils.helpers.setSpan
-import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
 
 class NotificationContentRenderedTransfer(viewDescription: NotificationView) : NotificationContentRenderedBase<TransferNotificationItem>(viewDescription) {
     override fun init(listItem: TransferNotificationItem, listItemEventsProcessor: NotificationsViewModelListEventsProcessor) {

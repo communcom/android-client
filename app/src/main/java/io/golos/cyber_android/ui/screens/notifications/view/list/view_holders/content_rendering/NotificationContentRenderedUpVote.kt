@@ -5,8 +5,6 @@ import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.view.View
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.mappers.mapToContentId
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.UpVoteNotificationItem
@@ -14,12 +12,12 @@ import io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.co
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModelListEventsProcessor
 import io.golos.cyber_android.ui.shared.glide.loadNotificationImageContent
 import io.golos.cyber_android.ui.shared.spans.ColorTextClickableSpan
+import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
 import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.utils.helpers.SPACE
 import io.golos.utils.helpers.appendText
 import io.golos.utils.helpers.setSpan
-import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
 
 class NotificationContentRenderedUpVote(viewDescription: NotificationView) : NotificationContentRenderedBase<UpVoteNotificationItem>(viewDescription) {
     override val notificationTypeLabelResId: Int = R.drawable.ic_up_vote_label

@@ -5,11 +5,11 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import io.golos.commun4j.sharedmodel.CyberName
-import io.golos.domain.repositories.Repository
 import io.golos.domain.dto.UserMetadataCollectionEntity
+import io.golos.domain.repositories.Repository
+import io.golos.domain.requestmodel.*
 import io.golos.domain.use_cases.UseCase
 import io.golos.domain.use_cases.model.*
-import io.golos.domain.requestmodel.*
 import javax.inject.Inject
 
 /**

@@ -1,7 +1,6 @@
 package io.golos.cyber_android.ui.screens.community_get_points
 
 import android.os.Bundle
-import android.view.View
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentWalletConvertBinding
 import io.golos.cyber_android.ui.screens.community_get_points.di.GetCommunityPointsFragmentComponent

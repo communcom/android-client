@@ -1,13 +1,13 @@
 package io.golos.cyber_android.ui.screens.post_view.model.voting.post
 
 import io.golos.cyber_android.ui.screens.post_view.model.post_list_data_source.PostListDataSource
-import io.golos.use_cases.voting.VotingUseCaseImplBase
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.PostDomain
 import io.golos.domain.dto.UserIdDomain
 import io.golos.domain.dto.VotesDomain
 import io.golos.domain.repositories.DiscussionRepository
+import io.golos.use_cases.voting.VotingUseCaseImplBase
 import javax.inject.Inject
 
 class PostPageVotingUseCaseImpl

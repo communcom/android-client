@@ -1,7 +1,6 @@
 package io.golos.cyber_android.ui.screens.profile.model.notifications_settings
 
 import io.golos.domain.dto.notifications.NotificationSettingsDomain
-import java.lang.UnsupportedOperationException
 import javax.inject.Inject
 
 class NotificationsSettingsFacadeExternalUserImpl

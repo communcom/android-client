@@ -1,11 +1,8 @@
 package io.golos.cyber_android.ui.screens.profile_followers.model.lists_workers
 
 import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.screens.profile_followers.dto.UserListItem
 import io.golos.cyber_android.ui.shared.extensions.getMessage
-import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.paging.LoadedItemsPagedListBase
 import io.golos.domain.dto.ErrorInfoDomain
 import io.golos.domain.dto.UserIdDomain

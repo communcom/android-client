@@ -5,9 +5,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
-import io.golos.cyber_android.ui.screens.app_start.sign_up.phone.dto.NavigateToSelectSignUpMethodCommand
 import io.golos.cyber_android.ui.screens.app_start.sign_in.pin.dto.NavigateToFingerprintCommand
 import io.golos.cyber_android.ui.screens.app_start.sign_in.pin.view.SignInPinCodeFragment
+import io.golos.cyber_android.ui.screens.app_start.sign_up.phone.dto.NavigateToSelectSignUpMethodCommand
 import io.golos.cyber_android.ui.screens.app_start.sign_up.pin.di.SignUpPinCodeFragmentComponent
 import io.golos.cyber_android.ui.screens.app_start.sign_up.pin.view_model.SignUpPinCodeViewModel
 import io.golos.cyber_android.ui.screens.main_activity.MainActivity

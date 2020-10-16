@@ -1,8 +1,8 @@
 package io.golos.domain.posts_parsing_rendering.mappers.json_to_dto.mappers
 
-import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.VideoBlock
 import io.golos.domain.posts_parsing_rendering.Attribute
 import io.golos.domain.posts_parsing_rendering.CommonType
+import io.golos.domain.posts_parsing_rendering.post_metadata.post_dto.VideoBlock
 import org.json.JSONObject
 
 class VideoMapper(mappersFactory: MappersFactory): MapperBase<VideoBlock>(mappersFactory) {

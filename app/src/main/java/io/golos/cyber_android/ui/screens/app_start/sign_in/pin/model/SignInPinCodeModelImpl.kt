@@ -1,13 +1,13 @@
 package io.golos.cyber_android.ui.screens.app_start.sign_in.pin.model
 
 import io.golos.cyber_android.ui.screens.app_start.sign_in.pin.model.pin_code_storage.PinCodesStorage
-import io.golos.domain.fingerprint.FingerprintAuthManager
+import io.golos.domain.DispatchersProvider
 import io.golos.domain.Encryptor
 import io.golos.domain.KeyValueStorageFacade
 import io.golos.domain.StringsConverter
-import io.golos.domain.DispatchersProvider
 import io.golos.domain.dependency_injection.Clarification
 import io.golos.domain.dto.AppUnlockWay
+import io.golos.domain.fingerprint.FingerprintAuthManager
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject

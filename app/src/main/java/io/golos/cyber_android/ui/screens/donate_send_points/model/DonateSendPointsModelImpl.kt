@@ -9,7 +9,10 @@ import io.golos.cyber_android.ui.shared.broadcast_actions_registries.PostUpdateR
 import io.golos.data.repositories.wallet.WalletRepository
 import io.golos.domain.GlobalConstants
 import io.golos.domain.dependency_injection.Clarification
-import io.golos.domain.dto.*
+import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.ContentIdDomain
+import io.golos.domain.dto.UserBriefDomain
+import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import io.golos.domain.repositories.GlobalSettingsRepository
 import javax.inject.Inject
 import javax.inject.Named

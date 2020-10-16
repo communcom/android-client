@@ -2,7 +2,6 @@ package io.golos.data
 
 import androidx.lifecycle.MutableLiveData
 import io.golos.commun4j.sharedmodel.CyberName
-import io.golos.domain.dto.CyberUser
 import io.golos.domain.dto.UserIdDomain
 
 /**

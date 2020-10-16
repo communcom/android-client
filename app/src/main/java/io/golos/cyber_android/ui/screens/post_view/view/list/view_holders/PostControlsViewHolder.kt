@@ -1,14 +1,11 @@
 package io.golos.cyber_android.ui.screens.post_view.view.list.view_holders
 
-import android.view.View
 import android.view.ViewGroup
 import io.golos.cyber_android.R
-import io.golos.utils.format.KiloCounterFormatter
-import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
 import io.golos.cyber_android.ui.screens.post_view.dto.post_list_items.PostControlsListItem
 import io.golos.cyber_android.ui.screens.post_view.view_model.PostPageViewModelListEventsProcessor
-import io.golos.cyber_android.ui.shared.widgets.post_comments.donation.DonatePersonsPopup
-import io.golos.utils.helpers.positiveValue
+import io.golos.cyber_android.ui.shared.recycler_view.ViewHolderBase
+import io.golos.utils.format.KiloCounterFormatter
 import kotlinx.android.synthetic.main.item_post_controls.view.*
 import kotlinx.android.synthetic.main.item_post_controls.view.votesArea
 import kotlinx.android.synthetic.main.view_post_voting.view.*

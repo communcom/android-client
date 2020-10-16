@@ -1,19 +1,16 @@
 package io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.content_rendering
 
 import android.text.SpannableStringBuilder
-import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.widget.ImageView
-import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.screens.notifications.view.list.items.ReferralRegistrationBonusNotificationItem
 import io.golos.cyber_android.ui.screens.notifications.view.list.view_holders.content_rendering.view.NotificationView
 import io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModelListEventsProcessor
+import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
 import io.golos.utils.format.CurrencyFormatter
 import io.golos.utils.helpers.appendSpannedText
 import io.golos.utils.helpers.capitalize
-import androidx.appcompat.app.AppCompatDelegate
-import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
 
 class NotificationContentRendererReferralRegistrationBonus(
     viewDescription: NotificationView

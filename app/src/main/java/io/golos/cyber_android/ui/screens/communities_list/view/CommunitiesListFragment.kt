@@ -1,17 +1,22 @@
 package io.golos.cyber_android.ui.screens.communities_list.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
 import io.golos.cyber_android.databinding.FragmentCommunitiesBinding
+import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
 import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentComponent
 import io.golos.cyber_android.ui.screens.communities_list.view.list.CommunityListAdapter
+import io.golos.cyber_android.ui.screens.communities_list.view.view_commands.ShowUnblockDialogCommand
 import io.golos.cyber_android.ui.screens.communities_list.view_model.CommunitiesListViewModel
 import io.golos.cyber_android.ui.screens.community_page.view.CommunityPageFragment
+import io.golos.cyber_android.ui.shared.Tags
 import io.golos.cyber_android.ui.shared.mvvm.FragmentBaseMVVM
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateBackwardCommand
 import io.golos.cyber_android.ui.shared.mvvm.view_commands.NavigateToCommunityPageCommand
@@ -21,11 +26,6 @@ import io.golos.cyber_android.ui.shared.utils.CommunitiesListDividerDecoration
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.UserIdDomain
 import kotlinx.android.synthetic.main.fragment_communities.*
-import android.content.Intent
-import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
-import io.golos.cyber_android.ui.screens.communities_list.view.view_commands.ShowUnblockDialogCommand
-import io.golos.cyber_android.ui.shared.Tags
-import androidx.lifecycle.Observer
 
 open class CommunitiesListFragment : FragmentBaseMVVM<FragmentCommunitiesBinding, CommunitiesListViewModel>() {
     companion object {

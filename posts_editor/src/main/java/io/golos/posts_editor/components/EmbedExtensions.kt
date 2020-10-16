@@ -16,13 +16,16 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.EmbedMetadata
+import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.EmbedType
 import io.golos.posts_editor.EditorComponent
 import io.golos.posts_editor.EditorCore
 import io.golos.posts_editor.R
 import io.golos.posts_editor.components.input.edit_text.CustomEditText
-import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.EmbedType
-import io.golos.posts_editor.models.*
-import io.golos.domain.posts_parsing_rendering.post_metadata.editor_output.EmbedMetadata
+import io.golos.posts_editor.models.EditorContent
+import io.golos.posts_editor.models.EditorType
+import io.golos.posts_editor.models.Node
+import io.golos.posts_editor.models.RenderType
 import org.jsoup.nodes.Element
 import java.util.*
 

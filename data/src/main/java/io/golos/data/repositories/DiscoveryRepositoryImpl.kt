@@ -1,12 +1,9 @@
 package io.golos.data.repositories
 
 import io.golos.commun4j.Commun4j
-import io.golos.commun4j.services.model.*
+import io.golos.commun4j.services.model.ExtendedRequestSearchItem
+import io.golos.commun4j.services.model.ExtendedSearchResponse
 import io.golos.data.repositories.network_call.NetworkCallProxy
-import io.golos.domain.DispatchersProvider
-import io.golos.domain.KeyValueStorageFacade
-import io.golos.domain.UserKeyStore
-import io.golos.domain.repositories.CurrentUserRepositoryRead
 import io.golos.domain.repositories.DiscoveryRepository
 import javax.inject.Inject
 

@@ -1,12 +1,12 @@
 package io.golos.cyber_android.ui.shared.utils
 
+import android.content.Context
 import android.content.res.Resources
 import android.util.TypedValue
 import androidx.annotation.AttrRes
 import androidx.annotation.StringRes
 import io.golos.cyber_android.application.App
 import java.text.MessageFormat
-import android.content.Context
 
 fun Resources.getFormattedString(@StringRes resId: Int, vararg args: Any): String {
     return MessageFormat.format(getString(resId), *args)

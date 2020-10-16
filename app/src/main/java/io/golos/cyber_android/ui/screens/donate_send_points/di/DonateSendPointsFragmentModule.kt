@@ -3,7 +3,10 @@ package io.golos.cyber_android.ui.screens.donate_send_points.di
 import dagger.Module
 import dagger.Provides
 import io.golos.domain.dependency_injection.Clarification
-import io.golos.domain.dto.*
+import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.ContentIdDomain
+import io.golos.domain.dto.UserBriefDomain
+import io.golos.domain.dto.WalletCommunityBalanceRecordDomain
 import javax.inject.Named
 
 @Module

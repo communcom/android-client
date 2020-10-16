@@ -17,8 +17,8 @@ import io.golos.domain.validation.user_name.UserNameValidator
 import io.golos.domain.validation.user_name.UserNameValidatorImpl
 import io.golos.use_cases.auth.AuthUseCase
 import io.golos.use_cases.auth.AuthUseCaseImpl
-import io.golos.use_cases.sign_up.core.SignUpCoreManagement
 import io.golos.use_cases.sign_up.core.SignUpCoreImpl
+import io.golos.use_cases.sign_up.core.SignUpCoreManagement
 import io.golos.use_cases.sign_up.core.SignUpCoreView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview

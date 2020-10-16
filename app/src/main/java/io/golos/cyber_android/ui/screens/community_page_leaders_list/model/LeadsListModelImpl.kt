@@ -5,10 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.ui.screens.community_page_leaders_list.dto.*
 import io.golos.cyber_android.ui.shared.mvvm.model.ModelBaseImpl
 import io.golos.cyber_android.ui.shared.recycler_view.versioned.VersionedListItem
-import io.golos.domain.repositories.exceptions.ApiResponseErrorException
 import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.CommunityLeaderDomain
 import io.golos.domain.dto.UserIdDomain
+import io.golos.domain.repositories.exceptions.ApiResponseErrorException
 import io.golos.domain.use_cases.community.CommunitiesRepository
 import io.golos.utils.id.IdUtil
 import timber.log.Timber

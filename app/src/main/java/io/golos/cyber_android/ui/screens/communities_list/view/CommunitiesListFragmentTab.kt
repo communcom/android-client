@@ -1,14 +1,14 @@
 package io.golos.cyber_android.ui.screens.communities_list.view
 
+import android.content.Intent
 import android.os.Bundle
+import io.golos.cyber_android.R
 import io.golos.cyber_android.application.App
+import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
 import io.golos.cyber_android.ui.screens.communities_list.di.CommunitiesListFragmentTabComponent
-import io.golos.domain.dto.UserIdDomain
 import io.golos.cyber_android.ui.shared.Tags.MENU
 import io.golos.domain.dto.CommunityIdDomain
-import io.golos.cyber_android.ui.dialogs.ConfirmationDialog
-import io.golos.cyber_android.R
-import android.content.Intent
+import io.golos.domain.dto.UserIdDomain
 
 /**
  * Communities list for tabs on [MainActivity]

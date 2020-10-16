@@ -4,14 +4,14 @@ import android.content.Context
 import androidx.annotation.StringRes
 import androidx.lifecycle.MutableLiveData
 import io.golos.cyber_android.R
-import io.golos.utils.getColorRes
-import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.fingerprint.model.FingerprintAuthModel
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.view_commands.AuthSuccessCommand
 import io.golos.cyber_android.ui.screens.in_app_auth_activity.view_commands.SwitchToPinCodeCommand
+import io.golos.cyber_android.ui.shared.mvvm.viewModel.ViewModelBase
 import io.golos.cyber_android.ui.shared.utils.getStyledAttribute
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.fingerprint.*
+import io.golos.utils.getColorRes
 import javax.inject.Inject
 
 class FingerprintAuthViewModel

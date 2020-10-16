@@ -7,10 +7,9 @@ import androidx.core.content.ContextCompat
 import io.golos.cyber_android.R
 import io.golos.cyber_android.ui.dto.DonateType
 import io.golos.cyber_android.ui.dto.Post
-import io.golos.cyber_android.ui.shared.widgets.post_comments.donation.DonatePersonsPopup
-import io.golos.domain.dto.*
-import io.golos.utils.format.CurrencyFormatter
-import kotlinx.android.synthetic.main.item_post_content.view.*
+import io.golos.domain.dto.CommunityIdDomain
+import io.golos.domain.dto.ContentIdDomain
+import io.golos.domain.dto.UserBriefDomain
 import kotlinx.android.synthetic.main.view_donation_post.view.*
 
 class DonationPanelWidget

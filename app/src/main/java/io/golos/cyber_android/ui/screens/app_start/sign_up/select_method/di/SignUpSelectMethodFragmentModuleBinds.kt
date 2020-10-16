@@ -3,8 +3,8 @@ package io.golos.cyber_android.ui.screens.app_start.sign_up.select_method.di
 import dagger.Binds
 import dagger.Module
 import io.golos.cyber_android.ui.screens.app_start.sign_up.select_method.social_network_auth_providers.FacebookAuthProvider
-import io.golos.cyber_android.ui.screens.app_start.sign_up.select_method.social_network_auth_providers.SocialNetworkAuthProvider
 import io.golos.cyber_android.ui.screens.app_start.sign_up.select_method.social_network_auth_providers.GoogleAuthProvider
+import io.golos.cyber_android.ui.screens.app_start.sign_up.select_method.social_network_auth_providers.SocialNetworkAuthProvider
 import io.golos.domain.dependency_injection.Clarification
 import javax.inject.Named
 

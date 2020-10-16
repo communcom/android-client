@@ -4,6 +4,7 @@ import android.net.Uri
 import com.squareup.moshi.Moshi
 import io.golos.commun4j.services.model.OEmbedResult
 import io.golos.commun4j.sharedmodel.Either
+import io.golos.cyber_android.BuildConfig
 import io.golos.cyber_android.ui.screens.post_edit.fragment.dto.ExternalLinkError
 import io.golos.cyber_android.ui.screens.post_edit.fragment.dto.ExternalLinkInfo
 import io.golos.cyber_android.ui.screens.post_edit.fragment.dto.ExternalLinkType
@@ -18,6 +19,7 @@ import io.golos.data.repositories.embed.EmbedRepository
 import io.golos.data.repositories.images_uploading.ImageUploadRepository
 import io.golos.domain.DispatchersProvider
 import io.golos.domain.commun_entities.Permlink
+import io.golos.domain.dto.*
 import io.golos.domain.dto.block.ContentBlockEntity
 import io.golos.domain.dto.block.ListContentBlockEntity
 import io.golos.domain.posts_parsing_rendering.mappers.editor_output_to_json.EditorOutputToJsonMapper
@@ -34,8 +36,6 @@ import timber.log.Timber
 import java.io.File
 import java.net.URI
 import javax.inject.Inject
-import io.golos.cyber_android.BuildConfig
-import io.golos.domain.dto.*
 
 class EditorPageModelImpl
 @Inject
