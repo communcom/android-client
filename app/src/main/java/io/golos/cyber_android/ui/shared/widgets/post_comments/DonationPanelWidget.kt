@@ -11,6 +11,7 @@ import io.golos.domain.dto.CommunityIdDomain
 import io.golos.domain.dto.ContentIdDomain
 import io.golos.domain.dto.UserBriefDomain
 import kotlinx.android.synthetic.main.view_donation_post.view.*
+import android.view.View
 
 class DonationPanelWidget
 @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : ConstraintLayout(context, attrs, defStyleAttr) {
@@ -21,6 +22,15 @@ class DonationPanelWidget
     }
 
     fun setAmount(post: Post) {
+        if (post.isMyPost) {
+            this.visibility = View.GONE
+            if (post.donation != null) {
+                if (post.donation.donators.isNotEmpty()) {
+                    this.visibility = View.VISIBLE
+                    vDonate.visibility = View.GONE
+                }
+            }
+        } else this.visibility = View.VISIBLE
         post.donation?.let { domain ->
             if (domain.donators.size == 1) {
                 vDonateUserInfo.text = domain.donators[0].person.username

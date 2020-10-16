@@ -46,6 +46,12 @@ class SecondLevelCommentViewHolder(
     override val _rootView: View
         get() = itemView
 
+    override val _commentUserName: TextView
+        get() = itemView.commentUserName
+
+    override val _donateCoin: ImageView
+        get() = itemView.vIconCoin
+
     override fun inject() = App.injections.getBase<PostPageFragmentComponent>().inject(this)
 
     override fun init(listItem: SecondLevelCommentListItem, listItemEventsProcessor: PostPageViewModelListEventsProcessor) {

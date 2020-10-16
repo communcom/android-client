@@ -68,6 +68,10 @@ abstract class CommentViewHolderBase<T : CommentListItem>(parentView: ViewGroup,
 
     abstract val _donateText: TextView
 
+    abstract val _commentUserName: TextView
+
+    abstract val _donateCoin: ImageView
+
     abstract val _processingProgress: ProgressBar
 
     abstract val _warning: ImageView
@@ -87,6 +91,20 @@ abstract class CommentViewHolderBase<T : CommentListItem>(parentView: ViewGroup,
             }
             true
         }
+        _commentUserName.text= listItem.author.username
+        listItem.donations?.run {
+            _donateCoin.visibility=View.VISIBLE
+        }?: run {
+            _donateCoin.visibility=View.GONE
+        }
+        if(!listItem.isMyComment){
+            _donateText.text =
+                getDonate(itemView.context.applicationContext.resources.getString(R.string.donate), itemView.context.applicationContext)
+            _donateText.setOnClickListener {
+                listItemEventsProcessor.onDonateClick(DonateType.DONATE_OTHER, listItem.externalId, listItem.externalId.communityId, listItem.author)
+            }
+        }
+
         setupCommentContent(listItem, listItemEventsProcessor, longClickListener)
 
         itemView.setOnLongClickListener(longClickListener)
@@ -95,11 +113,7 @@ abstract class CommentViewHolderBase<T : CommentListItem>(parentView: ViewGroup,
         _replyAndTimeText.setOnClickListener {
             listItemEventsProcessor.startReplyToComment(listItem.externalId)
         }
-        _donateText.text =
-            getDonate(itemView.context.applicationContext.resources.getString(R.string.donate), itemView.context.applicationContext)
-        _donateText.setOnClickListener {
-            listItemEventsProcessor.onDonateClick(DonateType.DONATE_OTHER, listItem.externalId, listItem.externalId.communityId, listItem.author)
-        }
+
         _userAvatar.setOnClickListener { listItemEventsProcessor.onUserClicked(listItem.author.userId.userId) }
 
         setupVoting(listItem, listItemEventsProcessor)
@@ -344,13 +358,13 @@ abstract class CommentViewHolderBase<T : CommentListItem>(parentView: ViewGroup,
         }, bulletInterval)
 
 
-        val userNameTextColor = ContextCompat.getColor(context, R.color.post_header_user_name_text)
-        val userNameInterval = result.appendText(donate)
-        result.setSpan(object : ColorTextClickableSpan(donate, userNameTextColor) {
+        val donateTextColor = ContextCompat.getColor(context, R.color.post_header_user_name_text)
+        val donateInterval = result.appendText(donate)
+        result.setSpan(object : ColorTextClickableSpan(donate, donateTextColor) {
             override fun onClick(widget: View) {
 
             }
-        }, userNameInterval)
+        }, donateInterval)
 
         return result
     }
