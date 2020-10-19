@@ -714,4 +714,23 @@
     <string name="no_donate">No donations</string>
     <string name="no_have_donate_yet">That post don’t have donations yet</string>
 
+    <string name="comments">Comments</string>
+    <string name="archive">Archive</string>
+
+    <string name="reports">Reports</string>
+    <string name="blocked_users">Blocked Users</string>
+    <string name="proposals">Proposals</string>
+    <string name="propose_to_ban">Propose to ban</string>
+    <string name="accept">Accept</string>
+    <string name="reject">Reject</string>
+    <string name="update_cover">Cover update</string>
+    <string name="old_cover">Old cover</string>
+    <string name="new_cover">New cover</string>
+    <string name="from">from</string>
+    <string name="exparing_in">Expiring in</string>
+    <string name="members_reports">members</string>
+    <string name="no_reports">No reports</string>
+    <string name="no_reports_comment">There are no reports in the community</string>
+    <string name="no_reports_post">There are no reports in the post</string>
+
 </resources>

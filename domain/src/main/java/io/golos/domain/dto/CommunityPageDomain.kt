@@ -18,7 +18,11 @@ data class CommunityPageDomain(
     val leadsCount: Int,
     val communityCurrency: CommunityPageCurrencyDomain,
     val joinDate: Date,
-    val alias: String?
+    val alias: String?,
+    val postsCount:Int,
+    val isLeader:Boolean,
+    val reportCount:Int,
+    val proposalCount:Int
 ) {
 
     data class CommunityFriendDomain(

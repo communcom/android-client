@@ -37,7 +37,7 @@
                     app:titleEnabled="false"
                     app:toolbarId="@id/communities_toolbar">
 
-                    <FrameLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -55,9 +55,10 @@
                             android:layout_width="@dimen/post_viewer_header_tool_button_size"
                             android:layout_height="@dimen/post_viewer_header_tool_button_size"
 
+                            android:layout_alignParentStart="true"
                             android:layout_marginStart="@dimen/post_viewer_header_horizontal_margin"
-                            android:layout_marginTop="40dp"
 
+                            android:layout_marginTop="40dp"
                             android:background="@null"
                             app:imageButton_icon="@drawable/ic_left_arrow"
                             app:imageButton_iconInscribeSize="@dimen/post_viewer_header_tool_button_icon_size"
@@ -69,14 +70,34 @@
                             android:layout_width="@dimen/post_viewer_header_tool_button_size"
                             android:layout_height="@dimen/post_viewer_header_tool_button_size"
 
-                            android:layout_gravity="end"
+                            android:layout_alignParentEnd="true"
 
+                            android:layout_gravity="end"
                             android:layout_marginTop="40dp"
                             android:layout_marginEnd="@dimen/post_viewer_header_horizontal_margin"
 
                             android:background="@null"
                             android:onClick='@{()->viewModel.onCommunitySettingsClick()}'
                             app:imageButton_icon="@drawable/ic_menu_options"
+                            app:imageButton_iconInscribeSize="@dimen/post_viewer_header_tool_button_icon_size" />
+
+                        <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+                            android:id="@+id/ivCommunityLeaderSettings"
+
+                            android:layout_width="@dimen/post_viewer_header_tool_button_size"
+                            android:layout_height="@dimen/post_viewer_header_tool_button_size"
+
+                            android:layout_gravity="end"
+
+                            android:layout_marginTop="40dp"
+                            android:layout_marginEnd="@dimen/post_viewer_header_horizontal_margin"
+                            app:imageButton_tint="?attr/grayWhite"
+                            android:layout_toStartOf="@id/ivCommunitySettings"
+                            android:background="@null"
+
+                            android:onClick='@{()->viewModel.onLeaderSettingsClick()}'
+                            android:visibility="@{viewModel.leaderBoardVisibility}"
+                            app:imageButton_icon="@drawable/ic_settings"
                             app:imageButton_iconInscribeSize="@dimen/post_viewer_header_tool_button_icon_size" />
 
                         <androidx.constraintlayout.widget.ConstraintLayout
@@ -167,6 +188,17 @@
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
 
+                            <include
+                                android:id="@+id/report_actions"
+                                layout="@layout/layout_community_report_actions"
+                                android:layout_width="match_parent"
+                                android:layout_height="?actionBarSize"
+                                android:visibility="@{viewModel.leaderBoardVisibility}"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/clHeaderMembers" />
+
                             <androidx.cardview.widget.CardView
                                 android:id="@+id/cvBalanceDescription"
                                 style="@style/CommunityPageBalance"
@@ -180,7 +212,7 @@
 
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/clHeaderMembers"
+                                app:layout_constraintTop_toBottomOf="@+id/report_actions"
                                 tools:visibility="visible">
 
                                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -252,7 +284,7 @@
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    </FrameLayout>
+                    </RelativeLayout>
 
                     <androidx.appcompat.widget.Toolbar
                         android:id="@+id/communities_toolbar"
@@ -307,6 +339,24 @@
                                 android:background="@null"
                                 android:onClick="@{() -> viewModel.onCommunitySettingsClick()}"
                                 app:imageButton_icon="@drawable/ic_menu_options"
+                                app:imageButton_iconInscribeSize="@dimen/profile_menu_button_icon_size"
+                                app:imageButton_tint="@color/white" />
+
+                            <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+                                android:id="@+id/toolbar_leader_settings"
+                                android:layout_width="@dimen/size_image_button"
+                                android:layout_height="@dimen/size_image_button"
+
+                                android:layout_toStartOf="@id/toolbar_dots"
+                                android:layout_centerVertical="true"
+                                android:layout_gravity="end|top"
+
+                                android:layout_marginEnd="@dimen/profile_update_cover_button_margin_end"
+
+                                android:background="@null"
+                                android:visibility="@{viewModel.leaderBoardVisibility}"
+                                android:onClick="@{() -> viewModel.onLeaderSettingsClick()}"
+                                app:imageButton_icon="@drawable/ic_settings"
                                 app:imageButton_iconInscribeSize="@dimen/profile_menu_button_icon_size"
                                 app:imageButton_tint="@color/white" />
 

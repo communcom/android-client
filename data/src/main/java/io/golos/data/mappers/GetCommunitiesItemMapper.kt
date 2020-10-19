@@ -21,7 +21,8 @@ fun GetCommunitiesItem.mapToCommunityDomain(): CommunityDomain =
         isInBlacklist = isInBlacklist ?: false
     )
 
-fun GetCommunitiesItem.mapToCommunityPageDomain(leaders: List<CyberName>): CommunityPageDomain =
+fun GetCommunitiesItem.mapToCommunityPageDomain(leaders: List<CyberName>,
+    reportCount: Int, proposalCount: Int): CommunityPageDomain =
     CommunityPageDomain(
         communityId = CommunityIdDomain(communityId),
         name = name,
@@ -41,5 +42,9 @@ fun GetCommunitiesItem.mapToCommunityPageDomain(leaders: List<CyberName>): Commu
         leadsCount = leadersCount ?: 0,
         communityCurrency = CommunityPageDomain.CommunityPageCurrencyDomain(name, 1f),
         joinDate = registrationTime ?: Date(),
-        alias = alias
+        alias = alias,
+        isLeader = isLeader ?: false,
+        postsCount = postsCount?:0,
+        reportCount = reportCount,
+        proposalCount = proposalCount
     )

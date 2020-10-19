@@ -20,7 +20,9 @@ data class CommunityPage(
     val leadsCount: Int,
     val communityCurrency: CommunityPageCurrency,
     val joinDate: Date,
-    val alias: String?
+    val postsCount:Int,
+    val alias: String?,
+    val isLeader:Boolean
 ) {
     data class CommunityPageCurrency(val currencyName: String, val exchangeRate: Float)
 }

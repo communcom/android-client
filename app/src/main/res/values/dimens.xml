@@ -338,6 +338,8 @@
     <dimen name="bottom_sheet_dialog_item_padding_icon_small">15dp</dimen>
     <dimen name="bottom_sheet_dialog_item_padding_horizontal">15dp</dimen>
     <dimen name="bottom_sheet_dialog_item_padding_vertical">16dp</dimen>
+    <dimen name="bottom_sheet_dialog_item_report_count_margin_end">30dp</dimen>
+    <dimen name="bottom_sheet_dialog_item_proposals_count_margin_end">30dp</dimen>
 
     <!--PostFilters-->
     <dimen name="post_filters_header_height">58dp</dimen>
@@ -527,5 +529,31 @@
     <dimen name="donates_list_donates_text_padding_start">10dp</dimen>
     <dimen name="donates_list_donates_text_padding_top">20dp</dimen>
     <dimen name="donates_list_donates_text_padding_bottom">15dp</dimen>
+
+    <dimen name="all_report_view_item_line_height">1dp</dimen>
+    <dimen name="all_report_view_item_line_margin_top">15dp</dimen>
+    <dimen name="all_report_view_item_member_margin_top">4dp</dimen>
+    <dimen name="all_report_view_item_member_margin_bottom">11dp</dimen>
+    <dimen name="all_report_view_item_report_margin_top">10dp</dimen>
+    <dimen name="all_report_view_item_propose_padding_bottom_top">7dp</dimen>
+    <dimen name="all_report_view_item_propose_padding_start_end">16dp</dimen>
+
+    <dimen name="all_proposal_view_item_reject_padding_start_end">16dp</dimen>
+    <dimen name="all_proposal_item_ban_text_padding_start">15dp</dimen>
+    <dimen name="all_proposal_item_ban_text_padding_top">15dp</dimen>
+    <dimen name="all_proposal_item_ban_padding_start">15dp</dimen>
+    <dimen name="all_proposal_item_ban_padding_top">15dp</dimen>
+    <dimen name="all_proposal_item_cover_text_info_padding_start">5dp</dimen>
+
+    <dimen name="all_proposal_item_cover_text_info_padding_top">17dp</dimen>
+    <dimen name="all_proposal_item_cover_image_padding_top">15dp</dimen>
+    <dimen name="all_proposal_item_old_cover_image_padding_end">7dp</dimen>
+    <dimen name="all_proposal_item_new_cover_image_padding_end">7dp</dimen>
+
+
+    <dimen name="post_report_item_height">50dp</dimen>
+    <dimen name="post_report_item_radius">10dp</dimen>
+    <dimen name="post_report_item_design_height">15dp</dimen>
+    <dimen name="post_report_item_avatar_size">30dp</dimen>
 
 </resources>

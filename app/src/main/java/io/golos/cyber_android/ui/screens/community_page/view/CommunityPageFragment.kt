@@ -42,6 +42,11 @@ import io.golos.utils.format.KiloCounterFormatter
 import io.golos.utils.helpers.toPluralInt
 import kotlinx.android.synthetic.main.fragment_community_page.*
 import kotlinx.android.synthetic.main.layout_community_header_members.*
+import io.golos.cyber_android.ui.screens.community_page.dialogs.CommunityLeaderSettingsDialog
+import io.golos.cyber_android.ui.screens.community_page_proposals.CommunityProposalsFragment
+import io.golos.cyber_android.ui.screens.community_page_reports.view.CommunityReportsFragment
+import kotlinx.android.synthetic.main.layout_community_report_actions.*
+
 
 class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, CommunityPageViewModel>() {
     private var currentRequest = 0
@@ -72,13 +77,15 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
 
     override fun provideViewModelType(): Class<CommunityPageViewModel> = CommunityPageViewModel::class.java
 
-    override fun inject(key: String) = App.injections.get<CommunityPageFragmentComponent>(
-        key, arguments!!.getParcelable<CommunityIdDomain>(ARG_COMMUNITY_ID)).inject(this)
+    override fun inject(key: String) =
+        App.injections.get<CommunityPageFragmentComponent>(key,
+            arguments?.getParcelable<CommunityIdDomain>(ARG_COMMUNITY_ID)).inject(this)
 
     override fun releaseInjection(key: String) = App.injections.release<CommunityPageFragmentComponent>(key)
 
     override fun linkViewModel(binding: FragmentCommunityPageBinding, viewModel: CommunityPageViewModel) {
         binding.viewModel = viewModel
+        binding.reportActions.icSettings.setOnClickListener { viewModel.onLeaderSettingsClick() }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -93,10 +100,12 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
         }
         appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { p0, slideOffset ->
             val percent = (p0.totalScrollRange + slideOffset).toFloat() / p0.totalScrollRange
-            toolbar_back.setColorFilter(ArgbEvaluator().evaluate(percent, ContextCompat.getColor(context!!, android.R.color.black),
-                ContextCompat.getColor(context!!, android.R.color.white)) as Int)
-            toolbar_dots.setColorFilter(ArgbEvaluator().evaluate(percent, ContextCompat.getColor(context!!, android.R.color.black),
-                ContextCompat.getColor(context!!, android.R.color.white)) as Int)
+            toolbar_back.setColorFilter(ArgbEvaluator().evaluate(percent, ContextCompat.getColor(context!!,
+                android.R.color.black), ContextCompat.getColor(context!!, android.R.color.white)) as Int)
+            toolbar_dots.setColorFilter(ArgbEvaluator().evaluate(percent, ContextCompat.getColor(context!!,
+                android.R.color.black), ContextCompat.getColor(context!!, android.R.color.white)) as Int)
+            toolbar_leader_settings.setColorFilter(ArgbEvaluator().evaluate(percent, ContextCompat.getColor(context!!,
+                android.R.color.black), ContextCompat.getColor(context!!, android.R.color.white)) as Int)
             communities_toolbar.alpha = 1f - percent
         })
         cvBalanceDescription.visibility = View.VISIBLE
@@ -114,17 +123,40 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
             is ShowCommunitySettings -> openCommunitySettingsDialog(command.communityPage!!,command.currentUserId)
             is NavigateToWalletConvertCommand -> navigateToWalletConvert(command.selectedCommunityId, command.balance)
             is ShowSuccessDialogViewCommand -> showSuccessDialog(command.communityName)
+            is ShowLeaderSettingsViewCommand -> showLeaderSettings(command.communityInfo, command.communityId)
+        }
+    }
+
+    private fun showLeaderSettings(communityInfo: CommunityInfo, communityId: CommunityIdDomain) {
+        CommunityLeaderSettingsDialog.show(childFragmentManager, communityInfo) {
+            when (it) {
+                is CommunityLeaderSettingsDialog.Result.Members -> {
+
+                }
+                is CommunityLeaderSettingsDialog.Result.Settings -> {
+
+                }
+                is CommunityLeaderSettingsDialog.Result.BlockedUsers -> {
+
+                }
+                is CommunityLeaderSettingsDialog.Result.Proposals -> {
+                    getDashboardFragment(this)?.navigateToFragment(CommunityProposalsFragment.getInstance(communityId))
+                }
+                is CommunityLeaderSettingsDialog.Result.Reports -> {
+                    getDashboardFragment(this)?.navigateToFragment(CommunityReportsFragment.getInstance(communityId))
+                }
+            }
         }
     }
 
     private fun showSuccessDialog(communityName: String) {
         when(currentRequest){
-            CURRENT_REQUEST_CODE_HIDE ->{
-                SuccessDialog.newInstance(getString(R.string.you_have_hidden_community, communityName),this)
+            CURRENT_REQUEST_CODE_HIDE -> {
+                SuccessDialog.newInstance(getString(R.string.you_have_hidden_community, communityName), this)
                     .show(requireFragmentManager(), MENU)
             }
-            CURRENT_REQUEST_CODE_SHOW ->{
-                SuccessDialog.newInstance(getString(R.string.you_have_unhidden_community, communityName),this)
+            CURRENT_REQUEST_CODE_SHOW -> {
+                SuccessDialog.newInstance(getString(R.string.you_have_unhidden_community, communityName), this)
                     .show(requireFragmentManager(), MENU)
             }
         }
@@ -186,6 +218,12 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
         viewModel.rate.observe(viewLifecycleOwner, Observer {
             tvCurrentCommunRate.text = it.toString()
         })
+        viewModel.leaderBoardProposalCount.observe(viewLifecycleOwner, Observer {
+            proposals_counter.text = it.toString()
+        })
+        viewModel.leaderBoardReportCount.observe(viewLifecycleOwner, Observer {
+            report_counter.text = it.toString()
+        })
 
         viewModel.communityPageIsErrorLiveData.observe(viewLifecycleOwner, Observer {
             if (it) {
@@ -216,13 +254,11 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
         ctvJoin.isChecked = isSubscribed
     }
 
-    private fun openCommunitySettingsDialog(communityPage:CommunityPage,currentUserId:String) {
-        CommunitySettingsDialog.show(this,
-            viewModel.communityPageLiveData.value?.isInBlackList?:false,
-            viewModel.communityPageLiveData.value!!.name
-        ){
-            when(it){
-                CommunitySettingsDialog.Result.HIDE_COMMUNITY->{
+    private fun openCommunitySettingsDialog(communityPage: CommunityPage, currentUserId: String) {
+        CommunitySettingsDialog.show(this, viewModel.communityPageLiveData.value?.isInBlackList
+            ?: false, viewModel.communityPageLiveData.value!!.name) {
+            when (it) {
+                CommunitySettingsDialog.Result.HIDE_COMMUNITY -> {
                     showHideConfirmationDialog()
                 }
                 CommunitySettingsDialog.Result.SHARE_COMMUNITY->{
@@ -300,18 +336,10 @@ class CommunityPageFragment : FragmentBaseMVVM<FragmentCommunityPageBinding, Com
 
     private fun createPageFragmentsList(communityPage: CommunityPage): MutableList<Fragment> {
         val fragmentPagesList = ArrayList<Fragment>()
-        fragmentPagesList.add(
-            CommunityPostFragment.newInstance(communityPage.communityId)
-        )
-        fragmentPagesList.add(
-            LeadsListFragment.newInstance(arguments!!.getParcelable(ARG_COMMUNITY_ID)!!)
-        )
-        fragmentPagesList.add(
-            CommunityPageAboutFragment.newInstance(communityPage.description)
-        )
-        fragmentPagesList.add(
-            CommunityPageRulesFragment.newInstance(communityPage.rules)
-        )
+        fragmentPagesList.add(CommunityPostFragment.newInstance(communityPage.communityId))
+        fragmentPagesList.add(LeadsListFragment.newInstance(arguments!!.getParcelable(ARG_COMMUNITY_ID)!!))
+        fragmentPagesList.add(CommunityPageAboutFragment.newInstance(communityPage.description))
+        fragmentPagesList.add(CommunityPageRulesFragment.newInstance(communityPage.rules))
         return fragmentPagesList
     }
 

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/margin_small"
+    android:layout_marginTop="@dimen/margin_small"
+    android:background="?attr/window_background"
+    android:orientation="vertical">
+
+    <io.golos.cyber_android.ui.shared.widgets.post_comments.PostPageHeaderWidget
+        android:id="@+id/postHeader"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/post_viewer_header_height" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/vBan"
+            style="@style/Text14.Black.Bold.SingleLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/all_proposal_item_ban_text_padding_start"
+            android:layout_marginTop="@dimen/all_proposal_item_ban_text_padding_top"
+            tools:text="Ban post"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/vBanExpiring"
+            style="@style/Text12.Grey.SingleLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/all_proposal_item_cover_text_info_padding_start"
+            android:layout_marginTop="@dimen/all_proposal_item_cover_text_info_padding_top"
+            android:text="@string/exparing_in"
+            app:layout_constraintStart_toEndOf="@+id/vBan"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/vTitle"
+            style="@style/Text17.Black.Bold.SingleLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/all_proposal_item_ban_padding_start"
+            android:layout_marginTop="@dimen/all_proposal_item_ban_padding_top"
+            android:text="Test 1111"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/vBanExpiring" />
+
+        <TextView
+            android:id="@+id/vBanText"
+            style="@style/Text15.Black.SingleLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/all_proposal_item_ban_padding_start"
+            android:layout_marginTop="@dimen/all_proposal_item_ban_padding_top"
+            android:text="Test 1111"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/vTitle" />
+
+        <!--    <androidx.cardview.widget.CardView
+                android:id="@+id/vCoverUpdateCard"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_margin="@dimen/margin_default"
+                android:layout_marginTop="@dimen/all_proposal_item_cover_image_padding_top"
+                android:elevation="0dp"
+                app:cardCornerRadius="@dimen/card_view_corner_radius"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vCoverUpdateText">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/noLeaders"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </androidx.cardview.widget.CardView>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_default"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vCoverUpdateCard">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/all_proposal_item_old_cover_image_padding_end"
+                    android:layout_weight="1">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/vOldCoverText"
+                        style="@style/Text15.Black.Bold.SingleLine"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/old_cover"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/vCoverOldCard"
+                        android:layout_width="0dp"
+                        android:layout_height="75dp"
+                        android:layout_marginTop="@dimen/all_proposal_item_cover_image_padding_top"
+                        android:elevation="0dp"
+                        android:paddingBottom="@dimen/margin_default"
+                        app:cardCornerRadius="@dimen/card_view_corner_radius"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/vOldCoverText">
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/vCoverOld"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                    </androidx.cardview.widget.CardView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/all_proposal_item_old_cover_image_padding_end"
+                    android:layout_weight="1">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/vNewCoverText"
+                        style="@style/Text15.Blue.Bold.SingleLine"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/new_cover"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/vCoverNewCard"
+                        android:layout_width="0dp"
+                        android:layout_height="75dp"
+                        android:layout_marginTop="@dimen/all_proposal_item_cover_image_padding_top"
+                        android:elevation="0dp"
+                        app:cardCornerRadius="@dimen/card_view_corner_radius"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/vNewCoverText">
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/vCoverNew"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                    </androidx.cardview.widget.CardView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>-->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/all_report_view_item_line_height"
+        android:layout_marginTop="@dimen/all_report_view_item_line_margin_top"
+        android:background="?attr/bottom_sheet_dialog_bcg" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/vVoted"
+            style="@style/Text12.Grey.Bold.SingleLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginTop="@dimen/all_report_view_item_report_margin_top"
+            android:text="@string/voted"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/vApprove"
+            style="@style/Text14.Black.Bold.SingleLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginTop="@dimen/all_report_view_item_member_margin_top"
+            android:layout_marginBottom="@dimen/all_report_view_item_member_margin_bottom"
+            android:text="3 from 15 Leaders"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/vVoted" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/btAccept"
+            style="@style/Text13.White.Bold.SingleLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/send_comment_side_margin"
+            android:background="@drawable/bcg_blue_round_corners_button"
+            android:paddingStart="@dimen/all_report_view_item_propose_padding_start_end"
+            android:paddingTop="@dimen/all_report_view_item_propose_padding_bottom_top"
+            android:paddingEnd="@dimen/all_report_view_item_propose_padding_start_end"
+            android:paddingBottom="@dimen/all_report_view_item_propose_padding_bottom_top"
+            android:text="@string/accept"
+            app:layout_constraintEnd_toStartOf="@+id/btReject"
+            app:layout_constraintTop_toTopOf="@+id/vVoted"
+            tools:ignore="ContentDescription" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/btReject"
+            style="@style/Text13.Blue.Bold.SingleLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/send_comment_side_margin"
+            android:background="@drawable/bcg_gray_round_corners_button"
+            android:paddingStart="@dimen/all_proposal_view_item_reject_padding_start_end"
+            android:paddingTop="@dimen/all_report_view_item_propose_padding_bottom_top"
+            android:paddingEnd="@dimen/all_proposal_view_item_reject_padding_start_end"
+            android:paddingBottom="@dimen/all_report_view_item_propose_padding_bottom_top"
+            android:text="@string/reject"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/vVoted"
+
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

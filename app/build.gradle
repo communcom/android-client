@@ -176,6 +176,7 @@ dependencies {
     implementation deps.googleServices.playServicesVision
 
     deps.groups.facebook dependencies
+    kapt "com.android.databinding:compiler:3.0.0-beta1"
 
     // GoogleDrive
     implementation(deps.googleServices.playServicesAuth) {
@@ -190,4 +191,5 @@ dependencies {
     implementation(deps.googleServices.googleGsonClient) {
         exclude group: 'org.apache.httpcomponents'
     }
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 }

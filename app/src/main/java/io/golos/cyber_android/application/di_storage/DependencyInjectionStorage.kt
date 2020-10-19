@@ -125,6 +125,16 @@ import io.golos.domain.dto.*
 import io.golos.domain.use_cases.model.DiscussionIdModel
 import io.golos.utils.id.IdUtil
 import kotlin.reflect.KClass
+import io.golos.cyber_android.ui.screens.community_page_proposals.di.CommunityProposalsFragmentComponent
+import io.golos.cyber_android.ui.screens.community_page_proposals.di.CommunityProposalsFragmentModule
+import io.golos.cyber_android.ui.screens.community_page_proposals.fragments.proposalsall.di.CommunityAllProposalsFragmentComponent
+import io.golos.cyber_android.ui.screens.community_page_proposals.fragments.proposalsall.di.CommunityAllProposalsFragmentModule
+import io.golos.cyber_android.ui.screens.community_page_reports.di.CommunityReportsFragmentComponent
+import io.golos.cyber_android.ui.screens.community_page_reports.di.CommunityReportsFragmentModule
+import io.golos.cyber_android.ui.screens.community_page_reports.fragments.reportcomment.di.CommunityCommentReportsFragmentComponent
+import io.golos.cyber_android.ui.screens.community_page_reports.fragments.reportcomment.di.CommunityCommentReportsFragmentModule
+import io.golos.cyber_android.ui.screens.community_page_reports.fragments.reportpost.di.CommunityPostReportsFragmentComponent
+import io.golos.cyber_android.ui.screens.community_page_reports.fragments.reportpost.di.CommunityPostReportsFragmentModule
 
 /** Storage for Dagger components on application level  */
 class DependencyInjectionStorage(private val app: Application) {
@@ -454,6 +464,31 @@ class DependencyInjectionStorage(private val app: Application) {
             CommunityPageFragmentComponent::class ->
                 getBase<UIComponent>().communityPageFragment
                     .init(CommunityPageFragmentModule(args[0] as CommunityIdDomain))
+                    .build()
+
+            CommunityReportsFragmentComponent::class->
+                getBase<UIComponent>().communityReportsFragment
+                    .init(CommunityReportsFragmentModule(args[0] as CommunityIdDomain))
+                    .build()
+            CommunityPostReportsFragmentComponent::class ->
+                getBase<CommunityReportsFragmentComponent>()
+                    .communityPostReportFragment
+                    .init(CommunityPostReportsFragmentModule())
+                    .build()
+            CommunityCommentReportsFragmentComponent::class ->
+                getBase<CommunityReportsFragmentComponent>()
+                    .communityCommentReportFragment
+                    .init(CommunityCommentReportsFragmentModule())
+                    .build()
+            CommunityProposalsFragmentComponent::class->
+                getBase<UIComponent>().communityProposalsFragment
+                    .init(CommunityProposalsFragmentModule(args[0] as CommunityIdDomain))
+                    .build()
+
+            CommunityAllProposalsFragmentComponent::class->
+                getBase<CommunityProposalsFragmentComponent>()
+                    .communityAllComponent
+                    .init(CommunityAllProposalsFragmentModule())
                     .build()
 
             CommunityPageAboutFragmentComponent::class ->

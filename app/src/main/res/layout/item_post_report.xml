@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/margin_small"
+    android:layout_marginBottom="@dimen/margin_small"
+    android:background="?attr/window_background"
+    android:orientation="vertical">
+
+    <io.golos.cyber_android.ui.shared.widgets.post_comments.PostPageHeaderWidget
+        android:id="@+id/postHeader"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/post_viewer_header_height" />
+
+    <TextView
+        android:id="@+id/post_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/roboto_medium"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:textColor="?attr/black"
+        android:textSize="21sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/postHeader" />
+
+    <include layout="@layout/item_feed_content" />
+
+    <LinearLayout
+        android:id="@+id/lReportItemsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/all_report_view_item_line_height"
+        android:layout_marginTop="@dimen/all_report_view_item_line_margin_top"
+        android:background="?attr/bottom_sheet_dialog_bcg" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/vReports"
+            style="@style/Text12.Grey.Bold.SingleLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginTop="@dimen/all_report_view_item_report_margin_top"
+            android:text="@string/reports"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/vMember"
+            style="@style/Text14.Black.Bold.SingleLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginTop="@dimen/all_report_view_item_member_margin_top"
+            android:layout_marginBottom="@dimen/all_report_view_item_member_margin_bottom"
+            android:text="1 member"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/vReports" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/vApproves"
+            style="@style/Text15.Black.SingleLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:text="Approves 1/2"
+            app:layout_constraintBottom_toBottomOf="@+id/btPropose"
+            app:layout_constraintEnd_toStartOf="@+id/btPropose"
+            app:layout_constraintTop_toTopOf="@+id/btPropose" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/btPropose"
+            style="@style/Text13.White.Bold.SingleLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/send_comment_side_margin"
+            android:background="@drawable/bcg_blue_round_corners_button"
+            android:paddingStart="@dimen/all_report_view_item_propose_padding_start_end"
+            android:paddingTop="@dimen/all_report_view_item_propose_padding_bottom_top"
+            android:paddingEnd="@dimen/all_report_view_item_propose_padding_start_end"
+            android:paddingBottom="@dimen/all_report_view_item_propose_padding_bottom_top"
+            android:text="@string/propose_to_ban"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/vReports"
+            tools:ignore="ContentDescription"
+            tools:visibility="visible" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

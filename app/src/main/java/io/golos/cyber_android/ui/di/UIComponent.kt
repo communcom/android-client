@@ -29,6 +29,8 @@ import io.golos.cyber_android.ui.screens.profile_comments.di.ProfileCommentsFrag
 import io.golos.cyber_android.ui.screens.subscriptions.di.SubscriptionsFragmentComponent
 import io.golos.cyber_android.ui.shared.widgets.pin.PinDigit
 import io.golos.domain.dependency_injection.scopes.UIScope
+import io.golos.cyber_android.ui.screens.community_page_proposals.di.CommunityProposalsFragmentComponent
+import io.golos.cyber_android.ui.screens.community_page_reports.di.CommunityReportsFragmentComponent
 
 @Subcomponent(
     modules = [
@@ -70,5 +72,7 @@ interface UIComponent {
     val editorPageActivity: EditorPageActivityComponent.Builder
     val notificationsFragmentComponent: NotificationsFragmentComponent.Builder
     val discoveryFragmentComponent:DiscoveryFragmentComponent.Builder
+    val communityReportsFragment: CommunityReportsFragmentComponent.Builder
+    val communityProposalsFragment: CommunityProposalsFragmentComponent.Builder
     fun inject(pinDigit: PinDigit)
 }

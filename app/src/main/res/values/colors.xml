@@ -115,4 +115,7 @@
 
     <!--Wallet-->
     <color name="profile_wallet_bcg_end">@color/blue</color>
+
+    <color name="orange_light">#32F9A468</color>
+    <color name="orange_dark">#F9A568</color>
 </resources>

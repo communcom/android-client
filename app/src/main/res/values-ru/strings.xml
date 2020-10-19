@@ -633,4 +633,23 @@
     <string name="no_have_donate_yet">Этот пост еще не имеет пожертвований</string>
     <string name="and_other">и другие</string>
 
+    <string name="comments">Комментарии</string>
+    <string name="archive">Архив</string>
+
+    <string name="reports">Жалобы</string>
+    <string name="blocked_users">Бан пользователей</string>
+    <string name="proposals">Предложения</string>
+    <string name="propose_to_ban">Забанить</string>
+    <string name="accept">Принять</string>
+    <string name="reject">Отказаться</string>
+    <string name="update_cover">Обновление обложки</string>
+    <string name="old_cover">Старая обложка</string>
+    <string name="new_cover">Новая обложка</string>
+    <string name="from">от</string>
+    <string name="exparing_in">Истекает через</string>
+    <string name="members_reports">участников</string>
+    <string name="no_reports">Нет отчетов</string>
+    <string name="no_reports_comment">В сообществе нет отчетов</string>
+    <string name="no_reports_post">В посте нет отчетов</string>
+
 </resources>
