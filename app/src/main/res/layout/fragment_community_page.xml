@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="io.golos.cyber_android.ui.screens.community_page.view_model.CommunityPageViewModel" />
+    </data>
+
+    <com.google.android.material.appbar.SwipeCoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:onRefreshListener="@{() -> viewModel.onSwipeRefresh()}"
+        app:refreshing="@{viewModel.swipeRefreshing}">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/root"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/white">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/appbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                app:elevation="0dp"
+                tools:visibility="visible">
+
+                <com.google.android.material.appbar.CollapsingToolbarLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                    app:titleEnabled="false"
+                    app:toolbarId="@id/communities_toolbar">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_collapseMode="pin">
+
+                        <ImageView
+                            android:id="@+id/ivCommunityCover"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/community_page_background_height"
+                            tools:background="@tools:sample/backgrounds/scenic" />
+
+                        <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+                            android:id="@+id/ivBack"
+
+                            android:layout_width="@dimen/post_viewer_header_tool_button_size"
+                            android:layout_height="@dimen/post_viewer_header_tool_button_size"
+
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/post_viewer_header_horizontal_margin"
+
+                            android:layout_marginTop="40dp"
+                            android:background="@null"
+                            app:imageButton_icon="@drawable/ic_left_arrow"
+                            app:imageButton_iconInscribeSize="@dimen/post_viewer_header_tool_button_icon_size"
+                            app:imageButton_tint="?attr/grayWhite" />
+
+                        <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+                            android:id="@+id/ivCommunitySettings"
+
+                            android:layout_width="@dimen/post_viewer_header_tool_button_size"
+                            android:layout_height="@dimen/post_viewer_header_tool_button_size"
+
+                            android:layout_alignParentEnd="true"
+
+                            android:layout_gravity="end"
+                            android:layout_marginTop="40dp"
+                            android:layout_marginEnd="@dimen/post_viewer_header_horizontal_margin"
+
+                            android:background="@null"
+                            android:onClick='@{()->viewModel.onCommunitySettingsClick()}'
+                            app:imageButton_icon="@drawable/ic_menu_options"
+                            app:imageButton_iconInscribeSize="@dimen/post_viewer_header_tool_button_icon_size" />
+
+                        <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+                            android:id="@+id/ivCommunityLeaderSettings"
+
+                            android:layout_width="@dimen/post_viewer_header_tool_button_size"
+                            android:layout_height="@dimen/post_viewer_header_tool_button_size"
+
+                            android:layout_gravity="end"
+
+                            android:layout_marginTop="40dp"
+                            android:layout_marginEnd="@dimen/post_viewer_header_horizontal_margin"
+                            app:imageButton_tint="?attr/grayWhite"
+                            android:layout_toStartOf="@id/ivCommunitySettings"
+                            android:background="@null"
+
+                            android:onClick='@{()->viewModel.onLeaderSettingsClick()}'
+                            android:visibility="@{viewModel.leaderBoardVisibility}"
+                            app:imageButton_icon="@drawable/ic_settings"
+                            app:imageButton_iconInscribeSize="@dimen/post_viewer_header_tool_button_icon_size" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/community_page_margin_top"
+                            android:background="@drawable/bcg_white_bottom_round_rect_30"
+                            android:clipToPadding="false">
+
+                            <ImageView
+                                android:id="@+id/ivCommunityLogo"
+                                android:layout_width="@dimen/community_page_logo"
+                                android:layout_height="@dimen/community_page_logo"
+                                android:layout_marginStart="@dimen/margin_default"
+                                android:layout_marginTop="@dimen/margin_default"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:background="@tools:sample/avatars" />
+
+                            <TextView
+                                android:id="@+id/tvCommunityName"
+                                style="@style/Profile.Community.Name"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/margin_small"
+                                android:layout_marginEnd="@dimen/margin_default"
+                                android:fontFamily="@font/roboto_bold"
+                                android:textColor="?attr/black"
+
+                                android:textSize="20sp"
+
+                                app:layout_constraintBottom_toTopOf="@+id/tvJoinTime"
+                                app:layout_constraintEnd_toStartOf="@+id/ctvJoin"
+                                app:layout_constraintStart_toEndOf="@+id/ivCommunityLogo"
+
+                                app:layout_constraintTop_toTopOf="@+id/ivCommunityLogo"
+
+                                app:layout_constraintVertical_chainStyle="packed"
+                                tools:text="Binance" />
+
+                            <TextView
+                                android:id="@+id/tvJoinTime"
+                                style="@style/Page.Joined.TextStyle"
+                                android:layout_width="wrap_content"
+
+                                android:layout_height="wrap_content"
+
+                                app:layout_constraintBottom_toBottomOf="@+id/ivCommunityLogo"
+                                app:layout_constraintStart_toStartOf="@+id/tvCommunityName"
+                                app:layout_constraintTop_toBottomOf="@+id/tvCommunityName"
+                                tools:text="Joined April 12, 2018" />
+
+                            <ToggleButton
+                                android:id="@+id/ctvJoin"
+
+                                style="@style/BlueWhite.RoundCorners.Toggle.Follow"
+
+                                android:layout_marginEnd="@dimen/margin_default"
+
+                                app:layout_constraintBottom_toBottomOf="@+id/ivCommunityLogo"
+
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="@+id/ivCommunityLogo"
+                                tools:checked="true" />
+
+                            <TextView
+                                android:id="@+id/tvDescription"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/margin_default"
+                                android:layout_marginTop="@dimen/margin_small"
+                                android:layout_marginEnd="@dimen/margin_default"
+                                android:textColor="?attr/black"
+                                android:visibility="gone"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/ivCommunityLogo"
+                                tools:text="Binance Exchange provides cryptocurrency trading for fintech and blockchain enthusiasts"
+                                tools:visibility="visible" />
+
+                            <include
+                                android:id="@+id/clHeaderMembers"
+                                layout="@layout/layout_community_header_members"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/community_page_header_members_height"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
+
+                            <include
+                                android:id="@+id/report_actions"
+                                layout="@layout/layout_community_report_actions"
+                                android:layout_width="match_parent"
+                                android:layout_height="?actionBarSize"
+                                android:visibility="@{viewModel.leaderBoardVisibility}"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/clHeaderMembers" />
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/cvBalanceDescription"
+                                style="@style/CommunityPageBalance"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/community_page_balance_description_height"
+                                android:layout_marginStart="@dimen/margin_default"
+                                android:layout_marginEnd="@dimen/margin_default"
+
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="parent"
+
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/report_actions"
+                                tools:visibility="visible">
+
+                                <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent">
+
+                                    <ImageView
+                                        android:id="@+id/ivBalance"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/margin_default"
+                                        android:background="@drawable/ic_community_wallet"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent"
+                                        tools:layout_height="40dp"
+                                        tools:layout_width="40dp" />
+
+                                    <TextView
+                                        android:id="@+id/tvCurrentCommunRate"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/margin_default"
+                                        android:textColor="@color/white"
+                                        android:textSize="20sp"
+                                        app:layout_constraintBottom_toTopOf="@+id/tvCommunCurrencyLabel"
+                                        app:layout_constraintStart_toEndOf="@+id/ivBalance"
+                                        app:layout_constraintTop_toTopOf="@+id/ivBalance"
+                                        tools:text="1000" />
+
+
+                                    <TextView
+                                        android:id="@+id/tvCurrentCurrency"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/gap"
+                                        android:textColor="@color/blue_light"
+                                        android:textSize="12sp"
+                                        app:layout_constraintBaseline_toBaselineOf="@+id/tvCurrentCommunRate"
+                                        app:layout_constraintBottom_toBottomOf="@+id/tvCurrentCommunRate"
+                                        app:layout_constraintStart_toEndOf="@+id/tvCurrentCommunRate"
+                                        app:layout_constraintTop_toTopOf="@+id/tvCurrentCommunRate"
+                                        tools:text="Binance" />
+
+                                    <TextView
+                                        android:id="@+id/tvCommunCurrencyLabel"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/commun_description"
+                                        android:textColor="@color/blue_light"
+                                        android:textSize="12sp"
+                                        app:layout_constraintStart_toStartOf="@+id/tvCurrentCommunRate"
+                                        app:layout_constraintTop_toBottomOf="@+id/tvCurrentCommunRate" />
+
+                                    <Button
+                                        android:id="@+id/btnGetPoints"
+                                        style="@style/GetPointsButton"
+                                        android:layout_width="wrap_content"
+                                        android:layout_marginEnd="@dimen/margin_default"
+                                        android:text="@string/get_points"
+                                        app:layout_constraintBottom_toBottomOf="parent"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </RelativeLayout>
+
+                    <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/communities_toolbar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0"
+                        android:background="@color/white"
+                        android:elevation="4dp"
+                        app:layout_collapseMode="pin">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="?actionBarSize">
+
+                            <TextView
+                                android:id="@+id/community_name"
+                                style="@style/Text17.Black.Bold.SingleLine"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:layout_toStartOf="@id/toolbar_dots"
+                                android:layout_toEndOf="@+id/toolbar_back"
+                                android:gravity="center"
+                                android:textColor="@color/black"
+                                tools:text="asdasdasdasdas" />
+
+                            <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+                                android:id="@+id/toolbar_back"
+                                android:layout_width="@dimen/size_image_button"
+                                android:layout_height="@dimen/size_image_button"
+
+                                android:layout_centerVertical="true"
+
+                                android:background="@null"
+                                app:imageButton_icon="@drawable/ic_left_arrow"
+
+                                app:imageButton_iconInscribeSize="@dimen/size_back_icon"
+                                app:imageButton_tint="@color/white"
+                                tools:visibility="visible" />
+
+                            <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+                                android:id="@+id/toolbar_dots"
+                                android:layout_width="@dimen/size_image_button"
+                                android:layout_height="@dimen/size_image_button"
+
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_gravity="end|top"
+
+                                android:layout_marginEnd="@dimen/profile_update_cover_button_margin_end"
+
+                                android:background="@null"
+                                android:onClick="@{() -> viewModel.onCommunitySettingsClick()}"
+                                app:imageButton_icon="@drawable/ic_menu_options"
+                                app:imageButton_iconInscribeSize="@dimen/profile_menu_button_icon_size"
+                                app:imageButton_tint="@color/white" />
+
+                            <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+                                android:id="@+id/toolbar_leader_settings"
+                                android:layout_width="@dimen/size_image_button"
+                                android:layout_height="@dimen/size_image_button"
+
+                                android:layout_toStartOf="@id/toolbar_dots"
+                                android:layout_centerVertical="true"
+                                android:layout_gravity="end|top"
+
+                                android:layout_marginEnd="@dimen/profile_update_cover_button_margin_end"
+
+                                android:background="@null"
+                                android:visibility="@{viewModel.leaderBoardVisibility}"
+                                android:onClick="@{() -> viewModel.onLeaderSettingsClick()}"
+                                app:imageButton_icon="@drawable/ic_settings"
+                                app:imageButton_iconInscribeSize="@dimen/profile_menu_button_icon_size"
+                                app:imageButton_tint="@color/white" />
+
+                        </RelativeLayout>
+
+                    </androidx.appcompat.widget.Toolbar>
+
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabLayout"
+                    style="@style/TabLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/tab_layout_height_default"
+                    android:layout_gravity="bottom"
+
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cvBalanceDescription"
+                    app:tabTextAppearance="@style/TabsText" />
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/vpContent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                tools:visibility="visible" />
+
+
+            <include
+                android:id="@+id/emptyPostProgressLoading"
+                layout="@layout/dialog_loading"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:visibility="invisible" />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </com.google.android.material.appbar.SwipeCoordinatorLayout>
+</layout>

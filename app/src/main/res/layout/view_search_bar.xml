@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@null">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null">
+
+        <include
+            android:layout_height="@dimen/search_bar_height"
+            android:layout_width="0dp"
+            layout="@layout/view_search_bar_pure"
+
+            android:layout_weight="1"
+        />
+
+        <ProgressBar
+            android:id="@+id/pbLoading"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminateOnly="true"
+            android:padding="@dimen/padding_list_loading"
+            android:visibility="gone"/>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

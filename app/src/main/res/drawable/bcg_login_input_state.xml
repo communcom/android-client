@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_focused="true">
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/blue"/>
+                    <corners android:bottomLeftRadius="0dp"
+                             android:bottomRightRadius="0dp"
+                             android:topLeftRadius="4dp"
+                             android:topRightRadius="4dp"/>
+                    <size android:height="@dimen/height_login_input"/>
+                </shape>
+            </item>
+
+            <item android:bottom="@dimen/stroke_normal">
+                <shape android:shape="rectangle">
+                    <corners android:bottomLeftRadius="0dp"
+                             android:bottomRightRadius="0dp"
+                             android:topLeftRadius="4dp"
+                             android:topRightRadius="4dp"/>
+                    <solid android:color="?attr/white"/>
+                    <size android:height="@dimen/stroke_normal"/>
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+
+    <item android:state_activated="true">
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/blue"/>
+                    <corners android:bottomLeftRadius="0dp"
+                             android:bottomRightRadius="0dp"
+                             android:topLeftRadius="4dp"
+                             android:topRightRadius="4dp"/>
+                    <size android:height="@dimen/height_login_input"/>
+                </shape>
+            </item>
+
+            <item android:bottom="@dimen/stroke_normal">
+                <shape android:shape="rectangle">
+                    <corners android:bottomLeftRadius="0dp"
+                             android:bottomRightRadius="0dp"
+                             android:topLeftRadius="4dp"
+                             android:topRightRadius="4dp"/>
+                    <solid android:color="?attr/white"/>
+                    <size android:height="@dimen/stroke_normal"/>
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+
+    <item>
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/dark_gray"/>
+                    <corners android:bottomLeftRadius="0dp"
+                             android:bottomRightRadius="0dp"
+                             android:topLeftRadius="4dp"
+                             android:topRightRadius="4dp"/>
+                    <size android:height="@dimen/height_login_input"/>
+                </shape>
+            </item>
+
+            <item android:bottom="@dimen/stroke_thin">
+                <shape android:shape="rectangle">
+                    <corners android:bottomLeftRadius="0dp"
+                             android:bottomRightRadius="0dp"
+                             android:topLeftRadius="4dp"
+                             android:topRightRadius="4dp"/>
+                    <solid android:color="?attr/bg_dialog_color"/>
+                    <size android:height="@dimen/stroke_thin"/>
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+</selector>

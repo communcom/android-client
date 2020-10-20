@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/height_community_list_item"
+    android:background="?attr/window_background"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/avatar"
+
+        android:layout_width="@dimen/size_icon_community"
+        android:layout_height="@dimen/size_icon_community"
+
+        android:layout_marginStart="@dimen/select_community_dialog_search_margin"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/img_example_flag"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/CommunityListItemTitleText"
+
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="@dimen/select_community_dialog_search_margin_small"
+        android:layout_marginEnd="@dimen/select_community_dialog_search_margin_small"
+
+        android:text=""
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/hideButton"
+        app:layout_constraintHorizontal_bias="0.5"
+
+        app:layout_constraintStart_toEndOf="@+id/avatar"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="Title" />
+
+    <Button
+        android:id="@+id/hideButton"
+
+        style="@style/CommunityJoinButton"
+
+        android:layout_width="@dimen/profile_blacklist_block_button_width"
+        android:layout_height="@dimen/follow_following_button_height"
+
+        android:layout_marginEnd="@dimen/select_community_dialog_search_margin"
+
+        android:text="@string/unblock"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/itemsSeparator"
+        android:layout_width="0dp"
+
+        android:layout_height="@dimen/stroke_normal"
+
+        android:background="?attr/select_community_dialog_bcg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

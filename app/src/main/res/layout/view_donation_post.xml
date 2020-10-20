@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/donates_state_view_height">
+
+    <FrameLayout
+        android:id="@+id/lContainerDonateStateIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/donates_state_icon_margin_top"
+        android:layout_marginBottom="@dimen/donates_state_icon_margin_bottom"
+        android:background="@drawable/bcg_post_donate"
+        app:layout_constraintBottom_toTopOf="@+id/vLine"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/vDonateStateIcon"
+            android:layout_width="@dimen/donates_state_icon_width"
+            android:layout_height="@dimen/donates_state_icon_height"
+            android:layout_margin="@dimen/donates_state_container_margin"
+            app:srcCompat="@drawable/ic_golden_coins" />
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/vDonateUserInfo"
+        style="@style/Text15.Gray.Bold.SingleLine"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/donates_state_users_info_margin_start"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="@+id/lContainerDonateStateIcon"
+        app:layout_constraintEnd_toStartOf="@+id/vDonate"
+        app:layout_constraintStart_toEndOf="@+id/lContainerDonateStateIcon"
+        app:layout_constraintTop_toTopOf="@+id/lContainerDonateStateIcon"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="400" />
+
+    <TextView
+        android:id="@+id/vDonate"
+        style="@style/Text15.Blue.Bold.SingleLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/donate"
+        android:padding="@dimen/donates_list_donates_text_padding_start"
+        app:layout_constraintBottom_toBottomOf="@+id/lContainerDonateStateIcon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/lContainerDonateStateIcon"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <View
+        android:id="@+id/vLine"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/donates_state_line_height"
+        android:layout_marginTop="@dimen/donates_state_line_margin_top"
+        android:background="@color/black_20"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

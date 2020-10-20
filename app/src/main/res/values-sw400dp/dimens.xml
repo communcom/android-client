@@ -1,0 +1,10 @@
+<resources>
+    <dimen name="sign_up_keys_image_size">250dp</dimen>
+    <dimen name="sign_up_keys_explanation_text_size">17sp</dimen>
+    <dimen name="sign_up_keys_title_text_size">34sp</dimen>
+
+    <dimen name="sign_up_keys_warning_dialog_padding_top">60dp</dimen>
+    <dimen name="sign_up_keys_warning_dialog_icon_size">90dp</dimen>
+    <dimen name="sign_up_keys_warning_dialog_icon_padding">30dp</dimen>
+    <dimen name="sign_up_keys_warning_dialog_text_spacing">7dp</dimen>
+</resources>

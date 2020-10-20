@@ -1,0 +1,168 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="io.golos.cyber_android.ui.screens.profile_black_list.view_model.ProfileBlackListViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/black_list_action_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/white"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_scrollFlags="scroll|enterAlways|snap">
+
+            <TextView
+                android:id="@+id/titleText"
+                style="@style/White.Header.TextStyle"
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="@dimen/profile_followers_title_margin"
+
+                android:text="@string/blacklist"
+                app:layout_constraintEnd_toEndOf="parent"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Blacklist" />
+
+            <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+                android:id="@+id/backButton"
+
+                android:layout_width="@dimen/size_image_button"
+                android:layout_height="@dimen/size_image_button"
+
+                android:background="@null"
+                android:onClick="@{() -> viewModel.onBackClick()}"
+                app:imageButton_icon="@drawable/ic_back"
+                app:imageButton_iconInscribeSize="@dimen/profile_back_button_icon_size"
+
+                app:imageButton_tint="?attr/black"
+                app:layout_constraintBottom_toBottomOf="@+id/titleText"
+                app:layout_constraintStart_toStartOf="parent"
+
+                app:layout_constraintTop_toTopOf="@+id/titleText" />
+
+            <ToggleButton
+                android:id="@+id/toggleUsers"
+                style="@style/BlueWhite.RoundCorners.Toggle"
+                android:layout_width="wrap_content"
+
+                android:layout_height="@dimen/profile_followers_filters_button_height"
+                android:layout_marginStart="@dimen/profile_blacklist_filters_margin_horizontal"
+
+                android:layout_marginTop="@dimen/profile_followers_filters_button_margin"
+                android:layout_marginBottom="@dimen/profile_followers_filters_button_margin"
+                android:paddingStart="@dimen/profile_blacklist_filters_padding_horizontal"
+                android:paddingEnd="@dimen/profile_blacklist_filters_padding_horizontal"
+                android:tag="USERS"
+
+                android:textOff="@string/users"
+
+                android:textOn="@string/users"
+                app:filterBlackList="@{viewModel.filter}"
+                app:layout_constraintBottom_toTopOf="@+id/bottomBorder"
+
+                app:layout_constraintStart_toStartOf="parent"
+
+                app:layout_constraintTop_toBottomOf="@+id/backButton"
+                tools:checked="true" />
+
+            <ToggleButton
+                android:id="@+id/toggleCommunities"
+
+                style="@style/BlueWhite.RoundCorners.Toggle"
+
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/profile_followers_filters_button_height"
+
+                android:layout_marginEnd="@dimen/profile_blacklist_filters_margin_horizontal"
+                android:paddingStart="@dimen/profile_blacklist_filters_padding_horizontal"
+                android:paddingEnd="@dimen/profile_blacklist_filters_padding_horizontal"
+
+                android:tag="COMMUNITIES"
+                android:textOff="@string/communities"
+
+                android:textOn="@string/communities"
+                app:filterBlackList="@{viewModel.filter}"
+                app:layout_constraintBottom_toBottomOf="@+id/toggleUsers"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/toggleUsers" />
+
+            <View
+                android:id="@+id/bottomBorder"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/stroke_thin"
+
+                android:background="?attr/grey"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="?attr/window_background_light_gray"
+
+            android:overScrollMode="never"
+            android:paddingLeft="@dimen/general_list_padding"
+
+            android:paddingTop="@dimen/general_list_padding_top"
+            android:paddingRight="@dimen/general_list_padding"
+            android:paddingBottom="@dimen/general_list_padding_top"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/black_list_action_bar">
+
+            <io.golos.cyber_android.ui.screens.profile_black_list.view.widgets.UsersListWidget
+                android:id="@+id/usersList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:visibility="@{viewModel.usersVisibility}"
+
+                app:listItems="@{viewModel.usersItems}"
+
+                tools:layout_height="200dp"
+                tools:visibility="visible" />
+
+            <io.golos.cyber_android.ui.screens.profile_black_list.view.widgets.CommunitiesListWidget
+                android:id="@+id/communitiesList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:visibility="@{viewModel.communitiesVisibility}"
+
+                app:listItems="@{viewModel.communitiesItems}"
+                tools:visibility="invisible" />
+
+            <io.golos.cyber_android.ui.shared.widgets.lists.NoDataStub
+                android:id="@+id/noDataStub"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/profile_followers_no_data_height"
+
+                android:visibility="@{viewModel.noDataStubVisibility}"
+                app:noDataExplanation="@{viewModel.noDataExplanationText}"
+
+                app:noDataTitle="@{viewModel.noDataStubText}"
+                tools:visibility="visible" />
+
+        </FrameLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

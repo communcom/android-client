@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bcg_bottom_sheet_dialog_round_corners"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/bottom_sheet_dialog_padding_top"
+    android:paddingBottom="@dimen/bottom_sheet_dialog_padding_bottom">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <io.golos.cyber_android.ui.shared.widgets.post_comments.PostPageHeaderWidget
+            android:id="@+id/commentMenuHeader"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/post_viewer_header_height" />
+
+        <ImageView
+            android:id="@+id/ivClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginEnd="@dimen/margin_default"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_close_gray"
+            tools:ignore="ContentDescription" />
+
+    </FrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

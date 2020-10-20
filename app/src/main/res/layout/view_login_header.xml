@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|center_vertical"
+        android:background="?attr/selectableItemBackground"
+        android:padding="@dimen/margin_default"
+        app:srcCompat="@drawable/ic_left_arrow"
+        tools:ignore="ContentDescription" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/title"
+
+        style="@style/Text17.Black.Bold.SingleLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+
+        tools:text="@string/sign_up"
+        android:text="@{title}" />
+</FrameLayout>

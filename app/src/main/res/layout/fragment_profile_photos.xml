@@ -1,0 +1,115 @@
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="viewModel" type="io.golos.cyber_android.ui.screens.profile_photos.view_model.ProfilePhotosViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:orientation="vertical"
+        android:background="?attr/white">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/white_header_height"
+
+            android:id="@+id/header"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/change_photo"
+
+                style="@style/White.Header.TextStyle"
+
+                android:layout_gravity="center"
+                />
+
+            <TextView
+                android:id="@+id/saveButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/save"
+
+                android:layout_marginEnd="@dimen/white_header_buttons_margin"
+
+                style="@style/BlueHeaderButton"
+
+                android:layout_gravity="center_vertical|end"
+
+                android:onClick="@{() -> viewModel.onSaveClick()}"
+                />
+
+            <TextView
+                android:id="@+id/cancelButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cancel"
+
+                style="@style/BlueHeaderButton"
+
+                android:layout_marginStart="@dimen/white_header_buttons_margin"
+
+                android:layout_gravity="center_vertical|start"
+
+                android:onClick="@{() -> viewModel.onCancelClick()}"
+                />
+        </FrameLayout>
+
+        <io.golos.cyber_android.ui.screens.profile_photos.view.widgets.PostPhotoView
+            android:id="@+id/previewImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            tools:layout_height="100dp"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/header"
+
+            android:visibility="@{viewModel.imagePreviewVisibility}"
+            tools:visibility="visible"
+            />
+
+        <ProgressBar
+            android:id="@+id/previewLoadingProgress"
+            style="?android:attr/progressBarStyle"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintBottom_toBottomOf="@+id/previewImage"
+            app:layout_constraintEnd_toEndOf="@+id/previewImage"
+            app:layout_constraintStart_toStartOf="@+id/previewImage"
+            app:layout_constraintTop_toTopOf="@+id/previewImage"
+
+            android:visibility="@{viewModel.imagePreviewLoadingVisibility}"
+            tools:visibility="visible"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/galleryList"
+            android:layout_width="match_parent"
+
+            android:layout_height="0dp"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/previewImage"
+
+            android:visibility="@{viewModel.galleryListVisibility}"
+            tools:visibility="visible"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

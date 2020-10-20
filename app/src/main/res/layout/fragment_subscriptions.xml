@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="io.golos.cyber_android.ui.screens.subscriptions.SubscriptionsViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/window_background">
+
+        <include layout="@layout/item_toolbar" />
+
+        <include
+            android:id="@+id/layoutSearchBar"
+            layout="@layout/view_search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_feed_search_bar"
+            android:layout_marginTop="@dimen/margin_feed_search_bar"
+            android:layout_marginEnd="@dimen/margin_feed_search_bar"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/actionBar"
+            tools:visibility="visible"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvSubscriptions"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="invisible"
+            android:layout_marginTop="@dimen/margin_small"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutSearchBar"
+            tools:listitem="@layout/item_subscription" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clNoSubscriptionsPlaceHolder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintTop_toBottomOf="@+id/actionBar"
+            tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/ivCommunityIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/subscriptions_community_icon_margin_top"
+                android:src="@drawable/ic_communities"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/tvEmptySubscriptionsTitle"
+                style="@style/SubHeaderTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/subscriptions_no_subscriptions_label_margin_top"
+                android:gravity="center"
+                android:text="@string/no_subscriptions"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivCommunityIcon" />
+
+            <TextView
+                android:id="@+id/tvEmptySubscriptionsDescription"
+                style="@style/StandardText16spStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/you_not_subscribed_t_any_community"
+                android:textColor="@color/dark_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvEmptySubscriptionsTitle" />
+
+            <Button
+                android:id="@+id/btnFindCommunities"
+                style="@style/FindCommunityButton"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/subscriptions_btn_find_communities_height"
+                android:layout_marginStart="@dimen/margin_default"
+                android:layout_marginTop="@dimen/subscriptions_btn_find_communities_margin"
+                android:layout_marginEnd="@dimen/margin_default"
+                android:layout_marginBottom="@dimen/subscriptions_btn_find_communities_margin"
+                android:text="@string/find_communities"
+                android:onClick="@{() -> viewModel.onFindCommunitiesClicked()}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvEmptySubscriptionsDescription" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tvRecommendedTitle"
+            style="@style/SubHeaderTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginTop="@dimen/subscriptions_recommended_title_margin_top"
+            android:text="@string/recommended"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clNoSubscriptionsPlaceHolder"
+            tools:visibility="visible" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCommunitiesRecommended"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/subscriptions_recommend_list_margin_top"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvRecommendedTitle"
+            tools:listitem="@layout/item_subscription"
+            tools:visibility="visible" />
+
+        <include
+            android:id="@+id/emptyPostProgressLoading"
+            layout="@layout/item_loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/actionBar" />
+
+
+        <Button
+            android:id="@+id/btnRetry"
+            style="@style/FindCommunityButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/subscriptions_btn_find_communities_height"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginTop="@dimen/subscriptions_btn_find_communities_margin"
+            android:layout_marginEnd="@dimen/margin_default"
+            android:layout_marginBottom="@dimen/subscriptions_btn_find_communities_margin"
+            android:text="@string/retry"
+            android:onClick="@{() -> viewModel.start()}"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/actionBar"
+            tools:visibility="visible"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

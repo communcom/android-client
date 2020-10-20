@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="io.golos.cyber_android.ui.screens.post_filters.PostFiltersViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_default"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_back_circle"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvTitle"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/post_filters_header_height"
+            android:gravity="center"
+            android:text="@string/sort_by"
+            android:textColor="?attr/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            style="@style/BottomSheetMenuTitle"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="?attr/bottomSheetItemBackgroundCOlor"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ImageView
+            android:id="@+id/ivClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_default"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_close_gray"
+            app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvTitle" />
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvUpdateContentFilters"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginTop="@dimen/margin_default"
+            android:layout_marginEnd="@dimen/margin_default"
+            app:cardBackgroundColor="?attr/white"
+            app:cardCornerRadius="@dimen/card_view_corner_radius"
+            app:cardElevation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/llHot"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/post_filters_section_height"
+                    android:background="?selectableItemBackground"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        style="@style/BottomSheetMenuText"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/margin_default"
+                        android:layout_weight="1"
+                        android:text="@string/sort_hot" />
+
+                    <CheckBox
+                        android:id="@+id/cbHot"
+                        style="@style/BaseCheckBox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin_default" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="?attr/bottomSheetItemBackgroundCOlor" />
+
+                <LinearLayout
+                    android:id="@+id/llNew"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/post_filters_section_height"
+                    android:background="?selectableItemBackground"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        style="@style/BottomSheetMenuText"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/margin_default"
+                        android:layout_weight="1"
+                        android:text="@string/sort_new" />
+
+                    <CheckBox
+                        android:id="@+id/cbNew"
+                        style="@style/BaseCheckBox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin_default" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="?attr/bottomSheetItemBackgroundCOlor" />
+
+                <LinearLayout
+                    android:id="@+id/llPopular"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/post_filters_section_height"
+                    android:background="?selectableItemBackground"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/margin_default"
+                        android:layout_weight="1"
+                        android:text="@string/sort_popular"
+                        style="@style/BottomSheetMenuText"/>
+
+                    <CheckBox
+                        android:id="@+id/cbPopular"
+                        style="@style/BaseCheckBox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin_default" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvSortByTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginTop="@dimen/margin_default"
+            android:layout_marginEnd="@dimen/margin_default"
+            android:visibility="invisible"
+            app:cardBackgroundColor="?attr/white"
+            app:cardCornerRadius="@dimen/card_view_corner_radius"
+            app:cardElevation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/ll24hr"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/post_filters_section_height"
+                    android:gravity="center_vertical"
+                    android:background="?selectableItemBackground">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/margin_default"
+                        android:layout_weight="1"
+                        android:text="@string/filter_time_24hr"
+                        style="@style/BottomSheetMenuText"/>
+
+                    <CheckBox
+                        android:id="@+id/cb24hr"
+                        style="@style/BaseCheckBox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin_default" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="?attr/bottomSheetItemBackgroundCOlor" />
+
+                <LinearLayout
+                    android:id="@+id/llWeek"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/post_filters_section_height"
+                    android:gravity="center_vertical"
+                    android:background="?selectableItemBackground">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/margin_default"
+                        android:layout_weight="1"
+                        android:text="@string/filter_time_week"
+                        style="@style/BottomSheetMenuText"/>
+
+                    <CheckBox
+                        android:id="@+id/cbWeek"
+                        style="@style/BaseCheckBox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin_default" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="?attr/bottomSheetItemBackgroundCOlor"/>
+
+                <LinearLayout
+                    android:id="@+id/llMonth"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/post_filters_section_height"
+                    android:gravity="center_vertical"
+                    android:background="?selectableItemBackground">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/margin_default"
+                        android:layout_weight="1"
+                        android:text="@string/filter_time_month"
+                        style="@style/BottomSheetMenuText"/>
+
+                    <CheckBox
+                        android:id="@+id/cbMonth"
+                        style="@style/BaseCheckBox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin_default" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="?attr/bottomSheetItemBackgroundCOlor" />
+
+                <LinearLayout
+                    android:id="@+id/llAll"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/post_filters_section_height"
+                    android:gravity="center_vertical"
+                    android:background="?selectableItemBackground">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/margin_default"
+                        android:layout_weight="1"
+                        android:text="@string/filter_time_all"
+                        style="@style/BottomSheetMenuText"/>
+
+                    <CheckBox
+                        android:id="@+id/cbAll"
+                        style="@style/BaseCheckBox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin_default" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/btnNext"
+            style="@style/BaseButton"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="@dimen/margin_default"
+            android:textColor="@color/white"
+            android:layout_marginBottom="45dp"
+            android:background="@drawable/bcg_blue_button_round"
+            android:text="@string/next"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cvSortByTime"
+            app:layout_constraintVertical_chainStyle="spread_inside"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

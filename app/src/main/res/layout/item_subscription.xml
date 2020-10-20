@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="@dimen/subscriptions_logo_size"
+        android:layout_height="@dimen/subscriptions_logo_size"
+        android:layout_marginStart="@dimen/margin_default"
+        android:layout_marginTop="@dimen/subscriptions_list_item_logo_margin"
+        android:layout_marginBottom="@dimen/subscriptions_list_item_logo_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/img_example_flag"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/tvName"
+        style="@style/CommunityName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:layout_marginBottom="@dimen/gap"
+        app:layout_constraintBottom_toTopOf="@+id/tvFollowers"
+        app:layout_constraintStart_toEndOf="@+id/ivLogo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="Dribbble" />
+
+
+    <TextView
+        android:id="@+id/tvFollowers"
+        style="@style/CommunityFollowers"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:layout_marginTop="@dimen/gap"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivLogo"
+        app:layout_constraintTop_toBottomOf="@+id/tvName"
+        tools:text="1,205 followers" />
+
+
+    <CheckedTextView
+        android:id="@+id/btnJoin"
+        style="@style/CommunityJoinButton"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/height_community_join_button"
+        android:layout_marginEnd="@dimen/margin_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/join_to_community" />
+</androidx.constraintlayout.widget.ConstraintLayout>

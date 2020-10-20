@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<io.golos.cyber_android.ui.shared.widgets.lists.NoDataStub xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/commentEmptyHolder"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/profile_followers_no_data_height" />

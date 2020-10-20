@@ -1,84 +1,54 @@
 package io.golos.data.repositories
 
-import io.golos.cyber4j.model.CyberDiscussion
-import io.golos.cyber4j.model.CyberName
-import io.golos.cyber4j.model.DiscussionTimeSort
-import io.golos.cyber4j.model.DiscussionsResult
-import io.golos.data.CommentsApiService
-import io.golos.data.PostsApiService
-import io.golos.domain.entities.CommentEntity
-import io.golos.domain.entities.DiscussionId
-import io.golos.domain.entities.FeedEntity
-import io.golos.domain.entities.PostEntity
-import io.golos.domain.model.CommentFeedpdateRequest
-import io.golos.domain.model.CommunityFeedUpdateRequest
-import io.golos.domain.model.DiscussionsSort
-import io.golos.domain.model.PostFeedUpdateRequest
-import io.golos.domain.rules.CyberToEntityMapper
+import io.golos.commun4j.model.CyberDiscussionRaw
+import io.golos.commun4j.model.GetDiscussionsResultRaw
+import io.golos.domain.DispatchersProvider
+import io.golos.domain.commun_entities.Permlink
+import io.golos.domain.dependency_injection.scopes.ApplicationScope
+import io.golos.domain.dto.*
+import io.golos.domain.mappers.CyberCommentsToEntityMapper
+import io.golos.domain.requestmodel.CommentFeedUpdateRequest
+import io.golos.domain.requestmodel.CommentsOfApPostUpdateRequest
 import io.golos.domain.rules.EmptyEntityProducer
 import io.golos.domain.rules.EntityMerger
-import io.golos.domain.rules.Logger
-import kotlinx.coroutines.CoroutineDispatcher
+import io.golos.domain.rules.RequestApprover
+import javax.inject.Inject
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 2019-03-13.
  */
-class PostsFeedRepository(
-    private val apiService: PostsApiService,
-    feedMapper: CyberToEntityMapper<DiscussionsResult, FeedEntity<PostEntity>>,
-    postMapper: CyberToEntityMapper<CyberDiscussion, PostEntity>,
-    postMerger: EntityMerger<PostEntity>,
-    feedMerger: EntityMerger<FeedEntity<PostEntity>>,
-    emptyFeedProducer: EmptyEntityProducer<FeedEntity<PostEntity>>,
-    mainDispatcher: CoroutineDispatcher,
-    workerDispatcher: CoroutineDispatcher,
-    logger: Logger
-) :
-    AbstractDiscussionsRepository<PostEntity, PostFeedUpdateRequest>(
-        feedMapper,
-        postMapper, postMerger, feedMerger, emptyFeedProducer, mainDispatcher, workerDispatcher, logger
-    ) {
-
-    override suspend fun getDiscussionItem(params: DiscussionId): CyberDiscussion {
-        return apiService.getPost(CyberName(params.userId), params.permlink, params.refBlockNum)
-    }
-
-    override suspend fun getFeedOnBackground(updateRequest: PostFeedUpdateRequest): DiscussionsResult {
-        return when (updateRequest) {
-            is CommunityFeedUpdateRequest -> apiService.getCommunityPosts(
-                updateRequest.communityId,
-                updateRequest.limit,
-                when (updateRequest.sort) {
-                    DiscussionsSort.FROM_OLD_TO_NEW -> DiscussionTimeSort.INVERTED
-                    DiscussionsSort.FROM_NEW_TO_OLD -> DiscussionTimeSort.SEQUENTIALLY
-                },
-                updateRequest.sequenceKey
-            )
-        }
-    }
-}
-
-class CommentsFeedRepository(
-    private val apiService: CommentsApiService,
-    feedMapper: CyberToEntityMapper<DiscussionsResult, FeedEntity<CommentEntity>>,
-    postMapper: CyberToEntityMapper<CyberDiscussion, CommentEntity>,
+@ApplicationScope
+class CommentsFeedRepository
+@Inject
+constructor(
+    feedMapper: CyberCommentsToEntityMapper,
     postMerger: EntityMerger<CommentEntity>,
-    feedMerger: EntityMerger<FeedEntity<CommentEntity>>,
+    feedMerger: EntityMerger<FeedRelatedData<CommentEntity>>,
+    approver: RequestApprover<CommentFeedUpdateRequest>,
     emptyFeedProducer: EmptyEntityProducer<FeedEntity<CommentEntity>>,
-    mainDispatcher: CoroutineDispatcher,
-    workerDispatcher: CoroutineDispatcher,
-    logger: Logger
-) :
-    AbstractDiscussionsRepository<CommentEntity, CommentFeedpdateRequest>(
+    dispatchersProvider: DispatchersProvider
+) : AbstractDiscussionsRepository<CommentEntity, CommentFeedUpdateRequest>(
         feedMapper,
-        postMapper, postMerger, feedMerger, emptyFeedProducer, mainDispatcher, workerDispatcher, logger
+        null/*postMapper*/,
+        postMerger,
+        feedMerger,
+        approver,
+        emptyFeedProducer,
+        dispatchersProvider
     ) {
 
-    override suspend fun getDiscussionItem(params: DiscussionId): CyberDiscussion {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override suspend fun getDiscussionItem(params: DiscussionIdEntity): CyberDiscussionRaw {
+        throw UnsupportedOperationException("")
     }
 
-    override suspend fun getFeedOnBackground(updateRequest: CommentFeedpdateRequest): DiscussionsResult {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun fixOnPositionDiscussion(discussion: CommentEntity, parent: DiscussionIdEntity) {
+        throw UnsupportedOperationException("")
     }
+
+    override suspend fun getFeedOnBackground(updateRequest: CommentFeedUpdateRequest): GetDiscussionsResultRaw {
+        throw UnsupportedOperationException("")
+    }
+
+    override val allDataRequest: CommentFeedUpdateRequest =
+        CommentsOfApPostUpdateRequest("stub", Permlink("stub"), 0, DiscussionsSort.FROM_NEW_TO_OLD, "stub")
 }

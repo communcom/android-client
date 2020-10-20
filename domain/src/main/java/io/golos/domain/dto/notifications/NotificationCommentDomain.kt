@@ -1,0 +1,9 @@
+package io.golos.domain.dto.notifications
+
+import io.golos.domain.dto.ContentIdDomain
+
+data class NotificationCommentDomain(val contentId: ContentIdDomain,
+                                     val shortText: String?,
+                                     val imageUrl: String?,
+                                     val parents: NotificationCommentParentsDomain
+)

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/height_community_list_item"
+    android:background="?attr/window_background"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/ivLogo"
+
+        android:layout_width="@dimen/size_icon_community"
+        android:layout_height="@dimen/size_icon_community"
+
+        android:layout_marginStart="@dimen/select_community_dialog_search_margin"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/img_example_flag"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/communityTitle"
+        style="@style/CommunityListItemTitleText"
+
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="@dimen/select_community_dialog_search_margin_small"
+        android:layout_marginEnd="@dimen/select_community_dialog_search_margin_small"
+
+        android:text=""
+
+        app:layout_constraintBottom_toTopOf="@+id/communityInfo"
+        app:layout_constraintEnd_toStartOf="@+id/joinButton"
+        app:layout_constraintStart_toEndOf="@+id/ivLogo"
+        app:layout_constraintTop_toTopOf="parent"
+
+        app:layout_constraintVertical_chainStyle="packed"
+
+        tools:text="Title" />
+
+    <TextView
+        android:id="@+id/communityInfo"
+        style="@style/CommunityListItemFollowersText"
+
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:ellipsize="end"
+
+        android:text=""
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/communityTitle"
+
+        app:layout_constraintStart_toStartOf="@+id/communityTitle"
+        app:layout_constraintTop_toBottomOf="@+id/communityTitle"
+        tools:text="52k followers" />
+
+    <ToggleButton
+        android:id="@+id/joinButton"
+
+        style="@style/BlueWhite.RoundCorners.Toggle.Follow"
+
+        android:layout_marginEnd="@dimen/select_community_dialog_search_margin"
+
+        tools:checked="true"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

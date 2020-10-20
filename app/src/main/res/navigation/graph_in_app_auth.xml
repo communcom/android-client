@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools" android:id="@+id/graph_in_app_auth"
+            app:startDestination="@id/fingerprintAuthFragment">
+
+    <fragment android:id="@+id/fingerprintAuthFragment"
+              android:name="io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.fingerprint.FingerprintAuthFragment"
+              android:label="fragment_fingerprint_auth" tools:layout="@layout/fragment_fingerprint_auth">
+        <action android:id="@+id/action_fingerprintAuthFragment_to_pinCodeAuthFragment"
+                app:destination="@id/pinCodeAuthFragment" app:enterAnim="@anim/nav_slide_in_right"
+                app:exitAnim="@anim/nav_slide_out_left" app:popEnterAnim="@anim/nav_slide_in_left"
+                app:popExitAnim="@anim/nav_slide_out_right" app:popUpTo="@+id/graph_in_app_auth"/>
+    </fragment>
+    <fragment android:id="@+id/pinCodeAuthFragment"
+              android:name="io.golos.cyber_android.ui.screens.in_app_auth_activity.fragments.pin_code.PinCodeAuthFragment"
+              android:label="PinCodeAuthFragment">
+        <action android:id="@+id/action_pinCodeAuthFragment_to_fingerprintAuthFragment"
+                app:destination="@id/fingerprintAuthFragment" app:enterAnim="@anim/nav_slide_in_right"
+                app:exitAnim="@anim/nav_slide_out_left" app:popEnterAnim="@anim/nav_slide_in_left"
+                app:popExitAnim="@anim/nav_slide_out_right" app:popUpTo="@+id/graph_in_app_auth"/>
+    </fragment>
+</navigation>

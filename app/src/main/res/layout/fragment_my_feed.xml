@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="io.golos.cyber_android.ui.screens.feed_my.view_model.MyFeedViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="?attr/light_gray">
+
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+
+            app:onRefreshListener = "@{() -> viewModel.onSwipeRefresh()}"
+            app:refreshing = "@{viewModel.swipeRefreshing}"
+
+            app:layout_constraintBottom_toTopOf="@id/vPaddingPlaceHolder"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+
+            android:clipToPadding="false">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvPosts"
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                tools:listitem="@layout/item_post_content" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <io.golos.cyber_android.ui.shared.widgets.lists.NoDataStub
+            android:id="@+id/emptyStub"
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_height="@dimen/profile_followers_no_data_height"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/emptyPostProgressLoading"
+            layout="@layout/item_loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/userProgressLoading"
+            layout="@layout/item_loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <Button
+            android:id="@+id/btnRetry"
+            style="@style/FindCommunityButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/subscriptions_btn_find_communities_height"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginTop="@dimen/subscriptions_btn_find_communities_margin"
+            android:layout_marginEnd="@dimen/margin_default"
+            android:layout_marginBottom="@dimen/subscriptions_btn_find_communities_margin"
+            android:text="@string/retry"
+            android:onClick="@{() -> viewModel.start()}"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible"/>
+
+        <View
+            android:visibility="@{viewModel.paddingPlaceHolderVisibility}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/vPaddingPlaceHolder"
+            android:background="@color/transparent"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navigation_bottom_menu_height"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

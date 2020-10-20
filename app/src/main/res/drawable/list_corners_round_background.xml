@@ -1,0 +1,29 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item android:gravity="top">
+        <shape>
+            <size android:height="20dp"/>
+            <solid android:color="?attr/window_background_light_gray" />
+        </shape>
+    </item>
+
+    <!--<item android:gravity="bottom">
+        <shape>
+            <size android:height="20dp"/>
+            <solid android:color="?attr/window_background_light_gray" />
+        </shape>
+    </item>-->
+
+    <item
+        android:top="20dp"
+        android:left="@dimen/general_list_padding"
+        android:right="@dimen/general_list_padding"
+        android:bottom="90dp">
+        <shape android:shape="rectangle">
+
+            <solid android:color="?attr/window_background" />
+
+            <corners android:radius="@dimen/general_list_header_height"/>
+        </shape>
+    </item>
+</layer-list>

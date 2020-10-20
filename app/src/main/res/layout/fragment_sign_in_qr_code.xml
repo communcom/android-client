@@ -1,0 +1,73 @@
+<layout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="viewModel" type="io.golos.cyber_android.ui.screens.app_start.sign_in.qr_code.view_model.SignInQrCodeViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <SurfaceView
+            android:id="@+id/cameraSurface"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageButton
+            android:id="@+id/ivBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="start|top"
+            android:background="@null"
+            android:padding="@dimen/margin_default"
+            app:srcCompat="@drawable/ic_left_arrow"
+            tools:ignore="ContentDescription"
+            android:tint="?attr/white"
+            android:onClick="@{() -> viewModel.onBackButtonClick()}"
+            />
+
+        <ImageView
+            android:id="@+id/codeFrame"
+            android:layout_width="@dimen/scan_qr_frame_size"
+            android:layout_height="@dimen/scan_qr_frame_size"
+            app:srcCompat="@drawable/img_qr_code_frame"
+
+            android:layout_gravity="center_horizontal"
+
+            android:layout_marginTop="@dimen/scan_qr_frame_margin"
+
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/scanQrLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="@dimen/scan_qr_label_margin"
+            android:layout_gravity="center_horizontal"
+
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textColor="?attr/white"
+
+            android:text="@string/sign_in_scan_qr" />
+
+        <TextView
+            android:id="@+id/gotoLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="@dimen/go_to_qr_label_margin"
+            android:layout_gravity="center_horizontal"
+
+            android:textColor="?attr/white"
+            android:textSize="17sp"
+
+            android:text="@string/sign_in_scan_qr_hint" />
+
+    </FrameLayout>
+</layout>

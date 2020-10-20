@@ -1,17 +1,33 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'io.fabric'
+apply from: "$rootDir/dependencies.gradle"
+
+ext {
+    applicationIdSuffix = ""
+}
 
 android {
-    compileSdkVersion targetsdk
+    compileSdkVersion versions.targetsdk
     defaultConfig {
-        minSdkVersion minsdk
-        targetSdkVersion targetsdk
+        applicationId "com.commun.android"
+        minSdkVersion versions.minsdk
+        targetSdkVersion versions.targetsdk
         versionCode appVesrionCode
         versionName appVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
+
+        signingConfig signingConfigs.debug
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath true
+            }
+        }
     }
     buildTypes {
         release {
@@ -19,19 +35,161 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    flavorDimensions "cyber4j-config-type"
+    productFlavors {
+        prod {
+            dimension "cyber4j-config-type"
+
+            resValue "string", "app_name", "Commun"
+            resValue "string", "facebook_app_id", "150680096143077"
+            resValue "string", "fb_login_protocol_scheme", "fb150680096143077"
+
+            buildConfigField "String", 'AMPLITUDE_API_KEY', "\"38406204507945e0941d552f088204fb\""
+            buildConfigField "Boolean", 'ANALYTICS_ENABLED', "true"
+            buildConfigField "Boolean", 'CRASH_REPORTS_ENABLED', "true"
+
+            buildConfigField "String", 'BLOCK_CHAIN_HTTP_API_URL', "\"https://node.commun.com/\""
+            buildConfigField "String", 'SERVICES_URL', "\"wss://gate.commun.com/\""
+            buildConfigField "String",  'ACCESS_TOKEN_BASE_URL', "\"https://commun.com/oauth/\""
+
+            buildConfigField "String", 'GOOGLE_ACCESS_TOKEN_CLIENT_ID', "\"537042616174-bl79mf0b039i8f6emh5bia6klm18nih3.apps.googleusercontent.com\""
+            buildConfigField "String",  'GOOGLE_RECAPTCHA_KEY', "\"6LdIAcAUAAAAANtWk2WpvZ0jMqX58NB3QDpgZR2S\""
+
+            buildConfigField "String",  'POINTS_URI', "\"https://commun.com/faq#What%20else%20can%20you%20do%20with%20the%20points\""
+        }
+        dev {
+            dimension "cyber4j-config-type"
+
+            resValue "string", "app_name", "Commun-dev"
+            resValue "string", "facebook_app_id", "150680096143077"
+            resValue "string", "fb_login_protocol_scheme", "fb150680096143077"
+
+            applicationIdSuffix ".dev"
+
+            buildConfigField "String", 'AMPLITUDE_API_KEY', "\"d4c86feb8c760822a71751a2b894a99e\""
+            buildConfigField "Boolean", 'ANALYTICS_ENABLED', "false"
+            buildConfigField "Boolean", 'CRASH_REPORTS_ENABLED', "false"
+
+            buildConfigField "String",  'BLOCK_CHAIN_HTTP_API_URL', "\"https://dev-node.commun.com/\""
+            buildConfigField "String",  'SERVICES_URL', "\"wss://dev-gate.commun.com/\""
+            buildConfigField "String",  'ACCESS_TOKEN_BASE_URL', "\"https://dev.commun.com/oauth/\""
+
+            buildConfigField "String", 'GOOGLE_ACCESS_TOKEN_CLIENT_ID', "\"537042616174-jr6forf8aon2j7sj09flm39mgvg8ip0l.apps.googleusercontent.com\""
+            buildConfigField "String",  'GOOGLE_RECAPTCHA_KEY', "\"6LdIAcAUAAAAANtWk2WpvZ0jMqX58NB3QDpgZR2S\""
+
+            buildConfigField "String",  'POINTS_URI', "\"https://commun.com/faq#What%20else%20can%20you%20do%20with%20the%20points\""
+        }
+        checking {
+            dimension "cyber4j-config-type"
+
+            resValue "string", "app_name", "Commun-dev"
+            resValue "string", "facebook_app_id", "150680096143077"
+            resValue "string", "fb_login_protocol_scheme", "fb150680096143077"
+
+            applicationIdSuffix ".dev"
+
+            buildConfigField "String", 'AMPLITUDE_API_KEY', "\"d4c86feb8c760822a71751a2b894a99e\""
+            buildConfigField "Boolean", 'ANALYTICS_ENABLED', "false"
+            buildConfigField "Boolean", 'CRASH_REPORTS_ENABLED', "false"
+
+            buildConfigField "String",  'BLOCK_CHAIN_HTTP_API_URL', "\"https://dev-node.commun.com/\""
+            buildConfigField "String",  'SERVICES_URL', "\"wss://dev-gate.commun.com/\""
+            buildConfigField "String",  'ACCESS_TOKEN_BASE_URL', "\"https://dev.commun.com/oauth/\""
+
+            buildConfigField "String", 'GOOGLE_ACCESS_TOKEN_CLIENT_ID', "\"537042616174-jr6forf8aon2j7sj09flm39mgvg8ip0l.apps.googleusercontent.com\""
+            buildConfigField "String",  'GOOGLE_RECAPTCHA_KEY', "\"6LdIAcAUAAAAANtWk2WpvZ0jMqX58NB3QDpgZR2S\""
+
+            buildConfigField "String",  'POINTS_URI', "\"https://commun.com/faq#What%20else%20can%20you%20do%20with%20the%20points\""
+        }
+    }
+
     compileOptions {
-        targetCompatibility 1.7
-        sourceCompatibility 1.7
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    configurations {
+        all*.exclude group: 'com.google.guava', module: 'listenablefuture'
+    }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/notice.txt'
+        exclude 'lib/x86_64/darwin/libscrypt.dylib'
+        exclude 'lib/x86_64/freebsd/libscrypt.so'
+        exclude 'lib/x86_64/linux/libscrypt.so'
+        exclude 'org/bitcoinj/crypto/cacerts'
+        exclude 'META-INF/rxjava.properties'
+        exclude 'about_files/LICENSE-2.0.txt'
+        exclude 'META-INF/eclipse.inf'
+        exclude 'plugin.xml'
+        exclude 'plugin.properties'
+    }
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
     }
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "androidx.appcompat:appcompat:$androidXVersion"
-    implementation "com.google.android.material:material:$androidXVersion"
-    implementation "androidx.recyclerview:recyclerview:$androidXVersion"
-    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    /* Our libraries */
+    implementation("io.golos.commun4j:commun4j:$versions.commun4jVersion")
+
+    /*Modules*/
+    implementation project(':domain')
+    implementation project(':data')
+    implementation project(':use_cases')
+    implementation project(':posts_editor')
+    implementation project(':utils')
+    implementation project(':pdf_renderer')
+
+    deps.groups.kotlin dependencies
+    deps.groups.ui dependencies
+    deps.groups.tests dependencies
+    deps.groups.serializers dependencies
+    deps.groups.android dependencies
+    deps.groups.navigation dependencies
+    deps.groups.architectureComponents dependencies
+    deps.groups.injection dependencies
+    deps.groups.firebase dependencies
+
+    implementation deps.utils.timber
+    implementation deps.utils.fabric
+    implementation deps.utils.protobuf
+    implementation deps.utils.amplitude
+    implementation deps.utils.remoteDebugger
+
+    implementation deps.googleServices.playServicesVision
+
+    deps.groups.facebook dependencies
+    kapt "com.android.databinding:compiler:3.0.0-beta1"
+
+    // GoogleDrive
+    implementation(deps.googleServices.playServicesAuth) {
+        exclude group: 'org.apache.httpcomponents'
+    }
+    implementation(deps.googleServices.googleDriveApi) {
+        exclude group: 'org.apache.httpcomponents'
+    }
+    implementation(deps.googleServices.googleApiClient) {
+        exclude group: 'org.apache.httpcomponents'
+    }
+    implementation(deps.googleServices.googleGsonClient) {
+        exclude group: 'org.apache.httpcomponents'
+    }
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 }

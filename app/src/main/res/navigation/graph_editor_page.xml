@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools" android:id="@+id/graph_editor_page"
+            app:startDestination="@id/editorPageFragment">
+
+    <fragment android:id="@+id/editorPageFragment"
+              android:name="io.golos.cyber_android.ui.screens.post_edit.fragment.view.EditorPageFragment"
+              android:label="fragment_editor_page" tools:layout="@layout/fragment_editor_page"/>
+</navigation>

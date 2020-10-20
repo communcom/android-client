@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="io.golos.cyber_android.ui.screens.community_page_post.view_model.CommunityPostViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/light_gray"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/communityFilterContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/white"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/sort_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:text="@string/sort"
+                    android:textColor="?attr/grey"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/communityFilterType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:drawablePadding="15sp"
+                    android:textColor="?attr/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/sort_title"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Popular" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    app:layout_constraintBottom_toBottomOf="@id/communityFilterType"
+                    app:layout_constraintStart_toEndOf="@id/communityFilterType"
+                    app:layout_constraintTop_toTopOf="@id/communityFilterType"
+                    app:srcCompat="@drawable/ic_drop_down" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvCommunityPosts"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_post_content" />
+
+        </LinearLayout>
+
+        <include
+            android:id="@+id/emptyPostProgressLoading"
+            layout="@layout/item_loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/userProgressLoading"
+            layout="@layout/item_loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <Button
+            android:id="@+id/btnRetry"
+            style="@style/FindCommunityButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/subscriptions_btn_find_communities_height"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginTop="@dimen/subscriptions_btn_find_communities_margin"
+            android:layout_marginEnd="@dimen/margin_default"
+            android:layout_marginBottom="@dimen/subscriptions_btn_find_communities_margin"
+            android:text="@string/retry"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

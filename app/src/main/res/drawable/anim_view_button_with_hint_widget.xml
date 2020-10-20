@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--suppress ALL -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <set>
+            <objectAnimator
+                android:propertyName="elevation"
+                android:duration="@android:integer/config_shortAnimTime"
+                android:valueTo="0dp"
+                android:valueType="floatType" />
+        </set>
+    </item>
+
+    <item>
+        <set>
+            <objectAnimator
+                android:propertyName="elevation"
+                android:duration="@android:integer/config_shortAnimTime"
+                android:valueTo="@dimen/elevation_next_button"
+                android:valueType="floatType"/>
+        </set>
+    </item>
+</selector>

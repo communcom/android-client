@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="io.golos.cyber_android.ui.screens.communities_list.view_model.CommunitiesListViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/window_background_light_gray">
+
+        <FrameLayout
+            android:id="@+id/communities_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/white_header_height"
+            android:layout_alignParentTop="true"
+            android:background="?attr/white"
+            android:visibility="@{viewModel.toolbarVisibility}">
+
+            <TextView
+                android:id="@+id/textView"
+                style="@style/White.Header.TextStyle"
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+
+                android:layout_gravity="center"
+
+                android:text="@string/communities" />
+
+            <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+                android:id="@+id/backButton"
+
+                android:layout_width="@dimen/size_image_button"
+                android:layout_height="@dimen/size_image_button"
+
+                android:layout_gravity="center_vertical|start"
+                android:background="@null"
+                android:onClick="@{() -> viewModel.onBackButtonClick()}"
+                android:visibility="@{viewModel.backButtonVisibility}"
+
+                app:imageButton_icon="@drawable/ic_back"
+
+                app:imageButton_iconInscribeSize="@dimen/profile_back_button_icon_size"
+                app:imageButton_tint="?attr/black"
+                tools:visibility="visible" />
+        </FrameLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/communities_toolbar"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/communities_toolbar">
+
+            <io.golos.cyber_android.ui.shared.widgets.lists.NoDataStub
+                android:id="@+id/emptyStub"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/profile_followers_no_data_height"
+                android:visibility="gone" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/mainList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/list_corners_round_background"
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never"
+                android:paddingStart="@dimen/general_list_padding"
+                android:paddingTop="27dp"
+                android:paddingEnd="@dimen/general_list_padding"
+                android:visibility="visible" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</layout>

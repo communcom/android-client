@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/transparent"
+
+    android:paddingBottom="@dimen/sign_up_warning_dialog_padding_bottom"
+    android:paddingStart="@dimen/sign_up_warning_dialog_padding_side"
+    android:paddingEnd="@dimen/sign_up_warning_dialog_padding_side">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:background="@drawable/bcg_dialog_round_corners_white"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="20dp">
+
+        <ImageView
+            android:id="@+id/buttonClose"
+            android:layout_width="@dimen/tool_button_size"
+            android:layout_height="@dimen/tool_button_size"
+
+            android:layout_marginTop="15dp"
+
+            android:background="?selectableItemBackgroundBorderless"
+
+            android:padding="5dp"
+            android:src="@drawable/ic_close_gray"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:text="@string/user_name_restriction_title"
+
+            style="@style/UserName.Restriction.Dialog.Title.TextStyle"
+
+            app:layout_constraintBottom_toBottomOf="@+id/buttonClose"
+            app:layout_constraintEnd_toStartOf="@+id/buttonClose"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/buttonClose" />
+
+        <TextView
+            android:id="@+id/explanationText"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="13dp"
+
+            android:lineSpacingExtra="7dp"
+            android:text="@string/user_name_restriction_explanation"
+            android:textColor="?attr/grey"
+            android:textSize="15sp"
+            android:gravity="start"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title" />
+
+        <TextView
+            android:id="@+id/mainButton"
+
+            style="@style/BlueWhite.RoundCorners.Button"
+
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+
+            android:layout_marginTop="20dp"
+
+            android:text="@string/understand"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.825"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/explanationText" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

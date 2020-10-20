@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.AppCompatTextView
+        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+        style="@style/SortsTextStyle"
+        tools:text="@string/filter_time_24hr"
+        android:paddingTop="@dimen/padding_vertical_sorting_type"
+        android:paddingBottom="@dimen/padding_vertical_sorting_type"
+        android:paddingStart="@dimen/margin_default"
+        android:paddingEnd="@dimen/margin_default"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>

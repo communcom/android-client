@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:background="@drawable/bcg_bottom_sheet_dialog_round_corners"
+
+    android:paddingTop="@dimen/bottom_sheet_dialog_padding_header_top"
+    android:paddingBottom="@dimen/bottom_sheet_dialog_padding_bottom">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clCommunityInfo"
+        android:layout_width="0dp"
+        android:layout_height="?actionBarSize"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toStartOf="@+id/communityLeaderSettingsClose"
+
+        app:layout_constraintStart_toStartOf="@+id/cvMainActions"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/ivLogo"
+
+            android:layout_width="@dimen/size_icon_community"
+            android:layout_height="@dimen/size_icon_community"
+
+            android:layout_marginStart="@dimen/select_community_dialog_search_margin"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/img_example_flag"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/communityTitle"
+            style="@style/CommunityListItemTitleText"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginStart="@dimen/select_community_dialog_search_margin_small"
+            android:layout_marginEnd="@dimen/select_community_dialog_search_margin_small"
+
+            android:text=""
+
+            app:layout_constraintBottom_toTopOf="@+id/communityInfo"
+            app:layout_constraintEnd_toStartOf="@+id/joinButton"
+            app:layout_constraintStart_toEndOf="@+id/ivLogo"
+            app:layout_constraintTop_toTopOf="parent"
+
+            app:layout_constraintVertical_chainStyle="packed"
+
+            tools:text="Title" />
+
+        <TextView
+            android:id="@+id/communityInfo"
+            style="@style/CommunityListItemFollowersText"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:ellipsize="end"
+
+            android:text=""
+
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/communityTitle"
+            app:layout_constraintTop_toBottomOf="@+id/communityTitle" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/communityLeaderSettingsClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_close_gray_black"
+        app:layout_constraintBottom_toBottomOf="@+id/clCommunityInfo"
+        app:layout_constraintEnd_toEndOf="@+id/cvMainActions"
+
+        app:layout_constraintTop_toTopOf="@+id/clCommunityInfo"
+        tools:ignore="ContentDescription" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvMainActions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_default"
+        android:layout_marginTop="@dimen/margin_default"
+        android:layout_marginEnd="@dimen/margin_default"
+        app:cardBackgroundColor="?attr/white"
+        app:cardCornerRadius="@dimen/card_view_corner_radius"
+        app:cardElevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/clCommunityInfo">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/title">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvReports"
+                    style="@style/BottomSheetMenuItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/settings_menu_item_height"
+                    android:layout_margin="0dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/reports"
+                    app:drawableStartCompat="@drawable/ic_leader_dashboard_report"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/vReportCount"
+                    style="@style/Text15.Blue.Bold.SingleLine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/bottom_sheet_dialog_item_report_count_margin_end"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/vArrowNext"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="+23" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/vArrowNext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_arrow_next" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="?attr/bottomSheetItemBackgroundCOlor" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/tvReports">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvProposals"
+                    style="@style/BottomSheetMenuItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/settings_menu_item_height"
+                    android:layout_margin="0dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/proposals"
+                    app:drawableStartCompat="@drawable/ic_leader_dashboard_proposals"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/vProposalsCount"
+                    style="@style/Text15.Blue.Bold.SingleLine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/bottom_sheet_dialog_item_proposals_count_margin_end"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/vArrowNextProposals"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="+23" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/vArrowNextProposals"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_arrow_next" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="?attr/bottomSheetItemBackgroundCOlor" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/tvProposals">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvMembers"
+                    style="@style/BottomSheetMenuItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/settings_menu_item_height"
+                    android:layout_margin="0dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/members"
+                    app:drawableStartCompat="@drawable/ic_leader_dashboard_members"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_arrow_next" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="?attr/bottomSheetItemBackgroundCOlor" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/tvMembers">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvBlockedUsers"
+                    style="@style/BottomSheetMenuItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/settings_menu_item_height"
+                    android:layout_margin="0dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/blocked_users"
+                    app:drawableStartCompat="@drawable/ic_leader_dashboard_blocked_users"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_arrow_next" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cvMainActions">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSettings"
+            style="@style/BottomSheetMenuItem"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/settings_menu_item_height"
+            android:text="@string/settings"
+            app:drawableStartCompat="@drawable/ic_leader_dashboard_settings"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_arrow_next" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

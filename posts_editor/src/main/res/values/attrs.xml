@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="DefThemeStyles">
+        <attr name="white_edit" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="editor">
+        <attr name="render_type" format="string" />
+        <attr name="placeholder" format="string" />
+        <attr name="auto_focus" format="boolean" />
+        <attr name="is_simple" format="boolean" />
+        <attr name="editor_text_color" format="color" />
+        <attr name="editor_hint_color" format="color"/>
+        <attr name="is_text_styles_supported" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="SelectColorGridItem">
+        <attr name="selectColorGridItem_markColor" format="color" />
+        <attr name="selectColorGridItem_fillColor" format="color" />
+        <attr name="selectColorGridItem_strokeColor" format="color" />
+    </declare-styleable>
+</resources>

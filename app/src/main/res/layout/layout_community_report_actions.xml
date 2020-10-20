@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout_editor_absoluteX="16dp">
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/bcg_filter_gray"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.35">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_toStartOf="@id/report_counter"
+                    android:singleLine="true"
+                    android:text="Reports"
+                    android:textColor="?attr/blueWhite"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/report_counter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:text="74"
+                    android:textColor="?attr/black"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout2"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="@dimen/padding_toolbar_buttons_20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/bcg_filter_gray"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/relativeLayout"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.35">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_toStartOf="@+id/proposals_counter"
+                    android:singleLine="true"
+                    android:text="Proposals"
+                    android:textColor="?attr/blueWhite"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/proposals_counter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:text="74"
+                    android:textColor="?attr/black"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/icSettings"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/bcg_blue_button_round"
+                android:padding="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_settings" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

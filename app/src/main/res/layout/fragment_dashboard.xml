@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="io.golos.cyber_android.ui.screens.dashboard.view_model.DashboardViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="?attr/window_background_light_gray">
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/mainPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never" />
+
+            <io.golos.cyber_android.ui.shared.widgets.NavigationBottomMenuWidget
+                android:id="@+id/navigationMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/rootContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

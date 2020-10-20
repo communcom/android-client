@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:tools="http://schemas.android.com/tools">
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/flPreloadImage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/post_empty_place_holder"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
+
+        <ProgressBar
+            android:id="@+id/pbImageLoad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_default"
+            android:layout_marginBottom="@dimen/margin_default"
+            android:indeterminateOnly="true"
+            android:visibility="invisible"
+            tools:visibility="invisible"/>
+
+        <Button
+            android:id="@+id/btnRetry"
+            style="@style/FindCommunityButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/subscriptions_btn_find_communities_height"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginTop="@dimen/subscriptions_btn_find_communities_margin"
+            android:layout_marginEnd="@dimen/margin_default"
+            android:layout_marginBottom="@dimen/subscriptions_btn_find_communities_margin"
+            android:text="@string/retry"
+            android:visibility="invisible"
+            android:layout_gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible"/>
+    </FrameLayout>
+</merge>

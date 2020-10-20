@@ -1,0 +1,165 @@
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="viewModel" type="io.golos.cyber_android.ui.screens.app_start.sign_in.username.view_model.SignInUserNameViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/white"
+        android:orientation="vertical"
+        tools:context=".ui.screens.app_start.sign_in.username.view.SignInUserNameFragment">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/actionBar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/white_header_height"
+            android:background="?attr/white"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:liftOnScroll="true">
+
+            <io.golos.cyber_android.ui.screens.app_start.shared.HeaderWidget
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:title = "@string/welcome"
+                app:back_visibility="@{viewModel.isBackButtonVisible}"
+            />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/login"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sign_up_field_height"
+
+                android:layout_marginTop="48dp"
+
+                style="@style/SignIn.InputField"
+
+                android:hint="@string/username"
+                android:maxLength="@{viewModel.maxUserNameLen}"
+
+                android:text="@={viewModel.userName}"
+                />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sign_up_field_height"
+
+                android:layout_marginTop="@dimen/margin_default"
+
+                style="@style/SignIn.InputField"
+
+                android:hint="@string/password"
+                android:maxLength="@{viewModel.maxPasswordLen}"
+
+                android:text="@={viewModel.password}"
+
+                android:inputType="textPassword"
+                />
+
+            <TextView
+                android:id="@+id/pastePassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="12dp"
+
+                style="@style/SignIn.Query.Link"
+                android:singleLine="true"
+                android:ellipsize="end"
+
+                tools:text="Paste"
+                android:text="@{viewModel.pastePasswordText}"
+
+                android:layout_marginStart="42dp"
+                android:layout_marginEnd="42dp"
+
+                android:layout_gravity="center_horizontal"
+
+                android:onClick="@{() -> viewModel.onPastePasswordClick()}"
+
+                android:visibility="@{viewModel.pastePasswordVisibility}"
+                tools:visibility="visible"
+                />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginStart="42dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="42dp">
+
+                <TextView
+                    android:id="@+id/signIn"
+                    style="@style/SignUpButtonStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+
+                    tools:enabled="true"
+                    android:enabled="@{viewModel.signInButtonEnabled}"
+
+                    android:text="@string/sign_in"
+
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/qrCode"
+
+                    android:layout_marginEnd="4dp"
+
+                    android:onClick="@{() -> viewModel.onSignInClick()}"
+                />
+
+                <Button
+                    android:id="@+id/qrCode"
+
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+
+                    android:background="@drawable/bcg_sign_up_button"
+                    android:drawableStart="@drawable/ic_qr_code"
+
+                    android:paddingStart="18dp"
+
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:ignore="ContentDescription,RtlSymmetry"
+
+                    android:onClick="@{() -> viewModel.onQrCodeClick()}"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/tvSignIn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="24dp"
+
+                style="@style/SignIn.Query.Link"
+
+                android:text="@string/account_query"
+
+                android:layout_gravity="center_horizontal"
+
+                android:onClick="@{() -> viewModel.onMoveToSignUpClick()}"
+                />
+        </LinearLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

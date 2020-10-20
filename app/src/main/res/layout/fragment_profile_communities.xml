@@ -1,0 +1,82 @@
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable name="viewModel" type="io.golos.cyber_android.ui.screens.profile_communities.view_model.ProfileCommunitiesViewModel" />
+        <variable
+            name="isExternalUserProfile"
+            type="Boolean" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/profile_communities_height"
+        android:background="?attr/white">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/stroke_normal"
+
+            android:background="?attr/light_gray"
+
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/communitiesList"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/profile_communities_list_height"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <TextView
+            android:id="@+id/seeAllLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/see_all"
+
+            style="@style/BlueHeaderButton"
+
+            android:layout_marginEnd="@dimen/margin_default"
+            android:onClick="@{() -> viewModel.onSeeAllClick()}"
+
+            app:layout_constraintBottom_toTopOf="@+id/communitiesList"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/CommunitiesLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            style="@style/Profile.Community.Name"
+
+            android:layout_marginStart="@dimen/margin_default"
+
+            android:text="@string/communities"
+            app:layout_constraintBottom_toBottomOf="@+id/seeAllLabel"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/CommunitiesInfoLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            tools:text="1.2k (300 Mutual)"
+            app:communitiesCount="@{viewModel.communitiesCount}"
+
+            android:layout_marginStart="@dimen/margin_default"
+
+            android:visibility='@{isExternalUserProfile ? View.VISIBLE : View.GONE, default=gone}'
+            style="@style/ProfileJoinedTextStyle"
+
+            app:layout_constraintBottom_toTopOf="@+id/communitiesList"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

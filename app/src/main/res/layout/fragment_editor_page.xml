@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="io.golos.cyber_android.ui.screens.post_edit.fragment.view_model.EditorPageViewModel" />
+    </data>
+
+    <LinearLayout android:orientation="vertical"
+        android:background="?attr/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.screens.post_edit.fragment.view.EditorPageFragment">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="0dp">
+
+            <!--App bar-->
+            <com.google.android.material.appbar.AppBarLayout
+                app:elevation="0dp"
+                android:id="@+id/actionBar"
+                android:background="?attr/white"
+                android:layout_height="@dimen/height_action_bar"
+                android:layout_width="match_parent"
+                android:theme="@style/AppTheme.AppBarOverlay">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    app:layout_scrollFlags="scroll|enterAlways">
+
+                    <ImageView
+                        android:id="@+id/close"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:src="@drawable/ic_close_gray"
+                        android:padding="10dp"
+                        android:background="?selectableItemBackgroundBorderless"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/toolbarTitle"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_weight="1"
+                        android:text="@string/create_post"
+                        style="@style/ToolbarTitleTextStyle"
+
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <!-- Community area -->
+                    <io.golos.cyber_android.ui.screens.post_edit.fragment.view.widgets.CommunityContainer
+                        android:id="@+id/postCommunity"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/height_community_area"
+
+                        app:community="@{viewModel.community}"
+                        app:select_community_enabled="@{viewModel.isSelectCommunityEnabled}" />
+
+                    <!--Title-->
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/leaderName"
+                        style="@style/EditorPostTitleTextStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_default"
+                        android:layout_marginTop="@dimen/margin_top_editor_page_title"
+                        android:layout_marginEnd="@dimen/margin_default"
+                        android:background="?attr/white"
+                        android:singleLine="false"
+                        android:hint="@string/title"
+
+                        android:inputType="textFilter|textMultiLine"
+                        android:visibility="visible"/>
+
+                    <io.golos.posts_editor.Editor
+                        android:id="@+id/editorWidget"
+                        android:layout_width="match_parent"
+
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginTop="@dimen/margin_top_editor_page_title"
+
+                        android:minHeight="@dimen/min_height_editor"
+
+                        app:is_simple="true"
+                        app:editor_text_color="?attr/black"
+                        app:is_text_styles_supported="false"
+                        app:editor_hint_color="?attr/grey"
+                        app:placeholder="@string/write_text_with_points"
+                        app:render_type="Editor" />
+                </LinearLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <!--Toolbar-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:orientation="horizontal"
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_editor_toolbar"
+            android:background="@drawable/bcg_editor_toolbar">
+
+            <Button
+                android:id="@+id/nsfwButton"
+
+                android:layout_width="@dimen/size_editor_tool_button"
+                android:layout_height="@dimen/size_editor_tool_button"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+
+                style="?android:attr/borderlessButtonStyle"
+
+                android:layout_marginStart="@dimen/margin_size_editor_common"
+                android:layout_marginEnd="@dimen/margin_size_editor_tool_button"
+
+                android:background="@drawable/bcg_editor_tool_button_adult"
+                android:textColor="@color/tint_editor_tool_button_adult"
+
+                android:text="@string/adult_only"
+                android:textSize="13sp"
+                android:visibility="gone"
+                tools:visibility="visible"/>
+
+            <HorizontalScrollView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+
+                android:layout_marginStart="@dimen/margin_size_editor_tool_button"
+                android:layout_marginEnd="@dimen/margin_size_editor_tool_button"
+
+                android:scrollbars="none"
+                app:layout_constraintBottom_toBottomOf="parent"
+
+                app:layout_constraintEnd_toStartOf="@+id/postButton"
+                app:layout_constraintStart_toEndOf="@+id/nsfwButton"
+
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+                        android:id="@+id/boldButton"
+
+                        android:layout_width="@dimen/size_editor_tool_button"
+                        android:layout_height="@dimen/size_editor_tool_button"
+
+                        android:layout_gravity="start|center_vertical"
+                        android:layout_marginStart="@dimen/margin_size_editor_tool_button"
+
+                        android:layout_marginEnd="@dimen/margin_size_editor_tool_button"
+
+                        android:background="@drawable/bcg_editor_tool_button"
+                        android:visibility="gone"
+
+                        app:imageButton_icon="@drawable/ic_bold"
+                        app:imageButton_iconInscribeSize="@dimen/size_editor_tool_button_icon"
+                        app:imageButton_tint="@color/tint_editor_tool_button"
+
+                        tools:visibility="visible" />
+
+                    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+                        android:id="@+id/italicButton"
+
+                        android:layout_width="@dimen/size_editor_tool_button"
+                        android:layout_height="@dimen/size_editor_tool_button"
+
+                        android:layout_gravity="start|center_vertical"
+                        android:layout_marginStart="@dimen/margin_size_editor_tool_button"
+
+                        android:layout_marginEnd="@dimen/margin_size_editor_tool_button"
+
+                        android:background="@drawable/bcg_editor_tool_button"
+                        android:visibility="gone"
+
+                        app:imageButton_icon="@drawable/ic_italic"
+                        app:imageButton_iconInscribeSize="@dimen/size_editor_tool_button_icon"
+                        app:imageButton_tint="@color/tint_editor_tool_button"
+
+                        tools:visibility="visible" />
+
+                    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+                        android:id="@+id/textColorButton"
+
+                        android:layout_width="@dimen/size_editor_tool_button"
+                        android:layout_height="@dimen/size_editor_tool_button"
+
+                        android:layout_gravity="start|center_vertical"
+                        android:layout_marginStart="@dimen/margin_size_editor_tool_button"
+
+                        android:layout_marginEnd="@dimen/margin_size_editor_tool_button"
+
+                        android:background="@drawable/bcg_editor_tool_button"
+                        android:visibility="gone"
+
+                        app:imageButton_icon="@drawable/ic_text_color"
+                        app:imageButton_iconInscribeSize="@dimen/size_editor_tool_button_icon"
+                        app:imageButton_tint="@color/tint_editor_tool_button"
+
+                        tools:visibility="visible" />
+
+
+                    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+                        android:id="@+id/photoButton"
+
+                        android:layout_width="@dimen/size_editor_tool_button"
+                        android:layout_height="@dimen/size_editor_tool_button"
+
+                        android:layout_gravity="start|center_vertical"
+                        android:layout_marginStart="@dimen/margin_size_editor_tool_button"
+
+                        android:layout_marginEnd="@dimen/margin_size_editor_tool_button"
+
+                        android:background="@drawable/bcg_editor_tool_button"
+                        android:visibility="gone"
+
+                        app:imageButton_icon="@drawable/ic_photo"
+                        app:imageButton_iconInscribeSize="@dimen/size_editor_tool_button_icon"
+                        app:imageButton_tint="@color/tint_editor_tool_button"
+
+                        tools:visibility="visible" />
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <Button
+                android:id="@+id/postButton"
+
+                android:layout_width="@dimen/width_editor_post_button"
+                android:layout_height="@dimen/height_editor_post_button"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+
+                style="@style/BlueWhite.RoundCorners.Button"
+
+                android:layout_marginStart="@dimen/margin_size_editor_tool_button"
+                android:layout_marginEnd="@dimen/margin_size_editor_common"
+
+                android:enabled="@{viewModel.isPostEnabled}"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</layout>

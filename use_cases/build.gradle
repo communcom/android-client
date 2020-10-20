@@ -1,0 +1,8 @@
+apply plugin: 'com.android.library'
+
+apply from: "$rootDir/config.gradle"
+
+dependencies {
+    implementation project(':domain')
+    implementation("io.golos.commun4j:commun4j:$versions.commun4jVersion")
+}

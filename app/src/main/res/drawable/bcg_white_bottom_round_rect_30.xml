@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="?attr/window_background" />
+
+    <corners
+        android:topLeftRadius="@dimen/community_page_top_round_corners_radius"
+        android:topRightRadius="@dimen/community_page_top_round_corners_radius" />
+</shape>

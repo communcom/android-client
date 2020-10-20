@@ -1,0 +1,22 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="image_description_text">12sp</dimen>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+
+    <!--<editor-fold desc="Strokes width">-->
+    <dimen name="stroke_thin">1dp</dimen>
+    <dimen name="stroke_normal">2dp</dimen>
+    <!--</editor-fold>-->
+
+    <!--<editor-fold desc="Color selection control">-->
+    <dimen name="select_color_item_size">40dp</dimen>
+    <dimen name="select_color_margin">10dp</dimen>
+    <!--</editor-fold>-->
+
+    <dimen name="padding_main">20dp</dimen>
+
+    <dimen name="close_image_size">30dp</dimen>
+    <dimen name="close_image_margin">10dp</dimen>
+    <dimen name="image_description_margin">3dp</dimen>
+</resources>

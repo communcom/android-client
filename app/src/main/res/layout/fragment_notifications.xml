@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="io.golos.cyber_android.ui.screens.notifications.view_model.NotificationsViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:orientation="vertical"
+        android:background="?attr/window_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.screens.notifications.view.NotificationsFragment">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/actionBar"
+            android:background="?attr/window_background"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:elevation="0dp">
+
+            <TextView
+                android:id="@+id/toolbarTitle"
+                android:text="@string/notifications"
+                style="@style/ToolbarTitleTextStyle"
+                android:layout_marginStart="@dimen/margin_default"
+                android:layout_marginEnd="@dimen/margin_default"
+                android:layout_marginTop="@dimen/margin_default"
+                android:layout_gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+            <TextView
+                android:id="@+id/tvUnreadCountLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_unread_point"
+                android:layout_marginStart="@dimen/margin_default"
+                android:drawablePadding="@dimen/gap"
+                android:textColor="?attr/grey"
+                app:layout_scrollFlags="scroll|enterAlways"
+                tools:text="@string/new_notifications_label"/>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                app:onRefreshListener = "@{() -> viewModel.onSwipeRefresh()}"
+                app:refreshing = "@{viewModel.swipeRefreshing}">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvNotifications"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="@dimen/navigation_bottom_menu_height"
+                tools:listitem="@layout/item_notification"/>
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+            <Button
+                android:id="@+id/btnRetry"
+                style="@style/FindCommunityButton"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/subscriptions_btn_find_communities_height"
+                android:layout_marginStart="@dimen/margin_default"
+                android:layout_marginTop="@dimen/subscriptions_btn_find_communities_margin"
+                android:layout_marginEnd="@dimen/margin_default"
+                android:layout_marginBottom="@dimen/subscriptions_btn_find_communities_margin"
+                android:text="@string/retry"
+                android:visibility="invisible"
+                android:layout_gravity="center"
+                android:onClick="@{() -> viewModel.onRetryLoadPage()}"
+                tools:visibility="visible" />
+
+            <include
+                android:id="@+id/emptyProgressLoading"
+                layout="@layout/item_loading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                android:layout_gravity="center"
+                tools:visibility="visible" />
+        </FrameLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

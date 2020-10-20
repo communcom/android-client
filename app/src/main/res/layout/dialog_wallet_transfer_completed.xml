@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@android:color/transparent"
+    tools:background="@color/toolsBackground">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="335dp"
+        android:layout_height="497dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/bcg_wallet_transfer">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/hGuideline0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="0dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/hGuideline1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="100dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/hGuideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="165dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/hGuideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="387dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/hGuideline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="497dp" />
+
+        <TextView
+            android:id="@+id/transactionCompletedLabel"
+            style="@style/Text17.Black.Bold.SingleLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="@string/transaction_completed"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/hGuideline1" />
+
+        <TextView
+            android:id="@+id/transactionDayLabel"
+            style="@style/Text12.Grey.Bold.SingleLine"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+
+            android:text=""
+            tools:text="21 April 2019"
+
+            android:layout_marginTop="8dp"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/transactionCompletedLabel" />
+
+        <TextView
+            android:id="@+id/pointsLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text=""
+            tools:text="500"
+
+            android:layout_marginTop="24dp"
+
+            android:layout_marginEnd="3dp"
+
+            style="@style/Text17.Black.Bold.SingleLine"
+
+            app:layout_constraintEnd_toStartOf="@+id/pointsNameLabel"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/hGuideline2" />
+
+        <TextView
+            android:id="@+id/pointsNameLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text=""
+            tools:text="Overwatch"
+
+            android:layout_marginStart="3dp"
+
+            style="@style/Text17.Grey.SingleLine"
+
+            app:layout_constraintBottom_toBottomOf="@+id/pointsLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/pointsLabel"
+            app:layout_constraintTop_toTopOf="@+id/pointsLabel" />
+
+        <TextView
+            android:id="@+id/pointsFeeLabel"
+            style="@style/Text12.Grey.Bold.SingleLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="8dp"
+
+            android:text="@string/send_complete_burned"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pointsLabel" />
+
+        <ImageView
+            android:id="@+id/userLogo"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+
+            app:layout_constraintBottom_toTopOf="@+id/userName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pointsFeeLabel"
+
+            app:srcCompat="@drawable/img_example_avatar" />
+
+        <TextView
+            android:id="@+id/userName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text=""
+            tools:text="Natasha"
+
+            style="@style/Text17.Black.Bold.SingleLine"
+
+            android:layout_marginBottom="8dp"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/userStatus"
+             />
+
+        <TextView
+            android:id="@+id/userStatus"
+            style="@style/Text12.Grey.Bold.SingleLine"
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+
+            android:text="@string/payee"
+
+            android:layout_marginBottom="24dp"
+
+            app:layout_constraintBottom_toTopOf="@+id/hGuideline3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/debitedLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="@string/debited_from"
+
+            style="@style/Text12.Grey.Bold.SingleLine"
+
+            android:layout_marginBottom="15dp"
+
+            app:layout_constraintBottom_toTopOf="@+id/remainSumPanel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <View
+            android:id="@+id/remainSumPanel"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+
+            android:layout_marginStart="30dp"
+
+            android:layout_marginEnd="30dp"
+            android:background="@drawable/bcg_wallet_transfer_completed_remain"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/remainLogo"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+
+            android:layout_marginStart="15dp"
+
+            android:background="@drawable/bcg_circle_white"
+
+            android:padding="1dp"
+            app:layout_constraintBottom_toBottomOf="@+id/remainSumPanel"
+            app:layout_constraintStart_toStartOf="@+id/remainSumPanel"
+            app:layout_constraintTop_toTopOf="@+id/remainSumPanel"
+
+            app:srcCompat="@drawable/img_example_avatar"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/pointsNameBottomLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="15dp"
+
+            android:text=""
+            tools:text="Overwatch"
+
+            style="@style/Text15.White.Bold.SingleLine"
+
+            app:layout_constraintBottom_toBottomOf="@+id/remainSumPanel"
+            app:layout_constraintEnd_toStartOf="@+id/remainLabel"
+            app:layout_constraintStart_toEndOf="@+id/remainLogo"
+            app:layout_constraintTop_toTopOf="@+id/remainSumPanel" />
+
+        <TextView
+            android:id="@+id/remainLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+
+            android:text=""
+            tools:text="201000.53"
+
+            style="@style/Text15.White.Bold.SingleLine"
+
+            app:layout_constraintBottom_toBottomOf="@+id/remainSumPanel"
+            app:layout_constraintEnd_toEndOf="@+id/remainSumPanel"
+            app:layout_constraintTop_toTopOf="@+id/remainSumPanel" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/homeButton"
+        android:layout_width="335dp"
+        android:layout_height="50dp"
+
+        android:layout_marginTop="34dp"
+
+        android:layout_gravity="center_horizontal"
+
+        style="@style/BlueWhite.RoundCorners.Button.Bold"
+
+        android:text="@string/home" />
+
+    <Button
+        android:id="@+id/backToWalletButton"
+        android:layout_width="335dp"
+        android:layout_height="50dp"
+
+        android:layout_marginTop="10dp"
+
+        style="@style/GrayBlue.RoundCorners.Button.Bold"
+
+        android:layout_gravity="center_horizontal"
+
+        android:text="@string/back_to_wallet" />
+
+</LinearLayout>

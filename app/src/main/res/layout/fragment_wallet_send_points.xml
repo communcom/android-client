@@ -1,0 +1,63 @@
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable name="viewModel" type="io.golos.cyber_android.ui.screens.wallet_send_points.view_model.WalletSendPointsViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/blue"
+        android:clickable="true"
+        tools:ignore="KeyboardInaccessibleWidget">
+
+        <FrameLayout
+            android:id="@+id/topPanel"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+
+            app:layout_constraintBottom_toTopOf="@+id/bottomPanel"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <io.golos.cyber_android.ui.screens.wallet_shared.send_points.widgets.WalletSendPointsExpandedTopPanel
+                android:id="@+id/expandedPanel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible"
+                app:wallet_send_points_expanded_panel_data="@{viewModel.selectedBalanceRecord}"
+                app:wallet_send_points_expanded_panel_carousel_start="@{viewModel.carouselItems}"
+                app:wallet_send_points_expanded_panel_title="@{viewModel.title}"
+                />
+
+            <io.golos.cyber_android.ui.screens.wallet_shared.send_points.widgets.WalletSendPointsCollapsedTopPanel
+                android:id="@+id/collapsedPanel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible"
+                app:wallet_send_points_collapsed_data="@{viewModel.selectedBalanceRecord}"
+                />
+        </FrameLayout>
+
+        <io.golos.cyber_android.ui.screens.wallet_send_points.view.widgets.WalletSendPointsBottomPanel
+            android:id="@+id/bottomPanel"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/wallet_send_points_bottom_panel_height"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+
+            app:wallet_send_points_bottom_user_info="@{viewModel.selectedUser}"
+            app:wallet_send_points_bottom_amount_info="@{viewModel.amountFieldInfo}"
+            app:wallet_send_points_bottom_amount="@{viewModel.amountInputField}"
+            app:wallet_send_points_bottom_send_info="@{viewModel.sendButtonInfo}"
+            app:wallet_exchange_button_visible="@{viewModel.exchangeButtonVisibility}"
+            app:wallet_send_points_user_selection_is_enabled="@{viewModel.userSelectionIsEnabled}"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:layout_width="40dp"
+            tools:layout_height="40dp"
+
+            android:id="@+id/buttonIcon"
+            android:background="@null"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="@dimen/start_margin_view_button_with_hint"
+            tools:ignore="ContentDescription"/>
+
+    <TextView
+            android:text=""
+            tools:text="Primary text"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:id="@+id/primaryText"
+
+            style="@style/EditorPreviewSummaryTextStyle"
+
+            app:layout_constraintStart_toEndOf="@+id/buttonIcon"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/secondaryText"
+            app:layout_constraintVertical_chainStyle="packed"
+            android:layout_marginStart="@dimen/start_margin_view_button_with_hint"
+            android:layout_marginBottom="@dimen/text_gap_view_button_with_hint"/>
+
+    <TextView
+            android:text=""
+            tools:text="Secondary text"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            style="@style/PostCardAuthorTextStyle"
+
+            android:id="@+id/secondaryText"
+
+            app:layout_constraintStart_toStartOf="@+id/primaryText"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/primaryText"
+
+            android:layout_marginTop="@dimen/text_gap_view_button_with_hint"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

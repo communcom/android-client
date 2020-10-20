@@ -1,6 +1,6 @@
 package io.golos.data.errors
 
-import io.golos.cyber4j.utils.Either
+import io.golos.commun4j.sharedmodel.Either
 
 /**
  * Created by yuri yurivladdurain@gmail.com on 11/03/2019.

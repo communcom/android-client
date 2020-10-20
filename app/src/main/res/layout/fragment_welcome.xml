@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/white"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/margin_default"
+    android:paddingBottom="@dimen/margin_default"
+    tools:context=".ui.screens.app_start.welcome.welcome_fragment.WelcomeFragment">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+            android:id="@+id/dotsIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:dotsColor="?attr/grayWhite"
+            app:dotsCornerRadius="8dp"
+            app:dotsSize="6dp"
+            app:dotsSpacing="4dp"
+            app:dotsWidthFactor="4.0"
+            app:selectedDotColor="@color/blue" />
+
+        <TextView
+            android:id="@+id/topSignIn"
+            style="@style/Common.Base.TextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:text="@string/sign_in"
+            android:textColor="?attr/black"
+            android:textSize="15sp" />
+
+    </FrameLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/slidesPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <TextView
+        android:id="@+id/nextSlide"
+        style="@style/SignUpStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="@dimen/margin_top_welcome_buttons"
+        android:layout_marginEnd="20dp"
+        android:text="@string/next"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/signUp"
+        style="@style/SignUpStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:text="@string/start_and_get"
+
+        android:paddingStart="58dp"
+        android:paddingEnd="40dp"
+
+        android:drawableEnd="@drawable/ic_golden_coins"
+        android:textStyle="bold"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/signIn"
+        style="@style/SignInStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="20dp"
+        android:text="@string/sign_in"
+        android:textStyle="bold"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+</LinearLayout>

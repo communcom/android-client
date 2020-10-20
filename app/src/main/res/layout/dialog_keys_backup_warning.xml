@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/transparent"
+    android:paddingTop="@dimen/sign_up_keys_warning_dialog_padding_top"
+    android:paddingBottom="@dimen/sign_up_warning_dialog_padding_bottom"
+    android:paddingStart="@dimen/sign_up_warning_dialog_padding_side"
+    android:paddingEnd="@dimen/sign_up_warning_dialog_padding_side">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:background="@drawable/bcg_dialog_round_corners_white"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp">
+
+        <ImageView
+            android:id="@+id/closeButton"
+            android:layout_width="@dimen/tool_button_size"
+            android:layout_height="@dimen/tool_button_size"
+
+            android:layout_marginTop="15dp"
+
+            android:background="?selectableItemBackgroundBorderless"
+
+            android:padding="5dp"
+            android:src="@drawable/ic_close_gray"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/warningIcon"
+            android:layout_width="@dimen/sign_up_keys_warning_dialog_icon_size"
+            android:layout_height="@dimen/sign_up_keys_warning_dialog_icon_size"
+
+            android:layout_marginTop="30dp"
+            android:background="@drawable/bcg_pink_round"
+            android:padding="@dimen/sign_up_keys_warning_dialog_icon_padding"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_warning_triangle" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="@string/attention"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/warningIcon"
+
+            android:layout_marginTop="20dp"
+
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textColor="?attr/black"
+            />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="@string/master_pass_backup_sub_header"
+
+            android:gravity="center"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2"
+
+            android:layout_marginTop="15dp"
+
+            android:textSize="17sp"
+            android:textColor="?attr/black"
+            android:textStyle="bold"
+            android:lineSpacingExtra="@dimen/sign_up_keys_warning_dialog_text_spacing"
+            />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+
+            android:lineSpacingExtra="@dimen/sign_up_keys_warning_dialog_text_spacing"
+            android:text="@string/master_pass_backup_explanation"
+            android:textColor="?attr/grey"
+            android:textSize="15sp"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView4"
+            app:layout_constraintBottom_toTopOf="@+id/backupButton"
+
+            android:layout_marginBottom="20dp"
+            />
+
+        <TextView
+            android:id="@+id/backupButton"
+            style="@style/BlueWhite.RoundCorners.Button"
+
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+
+            android:layout_marginBottom="10dp"
+
+            android:text="@string/back"
+            app:layout_constraintBottom_toTopOf="@+id/continueButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.825"
+
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/continueButton"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+
+            android:text="@string/continue_without_backup"
+
+            style="@style/GrayBlue.RoundCorners.Button"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+
+            android:layout_marginBottom="20dp"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

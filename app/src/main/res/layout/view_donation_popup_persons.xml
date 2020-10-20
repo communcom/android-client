@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/donates_popup_height"
+    tools:background="@drawable/bcg_donate_popup">
+
+    <ImageView
+        android:id="@+id/thirdUser"
+
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_avatar"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        android:background="@drawable/bcg_circle_white"
+        android:padding="@dimen/stroke_normal"
+
+        android:visibility="invisible"
+        tools:visibility="visible"
+
+        android:layout_marginStart="65dp"
+        tools:ignore="ContentDescription" />
+
+    <ImageView
+        android:id="@+id/secondUser"
+
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_avatar"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        android:background="@drawable/bcg_circle_white"
+        android:padding="@dimen/stroke_normal"
+
+        android:visibility="invisible"
+        tools:visibility="visible"
+
+        android:layout_marginStart="35dp"
+        tools:ignore="ContentDescription" />
+
+    <ImageView
+        android:id="@+id/firstUser"
+
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_avatar"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        android:background="@drawable/bcg_circle_white"
+        android:padding="@dimen/stroke_normal"
+
+        android:layout_marginStart="5dp"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/donationLabel"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        tools:text="+12 Donations"
+        tools:visibility="visible"
+        android:visibility="invisible"
+
+        android:layout_marginStart="5dp"
+
+        style="@style/Text17.White.Bold.SingleLine"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/thirdUser"
+
+        />
+
+    <ImageView
+        android:id="@+id/buttonClose"
+        android:layout_width="@dimen/donates_popup_button_size"
+        android:layout_height="@dimen/donates_popup_button_size"
+
+        android:background="@null"
+        android:padding="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_close"
+        app:tint="?attr/white"
+
+        tools:ignore="ContentDescription" />
+</androidx.constraintlayout.widget.ConstraintLayout>

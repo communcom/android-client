@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="io.golos.cyber_android.ui.screens.community_page_rules.CommunityPageRulesViewModel" />
+    </data>
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/light_gray">
+
+        <io.golos.cyber_android.ui.shared.widgets.rules_card.RulesCardList
+            android:id="@+id/rulesCardList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tool:layout_height="match_parent"
+
+            app:card_margin_top="@dimen/margin_small"
+            app:card_margin_bottom="@dimen/margin_small"
+            app:card_margin_start="@dimen/margin_small"
+            app:card_margin_end="@dimen/margin_small"
+            app:card_corner_radius="@dimen/card_view_corner_radius"
+        />
+    </androidx.core.widget.NestedScrollView>
+</layout>

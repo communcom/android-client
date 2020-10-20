@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.AppCompatEditText
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:id="@+id/searchBar"
+
+    style="@style/SearchBarTextStyle"
+
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/search_bar_height"
+
+    android:drawableStart="@drawable/ic_search_small"
+    android:drawablePadding="@dimen/padding_feed_search_view_icon"
+
+    android:hint="@string/hint_search"
+
+    android:paddingStart="@dimen/padding_horizontal_feed_search_bar"
+    android:paddingEnd="@dimen/padding_horizontal_feed_search_bar"
+
+    android:background="@drawable/bcg_common_white_round_rect"
+/>

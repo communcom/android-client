@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Posts editor</string>
+
+    <string name="description_here_optional">Description here (optional)</string>
+</resources>

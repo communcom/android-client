@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/general_list_header_height"
+        android:background="@drawable/bcg_white_top_round_rect_7" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/itemsList"
+
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/select_community_dialog_list_height"
+        android:background="?attr/general_list_bcg"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/general_list_header_height"
+        android:background="@drawable/bcg_white_bottom_round_rect_7" />
+</LinearLayout>

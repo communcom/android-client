@@ -1,0 +1,1430 @@
+[
+  {
+    "countryCode": "US",
+    "countryName": "United States",
+    "countryPhoneCode": 1,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/US.png"
+  },
+  {
+    "countryCode": "RU",
+    "countryName": "Russia",
+    "countryPhoneCode": 7,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/RU.png"
+  },
+  {
+    "countryCode": "KZ",
+    "countryName": "Kazakhstan",
+    "countryPhoneCode": 7,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/KZ.png"
+  },
+  {
+    "countryCode": "LT",
+    "countryName": "Lithuania",
+    "countryPhoneCode": 370,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/LT.png"
+  },
+  {
+    "countryCode": "BY",
+    "countryName": "Belarus",
+    "countryPhoneCode": 375,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BY.png"
+  },
+  {
+    "countryCode": "UA",
+    "countryName": "Ukraine",
+    "countryPhoneCode": 380,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/UA.png"
+  },
+  {
+    "countryCode": "AF",
+    "countryName": "Afghanistan",
+    "countryPhoneCode": 93,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/AF.png"
+  },
+  {
+    "countryCode": "AL",
+    "countryName": "Albania",
+    "countryPhoneCode": 355,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/AL.png"
+  },
+  {
+    "countryCode": "DZ",
+    "countryName": "Algeria",
+    "countryPhoneCode": 213,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/DZ.png"
+  },
+  {
+    "countryCode": "AS",
+    "countryName": "American Samoa",
+    "countryPhoneCode": 1,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/AS.png"
+  },
+  {
+    "countryCode": "AD",
+    "countryName": "Andorra",
+    "countryPhoneCode": 376,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/AD.png"
+  },
+  {
+    "countryCode": "AO",
+    "countryName": "Angola",
+    "countryPhoneCode": 244,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/AO.png"
+  },
+  {
+    "countryCode": "AI",
+    "countryName": "Anguilla",
+    "countryPhoneCode": 1,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/AI.png"
+  },
+  {
+    "countryCode": "AG",
+    "countryName": "Antigua",
+    "countryPhoneCode": 1,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/AG.png"
+  },
+  {
+    "countryCode": "AR",
+    "countryName": "Argentina",
+    "countryPhoneCode": 54,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/AR.png"
+  },
+  {
+    "countryCode": "AM",
+    "countryName": "Armenia",
+    "countryPhoneCode": 374,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/AM.png"
+  },
+  {
+    "countryCode": "AW",
+    "countryName": "Aruba",
+    "countryPhoneCode": 297,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/AW.png"
+  },
+  {
+    "countryCode": "AU",
+    "countryName": "Australia",
+    "countryPhoneCode": 61,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/AU.png"
+  },
+  {
+    "countryCode": "AT",
+    "countryName": "Austria",
+    "countryPhoneCode": 43,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/AT.png"
+  },
+  {
+    "countryCode": "AZ",
+    "countryName": "Azerbaijan",
+    "countryPhoneCode": 994,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/AZ.png"
+  },
+  {
+    "countryCode": "BH",
+    "countryName": "Bahrain",
+    "countryPhoneCode": 973,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BH.png"
+  },
+  {
+    "countryCode": "BD",
+    "countryName": "Bangladesh",
+    "countryPhoneCode": 880,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BD.png"
+  },
+  {
+    "countryCode": "BB",
+    "countryName": "Barbados",
+    "countryPhoneCode": 1,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BB.png"
+  },
+  {
+    "countryCode": "BE",
+    "countryName": "Belgium",
+    "countryPhoneCode": 32,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BE.png"
+  },
+  {
+    "countryCode": "BZ",
+    "countryName": "Belize",
+    "countryPhoneCode": 501,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BZ.png"
+  },
+  {
+    "countryCode": "BJ",
+    "countryName": "Benin",
+    "countryPhoneCode": 229,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BJ.png"
+  },
+  {
+    "countryCode": "BM",
+    "countryName": "Bermuda",
+    "countryPhoneCode": 1,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BM.png"
+  },
+  {
+    "countryCode": "BT",
+    "countryName": "Bhutan",
+    "countryPhoneCode": 975,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BT.png"
+  },
+  {
+    "countryCode": "BO",
+    "countryName": "Bolivia",
+    "countryPhoneCode": 591,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BO.png"
+  },
+  {
+    "countryCode": "BA",
+    "countryName": "Bosnia and Herzegovina",
+    "countryPhoneCode": 387,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BA.png"
+  },
+  {
+    "countryCode": "BW",
+    "countryName": "Botswana",
+    "countryPhoneCode": 267,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BW.png"
+  },
+  {
+    "countryCode": "BR",
+    "countryName": "Brazil",
+    "countryPhoneCode": 55,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BR.png"
+  },
+  {
+    "countryCode": "IO",
+    "countryName": "British Indian Ocean Territory",
+    "countryPhoneCode": 246,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/IO.png"
+  },
+  {
+    "countryCode": "VG",
+    "countryName": "British Virgin Islands",
+    "countryPhoneCode": 1,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/VG.png"
+  },
+  {
+    "countryCode": "BN",
+    "countryName": "Brunei",
+    "countryPhoneCode": 673,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BN.png"
+  },
+  {
+    "countryCode": "BG",
+    "countryName": "Bulgaria",
+    "countryPhoneCode": 359,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BG.png"
+  },
+  {
+    "countryCode": "BF",
+    "countryName": "Burkina Faso",
+    "countryPhoneCode": 226,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BF.png"
+  },
+  {
+    "countryCode": "BI",
+    "countryName": "Burundi",
+    "countryPhoneCode": 257,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BI.png"
+  },
+  {
+    "countryCode": "KH",
+    "countryName": "Cambodia",
+    "countryPhoneCode": 855,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/KH.png"
+  },
+  {
+    "countryCode": "CM",
+    "countryName": "Cameroon",
+    "countryPhoneCode": 237,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/CM.png"
+  },
+  {
+    "countryCode": "CA",
+    "countryName": "Canada",
+    "countryPhoneCode": 1,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/CA.png"
+  },
+  {
+    "countryCode": "CV",
+    "countryName": "Cape Verde",
+    "countryPhoneCode": 238,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/CV.png"
+  },
+  {
+    "countryCode": "KY",
+    "countryName": "Cayman Islands",
+    "countryPhoneCode": 1,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/KY.png"
+  },
+  {
+    "countryCode": "CF",
+    "countryName": "Central African Republic",
+    "countryPhoneCode": 236,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/CF.png"
+  },
+  {
+    "countryCode": "TD",
+    "countryName": "Chad",
+    "countryPhoneCode": 235,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TD.png"
+  },
+  {
+    "countryCode": "CL",
+    "countryName": "Chile",
+    "countryPhoneCode": 56,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/CL.png"
+  },
+  {
+    "countryCode": "CN",
+    "countryName": "China",
+    "countryPhoneCode": 86,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/CN.png"
+  },
+  {
+    "countryCode": "CO",
+    "countryName": "Colombia",
+    "countryPhoneCode": 57,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/CO.png"
+  },
+  {
+    "countryCode": "KM",
+    "countryName": "Comoros",
+    "countryPhoneCode": 269,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/KM.png"
+  },
+  {
+    "countryCode": "CK",
+    "countryName": "Cook Islands",
+    "countryPhoneCode": 682,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/CK.png"
+  },
+  {
+    "countryCode": "CR",
+    "countryName": "Costa Rica",
+    "countryPhoneCode": 506,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/CR.png"
+  },
+  {
+    "countryCode": "CI",
+    "countryName": "Côte d'Ivoire",
+    "countryPhoneCode": 225,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/CI.png"
+  },
+  {
+    "countryCode": "HR",
+    "countryName": "Croatia",
+    "countryPhoneCode": 385,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/HR.png"
+  },
+  {
+    "countryCode": "CU",
+    "countryName": "Cuba",
+    "countryPhoneCode": 53,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/CU.png"
+  },
+  {
+    "countryCode": "CW",
+    "countryName": "Curaçao",
+    "countryPhoneCode": 599,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/CW.png"
+  },
+  {
+    "countryCode": "CY",
+    "countryName": "Cyprus",
+    "countryPhoneCode": 357,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/CY.png"
+  },
+  {
+    "countryCode": "CZ",
+    "countryName": "Czech Republic",
+    "countryPhoneCode": 420,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/CZ.png"
+  },
+  {
+    "countryCode": "CD",
+    "countryName": "Democratic Republic of the Congo",
+    "countryPhoneCode": 243,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/CD.png"
+  },
+  {
+    "countryCode": "DK",
+    "countryName": "Denmark",
+    "countryPhoneCode": 45,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/DK.png"
+  },
+  {
+    "countryCode": "DJ",
+    "countryName": "Djibouti",
+    "countryPhoneCode": 253,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/DJ.png"
+  },
+  {
+    "countryCode": "DM",
+    "countryName": "Dominica",
+    "countryPhoneCode": 1,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/DM.png"
+  },
+  {
+    "countryCode": "DO",
+    "countryName": "Dominican Republic",
+    "countryPhoneCode": 1,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/DO.png"
+  },
+  {
+    "countryCode": "EC",
+    "countryName": "Ecuador",
+    "countryPhoneCode": 593,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/EC.png"
+  },
+  {
+    "countryCode": "EG",
+    "countryName": "Egypt",
+    "countryPhoneCode": 20,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/EG.png"
+  },
+  {
+    "countryCode": "SV",
+    "countryName": "El Salvador",
+    "countryPhoneCode": 503,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SV.png"
+  },
+  {
+    "countryCode": "GQ",
+    "countryName": "Equatorial Guinea",
+    "countryPhoneCode": 240,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GQ.png"
+  },
+  {
+    "countryCode": "ER",
+    "countryName": "Eritrea",
+    "countryPhoneCode": 291,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/ER.png"
+  },
+  {
+    "countryCode": "EE",
+    "countryName": "Estonia",
+    "countryPhoneCode": 372,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/EE.png"
+  },
+  {
+    "countryCode": "ET",
+    "countryName": "Ethiopia",
+    "countryPhoneCode": 251,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/ET.png"
+  },
+  {
+    "countryCode": "FK",
+    "countryName": "Falkland Islands",
+    "countryPhoneCode": 500,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/FK.png"
+  },
+  {
+    "countryCode": "FO",
+    "countryName": "Faroe Islands",
+    "countryPhoneCode": 298,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/FO.png"
+  },
+  {
+    "countryCode": "FM",
+    "countryName": "Federated States of Micronesia",
+    "countryPhoneCode": 691,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/FM.png"
+  },
+  {
+    "countryCode": "FJ",
+    "countryName": "Fiji",
+    "countryPhoneCode": 679,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/FJ.png"
+  },
+  {
+    "countryCode": "FI",
+    "countryName": "Finland",
+    "countryPhoneCode": 358,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/FI.png"
+  },
+  {
+    "countryCode": "FR",
+    "countryName": "France",
+    "countryPhoneCode": 33,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/FR.png"
+  },
+  {
+    "countryCode": "GF",
+    "countryName": "French Guiana",
+    "countryPhoneCode": 594,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GF.png"
+  },
+  {
+    "countryCode": "PF",
+    "countryName": "French Polynesia",
+    "countryPhoneCode": 689,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PF.png"
+  },
+  {
+    "countryCode": "GA",
+    "countryName": "Gabon",
+    "countryPhoneCode": 241,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GA.png"
+  },
+  {
+    "countryCode": "GE",
+    "countryName": "Georgia",
+    "countryPhoneCode": 995,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GE.png"
+  },
+  {
+    "countryCode": "DE",
+    "countryName": "Germany",
+    "countryPhoneCode": 49,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/DE.png"
+  },
+  {
+    "countryCode": "GH",
+    "countryName": "Ghana",
+    "countryPhoneCode": 233,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GH.png"
+  },
+  {
+    "countryCode": "GI",
+    "countryName": "Gibraltar",
+    "countryPhoneCode": 350,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GI.png"
+  },
+  {
+    "countryCode": "GR",
+    "countryName": "Greece",
+    "countryPhoneCode": 30,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GR.png"
+  },
+  {
+    "countryCode": "GL",
+    "countryName": "Greenland",
+    "countryPhoneCode": 299,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GL.png"
+  },
+  {
+    "countryCode": "GD",
+    "countryName": "Grenada",
+    "countryPhoneCode": 1,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GD.png"
+  },
+  {
+    "countryCode": "GP",
+    "countryName": "Guadeloupe",
+    "countryPhoneCode": 590,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GP.png"
+  },
+  {
+    "countryCode": "GU",
+    "countryName": "Guam",
+    "countryPhoneCode": 1,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GU.png"
+  },
+  {
+    "countryCode": "GT",
+    "countryName": "Guatemala",
+    "countryPhoneCode": 502,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GT.png"
+  },
+  {
+    "countryCode": "GG",
+    "countryName": "Guernsey",
+    "countryPhoneCode": 44,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GG.png"
+  },
+  {
+    "countryCode": "GN",
+    "countryName": "Guinea",
+    "countryPhoneCode": 224,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GN.png"
+  },
+  {
+    "countryCode": "GW",
+    "countryName": "Guinea-Bissau",
+    "countryPhoneCode": 245,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GW.png"
+  },
+  {
+    "countryCode": "GY",
+    "countryName": "Guyana",
+    "countryPhoneCode": 592,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GY.png"
+  },
+  {
+    "countryCode": "HT",
+    "countryName": "Haiti",
+    "countryPhoneCode": 509,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/HT.png"
+  },
+  {
+    "countryCode": "HN",
+    "countryName": "Honduras",
+    "countryPhoneCode": 504,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/HN.png"
+  },
+  {
+    "countryCode": "HK",
+    "countryName": "Hong Kong",
+    "countryPhoneCode": 852,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/HK.png"
+  },
+  {
+    "countryCode": "HU",
+    "countryName": "Hungary",
+    "countryPhoneCode": 36,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/HU.png"
+  },
+  {
+    "countryCode": "IS",
+    "countryName": "Iceland",
+    "countryPhoneCode": 354,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/IS.png"
+  },
+  {
+    "countryCode": "IN",
+    "countryName": "India",
+    "countryPhoneCode": 91,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/IN.png"
+  },
+  {
+    "countryCode": "ID",
+    "countryName": "Indonesia",
+    "countryPhoneCode": 62,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/ID.png"
+  },
+  {
+    "countryCode": "IR",
+    "countryName": "Iran",
+    "countryPhoneCode": 98,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/IR.png"
+  },
+  {
+    "countryCode": "IQ",
+    "countryName": "Iraq",
+    "countryPhoneCode": 964,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/IQ.png"
+  },
+  {
+    "countryCode": "IE",
+    "countryName": "Ireland",
+    "countryPhoneCode": 353,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/IE.png"
+  },
+  {
+    "countryCode": "IM",
+    "countryName": "Isle Of Man",
+    "countryPhoneCode": 44,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/IM.png"
+  },
+  {
+    "countryCode": "IL",
+    "countryName": "Israel",
+    "countryPhoneCode": 972,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/IL.png"
+  },
+  {
+    "countryCode": "IT",
+    "countryName": "Italy",
+    "countryPhoneCode": 39,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/IT.png"
+  },
+  {
+    "countryCode": "JM",
+    "countryName": "Jamaica",
+    "countryPhoneCode": 1,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/JM.png"
+  },
+  {
+    "countryCode": "JP",
+    "countryName": "Japan",
+    "countryPhoneCode": 81,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/JP.png"
+  },
+  {
+    "countryCode": "JE",
+    "countryName": "Jersey",
+    "countryPhoneCode": 44,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/JE.png"
+  },
+  {
+    "countryCode": "JO",
+    "countryName": "Jordan",
+    "countryPhoneCode": 962,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/JO.png"
+  },
+  {
+    "countryCode": "KE",
+    "countryName": "Kenya",
+    "countryPhoneCode": 254,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/KE.png"
+  },
+  {
+    "countryCode": "KI",
+    "countryName": "Kiribati",
+    "countryPhoneCode": 686,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/KI.png"
+  },
+  {
+    "countryCode": "XK",
+    "countryName": "Kosovo",
+    "countryPhoneCode": 383,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/XK.png"
+  },
+  {
+    "countryCode": "KW",
+    "countryName": "Kuwait",
+    "countryPhoneCode": 965,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/KW.png"
+  },
+  {
+    "countryCode": "KG",
+    "countryName": "Kyrgyzstan",
+    "countryPhoneCode": 996,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/KG.png"
+  },
+  {
+    "countryCode": "LA",
+    "countryName": "Laos",
+    "countryPhoneCode": 856,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/LA.png"
+  },
+  {
+    "countryCode": "LV",
+    "countryName": "Latvia",
+    "countryPhoneCode": 371,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/LV.png"
+  },
+  {
+    "countryCode": "LB",
+    "countryName": "Lebanon",
+    "countryPhoneCode": 961,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/LB.png"
+  },
+  {
+    "countryCode": "LS",
+    "countryName": "Lesotho",
+    "countryPhoneCode": 266,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/LS.png"
+  },
+  {
+    "countryCode": "LR",
+    "countryName": "Liberia",
+    "countryPhoneCode": 231,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/LR.png"
+  },
+  {
+    "countryCode": "LY",
+    "countryName": "Libya",
+    "countryPhoneCode": 218,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/LY.png"
+  },
+  {
+    "countryCode": "LI",
+    "countryName": "Liechtenstein",
+    "countryPhoneCode": 423,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/LI.png"
+  },
+  {
+    "countryCode": "LU",
+    "countryName": "Luxembourg",
+    "countryPhoneCode": 352,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/LU.png"
+  },
+  {
+    "countryCode": "MO",
+    "countryName": "Macau",
+    "countryPhoneCode": 853,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MO.png"
+  },
+  {
+    "countryCode": "MK",
+    "countryName": "Macedonia",
+    "countryPhoneCode": 389,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MK.png"
+  },
+  {
+    "countryCode": "MG",
+    "countryName": "Madagascar",
+    "countryPhoneCode": 261,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MG.png"
+  },
+  {
+    "countryCode": "MW",
+    "countryName": "Malawi",
+    "countryPhoneCode": 265,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MW.png"
+  },
+  {
+    "countryCode": "MY",
+    "countryName": "Malaysia",
+    "countryPhoneCode": 60,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MY.png"
+  },
+  {
+    "countryCode": "MV",
+    "countryName": "Maldives",
+    "countryPhoneCode": 960,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MV.png"
+  },
+  {
+    "countryCode": "ML",
+    "countryName": "Mali",
+    "countryPhoneCode": 223,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/ML.png"
+  },
+  {
+    "countryCode": "MT",
+    "countryName": "Malta",
+    "countryPhoneCode": 356,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MT.png"
+  },
+  {
+    "countryCode": "MH",
+    "countryName": "Marshall Islands",
+    "countryPhoneCode": 692,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MH.png"
+  },
+  {
+    "countryCode": "MQ",
+    "countryName": "Martinique",
+    "countryPhoneCode": 596,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MQ.png"
+  },
+  {
+    "countryCode": "MR",
+    "countryName": "Mauritania",
+    "countryPhoneCode": 222,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MR.png"
+  },
+  {
+    "countryCode": "MU",
+    "countryName": "Mauritius",
+    "countryPhoneCode": 230,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MU.png"
+  },
+  {
+    "countryCode": "YT",
+    "countryName": "Mayotte",
+    "countryPhoneCode": 262,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/YT.png"
+  },
+  {
+    "countryCode": "MX",
+    "countryName": "Mexico",
+    "countryPhoneCode": 52,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MX.png"
+  },
+  {
+    "countryCode": "MD",
+    "countryName": "Moldova",
+    "countryPhoneCode": 373,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MD.png"
+  },
+  {
+    "countryCode": "MC",
+    "countryName": "Monaco",
+    "countryPhoneCode": 377,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MC.png"
+  },
+  {
+    "countryCode": "MN",
+    "countryName": "Mongolia",
+    "countryPhoneCode": 976,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MN.png"
+  },
+  {
+    "countryCode": "ME",
+    "countryName": "Montenegro",
+    "countryPhoneCode": 382,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/ME.png"
+  },
+  {
+    "countryCode": "MS",
+    "countryName": "Montserrat",
+    "countryPhoneCode": 1,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MS.png"
+  },
+  {
+    "countryCode": "MA",
+    "countryName": "Morocco",
+    "countryPhoneCode": 212,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MA.png"
+  },
+  {
+    "countryCode": "MZ",
+    "countryName": "Mozambique",
+    "countryPhoneCode": 258,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MZ.png"
+  },
+  {
+    "countryCode": "MM",
+    "countryName": "Myanmar",
+    "countryPhoneCode": 95,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MM.png"
+  },
+  {
+    "countryCode": "NA",
+    "countryName": "Namibia",
+    "countryPhoneCode": 264,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/NA.png"
+  },
+  {
+    "countryCode": "NR",
+    "countryName": "Nauru",
+    "countryPhoneCode": 674,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/NR.png"
+  },
+  {
+    "countryCode": "NP",
+    "countryName": "Nepal",
+    "countryPhoneCode": 977,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/NP.png"
+  },
+  {
+    "countryCode": "NL",
+    "countryName": "Netherlands",
+    "countryPhoneCode": 31,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/NL.png"
+  },
+  {
+    "countryCode": "NC",
+    "countryName": "New Caledonia",
+    "countryPhoneCode": 687,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/NC.png"
+  },
+  {
+    "countryCode": "NZ",
+    "countryName": "New Zealand",
+    "countryPhoneCode": 64,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/NZ.png"
+  },
+  {
+    "countryCode": "NI",
+    "countryName": "Nicaragua",
+    "countryPhoneCode": 505,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/NI.png"
+  },
+  {
+    "countryCode": "NE",
+    "countryName": "Niger",
+    "countryPhoneCode": 227,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/NE.png"
+  },
+  {
+    "countryCode": "NG",
+    "countryName": "Nigeria",
+    "countryPhoneCode": 234,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/NG.png"
+  },
+  {
+    "countryCode": "NU",
+    "countryName": "Niue",
+    "countryPhoneCode": 683,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/NU.png"
+  },
+  {
+    "countryCode": "NF",
+    "countryName": "Norfolk Island",
+    "countryPhoneCode": 672,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/NF.png"
+  },
+  {
+    "countryCode": "KP",
+    "countryName": "North Korea",
+    "countryPhoneCode": 850,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/KP.png"
+  },
+  {
+    "countryCode": "MP",
+    "countryName": "Northern Mariana Islands",
+    "countryPhoneCode": 1,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MP.png"
+  },
+  {
+    "countryCode": "NO",
+    "countryName": "Norway",
+    "countryPhoneCode": 47,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/NO.png"
+  },
+  {
+    "countryCode": "OM",
+    "countryName": "Oman",
+    "countryPhoneCode": 968,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/OM.png"
+  },
+  {
+    "countryCode": "PK",
+    "countryName": "Pakistan",
+    "countryPhoneCode": 92,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PK.png"
+  },
+  {
+    "countryCode": "PW",
+    "countryName": "Palau",
+    "countryPhoneCode": 680,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PW.png"
+  },
+  {
+    "countryCode": "PS",
+    "countryName": "Palestine",
+    "countryPhoneCode": 970,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PS.png"
+  },
+  {
+    "countryCode": "PA",
+    "countryName": "Panama",
+    "countryPhoneCode": 507,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PA.png"
+  },
+  {
+    "countryCode": "PG",
+    "countryName": "Papua New Guinea",
+    "countryPhoneCode": 675,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PG.png"
+  },
+  {
+    "countryCode": "PY",
+    "countryName": "Paraguay",
+    "countryPhoneCode": 595,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PY.png"
+  },
+  {
+    "countryCode": "PE",
+    "countryName": "Peru",
+    "countryPhoneCode": 51,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PE.png"
+  },
+  {
+    "countryCode": "PH",
+    "countryName": "Philippines",
+    "countryPhoneCode": 63,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PH.png"
+  },
+  {
+    "countryCode": "PL",
+    "countryName": "Poland",
+    "countryPhoneCode": 48,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PL.png"
+  },
+  {
+    "countryCode": "PT",
+    "countryName": "Portugal",
+    "countryPhoneCode": 351,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PT.png"
+  },
+  {
+    "countryCode": "PR",
+    "countryName": "Puerto Rico",
+    "countryPhoneCode": 1,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PR.png"
+  },
+  {
+    "countryCode": "QA",
+    "countryName": "Qatar",
+    "countryPhoneCode": 974,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/QA.png"
+  },
+  {
+    "countryCode": "CG",
+    "countryName": "Republic of the Congo",
+    "countryPhoneCode": 242,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/CG.png"
+  },
+  {
+    "countryCode": "RE",
+    "countryName": "Réunion",
+    "countryPhoneCode": 262,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/RE.png"
+  },
+  {
+    "countryCode": "RO",
+    "countryName": "Romania",
+    "countryPhoneCode": 40,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/RO.png"
+  },
+  {
+    "countryCode": "RW",
+    "countryName": "Rwanda",
+    "countryPhoneCode": 250,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/RW.png"
+  },
+  {
+    "countryCode": "BL",
+    "countryName": "Saint Barthélemy",
+    "countryPhoneCode": 590,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BL.png"
+  },
+  {
+    "countryCode": "SH",
+    "countryName": "Saint Helena",
+    "countryPhoneCode": 290,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SH.png"
+  },
+  {
+    "countryCode": "KN",
+    "countryName": "Saint Kitts and Nevis",
+    "countryPhoneCode": 1,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/KN.png"
+  },
+  {
+    "countryCode": "MF",
+    "countryName": "Saint Martin",
+    "countryPhoneCode": 590,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MF.png"
+  },
+  {
+    "countryCode": "PM",
+    "countryName": "Saint Pierre and Miquelon",
+    "countryPhoneCode": 508,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PM.png"
+  },
+  {
+    "countryCode": "VC",
+    "countryName": "Saint Vincent and the Grenadines",
+    "countryPhoneCode": 1,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/VC.png"
+  },
+  {
+    "countryCode": "WS",
+    "countryName": "Samoa",
+    "countryPhoneCode": 685,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/WS.png"
+  },
+  {
+    "countryCode": "SM",
+    "countryName": "San Marino",
+    "countryPhoneCode": 378,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SM.png"
+  },
+  {
+    "countryCode": "ST",
+    "countryName": "Sao Tome and Principe",
+    "countryPhoneCode": 239,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/ST.png"
+  },
+  {
+    "countryCode": "SA",
+    "countryName": "Saudi Arabia",
+    "countryPhoneCode": 966,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SA.png"
+  },
+  {
+    "countryCode": "SN",
+    "countryName": "Senegal",
+    "countryPhoneCode": 221,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SN.png"
+  },
+  {
+    "countryCode": "RS",
+    "countryName": "Serbia",
+    "countryPhoneCode": 381,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/RS.png"
+  },
+  {
+    "countryCode": "SC",
+    "countryName": "Seychelles",
+    "countryPhoneCode": 248,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SC.png"
+  },
+  {
+    "countryCode": "SL",
+    "countryName": "Sierra Leone",
+    "countryPhoneCode": 232,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SL.png"
+  },
+  {
+    "countryCode": "SG",
+    "countryName": "Singapore",
+    "countryPhoneCode": 65,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SG.png"
+  },
+  {
+    "countryCode": "SX",
+    "countryName": "Sint Maarten",
+    "countryPhoneCode": 1,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SX.png"
+  },
+  {
+    "countryCode": "SK",
+    "countryName": "Slovakia",
+    "countryPhoneCode": 421,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SK.png"
+  },
+  {
+    "countryCode": "SI",
+    "countryName": "Slovenia",
+    "countryPhoneCode": 386,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SI.png"
+  },
+  {
+    "countryCode": "SB",
+    "countryName": "Solomon Islands",
+    "countryPhoneCode": 677,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SB.png"
+  },
+  {
+    "countryCode": "SO",
+    "countryName": "Somalia",
+    "countryPhoneCode": 252,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SO.png"
+  },
+  {
+    "countryCode": "ZA",
+    "countryName": "South Africa",
+    "countryPhoneCode": 27,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/ZA.png"
+  },
+  {
+    "countryCode": "KR",
+    "countryName": "South Korea",
+    "countryPhoneCode": 82,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/KR.png"
+  },
+  {
+    "countryCode": "SS",
+    "countryName": "South Sudan",
+    "countryPhoneCode": 211,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SS.png"
+  },
+  {
+    "countryCode": "ES",
+    "countryName": "Spain",
+    "countryPhoneCode": 34,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/ES.png"
+  },
+  {
+    "countryCode": "LK",
+    "countryName": "Sri Lanka",
+    "countryPhoneCode": 94,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/LK.png"
+  },
+  {
+    "countryCode": "LC",
+    "countryName": "St. Lucia",
+    "countryPhoneCode": 1,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/LC.png"
+  },
+  {
+    "countryCode": "SD",
+    "countryName": "Sudan",
+    "countryPhoneCode": 249,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SD.png"
+  },
+  {
+    "countryCode": "SR",
+    "countryName": "Suriname",
+    "countryPhoneCode": 597,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SR.png"
+  },
+  {
+    "countryCode": "SZ",
+    "countryName": "Swaziland",
+    "countryPhoneCode": 268,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SZ.png"
+  },
+  {
+    "countryCode": "SE",
+    "countryName": "Sweden",
+    "countryPhoneCode": 46,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SE.png"
+  },
+  {
+    "countryCode": "CH",
+    "countryName": "Switzerland",
+    "countryPhoneCode": 41,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/CH.png"
+  },
+  {
+    "countryCode": "SY",
+    "countryName": "Syria",
+    "countryPhoneCode": 963,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SY.png"
+  },
+  {
+    "countryCode": "TW",
+    "countryName": "Taiwan",
+    "countryPhoneCode": 886,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TW.png"
+  },
+  {
+    "countryCode": "TJ",
+    "countryName": "Tajikistan",
+    "countryPhoneCode": 992,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TJ.png"
+  },
+  {
+    "countryCode": "TZ",
+    "countryName": "Tanzania",
+    "countryPhoneCode": 255,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TZ.png"
+  },
+  {
+    "countryCode": "TH",
+    "countryName": "Thailand",
+    "countryPhoneCode": 66,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TH.png"
+  },
+  {
+    "countryCode": "BS",
+    "countryName": "The Bahamas",
+    "countryPhoneCode": 1,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BS.png"
+  },
+  {
+    "countryCode": "GM",
+    "countryName": "The Gambia",
+    "countryPhoneCode": 220,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GM.png"
+  },
+  {
+    "countryCode": "TL",
+    "countryName": "Timor-Leste",
+    "countryPhoneCode": 670,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TL.png"
+  },
+  {
+    "countryCode": "TG",
+    "countryName": "Togo",
+    "countryPhoneCode": 228,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TG.png"
+  },
+  {
+    "countryCode": "TK",
+    "countryName": "Tokelau",
+    "countryPhoneCode": 690,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TK.png"
+  },
+  {
+    "countryCode": "TO",
+    "countryName": "Tonga",
+    "countryPhoneCode": 676,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TO.png"
+  },
+  {
+    "countryCode": "TT",
+    "countryName": "Trinidad and Tobago",
+    "countryPhoneCode": 1,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TT.png"
+  },
+  {
+    "countryCode": "TN",
+    "countryName": "Tunisia",
+    "countryPhoneCode": 216,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TN.png"
+  },
+  {
+    "countryCode": "TR",
+    "countryName": "Turkey",
+    "countryPhoneCode": 90,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TR.png"
+  },
+  {
+    "countryCode": "TM",
+    "countryName": "Turkmenistan",
+    "countryPhoneCode": 993,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TM.png"
+  },
+  {
+    "countryCode": "TC",
+    "countryName": "Turks and Caicos Islands",
+    "countryPhoneCode": 1,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TC.png"
+  },
+  {
+    "countryCode": "TV",
+    "countryName": "Tuvalu",
+    "countryPhoneCode": 688,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TV.png"
+  },
+  {
+    "countryCode": "UG",
+    "countryName": "Uganda",
+    "countryPhoneCode": 256,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/UG.png"
+  },
+  {
+    "countryCode": "AE",
+    "countryName": "United Arab Emirates",
+    "countryPhoneCode": 971,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/AE.png"
+  },
+  {
+    "countryCode": "GB",
+    "countryName": "United Kingdom",
+    "countryPhoneCode": 44,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GB.png"
+  },
+  {
+    "countryCode": "UY",
+    "countryName": "Uruguay",
+    "countryPhoneCode": 598,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/UY.png"
+  },
+  {
+    "countryCode": "VI",
+    "countryName": "US Virgin Islands",
+    "countryPhoneCode": 1,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/VI.png"
+  },
+  {
+    "countryCode": "UZ",
+    "countryName": "Uzbekistan",
+    "countryPhoneCode": 998,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/UZ.png"
+  },
+  {
+    "countryCode": "VU",
+    "countryName": "Vanuatu",
+    "countryPhoneCode": 678,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/VU.png"
+  },
+  {
+    "countryCode": "VA",
+    "countryName": "Vatican City",
+    "countryPhoneCode": 39,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/VA.png"
+  },
+  {
+    "countryCode": "VE",
+    "countryName": "Venezuela",
+    "countryPhoneCode": 58,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/VE.png"
+  },
+  {
+    "countryCode": "VN",
+    "countryName": "Vietnam",
+    "countryPhoneCode": 84,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/VN.png"
+  },
+  {
+    "countryCode": "WF",
+    "countryName": "Wallis and Futuna",
+    "countryPhoneCode": 681,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/WF.png"
+  },
+  {
+    "countryCode": "EH",
+    "countryName": "Western Sahara",
+    "countryPhoneCode": 212,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/EH.png"
+  },
+  {
+    "countryCode": "YE",
+    "countryName": "Yemen",
+    "countryPhoneCode": 967,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/YE.png"
+  },
+  {
+    "countryCode": "ZM",
+    "countryName": "Zambia",
+    "countryPhoneCode": 260,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/ZM.png"
+  },
+  {
+    "countryCode": "ZW",
+    "countryName": "Zimbabwe",
+    "countryPhoneCode": 263,
+    "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/ZW.png"
+  }
+]

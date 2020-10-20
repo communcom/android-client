@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:background="@drawable/bcg_bottom_sheet_dialog_round_corners"
+
+    android:paddingTop="@dimen/bottom_sheet_dialog_padding_top"
+    android:paddingBottom="@dimen/bottom_sheet_dialog_padding_bottom">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/interestingFirst"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        style="@style/BottomSheetMenuItem"
+
+        android:text="@string/post_comments_interesting_first_sort"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/byTime"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        style="@style/BottomSheetMenuItem"
+
+        android:text="@string/post_comments_by_time_sort"
+        />
+</LinearLayout>

@@ -1,2 +1,1 @@
-include ':app', ':domain', ':data', ':cyber4j'
-project(':cyber4j').projectDir = new File('./cyber-android')
+include ':app', ':domain', ':data', ':posts_editor', ':utils', ':use_cases', ':pdf_renderer'

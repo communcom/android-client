@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <ImageView
+            android:id="@+id/photo0"
+            android:padding="@dimen/padding_profile_follower_photo"
+            tools:src="@drawable/img_example_avatar"
+            android:background="@drawable/img_white_circle"
+            android:layout_width="@dimen/size_profile_follower_photo"
+            android:layout_height="@dimen/size_profile_follower_photo"/>
+    <ImageView
+            android:id="@+id/photo1"
+            android:padding="@dimen/padding_profile_follower_photo"
+            android:layout_marginStart="@dimen/margin_start_profile_follower_photo"
+            tools:src="@drawable/img_example_avatar"
+            android:background="@drawable/img_white_circle"
+            android:layout_width="@dimen/size_profile_follower_photo"
+            android:layout_height="@dimen/size_profile_follower_photo"/>
+    <ImageView
+            android:id="@+id/photo2"
+            android:padding="@dimen/padding_profile_follower_photo"
+            android:layout_marginStart="@dimen/margin_start_profile_follower_photo"
+            tools:src="@drawable/img_example_avatar"
+            android:background="@drawable/img_white_circle"
+            android:layout_width="@dimen/size_profile_follower_photo"
+            android:layout_height="@dimen/size_profile_follower_photo"/>
+</LinearLayout>

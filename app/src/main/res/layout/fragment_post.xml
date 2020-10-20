@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="io.golos.cyber_android.ui.screens.post_view.view_model.PostPageViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/white"
+        android:orientation="vertical">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/actionBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/white"
+                android:theme="@style/AppTheme.AppBarOverlay"
+                app:liftOnScroll="true">
+
+                <io.golos.cyber_android.ui.shared.widgets.post_comments.PostPageHeaderWidget
+                    android:id="@+id/postHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/post_viewer_header_height"
+                    app:post="@{viewModel.postHeader}" />
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                android:orientation="vertical">
+
+                <!--<TextView
+                    android:id="@+id/post_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:textColor="?attr/black"
+                    android:textSize="21sp"
+                    android:singleLine="false"/>-->
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/postView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:descendantFocusability="beforeDescendants" />
+
+            </LinearLayout>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <io.golos.cyber_android.ui.shared.widgets.comment.CommentWidget
+            android:id="@+id/commentWidget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            app:enabled="@{viewModel.commentFieldEnabled}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:visibility="visible" />
+
+    </LinearLayout>
+</layout>

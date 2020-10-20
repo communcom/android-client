@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="io.golos.cyber_android.ui.screens.feedback_activity.FeedbackActivity"
+        android:padding="@dimen/margin_default">
+
+    <EditText
+            android:id="@+id/requestText"
+
+            android:layout_width="0dp"
+            android:layout_height="@dimen/feedback_height"
+
+            android:background="@drawable/bcg_common_thin_dark_frame"
+
+            android:inputType="text"
+            android:textSize="16sp"
+
+            android:hint="@string/feedback_request"
+            android:gravity="top|start"
+
+            android:maxLines="100"
+            android:maxLength="256"
+
+            android:padding="@dimen/margin_small"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="@dimen/margin_default"
+            app:layout_constraintBottom_toTopOf="@+id/sendButton"
+
+            tools:ignore="Autofill"/>
+
+    <TextView
+            android:id="@+id/sendButton"
+
+            style="@style/SignUpButtonStyle"
+
+            android:text="@string/feedback_send"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/cancelButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+
+            android:layout_marginStart="@dimen/margin_horizontal_welcome_sign_up"
+            android:layout_marginEnd="@dimen/margin_horizontal_welcome_sign_up"
+            android:layout_marginBottom="16dp"
+    />
+    <TextView
+            android:id="@+id/cancelButton"
+
+            style="@style/SignUpButtonStyle"
+
+            android:layout_marginStart="@dimen/margin_horizontal_welcome_sign_up"
+            android:layout_marginEnd="@dimen/margin_horizontal_welcome_sign_up"
+
+            android:text="@string/cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+    />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/votesArea"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/post_controls_vote_area_height"
+
+    android:orientation="horizontal"
+
+    android:background="@drawable/bcg_post_vote_area"
+
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+        android:id="@+id/upvoteButton"
+
+        android:layout_width="@dimen/post_controls_vote_buttons_size"
+        android:layout_height="@dimen/post_controls_vote_buttons_size"
+
+        android:background="@null"
+
+        app:imageButton_icon="@drawable/ic_upvote"
+        app:imageButton_iconInscribeSize="@dimen/post_controls_vote_buttons_icon_size"
+        app:imageButton_tint="@color/tint_post_vote_button"
+
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/votesText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+
+        style="@style/PostVoteCountersTextStyle"
+
+        android:layout_gravity="center"
+        android:gravity="center"
+
+        android:layout_marginStart="@dimen/post_controls_vote_text_margin"
+        android:layout_marginEnd="@dimen/post_controls_vote_text_margin"
+
+        android:text=""
+        tools:text="1205"
+        />
+
+    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+        android:id="@+id/downvoteButton"
+
+        android:layout_width="@dimen/post_controls_vote_buttons_size"
+        android:layout_height="@dimen/post_controls_vote_buttons_size"
+
+        android:background="@null"
+
+        app:imageButton_icon="@drawable/ic_downvote"
+        app:imageButton_iconInscribeSize="@dimen/post_controls_vote_buttons_icon_size"
+        app:imageButton_tint="@color/tint_post_vote_button"
+
+        android:layout_weight="1"
+        />
+</LinearLayout>

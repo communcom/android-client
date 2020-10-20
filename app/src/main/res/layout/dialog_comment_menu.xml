@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bcg_bottom_sheet_dialog_round_corners"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/bottom_sheet_dialog_padding_top"
+    android:paddingBottom="@dimen/bottom_sheet_dialog_padding_bottom">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/edit"
+        style="@style/BottomSheetMenuItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/edit_comment"
+        app:drawableEndCompat="@drawable/ic_edit" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/delete"
+        style="@style/BottomSheetMenuItem.Dangerous"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/delete_comment"
+        app:drawableEndCompat="@drawable/ic_delete" />
+</LinearLayout>

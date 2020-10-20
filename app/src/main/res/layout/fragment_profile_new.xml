@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="io.golos.cyber_android.ui.screens.profile.view_model.ProfileViewModel" />
+
+        <import type="io.golos.cyber_android.ui.dto.ProfileItem" />
+    </data>
+
+    <com.google.android.material.appbar.SwipeCoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:onRefreshListener="@{() -> viewModel.onSwipeRefresh()}"
+        app:refreshing="@{viewModel.swipeRefreshing}">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/root"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/white">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/appbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="@{viewModel.pageContentVisibility}"
+                app:elevation="0dp"
+                tools:visibility="visible">
+
+                <com.google.android.material.appbar.CollapsingToolbarLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                    app:titleEnabled="false"
+                    app:toolbarId="@id/profile_toolbar">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_collapseMode="pin">
+
+                        <ImageView
+                            android:id="@+id/profileCover"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/community_page_background_height"
+                            app:cover="@{viewModel.coverUrl}"
+                            tools:background="@tools:sample/backgrounds/scenic"
+                            tools:ignore="ContentDescription" />
+
+                        <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+                            android:id="@+id/backButton"
+
+                            android:layout_width="@dimen/size_image_button"
+                            android:layout_height="@dimen/size_image_button"
+
+                            android:layout_gravity="start|top"
+                            android:layout_marginTop="40dp"
+
+                            android:background="@null"
+                            android:onClick="@{() -> viewModel.onBackButtonClick()}"
+                            android:visibility="@{viewModel.backButtonVisibility}"
+                            app:imageButton_icon="@drawable/ic_left_arrow"
+
+                            app:imageButton_iconInscribeSize="@dimen/size_back_icon"
+                            app:imageButton_tint="?attr/white"
+
+                            tools:visibility="visible"
+                            />
+
+                        <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+                            android:id="@+id/menuButton"
+
+                            android:layout_width="@dimen/size_image_button"
+                            android:layout_height="@dimen/size_image_button"
+
+                            android:layout_gravity="end|top"
+                            android:layout_marginTop="40dp"
+
+                            android:layout_marginEnd="@dimen/profile_update_cover_button_margin_end"
+
+                            android:background="@null"
+                            android:onClick="@{() -> viewModel.onSettingsClick()}"
+                            app:imageButton_icon="@drawable/ic_menu_options"
+                            app:imageButton_iconInscribeSize="@dimen/profile_menu_button_icon_size"
+                            app:imageButton_tint="@color/white" />
+
+                        <!--White area-->
+                        <ImageView
+                            android:id="@+id/updateCoverButton"
+                            android:layout_width="@dimen/size_image_button"
+                            android:layout_height="@dimen/size_image_button"
+
+                            android:layout_gravity="top|end"
+                            android:layout_marginTop="@dimen/profile_update_cover_button_margin_top"
+                            android:layout_marginEnd="@dimen/profile_update_cover_button_margin_end"
+
+                            android:background="@drawable/bcg_profile_cover_button"
+
+                            android:onClick="@{() -> viewModel.onUpdatePhotoClick(ProfileItem.COVER)}"
+                            android:padding="@dimen/profile_update_cover_button_padding"
+
+                            android:src="@drawable/ic_editor_widget_camera"
+
+                            app:tint="@color/white"
+
+                            android:visibility="@{viewModel.photoButtonsVisibility}"
+                            tools:ignore="ContentDescription"
+
+                            tools:visibility="visible" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/community_page_margin_top"
+                            android:background="@drawable/bcg_white_bottom_round_rect_30"
+                            android:clipToPadding="false">
+
+                            <ImageView
+                                android:id="@+id/ivAttachImage"
+                                android:layout_width="@dimen/community_page_logo"
+                                android:layout_height="@dimen/community_page_logo"
+
+                                android:layout_marginStart="@dimen/margin_default"
+                                android:layout_marginTop="@dimen/margin_default"
+                                app:avatar="@{viewModel.avatarUrl}"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+
+                                tools:background="@tools:sample/avatars"
+                                tools:ignore="ContentDescription" />
+
+                            <ImageView
+                                android:id="@+id/updatePhotoButton"
+                                android:layout_width="@dimen/size_image_button"
+                                android:layout_height="@dimen/size_image_button"
+
+                                android:layout_marginStart="@dimen/profile_update_photo_button_margin"
+                                android:layout_marginTop="@dimen/profile_update_photo_button_margin"
+
+                                android:background="@drawable/bcg_profile_photo_button"
+                                android:onClick="@{() -> viewModel.onUpdatePhotoClick(ProfileItem.AVATAR)}"
+
+                                android:padding="@dimen/profile_update_photo_button_padding"
+
+                                android:src="@drawable/ic_editor_widget_camera"
+
+                                android:tint="?attr/grey"
+                                android:visibility="@{viewModel.photoButtonsVisibility}"
+
+                                app:layout_constraintStart_toStartOf="@+id/ivAttachImage"
+
+                                app:layout_constraintTop_toTopOf="@+id/ivAttachImage"
+                                tools:ignore="ContentDescription"
+
+                                tools:visibility="visible" />
+
+                            <TextView
+                                android:id="@+id/userName"
+                                style="@style/Profile.Community.Name"
+                                android:layout_width="0dp"
+
+                                android:layout_height="wrap_content"
+
+                                android:layout_marginStart="@dimen/margin_small"
+                                android:layout_marginEnd="@dimen/margin_default"
+
+                                android:text="@{viewModel.name}"
+                                app:layout_constraintBottom_toTopOf="@+id/joinTime"
+                                app:layout_constraintEnd_toStartOf="@+id/followButton"
+                                app:layout_constraintStart_toEndOf="@+id/ivAttachImage"
+
+                                app:layout_constraintTop_toTopOf="@+id/ivAttachImage"
+
+                                app:layout_constraintVertical_chainStyle="packed"
+                                tools:text="Selim" />
+
+                            <TextView
+                                android:id="@+id/joinTime"
+                                style="@style/Page.Joined.TextStyle"
+                                android:layout_width="wrap_content"
+
+                                android:layout_height="wrap_content"
+
+                                app:joined="@{viewModel.joinDate}"
+                                app:layout_constraintBottom_toBottomOf="@+id/ivAttachImage"
+                                app:layout_constraintStart_toStartOf="@+id/userName"
+                                app:layout_constraintTop_toBottomOf="@+id/userName"
+                                tools:text="Joined April 12, 2018" />
+
+                            <ToggleButton
+                                android:id="@+id/followButton"
+
+                                style="@style/BlueWhite.RoundCorners.Toggle.Follow"
+
+                                android:layout_marginEnd="@dimen/margin_default"
+
+                                tools:checked="true"
+
+                                android:checked="@{viewModel.followButtonState}"
+                                android:onClick="@{() -> viewModel.onFollowButtonClick()}"
+
+                                android:visibility="@{viewModel.followButtonVisibility}"
+                                app:layout_constraintBottom_toBottomOf="@+id/ivAttachImage"
+
+                                app:layout_constraintEnd_toEndOf="parent"
+
+                                app:layout_constraintTop_toTopOf="@+id/ivAttachImage"
+                                tools:visibility="visible" />
+
+                            <FrameLayout
+                                android:id="@+id/bioContainer"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+
+                                android:layout_marginStart="@dimen/margin_default"
+                                android:layout_marginTop="@dimen/margin_small"
+                                android:layout_marginEnd="@dimen/margin_default"
+
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/ivAttachImage">
+
+                                <TextView
+                                    android:id="@+id/bioInfo"
+                                    style="@style/Profile.Community.Description"
+                                    android:layout_width="match_parent"
+
+                                    android:layout_height="wrap_content"
+
+                                    android:onClick="@{() -> viewModel.onBioClick()}"
+                                    android:text="@{viewModel.bio}"
+                                    android:visibility="@{viewModel.bioVisibility}"
+
+                                    tools:text="Binance Exchange provides cryptocurrency trading for fintech and blockchain enthusiasts"
+                                    tools:visibility="visible" />
+
+                                <Button
+                                    android:id="@+id/addBioButton"
+
+                                    style="@style/GrayBlue.RoundCorners.Button"
+                                    android:layout_width="match_parent"
+
+                                    android:layout_height="@dimen/profile_add_bio_button_height"
+                                    android:onClick="@{() -> viewModel.onAddBioClick()}"
+
+                                    android:text="@string/add_bio"
+
+                                    android:visibility="@{viewModel.addBioVisibility}"
+
+                                    tools:text="@string/add_bio"
+                                    tools:visibility="visible" />
+                            </FrameLayout>
+
+                            <io.golos.cyber_android.ui.screens.profile.view.widgets.ProfileWalletView
+                                android:id="@+id/profile_wallet"
+
+                                android:layout_width="match_parent"
+                                android:layout_height="80dp"
+
+                                android:layout_marginStart="15dp"
+                                android:layout_marginTop="15dp"
+                                android:layout_marginEnd="15dp"
+
+                                android:visibility="@{viewModel.walletVisibility}"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintEnd_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/bioContainer"
+
+                                tools:visibility="visible"
+                                app:profile_wallet_view_value = "@{viewModel.currencyBalance}"
+                                app:onWalletClickListener = "@{() -> viewModel.onWalletButtonClick() }"
+                                />
+
+                            <!--Followers, Following-->
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/followersContainer"
+                                android:layout_width="match_parent"
+
+                                android:layout_height="@dimen/community_page_header_members_height"
+
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/profile_wallet">
+
+                                <TextView
+                                    android:id="@+id/followersCount"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/margin_default"
+                                    android:fontFamily="@font/roboto_bold"
+                                    android:textColor="?attr/black"
+                                    android:textSize="16sp"
+                                    android:onClick="@{() -> viewModel.onFollowersClick()}"
+                                    app:kilo="@{viewModel.followersCount}"
+
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:text="1232" />
+
+                                <TextView
+                                    android:id="@+id/followersLabel"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/gap"
+                                    android:onClick="@{() -> viewModel.onFollowersClick()}"
+                                    android:text="@string/followers"
+                                    android:textColor="?attr/grey"
+                                    android:textSize="12sp"
+                                    app:layout_constraintBottom_toBottomOf="@+id/followersCount"
+                                    app:layout_constraintStart_toEndOf="@+id/followersCount"
+
+                                    app:layout_constraintTop_toTopOf="@+id/followersCount" />
+
+                                <TextView
+                                    android:id="@+id/point"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/gap"
+                                    android:layout_marginEnd="@dimen/gap"
+                                    android:text="@string/point"
+                                    android:textColor="?attr/grey"
+                                    android:textSize="16sp"
+                                    app:layout_constraintBottom_toBottomOf="@+id/followersCount"
+                                    app:layout_constraintStart_toEndOf="@+id/followersLabel"
+                                    app:layout_constraintTop_toTopOf="@+id/followersCount" />
+
+                                <TextView
+                                    android:id="@+id/followingCount"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/gap"
+                                    android:fontFamily="@font/roboto_bold"
+
+                                    android:textSize="16sp"
+                                    android:textColor="?attr/black"
+
+                                    app:kilo="@{viewModel.followingsCount}"
+                                    android:onClick="@{() -> viewModel.onFollowingsClick()}"
+
+                                    app:layout_constraintBottom_toBottomOf="@+id/followersCount"
+                                    app:layout_constraintStart_toEndOf="@+id/point"
+                                    app:layout_constraintTop_toTopOf="@+id/followersCount"
+                                    tools:text="7" />
+
+                                <TextView
+                                    android:id="@+id/followingLabel"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/gap"
+                                    android:onClick="@{() -> viewModel.onFollowingsClick()}"
+                                    android:text="@string/following"
+                                    android:textColor="?attr/grey"
+                                    android:textSize="12sp"
+
+                                    app:layout_constraintBottom_toBottomOf="@+id/followersCount"
+                                    app:layout_constraintStart_toEndOf="@+id/followingCount"
+                                    app:layout_constraintTop_toTopOf="@+id/followersCount" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <!--Communities-->
+                            <FrameLayout
+                                android:id="@+id/communitiesContainer"
+                                android:layout_width="match_parent"
+
+                                android:layout_height="@dimen/profile_communities_height"
+                                app:communitiesVisibility="@{viewModel.communities}"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+
+                                app:layout_constraintTop_toBottomOf="@+id/followersContainer"
+                                tools:layout_height="100dp"
+
+                                tools:layout_width="match_parent"
+                                tools:visibility="visible" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </FrameLayout>
+
+                    <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/profile_toolbar"
+                        android:layout_width="wrap_content"
+                        android:elevation="4dp"
+                        android:alpha="1"
+                        android:background="@color/white"
+                        android:layout_height="wrap_content"
+                        app:layout_collapseMode="pin">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="?actionBarSize">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:layout_toStartOf="@id/toolbar_dots"
+                                android:layout_toEndOf="@+id/toolbar_back"
+                                android:gravity="center"
+                                style="@style/Text17.Black.Bold.SingleLine"
+                                android:text='@{viewModel.name}'
+                                android:textColor="@color/black"
+                                tools:text="asdasdasdasdas" />
+
+                            <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+                                android:id="@+id/toolbar_back"
+                                android:layout_width="@dimen/size_image_button"
+                                android:layout_height="@dimen/size_image_button"
+
+                                android:layout_centerVertical="true"
+
+                                android:background="@null"
+                                android:onClick="@{() -> viewModel.onBackButtonClick()}"
+                                android:visibility="@{viewModel.backButtonVisibility}"
+                                app:imageButton_icon="@drawable/ic_left_arrow"
+
+                                app:imageButton_iconInscribeSize="@dimen/size_back_icon"
+                                app:imageButton_tint="@color/white"
+                                tools:visibility="visible" />
+
+                            <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+                                android:id="@+id/toolbar_dots"
+                                android:layout_width="@dimen/size_image_button"
+                                android:layout_height="@dimen/size_image_button"
+
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_gravity="end|top"
+
+                                android:layout_marginEnd="@dimen/profile_update_cover_button_margin_end"
+
+                                android:background="@null"
+                                android:onClick="@{() -> viewModel.onSettingsClick()}"
+                                app:imageButton_icon="@drawable/ic_menu_options"
+                                app:imageButton_iconInscribeSize="@dimen/profile_menu_button_icon_size"
+                                app:imageButton_tint="@color/white" />
+
+                        </RelativeLayout>
+
+                    </androidx.appcompat.widget.Toolbar>
+
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+                <!--Gap-->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/stroke_normal"
+                    android:background="?attr/light_gray"
+
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabLayout"
+                    style="@style/TabLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cvBalanceDescription"
+                    app:tabTextAppearance="@style/TabsText" />
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/vpContent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="@{viewModel.pageContentVisibility}"
+
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                tools:visibility="visible" />
+
+            <include
+                android:id="@+id/emptyPostProgressLoading"
+                layout="@layout/dialog_loading"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:layout_gravity="center"
+
+                android:visibility="@{viewModel.loadingProgressVisibility}"
+                tools:visibility="visible" />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </com.google.android.material.appbar.SwipeCoordinatorLayout>
+</layout>

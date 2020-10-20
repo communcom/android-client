@@ -1,3 +1,559 @@
 <resources>
-    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="height_action_bar">44dp</dimen>
+
+    <dimen name="tool_button_size">35dp</dimen>
+    <dimen name="tool_button_icon_size">18dp</dimen>
+    <dimen name="tool_button_icon_size_large">24dp</dimen>
+
+    <dimen name="toast_icon_size">35dp</dimen>
+
+    <dimen name="padding_vertical_editor_widget">12dp</dimen>
+    <dimen name="padding_horizontal_editor_widget">16dp</dimen>
+    <dimen name="size_editor_widget_avatar">36dp</dimen>
+
+    <dimen name="margin_default">16dp</dimen>
+    <dimen name="margin_small">8dp</dimen>
+    <dimen name="margin_tiny">5dp</dimen>
+
+    <dimen name="gap">4dp</dimen>
+
+    <dimen name="padding_toolbar_buttons_20dp">20dp</dimen>
+
+    <dimen name="size_image_button">40dp</dimen>
+    <dimen name="size_back_icon">21dp</dimen>
+
+    <dimen name="size_splash_icon">100dp</dimen>
+
+    <dimen name="elevation_search_bar">4dp</dimen>
+
+    <!--Pin keypad-->
+    <dimen name="width_pin_keypad">270dp</dimen>
+    <dimen name="height_pin_keypad">360dp</dimen>
+    <dimen name="gap_buttons_pin_keypad">8dp</dimen>
+    <dimen name="margin_bottom_pin_keypad">16dp</dimen>
+    <dimen name="margin_bottom_code_label">30dp</dimen>
+    <dimen name="margin_bottom_pin_code">8dp</dimen>
+    <dimen name="text_size_pin_keypad">36sp</dimen>
+    <dimen name="width_pin_code">228dp</dimen>
+    <dimen name="height_pin_code">56dp</dimen>
+    <dimen name="pin_digit_font_size">12sp</dimen>
+
+
+    <!--ButtonWithHintWidget-->
+    <dimen name="start_margin_view_button_with_hint">21dp</dimen>
+    <dimen name="text_gap_view_button_with_hint">1dp</dimen>
+
+    <!--Feed page-->
+    <dimen name="margin_feed_search_bar">8dp</dimen>
+    <dimen name="padding_horizontal_feed_search_bar">@dimen/margin_default</dimen>
+    <dimen name="padding_feed_search_view_icon">14dp</dimen>
+    <dimen name="padding_list_loading">10dp</dimen>
+
+    <!--Sorting Widget-->
+    <dimen name="padding_top_sorting_widget">13dp</dimen>
+    <dimen name="padding_bottom_sorting_widget">5dp</dimen>
+    <dimen name="padding_top_bottom_text_sorting_widget">10dp</dimen>
+    <dimen name="padding_sorting_widget_arrow">6dp</dimen>
+    <dimen name="margin_start_sorting_widget_sort">36dp</dimen>
+    <dimen name="margin_start_sorting_widget_sort_by_time">32dp</dimen>
+    <dimen name="padding_vertical_sorting_type">18dp</dimen>
+
+    <!--Post Card-->
+    <dimen name="input_comment_background_corners">17dp</dimen>
+    <dimen name="divider_post_card_height">8dp</dimen>
+    <dimen name="comment_attachment_corner">15dp</dimen>
+    <dimen name="comment_attachment_corner_small">4dp</dimen>
+
+    <dimen name="post_content_border_horizontal">15dp</dimen>
+    <dimen name="post_widget_padding_top">5dp</dimen>
+
+    <dimen name="content_block_default_margin">6dp</dimen>
+    <dimen name="post_paragraph_block_horizontal_margin">20dp</dimen>
+    <dimen name="margin_block">10dp</dimen>
+    <dimen name="margin_image_description">5dp</dimen>
+    <dimen name="height_embed_video_view">210dp</dimen>
+    <dimen name="height_embed_image_view">195dp</dimen>
+    <dimen name="height_embed_website_view">130dp</dimen>
+    <dimen name="height_embed_website_bottom_view">60dp</dimen>
+    <dimen name="radius_corner_embed_website">10dp</dimen>
+    <dimen name="gap_title_website">2dp</dimen>
+    <dimen name="size_post_attachments">50dp</dimen>
+    <dimen name="gap_post_attachments">5dp</dimen>
+    <dimen name="text_size_post_normal">14sp</dimen>
+    <dimen name="text_size_post_spacing">26sp</dimen>
+    <dimen name="text_size_post_less_normal">15sp</dimen>
+    <dimen name="text_size_post_small">12sp</dimen>
+    <dimen name="text_size_post_tiny">10sp</dimen>
+
+    <dimen name="post_viewer_header_height">56dp</dimen>
+    <dimen name="post_viewer_header_tool_button_size">@dimen/tool_button_size</dimen>
+    <dimen name="post_viewer_header_tool_button_icon_size">@dimen/tool_button_icon_size</dimen>
+    <dimen name="post_viewer_header_community_icon_size">40dp</dimen>
+    <dimen name="post_viewer_header_horizontal_margin">6dp</dimen>
+    <dimen name="post_viewer_header_horizontal_margin_large">10dp</dimen>
+    <dimen name="post_viewer_header_vertical_margin">8dp</dimen>
+    <dimen name="post_viewer_header_community_join_button_height">35dp</dimen>
+    <dimen name="post_viewer_header_community_join_button_width">70dp</dimen>
+
+    <dimen name="post_controls_height">45dp</dimen>
+    <dimen name="post_controls_vote_area_height">35dp</dimen>
+    <dimen name="post_controls_vote_buttons_size">35dp</dimen>
+    <dimen name="post_controls_vote_buttons_icon_size">22dp</dimen>
+    <dimen name="post_controls_vote_text_margin">5dp</dimen>
+    <dimen name="post_controls_icons_text_gap">8dp</dimen>
+    <dimen name="post_controls_view_comments_area_gap">23dp</dimen>
+
+    <dimen name="post_comments_title_height">28dp</dimen>
+    <dimen name="post_comments_title_menu_gap">10dp</dimen>
+    <dimen name="post_comments_title_menu_icon_height">8dp</dimen>
+    <dimen name="post_comments_title_menu_icon_width">11dp</dimen>
+    <dimen name="post_comments_title_top_margin">10dp</dimen>
+
+    <dimen name="post_comments_horizontal_padding">@dimen/post_content_border_horizontal</dimen>
+    <dimen name="post_comments_vertical_padding">5dp</dimen>
+    <dimen name="post_comments_user_icon_size">35dp</dimen>
+    <dimen name="post_comments_text_horizontal_padding">10dp</dimen>
+    <dimen name="post_comments_text_vertical_padding">7dp</dimen>
+    <dimen name="comment_background_corners">12dp</dimen>
+    <dimen name="post_comments_width_max">240dp</dimen>
+    <dimen name="post_comments_text_margin">10dp</dimen>
+    <dimen name="post_comments_voting_margin">5dp</dimen>
+    <dimen name="post_comments_reply_margin">10dp</dimen>
+    <dimen name="post_comments_state_icon_size">15dp</dimen>
+
+    <dimen name="post_comments_loading_height">@dimen/post_comments_reloading_height</dimen>
+
+    <dimen name="post_comments_reloading_height">50dp</dimen>
+
+    <dimen name="post_comments_collapsed_height">40dp</dimen>
+    <dimen name="post_comments_collapsed_avatar_size">20dp</dimen>
+
+    <dimen name="post_comments_second_level_margin">45dp</dimen>
+
+    <!--Comment-->
+
+    <!-- Send comment -->
+    <dimen name="send_comment_avatar_icon_size">35dp</dimen>
+    <dimen name="send_comment_side_margin">10dp</dimen>
+    <dimen name="send_comment_button_size">35dp</dimen>
+    <dimen name="send_comment_vertical_margin">10dp</dimen>
+    <dimen name="send_comment_text_field_horizontal_padding">10dp</dimen>
+    <dimen name="send_comment_text_field_vertical_padding">8dp</dimen>
+    <dimen name="send_comment_text_gap">5dp</dimen>
+    <dimen name="send_comment_old_text_start_margin">10dp</dimen>
+    <dimen name="send_comment_edit_image_size">35dp</dimen>
+    <dimen name="send_comment_attachment_image_size">80dp</dimen>
+
+    <!--Login - general -->
+    <dimen name="margin_horizontal_login_next_button">16dp</dimen>
+    <dimen name="margin_bottom_login_next_button">24dp</dimen>
+    <dimen name="margin_top_primary_image_text">32dp</dimen>
+    <dimen name="margin_top_primary_secondary_text">16dp</dimen>
+    <dimen name="text_size_editor_preview">16sp</dimen>
+
+    <!--Welcome-->
+    <dimen name="margin_horizontal_welcome_sign_up">35dp</dimen>
+    <dimen name="height_welcome_sign_button_min">56dp</dimen>
+    <dimen name="radius_bg_sign_up_button">8dp</dimen>
+    <dimen name="margin_top_welcome_buttons">35dp</dimen>
+    <dimen name="corners_welcome_pager_indicator">2dp</dimen>
+    <dimen name="padding_welcome_pager_indicator">4dp</dimen>
+    <dimen name="margin_top_sign_in_caption">8dp</dimen>
+    <dimen name="buttons_text_size_welcome_slide">17sp</dimen>
+    <dimen name="scale_factor_welcome_image">1.0</dimen>
+
+    <!--Sign In-->
+    <dimen name="height_login_input">56dp</dimen>
+    <dimen name="padding_top_sign_in_edit_text">10dp</dimen>
+    <dimen name="scan_qr_frame_size">260dp</dimen>
+    <dimen name="scan_qr_frame_margin">172dp</dimen>
+    <dimen name="scan_qr_label_margin">497dp</dimen>
+    <dimen name="go_to_qr_label_margin">548dp</dimen>
+
+   <!-- Shield-->
+    <dimen name="margin_top_shield_image">66dp</dimen>
+    <dimen name="height_shield_next_button">72dp</dimen>
+    <dimen name="corner_radius_next_button">5dp</dimen>
+    <dimen name="elevation_next_button">4dp</dimen>
+
+    <!--Loading Dialog-->
+    <dimen name="corners_dialog_loading">8dp</dimen>
+    <dimen name="padding_dialog_loading">14dp</dimen>
+
+    <!--Notification Dialog-->
+    <dimen name="corners_dialog_notification">2dp</dimen>
+    <dimen name="padding_top_notification_dialog">29dp</dimen>
+    <dimen name="padding_start_notification_dialog">24dp</dimen>
+    <dimen name="padding_end_notification_dialog">8dp</dimen>
+    <dimen name="padding_bottom_notification_dialog">8dp</dimen>
+    <dimen name="margin_horizontal_notification_dialog">40dp</dimen>
+    <dimen name="margin_top_notification_dialog_button">35dp</dimen>
+    <dimen name="padding_vertical_notification_dialog_button">10dp</dimen>
+    <dimen name="padding_horizontal_notification_dialog_button">12dp</dimen>
+
+    <!--Editor Page-->
+    <dimen name="height_editor_toolbar">55dp</dimen>
+    <dimen name="size_editor_tool_button">@dimen/tool_button_size</dimen>
+    <dimen name="size_editor_tool_button_icon">@dimen/tool_button_icon_size</dimen>
+    <dimen name="margin_size_editor_common">15dp</dimen>
+    <dimen name="margin_size_editor_small">10dp</dimen>
+    <dimen name="margin_size_editor_tool_button">5dp</dimen>
+    <dimen name="width_editor_post_button">60dp</dimen>
+    <dimen name="height_editor_post_button">35dp</dimen>
+    <dimen name="margin_size_editor_tool_button_side_small">10dp</dimen>
+    <dimen name="size_community_icon">40dp</dimen>
+    <dimen name="height_community_area">70dp</dimen>
+    <dimen name="vertical_margin_text_community_area">15dp</dimen>
+
+    <dimen name="margin_top_editor_page_title">6dp</dimen>
+    <dimen name="min_height_editor">50dp</dimen>
+
+    <!--Comment Widget-->
+
+    <!--Sign Up-->
+    <dimen name="margin_top_sign_up_inputs">32dp</dimen>
+    <dimen name="padding_sign_up_end_country">19dp</dimen>
+    <dimen name="margin_top_sign_up_sms_description">24dp</dimen>
+    <dimen name="corners_sign_up_sms_code_digit">12dp</dimen>
+    <dimen name="width_sign_up_sms_code_digit">48dp</dimen>
+    <dimen name="height_sign_up_sms_code_digit">56dp</dimen>
+    <dimen name="margin_vertical_sign_up_sms_code_digit">6dp</dimen>
+    <dimen name="margin_top_sign_up_sms_code">32dp</dimen>
+    <dimen name="text_size_sms_code">26sp</dimen>
+
+
+    <dimen name="sign_up_keys_image_size">180dp</dimen>
+    <dimen name="sign_up_keys_explanation_text_size">15sp</dimen>
+    <dimen name="sign_up_keys_title_text_size">30sp</dimen>
+
+
+    <dimen name="sign_up_password_margin_top">13dp</dimen>
+    <dimen name="sign_up_explanation_margin_top">5dp</dimen>
+    <dimen name="sign_up_password_block_margin_top">7dp</dimen>
+    <dimen name="sign_up_password_block_padding_vertical">11dp</dimen>
+    <dimen name="sign_up_password_block_label_margin_bottom">8dp</dimen>
+
+    <dimen name="sign_up_password_download_button_height">50dp</dimen>
+    <dimen name="sign_up_password_download_button_padding_horizontal">10dp</dimen>
+    <dimen name="sign_up_password_download_button_padding_vertical">8dp</dimen>
+
+    <!--Profile-->
+    <dimen name="size_profile_follower_photo">22dp</dimen>
+    <dimen name="padding_profile_follower_photo">2dp</dimen>
+    <dimen name="margin_start_profile_follower_photo">-6dp</dimen>
+
+    <!--Notifications-->
+
+    <!--Onboarding-->
+    <dimen name="margin_top_sign_up_image_title">60dp</dimen>
+    <dimen name="padding_sign_up_image">80dp</dimen>
+    <dimen name="margin_bottom_sign_up_image_button">40dp</dimen>
+
+    <!--SignUp Protection-->
+
+    <!--Registration - Fingerprint screen-->
+    <dimen name="image_width_fingerprint_fragment">200dp</dimen>
+    <dimen name="image_height_fingerprint_fragment">150dp</dimen>
+    <dimen name="margin_top_image_fingerprint_fragment">66dp</dimen>
+    <dimen name="margin_top_image_text_fingerprint_fragment">32dp</dimen>
+
+    <!--Auth-->
+    <dimen name="margin_top_auth">32dp</dimen>
+    <dimen name="margin_switch_button_auth">8dp</dimen>
+
+    <!--Feedback form-->
+    <dimen name="feedback_height">250dp</dimen>
+
+    <!--Community page-->
+    <dimen name="height_community_list_item">70dp</dimen>
+    <dimen name="size_icon_community">40dp</dimen>
+    <dimen name="height_community_join_button">30dp</dimen>
+
+    <!--Common list items-->
+    <dimen name="loading_list_item_height">70dp</dimen>
+    <dimen name="retry_list_item_height">70dp</dimen>
+    <dimen name="retry_list_item_padding">6dp</dimen>
+
+    <!--Subscriptions-->
+    <dimen name="subscriptions_community_icon_margin_top">46dp</dimen>
+    <dimen name="subscriptions_no_subscriptions_label_margin_top">16dp</dimen>
+    <dimen name="subscriptions_btn_find_communities_margin">24dp</dimen>
+    <dimen name="subscriptions_btn_find_communities_height">56dp</dimen>
+    <dimen name="subscriptions_recommended_title_margin_top">76dp</dimen>
+    <dimen name="subscriptions_recommend_list_margin_top">14dp</dimen>
+    <dimen name="subscriptions_logo_size">50dp</dimen>
+    <dimen name="subscriptions_list_item_logo_margin">12dp</dimen>
+
+    <!--Button-->
+    <dimen name="btn_round_radius_size">8dp</dimen>
+
+    <!-- Select community dialog -->
+    <dimen name="select_community_dialog_list_height">236dp</dimen>
+    <dimen name="select_community_dialog_padding_small">10dp</dimen>
+    <dimen name="select_community_dialog_bcg_corners_radius">22dp</dimen>
+    <dimen name="select_community_dialog_padding">12dp</dimen>
+    <dimen name="select_community_dialog_drawable_padding">12dp</dimen>
+    <dimen name="select_community_dialog_search_margin">15dp</dimen>
+    <dimen name="select_community_dialog_search_margin_small">10dp</dimen>
+    <dimen name="select_community_dialog_search_margin_tiny">5dp</dimen>
+
+    <!-- Button Join -->
+    <dimen name="btn_join_horizontal_padding">12dp</dimen>
+    <dimen name="btn_join_vertical_padding">6dp</dimen>
+
+    <!-- CardView -->
+    <dimen name="card_view_corner_radius">10dp</dimen>
+    <dimen name="card_view_elevation">8dp</dimen>
+
+    <!--CommunityPage-->
+    <dimen name="community_page_margin_top">150dp</dimen>
+    <dimen name="community_page_background_height">180dp</dimen>
+    <dimen name="community_page_top_round_corners_radius">30dp</dimen>
+    <dimen name="community_page_logo">50dp</dimen>
+    <dimen name="community_page_header_members_height">60dp</dimen>
+    <dimen name="community_page_balance_description_height">70dp</dimen>
+    <dimen name="community_page_get_points_height">36dp</dimen>
+    <dimen name="community_header_follower_size">30dp</dimen>
+    <dimen name="community_header_follower_award_size">12dp</dimen>
+    <dimen name="community_header_follower_award_padding_size">1dp</dimen>
+    <dimen name="community_notification_control_size">36dp</dimen>
+    <dimen name="community_btn_join_min_width">70dp</dimen>
+
+    <!-- List (Communities, Followers) -->
+    <dimen name="general_list_padding">10dp</dimen>
+    <dimen name="general_list_padding_top">20dp</dimen>
+    <dimen name="general_list_header_height">7dp</dimen>
+
+    <!--TabLayout-->
+    <dimen name="tab_layout_height_default">46dp</dimen>
+    <dimen name="tab_line_width">16dp</dimen>
+    <dimen name="tab_line_height">2dp</dimen>
+    <!--Bottom sheet dialog-->
+    <dimen name="bottom_sheet_dialog_padding_top">5dp</dimen>
+    <dimen name="bottom_sheet_dialog_padding_header_top">16dp</dimen>
+    <dimen name="bottom_sheet_dialog_padding_bottom">15dp</dimen>
+    <dimen name="bottom_sheet_dialog_item_margin_horizontal">15dp</dimen>
+    <dimen name="bottom_sheet_dialog_item_margin_vertical">10dp</dimen>
+    <dimen name="bottom_sheet_dialog_item_padding_icon">30dp</dimen>
+    <dimen name="bottom_sheet_dialog_item_padding_icon_small">15dp</dimen>
+    <dimen name="bottom_sheet_dialog_item_padding_horizontal">15dp</dimen>
+    <dimen name="bottom_sheet_dialog_item_padding_vertical">16dp</dimen>
+    <dimen name="bottom_sheet_dialog_item_report_count_margin_end">30dp</dimen>
+    <dimen name="bottom_sheet_dialog_item_proposals_count_margin_end">30dp</dimen>
+
+    <!--PostFilters-->
+    <dimen name="post_filters_header_height">58dp</dimen>
+    <dimen name="post_filters_section_height">58dp</dimen>
+
+    <!--Leaders-->
+    <dimen name="leaders_list_item_height">70dp</dimen>
+    <dimen name="leaders_list_item_margin_bottom">10dp</dimen>
+    <dimen name="leaders_list_item_icon_size">50dp</dimen>
+
+    <!--Profile - New-->
+    <dimen name="profile_back_button_icon_size">16dp</dimen>
+    <dimen name="profile_menu_button_icon_size">18dp</dimen>
+    <dimen name="profile_update_cover_button_margin_top">110dp</dimen>
+    <dimen name="profile_update_cover_button_margin_end">7dp</dimen>
+    <dimen name="profile_update_cover_button_padding">13dp</dimen>
+    <dimen name="profile_update_photo_button_margin">20dp</dimen>
+    <dimen name="profile_update_photo_button_padding">14dp</dimen>
+    <dimen name="profile_add_bio_button_height">35dp</dimen>
+    <dimen name="profile_communities_height">261dp</dimen>
+    <dimen name="profile_communities_list_height">206dp</dimen>
+    <dimen name="profile_communities_list_item_width">150dp</dimen>
+    <dimen name="profile_communities_list_item_padding_horizontal">5dp</dimen>
+    <dimen name="profile_communities_list_item_padding_vertical">15dp</dimen>
+    <dimen name="profile_communities_list_item_area_width">130dp</dimen>
+    <dimen name="profile_communities_list_item_area_height">125dp</dimen>
+    <dimen name="profile_communities_list_item_area_corners">10dp</dimen>
+    <dimen name="profile_communities_list_item_avatar_size">54dp</dimen>
+    <dimen name="profile_communities_list_item_avatar_margin">24dp</dimen>
+    <dimen name="profile_communities_list_item_button_width">110dp</dimen>
+    <dimen name="profile_communities_list_item_button_height">30dp</dimen>
+    <dimen name="profile_communities_list_item_button_margin">10dp</dimen>
+    <dimen name="profile_communities_list_item_title_margin">70dp</dimen>
+    <dimen name="profile_communities_list_item_members_margin">52dp</dimen>
+    <dimen name="profile_communities_list_item_bcg_corner">15dp</dimen>
+    <dimen name="profile_followers_title_margin">20dp</dimen>
+    <dimen name="profile_followers_search_field_height">40dp</dimen>
+    <dimen name="profile_followers_search_field_margin_horizontal">14dp</dimen>
+    <dimen name="profile_followers_search_field_margin_top">16dp</dimen>
+    <dimen name="profile_followers_filters_button_height">35dp</dimen>
+    <dimen name="profile_followers_filters_button_margin">10dp</dimen>
+    <dimen name="profile_followers_no_data_height">133dp</dimen>
+    <dimen name="profile_blacklist_block_button_width">90dp</dimen>
+    <dimen name="profile_blacklist_filters_margin_horizontal">14dp</dimen>
+    <dimen name="profile_blacklist_filters_padding_horizontal">20dp</dimen>
+
+    <dimen name="white_header_height">44dp</dimen>
+    <dimen name="white_header_buttons_margin">15dp</dimen>
+
+    <dimen name="profile_follow_join_button_height">35dp</dimen>
+    <dimen name="profile_follow_join_button_width">90dp</dimen>
+    <dimen name="profile_follow_list_item_height">@dimen/height_community_list_item</dimen>
+    <!--SignUp-->
+    <dimen name="sign_up_field_height">56dp</dimen>
+
+    <!--Ftue-->
+    <dimen name="communities_board_height">114dp</dimen>
+    <dimen name="communities_board_next_btn_size">50dp</dimen>
+
+    <!--Feed-->
+    <dimen name="feed_tab_height">76dp</dimen>
+    <dimen name="feed_tab_text_normal">21sp</dimen>
+    <dimen name="feed_tab_text_selected">30sp</dimen>
+
+    <!--No connection-->
+    <dimen name="no_connection_image_width">285dp</dimen>
+    <dimen name="no_connection_image_height">350dp</dimen>
+    <dimen name="no_connection_try_again_label">233dp</dimen>
+
+
+    <dimen name="follow_following_button_height">35dp</dimen>
+    <dimen name="follow_following_button_width">85dp</dimen>
+
+    <dimen name="search_bar_height">34dp</dimen>
+
+    <!--Navigation bottom menu -->
+    <dimen name="navigation_bottom_menu_round_size">32dp</dimen>
+    <dimen name="navigation_bottom_menu_height">70dp</dimen>
+    <dimen name="navigation_bottom_menu_list_bottom_margin">80dp</dimen>
+    <dimen name="navigation_bottom_menu_height_with_bottom_padding">78dp</dimen>
+    <dimen name="navigation_bottom_menu_fab_size">45dp</dimen>
+    <dimen name="navigation_bottom_menu_fab_icon_size">18dp</dimen>
+
+    <dimen name="sign_up_warning_dialog_padding_side">10dp</dimen>
+    <dimen name="sign_up_warning_dialog_padding_bottom">34dp</dimen>
+    <dimen name="sign_up_keys_warning_dialog_padding_top">34dp</dimen>
+    <dimen name="sign_up_keys_warning_dialog_icon_size">60dp</dimen>
+    <dimen name="sign_up_keys_warning_dialog_icon_padding">15dp</dimen>
+    <dimen name="sign_up_keys_warning_dialog_text_spacing">3dp</dimen>
+
+    <dimen name="post_top_shadow_threshold">10dp</dimen>
+
+    <!--Notifications-->
+    <dimen name="notification_user_avatar_size">44dp</dimen>
+    <dimen name="notification_content_image_size">44dp</dimen>
+    <dimen name="notification_content_image_round_size">10dp</dimen>
+    <dimen name="badge_stroke_size">2dp</dimen>
+
+    <!--Wallet-->
+
+    <dimen name="wallet_top_button_top_margin">15dp</dimen>
+    <dimen name="wallet_top_button_side_margin">5dp</dimen>
+
+    <dimen name="wallet_collapsed_panel_height">55dp</dimen>
+    <dimen name="wallet_prime_panel_height">256dp</dimen>
+    <dimen name="wallet_prime_panel_button_size">35dp</dimen>
+    <dimen name="wallet_prime_panel_button_icon_size">20dp</dimen>
+    <dimen name="wallet_prime_panel_button_side_margin">42dp</dimen>
+    <dimen name="wallet_prime_panel_bottom_area_height">76dp</dimen>
+    <dimen name="wallet_my_points_height">227dp</dimen>
+    <dimen name="wallet_my_points_item_width">140dp</dimen>
+    <dimen name="wallet_my_points_icon_size">50dp</dimen>
+    <dimen name="wallet_send_points_height">159dp</dimen>
+    <dimen name="wallet_send_points_item_width">90dp</dimen>
+    <dimen name="wallet_history_separator_height">44dp</dimen>
+    <dimen name="wallet_history_transfer_height">70dp</dimen>
+    <dimen name="wallet_history_transfer_icon_size">50dp</dimen>
+    <dimen name="wallet_history_transfer_small_icon_size">24dp</dimen>
+    <dimen name="wallet_header_margin_top">30dp</dimen>
+    <dimen name="wallet_header_margin_side">10dp</dimen>
+
+    <dimen name="wallet_points_prime_panel_height">340dp</dimen>
+
+    <dimen name="wallet_dialog_select_item_view_holder_height">80dp</dimen>
+    <dimen name="wallet_dialog_select_item_view_holder_margin">5dp</dimen>
+
+    <dimen name="wallet_send_points_bottom_panel_height">300dp</dimen>
+    <dimen name="wallet_send_points_carousel_height">44dp</dimen>
+
+    <dimen name="wallet_dialog_transfer_card_width">335dp</dimen>
+    <dimen name="wallet_dialog_transfer_card_height">497dp</dimen>
+    <dimen name="wallet_dialog_transfer_guideline0">0dp</dimen>
+    <dimen name="wallet_dialog_transfer_guideline1">100dp</dimen>
+    <dimen name="wallet_dialog_transfer_guideline2">165dp</dimen>
+    <dimen name="wallet_dialog_transfer_guideline3">387dp</dimen>
+    <dimen name="wallet_dialog_transfer_guideline4">497dp</dimen>
+    <dimen name="wallet_dialog_transfer_day_margin">8dp</dimen>
+    <dimen name="wallet_dialog_transfer_points_margin_top">24dp</dimen>
+    <dimen name="wallet_dialog_transfer_points_margin_end">3dp</dimen>
+
+    <dimen name="settings_menu_item_height">55dp</dimen>
+    <dimen name="discovery_pager_margin_height">55dp</dimen>
+
+    <dimen name="donates_popup_height">50dp</dimen>
+    <dimen name="donates_popup_height_full">70dp</dimen>
+    <dimen name="donates_popup_arrow_height">10dp</dimen>
+    <dimen name="donates_popup_corners">35dp</dimen>
+    <dimen name="donates_popup_button_size">44dp</dimen>
+    <dimen name="donates_popup_dialog_button_width">60dp</dimen>
+    <dimen name="donates_popup_dialog_button_height">35dp</dimen>
+
+    <dimen name="donates_state_icon_height">15dp</dimen>
+    <dimen name="donates_state_icon_width">15dp</dimen>
+    <dimen name="donates_state_icon_margin_top">10dp</dimen>
+    <dimen name="donates_state_icon_margin_bottom">10dp</dimen>
+    <dimen name="donates_state_container_margin">7dp</dimen>
+    <dimen name="donates_state_users_info_margin_start">15dp</dimen>
+    <dimen name="donates_state_donate_margin_end">4dp</dimen>
+    <dimen name="donates_state_line_height">1dp</dimen>
+    <dimen name="donates_state_line_margin_top">3dp</dimen>
+    <dimen name="donates_state_view_height">45dp</dimen>
+
+    <dimen name="donates_list_photo_height">50dp</dimen>
+    <dimen name="donates_list_photo_width">50dp</dimen>
+    <dimen name="donates_list_photo_margin_top">20dp</dimen>
+    <dimen name="donates_list_point_margin_top">28dp</dimen>
+    <dimen name="donates_list_photo_margin_start">25dp</dimen>
+    <dimen name="donates_list_close_margin_start">15dp</dimen>
+    <dimen name="donates_list_line_height">1dp</dimen>
+    <dimen name="donates_list_line_margin_top">15dp</dimen>
+    <dimen name="donates_list_donate_height">33dp</dimen>
+    <dimen name="donates_list_donate_width">64dp</dimen>
+    <dimen name="donates_list_no_donate_button_width">142dp</dimen>
+    <dimen name="donates_list_no_donate_button_height">34dp</dimen>
+    <dimen name="donates_list_no_donate_yet_text_margin_top">10dp</dimen>
+    <dimen name="donates_list_no_donate_button_margin_top">20dp</dimen>
+    <dimen name="donates_list_no_donate_margin_top">10dp</dimen>
+    <dimen name="donates_list_no_donate_header_icon_margin_top">50dp</dimen>
+    <dimen name="donates_list_rewards_margin">4dp</dimen>
+    <dimen name="donates_list_rewards_margin_start">15dp</dimen>
+    <dimen name="donates_list_donates_margin">4dp</dimen>
+    <dimen name="donates_list_rewards_margin_top">15dp</dimen>
+    <dimen name="donates_list_rewards_margin_bottom">15dp</dimen>
+    <dimen name="donates_list_donates_icon_width">20dp</dimen>
+    <dimen name="donates_list_donates_icon_height">20dp</dimen>
+    <dimen name="donates_list_donates_margin_end">15dp</dimen>
+    <dimen name="donates_list_donates_text_padding_start">10dp</dimen>
+    <dimen name="donates_list_donates_text_padding_top">20dp</dimen>
+    <dimen name="donates_list_donates_text_padding_bottom">15dp</dimen>
+
+    <dimen name="all_report_view_item_line_height">1dp</dimen>
+    <dimen name="all_report_view_item_line_margin_top">15dp</dimen>
+    <dimen name="all_report_view_item_member_margin_top">4dp</dimen>
+    <dimen name="all_report_view_item_member_margin_bottom">11dp</dimen>
+    <dimen name="all_report_view_item_report_margin_top">10dp</dimen>
+    <dimen name="all_report_view_item_propose_padding_bottom_top">7dp</dimen>
+    <dimen name="all_report_view_item_propose_padding_start_end">16dp</dimen>
+
+    <dimen name="all_proposal_view_item_reject_padding_start_end">16dp</dimen>
+    <dimen name="all_proposal_item_ban_text_padding_start">15dp</dimen>
+    <dimen name="all_proposal_item_ban_text_padding_top">15dp</dimen>
+    <dimen name="all_proposal_item_ban_padding_start">15dp</dimen>
+    <dimen name="all_proposal_item_ban_padding_top">15dp</dimen>
+    <dimen name="all_proposal_item_cover_text_info_padding_start">5dp</dimen>
+
+    <dimen name="all_proposal_item_cover_text_info_padding_top">17dp</dimen>
+    <dimen name="all_proposal_item_cover_image_padding_top">15dp</dimen>
+    <dimen name="all_proposal_item_old_cover_image_padding_end">7dp</dimen>
+    <dimen name="all_proposal_item_new_cover_image_padding_end">7dp</dimen>
+
+
+    <dimen name="post_report_item_height">50dp</dimen>
+    <dimen name="post_report_item_radius">10dp</dimen>
+    <dimen name="post_report_item_design_height">15dp</dimen>
+    <dimen name="post_report_item_avatar_size">30dp</dimen>
+
 </resources>

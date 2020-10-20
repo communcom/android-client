@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/post_viewer_header_height"
+    android:orientation="vertical">
+
+    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+        android:id="@+id/backButton"
+        android:layout_width="@dimen/post_viewer_header_tool_button_size"
+        android:layout_height="@dimen/post_viewer_header_tool_button_size"
+        android:layout_marginStart="@dimen/post_viewer_header_horizontal_margin"
+        android:background="@null"
+        app:imageButton_icon="@drawable/ic_left_arrow"
+        app:imageButton_iconInscribeSize="@dimen/post_viewer_header_tool_button_icon_size"
+        app:imageButton_tint="@color/tint_tool_button_gray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/communityAvatar"
+        android:layout_width="@dimen/post_viewer_header_community_icon_size"
+        android:layout_height="@dimen/post_viewer_header_community_icon_size"
+        android:layout_marginStart="@dimen/post_viewer_header_horizontal_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/backButton"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@drawable/ic_commun"
+        app:layout_goneMarginStart="@dimen/padding_horizontal_editor_widget"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/communityTitle"
+        style="@style/ToolbarTitleTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/post_viewer_header_horizontal_margin_large"
+        android:layout_marginTop="@dimen/post_viewer_header_vertical_margin"
+        android:layout_marginEnd="@dimen/post_viewer_header_horizontal_margin_large"
+        app:layout_constraintBottom_toTopOf="@+id/authorAndTime"
+        app:layout_constraintEnd_toStartOf="@+id/rewardButton"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/communityAvatar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread_inside"
+        tools:text="Overwatch Overwatch Overwatch Overwatch Overwatch Overwatch Overwatch" />
+
+    <TextView
+        android:id="@+id/authorAndTime"
+        style="@style/PostCardHeaderAuthorTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/post_viewer_header_vertical_margin"
+
+        android:maxLines="1"
+        android:lines="1"
+        android:singleLine="true"
+        android:ellipsize="end"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/communityTitle"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/communityTitle"
+        app:layout_constraintTop_toBottomOf="@+id/communityTitle"
+        tools:text="12:45 &#8226; Ivan Ivanov" />
+
+
+    <Button
+        android:id="@+id/rewardButton"
+
+        tools:text="Top"
+
+        style="@style/Post.Reward.Button"
+
+        android:layout_marginEnd="@dimen/post_viewer_header_horizontal_margin"
+
+        tools:visibility="visible"
+        android:visibility="gone"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/menuButton"
+        app:layout_constraintTop_toTopOf="parent"
+    />
+
+    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+        android:id="@+id/menuButton"
+        android:layout_width="@dimen/post_viewer_header_tool_button_size"
+        android:layout_height="@dimen/post_viewer_header_tool_button_size"
+        android:background="@null"
+        android:layout_marginEnd="10dp"
+        app:imageButton_icon="@drawable/ic_menu_options"
+        app:imageButton_iconInscribeSize="@dimen/post_viewer_header_tool_button_icon_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

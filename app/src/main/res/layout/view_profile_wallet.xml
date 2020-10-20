@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:background="@drawable/bcg_wallet_profile"
+
+    android:paddingStart="15dp"
+    android:paddingEnd="15dp">
+
+    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+        android:id="@+id/ivBack"
+
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+
+        android:clickable="false"
+
+        android:background="@drawable/bcg_wallet_profile_icon"
+        app:imageButton_icon="@drawable/ic_wallet"
+        app:imageButton_iconInscribeSize="26dp"
+        app:imageButton_tint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/walletButton"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+
+        android:text="@string/wallet"
+        android:textColor="@color/white"
+
+        style="@style/Profile.Wallet.Button"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/profile_wallet_title"
+
+        android:clickable="false"
+
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+
+        app:layout_constraintEnd_toStartOf="@+id/walletButton"
+        app:layout_constraintStart_toEndOf="@+id/ivBack"
+        app:layout_constraintTop_toTopOf="@+id/ivBack" />
+
+    <TextView
+        android:id="@+id/textValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:clickable="false"
+
+        android:text=""
+        android:textColor="@color/white"
+        android:textSize="20sp"
+
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/ivBack"
+
+        app:layout_constraintEnd_toEndOf="@+id/title"
+        app:layout_constraintStart_toStartOf="@+id/title"
+        tools:text="167 500.23" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

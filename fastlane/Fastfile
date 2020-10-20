@@ -1,0 +1,92 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+SLACK_API_TOKEN ="xoxp-131522248727-816480031911-1352230322113-1518641245bcaef3dd112377cba8a75e"
+
+default_platform(:android)
+
+platform :android do
+  desc "Submit a new Beta Build to Firebase"
+  lane :beta do
+    build_number = number_of_commits(all: true)
+    update_version(build_number: build_number)
+
+    build_path = File.join(File.expand_path("..").shellescape, "app/build/outputs/apk/dev/release/app-dev-release.apk")
+    UI.success "build_path: #{build_path}"
+
+    # create local.properties file
+    root_path = File.join(File.expand_path("..").shellescape)
+    out_file = File.new("#{root_path}/local.properties", "w")
+    out_file.puts("sdk.dir=#{ENV["HOME"]}/Library/Android/sdk")
+    out_file.close
+    
+    gradle(
+      task: "dev",
+      properties: {
+        "versionCode" => build_number,
+      },
+      task: "clean assembleRelease",
+      properties: {
+        "android.injected.signing.store.file" => "#{ENV["HOME"]}/keystores/my_keystore.jks",
+        "android.injected.signing.store.password" => ENV['BITRISEIO_ANDROID_KEYSTORE_PASSWORD'],
+        "android.injected.signing.key.alias" => ENV['BITRISEIO_ANDROID_KEYSTORE_ALIAS'],
+        "android.injected.signing.key.password" => ENV['BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD'],
+      }
+    )
+
+    firebase_app_distribution(
+        app: "1:512725341165:android:3641305e9c5779177a4de4",
+        apk_path: build_path,
+        firebase_cli_token: "1//0cXk-dcR_3jrUCgYIARAAGAwSNwF-L9IrhXqwxufqsZXEHSU2NVA-hQJYM_qAmltWyGKWdeQzf7wvyUZTHI2KiFivklmhk78BuYI",
+        groups: "commun-android"
+    )
+
+    appcenter_upload(
+      api_token: "5544f8df69750ae5a545f4b1bb8f9c5a4040c8f5",
+      owner_name: "antihype",
+      owner_type: "user",
+      app_name: "commun-android",
+      file: build_path,
+      notify_testers: true
+    ) 
+
+    slack_upload(
+        slack_api_token: SLACK_API_TOKEN,
+        title: "Commun-Android-#{build_number}",
+        channel: "#commun-mobile-builds",
+        file_path: build_path
+    ) 
+  end
+
+  private_lane :update_version do |opt| 
+    build_number = opt[:build_number]
+    # android_set_version_code(
+    #   version_code: build_number.to,
+    #   gradle_file: "./android/app/build.gradle"
+    # )
+
+    gradle_file = File.join(File.expand_path("..").shellescape, "build.gradle")
+    gradle_file_path = Helper::VersioningAndroidHelper.get_gradle_file_path(gradle_file)
+    new_version_code = Helper::VersioningAndroidHelper.get_new_version_code(gradle_file_path, build_number)
+
+        saved = Helper::VersioningAndroidHelper.save_key_to_gradle_file(gradle_file_path, "appVesrionCode", new_version_code)
+
+        if saved == -1
+          UI.user_error!("Unable to set the Version Code in build.gradle file at #{gradle_file_path}.")
+        end
+
+        UI.success("☝️  Android Version Code has been set to: #{new_version_code}")
+  end
+
+end

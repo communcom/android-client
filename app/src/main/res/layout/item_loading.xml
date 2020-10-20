@@ -1,0 +1,12 @@
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <ProgressBar
+            android:id="@+id/progress"
+            android:padding="@dimen/padding_list_loading"
+            android:layout_gravity="center_horizontal"
+            android:indeterminateOnly="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+</FrameLayout>

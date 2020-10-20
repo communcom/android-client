@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="io.golos.cyber_android.ui.screens.community_page_reports.fragments.reportcomment.view_model.CommunityCommentReportsViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/profile_followers_no_data_height"
+            android:background="?attr/white"
+            android:visibility="@{viewModel.noDataStubVisibility}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/noDataIcon"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                app:layout_constraintBottom_toTopOf="@+id/noDataTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_no_data"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/noDataTitle"
+                style="@style/Middle.Bold.Title.TextStyle"
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@+id/noDataExplanation"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/noDataIcon"
+                android:text="@string/no_reports" />
+
+            <TextView
+                android:id="@+id/noDataExplanation"
+                style="@style/Middle.Gray.TextStyle"
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/noDataTitle"
+                android:text="@string/no_reports_comment" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvReportsComment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

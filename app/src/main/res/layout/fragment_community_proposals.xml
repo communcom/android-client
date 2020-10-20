@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/white">
+
+        <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+            android:id="@+id/ivBack"
+            android:layout_width="@dimen/post_viewer_header_tool_button_size"
+            android:layout_height="@dimen/post_viewer_header_tool_button_size"
+            android:layout_marginStart="@dimen/post_viewer_header_horizontal_margin"
+            android:layout_marginTop="24dp"
+            android:background="@null"
+            app:imageButton_icon="@drawable/ic_left_arrow"
+            app:imageButton_iconInscribeSize="@dimen/post_viewer_header_tool_button_icon_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/vTitle"
+            style="@style/Text15.Black.Bold.SingleLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/post_viewer_header_horizontal_margin"
+            android:layout_marginTop="24dp"
+            android:text="@string/proposals"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/proposals_tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16sp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16sp"
+            android:layout_marginBottom="5dp"
+            android:background="?attr/white"
+            android:clipToPadding="false"
+            app:layout_constraintTop_toBottomOf="@+id/ivBack"
+            app:tabBackground="@android:color/transparent"
+            app:tabGravity="center"
+            app:tabIndicator="@drawable/bcg_toggle_profile_followers"
+            app:tabIndicatorColor="@color/blue"
+            app:tabIndicatorGravity="center"
+            app:tabIndicatorHeight="30dp"
+            app:tabMode="scrollable"
+            app:tabRippleColor="@null"
+            app:tabSelectedTextColor="?attr/white"
+            app:tabTextAppearance="@style/CustomTextAppearance"
+            app:tabTextColor="?attr/black">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/discovery_all" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ban" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/users" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Updates" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/archive" />
+
+        </com.google.android.material.tabs.TabLayout>
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vpProposals"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="?attr/window_background_light_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/proposals_tabs" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

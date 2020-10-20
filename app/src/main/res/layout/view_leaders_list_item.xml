@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/leaders_list_item_height"
+
+    android:layout_marginTop="@dimen/leaders_list_item_margin_bottom"
+    android:layout_marginStart="@dimen/leaders_list_item_margin_bottom"
+    android:layout_marginEnd="@dimen/leaders_list_item_margin_bottom"
+
+    android:background="@drawable/bcg_leader_card">
+
+    <ImageView
+        android:id="@+id/ivLogo"
+
+        android:layout_width="@dimen/leaders_list_item_icon_size"
+        android:layout_height="@dimen/leaders_list_item_icon_size"
+
+        android:layout_marginStart="@dimen/select_community_dialog_search_margin"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/img_example_flag"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/leaderName"
+        style="@style/CommunityListItemTitleText"
+
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="@dimen/select_community_dialog_search_margin_small"
+        android:layout_marginEnd="@dimen/select_community_dialog_search_margin_tiny"
+
+        android:text=""
+
+        app:layout_constraintBottom_toTopOf="@+id/leaderPoints"
+        app:layout_constraintEnd_toStartOf="@+id/voteButton"
+        app:layout_constraintStart_toEndOf="@+id/ivLogo"
+        app:layout_constraintTop_toTopOf="parent"
+
+        app:layout_constraintVertical_chainStyle="packed"
+
+        tools:text="Title" />
+
+    <TextView
+        android:id="@+id/leaderPoints"
+        style="@style/CommunityListItemFollowersText"
+
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:ellipsize="end"
+
+        android:text=""
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/leaderName"
+
+        app:layout_constraintStart_toStartOf="@+id/leaderName"
+        app:layout_constraintTop_toBottomOf="@+id/leaderName"
+        tools:text="12,2k point" />
+
+    <Button
+        android:id="@+id/voteButton"
+
+        style="@style/BlueWhite.RoundCorners.Button"
+
+        android:layout_width="@dimen/follow_following_button_width"
+        android:layout_height="@dimen/follow_following_button_height"
+
+        android:layout_marginEnd="@dimen/select_community_dialog_search_margin"
+
+        android:text="@string/vote"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/votedButton"
+
+        style="@style/GrayBlue.RoundCorners.Button"
+
+        android:layout_width="@dimen/follow_following_button_width"
+        android:layout_height="@dimen/follow_following_button_height"
+
+        android:layout_marginEnd="@dimen/select_community_dialog_search_margin"
+
+        android:text="@string/voted"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        android:visibility="invisible"
+        />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="0dp"
+
+        android:layout_height="@dimen/stroke_normal"
+
+        android:background="?attr/select_community_dialog_bcg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

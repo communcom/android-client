@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="io.golos.cyber_android.ui.screens.feed.FeedViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.screens.main_activity.MainActivity">
+
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/actionBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/blue"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:elevation="0dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/blue">
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabLayout"
+                    style="@style/FeedTabLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/feed_tab_height"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/filter_layout"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <RelativeLayout
+                    android:id="@+id/filter_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:background="?attr/blueDarkWhite"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <ImageView
+                        android:id="@+id/ivFilters"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginBottom="20dp"
+                        android:src="@drawable/ic_filters_36dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:ignore="ContentDescription" />
+
+                </RelativeLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <FrameLayout
+            android:id="@+id/feedContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

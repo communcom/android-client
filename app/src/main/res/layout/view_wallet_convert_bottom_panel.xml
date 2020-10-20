@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:id="@+id/bottomPanel"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/wallet_send_points_bottom_panel_height"
+    android:background="@drawable/bcg_white_top_round_rect_25"
+
+    android:paddingStart="15dp"
+    android:paddingTop="20dp"
+    android:paddingEnd="15dp">
+
+    <!-- region Selected user panel - Start-->
+    <View
+        android:id="@+id/selectedPointPanel"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+
+        android:background="@drawable/bcg_thin_gray_stroke_ripple_10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/pointLogo"
+
+        android:layout_width="@dimen/size_image_button"
+        android:layout_height="@dimen/size_image_button"
+
+        android:layout_marginStart="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/selectedPointPanel"
+        app:layout_constraintStart_toStartOf="@+id/selectedPointPanel"
+
+        app:layout_constraintTop_toTopOf="@+id/selectedPointPanel"
+
+        app:srcCompat="@drawable/img_example_avatar"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/buyLabelTop"
+        style="@style/Text12.Grey.Bold.SingleLine"
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
+
+        android:text="@string/buy"
+
+        app:layout_constraintBottom_toTopOf="@+id/pointName"
+        app:layout_constraintStart_toStartOf="@+id/pointName"
+        app:layout_constraintTop_toTopOf="@+id/selectedPointPanel"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/pointName"
+        style="@style/Text15.Black.Bold.SingleLine"
+        android:layout_width="0dp"
+
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="1dp"
+
+        android:layout_marginEnd="10dp"
+        android:text=""
+
+        app:layout_constraintBottom_toBottomOf="@+id/selectedPointPanel"
+        app:layout_constraintEnd_toStartOf="@+id/balanceValue"
+        app:layout_constraintStart_toEndOf="@+id/pointLogo"
+        app:layout_constraintTop_toBottomOf="@+id/buyLabelTop"
+        tools:text="Owerwatch" />
+
+    <TextView
+        android:id="@+id/balanceLabel"
+        style="@style/Text12.Grey.Bold.SingleLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginBottom="1dp"
+
+        android:text="@string/balance"
+
+        app:layout_constraintBottom_toTopOf="@+id/balanceValue"
+        app:layout_constraintEnd_toEndOf="@+id/balanceValue"
+        app:layout_constraintTop_toTopOf="@+id/selectedPointPanel"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/balanceValue"
+        style="@style/Text15.Black.Bold.SingleLine"
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+
+        android:layout_marginEnd="10dp"
+        app:layout_goneMarginEnd="15dp"
+
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="@+id/selectedPointPanel"
+
+        app:layout_constraintEnd_toStartOf="@+id/selectPointButton"
+        app:layout_constraintTop_toBottomOf="@+id/balanceLabel"
+        tools:text="500" />
+
+    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+        android:id="@+id/selectPointButton"
+        android:layout_width="@dimen/size_image_button"
+        android:layout_height="@dimen/size_image_button"
+        android:layout_marginEnd="7dp"
+        android:background="@null"
+
+        app:imageButton_icon="@drawable/ic_editor_arrow"
+
+        app:imageButton_iconInscribeSize="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/selectedPointPanel"
+        app:layout_constraintEnd_toEndOf="@+id/selectedPointPanel"
+        app:layout_constraintTop_toTopOf="@+id/selectedPointPanel" />
+    <!-- endregion Selected user panel - End-->
+
+    <!-- region Amount panel - Start-->
+    <View
+        android:id="@+id/sellPanel"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="6dp"
+
+        android:background="@drawable/bcg_thin_gray_stroke_ripple_10"
+        app:layout_constraintEnd_toStartOf="@+id/buyPanel"
+
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/selectedPointPanel" />
+
+    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+        android:id="@+id/clearSellButton"
+        android:layout_width="@dimen/size_image_button"
+
+        android:layout_height="@dimen/size_image_button"
+        android:layout_marginEnd="7dp"
+        android:background="@null"
+
+        app:imageButton_icon="@drawable/ic_close_dark_gray"
+
+        app:imageButton_iconInscribeSize="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/sellPanel"
+        app:layout_constraintEnd_toEndOf="@+id/sellPanel"
+        app:layout_constraintTop_toTopOf="@+id/sellPanel" />
+
+    <TextView
+        android:id="@+id/sellLabel"
+        style="@style/Text12.Grey.Bold.SingleLine"
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="8dp"
+
+        android:text=""
+        tools:text="Sell Commun"
+
+        app:layout_constraintStart_toStartOf="@+id/sellPanel"
+
+        app:layout_constraintTop_toTopOf="@+id/sellPanel" />
+
+    <EditText
+        android:id="@+id/sellInputField"
+        style="@style/Text17.Black.Bold.SingleLine"
+        android:layout_width="0dp"
+
+        android:layout_height="wrap_content"
+
+        android:layout_marginBottom="6dp"
+        android:background="@null"
+        android:textColorHint="?attr/grey"
+
+        android:hint="0"
+
+        android:imeOptions="actionNone"
+
+        android:inputType="numberDecimal"
+
+        android:maxLength="20"
+        android:paddingTop="2dp"
+
+        android:paddingBottom="2dp"
+
+        app:layout_constraintBottom_toBottomOf="@+id/sellPanel"
+        app:layout_constraintEnd_toStartOf="@+id/clearSellButton"
+        app:layout_constraintStart_toStartOf="@+id/sellLabel"
+        tools:ignore="Autofill,HardcodedText" />
+    <!-- endregion Amount panel - End-->
+
+    <View
+        android:id="@+id/buyPanel"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+
+        android:layout_marginStart="6dp"
+
+        android:background="@drawable/bcg_thin_gray_stroke_ripple_10"
+        app:layout_constraintBottom_toBottomOf="@+id/sellPanel"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/sellPanel"
+        app:layout_constraintTop_toTopOf="@+id/sellPanel" />
+
+    <io.golos.cyber_android.ui.shared.widgets.ImageButtonFixedIconSize
+        android:id="@+id/clearBuyButton"
+        android:layout_width="@dimen/size_image_button"
+
+        android:layout_height="@dimen/size_image_button"
+        android:layout_marginEnd="7dp"
+        android:background="@null"
+
+        app:imageButton_icon="@drawable/ic_close_dark_gray"
+
+        app:imageButton_iconInscribeSize="24dp"
+
+        app:layout_constraintBottom_toBottomOf="@+id/buyPanel"
+        app:layout_constraintEnd_toEndOf="@+id/buyPanel"
+        app:layout_constraintTop_toTopOf="@+id/buyPanel" />
+
+    <TextView
+        android:id="@+id/buyLabel"
+        style="@style/Text12.Grey.Bold.SingleLine"
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="8dp"
+
+        android:text=""
+        app:layout_constraintStart_toStartOf="@+id/buyPanel"
+
+        app:layout_constraintTop_toTopOf="@+id/buyPanel"
+        tools:text="Buy Overwatch" />
+
+    <EditText
+        android:id="@+id/buyInputField"
+        style="@style/Text17.Black.Bold.SingleLine"
+        android:layout_width="0dp"
+
+        android:layout_height="wrap_content"
+
+        android:layout_marginBottom="6dp"
+        android:background="@null"
+
+        android:textColorHint="?attr/grey"
+
+        android:hint="0"
+
+        android:imeOptions="actionNone"
+
+        android:inputType="numberDecimal"
+
+        android:maxLength="20"
+        android:paddingTop="2dp"
+
+        android:paddingBottom="2dp"
+
+        app:layout_constraintBottom_toBottomOf="@+id/buyPanel"
+        app:layout_constraintEnd_toStartOf="@+id/clearBuyButton"
+        app:layout_constraintStart_toStartOf="@+id/buyLabel"
+        tools:ignore="Autofill,HardcodedText" />
+
+    <Button
+        android:id="@+id/sendButton"
+
+        style="@style/BlueWhite.RoundCorners.Button"
+        android:layout_width="0dp"
+
+        android:layout_height="50dp"
+
+        android:layout_marginBottom="10dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Convert: 100 Overwatch" />
+
+    <TextView
+        android:id="@+id/rateLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text=""
+        tools:text="Rate: 10 Commun = 0,5 Overwatch"
+
+        style="@style/Text12.Black.Bold.SingleLine"
+
+        android:layout_marginTop="20dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sellPanel" />
+
+    <TextView
+        android:id="@+id/errorLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text=""
+        tools:text="Some error text"
+
+        style="@style/Text12.Black.Bold.SingleLine"
+        android:textColor="@color/red"
+
+        android:visibility="invisible"
+        tools:visibility="visible"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rateLabel"
+        app:layout_constraintBottom_toTopOf="@+id/sendButton"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

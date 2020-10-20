@@ -1,0 +1,655 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string-array name="community_page_tab_titles">
+        <item>Посты</item>
+        <item>Лидеры</item>
+        <item>Описание</item>
+        <item>Правила</item>
+    </string-array>
+
+    <string-array name="pdf_day_end">
+        <item>st</item>
+        <item>nd</item>
+        <item>rd</item>
+        <item>th</item>
+    </string-array>
+
+    <string-array name="profile_page_tab_titles">
+        <item>Посты</item>
+        <item>Комментарии</item>
+    </string-array>
+
+    <string name="locale">Ru</string>
+    <string name="action_settings">Настройки</string>
+    <string name="notification_channel_description">Commun уведомления</string>
+
+    <!--Digits-->
+    <string name="digit1">1</string>
+    <string name="digit2">2</string>
+    <string name="digit3">3</string>
+    <string name="digit4">4</string>
+    <string name="digit5">5</string>
+    <string name="digit6">6</string>
+    <string name="digit7">7</string>
+    <string name="digit8">8</string>
+    <string name="digit9">9</string>
+    <string name="digit0">0</string>
+
+    <!--Size formatting - begin -->
+    <plurals name="formatter_followers_formatted">
+        <item quantity="one">{0}{1} Подписчик</item>
+        <item quantity="few">{0}{1} Подписчика</item>
+        <item quantity="many">{0}{1} Подписчиков</item>
+        <item quantity="other">{0}{1} Подписчиков</item>
+    </plurals>
+
+    <plurals name="formatter_posts_formatted">
+        <item quantity="one">{0}{1} Пост</item>
+        <item quantity="few">{0}{1} Поста</item>
+        <item quantity="many">{0}{1} Постов</item>
+        <item quantity="other">{0}{1} Постов</item>
+    </plurals>
+
+    <plurals name="formatter_points_formatted">
+        <item quantity="one">{0}{1} поинт</item>
+        <item quantity="few">{0}{1} поинта</item>
+        <item quantity="many">{0}{1} поинтов</item>
+        <item quantity="other">{0}{1} поинтов</item>
+    </plurals>
+    <!--Size formatting - end -->
+
+    <plurals name="plural_points_formatted_post">
+        <item quantity="zero">поинтов</item>
+        <item quantity="one">поинт</item>
+        <item quantity="other">поинтов</item>
+    </plurals>
+
+    <plurals name="plural_donations">
+        <item quantity="zero">донатов</item>
+        <item quantity="one">донат</item>
+        <item quantity="other">донатов</item>
+    </plurals>
+
+    <string name="common_general_error">К сожалению, произошла ошибка во время операции.</string>
+    <string name="token_receiving_error">Не могу получить токен. Операция была отменена</string>
+    <string name="account_registered_error">Аккаунт уже зарегистрирован</string>
+    <string name="password_not_match_error">Пароли не совпадают</string>
+    <string name="common_captcha_error">Ошибка получения капчи</string>
+    <string name="common_error_operation_canceled">Операция была отменена</string>
+    <string name="common_error_account_registered">Аккаунт уже зарегистрирован</string>
+    <string name="export_general_error">Произошла ошибка во время экспорта.</string>
+    <string name="phone_already_taken_error">Имя уже зарегистрировано</string>
+    <string name="name_already_taken_error">Имя уже используется</string>
+    <string name="wrong_verification_code_error">Неправильный код подтверждения</string>
+    <string name="write_to_blockchain_error">Не могу сохранить пользователя в блокчейн</string>
+    <string name="too_many_retries_error">Слишком много запросов</string>
+    <string name="try_later_error">Операция отменена, повторите позже</string>
+    <string name="auth_error">Ошибка авторизации</string>
+    <string name="post_edit_invalid_url">Ссылка не правильная</string>
+    <string name="post_edit_invalid_resource_type">Ресурс, находящийся в ссылке, не поддерживается.</string>
+    <string name="verification_code_resent">Код подтверждения был отправлен</string>
+    <string name="hint_search">Поиск</string>
+    <string name="report_to">Пожаловаться</string>
+    <string name="hide">Скрыть</string>
+    <string name="unHide">Показать </string>
+    <string name="unFollow">Отписаться</string>
+
+    <!--Main Screen Navigation-->
+    <string name="communities">Сообщества</string>
+    <string name="notifications">Уведомления</string>
+    <string name="wallet">Кошелек</string>
+
+    <!--Editor Widget-->
+    <string name="editor_widget_caption">Что нового?</string>
+
+    <!--Feed Page-->
+    <string name="trending">В тренде</string>
+    <string name="my_feed">Моя лента</string>
+
+    <!--Sorting Widget-->
+    <string name="sort">Сортировать:</string>
+    <string name="sort_hot">Горячее</string>
+    <string name="sort_new">Новое</string>
+    <string name="sort_popular">Популярное</string>
+    <string name="sort_top">Топ</string>
+    <string name="filter_time_24hr">За 24 часа</string>
+    <string name="filter_time_week">За неделю</string>
+    <string name="filter_time_month">За месяц</string>
+    <string name="filter_time_all">За всё время</string>
+
+    <!--Report Widget-->
+    <string name="report_send">@string/send</string>
+    <string name="report_title">Выберите проблему</string>
+    <string name="report_spam">Спам</string>
+    <string name="report_harassment">Домогательство</string>
+    <string name="report_nudity">Контент для взрослых</string>
+    <string name="report_violence">Насилие</string>
+    <string name="report_false_news">Ложные новости</string>
+    <string name="report_terrorism">Терроризм</string>
+    <string name="report_hate_speech">Оскорбления</string>
+    <string name="report_unauthorized_sales">Несанкционированные продажи</string>
+    <string name="report_message">Если кто-то находится в непосредственной опасности, позвоните в местные аварийные службы. Не ждите.</string>
+    <string name="report_breaks_community_rules">Нарушает правила сообщества</string>
+    <string name="report_attempt_to_abuse">Попытка оскорбления</string>
+    <string name="report_other">Другое</string>
+    <string name="report_other_reason">Пожалуйста, введите причину</string>
+
+    <!--Post Card-->
+    <string name="hint_add_comment">Добавить комментарий...</string>
+
+    <!--Time Stamps-->
+    <string name="now_happened">Только что</string>
+    <string name="ago">назад</string>
+
+    <!--Comment-->
+    <string name="reply">Ответить</string>
+    <string name="comments_more">Ещё</string>
+    <string name="comment_answer">Ответ</string>
+
+    <plurals name="reply">
+        <item quantity="zero">ответов</item>
+        <item quantity="one">ответ</item>
+        <item quantity="few">ответа</item>
+        <item quantity="other">ответов</item>
+    </plurals>
+
+    <!--Welcome-->
+    <string name="sign_up">Зарегистрироваться</string>
+    <string name="sign_in">Войти</string>
+    <string name="start_and_get">Начать и получить 30 поинтов</string>
+    <string name="welcome">Добро пожаловать</string>
+    <string name="welcome_slides_text_0_0">Добро пожаловать\n</string>
+    <string name="welcome_slides_text_0_1">на Commun /</string>
+    <string name="welcome_slides_text_1">Весь контент\n</string>
+    <string name="welcome_slides_text_1_1">в одном месте!</string>
+    <string name="welcome_slides_text_2">Monetize\n</string>
+    <string name="welcome_slides_text_2_1">your socialization</string>
+    <string name="welcome_slides_text_3">Принадлежит\n</string>
+    <string name="welcome_slides_text_3_1">пользователям</string>
+    <string name="account_query">Нет аккаунта?</string>
+    <string name="continue_with_phone">Использовать телефон</string>
+    <string name="continue_with_google">Использовать Google</string>
+    <string name="continue_with_facebook">Использовать Facebook</string>
+    <string name="welcome_slides_sub_text_1">Токенизированную социальную сеть.\nЗдесь Вы получаете награды за посты, лайки и комментарии.</string>
+    <string name="welcome_slides_sub_text_2">Подписывайтесь на лучшие сообщества и\nполучайте награды за активность</string>
+    <string name="welcome_slides_sub_text_4">Благодаря блокчейну Commun полностью\nпринадлежит и управляется пользователями</string>
+
+    <!--Sign In-->
+    <string name="login">Войти</string>
+    <string name="key">Ключ</string>
+    <string name="ok">Ок</string>
+    <string name="sign_in_scan_qr">Сканировать QR-код</string>
+    <string name="sign_in_scan_qr_hint">Перейдите в commun.com и отсканируйте QR-код</string>
+    <string name="sign_in_scan_qr_invalid_format">Неправильный формат кода</string>
+    <string name="sign_in_scan_qr_detector_error">Произошла ошибка во время сканирования кода</string>
+    <string name="qr_no_camera_permissions">Необходимо разрешения камеры для сканирования QR-кода. Откройте настройки приложения, и разрешите доступ.</string>
+
+    <!--Editor Page-->
+    <string name="create_post">Создать пост</string>
+    <string name="you_will_post_in">Отправить в</string>
+    <string name="title">Заголовок</string>
+    <string name="enter_text">Расскажите о себе...</string>
+    <string name="select_text_color">Выбрать цвет текста</string>
+    <string name="enter_tag">Введите метку</string>
+    <string name="enter_user_name">Введите имя пользователя</string>
+    <string name="enter_link">Введите ссылку</string>
+    <string name="link_text">Link text</string>
+    <string name="link">Ссылка</string>
+    <string name="write_text_with_points">Напишите что-нибудь...</string>
+    <string name="error_post_empty">Пост не может быть пустым</string>
+    <string name="error_post_too_long">Пост слишком длинный</string>
+    <string name="title_is_required">Заголовок не может быть пустым</string>
+    <string name="error_upload_file">К сожалению, произошла ошибка во время загрузки файлов.</string>
+    <string name="adult_only">18+</string>
+    <string name="post_button">Пост</string>
+
+    <!--Sign Up-->
+    <string name="select_country">Выбрать страну</string>
+    <string name="phone_number">Номер телефона</string>
+    <string name="phone_format">+%1$s (___) ___-__-__</string>
+    <string name="phone_prefix_format">+%1$s (</string>
+    <string name="enter_sms_code">Введите SMS-код</string>
+    <string name="resend_verification_code">Отправить проверочный код</string>
+    <string name="resend_verification_code_w_time_format">Отправить проверочный код 0:%1$02d</string>
+    <string name="next">Далее</string>
+    <string name="create_your_username">Создать свой логин</string>
+    <string name="username">Имя пользователя</string>
+    <string name="password">Пароль</string>
+    <string name="keys_format">Master Password\n%1$s\n\nUser\'s name\n%2$s\n\nUser\'s ID\n%7$s\n\nOwner key\n%3$s\n\nActive\n        key\n%4$s\n\nPosting key\n%5$s\n\nMemo key\n%6$s\n    </string>
+    <string name="keys_saved_successfully">Ключи успешно сохранены</string>
+    <string name="setup_passcode">Настройка пароля</string>
+    <string name="add_short_pin">Добавить короткий PIN-код</string>
+    <string name="user_name_short">Имя пользователя не может быть короче 5 символов</string>
+    <string name="user_name_contain_characters">Вы должны использовать латинские буквы в нижнем регистре, цифры, точки и тире</string>
+    <string name="user_name_begin_not_correct">Имя пользователя не может начинаться с тире</string>
+    <string name="user_name_end_not_correct">Имя пользователя не может заканчиваться на тире</string>
+    <string name="user_name_begin_not_correct_dot">Имя не может начинаться с точки</string>
+    <string name="user_name_end_not_correct_dot">Имя не может оканчиваться точкой</string>
+    <string name="user_name_two_dot">Имя пользователя не может содержать двух точек подряд</string>
+    <string name="user_name_two_dash">Имя пользователя не может содержать двух тире подряд</string>
+    <string name="user_name_two_dash_dot">Имя пользователя не может содержать двух подряд тире или точек</string>
+    <string name="user_name_short_new">Имя не должно быть меньше {0} символов</string>
+    <string name="user_name_long_new">Имя не должно быть больше {0} символов</string>
+    <string name="password_name_short">Пароль не должен быть меньше {0} символов</string>
+    <string name="password_name_long">Пароль не должен быть больше {0} символов</string>
+    <string name="password_contain_characters">Может содержать только латинские строчные и большие буквы, а так же цифры</string>
+
+    <!--Settings-->
+
+    <string name="select_image">Выбрать изображение</string>
+    <string name="choose_from_gallery">Выбрать из галереи</string>
+    <string name="make_a_photo">Сделать фото</string>
+    <string name="select_cover">Выбрать обложку</string>
+    <string name="select_photo">Выбрать фото</string>
+    <string name="liked">Понравилось</string>
+    <string name="edit_description">Редактировать</string>
+    <string name="delete_current_cover">Удалить текущую обложку</string>
+    <string name="delete_current_photo">Удалить текущую фотографию</string>
+    <string name="delete_description">Удалить</string>
+    <string name="log_out">Выйти</string>
+    <string name="log_out_question">Вы уверены, что хотите выйти?</string>
+    <string name="cancel">Отмена</string>
+
+    <!--Profile-->
+    <string name="followers">Подписчики</string>
+    <string name="mutual">Общие</string>
+    <string name="users">Пользователи</string>
+    <string name="settings">Настройки</string>
+    <string name="add_bio">Добавить описание</string>
+    <string name="change_profile_photo">Изменить аватар</string>
+    <string name="change_profile_cover">Изменить обложку</string>
+    <string name="change_profile_description">Изменить описание</string>
+    <string name="profile_settings">Настройки</string>
+    <string name="change_photo">Сменить фото</string>
+
+    <!--Post page-->
+    <string name="no_comments_title">Нет комментариев</string>
+    <string name="no_comments_description">Этот пост не содержит комментариев</string>
+    <string name="favorite_add_post">Добавить в избранное</string>
+    <string name="favorite_remove_post">Удалить из избранного</string>
+    <string name="share_post">Поделиться</string>
+    <string name="edit_post_menu">Редактировать</string>
+    <string name="delete_post_menu">Удалить</string>
+    <string name="report_post">Пожаловаться</string>
+    <string name="edit_post">Редактировать пост</string>
+    <string name="edit_comment">Редактировать комментарий</string>
+    <string name="delete_comment">Удалить комментарий</string>
+    <string name="blacklist">Черный список</string>
+    <string name="block_user">Заблокировать пользователя</string>
+    <string name="unblock_user">Разблокировать пользователя</string>
+    <string name="edit_comment_send">Редактировать комментарий</string>
+    <string name="edit_comment_reply">Ответить на комментарий</string>
+    <string name="delete_post_confirmation">Уверены, что хотите удалить этот пост?</string>
+    <string name="close_editor_confirmation">Вы начали писать пост. Закрыть редактор?</string>
+    <string name="post_comments_title">Комментарии</string>
+    <string name="post_comments_interesting_first_sort">Сначала интересные</string>
+    <string name="post_comments_by_time_sort">По времени</string>
+    <string name="view_in_explorer">Посмотреть в Explorer</string>
+
+    <!--General Errors-->
+    <string name="not_enough_power"></string>
+    <string name="unknown_error">Неизвестная ошибка</string>
+    <string name="request_timeout_error">Время ожидания</string>
+    <string name="skip">Пропустить</string>
+    <string name="pick_a_profile_picture">Выбрать аватар</string>
+    <string name="describe_yourself">Немного о себе</string>
+    <string name="write_text">Написать текст</string>
+
+    <!--SignUp Protection-->
+    <string name="back">Назад</string>
+    <string name="master_password">Мастер-пароль</string>
+    <string name="master_password_generated">был создан</string>
+    <string name="need_password">Вам нужен пароль для входа. Мы не храним мастер-пароли и не имеем возможности их восстановить. Сохраните его!</string>
+
+    <!--Pin code-->
+    <string name="create_passcode">Создайте свой код</string>
+    <string name="enter_passcode_again">Введите код повторно</string>
+    <string name="codes_not_match">Коды не совпадают</string>
+    <string name="unlock_app_way_query">Как Вы хотите разблокировать приложение?</string>
+    <string name="unlock_app_way_fingerprint">Отпечатком</string>
+    <string name="unlock_app_way_passcode">Паролем</string>
+    <string name="authTouchSensor">Нажмите на сканер отпечатка для продолжения</string>
+    <string name="authEnterPinCode">Введите PIN-код</string>
+    <string name="authUsePinCode">Используйте PIN-код</string>
+    <string name="authUseFingerprint">Используйте отпечаток пальца</string>
+    <string name="authFingerprintAuthFail">Неправильный отпечаток пальца</string>
+    <string name="authPinCodeAuthFail">Неправильный PIN-код</string>
+    <string name="authFingerprintDefaultHeader">Используйте отпечатки пальцев для разблокировки функции</string>
+    <string name="authPinCodeDefaultHeader">Используйте PIN-код для разблокировки функции</string>
+    <string name="feedback_request">Расскажите, что случилось?</string>
+    <string name="feedback_send">@string/send</string>
+    <string name="feedback_title">Обратная связь</string>
+    <string name="recommended">Рекомендуемые</string>
+    <string name="missing_description">Нет описания</string>
+    <string name="no_leaders">В этом сообществе пока нет лидеров</string>
+    <string name="leaders">Лидеры</string>
+    <string name="nominees">Номинантов</string>
+    <string name="no_subscriptions">Нет подписок</string>
+    <string name="you_not_subscribed_t_any_community">Вы еще не подписались ни на одно сообщество</string>
+    <string name="find_communities">Найти сообщество</string>
+    <string name="subscriptions">Подписка</string>
+    <string name="loading_error">Ошибка загрузки</string>
+    <string name="retry">Повторить</string>
+
+    <plurals name="plural_followers">
+        <item quantity="one">подписчик</item>
+        <item quantity="few">подписчика</item>
+        <item quantity="many">подписчиков</item>
+        <item quantity="other">подписчиков</item>
+    </plurals>
+
+    <plurals name="points_text">
+        <item quantity="one">поинт</item>
+        <item quantity="other">поинтов</item>
+    </plurals>
+
+    <string name="get_points">Получить</string>
+    <string name="friends_label">+ %1$s</string>
+    <string name="commun_description">= 1 Commun</string>
+    <string name="sort_by">Сортировать по</string>
+
+    <plurals name="plural_members">
+        <item quantity="one">Участник</item>
+        <item quantity="few">Участника</item>
+        <item quantity="many">Участников</item>
+        <item quantity="other">Участников</item>
+    </plurals>
+
+    <plurals name="plural_leads">
+        <item quantity="one">Лидер</item>
+        <item quantity="few">Лидера</item>
+        <item quantity="many">Лидеров</item>
+        <item quantity="other">Лидеров</item>
+    </plurals>
+
+    <plurals name="plural_friends">
+        <item quantity="one">Друг</item>
+        <item quantity="few">Друга</item>
+        <item quantity="many">Друзей</item>
+        <item quantity="other">Друзей</item>
+    </plurals>
+
+    <string name="join">Присое</string>
+    <string name="joined">зарег.</string>
+    <string name="vote">Оценка</string>
+    <string name="voted">Оценил</string>
+    <string name="cant_cancel_vote">Нельзя голосовать за свой пост</string>
+    <string name="share_apps_not_found">Приложения, с которыми можно поделиться, не найдены</string>
+    <string name="save">Сохранить</string>
+    <string name="profile_photos_storage_permissions_denied">Вы не можете выбрать фотографию без разрешения к фотографиям на телефоне</string>
+    <string name="see_all">Показать все</string>
+    <string name="see_more">Показать больше</string>
+    <string name="communities_count">{0} ({1} Общие)</string>
+    <string name="sign_up_description">Продолжая, Вы соглашаетесь с</string>
+    <string name="sign_up_description_1">Пользовательским соглашением, Политикой приватности</string>
+    <string name="sign_up_description_2">и</string>
+    <string name="sign_up_description_3">Отказом от ответственности</string>
+    <string name="do_you_have_account">Уже есть учетная запись?</string>
+    <string name="commun">commun</string>
+    <string name="get_you_first_points">Получите свои первые поинты</string>
+    <string name="subscribe_to_3_communities">Подпишитесь на 3 сообщества и получите поинты сообществ</string>
+    <string name="ftue_finish_description_1">Авторизуйтесь на сайте\n</string>
+    <string name="ftue_finish_description_2">Удвойте свои поинты</string>
+    <string name="ftue_finish_sub_description">Сразу после авторизации на сайте\nМы удвоим Ваши бонусные поинты</string>
+    <string name="done">Готово</string>
+    <string name="no_followers_yet">Нет пользователей в списке</string>
+    <string name="no_followers_yet_external_user">У пользователя нет подписчиков</string>
+    <string name="no_followers">Нет подписчиков</string>
+    <string name="no_mutual">Нет общих</string>
+    <string name="no_users">Нет пользователей</string>
+    <string name="no_users_explanation">У Вас нет пользователей в черном списке</string>
+    <string name="no_communities">Нет сообществ</string>
+    <string name="no_communities_explanation">У Вас нет сообществ в черном списке</string>
+    <string name="block">Блокировать</string>
+    <string name="unblock">Разблокировать</string>
+    <string name="paste_something">Вставить {0}</string>
+    <string name="comment_deleted">Этот комментарий был удален</string>
+    <string name="choose_community">Выберите сообщество</string>
+    <string name="clear">Очистить</string>
+    <string name="save_it">Я уже сохранил</string>
+    <string name="backup_password">Сохранить пароль</string>
+    <string name="continue_without_backup">Продолжить без сохранения пароля</string>
+    <string name="attention">Внимание</string>
+    <string name="master_pass_backup_sub_header">Мы не храним мастер-пароли и не имеем возможности их восстановить.</string>
+    <string name="master_pass_backup_explanation">К сожалению, блокчейн не позволяет нам восстанавливать пароли. Это означает, что каждый пользователь обязан хранить пароль в надежном месте и иметь доступ к нему в любое время. \n Настоятельно рекомендуем вам сохранить свой пароль и сделать его копию.</string>
+    <string name="not_support_region">Извините, но мы пока не поддерживаем твой регион</string>
+    <string name="no_connection">Нет соединения</string>
+    <string name="check_connection">Проверьте свое интернет-соединение и попробуйте еще раз</string>
+    <string name="try_again">Повторить</string>
+    <string name="something_wrong">Что-то пошло не так</string>
+    <string name="take_a_look">Взгляните</string>
+    <string name="voting_in_progress">Подожди, идет голосование</string>
+    <string name="voting_one_leader">Вы можете проголосовать только за одного лидера</string>
+    <string name="follow">Подписаться</string>
+    <string name="following">Подписан</string>
+    <string name="friends">Друзей</string>
+    <string name="members">Участников</string>
+    <string name="no_members">Нет участников</string>
+    <string name="no_members_community">В сообществе нет участников</string>
+    <string name="user_name_restriction_title">Имя пользователя должно быть</string>
+    <string name="user_name_restriction_explanation">• Количество символов не должно превышать 32 \n • Прописные буквы в имени пользователя не допускаются \n • Допустимые символы: буквы, цифры, дефис \n • Символ дефиса не может быть в начале или в конце имени пользователя \n • Имя пользователя может содержать символ «точка» \n • Наличие двух символов «точка» в строке недопустимо</string>
+    <string name="understand">Понял</string>
+    <string name="master_password_copied">Мастер-пароль был скопирован на буфер обмена</string>
+    <string name="no_posts">Нет постов</string>
+    <string name="no_posts_not_found">Пока что нет ни одного поста</string>
+    <string name="no_comments_written">Пока что нет ни одного комментария</string>
+    <string name="new_notifications_label">%1$d новые уведомления</string>
+    <string name="subscribed_to_you">подписался на Вас</string>
+    <string name="no_notifications">Нет уведомлений</string>
+    <string name="no_notifications_explanation">Вы еще не получали уведомления</string>
+    <string name="mention_on_comment">упомянул Вас в комментарии:</string>
+    <string name="mention_on_post">упомянул Вас в посте:</string>
+    <string name="left_comment">прокомментировал:</string>
+    <string name="liked_your_post">лайкнул Ваш пост</string>
+    <string name="liked_your_comment">лайкнул Ваш комментарий</string>
+    <string name="up_vote_message_content">: \u0022%1$s\u0022</string>
+    <string name="sent_you">отправил Вам {0} {1}</string>
+    <string name="sent_you_cmn">отправил Вам {0} {1}</string>
+    <string name="referral_registration">Получены реферальные бонусы за регистрацию</string>
+    <string name="referral_purchase1">Получено</string>
+    <string name="referral_purchase2">Реферальный бонус -</string>
+    <string name="referral_purchase3">% от покупки</string>
+    <string name="referral_purchase4"></string>
+    <string name="donate_your_post">задонатил Вашему посту: \"{0}…\"</string>
+
+    <string name="you_have_got">Получено</string>
+    <string name="today">Cегодня</string>
+    <string name="yesterday">Вчера</string>
+    <string name="this_week">В этом месяце</string>
+    <string name="days_ago">{0} дней назад</string>
+    <string name="month_ago">месяц назад</string>
+    <string name="this_month">В этом месяце</string>
+    <string name="previously">Ранее</string>
+    <string name="other">Другое</string>
+    <string name="post_reward_top">Топ</string>
+    <string name="post_reward_top_title">Этот пост попал в Топ</string>
+    <string name="post_reward_top_text">Через определенное время он получит награду</string>
+    <string name="post_reward_not_top_title">Этот пост был награжден</string>
+    <string name="post_reward_not_top_text">Эта публикация была интересна членам Сообщества</string>
+    <string name="post_reward_main_button_text">Узнать больше о наградах</string>
+    <string name="profile_wallet_title">Капитализация в Commun</string>
+    <string name="profile_wallet_title_var">Капитализация в %1$s</string>
+    <string name="send">Отправить</string>
+    <string name="buy">Купить</string>
+    <string name="convert">Конвертировать</string>
+    <string name="my_points">Мои поинты</string>
+    <string name="send_points">Отправить поинты</string>
+    <string name="points">Поинты</string>
+    <string name="tokens">Токены</string>
+    <string name="reward">Награда</string>
+    <string name="transfer">Перевод</string>
+    <string name="on_hold_format">{0} заморожено</string>
+    <string name="commun_format">= {0} Commun</string>
+    <string name="points_format">= {0} Поинтов</string>
+    <string name="points_format2">{0} Поинтов</string>
+    <string name="tokens_format">= {0} Токенов</string>
+    <string name="commun_group">Commun</string>
+    <string name="history">История</string>
+    <string name="refill">Пополнить счёт</string>
+    <string name="on_hold">Заморожено</string>
+    <string name="no_history">Нет истории</string>
+    <string name="no_history_explanation">У Вас еще нет записей о платежах</string>
+    <string name="no_followings">Нет подписок</string>
+    <string name="no_followings_explanation">У Вас еще нет подписок</string>
+    <string name="available">Доступны</string>
+    <string name="hold_value_point">\u00A0/\u00A0Заморожено</string>
+    <string name="amount">Сумма</string>
+    <string name="points_0">0 Поинтов</string>
+    <string name="commun_0">0 Commun</string>
+    <string name="send_burned">0.1% будет сожжен 🔥</string>
+    <string name="send_complete_burned">0.1% был сожжен 🔥</string>
+    <string name="select_user">Выбери пользователя</string>
+    <string name="wallet_send_format">Отправить: {0} {1}</string>
+    <string name="wallet_amount_validation_too_large">Значение суммы слишком большое</string>
+    <string name="wallet_amount_validation_invalid_value">Неверное значение суммы</string>
+    <string name="wallet_amount_validation_zero">Значение суммы не может быть нулевым</string>
+    <string name="wallet_amount_validation_sell_too_large">Стоимость продажи слишком большая</string>
+    <string name="wallet_amount_validation_sell_invalid_value">Неверная стоимость продажи</string>
+    <string name="wallet_amount_validation_sell_zero">Стоимость продажи не может быть нулевой</string>
+    <string name="wallet_amount_validation_buy_too_large">Недостаточно средств: у Вас нет поинтов</string>
+    <string name="wallet_amount_validation_buy_invalid_value">Неверная стоимость покупки</string>
+    <string name="wallet_amount_validation_buy_zero">Стоимость покупки не может быть нулевой</string>
+    <string name="home">Домой</string>
+    <string name="back_to_wallet">Вернуться к кошельку</string>
+    <string name="transaction_completed">Транзакция завершена</string>
+    <string name="payee">Получатель</string>
+    <string name="debited_from">Списано с</string>
+    <string name="balance">Баланс</string>
+    <string name="sell_format">Продать {0}</string>
+    <string name="buy_format">Купить {0}</string>
+    <string name="wallet_convert_rate_format">Курс: {0} {1} = {2} {3}</string>
+    <string name="wallet_convert_convert_format">Конвертировать: {0} {1}</string>
+    <string name="conversion_completed">Конвертация завершена</string>
+    <string name="username_validation_is_empty">Имя пользователя не может быть пустым</string>
+    <string name="username_validation_invalid_character">Имя пользователя может содержать только строчные буквы, цифры, точки или тире</string>
+    <string name="username_validation_start_with_letter">Имя пользователя должно начинаться с буквы</string>
+    <string name="username_validation_is_too_short">Имя пользователя должно содержать не менее {0} символов</string>
+    <string name="username_validation_is_too_long">Имя пользователя слишком длинное. {0} символов максимум</string>
+    <string name="username_validation_two_dash_in_row">Имя пользователя может содержать только одно тире подряд</string>
+    <string name="username_validation_two_dot_in_row">Имя пользователя может содержать только одну точку подряд</string>
+    <string name="username_validation_dash_dot_in_row">Имя пользователя может содержать только одну точку или одну черту подряд</string>
+    <string name="username_validation_end_with_letter_or_digit">Имя пользователя должно заканчиваться буквой или цифрой</string>
+    <string name="wallet_fingerprint">Используйте отпечаток пальца, чтобы отправить платеж</string>
+    <string name="wallet_pin">Используйте свой PIN-код, чтобы отправить платеж</string>
+    <string name="pdf_created_for">Created for</string>
+    <string name="pdf_on">on</string>
+    <string name="pdf_instruction">1. Print out this document (and/or put it on a USB stick or external drive).\n2. Fill in your Master Password below.\n3. Store your kit in a secure place that you can quickly access at any time, e.g. a safe deposit box.</string>
+    <string name="pdf_phone_number_label">Phone number</string>
+    <string name="pdf_user_id_label">User id</string>
+    <string name="pdf_username_label">Username</string>
+    <string name="pdf_password">Password</string>
+    <string name="pdf_important_note">Important to note that we don’t keep and can’t restore your password. Please make sure\nyou keep your password in a safe place, and nobody else would have access to it.</string>
+    <string name="pdf_active">Active</string>
+    <string name="pdf_owner">Owner</string>
+    <string name="pdf_setup_code">Setup code</string>
+    <string name="pdf_scan_code">Scan the code of Commun apps to\nset up your account quickly</string>
+    <string name="pdf_need_help">Need help?</string>
+    <string name="pdf_support_email">support@commun.com</string>
+    <string name="pdf_save_dialog_title">Копирование в ...</string>
+    <string name="pdf_save_dialog_device">Устройство</string>
+    <string name="pdf_save_dialog_google">Google Drive</string>
+    <string name="pdf_save_completed">Документ был успешно сохранен </string>
+    <string name="update_app">Обновите приложение</string>
+    <string name="update_app_out_of_date">Эта версия приложения устарела</string>
+    <string name="update_app_continue">Пожалуйста, обновите приложение, чтобы продолжить</string>
+    <string name="update_app_update">Обновить</string>
+    <string name="create_password">Создайте пароль</string>
+    <string name="enter_your_password">Введите свой пароль</string>
+    <string name="confirm_password">Подтвердить пароль</string>
+    <string name="reenter_your_password">Повторите пароль</string>
+    <string name="password_validation_lower">а</string>
+    <string name="password_validation_lower_hint">Строчная</string>
+    <string name="password_validation_lower_explanation">Пароль должен содержать хотя бы одну строчную букву</string>
+    <string name="password_validation_upper">А</string>
+    <string name="password_validation_upper_hint">Большая</string>
+    <string name="password_validation_upper_explanation">Пароль должен содержать хотя бы одну большую букву</string>
+    <string name="password_validation_number">1</string>
+    <string name="password_validation_number_hint">Цифра</string>
+    <string name="password_validation_number_explanation">Пароль должен содержать минимум одну цифру</string>
+    <string name="password_validation_min_len">{0} +</string>
+    <string name="password_validation_min_len_hint">Мин. длина</string>
+    <string name="password_validation_min_len_explanation">Минимальная длина пароля должна быть {0} символов</string>
+    <string name="password_latin_only">Разрешены только латинские буквы, цифры и специальные символы </string>
+    <string name="upvote">Лайк</string>
+    <string name="mention">Упоминание</string>
+    <string name="subsribe">Подписаться</string>
+
+    <string name="email_already_taken_error">Этот email уже зарегистрирован</string>
+    <string name="my_feed_community">Моя лента</string>
+    <string name="continue_with_email">Использовать Email</string>
+    <string name="email_address">Ваш email</string>
+    <string name="enter_code">Введите код</string>
+    <string name="phone_verification">Подтверждение телефона</string>
+    <string name="email_verification">Подтверждение email</string>
+    <string name="enter_email_code">Письмо с кодом подтверждения было отправлено. Пожалуйста, введите этот код</string>
+    <string name="donation">Донаты</string>
+    <string name="donate_popup">Донат:</string>
+    <string name="donate_points_popup">поинтов</string>
+    <string name="donate">Донат</string>
+    <string name="donate_title">Донат</string>
+    <string name="donate_successful">Донат успешен</string>
+    <string name="exchange_points">+ Обменять поинты</string>
+    <string name="show_in">Показать в</string>
+    <string name="usd_currency">USD</string>
+    <string name="commun_currency">Commun</string>
+    <string name="commun_currency_brief">CMN</string>
+    <string name="points_currency">Поинты сообщества</string>
+    <string name="hide_empty">Скрыть пустые</string>
+    <string name="dark_mode">Темная тема</string>
+
+    <string name="do_you_really_want_to_hide">Вы действительно хотите скрыть все посты %1$s ?</string>
+    <string name="do_you_really_want_to_unhide">Вы действительно хотите показать все посты %1$s ?</string>
+    <string name="you_have_hidden_community">Вы скрыли %1$s.\nМы сожалеем, что у вас был этот опыт.</string>
+    <string name="you_have_unhidden_community">Вы показали %1$s.</string>
+    <string name="this_community_is_in_your_blacklist">Это сообщество находится в вашем черном списке. Вы действительно хотите показать и подписаться на него?</string>
+
+    <string name="discovery_all">Все</string>
+    <string name="discovery_posts">Посты</string>
+
+    <string name="show_all_results">Показать все результаты</string>
+    <string name="no_results">Нет результатов</string>
+    <string name="try_to_look_for_something_else">Попробуйте поискать что-нибудь другое</string>
+
+    <string name="filter">Фильтр</string>
+    <string name="filter_clean_all">Очистить</string>
+    <string name="filter_like">Лайк</string>
+    <string name="filter_comment">Комментарии</string>
+
+    <!--  Wallet Filtering  -->
+    <string name="all">Все</string>
+    <string name="income">Входящие</string>
+    <string name="outcome">Исходящие</string>
+    <string name="type">Тип</string>
+    <string name="rewards">Награды</string>
+    <string name="claim">Клейм</string>
+    <string name="donations">Донаты</string>
+    <string name="like">Лайк</string>
+    <string name="like_dislike">Лайк/Дизлайк</string>
+    <string name="dislike">Дизлайк</string>
+    <string name="clean_all">Очистить все</string>
+    <string name="default_first_donate">Сделайте донат первым</string>
+    <string name="donaters">Жертвователи</string>
+    <string name="no_donate">Нет пожертвований</string>
+    <string name="no_have_donate_yet">Этот пост еще не имеет пожертвований</string>
+    <string name="and_other">и другие</string>
+
+    <string name="comments">Комментарии</string>
+    <string name="archive">Архив</string>
+
+    <string name="reports">Жалобы</string>
+    <string name="blocked_users">Бан пользователей</string>
+    <string name="proposals">Предложения</string>
+    <string name="propose_to_ban">Забанить</string>
+    <string name="accept">Принять</string>
+    <string name="reject">Отказаться</string>
+    <string name="update_cover">Обновление обложки</string>
+    <string name="old_cover">Старая обложка</string>
+    <string name="new_cover">Новая обложка</string>
+    <string name="from">от</string>
+    <string name="exparing_in">Истекает через</string>
+    <string name="members_reports">участников</string>
+    <string name="no_reports">Нет отчетов</string>
+    <string name="no_reports_comment">В сообществе нет отчетов</string>
+    <string name="no_reports_post">В посте нет отчетов</string>
+
+</resources>

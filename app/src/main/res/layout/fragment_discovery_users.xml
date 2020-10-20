@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="io.golos.cyber_android.ui.screens.discovery.view.fragments.discovery_users.view_model.DiscoveryUserViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <io.golos.cyber_android.ui.shared.widgets.lists.NoDataStub
+            android:id="@+id/emptyStub"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_height="@dimen/profile_followers_no_data_height"/>
+
+
+        <io.golos.cyber_android.ui.screens.profile_followers.view.widgets.RoundCornersPagedListWidget
+            android:id="@+id/followingList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            android:paddingStart="@dimen/general_list_padding"
+            android:paddingTop="27dp"
+            android:paddingEnd="@dimen/general_list_padding"
+            app:listItems="@{viewModel.followingsItems}" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
